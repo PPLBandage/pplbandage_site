@@ -1,0 +1,17 @@
+body{
+    background-color: #eeeeee;
+    margin: 0;
+    overflow-y: hidden;
+    width: 100%;
+}
+
+.chrome-picker{
+    touch-action: none;
+}
+
+@media(max-width: 767px){
+    body{
+        overflow-y: visible;
+        overflow-x: hidden;
+    }
+}

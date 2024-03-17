@@ -3,12 +3,49 @@ body{
     margin: 0;
     overflow-y: hidden;
     width: 100%;
+    font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
 }
 
 .chrome-picker{
     touch-action: none;
 }
 
+h3{
+    font-style: normal;
+    font-weight: normal;
+    font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
+    margin: 0;
+    font-size: 1rem;
+}
+
+select{
+    border: 1px #949494 solid;
+    border-radius: 5px;
+    font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
+    font-weight: 500;
+    width: 100%;
+    max-width: 176px;
+}
+
+footer{
+    position: absolute;
+    bottom: 0;
+    width: 75%;
+    backdrop-filter: brightness(200%) blur(20px);
+
+}
+
+footer h3{
+    color: #000000;
+    font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
+    font-weight: 500;
+    font-size: 90%;
+    margin: 2px;
+}
+
+footer a{
+    color: #000000;
+}
 @media(max-width: 767px){
     body{
         overflow-y: visible;

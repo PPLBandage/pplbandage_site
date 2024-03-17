@@ -14,6 +14,7 @@
     "react": "^18",
     "react-color": "^2.19.3",
     "react-dom": "^18",
+    "react-select": "^5.8.0",
     "react-skinview3d": "^5.0.3",
     "skinview3d": "^3.0.1"
   },

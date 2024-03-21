@@ -1,3 +1,4 @@
+
 body{
     background-color: #eeeeee;
     margin: 0;
@@ -25,6 +26,7 @@ select{
     font-weight: 500;
     width: 100%;
     max-width: 176px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 footer{
@@ -32,11 +34,11 @@ footer{
     bottom: 0;
     width: 75%;
     backdrop-filter: brightness(200%) blur(20px);
-
+    transition: backdrop-filter 0.2s ease-in-out;
 }
 
 footer h3{
-    color: #000000;
+    color: #ffffff;
     font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
     font-weight: 500;
     font-size: 90%;
@@ -44,11 +46,130 @@ footer h3{
 }
 
 footer a{
-    color: #000000;
+    color: #ffffff;
+    transition: background-color 0.1s ease-in-out;
 }
+
+
+.trigger.dark + .react-select-container .react-select__control{
+    background-color: #474747;
+    border: 1px solid #474747;
+    transition-property: border-color, box-shadow, background-color, color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+  }
+  
+.trigger.dark + .react-select-container .react-select__control:hover {
+    border-color: #9b9b9b;
+    transition-property: border-color, box-shadow, background-color, color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+}
+  
+.trigger.dark + .react-select-container .react-select__control--is-focused {
+    border-color: #9b9b9b;
+    box-shadow: none;
+    transition-property: border-color, box-shadow, background-color, color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+}
+
+.trigger.dark + .react-select-container .react-select__control--is-focused:hover {
+    border-color: #474747;
+    transition-property: border-color, box-shadow, background-color, color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+}
+
+.trigger.dark + .react-select-container .react-select__menu {
+    background-color: #474747;
+    transition-property: border-color, box-shadow, background-color, color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+}
+
+.trigger.dark + .react-select-container .react-select__option {
+    color: #ffffff;
+    background-color: #474747;
+    transition-property: border-color, box-shadow, background-color, color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+}
+
+.trigger.dark + .react-select-container .react-select__group {
+    background-color: #474747;
+    transition-property: border-color, box-shadow, background-color, color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+}
+
+.trigger.dark + .react-select-container .react-select__group-heading {
+    color: #aaaaaa;
+    background-color: #474747;
+    padding-bottom: 0.25em;
+    margin-bottom: 0;
+    transition-property: border-color, box-shadow, background-color, color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+}
+
+.trigger.dark + .react-select-container .react-select__option:hover {
+    background-color: #0e0e0e;
+    transition-property: border-color, box-shadow, background-color, color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+}
+
+.trigger.dark + .react-select-container .react-select__option--is-selected {
+    background-color: #474747;
+    transition-property: border-color, box-shadow, background-color, color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+}
+
+.trigger.dark + .react-select-container .react-select__indicator-separator {
+    background-color: #474747;
+    transition-property: border-color, box-shadow, background-color, color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+}
+
+.trigger.dark + .react-select-container .react-select__input-container,
+.trigger.dark + .react-select-container .react-select__placeholder,
+.trigger.dark + .react-select-container .react-select__single-value {
+    color: #ffffff;
+    transition-property: border-color, box-shadow, background-color, color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+}
+
+body.dark{
+    background-color: #111112
+}
+
+footer.dark{
+    backdrop-filter: brightness(50%) blur(20px);
+    transition: backdrop-filter 0.2s ease-in-out;
+}
+
+footer.dark h3{
+    color: #ffffff;
+}
+
+input{
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+button{
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
 @media(max-width: 767px){
     body{
         overflow-y: visible;
         overflow-x: hidden;
+    }
+    footer{
+        display: none;
     }
 }

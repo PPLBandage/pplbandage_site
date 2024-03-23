@@ -4,6 +4,7 @@ export interface ColourOption {
 }
 
 export const shapeColourOptions = [
+    { value: 'not_set', label: '—Нет—'},
     { value: 'gold', label: 'Золотая'},
     { value: 'silver', label: 'Серебряная'},
     { value: 'moder', label: 'ModErator'},

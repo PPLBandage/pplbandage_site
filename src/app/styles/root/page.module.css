@@ -169,7 +169,7 @@
     height: 16px;
     border: 0;
     border-radius: 3px;
-    background-image: url('pepe.png');
+    background-image: url('../../pepe.png');
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
@@ -191,7 +191,7 @@
     height: 16px;
     border: 0;
     border-radius: 3px;
-    background-image: url('pepe.png');
+    background-image: url('../../pepe.png');
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;

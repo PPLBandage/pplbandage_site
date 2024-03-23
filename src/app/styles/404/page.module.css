@@ -1,0 +1,57 @@
+.body{
+    background-color: #eeeeee;
+    margin: 0;
+    width: 100%;
+    font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
+    color:#111112;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+}
+
+.body.dark{
+    background-color: #000000;
+    color: #eeeeee;
+}
+
+.main{
+    display: flex;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.circle{
+    width: 150px;
+    height: 150px;
+    transform: translate(-50%, -50%);
+    background-color: aquamarine;
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(130px);
+    top: 40%;
+    transition: top 3s ease-in-out;
+    left: 40%;
+    transform-origin: center;
+}
+
+.home{
+    color: #a7a7a7;
+}
+
+
+@media(max-width: 767px){
+    .circle{
+        width: 100px;
+        height: 100px;
+        transform: translate(-50%, -50%);
+        filter: blur(100px);
+    }
+}

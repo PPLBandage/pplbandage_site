@@ -4,10 +4,10 @@ import { Context } from "vm";
 import React from 'react';
 import { useEffect, useState } from 'react';
 
-import style from "./page.module.css"
-import { bandage_load, crop_pepe, clear, fill_bandage, load_custom } from "./bandage_manager"
-import "./styles/style.css"
-import { ColourOption, shapeColourOptions, groupedOptions } from "./data"
+import style from "./styles/root/page.module.css";
+import { bandage_load, crop_pepe, clear, fill_bandage, load_custom } from "./bandage_manager";
+import "./styles/root/style.css";
+import { ColourOption, shapeColourOptions, groupedOptions } from "./data";
 import axios from "axios";
 
 import { Accordion, AccordionItem as Item } from "@szhsin/react-accordion";
@@ -224,7 +224,7 @@ const clear_skin = (setTrigger: React.Dispatch<React.SetStateAction<boolean>>) =
 		select_file.style.display = "inline-flex";
 
 		(document.getElementById("nickname") as HTMLInputElement).value = "";
-		(document.getElementById(get_skin_type()) as HTMLInputElement).checked = false;
+		(document.getElementById(get_skin_type() as string) as HTMLInputElement).checked = false;
 	};
 }
 
@@ -245,12 +245,17 @@ export default function Home() {
 	let update_pepe = (new_value: ColourOption, actionMeta: ActionMeta<ColourOption>) => {
 		set_pepe_type(new_value.value);
 		let custom_pepe = document.getElementById('custom_pepe') as HTMLInputElement;
-		if (new_value.value != "custom_pepe") {
+		bandage_set = true;
+		if (new_value.value == "not_set"){
+			bandage_set = false;
+			setTrigger(true);
+		}else if (new_value.value != "custom_pepe") {
 			bandage_load(setTrigger, new_value.value);
 			custom_pepe.style.display = "none";
 		} else {
 			custom_pepe.style.display = "block";
 		}
+		
 	}
 
 	useEffect(() => {
@@ -306,8 +311,6 @@ export default function Home() {
 			ctx.drawImage(skin, 0, 0);
 			ctx.beginPath();
 			setTrigger(true);
-			bandage_load(setTrigger, "gold");
-			bandage_set = true;
 		};
 
 		setInterval(() => setTrigger(false), 100);
@@ -334,15 +337,15 @@ export default function Home() {
 
 		let dropContainer = document.getElementById('drop_container') as HTMLLabelElement;
 		dropContainer.ondragover = dropContainer.ondragover = function (evt) {
-			if (evt.dataTransfer.items[0].type == "image/png") {
+			if ((evt.dataTransfer as DataTransfer).items[0].type == "image/png") {
 				evt.preventDefault();
-				let drag_container = document.getElementById("drop_container");
+				let drag_container = document.getElementById("drop_container") as HTMLDivElement;
 				drag_container.style.borderStyle = "solid";
 			}
 		};
 
 		dropContainer.ondragleave = dropContainer.ondragleave = function (evt) {
-			let drag_container = document.getElementById("drop_container");
+			let drag_container = document.getElementById("drop_container") as HTMLDivElement;
 			drag_container.style.borderStyle = "dashed";
 		};
 
@@ -352,7 +355,7 @@ export default function Home() {
 			(document.getElementById('imageInput') as HTMLInputElement).files = dT.files;
 			(document.getElementById('imageInput') as HTMLInputElement).dispatchEvent(new Event('change'))
 			evt.preventDefault();
-			let drag_container = document.getElementById("drop_container");
+			let drag_container = document.getElementById("drop_container") as HTMLDivElement;
 			drag_container.style.borderStyle = "dashed";
 		};
 
@@ -435,11 +438,11 @@ export default function Home() {
 			first_y = overlay_y;
 		}
 
-		if (first_layer.checked)
+		if (first_layer.checked && bandage_set)
 			ctx.drawImage(cropped_lining,
 				first_x, first_y + position);
 
-		if (second_layer.checked)
+		if (second_layer.checked && bandage_set)
 			ctx.drawImage(cropped_pepe,
 				overlay_x, overlay_y + position);
 
@@ -473,9 +476,9 @@ export default function Home() {
 											maxLength={16}
 											onBlur={() => parse_nick(setTrigger)}
 											onChange={() => {
-												let nick = document.getElementById("nickname")
+												let nick = document.getElementById("nickname") as HTMLElement;
 												nick.style.borderColor = "#949494";
-												let error_label = document.getElementById("error_label")
+												let error_label = document.getElementById("error_label") as HTMLElement;
 												error_label.style.display = "none";
 											}}
 										/>
@@ -570,7 +573,7 @@ export default function Home() {
 					</Accordion>
 				</div>
 				<footer className={dark ? "dark" : ""}>
-					<h3>Created by <a href="https://andcool.ru" target="_blank">AndcoolSystems</a><br />Production: <a href="https://vk.com/shapestd" target="_blank">Shape</a> Build: v0.1.6.2 public-beta</h3>
+					<h3>Created by <a href="https://andcool.ru" target="_blank">AndcoolSystems</a><br />Production: <a href="https://vk.com/shapestd" target="_blank">Shape</a> Build: v0.1.7 public-beta</h3>
 				</footer>
 			</main>
 		</body>

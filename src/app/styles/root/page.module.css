@@ -272,7 +272,7 @@
 }
 
 .settings_container.dark{
-    background-color: #111112;
+    background-color: #171717;
     box-shadow: -20px 0px 15px 0px rgba(24, 24, 24, 0.199);
     transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }

@@ -454,14 +454,14 @@ export default function Home() {
 		<body className={dark ? "dark" : ""} style={{ colorScheme: dark ? "dark" : "light" }}>
 			<main className={`${style.main} ${dark ? style.dark : ""}`}>
 				<meta name="description" content="Повязка Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!" />
-				<link rel="icon" href="https://pplbandage.ru/static/favicon.ico" type="image/x-icon"></link>
+				<link rel="shortcut icon" href="/static/icons/icon.svg" type="image/svg+xml"></link>
 				<link rel="preload" href="./static/icons/moon.svg" as="image" />
 				<link rel="preload" href="./static/icons/sun.svg" as="image" />
 				<canvas id="pepe_original_canvas" style={{ display: "none" }} height="4"></canvas>
 				<canvas id="lining_original_canvas" style={{ display: "none" }} height="4"></canvas>
 				<canvas id="skin_container" className={style.render_canvas}></canvas>
 				<button id="theme_swapper" className={`${style.theme_swapper} ${dark ? style.dark : ""}`} onClick={() => change_theme(!dark, set_dark, cookies)}>
-					<img src={dark ? "./static/icons/moon.svg" : "./static/icons/sun.svg"} id="sun" alt="theme swapper"></img>
+					<img src={dark ? "./static/icons/moon.svg" : "./static/icons/sun.svg"} id="sun" alt="theme swapper"/>
 				</button>
 
 				<div className={`${style.settings_container} ${dark ? style.dark : ""}`} id="settings_container">

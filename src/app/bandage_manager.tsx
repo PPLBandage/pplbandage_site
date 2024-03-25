@@ -1,5 +1,5 @@
 
-export function bandage_load(setTrigger: any, name: string) {
+export function bandage_load(rerender: any, name: string) {
 	const bandage = new Image(); // Create new img element
 	bandage.src = `./static/pepes/colored/${name}.png`; // Set source path
 
@@ -11,7 +11,7 @@ export function bandage_load(setTrigger: any, name: string) {
 
 		ctx.drawImage(bandage, 0, 0);
 		ctx.beginPath();
-		setTrigger(true);
+		rerender();
 	};
 
 	const lining = new Image(); // Create new img element
@@ -25,7 +25,7 @@ export function bandage_load(setTrigger: any, name: string) {
 
 		ctx_lining.drawImage(lining, 0, 0);
 		ctx_lining.beginPath();
-		setTrigger(true);
+		rerender();
 	};
 }
 

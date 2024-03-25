@@ -50,10 +50,15 @@ footer a{
     transition: background-color 0.1s ease-in-out;
 }
 
+.react-select-container .react-select__control{
+    border-radius: 8px;
+    background-color: #eeeeee;
+    color: #ffffff;
+}
 
 .trigger.dark + .react-select-container .react-select__control{
-    background-color: #474747;
-    border: 1px solid #474747;
+    background-color: #161616;
+    border: 1px solid #2e2e2e;
     transition-property: border-color, box-shadow, background-color, color;
     transition-duration: 200ms;
     transition-timing-function: ease-in-out;
@@ -114,7 +119,7 @@ footer a{
 }
 
 .trigger.dark + .react-select-container .react-select__option:hover {
-    background-color: #0e0e0e;
+    background-color: #3b3b3b;
     transition-property: border-color, box-shadow, background-color, color;
     transition-duration: 200ms;
     transition-timing-function: ease-in-out;
@@ -162,6 +167,10 @@ input{
 
 button{
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+label{
+    user-select: none;
 }
 
 @media(max-width: 767px){

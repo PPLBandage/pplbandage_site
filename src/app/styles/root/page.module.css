@@ -82,19 +82,23 @@
 }
 
 .input_file{
-    padding: 1rem;
+    box-sizing: border-box;
+    width: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     cursor: pointer;
     border: 2px #b1b1b1 dashed;
-    border-radius: 15px;
+    border-radius: 8px;
     margin-bottom: 1rem;
-    width: 50%;
     text-align: center;
     display: inline-flex;
     justify-content: center;
     transition: border 0.25s linear;
-    
 }
 
+.input_file:hover{
+    border: 2px #b1b1b1 solid;
+}
 
 .hidable{
     display: inline-flex;
@@ -139,16 +143,14 @@
 }
 
 .hidable_canvas{
-    padding: 1rem;
-    border: 2px #b1b1b1 dashed;
-    border-radius: 15px;
-    margin-bottom: 1rem;
-    width: 50%;
-    text-align: center;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.hidable_canvas:hover{
+    border: 2px #b1b1b1 dashed;
 }
 
 .position{
@@ -272,7 +274,7 @@
 }
 
 .settings_container.dark{
-    background-color: #171717;
+    background-color: #0f0f0f;
     box-shadow: -20px 0px 15px 0px rgba(24, 24, 24, 0.199);
     transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
@@ -287,7 +289,7 @@
 
 .chevron.dark { 
     filter: invert(100%);
-    transition: filter 0.2s ease-in-out;
+    transition: transform 0.25s cubic-bezier(0, 0, 0, 1), filter 0.2s ease-in-out;;
 }
 
 .theme_swapper{
@@ -319,7 +321,7 @@
 }
 
 .theme_swapper.dark{
-    background-color:#111112;
+    background-color:#0f0f0f;
 }
 
 .theme_swapper.dark img{

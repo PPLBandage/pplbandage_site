@@ -8,9 +8,9 @@ import style from "./styles/root/page.module.css";
 import { bandage_load, crop_pepe, clear, fill_bandage, load_custom } from "./bandage_manager";
 import "./styles/root/style.css";
 import { ColourOption, shapeColourOptions, groupedOptions } from "./data";
-import axios from "axios";
 
-import { Accordion, AccordionItem as Item } from "@szhsin/react-accordion";
+import { ControlledAccordion, AccordionItem as Item, useAccordionProvider } from "@szhsin/react-accordion";
+import axios from "axios";
 import { ChromePicker } from 'react-color';
 import Select, { ActionMeta, GroupBase, GroupProps, components } from 'react-select';
 import { WalkingAnimation, IdleAnimation, SkinViewer } from "skinview3d";
@@ -73,7 +73,8 @@ function handleImageChange(event: { target: any; }, rerender: any) {
 async function parse_nick(new_value: ColourOption, 
 						actionMeta: ActionMeta<ColourOption>, 
 						rerender,
-						set_nick_value) {
+						set_nick_value,
+						set_loading){
 	const canvas = document.getElementById('original_canvas') as HTMLCanvasElement;
 	const nickname = new_value;
 	const ctx = canvas.getContext('2d', { willReadFrequently: true }) as Context;
@@ -107,6 +108,7 @@ async function parse_nick(new_value: ColourOption,
 		nick.style.display = "none"
 	};
 	try {
+		set_loading(true);
 		const response = await axios.get("https://skinserver.pplbandage.ru/skin/" + nickname.value, {
 			responseType: 'arraybuffer'
 		});
@@ -121,6 +123,9 @@ async function parse_nick(new_value: ColourOption,
 			return;
 		}
 	}
+	finally{
+		set_loading(false);
+	}
 
 }
 
@@ -134,7 +139,7 @@ const get_skin_type = () => {
 }
 
 interface ColorComponentProps {
-	rerender: () => void;
+	rerender: (arg0: boolean) => void;
 }
 
 class ColorComponent extends React.Component<ColorComponentProps> {
@@ -151,7 +156,7 @@ class ColorComponent extends React.Component<ColorComponentProps> {
 		const color_btn = document.getElementById("color_button") as HTMLSpanElement;
 		color_btn.style.backgroundColor = color.hex;
 		this.setState({ background: color.hex });
-		this.props.rerender();
+		this.props.rerender(true);
 	};
 
 	handleClose = () => {
@@ -164,11 +169,14 @@ class ColorComponent extends React.Component<ColorComponentProps> {
 				<p className={style.color_container}>Выберите цвет: <span className={style.color_button} id="color_button" onClick={this.handleClick}></span></p>
 				{this.state.displayColorPicker ? <div id="picker" style={{ position: "absolute", zIndex: 2 }}>
 					<div style={{ position: "fixed", top: 0, right: 0, bottom: 0, left: 0 }} onClick={this.handleClose} />
-					<ChromePicker
-						color={this.state.background}
-						onChange={this.handleChange}
-						disableAlpha={true}
-					/>
+					<div style={{colorScheme: "light"}}>
+						<ChromePicker
+							color={this.state.background}
+							onChange={this.handleChange}
+							disableAlpha={true}
+							
+						/>
+					</div>
 				</div> : null}
 			</>
 		);
@@ -196,7 +204,7 @@ const AccordionItem = ({ header, dark, ...rest }) => (
 			className: ({ isEnter }) =>
 				`${style.itemBtn} ${isEnter && style.itemBtnExpanded} ${dark ? style.dark : ""}`
 		}}
-		contentProps={{ className: style.itemContent }}
+		contentProps={{ className: ({ isEnter }) => `${style.itemContent} ${!isEnter ? style.not_enter : ""}`}}
 		panelProps={{ className: style.itemPanel }}
 	/>
 );
@@ -246,6 +254,14 @@ export default function Home() {
 	const [nicknames, set_nicknames] = useState([]);
 	const [loading, set_loading] = useState(false);
 	const skinViewer = useRef<SkinViewer>();
+
+	const providerValue = useAccordionProvider({
+		allowMultiple: false,
+		transition: true,
+		transitionTimeout: 250
+	  });
+	  // Destructuring `toggle` and `toggleAll` from `providerValue`
+	  const { toggle, toggleAll } = providerValue;
 
 	const update_pepe = (new_value: ColourOption, actionMeta: ActionMeta<ColourOption>) => {
 		set_pepe_type(new_value.value);
@@ -368,7 +384,8 @@ export default function Home() {
 		(document.getElementById("first_layer") as HTMLInputElement).checked = true;
 		(document.getElementById("second_layer") as HTMLInputElement).checked = true;
 		set_nicknames([{value: "no_data", label: "Введите никнейм", isDisabled: true}]);
-
+		console.log("%cТы думал тут что-то будет?", "background: none; color: red; font-size: x-large; font-weight: 800");
+		console.log("%cОооо, нет, тут нет ничего, закрывай, закрывай консоль и иди в баню", "font-weight: 800");
 	}, [])
 
 	const rerender = (pepe_setted = true) => {
@@ -470,7 +487,7 @@ export default function Home() {
 						const last = nick.slice(first_pos + nickname.length, nick.length);
 						return {value: nick, label: <>{first}<b>{middle}</b>{last}</>}
 					});
-					set_nicknames([{ value: nickname, label: <b>{nickname}</b> }, { label: 'Совпадения', options: data }]);
+					set_nicknames([{ value:  response.data.requestedFragment, label: <b>{response.data.requestedFragment}</b> }, { label: 'Совпадения', options: data }]);
 				}
 			}).finally(() => set_loading(false))
 		}
@@ -491,8 +508,8 @@ export default function Home() {
 				</button>
 
 				<div className={`${style.settings_container} ${dark ? style.dark : ""}`} id="settings_container">
-					<Accordion transition transitionTimeout={250}>
-						<AccordionItem header="1. Загрузка скина" dark={dark} initialEntered>
+					<ControlledAccordion providerValue={providerValue}>
+						<AccordionItem header="1. Загрузка скина" dark={dark} initialEntered itemKey="item-1">
 							<div className={style.styles_main}>
 								<p id="error_label" className={style.error_label}></p>
 								<p style={{ display: "none" }} className={`trigger ${dark ? "dark" : ""}`}></p>
@@ -503,7 +520,7 @@ export default function Home() {
 									isSearchable={true}
 									onInputChange={fetch_nicknames}
 									inputValue={input_value}
-									onChange={(new_value: ColourOption, actionMeta: ActionMeta<ColourOption>) => parse_nick(new_value, actionMeta, rerender, set_nick_value)}
+									onChange={(new_value: ColourOption, actionMeta: ActionMeta<ColourOption>) => parse_nick(new_value, actionMeta, rerender, set_nick_value, set_loading)}
 									isLoading={loading}
 									id="nick_input"
 									value={nick_value}
@@ -531,7 +548,7 @@ export default function Home() {
 											</div>
 										</div>
 
-										<button id="clear_skin" className={style.clear_skin} onClick={() => clear_skin(rerender, set_nick_value)}>Сбросить скин</button>
+										<button id="clear_skin" className={`${style.clear_skin} ${dark ? style.dark : ""}`} onClick={() => clear_skin(rerender, set_nick_value)}>Сбросить скин</button>
 									</div>
 								</div>
 							</div>
@@ -549,7 +566,7 @@ export default function Home() {
 									isSearchable={false}
 								/>
 								{pepe_type.startsWith("pepe") ? <ColorComponent rerender={rerender} /> : null}
-								{pepe_type == "custom_pepe" ? <p className={style.instruction}><a target="_blank" href="https://github.com/Andcool-Systems/pepe_docs/blob/main/README.md">Инструкция</a></p> : null}
+								{pepe_type == "custom_pepe" ? <p className={`${style.instruction} ${style.dark}`}><a target="_blank" href="https://github.com/Andcool-Systems/pepe_docs/blob/main/README.md">Инструкция</a></p> : null}
 								<input type="file" name="custom_pepe" className={style.custom_pepe} id="custom_pepe" accept="image/png" />
 								<p id="error_label_pepe" className={style.error_label}></p>
 							</div>
@@ -599,10 +616,23 @@ export default function Home() {
 						<AccordionItem header="4. Скачать готовый скин" dark={dark}>
 							<div className={style.styles_main} style={{ display: "flex", alignItems: "center", paddingBottom: "1rem" }}>
 								<canvas id="result_skin_canvas" width="64" height="64" style={{ width: 64, height: 64 }}></canvas>
-								<button onClick={download_skin} className={style.clear_skin} style={{ marginLeft: "5px" }}>Скачать</button>
+								<div style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
+									<button onClick={download_skin} className={`${style.clear_skin} ${dark ? style.dark : ""}`} style={{ marginLeft: "5px" }}>Скачать</button>
+									<button onClick={() => {
+											const skin_canvas = document.getElementById('original_canvas') as HTMLCanvasElement;
+											const out_canvas = document.getElementById("result_skin_canvas") as HTMLCanvasElement;
+											const ctx = skin_canvas.getContext('2d', { willReadFrequently: true }) as Context;
+
+											ctx.clearRect(0, 0, 64, 64);
+											ctx.drawImage(out_canvas, 0, 0);
+											ctx.beginPath();
+											toggle('item-1', true);
+										}
+									} className={`${style.clear_skin} ${dark ? style.dark : ""}`} style={{ marginLeft: "5px" }}>Использовать этот скин как исходный</button>
+								</div>
 							</div>
 						</AccordionItem>
-					</Accordion>
+					</ControlledAccordion>
 				</div>
 				<footer className={dark ? "dark" : ""}>
 					<h3>Created by <a href="https://andcool.ru" target="_blank">AndcoolSystems</a><br />Production: <a href="https://vk.com/shapestd" target="_blank">Shape</a> Build: v0.1.8 public-beta</h3>

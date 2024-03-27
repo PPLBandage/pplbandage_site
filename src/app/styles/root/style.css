@@ -35,6 +35,8 @@ footer{
     width: 75%;
     backdrop-filter: brightness(200%) blur(20px);
     transition: backdrop-filter 0.2s ease-in-out;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 footer h3{

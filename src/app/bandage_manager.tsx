@@ -1,5 +1,5 @@
 
-export function bandage_load(rerender: any, name: string) {
+export const bandage_load = (rerender: any, name: string) => {
 	const bandage = new Image(); // Create new img element
 	bandage.src = `./static/pepes/colored/${name}.png`; // Set source path
 
@@ -29,8 +29,7 @@ export function bandage_load(rerender: any, name: string) {
 	};
 }
 
-
-export function crop_pepe(pepe_canvas: HTMLCanvasElement, slim: boolean, height: number, body_part: number): HTMLCanvasElement {
+export const crop_pepe = (pepe_canvas: HTMLCanvasElement, slim: boolean, height: number, body_part: number): HTMLCanvasElement  => {
 	let bandage_canvas = document.createElement("canvas") as HTMLCanvasElement;
 	bandage_canvas.width = 16;
 	bandage_canvas.height = height;
@@ -57,12 +56,12 @@ export function crop_pepe(pepe_canvas: HTMLCanvasElement, slim: boolean, height:
 	return bandage_canvas;
 }
 
-export function clear(canvas: HTMLCanvasElement, pos_x: number, pos_y: number, height: number) {
+export const clear = (canvas: HTMLCanvasElement, pos_x: number, pos_y: number, height: number) => {
 	const ctx = canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D;
 	ctx.clearRect(pos_x, pos_y, 16, height);
 }
 
-export function fill_bandage(canvas: HTMLCanvasElement, color) {
+export const fill_bandage = (canvas: HTMLCanvasElement, color) => {
 	const ctx = canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D;
 	for (let y = 0; y < canvas.height; y++) {
 		for (let x = 0; x < canvas.width; x++) {
@@ -76,8 +75,7 @@ export function fill_bandage(canvas: HTMLCanvasElement, color) {
 	return canvas;
 }
 
-
-export function load_custom(event, setTrigger) {
+export const load_custom = (event, setTrigger: () => void) => {
 	const input = event.target;
 	const error_label = document.getElementById('error_label_pepe') as HTMLParagraphElement;
 
@@ -109,7 +107,7 @@ export function load_custom(event, setTrigger) {
 
 				ctx.drawImage(img, 0, 0, 16, height, 0, 0, 16, height);
 				ctx_lining.drawImage(img, 0, height, 16, height, 0, 0, 16, height);
-				setTrigger(true);
+				setTrigger();
 			};
 			img.src = e.target?.result as string;
 		};

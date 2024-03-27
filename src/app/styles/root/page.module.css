@@ -29,8 +29,14 @@
 }
 
 .itemContent{
-    transition: height 0.25s cubic-bezier(0, 0, 0, 1);
+    transition: height 0.25s cubic-bezier(0, 0, 0, 1), opacity 0.25s cubic-bezier(0, 0, 0, 1);
+    opacity: 1;
 }
+
+.itemContent.not_enter{
+    opacity: 0;
+}
+
 .chevron {
     margin-left: auto;
     filter: invert(0%);
@@ -135,6 +141,7 @@
     cursor: pointer;
     font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
     font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .clear_skin:hover{
@@ -257,7 +264,7 @@
 .instruction{
     margin: 0;
     margin-top: 1rem;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .instruction a{
@@ -267,6 +274,11 @@
     font-size: 1rem;
     font-weight: 380;
 }
+
+.instruction.dark a{
+    color: #eeeeee;
+}
+
 
 .main.dark{
     color: #ffffff;
@@ -325,12 +337,26 @@
 }
 
 .theme_swapper.dark img{
+    width: 1.3rem;
     filter: invert(0%);
-    transition: filter 0.2s ease-in-out;
+    transition: filter 0.2s ease-in-out, width 0.25s ease-in-out;
+}
+
+.theme_swapper:active img{
+    width: 1.1rem;
 }
 
 .theme_swapper.dark:hover{
     background-color: #464646;
+}
+
+.clear_skin.dark{
+    background-color: #0f0f0f;
+
+}
+
+.clear_skin.dark:hover{
+    background-color: #272727;
 }
 
 @media(max-width: 767px){

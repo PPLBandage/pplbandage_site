@@ -72,9 +72,10 @@ function handleImageChange(event: { target: any; }, rerender: any) {
 
 async function parse_nick(new_value: ColourOption, 
 						actionMeta: ActionMeta<ColourOption>, 
-						rerender,
-						set_nick_value,
-						set_loading){
+						rerender: (arg0: Boolean) => void,
+						set_nick_value: React.Dispatch<React.SetStateAction<{value: string, label: string}>>,
+						set_loading: React.Dispatch<React.SetStateAction<Boolean>>,
+						skinViewer: React.MutableRefObject<SkinViewer>){
 	const canvas = document.getElementById('original_canvas') as HTMLCanvasElement;
 	const nickname = new_value;
 	const ctx = canvas.getContext('2d', { willReadFrequently: true }) as Context;
@@ -96,7 +97,7 @@ async function parse_nick(new_value: ColourOption,
 		ctx.drawImage(img, 0, 0);
 		var pixelData = ctx.getImageData(46, 52, 1, 1).data;
 		(document.getElementById(pixelData[3] == 255 ? "steve" : "alex") as HTMLInputElement).checked = true;
-		rerender();
+		rerender(true);
 
 		const result_canvas = document.getElementById('hidable_canvas') as HTMLCanvasElement;
 		result_canvas.style.display = "inline-flex";
@@ -109,13 +110,13 @@ async function parse_nick(new_value: ColourOption,
 	};
 	try {
 		set_loading(true);
-		const response = await axios.get("https://skinserver.pplbandage.ru/skin/" + nickname.value, {
-			responseType: 'arraybuffer'
-		});
-		const blob = new Blob([response.data], { type: 'image/png' });
-		const imgUrl = URL.createObjectURL(blob);
+		const response = await axios.get("https://skinserver.pplbandage.ru/skin/" + nickname.value + "?cape=true");
 		img.crossOrigin = "Anonymous";
-		img.src = imgUrl;
+		img.src = "data:image/png;base64," + response.data.data.skin;
+		if (response.data.data.cape === "") 
+			skinViewer.current.resetCape();
+		else
+			skinViewer.current.loadCape("data:image/png;base64," + response.data.data.cape);
 	} catch (e) {
 		if (e.response && e.response.status == 404) {
 			error_label.innerHTML = "Игрок с таким никнеймом не найден!";
@@ -209,7 +210,9 @@ const AccordionItem = ({ header, dark, ...rest }) => (
 	/>
 );
 
-const clear_skin = (rerender: () => void, set_nick_value) => {
+const clear_skin = (rerender: () => void, 
+					set_nick_value: React.Dispatch<React.SetStateAction<{value: string, label: string}>>, 
+					skinViewer: React.MutableRefObject<SkinViewer>) => {
 	const skin = new Image(); // Create new img element
 	skin.src = "./static/steve.png"; // Set source path
 
@@ -234,11 +237,15 @@ const clear_skin = (rerender: () => void, set_nick_value) => {
 
 		(document.getElementById("steve") as HTMLInputElement).checked = false;
 		(document.getElementById("alex") as HTMLInputElement).checked = false;
+		skinViewer.current.resetCape();
 		rerender();
 	};
 }
 
-const change_theme = (dark: Boolean, set_dark, cookies: Cookies, skinViewer: React.MutableRefObject<SkinViewer>) => {
+const change_theme = (dark: Boolean,
+						set_dark: React.Dispatch<React.SetStateAction<Boolean>>, 
+						cookies: Cookies, 
+						skinViewer: React.MutableRefObject<SkinViewer>) => {
 	cookies.set('dark', String(dark), { expires: (365 * 10) })
 	document.body.style.colorScheme = dark ? "dark" : "light";
 	skinViewer.current.loadPanorama(`./static/panorama${dark ? "_dark" : ""}.png`);
@@ -520,7 +527,7 @@ export default function Home() {
 									isSearchable={true}
 									onInputChange={fetch_nicknames}
 									inputValue={input_value}
-									onChange={(new_value: ColourOption, actionMeta: ActionMeta<ColourOption>) => parse_nick(new_value, actionMeta, rerender, set_nick_value, set_loading)}
+									onChange={(new_value: ColourOption, actionMeta: ActionMeta<ColourOption>) => parse_nick(new_value, actionMeta, rerender, set_nick_value, set_loading, skinViewer)}
 									isLoading={loading}
 									id="nick_input"
 									value={nick_value}
@@ -548,7 +555,7 @@ export default function Home() {
 											</div>
 										</div>
 
-										<button id="clear_skin" className={`${style.clear_skin} ${dark ? style.dark : ""}`} onClick={() => clear_skin(rerender, set_nick_value)}>Сбросить скин</button>
+										<button id="clear_skin" className={`${style.clear_skin} ${dark ? style.dark : ""}`} onClick={() => clear_skin(rerender, set_nick_value, skinViewer)}>Сбросить скин</button>
 									</div>
 								</div>
 							</div>
@@ -635,7 +642,7 @@ export default function Home() {
 					</ControlledAccordion>
 				</div>
 				<footer className={dark ? "dark" : ""}>
-					<h3>Created by <a href="https://andcool.ru" target="_blank">AndcoolSystems</a><br />Production: <a href="https://vk.com/shapestd" target="_blank">Shape</a> Build: v0.1.8 public-beta</h3>
+					<h3>Created by <a href="https://andcool.ru" target="_blank">AndcoolSystems</a><br />Production: <a href="https://vk.com/shapestd" target="_blank">Shape</a> Build: v0.1.9</h3>
 				</footer>
 			</main>
 		</body>

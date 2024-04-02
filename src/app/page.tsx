@@ -298,6 +298,18 @@ export default function Home() {
 		const viewportHeight = document.documentElement.clientHeight;
 		let container = document.getElementById("settings_container") as HTMLDivElement;
 
+		const skin = new Image(); // Create new img element
+		skin.src = "./static/steve.png"; // Set source path
+
+		skin.onload = () => {
+			const skin_canvas = document.getElementById('original_canvas') as HTMLCanvasElement;
+			const ctx = skin_canvas.getContext('2d', { willReadFrequently: true }) as Context;
+
+			ctx.drawImage(skin, 0, 0);
+			ctx.beginPath();
+			rerender(false);
+		};
+
 		if (viewportWidth >= 768) {
 			skinViewer.current.width = viewportWidth * 0.75;
 			skinViewer.current.height = viewportHeight;

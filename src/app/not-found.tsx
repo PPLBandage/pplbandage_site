@@ -10,10 +10,10 @@ export default function NotFound() {
     const [dark, set_dark] = useState(cookies.get("dark") === "true");
 
     useEffect(() => {
-        let circle1 = document.getElementById("circle-1");
+        let circle1 = document.getElementById("circle-1") as HTMLDivElement;
         circle1.style.top = "60%";
 
-        let circle2 = document.getElementById("circle-2");
+        let circle2 = document.getElementById("circle-2") as HTMLDivElement;
         circle2.style.top = "40%";
     }, []);
 

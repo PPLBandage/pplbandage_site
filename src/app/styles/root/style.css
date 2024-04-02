@@ -1,6 +1,7 @@
 
 body{
     background-color: #eeeeee;
+    transition: background-color 0.2s ease-in-out;
     margin: 0;
     overflow-y: hidden;
     width: 100%;
@@ -37,10 +38,11 @@ footer{
     transition: backdrop-filter 0.2s ease-in-out;
     box-sizing: border-box;
     margin: 0;
+    z-index: 3;
+    color: #ffffff;
 }
 
 footer h3{
-    color: #ffffff;
     font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
     font-weight: 500;
     font-size: 90%;
@@ -151,12 +153,14 @@ footer a{
 }
 
 body.dark{
-    background-color: #111112
+    background-color: #0f0f0f;
+    transition: background-color 0.2s ease-in-out;
 }
 
 footer.dark{
     backdrop-filter: brightness(50%) blur(20px);
     transition: backdrop-filter 0.2s ease-in-out;
+    color: #ffffff;
 }
 
 footer.dark h3{
@@ -181,6 +185,21 @@ label{
         overflow-x: hidden;
     }
     footer{
-        display: none;
+        width: 100%;
+        backdrop-filter: none;
+        color: #000000;
+        position: relative;
+    }
+    footer a{
+        color: #000000;
+    }
+
+    footer.dark{
+        backdrop-filter: none;
+        position: relative;
+    }
+
+    footer.dark a{
+        color: #ffffff;
     }
 }

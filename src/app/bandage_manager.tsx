@@ -1,3 +1,4 @@
+import { FileUploadEvent } from "./interfaces";
 
 export const bandage_load = (rerender: any, name: string) => {
 	const bandage = new Image(); // Create new img element
@@ -61,7 +62,7 @@ export const clear = (canvas: HTMLCanvasElement, pos_x: number, pos_y: number, h
 	ctx.clearRect(pos_x, pos_y, 16, height);
 }
 
-export const fill_bandage = (canvas: HTMLCanvasElement, color) => {
+export const fill_bandage = (canvas: HTMLCanvasElement, color: Array<number>) => {
 	const ctx = canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D;
 	for (let y = 0; y < canvas.height; y++) {
 		for (let x = 0; x < canvas.width; x++) {
@@ -75,11 +76,11 @@ export const fill_bandage = (canvas: HTMLCanvasElement, color) => {
 	return canvas;
 }
 
-export const load_custom = (event, setTrigger: () => void) => {
+export const load_custom = (event: FileUploadEvent, setTrigger: () => void) => {
 	const input = event.target;
 	const error_label = document.getElementById('error_label_pepe') as HTMLParagraphElement;
 
-	const file = input.files[0];
+	const file = (input.files as FileList)[0];
 	if (file) {
 		const reader = new FileReader();
 		reader.onload = function (e) {

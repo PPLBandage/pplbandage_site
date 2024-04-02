@@ -3,16 +3,18 @@
 import { Context } from "vm";
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
+import React_image from 'next/image';
 
 import style from "./styles/root/page.module.css";
 import { bandage_load, crop_pepe, clear, fill_bandage, load_custom } from "./bandage_manager";
 import "./styles/root/style.css";
-import { ColourOption, shapeColourOptions, groupedOptions } from "./data";
+import { shapeColourOptions, groupedOptions, Group } from "./data";
+import {FileUploadEvent, AccordionItemProps, ColorComponentProps, ColourOption} from "./interfaces";
 
 import { ControlledAccordion, AccordionItem as Item, useAccordionProvider } from "@szhsin/react-accordion";
-import axios from "axios";
-import { ChromePicker } from 'react-color';
-import Select, { ActionMeta, GroupBase, GroupProps, components } from 'react-select';
+import axios, { AxiosError } from "axios";
+import { ChromePicker, ColorResult } from 'react-color';
+import Select, { ActionMeta, GroupBase, PropsValue, SingleValue } from 'react-select';
 import { WalkingAnimation, IdleAnimation, SkinViewer } from "skinview3d";
 import { Cookies, useCookies } from 'next-client-cookies';
 
@@ -21,16 +23,6 @@ const body_part_y = [52, 52, 20, 20];
 const body_part_x_overlay = [48, 0, 40, 0];
 const body_part_y_overlay = [52, 52, 36, 36];
 
-const groupStyles = {
-	borderRadius: '5px',
-	background: '#f2fcff',
-};
-
-const Group = (props: React.JSX.IntrinsicAttributes & GroupProps<unknown, boolean, GroupBase<unknown>>) => (
-	<div style={groupStyles}>
-		<components.Group {...props} />
-	</div>
-);
 
 function handleImageChange(event: { target: any; }, rerender: any) {
 	const input = event.target;
@@ -70,9 +62,9 @@ function handleImageChange(event: { target: any; }, rerender: any) {
 	}
 }
 
-async function parse_nick(new_value: ColourOption, 
+async function parse_nick(new_value:  SingleValue<ColourOption>, 
 						actionMeta: ActionMeta<ColourOption>, 
-						rerender: (arg0: Boolean) => void,
+						rerender: (arg0?: boolean) => void,
 						set_nick_value: React.Dispatch<React.SetStateAction<{value: string, label: string}>>,
 						set_loading: React.Dispatch<React.SetStateAction<Boolean>>,
 						skinViewer: React.MutableRefObject<SkinViewer>){
@@ -80,8 +72,8 @@ async function parse_nick(new_value: ColourOption,
 	const nickname = new_value;
 	const ctx = canvas.getContext('2d', { willReadFrequently: true }) as Context;
 	const error_label = document.getElementById('error_label') as HTMLCanvasElement;
-	set_nick_value( {value: nickname.value, label: nickname.value} );
-	if (!nickname.value) return;
+	set_nick_value( {value: nickname?.value as string, label: nickname?.value as string} );
+	if (!nickname?.value) return;
 
 	const img = new Image();
 	img.onload = function () {
@@ -105,7 +97,7 @@ async function parse_nick(new_value: ColourOption,
 		const select_file = document.getElementById('drop_container') as HTMLSpanElement;
 		select_file.style.display = "none";
 
-		const nick = document.getElementById("nick_input");
+		const nick = document.getElementById("nick_input") as HTMLInputElement;
 		nick.style.display = "none"
 	};
 	try {
@@ -118,7 +110,7 @@ async function parse_nick(new_value: ColourOption,
 		else
 			skinViewer.current.loadCape("data:image/png;base64," + response.data.data.cape);
 	} catch (e) {
-		if (e.response && e.response.status == 404) {
+		if ((e as AxiosError).response?.status == 404) {
 			error_label.innerHTML = "Игрок с таким никнеймом не найден!";
 			error_label.style.display = "block";
 			return;
@@ -139,9 +131,6 @@ const get_skin_type = () => {
 	}
 }
 
-interface ColorComponentProps {
-	rerender: (arg0: boolean) => void;
-}
 
 class ColorComponent extends React.Component<ColorComponentProps> {
 	state = {
@@ -153,7 +142,7 @@ class ColorComponent extends React.Component<ColorComponentProps> {
 		this.setState({ displayColorPicker: !this.state.displayColorPicker })
 	};
 
-	handleChange = (color) => {
+	handleChange = (color: ColorResult) => {
 		const color_btn = document.getElementById("color_button") as HTMLSpanElement;
 		color_btn.style.backgroundColor = color.hex;
 		this.setState({ background: color.hex });
@@ -191,13 +180,13 @@ const download_skin = () => {
 	link.click();
 }
 
-const AccordionItem = ({ header, dark, ...rest }) => (
+const AccordionItem: React.FC<AccordionItemProps> = ({ header, dark, ...rest }) => (
 	<Item
 		{...rest}
 		header={
 			<>
 				{header}
-				<img className={`${style.chevron} ${dark ? style.dark : ""}`} src="./static/chevron-down.svg" alt="Chevron Down" />
+				<React_image width={24} height={24} className={`${style.chevron} ${dark ? style.dark : ""}`} src="./static/chevron-down.svg" alt="Chevron Down" />
 			</>
 		}
 		className={`${style.item} ${dark ? style.dark : ""}`}
@@ -230,7 +219,7 @@ const clear_skin = (rerender: () => void,
 		const select_file = document.getElementById('drop_container') as HTMLSpanElement;
 		select_file.style.display = "inline-flex";
 
-		const nick = document.getElementById("nick_input");
+		const nick = document.getElementById("nick_input") as HTMLInputElement;
 		nick.style.display = "block";
 
 		set_nick_value({value: "no_data", label: "Введите никнейм"});
@@ -253,13 +242,13 @@ const change_theme = (dark: Boolean,
 }
 
 export default function Home() {
-	const cookies = useCookies();
+	const cookies = useRef<Cookies>(useCookies());
 	const [nick_value, set_nick_value] = useState({value: "no_data", label: "Введите никнейм"});
-	const [dark, set_dark] = useState(cookies.get("dark") === "true");
+	const [dark, set_dark] = useState<Boolean>(cookies.current.get("dark") === "true");
 	const [input_value, set_input_value] = useState("");
 	const [pepe_type, set_pepe_type] = useState("");
-	const [nicknames, set_nicknames] = useState([]);
-	const [loading, set_loading] = useState(false);
+	const [nicknames, set_nicknames] = useState<(ColourOption | GroupBase<ColourOption>)[]>([]);
+	const [loading, set_loading] = useState<Boolean>(false);
 	const skinViewer = useRef<SkinViewer>();
 
 	const providerValue = useAccordionProvider({
@@ -270,13 +259,13 @@ export default function Home() {
 	  // Destructuring `toggle` and `toggleAll` from `providerValue`
 	  const { toggle, toggleAll } = providerValue;
 
-	const update_pepe = (new_value: ColourOption, actionMeta: ActionMeta<ColourOption>) => {
-		set_pepe_type(new_value.value);
+	const update_pepe = (new_value: SingleValue<ColourOption>, actionMeta: ActionMeta<ColourOption>) => {
+		set_pepe_type(new_value?.value as string);
 		let custom_pepe = document.getElementById('custom_pepe') as HTMLInputElement;
-		if (new_value.value == "not_set"){
+		if (new_value?.value == "not_set"){
 			rerender(false);
-		}else if (new_value.value != "custom_pepe") {
-			bandage_load(rerender, new_value.value);
+		}else if (new_value?.value != "custom_pepe") {
+			bandage_load(rerender, new_value?.value as string);
 			custom_pepe.style.display = "none";
 			rerender(true);
 		} else {
@@ -287,13 +276,13 @@ export default function Home() {
 	}
 
 	useEffect(() => {
-		let input = document.getElementById('imageInput') as HTMLInputElement;
+		const input = document.getElementById('imageInput') as HTMLInputElement;
 		input.addEventListener('change', (event) => handleImageChange(event, rerender));
 
-		let custom_pepe = document.getElementById('custom_pepe') as HTMLInputElement;
-		custom_pepe.addEventListener('change', (event) => load_custom(event, rerender));
+		const custom_pepe = document.getElementById('custom_pepe') as HTMLInputElement;
+		custom_pepe.addEventListener('change', (event: Event) => load_custom(event as FileUploadEvent, rerender));
 
-		let canvas = document.getElementById("skin_container") as HTMLCanvasElement;
+		const canvas = document.getElementById("skin_container") as HTMLCanvasElement;
 		skinViewer.current = new SkinViewer({
 			canvas: canvas,
 			skin: "./static/steve.png"
@@ -310,10 +299,8 @@ export default function Home() {
 		let container = document.getElementById("settings_container") as HTMLDivElement;
 
 		if (viewportWidth >= 768) {
-
 			skinViewer.current.width = viewportWidth * 0.75;
 			skinViewer.current.height = viewportHeight;
-
 			container.style.width = Math.round(viewportWidth / 4) + "px";
 			container.style.height = Math.round(viewportHeight) + "px";
 		} else {
@@ -322,30 +309,19 @@ export default function Home() {
 			container.style.width = Math.round(viewportWidth) + "px";
 		}
 
-		let dark_local = cookies.get("dark");
-		if (dark_local == null) {
-			let system_theme = Boolean(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-			cookies.set("dark", String(system_theme), { expires: (365 * 10) });
-			change_theme(system_theme, set_dark, cookies, skinViewer);
-		} else change_theme(dark_local == "true", set_dark, cookies, skinViewer);
-
-		const skin = new Image(); // Create new img element
-		skin.src = "./static/steve.png"; // Set source path
-
-		skin.onload = () => {
-			const skin_canvas = document.getElementById('original_canvas') as HTMLCanvasElement;
-			const ctx = skin_canvas.getContext('2d', { willReadFrequently: true }) as Context;
-
-			ctx.drawImage(skin, 0, 0);
-			ctx.beginPath();
-			rerender(false);
-		};
+		let dark_local = cookies.current.get("dark");
+		if (!dark_local) {
+			const system_theme = Boolean(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+			cookies.current.set("dark", String(system_theme), { expires: (365 * 10) });
+			change_theme(system_theme, set_dark, cookies.current, skinViewer as React.MutableRefObject<SkinViewer>);
+		} else 
+			change_theme(dark_local == "true", set_dark, cookies.current, skinViewer as React.MutableRefObject<SkinViewer>);
 
 		window.addEventListener("resize", () => {
 			const viewportWidth = document.documentElement.clientWidth;
 			const viewportHeight = document.documentElement.clientHeight;
-			let container = document.getElementById("settings_container") as HTMLDivElement;
-
+			const container = document.getElementById("settings_container") as HTMLDivElement;
+			if (!skinViewer.current) return;
 			if (viewportWidth >= 768) {
 
 				skinViewer.current.width = Math.round(viewportWidth * 0.75) + 0.1;
@@ -356,41 +332,38 @@ export default function Home() {
 			} else {
 				skinViewer.current.width = Math.round(viewportWidth) + 0.1;
 				skinViewer.current.height = Math.round(viewportWidth * 0.7) + 0.1;
-
 				container.style.width = Math.round(viewportWidth) + "px";
 			}
-			rerender();
+			//rerender();
 		});
 
-		let dropContainer = document.getElementById('drop_container') as HTMLLabelElement;
-		dropContainer.ondragover = dropContainer.ondragover = function (evt) {
-			if ((evt.dataTransfer as DataTransfer).items[0].type == "image/png") {
+		const dropContainer = document.getElementById('drop_container') as HTMLLabelElement;
+		dropContainer.ondragover = function (evt) {
+			if (evt.dataTransfer?.items[0].type === "image/png") {
 				evt.preventDefault();
-				let drag_container = document.getElementById("drop_container") as HTMLDivElement;
+				const drag_container = document.getElementById("drop_container") as HTMLDivElement;
 				drag_container.style.borderStyle = "solid";
 			}
 		};
 
-		dropContainer.ondragleave = dropContainer.ondragleave = function (evt) {
-			let drag_container = document.getElementById("drop_container") as HTMLDivElement;
+		dropContainer.ondragleave = function (evt) {
+			const drag_container = document.getElementById("drop_container") as HTMLDivElement;
 			drag_container.style.borderStyle = "dashed";
 		};
 
 		dropContainer.ondrop = function (evt: DragEvent) {
 			const dT = new DataTransfer();
-			dT.items.add((evt.dataTransfer as DataTransfer).files[0]);
+			dT.items.add(evt.dataTransfer?.files[0] as File);
 			(document.getElementById('imageInput') as HTMLInputElement).files = dT.files;
 			(document.getElementById('imageInput') as HTMLInputElement).dispatchEvent(new Event('change'))
 			evt.preventDefault();
-			let drag_container = document.getElementById("drop_container") as HTMLDivElement;
+			const drag_container = document.getElementById("drop_container") as HTMLDivElement;
 			drag_container.style.borderStyle = "dashed";
 		};
 
-
-		//(document.getElementById("clear") as HTMLInputElement).checked = true;
 		(document.getElementById("first_layer") as HTMLInputElement).checked = true;
 		(document.getElementById("second_layer") as HTMLInputElement).checked = true;
-		set_nicknames([{value: "no_data", label: "Введите никнейм", isDisabled: true}]);
+		set_nicknames([{value: "no_data", label: <>Введите никнейм</>, isDisabled: true}]);
 		console.log("%cТы думал тут что-то будет?", "background: none; color: red; font-size: x-large; font-weight: 800");
 		console.log("%cОооо, нет, тут нет ничего, закрывай, закрывай консоль и иди в баню", "font-weight: 800");
 	}, [])
@@ -428,7 +401,7 @@ export default function Home() {
 			var element = document.getElementById("color_button") as HTMLButtonElement;
 			var computedStyles = window.getComputedStyle(element);
 			var backgroundColor = computedStyles.backgroundColor;
-			var rgb = backgroundColor.replace(/^rgba?\(|\s+|\)$/g, '').split(',');
+			var rgb = backgroundColor.replace(/^rgba?\(|\s+|\)$/g, '').split(',').map(str => parseFloat(str));;
 			pepe = fill_bandage(pepe, rgb);
 			lining = fill_bandage(lining, rgb);
 		}
@@ -467,7 +440,7 @@ export default function Home() {
 		if (pepe_setted && second_layer.checked)
 			ctx.drawImage(cropped_pepe,
 						  overlay_x, overlay_y + position);
-		skinViewer.current.loadSkin(canvas.toDataURL(), { model: slim ? "slim" : "default" });
+		(skinViewer.current as SkinViewer).loadSkin(canvas.toDataURL(), { model: slim ? "slim" : "default" });
 	}
 
 	const fetch_nicknames = (nickname: string) => {
@@ -476,7 +449,7 @@ export default function Home() {
 		}
 		set_input_value(nickname);
 		if (nickname.length == 0){
-			set_nicknames([{ value: "no_data", label: "Введите никнейм", isDisabled: true }]);
+			set_nicknames([{ value: "no_data", label: <>Введите никнейм</>, isDisabled: true }]);
 			return;
 		}
 
@@ -493,8 +466,10 @@ export default function Home() {
 						const middle = nick.slice(first_pos, first_pos + nickname.length);
 						const last = nick.slice(first_pos + nickname.length, nick.length);
 						return {value: nick, label: <>{first}<b>{middle}</b>{last}</>}
-					});
-					set_nicknames([{ value:  response.data.requestedFragment, label: <b>{response.data.requestedFragment}</b> }, { label: 'Совпадения', options: data }]);
+					})
+					set_nicknames([{ value: response.data.requestedFragment, 
+									label: <b>{response.data.requestedFragment}</b> }, 
+									{ label: <>Совпадения</>, options: data }]);
 				}
 			}).finally(() => set_loading(false))
 		}
@@ -510,8 +485,8 @@ export default function Home() {
 				<canvas id="pepe_original_canvas" style={{ display: "none" }} height="4"></canvas>
 				<canvas id="lining_original_canvas" style={{ display: "none" }} height="4"></canvas>
 				<canvas id="skin_container" className={style.render_canvas}></canvas>
-				<button id="theme_swapper" className={`${style.theme_swapper} ${dark ? style.dark : ""}`} onClick={() => change_theme(!dark, set_dark, cookies, skinViewer)}>
-					<img src={dark ? "./static/icons/moon.svg" : "./static/icons/sun.svg"} id="sun" alt="theme swapper"/>
+				<button id="theme_swapper" className={`${style.theme_swapper} ${dark ? style.dark : ""}`} onClick={() => change_theme(!dark, set_dark, cookies.current, skinViewer as React.MutableRefObject<SkinViewer>)}>
+					<React_image width={32} height={32} src={dark ? "./static/icons/moon.svg" : "./static/icons/sun.svg"} id="sun" alt="theme swapper"/>
 				</button>
 
 				<div className={`${style.settings_container} ${dark ? style.dark : ""}`} id="settings_container">
@@ -521,16 +496,17 @@ export default function Home() {
 								<p id="error_label" className={style.error_label}></p>
 								<p style={{ display: "none" }} className={`trigger ${dark ? "dark" : ""}`}></p>
 								<Select
+									value={{ value: nick_value.value, label: nick_value.label } as unknown as PropsValue<ColourOption>}
 									options={nicknames}
 									className={`react-select-container`}
 									classNamePrefix="react-select"
 									isSearchable={true}
 									onInputChange={fetch_nicknames}
 									inputValue={input_value}
-									onChange={(new_value: ColourOption, actionMeta: ActionMeta<ColourOption>) => parse_nick(new_value, actionMeta, rerender, set_nick_value, set_loading, skinViewer)}
-									isLoading={loading}
+									onChange={(new_value: SingleValue<ColourOption>, actionMeta: ActionMeta<ColourOption>) => parse_nick(new_value, actionMeta, rerender, set_nick_value, set_loading, skinViewer as React.MutableRefObject<SkinViewer>)}
+									isLoading={loading as boolean}
 									id="nick_input"
-									value={nick_value}
+									formatOptionLabel={(nick_value) => nick_value.label}
 								/>
 								<div style={{width: "100%"}}>
 									<label className={style.input_file} id="drop_container" style={{marginTop: "1rem"}}>
@@ -555,7 +531,7 @@ export default function Home() {
 											</div>
 										</div>
 
-										<button id="clear_skin" className={`${style.clear_skin} ${dark ? style.dark : ""}`} onClick={() => clear_skin(rerender, set_nick_value, skinViewer)}>Сбросить скин</button>
+										<button id="clear_skin" className={`${style.clear_skin} ${dark ? style.dark : ""}`} onClick={() => clear_skin(rerender, set_nick_value, skinViewer as React.MutableRefObject<SkinViewer>)}>Сбросить скин</button>
 									</div>
 								</div>
 							</div>
@@ -642,7 +618,7 @@ export default function Home() {
 					</ControlledAccordion>
 				</div>
 				<footer className={dark ? "dark" : ""}>
-					<h3>Created by <a href="https://andcool.ru" target="_blank">AndcoolSystems</a><br />Production: <a href="https://vk.com/shapestd" target="_blank">Shape</a> Build: v0.1.9</h3>
+					<h3>Created by <a href="https://andcool.ru" target="_blank">AndcoolSystems</a> Поддержать: <a href="https://www.donationalerts.com/r/andcool_systems" target="_blank">тык</a><br />Production: <a href="https://vk.com/shapestd" target="_blank">Shape</a> Build: v0.1.9</h3>
 				</footer>
 			</main>
 		</body>

@@ -48,6 +48,7 @@ function handleImageChange(event: { target: any; }, rerender: any) {
 				ctx.drawImage(img, 0, 0);
 				var pixelData = ctx.getImageData(46, 52, 1, 1).data;
 				(document.getElementById(pixelData[3] == 255 ? "steve" : "alex") as HTMLInputElement).checked = true;
+				rerender(true);
 
 				const result_canvas = document.getElementById('hidable_canvas') as HTMLCanvasElement;
 				result_canvas.style.display = "inline-flex";
@@ -56,7 +57,6 @@ function handleImageChange(event: { target: any; }, rerender: any) {
 				select_file.style.display = "none";
 			};
 			img.src = e.target?.result as string;
-			rerender();
 		};
 		reader.readAsDataURL(file);
 	}
@@ -394,7 +394,7 @@ export default function Home() {
 		(document.getElementById('position') as HTMLInputElement).max = (12 - height) + "";
 		const slim = get_skin_type() == 'alex' ? true : false;
 		const body_part = parseInt((document.getElementById('body_part') as HTMLInputElement).value);
-		const position = (12 - height) - parseFloat((document.getElementById('position') as HTMLInputElement).value);
+		const position = parseFloat((document.getElementById('position') as HTMLInputElement).value);
 		const clear_pix = (document.getElementById('clear') as HTMLInputElement).checked;
 
 		let pepe = crop_pepe(bandage_canvas, slim, height, body_part);

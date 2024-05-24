@@ -33,12 +33,44 @@ export const customColourOptions: readonly ColourOption[] = [
     { value: 'pepe_1', label: <>Пепе 2</> }
 ];
 
+export const halloween: readonly ColourOption[] = [
+    { value: 'pumpkin', label: <>Тыква</> },
+    { value: 'witch', label: <>Ведьма</> }
+];
+
 export interface GroupedOption {
     readonly label: string;
     readonly options: readonly ColourOption[];
 }
 
-export const groupedOptions: readonly GroupedOption[] = [
+export let groupedOptions: readonly GroupedOption[] = [
+    {
+        label: 'Shape',
+        options: shapeColourOptions,
+    },
+    {
+        label: 'Повязки Пугода',
+        options: pwColourOptions,
+    },
+    {
+        label: 'Своё изображение',
+        options: [ { value: 'custom_pepe', label: <>Своё изображение</> } ],
+    },
+    {
+        label: 'Кастомный цвет',
+        options: customColourOptions,
+    },
+    {
+        label: 'by kwixie_',
+        options: kwixieColourOptions,
+    }
+];
+
+export let groupedOptionsHalloween: readonly GroupedOption[] = [
+    {
+        label: 'Хэллоуин',
+        options: halloween,
+    },
     {
         label: 'Shape',
         options: shapeColourOptions,

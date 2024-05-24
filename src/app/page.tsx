@@ -8,7 +8,7 @@ import React_image from 'next/image';
 import style from "./styles/root/page.module.css";
 import { bandage_load, crop_pepe, clear, fill_bandage, load_custom } from "./bandage_manager";
 import "./styles/root/style.css";
-import { shapeColourOptions, groupedOptions, Group } from "./data";
+import { shapeColourOptions, groupedOptions, groupedOptionsHalloween, Group } from "./data";
 import {FileUploadEvent, AccordionItemProps, ColorComponentProps, ColourOption} from "./interfaces";
 
 import { ControlledAccordion, AccordionItem as Item, useAccordionProvider } from "@szhsin/react-accordion";
@@ -22,6 +22,7 @@ const body_part_x = [32, 16, 40, 0];
 const body_part_y = [52, 52, 20, 20];
 const body_part_x_overlay = [48, 0, 40, 0];
 const body_part_y_overlay = [52, 52, 36, 36];
+let groupedOptions_local = groupedOptions;
 
 
 function handleImageChange(event: { target: any; }, rerender: any) {
@@ -102,7 +103,7 @@ async function parse_nick(new_value:  SingleValue<ColourOption>,
 	};
 	try {
 		set_loading(true);
-		const response = await axios.get("https://skinserver.pplbandage.ru/skin/" + nickname.value + "?cape=true");
+		const response = await axios.get("https://api.pplbandage.ru/skin/" + (nickname.value.split(" – ").length > 1 ? nickname.value.split(" – ")[1] : nickname.value) + "?cape=true");
 		img.crossOrigin = "Anonymous";
 		img.src = "data:image/png;base64," + response.data.data.skin;
 		if (response.data.data.cape === "") 
@@ -112,6 +113,11 @@ async function parse_nick(new_value:  SingleValue<ColourOption>,
 	} catch (e) {
 		if ((e as AxiosError).response?.status == 404) {
 			error_label.innerHTML = "Игрок с таким никнеймом не найден!";
+			error_label.style.display = "block";
+			return;
+		}
+		else if ((e as AxiosError).response?.status == 429) {
+			error_label.innerHTML = "Сервера Mojang перегружены, пожалуйста, попробуйте через пару минут";
 			error_label.style.display = "block";
 			return;
 		}
@@ -222,7 +228,7 @@ const clear_skin = (rerender: () => void,
 		const nick = document.getElementById("nick_input") as HTMLInputElement;
 		nick.style.display = "block";
 
-		set_nick_value({value: "no_data", label: "Введите никнейм"});
+		set_nick_value({value: "no_data", label: "Введите никнейм / UUID"});
 
 		(document.getElementById("steve") as HTMLInputElement).checked = false;
 		(document.getElementById("alex") as HTMLInputElement).checked = false;
@@ -243,20 +249,27 @@ const change_theme = (dark: Boolean,
 
 export default function Home() {
 	const cookies = useRef<Cookies>(useCookies());
-	const [nick_value, set_nick_value] = useState({value: "no_data", label: "Введите никнейм"});
+	const [nick_value, set_nick_value] = useState<{value: string, label: string}>({value: "no_data", label: "Введите никнейм / UUID"});
 	const [dark, set_dark] = useState<Boolean>(cookies.current.get("dark") === "true");
-	const [input_value, set_input_value] = useState("");
-	const [pepe_type, set_pepe_type] = useState("");
+	const [input_value, set_input_value] = useState<string>("");
+	const [pepe_type, set_pepe_type] = useState<string>("");
 	const [nicknames, set_nicknames] = useState<(ColourOption | GroupBase<ColourOption>)[]>([]);
 	const [loading, set_loading] = useState<Boolean>(false);
 	const skinViewer = useRef<SkinViewer>();
+
+	const cookie_alert_shown = cookies.current.get("dark") === undefined;
+
+	const now_date = new Date();
+	if (now_date.getMonth() == 9 && now_date.getDate() >= 24){
+		groupedOptions_local = groupedOptionsHalloween;
+	}
+
 
 	const providerValue = useAccordionProvider({
 		allowMultiple: false,
 		transition: true,
 		transitionTimeout: 250
 	  });
-	  // Destructuring `toggle` and `toggleAll` from `providerValue`
 	  const { toggle, toggleAll } = providerValue;
 
 	const update_pepe = (new_value: SingleValue<ColourOption>, actionMeta: ActionMeta<ColourOption>) => {
@@ -320,14 +333,17 @@ export default function Home() {
 			skinViewer.current.height = Math.round(viewportWidth * 0.7) + 0.1;
 			container.style.width = Math.round(viewportWidth) + "px";
 		}
-
-		let dark_local = cookies.current.get("dark");
-		if (!dark_local) {
-			const system_theme = Boolean(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-			cookies.current.set("dark", String(system_theme), { expires: (365 * 10) });
-			change_theme(system_theme, set_dark, cookies.current, skinViewer as React.MutableRefObject<SkinViewer>);
-		} else 
-			change_theme(dark_local == "true", set_dark, cookies.current, skinViewer as React.MutableRefObject<SkinViewer>);
+		if (!cookie_alert_shown){
+			let dark_local = cookies.current.get("dark");
+			if (!dark_local) {
+				const system_theme = Boolean(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+				cookies.current.set("dark", String(system_theme), { expires: (365 * 10) });
+				change_theme(system_theme, set_dark, cookies.current, skinViewer as React.MutableRefObject<SkinViewer>);
+			} else 
+				change_theme(dark_local == "true", set_dark, cookies.current, skinViewer as React.MutableRefObject<SkinViewer>);
+		}else{
+			skinViewer.current.loadPanorama(`./static/panorama.png`);
+		}
 
 		window.addEventListener("resize", () => {
 			const viewportWidth = document.documentElement.clientWidth;
@@ -375,7 +391,7 @@ export default function Home() {
 
 		(document.getElementById("first_layer") as HTMLInputElement).checked = true;
 		(document.getElementById("second_layer") as HTMLInputElement).checked = true;
-		set_nicknames([{value: "no_data", label: <>Введите никнейм</>, isDisabled: true}]);
+		set_nicknames([{value: "no_data", label: <>Введите никнейм / UUID</>, isDisabled: true}]);
 		console.log("%cТы думал тут что-то будет?", "background: none; color: red; font-size: x-large; font-weight: 800");
 		console.log("%cОооо, нет, тут нет ничего, закрывай, закрывай консоль и иди в баню", "font-weight: 800");
 	}, [])
@@ -456,12 +472,13 @@ export default function Home() {
 	}
 
 	const fetch_nicknames = (nickname: string) => {
-		if (nickname.length >= 16){
-			nickname = nickname.slice(0, 16);
+		nickname = nickname.replaceAll("-", "");
+		if (nickname.length >= 32){
+			nickname = nickname.slice(0, 32);
 		}
 		set_input_value(nickname);
 		if (nickname.length == 0){
-			set_nicknames([{ value: "no_data", label: <>Введите никнейм</>, isDisabled: true }]);
+			set_nicknames([{ value: "no_data", label: <>Введите никнейм / UUID</>, isDisabled: true }]);
 			return;
 		}
 
@@ -470,18 +487,21 @@ export default function Home() {
 		
 		if (nickname.length >= 2){
 			set_loading(true);
-			axios.get("https://skinserver.pplbandage.ru/search/" + nickname).then(response => {
+			axios.get("https://api.pplbandage.ru/search/" + nickname).then(response => {
 				if (response.status == 200){
-					const data = response.data.data.map((nick: string) => {
-						const first_pos = nick.toLowerCase().indexOf(nickname.toLowerCase());
-						const first = nick.slice(0, first_pos);
-						const middle = nick.slice(first_pos, first_pos + nickname.length);
-						const last = nick.slice(first_pos + nickname.length, nick.length);
-						return {value: nick, label: <>{first}<b>{middle}</b>{last}</>}
+					const data = response.data.data.map((nick: {name: string, uuid: string, head: string}) => {
+						const first_pos = nick.name.toLowerCase().indexOf(nickname.toLowerCase());
+						const first = nick.name.slice(0, first_pos);
+						const middle = nick.name.slice(first_pos, first_pos + nickname.length);
+						const last = nick.name.slice(first_pos + nickname.length, nick.name.length);
+						return {value: `${nick?.name} – ${nick?.uuid}`, label: <><div style={{display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
+							<img src={"data:image/png;base64," + nick.head} width={32} style={{marginRight: "3px"}}/>
+							{first}<b>{middle}</b>{last}
+						</div></>}
 					})
 					set_nicknames([{ value: response.data.requestedFragment, 
-									label: <b>{response.data.requestedFragment}</b> }, 
-									{ label: <>Совпадения</>, options: data }]);
+						label: <b>{response.data.requestedFragment}</b> }, 
+						{ label: <>Совпадения</>, options: data }]);
 				}
 			}).finally(() => set_loading(false))
 		}
@@ -489,11 +509,33 @@ export default function Home() {
 
 	return (
 		<body className={dark ? "dark" : ""} style={{ colorScheme: dark ? "dark" : "light" }}>
+
+			{cookie_alert_shown ? 
+			<div className={`${style.cookies_parent} ${dark ? "dark" : ""}`} id="cookies_alert">
+				<div className={style.cookies_body}>
+					<div style={{width: "100%"}}>
+						<h1><img src="./static/icons/cookie.svg"/>Файлы Cookie</h1>
+						<p>Мы не спрашиваем разрешения на использование файлов <b>cookie</b>, так как без них в интернете всё было бы <b>плохо</b>🤗</p>
+					</div>
+					<div>
+						<button onClick={() => {
+							let dark_local = cookies.current.get("dark");
+							if (!dark_local) {
+								const system_theme = Boolean(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+								cookies.current.set("dark", String(system_theme), { expires: (365 * 10) });
+								change_theme(system_theme, set_dark, cookies.current, skinViewer as React.MutableRefObject<SkinViewer>);
+							} else 
+								change_theme(dark_local == "true", set_dark, cookies.current, skinViewer as React.MutableRefObject<SkinViewer>);
+
+							(document.getElementById("cookies_alert") as HTMLDivElement).style.display = "none";
+							}}>Хорошо!</button>
+					</div>
+				</div>
+			</div> 
+			: null}
 			<main className={`${style.main} ${dark ? style.dark : ""}`}>
 				<meta name="description" content="Повязка Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!" />
 				<link rel="shortcut icon" href="/static/icons/icon.svg" type="image/svg+xml"></link>
-				<link rel="preload" href="./static/icons/moon.svg" as="image" />
-				<link rel="preload" href="./static/icons/sun.svg" as="image" />
 				<canvas id="pepe_original_canvas" style={{ display: "none" }} height="4"></canvas>
 				<canvas id="lining_original_canvas" style={{ display: "none" }} height="4"></canvas>
 				<canvas id="skin_container" className={style.render_canvas}></canvas>
@@ -553,7 +595,7 @@ export default function Home() {
 								<p style={{ display: "none" }} className={`trigger ${dark ? "dark" : ""}`}></p>
 								<Select<ColourOption>
 									defaultValue={shapeColourOptions[0]}
-									options={groupedOptions}
+									options={groupedOptions_local}
 									components={{ Group }}
 									onChange={update_pepe}
 									className={`react-select-container`}
@@ -630,7 +672,7 @@ export default function Home() {
 					</ControlledAccordion>
 				</div>
 				<footer className={dark ? "dark" : ""}>
-					<h3>Created by <a href="https://andcool.ru" target="_blank">AndcoolSystems</a> Поддержать: <a href="https://www.donationalerts.com/r/andcool_systems" target="_blank">тык</a><br />Production: <a href="https://vk.com/shapestd" target="_blank">Shape</a> Build: v0.1.9</h3>
+					<h3>Created by <a href="https://andcool.ru" target="_blank">AndcoolSystems</a> Поддержать: <a href="https://www.donationalerts.com/r/andcool_systems" target="_blank">тык</a><br />Production: <a href="https://vk.com/shapestd" target="_blank">Shape</a> Build: v0.1.12</h3>
 				</footer>
 			</main>
 		</body>

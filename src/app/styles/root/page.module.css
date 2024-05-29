@@ -26,6 +26,8 @@
     position: absolute;
     left: 0;
     top: 0;
+    width: 75%;
+    height: 100%;
 }
 
 .itemContent{
@@ -231,13 +233,6 @@
     padding-right: 1rem;
 }
 
-.color_container{
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    margin-top: 1rem;
-    margin-bottom: 0;
-}
 
 .type_selector{
     display: flex;
@@ -457,5 +452,9 @@
 
     .cookies_body button{
         font-size: 100%;
+    }
+
+    .render_canvas{
+        width: 100%;
     }
 }

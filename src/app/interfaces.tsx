@@ -8,8 +8,11 @@ export interface AccordionItemProps {
     [key: string]: any;
 }
 
+export interface rerenderInterface {
+    (param: string): void;
+}
 export interface ColorComponentProps {
-	rerender: (arg0?: boolean) => void;
+	triggerEvent: rerenderInterface;
 }
 
 export interface ColourOption {

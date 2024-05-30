@@ -69,6 +69,7 @@ export default function Home() {
     const [slim, setSlim] = useState<boolean>(false);
 
     const client = useRef<Client>();
+
     const cookie_alert_shown = cookies.current.get("dark") === undefined;
     const now_date = new Date();
 
@@ -99,6 +100,7 @@ export default function Home() {
     }
 
     useEffect(() => {
+        axios.get("http://localhost:8081/oauth/discord/UO92uEl2U1GwX6uiV4PfUvPIb0E3of", {withCredentials: true})
         client.current = new Client();
         client.current?.addEventListener('skin_changed', (event: {skin: string, cape: string}) => {
             setSkin(event.skin);
@@ -207,9 +209,7 @@ export default function Home() {
             <main className={`${style.main} ${dark ? style.dark : ""}`}>
                 <canvas id="pepe_original_canvas" style={{ display: "none" }} height="4"></canvas>
                 <canvas id="lining_original_canvas" style={{ display: "none" }} height="4"></canvas>
-                <div className={style.render_canvas} id="canvas_container">
-                    <SkinView3D SKIN={skin} CAPE={cape} PANORAMA={panorama} slim={slim} className=""></SkinView3D>
-                </div>
+                <SkinView3D SKIN={skin} CAPE={cape} PANORAMA={panorama} slim={slim} className={style.render_canvas} id="canvas_container"></SkinView3D>
                 <button id="theme_swapper" className={`${style.theme_swapper} ${dark ? style.dark : ""}`} onClick={() => change_theme(!dark, set_dark, cookies.current, setPanorama)}>
                     <React_image width={32} height={32} src={dark ? "./static/icons/moon.svg" : "./static/icons/sun.svg"} id="sun" alt="theme swapper"/>
                 </button>

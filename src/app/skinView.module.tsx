@@ -7,10 +7,11 @@ interface SkinView3DOptions {
     CAPE: string,
     PANORAMA: string,
     className: string,
-    slim: boolean
+    slim: boolean,
+    id: string
 }
 
-const SkinView3D = ({SKIN, CAPE, PANORAMA, className, slim}: SkinView3DOptions): JSX.Element => {
+const SkinView3D = ({SKIN, CAPE, PANORAMA, className, slim, id}: SkinView3DOptions): JSX.Element => {
     const canvasRef = useRef<HTMLCanvasElement>();
     const skinViewRef = useRef<SkinViewer>();
 
@@ -41,7 +42,7 @@ const SkinView3D = ({SKIN, CAPE, PANORAMA, className, slim}: SkinView3DOptions):
             skinViewRef.current.height = document.body.clientWidth > 767 ? height : width;
         });
     
-        resizeObserver.observe(document.getElementById("canvas_container") as HTMLDivElement);
+        resizeObserver.observe(document.getElementById(id) as HTMLDivElement);
     }, [])
 
     useEffect(() => {
@@ -60,7 +61,9 @@ const SkinView3D = ({SKIN, CAPE, PANORAMA, className, slim}: SkinView3DOptions):
         skinViewRef.current?.loadSkin(SKIN ? SKIN : "./static/steve.png", { model: slim ? "slim" : "default" });
     }, [slim]);
 
-    return <canvas className={className} ref={canvasRef as LegacyRef<HTMLCanvasElement> | undefined} />;
+    return (<div className={className} id={id}>
+                <canvas ref={canvasRef as LegacyRef<HTMLCanvasElement> | undefined} />
+            </div>);
 }
 
 export default SkinView3D;

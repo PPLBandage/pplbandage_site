@@ -1,5 +1,5 @@
 .body{
-    background-color: #eeeeee;
+    background-color: #000000;
     margin: 0;
     width: 100%;
     font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
@@ -9,10 +9,6 @@
     left: 0px;
     bottom: 0px;
     right: 0px;
-}
-
-.body.dark{
-    background-color: #000000;
     color: #eeeeee;
 }
 

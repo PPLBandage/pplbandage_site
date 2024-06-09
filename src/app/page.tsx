@@ -18,6 +18,8 @@ import { Cookies, useCookies } from 'next-client-cookies';
 import Client, { get_skin_type } from "./client.module";
 import SkinView3D from "./skinView.module";
 
+import Header from "./modules/header.module";
+
 const download_skin = () => {
     const link = document.createElement('a');
     link.download = 'skin.png';
@@ -31,7 +33,7 @@ const AccordionItem: React.FC<Interfaces.AccordionItemProps> = ({ header, dark, 
         header={
             <>
                 {header}
-                <React_image width={24} height={24} className={`${style.chevron} ${dark ? style.dark : ""}`} src="./static/chevron-down.svg" alt="Chevron Down" />
+                <React_image width={24} height={24} className={`${style.chevron} ${dark ? style.dark : ""}`} src="/static/icons/chevron-down.svg" alt="Chevron Down" />
             </>
         }
         className={`${style.item} ${dark ? style.dark : ""}`}
@@ -100,7 +102,6 @@ export default function Home() {
     }
 
     useEffect(() => {
-        axios.get("http://localhost:8081/oauth/discord/UO92uEl2U1GwX6uiV4PfUvPIb0E3of", {withCredentials: true})
         client.current = new Client();
         client.current?.addEventListener('skin_changed', (event: {skin: string, cape: string}) => {
             setSkin(event.skin);
@@ -167,18 +168,24 @@ export default function Home() {
         set_nicknames([{ value: nickname, label: <b>{nickname}</b> }]);
         if (nickname.length == 17) return;
 
-        if (nickname.length >= 2){
+        if (nickname.length > 2){
             set_loading(true);
             axios.get("https://new-eldraxis.andcool.ru/search/" + nickname).then(response => {
                 if (response.status == 200){
                     const data = response.data.data.map((nick: {name: string, uuid: string, head: string}) => {
+                        let label;
                         const first_pos = nick.name.toLowerCase().indexOf(nickname.toLowerCase());
-                        const first = nick.name.slice(0, first_pos);
-                        const middle = nick.name.slice(first_pos, first_pos + nickname.length);
-                        const last = nick.name.slice(first_pos + nickname.length, nick.name.length);
+                        if (first_pos != -1){
+                            const first = nick.name.slice(0, first_pos);
+                            const middle = nick.name.slice(first_pos, first_pos + nickname.length);
+                            const last = nick.name.slice(first_pos + nickname.length, nick.name.length);
+                            label = <>{first}<b style={{color: "#00ADB5"}}>{middle}</b>{last}</>
+                        }else{
+                            label = <>{nick.name}</>
+                        }
                         return {value: `${nick?.name} – ${nick?.uuid}`, label: <><div style={{display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
                             <img src={"data:image/png;base64," + nick.head} width={32} style={{marginRight: "3px"}}/>
-                            {first}<b>{middle}</b>{last}
+                            {label}
                         </div></>}
                     })
                     set_nicknames([{ value: response.data.requestedFragment,
@@ -188,24 +195,10 @@ export default function Home() {
             }).finally(() => set_loading(false))
         }
     }
-    /*
-            {cookie_alert_shown ?
-            <div className={`${style.cookies_parent} ${dark ? "dark" : ""}`} id="cookies_alert">
-                <div className={style.cookies_body}>
-                    <div style={{width: "100%"}}>
-                        <h1><img src="./static/icons/cookie.svg"/>Файлы Cookie</h1>
-                        <p>Мы не спрашиваем разрешения на использование файлов <b>cookie</b>, так как без них в интернете всё было бы <b>плохо</b>🤗</p>
-                    </div>
-                    <div>
-
-                    </div>
-                </div>
-            </div>
-            : null}
-    */
 
     return (
         <body className={dark ? "dark" : ""} style={{ colorScheme: dark ? "dark" : "light" }}>
+            <Header />
             <main className={`${style.main} ${dark ? style.dark : ""}`}>
                 <canvas id="pepe_original_canvas" style={{ display: "none" }} height="4"></canvas>
                 <canvas id="lining_original_canvas" style={{ display: "none" }} height="4"></canvas>

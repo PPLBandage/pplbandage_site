@@ -1,5 +1,5 @@
 import { LegacyRef, useEffect, useRef } from 'react';
-import { SkinViewer, WalkingAnimation } from 'skinview3d';
+import { PlayerAnimation, PlayerObject, SkinViewer, WalkingAnimation } from 'skinview3d';
 
 
 interface SkinView3DOptions {
@@ -10,6 +10,16 @@ interface SkinView3DOptions {
     slim: boolean,
     id: string
 }
+
+export class TestAnim extends PlayerAnimation {
+    protected animate(player: PlayerObject): void {
+        //const t = this.progress * 2;
+        const PI = Math.PI;
+        player.skin.rightArm.rotation.z = (PI / 180) * -90;
+        player.skin.leftArm.rotation.z = (PI / 180) * 90;
+    }
+}
+
 
 const SkinView3D = ({SKIN, CAPE, PANORAMA, className, slim, id}: SkinView3DOptions): JSX.Element => {
     const canvasRef = useRef<HTMLCanvasElement>();
@@ -38,8 +48,8 @@ const SkinView3D = ({SKIN, CAPE, PANORAMA, className, slim, id}: SkinView3DOptio
         const resizeObserver = new ResizeObserver(entries => {
             const { width, height } = entries[0].contentRect;
             if (!skinViewRef.current) return;
-            skinViewRef.current.width = width;
-            skinViewRef.current.height = document.body.clientWidth > 767 ? height : width;
+            skinViewRef.current.width = width + 0.1;
+            skinViewRef.current.height = (document.body.clientWidth > 767 ? height : width) + 0.1;
         });
     
         resizeObserver.observe(document.getElementById(id) as HTMLDivElement);

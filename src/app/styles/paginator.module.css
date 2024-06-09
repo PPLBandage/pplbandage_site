@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page {
+    padding: .8rem;
+    margin: 0;
+    width: 1rem;
+    height: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: .2rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    user-select: none;
+}
+
+.page:hover {
+    background-color: #262930;
+    box-shadow: #1d2025 1px 1px 5px 0px;
+}
+
+@media(max-width: 767px){
+    .page {
+        font-size: 1rem;
+        width: .8rem;
+        height: .8rem;
+        padding: .9rem;
+        margin: .1rem;
+    }
+}

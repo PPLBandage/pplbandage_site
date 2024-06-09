@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Cookies, useCookies } from 'next-client-cookies';
 import style from "./styles/404/page.module.css";
 import "./styles/404/style.css";
+import Header from './modules/header.module';
 
 export default function NotFound() {
     const cookies = useCookies();
@@ -20,6 +21,7 @@ export default function NotFound() {
     
     return (
         <body className={`${style.body} ${dark ? style.dark : ""}`} style={{ colorScheme: dark ? "dark" : "light" }}>
+            <Header />
             <meta name="description" content="Повязка Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!" />
 			<link rel="shortcut icon" href="/static/icons/icon.svg" type="image/svg+xml"></link>
             <div className={style.circle} id="circle-1"></div>

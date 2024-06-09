@@ -1,0 +1,125 @@
+.p{
+    margin-top: .5rem;
+    color: #ffffff;
+    transform: translateY(0);
+    transition: color 250ms;
+    display: block;
+}
+
+.role_title{
+    color: #ffffff;
+    margin: 0;
+    font-size: 80%;
+    text-wrap: nowrap;
+}
+
+.role_dot{
+    display: block;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    margin-right: 3px;
+}
+
+.role_container{
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    background-color: #434957;
+    padding: 4px;
+    margin: 2px;
+    border-radius: 5px;
+    border: 1px solid #5c6579
+}
+
+.roles_container{
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.roles_text{
+    text-decoration: underline;
+    user-select: none;
+    cursor: pointer;
+}
+
+.roles_text_container{
+    display: inline-block;
+}
+
+.login_main{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.login_main h1 {
+    color: white;
+    font-size: 1.5rem;
+    margin: 0;
+    margin-bottom: 1rem;
+}
+
+.login_container {
+    background-color: #252a30;
+    max-width: 400px;
+    width: 400px;
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: rgba(0,0,0,.25) 0px 2px 4px 0px;
+}
+
+.login_button{
+    background-color: #434957;
+    padding: .5rem;
+    border-radius: 10px;
+    box-sizing: border-box;
+    border: 1px #434957 solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transform: scale(1);
+
+    transition: border 150ms, transform 150ms;
+    text-decoration: none;
+    margin-bottom: 1rem;
+}
+
+.login_button:hover{
+    border: 1px #5662f6 solid;
+    transform: scale(1.01);
+}
+
+.login_button img {
+    width: 1.5rem;
+    filter: invert(100%);
+    margin-right: .5rem;
+}
+
+.a {
+    color: inherit;
+}
+
+@keyframes attention {
+	0%,
+	50%,
+	100% {
+		transform: translateY(0px) scale(1);
+	}
+
+	25%,
+	75% {
+		transform: translateY(-15px) scale(1.05);
+	}
+}

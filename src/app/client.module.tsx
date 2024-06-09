@@ -249,6 +249,7 @@ class Client {
         };
     }
 
+
     private pasteImageToCanvas(name: string, image: HTMLImageElement) {
         const canvas = document.getElementById(name) as HTMLCanvasElement;
         const context = canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D;
@@ -292,8 +293,8 @@ class Client {
         if (this.pepe_type == "pepe" || this.pepe_type == "pepe_1") {
             const color_picker = document.getElementById("color_picker") as HTMLInputElement;
             const rgb = hex2rgb(color_picker.value);
-            pepe = fillPepe(pepe, rgb);
-            lining = fillPepe(lining, rgb);
+            pepe = fillPepe(pepe, rgb) as HTMLCanvasElement;
+            lining = fillPepe(lining, rgb) as HTMLCanvasElement;
         }
 
         if (clear_pix) clearPepe(canvas, body_part_x_overlay[body_part], body_part_y_overlay[body_part] + position, height);
@@ -365,18 +366,44 @@ export const clearPepe = (canvas: HTMLCanvasElement, pos_x: number, pos_y: numbe
     context?.clearRect(pos_x, pos_y, 16, height);
 }
 
-export const fillPepe = (canvas: HTMLCanvasElement, color: Array<number>): HTMLCanvasElement => {
+export const fillPepe = (input: HTMLCanvasElement | HTMLImageElement, color: Array<number>): HTMLCanvasElement => {
+    let canvas: HTMLCanvasElement;
+    if (input instanceof HTMLImageElement) {
+        canvas = document.createElement('canvas');
+        canvas.width = input.width;
+        canvas.height = input.height;
+        const context = canvas.getContext('2d');
+        if (context) {
+            context.drawImage(input, 0, 0, input.width, input.height);
+        }
+    } else {
+        canvas = input;
+    }
+
     const context = canvas.getContext("2d", { willReadFrequently: true });
     if (!context) return canvas;
+
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+
     for (let y = 0; y < canvas.height; y++) {
         for (let x = 0; x < canvas.width; x++) {
-            const pixelData = context.getImageData(x, y, 1, 1).data;
-            if (pixelData[3] != 0 && (pixelData[0] == pixelData[1] && pixelData[1] == pixelData[2] && pixelData[0] == pixelData[2])) {
-                context.fillStyle = "rgba(" + (pixelData[0] / 255) * color[0] + "," + (pixelData[1] / 255) * color[1] + "," + (pixelData[2] / 255) * color[2] + ",1)";
-                context.fillRect(x, y, 1, 1);
+            const index = (y * canvas.width + x) * 4;
+            const r = data[index];
+            const g = data[index + 1];
+            const b = data[index + 2];
+            const a = data[index + 3];
+
+            if (a != 0 && r == g && g == b) {
+                data[index] = (r / 255) * color[0];
+                data[index + 1] = (g / 255) * color[1];
+                data[index + 2] = (b / 255) * color[2];
+                data[index + 3] = a; // альфа-канал остаётся неизменным
             }
         }
     }
+
+    context.putImageData(imageData, 0, 0);
     return canvas;
 }
 

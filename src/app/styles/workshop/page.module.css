@@ -1,0 +1,130 @@
+.main {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    padding: .5rem;
+}
+
+.center{
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1280px;
+    display: grid;
+    color: white;
+    /*grid-template-columns: minmax(0, 400px) 1fr;
+    grid-auto-rows: max-content;*/
+    gap: 1rem;
+}
+
+.filters {
+    max-width: 300px;
+    background-color: #262930;
+    padding: 1rem;
+    border-radius: 15px;
+}
+
+.filters h2 {
+    margin: 0;
+    font-size: 120%;
+}
+
+.right {
+    background-color: #262930;
+    padding: 1rem;
+    border-radius: 15px;
+}
+
+.skins_container{
+    display: grid;
+    gap: 1rem;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, 300px);
+    grid-auto-rows: max-content;
+}
+
+.skin {
+    border-radius: 15px;
+    width: 300px;
+    height: 300px;
+    box-shadow: #1d2025 0 2px 5px 0px;
+    user-select: none;
+    position: relative;
+    z-index: 2;
+}
+
+.skin_descr {
+    background-color: #262930;
+    border-radius: 0 0 15px 15px;
+    padding: 1rem;
+    position: relative;
+    top: -15px;
+    z-index: 1;
+    box-sizing: border-box;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.star {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: .3rem;
+}
+
+.star_container{
+    position: absolute;
+    z-index: 3;
+    margin: .3rem;
+    display: flex;
+    align-items: center;
+}
+
+.star_count{
+    font-weight: 700;
+}
+
+.header{
+    margin: 0;
+    margin-top: .5rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.3rem;
+    overflow-wrap: anywhere;
+}
+
+.header:hover{
+    text-decoration: underline;
+}
+
+.username {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.description{
+    margin: 0;
+    color: #aaaaaa;
+    overflow-wrap: anywhere;
+}
+
+.creation_date{
+    margin: 0;
+    color: #aaaaaa;
+}
+
+@media(max-width: 767px){
+    .skin {
+        width: 300px;
+        height: 300px;
+    }
+
+    .skin_descr {
+        width: 300px;
+    }
+    .skins_container{
+        justify-content: center;
+    }
+
+}

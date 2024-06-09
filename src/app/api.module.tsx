@@ -3,7 +3,8 @@ import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { getCookie, deleteCookie, setCookie } from 'cookies-next';
 
-var api = process.env.NEXT_PUBLIC_API_URL
+const api = process.env.NEXT_PUBLIC_API_URL;
+const login_endpoint = "oauth/discord/";
 
 interface CookieObj {
     sessionId: string,
@@ -15,7 +16,9 @@ interface CookieObj {
 export const authApi = axios.create({
     baseURL: api,
     withCredentials: true,
-    validateStatus: (status) => status != 401
+    validateStatus: (status) => {
+        return status != 401
+    }
 });
 
 const convertCookie = (cookie: string): CookieObj | null => {
@@ -43,14 +46,12 @@ const tokenMutex = new Mutex();
 
 authApi.interceptors.request.use(async (config) => {
     const sessionId = getCookie('sessionId') as string;
+    if (!sessionId && !config.url.startsWith(login_endpoint)) {
+        const error = new Error('No cookie');
+        return Promise.reject(error);
+    }
     if (checkAccess(sessionId)) {
-        console.log('acquire mutex!');
         await tokenMutex.acquire();
-        console.log('after mutex!');
-        const currentSessionId = getCookie('sessionId') as string;
-        if (sessionId != currentSessionId) {
-            console.log("cookies updated!");
-        }
     }
     return config;
 });
@@ -61,11 +62,11 @@ authApi.interceptors.response.use((response) => {
         setCookie('sessionId', setcookie.sessionId, { expires: new Date(setcookie.Expires), path: setcookie.Path, sameSite: setcookie.SameSite == 'true' });
     }
     tokenMutex.release();
-    console.log('released mutex!');
     return response;
 }, async (error) => {
     tokenMutex.release();
-    console.log('released mutex due error!');
-    deleteCookie('sessionId');
+    if (error.message != "No cookie"){
+        deleteCookie('sessionId');
+    }
     return Promise.reject(error);
 });

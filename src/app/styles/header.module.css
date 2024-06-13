@@ -150,6 +150,8 @@
     border-radius: 15rem;
     border: 3.5px #262930 solid;
     cursor: pointer;
+    width: 3rem;
+    height: 3rem;
 }
 
 .login_button{

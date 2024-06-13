@@ -1,0 +1,141 @@
+.container {
+    flex-direction: column;
+    background-color: #262930;
+    border-radius: 15px;
+    padding: 1rem;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+    gap: 1rem;
+    display: flex;
+    transition: opacity 200ms, transform 200ms;
+    align-items: stretch;
+}
+
+.container img {
+    image-rendering: pixelated;
+    border-radius: 1.1rem;
+}
+
+.head_container {
+    display: flex;
+    align-items: center;
+}
+
+.head_container p {
+    margin: 0;
+}
+
+.name {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.name_container {
+    margin-left: .5rem;
+}
+
+.uuid {
+    color: gray;
+    font-size: .8rem;
+}
+
+.container h3 {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.checkboxes {
+    display: flex;
+    flex-direction: column;
+}
+
+.code_input {
+    background-color: #262930;
+    border-radius: 10px 0 0 10px;
+    border: 1px #434957 solid;
+    height: 2.4rem;
+    color: white;
+    font-size: 1rem;
+    padding: .5rem;
+    box-sizing: border-box;
+    overflow: visible;
+    outline: none;
+    width: 12.5rem;
+    transition: border 150ms;
+}
+
+.code_send {
+    color: white;
+    background-color: #262930;
+    border-radius: 0 10px 10px 0;
+    border: 1px #434957 solid;
+    height: 2.4rem;
+    
+    box-sizing: border-box;
+
+    border-left: none;
+    cursor: pointer;
+
+    transition: background-color 150ms, border 150ms;
+    font-weight: 500;
+}
+
+.code_send:hover {
+    background-color: #434957;
+}
+
+.code_input:focus {
+    border: 1px #717b91 solid;
+}
+
+.code_input:focus + .code_send {
+    border: 1px #717b91 solid;
+    border-left: none;
+}
+
+.code_container {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+.unlink {
+    color: white;
+    background-color: #262930;
+    border-radius: 10px;
+    border: 1px #434957 solid;
+    height: 2.4rem;
+    
+    box-sizing: border-box;
+    cursor: pointer;
+
+    transition: background-color 150ms, border 150ms;
+    font-weight: 600;
+    font-family: inherit;
+    font-size: 1rem;
+
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.unlink:hover {
+    background-color: #434957;
+}
+
+@media(max-width: 650px){
+    .container {
+        width: auto;
+        min-width: 300px;
+    }
+
+    .head_container p {
+        overflow-wrap: anywhere;
+    }
+}

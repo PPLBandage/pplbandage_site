@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 .container {
@@ -33,6 +34,16 @@
     padding: .5rem;
     box-sizing: border-box;
     overflow: visible;
+    outline: none;
+}
+
+.search:focus {
+    border: 1px #717b91 solid;
+}
+
+.search:focus + .search_loop{
+    border: 1px #717b91 solid;
+    border-left: none;
 }
 
 .search_loop{
@@ -74,9 +85,108 @@
     width: 13rem;
 }
 
+.filter {
+    margin: 0;
+    margin-left: .5rem;
+    font-weight: 600;
+    margin-right: .4rem;
+    user-select: none;
+}
+
+.filter_div{
+    padding: .4rem;
+    cursor: pointer;
+    background-color: #262930;
+    border-radius: 10px;
+    transition: background-color 150ms;
+    border: 1px #434957 solid;
+}
+
+.filter_div:hover{
+    background-color: #393d47;
+}
+
+.menu-enter {
+    opacity: 0;
+    transform: scaleY(0.5);
+}
+
+.menu-enter-active {
+    opacity: 1;
+    transform: scaleY(1);
+    transition: opacity 150ms, transform 150ms;
+}
+
+.menu-exit {
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+.menu-exit-active {
+    opacity: 0;
+    transform: scaleY(0.5);
+    transition: opacity 150ms, transform 150ms;
+}
+
+.category_menu_parent {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.category_menu {
+    transform-origin: top;
+    position: absolute;
+    background-color: #262930;
+    margin-top: 1rem;
+    z-index: 10;
+    padding: .6rem;
+    border-radius: 10px;
+    box-shadow: 3px 3px 8px -3px rgba(0, 0, 0, 0.75);
+    display: flex;
+    gap: .5rem;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 15rem;
+}
+
+.category{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #434957;
+    padding: .1rem .2rem .1rem .2rem;
+    border-radius: 5px;
+    border: 1px #717b91 solid;
+    user-select: none;
+    cursor: pointer;
+    transition: background-color 150ms, border 150ms;
+}
+
+.category:hover{
+    background-color: #717b91;
+}
+
+.category p {
+    margin: 0;
+    margin-left: .1rem;
+}
+
+.category_enabled {
+    border: 1px #17c43d solid;
+}
+
 @media(max-width: 767px){
     .container {
         justify-content: flex-start;
+    }
+
+    .parent {
+        align-items: stretch;
+    }
+
+    .category_menu {
+        left: 2rem;
+        right: 2rem;
     }
 
 }

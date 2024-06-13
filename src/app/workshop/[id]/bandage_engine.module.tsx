@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import React from 'react';
-import * as Interfaces from "./interfaces";
+import * as Interfaces from "../../interfaces";
 
 interface SkinResponse {
     status: string,
@@ -54,7 +54,7 @@ class Client {
         if (!nickname) {
             return;
         }
-        const response = await axios.get(`https://new-eldraxis.andcool.ru/skin/${nickname}?cape=true`, { validateStatus: () => true });
+        const response = await axios.get(`/api/skin/${nickname}?cape=true`, { validateStatus: () => true });
         if (response.status !== 200) {
             switch (response.status) {
                 case 404:

@@ -1,5 +1,5 @@
 import { GroupProps, components } from 'react-select';
-import { ColourOption } from "./interfaces";
+import { ColourOption } from "../../interfaces";
 
 export const shapeColourOptions: readonly ColourOption[] = [
     { value: 'not_set', label: <>—Нет—</>},

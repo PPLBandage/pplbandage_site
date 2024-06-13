@@ -1,14 +1,16 @@
 body {
 	background-color: #17181C;
 	margin: 0;
+	scrollbar-gutter: stable;
+	overflow-y: scroll;
+	color: white;
 }
 
-::-webkit-scrollbar {
+body::-webkit-scrollbar {
 	width: 10px;
-	background-color: rgb(30, 30, 30);
 }
 
-::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb {
 	border-radius: 10px;
 	background-color: rgb(60, 60, 60);
 }
@@ -111,4 +113,15 @@ body {
 	transition-property: border-color, box-shadow, background-color, color;
 	transition-duration: 200ms;
 	transition-timing-function: ease-in-out;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

@@ -111,6 +111,44 @@
     color: inherit;
 }
 
+
+.create{
+    color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    text-decoration: none;
+    font-size: 1.2rem;
+
+    padding: .4rem;
+    background-color: #262930;
+    margin-bottom: 1rem;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    border: 2px transparent solid;
+    transition: border 150ms;
+}
+
+.create:hover {
+    border: 2px #434957 solid;
+}
+
+.create img{
+    width: 1.5rem;
+    margin-right: .1rem;
+    width: 1.9rem;
+}
+
+.cont {
+    transition: opacity 200ms, transform 200ms;
+    width: 100%;
+}
+
 @keyframes attention {
 	0%,
 	50%,

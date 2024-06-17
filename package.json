@@ -1,6 +1,6 @@
 {
   "name": "pplbandage_site",
-  "version": "3.0",
+  "version": "infinity",
   "private": true,
   "scripts": {
     "dev": "next dev",

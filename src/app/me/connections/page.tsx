@@ -16,6 +16,7 @@ import {
 import Image from 'next/image';
 import { Me } from '@/app/modules/me.module';
 import { Fira_Code } from "next/font/google";
+import { SlideButton } from '@/app/modules/nick_search.module';
 const fira = Fira_Code({ subsets: ["latin"] });
 
 const queryClient = new QueryClient();
@@ -35,7 +36,8 @@ interface ConnectionResponse {
         uuid: string,
         expires_at: number,
         head: string,
-        valid: boolean
+        valid: boolean,
+        autoload: boolean
     }
 }
 
@@ -50,6 +52,7 @@ const Main = () => {
     const [connected, setConnected] = useState<boolean>(false);
 
     const [valid, setValid] = useState<boolean>(false);
+    const [autoload, setAutoload] = useState<boolean>(false);
 
     const { data, refetch } = useQuery({
         queryKey: ["userConnections"],
@@ -60,6 +63,7 @@ const Main = () => {
             setConnected(data.minecraft !== null);
             setLoaded(true);
             setValid(data?.minecraft.valid);
+            setAutoload(data.minecraft.autoload);
             return data;
             
         },
@@ -88,23 +92,25 @@ const Main = () => {
                             </div>
                         </div>
                         <div className={Style.checkboxes}>
-                            <div>
-                                <input type='checkbox' id="valid" checked={valid} onChange={() => {
-                                    const el = document.getElementById('valid') as HTMLInputElement;
-                                    authApi.put('users/me/connections/minecraft/set_valid', {}, {params: {
-                                        state: el.checked
-                                    }}).then((response) => {
-                                        if (response.status == 200){
-                                            setValid((response.data as {new_data: boolean}).new_data);
-                                        }
-                                    })
-                                }}/>
-                                <label htmlFor="valid" style={{userSelect: "none"}}>Отображать ник в поиске</label>
-                            </div>
-                            <div>
-                                <input type='checkbox' id="auto_connect" />
-                                <label htmlFor="auto_connect" style={{userSelect: "none"}}>Автоматически устанавливать скин в редакторе</label>
-                            </div>
+                            <SlideButton value={valid} onChange={(val) => {
+                                authApi.put('users/me/connections/minecraft/set_valid', {}, {params: {
+                                    state: val
+                                }}).then((response) => {
+                                    if (response.status == 200){
+                                        setValid((response.data as {new_data: boolean}).new_data);
+                                    }
+                                })
+                            }} label='Отображать ник в поиске' />
+                            <SlideButton value={autoload} onChange={(val) => {
+                                authApi.put('users/me/connections/minecraft/set_autoload', {}, {params: {
+                                    state: val
+                                }}).then((response) => {
+                                    if (response.status == 200){
+                                        setAutoload((response.data as {new_data: boolean}).new_data);
+                                    }
+                                })
+                            }} label='Автоматически устанавливать скин в редакторе'/>
+                                
                         </div>
                         <button className={Style.unlink} onClick={() => {
                             const confirmed = confirm("Отвязать учётную запись Minecraft? Вы сможете в любое время привязать ее обратно.");
@@ -116,7 +122,7 @@ const Main = () => {
                                     }
                                 })
                             }
-                        }}><img src="/static/icons/plus.svg" style={{width: "1.8rem", transform: "rotate(45deg)"}}/>Отвязать</button>
+                        }}><img alt="" src="/static/icons/plus.svg" style={{width: "1.8rem", transform: "rotate(45deg)"}}/>Отвязать</button>
                     </> : <>
                         <p style={{margin: 0}}>Привяжите свою учётную запись Minecraft к учетной записи PPLBandage для управления кешем скинов и настройками видимости 
                             вашего никнейма в поиске.<br/>Зайдите на Minecraft

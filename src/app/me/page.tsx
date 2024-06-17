@@ -140,7 +140,7 @@ const Main = () => {
             <Me>
                 <div style={elements ? {opacity: "1", transform: "translateY(0)"} : {opacity: "0", transform: "translateY(50px)"}} className={styles.cont}>
                     <div style={{display: "flex", flexDirection: "column", alignItems: "stretch"}}>  
-                        <Link className={styles.create} href="/workshop/create"><img src="/static/icons/plus.svg" />Создать</Link>
+                        <Link className={styles.create} href="/workshop/create"><img alt="" src="/static/icons/plus.svg" />Создать</Link>
                         <div className={style_sidebar.skins_container}>
                             {elements}
                         </div>
@@ -167,7 +167,7 @@ const Login = () => {
             <div className={styles.login_container}>
                 <h1>Войти через</h1>
                 <a className={styles.login_button} href='https://discord.com/oauth2/authorize?client_id=1248263705033048094&response_type=code&redirect_uri=http%3A%2F%2F192.168.0.53%2Fme&scope=identify'>
-                    <img src="/static/icons/discord.svg" />
+                    <img alt="" src="/static/icons/discord.svg" />
                     Discord
                 </a>
 

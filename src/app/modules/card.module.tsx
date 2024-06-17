@@ -1,5 +1,5 @@
 import { authApi } from "../api.module";
-import { Bandage } from "../interfaces";
+import { Bandage, Category } from "../interfaces";
 import Style from "../styles/workshop/page.module.css";
 import NextImage from 'next/image';
 import { fillPepe } from "../workshop/[id]/bandage_engine.module";
@@ -67,15 +67,19 @@ export const randint = (min: number, max: number): number => {
     return Math.random() * (max - min) + min;
 }
 
+export const CategoryEl = ({category}: {category: Category}) => {
+    return <div key={category.id} className={Style.category}>
+                <NextImage src={category.icon} alt={category.name} width={15} height={15} />
+                <p>{category.name}</p>
+            </div>
+}
+
 export const Card = ({el, base64}: {el: Bandage, base64: string}): JSX.Element => {
     const logged = getCookie("sessionId");
     let starred = !el.starred;
 
     const categories = el.categories.map((category) => {
-        return <div key={category.id} className={Style.category}>
-            <NextImage src={category.icon} alt={category.name} width={15} height={15} />
-            <p>{category.name}</p>
-        </div>
+        return <CategoryEl key={category.id} category={category}/>
     })
 
     return  (<div key={el.id}>
@@ -111,7 +115,7 @@ export const Card = ({el, base64}: {el: Bandage, base64: string}): JSX.Element =
             <p className={Style.description}>{el.description}</p>
             <div className={Style.categories}>{categories}</div>
             
-            <p className={Style.username}><img src="/static/icons/user.svg" style={{width: "1.5rem"}}/>{el.author.name || "Unknown"}</p>
+            <p className={Style.username}><img alt="" src="/static/icons/user.svg" style={{width: "1.5rem"}}/>{el.author.name || "Unknown"}</p>
             <p className={Style.creation_date}>{formatDate(new Date(el.creation_date))}</p>
         </div>
     </div>)

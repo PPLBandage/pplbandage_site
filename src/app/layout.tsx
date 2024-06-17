@@ -6,8 +6,8 @@ import "./styles/layout.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "Повязка PepeLand",
-	description: "Повязка Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!",
+	title: "Повязки PepeLand",
+	description: "Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!",
 	manifest: "/static/manifest.webmanifest",
 	icons: "/static/icons/icon.svg"
 };

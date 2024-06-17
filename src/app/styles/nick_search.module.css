@@ -1,0 +1,8 @@
+.color {
+    color: #00ADB5;
+}
+
+.p_div .color{
+    color: white;
+    font-weight: inherit;
+}

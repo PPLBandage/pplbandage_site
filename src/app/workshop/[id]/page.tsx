@@ -1,31 +1,24 @@
 "use client";
 
-import { Context } from "vm";
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import React_image from 'next/image';
 
 import style from "../../styles/editor/page.module.css";
-import "../../styles/editor/style.css"
-import { shapeColourOptions, groupedOptions, groupedOptionsHalloween, Group } from "./data";
 import * as Interfaces from "../../interfaces";
 
-import { ControlledAccordion, AccordionItem as Item, useAccordionProvider } from "@szhsin/react-accordion";
+import { AccordionItem as Item } from "@szhsin/react-accordion";
 import axios from "axios";
-import Select, { ActionMeta, GroupBase, PropsValue, SingleValue } from 'react-select';
 import { Cookies, useCookies } from 'next-client-cookies';
 
-import Client, { get_skin_type } from "./bandage_engine.module";
+import Client, { b64Prefix } from "./bandage_engine.module";
 import SkinView3D from "../../skinView.module";
 
 import Header from "../../modules/header.module";
+import Searcher, { SlideButton } from "@/app/modules/nick_search.module";
+import { CategoryEl } from '@/app/modules/card.module';
+import NextImage from 'next/image';
 
-const download_skin = () => {
-    const link = document.createElement('a');
-    link.download = 'skin.png';
-    link.href = (document.getElementById('result_skin_canvas') as HTMLCanvasElement).toDataURL()
-    link.click();
-}
 
 const AccordionItem: React.FC<Interfaces.AccordionItemProps> = ({ header, dark, ...rest }) => (
     <Item
@@ -47,42 +40,70 @@ const AccordionItem: React.FC<Interfaces.AccordionItemProps> = ({ header, dark, 
 );
 
 
-const change_theme = (dark: Boolean,
-                      set_dark: React.Dispatch<React.SetStateAction<Boolean>>,
-                      cookies: Cookies,
-                      setPanorama: React.Dispatch<React.SetStateAction<string>>) => {
-    cookies.set('dark', String(dark), { expires: (365 * 10) })
-    document.body.style.colorScheme = dark ? "dark" : "light";
-    setPanorama(`./static/panorama${dark ? "_dark" : ""}.png`);
-    set_dark(dark);
-}
-
-export default function Home() {
-    const [nicknames, set_nicknames] = useState<(Interfaces.ColourOption | GroupBase<Interfaces.ColourOption>)[]>([{value: "no_data", label: <>Введите никнейм / UUID</>, isDisabled: true}]);
-    const [nick_value, set_nick_value] = useState<{value: string, label: string}>({value: "no_data", label: "Введите никнейм / UUID"});
+export default function Home({ params }: { params: { id: string } }) {
+    const [bandage, setBandage] = useState<Interfaces.Bandage>(null);
     const cookies = useRef<Cookies>(useCookies());
-    const [dark, set_dark] = useState<Boolean>(cookies.current.get("dark") === "true");
-    const [input_value, set_input_value] = useState<string>("");
-    const [loading, set_loading] = useState<Boolean>(false);
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     const [skin, setSkin] = useState<string>("");
     const [cape, setCape] = useState<string>("");
-    const [panorama, setPanorama] = useState<string>("");
     const [slim, setSlim] = useState<boolean>(false);
 
     const client = useRef<Client>();
 
-    const cookie_alert_shown = cookies.current.get("dark") === undefined;
-    const now_date = new Date();
-
-    const providerValue = useAccordionProvider({
+    /*const providerValue = useAccordionProvider({
         allowMultiple: false,
         transition: true,
         transitionTimeout: 250
     });
-    const { toggle, toggleAll } = providerValue;
+    const { toggle, toggleAll } = providerValue;*/
 
-    const update_pepe = (new_value: SingleValue<Interfaces.ColourOption>, actionMeta: ActionMeta<Interfaces.ColourOption>) => {
+    useEffect(() => {
+        client.current = new Client();
+        client.current.addEventListener('skin_changed', (event: {skin: string, cape: string}) => {
+            setSkin(event.skin);
+            setCape(event.cape);
+            setSlim(client.current.slim);
+        });
+
+        client.current.addEventListener("init", () => {
+            axios.get(`/api/bandages/${params.id}`, {withCredentials: true, validateStatus: () => true}).then((response) => {
+                if (response.status === 200) {
+                    const data = response.data.data as Interfaces.Bandage;
+                    setBandage(data);
+
+                    const bandage = new Image();
+                    bandage.src = b64Prefix + data.base64;
+
+                    if (data.me_profile) client.current.loadSkin(data.me_profile.uuid);
+
+                    bandage.onload = () => {
+                        const height = bandage.height / 2;
+                        const pepe_canvas = document.createElement('canvas') as HTMLCanvasElement;
+                        const context_pepe = pepe_canvas.getContext("2d");
+                        pepe_canvas.width = 16;
+                        pepe_canvas.height = height;
+
+                        const lining_canvas = document.createElement('canvas') as HTMLCanvasElement;
+                        const context_lining = lining_canvas.getContext("2d");
+                        lining_canvas.width = 16;
+                        lining_canvas.height = height;
+
+                        context_pepe.drawImage(bandage, 0, 0, 16, height, 0, 0, 16, height);
+                        context_lining.drawImage(bandage, 0, height, 16, height, 0, 0, 16, height);
+                        client.current.pepe_canvas = pepe_canvas;
+                        client.current.lining_canvas = lining_canvas;
+                        client.current.position = 6 - Math.floor(height / 2);
+                        client.current.rerender();
+                        setLoaded(true);
+                    };
+                }
+            });
+        });
+
+    }, [])
+
+    /*const update_pepe = (new_value: SingleValue<Interfaces.ColourOption>, actionMeta: ActionMeta<Interfaces.ColourOption>) => {
         if (client.current)
             client.current.pepe_type = new_value?.value as string
         const custom_pepe = document.getElementById('custom_pepe') as HTMLInputElement;
@@ -151,53 +172,59 @@ export default function Home() {
         return () => {
             client.current?.removeEventListener("skin_changed");
         }
-    }, [])
+    }, [])*/
 
-
-    const fetch_nicknames = (nickname: string) => {
-        nickname = nickname.replaceAll("-", "").replace(/[^a-z_0-9\s]/gi, '');
-        if (nickname.length >= 32){
-            nickname = nickname.slice(0, 32);
-        }
-        set_input_value(nickname);
-        if (nickname.length == 0){
-            set_nicknames([{ value: "no_data", label: <>Введите никнейм / UUID</>, isDisabled: true }]);
-            return;
-        }
-
-        set_nicknames([{ value: nickname, label: <b>{nickname}</b> }]);
-        if (nickname.length == 17) return;
-
-        if (nickname.length > 2){
-            set_loading(true);
-            axios.get("/api/search/" + nickname).then(response => {
-                if (response.status == 200){
-                    const data = response.data.data.map((nick: {name: string, uuid: string, head: string}) => {
-                        let label;
-                        const first_pos = nick.name.toLowerCase().indexOf(nickname.toLowerCase());
-                        if (first_pos != -1){
-                            const first = nick.name.slice(0, first_pos);
-                            const middle = nick.name.slice(first_pos, first_pos + nickname.length);
-                            const last = nick.name.slice(first_pos + nickname.length, nick.name.length);
-                            label = <>{first}<b style={{color: "#00ADB5"}}>{middle}</b>{last}</>
-                        }else{
-                            label = <>{nick.name}</>
-                        }
-                        return {value: `${nick?.name} – ${nick?.uuid}`, label: <><div style={{display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
-                            <img src={"data:image/png;base64," + nick.head} width={32} style={{marginRight: "3px"}}/>
-                            {label}
-                        </div></>}
-                    })
-                    set_nicknames([{ value: response.data.requestedFragment,
-                        label: <b>{response.data.requestedFragment}</b> },
-                        { label: <>Совпадения</>, options: data }]);
-                }
-            }).finally(() => set_loading(false))
-        }
-    }
+    const categories = bandage?.categories.map((category) => {
+        return <CategoryEl key={category.id} category={category}/>
+    });
 
     return (
-        <body className={dark ? "dark" : ""} style={{ colorScheme: dark ? "dark" : "light" }}>
+        <body>
+            <Header />
+            <main className={style.main} style={loaded ? {opacity: "1", transform: "translateY(0)"} : {opacity: "0", transform: "translateY(50px)"}}>
+                <div className={style.main_container}>
+                    <div className={style.skin_parent}>
+                            <SkinView3D SKIN={skin}
+                                        CAPE={cape} 
+                                        slim={slim} 
+                                        className={style.render_canvas} 
+                                        id="canvas_container" />
+                            <div className={style.render_footer}>
+                                <button className={style.skin_load}><NextImage src="/static/icons/plus.svg" alt="" width={32} height={32} />Загрузить скин</button>
+                                <SlideButton onChange={(val) => client.current?.changeSlim(val)} value={slim} label="Тонкие руки"/>
+                            </div>
+                        <div className={style.categories}>
+                            {categories}
+                        </div>
+                    </div>
+                    <Info el={bandage} />
+                </div>
+            </main>
+        </body>
+    );
+}
+
+const Info = ({el}: {el: Interfaces.Bandage}) => {
+
+    return <div className={style.info_container}>
+                <h2 className={style.title}>{el?.title}</h2>
+                <p className={style.description}>{el?.description}</p>
+                <p className={style.author}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32}/>{el?.author.name}</p>
+            </div>
+}
+
+
+/*
+<p>{bandage?.title}</p>
+                    <div style={{display: "flex", alignItems: "center"}}>
+                        <SlideButton onChange={(val) => client.current?.changeSlim(val)} value={slim} />
+                        <label style={{marginLeft: "5px"}}>Тонкие руки</label>
+                    </div>
+                    <Searcher onChange={(evt) => client.current?.loadSkin(evt)}/>
+*/
+
+/*
+<body className={dark ? "dark" : ""} style={{ colorScheme: dark ? "dark" : "light" }}>
             <Header />
             <main className={`${style.main} ${dark ? style.dark : ""}`}>
                 <canvas id="pepe_original_canvas" style={{ display: "none" }} height="4"></canvas>
@@ -352,10 +379,7 @@ export default function Home() {
                         </AccordionItem>
                     </ControlledAccordion>
                 </div>
-                <footer className={dark ? "dark" : ""}>
-                    <h3>Created by <a href="https://andcool.ru" target="_blank">AndcoolSystems</a> Поддержать: <a href="https://www.donationalerts.com/r/andcool_systems" target="_blank">тык</a><br />Production: <a href="https://vk.com/shapestd" target="_blank">Shape</a> Build: v2.0</h3>
-                </footer>
             </main>
         </body>
-    );
-}
+
+*/

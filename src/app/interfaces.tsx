@@ -11,11 +11,11 @@ export interface AccordionItemProps {
 export interface rerenderInterface {
     (param: string): void;
 }
-export interface ColorComponentProps {
+export interface ComponentProps {
 	triggerEvent: rerenderInterface;
 }
 
-export interface ColourOption {
+export interface Option {
     readonly value?: string;
     readonly label: React.JSX.Element;
     readonly isDisabled?: boolean;
@@ -37,7 +37,11 @@ export interface Bandage {
         username: string,
         name: string
     },
-    categories: Category[]
+    categories: Category[],
+    me_profile?: {
+        uuid: string,
+        nickname: string
+    }
 }
 
 export interface Category {

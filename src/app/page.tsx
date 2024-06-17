@@ -9,10 +9,10 @@ import Link from "next/link";
 export default function Home() {
     let pepes: JSX.Element[] = [];
     for (let i = 0; i < 10; i++) {
-        pepes.push(<img key={i} className={Style.img} src={`/static/pepes_main/${i}.png`} draggable={false}/>)
+        pepes.push(<img key={i} alt="" className={Style.img} src={`/static/pepes_main/${i}.png`} draggable={false}/>)
     }
     return (
-        <body style={{overflow: "hidden"}}>
+        <body style={{overflow: "hidden", overflowY: "scroll"}}>
             <Header/>
             <div className={Style.test}>
                 <svg width="958" height="318" className={Style.svg}>

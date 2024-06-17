@@ -1,17 +1,18 @@
-import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import React from 'react';
 import * as Interfaces from "../../interfaces";
 
 interface SkinResponse {
     status: string,
     data: {
-        skin: string,
+        skin: {
+            data: string,
+            slim: boolean
+        },
         cape: string
     }
 }
 
-const b64Prefix = "data:image/png;base64,";
+export const b64Prefix = "data:image/png;base64,";
 const body_part_x = [32, 16, 40, 0];
 const body_part_y = [52, 52, 20, 20];
 const body_part_x_overlay = [48, 0, 40, 0];
@@ -22,23 +23,37 @@ class Client {
     cape: string = "";
     pepe_type: string = "";
     listeners: { [key: string]: Function } = {};
+    original_canvas: HTMLCanvasElement = null;
 
-    loadSteve() {
+    pepe_canvas: HTMLCanvasElement = null;
+    lining_canvas: HTMLCanvasElement = null;
+
+    body_part: number = 0;
+    position: number = 4;
+    clear_pix: boolean = true;
+    first_layer: boolean = true;
+    second_layer: boolean = true;
+    layers: string = "0";
+    slim: boolean = false;
+
+    loadBase() {
         const skin = new Image();
         skin.onload = () => {
-            const canvas = document.getElementById("original_canvas") as HTMLCanvasElement;
-            const context = canvas.getContext("2d");
+            const context = this.original_canvas.getContext("2d");
             context?.drawImage(skin, 0, 0);
-            this.rerender();
+            this.triggerEvent("init");
         };
-        skin.src = "./static/steve.png";
+        skin.src = "/static/workshop_base.png";
     }
 
     constructor() {
-        this.loadSteve();
+        this.original_canvas = document.createElement('canvas');
+        this.original_canvas.width = 64;
+        this.original_canvas.height = 64;
+        this.loadBase();
 
         const color_picker = document.getElementById("color_picker") as HTMLInputElement;
-        color_picker.addEventListener("input", () => this.rerender());
+        color_picker?.addEventListener("input", () => this.rerender());
     }
 
     addEventListener(property: string, func: Function) {
@@ -72,11 +87,12 @@ class Client {
 
         const data = response.data as SkinResponse;
 
-        this.setOriginalCanvas(b64Prefix + data.data.skin);
+        this.slim = data.data.skin.slim;
+        this.setOriginalCanvas(b64Prefix + data.data.skin.data);
 
         this.addEventListener("onload", () => {
             this.clearError();
-            this.switchToSelected();
+            //this.switchToSelected();
 
             this.skin = b64Prefix + data.data.skin;
             this.cape = b64Prefix + data.data.cape;
@@ -120,11 +136,10 @@ class Client {
 
         (document.getElementById("steve") as HTMLInputElement).checked = true;
 
-        const canvas = document.getElementById('original_canvas') as HTMLCanvasElement;
-        const context = canvas.getContext('2d');
+        const context = this.original_canvas.getContext('2d');
 
         context?.clearRect(0, 0, 64, 64);
-        this.loadSteve();
+        this.loadBase();
 
         this.rerender();
         this.clearError();
@@ -150,8 +165,7 @@ class Client {
     }
 
     private setOriginalCanvas(b64: string) {
-        const canvas = document.getElementById('original_canvas') as HTMLCanvasElement;
-        const context = canvas.getContext('2d');
+        const context = this.original_canvas.getContext('2d');
         if (!context) {
             return;
         }
@@ -164,8 +178,8 @@ class Client {
             }
             context?.clearRect(0, 0, 64, 64);
             context?.drawImage(img, 0, 0, img.width, img.height);
-            const pixelData = context.getImageData(46, 52, 1, 1).data;
-            (document.getElementById(pixelData[3] === 255 ? "steve" : "alex") as HTMLInputElement).checked = true;
+            //const pixelData = context.getImageData(46, 52, 1, 1).data;
+            //this.slim = pixelData[3] !== 255;
             this.triggerEvent("onload");
         }
         img.src = b64;
@@ -178,8 +192,8 @@ class Client {
     }
 
     private clearError(p?: HTMLParagraphElement) {
-        const error_label = p ? p :(document.getElementById('error_label') as HTMLParagraphElement);
-        error_label.style.display = "none";
+        const error_label = p ? p : (document.getElementById('error_label') as HTMLParagraphElement);
+        if (error_label) error_label.style.display = "none";
     }
 
     private switchToSelected() {
@@ -194,22 +208,6 @@ class Client {
     }
 
     //---------------------bandage_manager-------------------
-
-    bandage_load(name: string) {
-        const bandage = new Image();
-        bandage.onload = () => {
-            this.pasteImageToCanvas("pepe_original_canvas", bandage);
-            this.rerender();
-        };
-        bandage.src = `./static/pepes/colored/${name}.png`;
-
-        const lining = new Image();
-        lining.onload = () => {
-            this.pasteImageToCanvas("lining_original_canvas", lining);
-            this.rerender();
-        };
-        lining.src = `./static/lining/colored/${name}.png`;
-    }
 
     load_custom(event: Interfaces.FileUploadEvent) {
         const file = event.target.files?.item(0);
@@ -258,37 +256,38 @@ class Client {
         context.drawImage(image, 0, 0);
     }
 
+    changeSlim(slim: boolean) {
+        this.slim = slim;
+        this.rerender();
+    }
+
 
     //-----------RENDER-------------
     rerender(){
+        const canvas = document.createElement('canvas');
+        canvas.width = 64;
+        canvas.height = 64;
+        const bandage_canvas = this.pepe_canvas;
+        const lining_canvas = this.lining_canvas;
 
-        const canvas = document.getElementById('result_skin_canvas') as HTMLCanvasElement;
-        const skin_canvas = document.getElementById('original_canvas') as HTMLCanvasElement;
-        const bandage_canvas = document.getElementById('pepe_original_canvas') as HTMLCanvasElement;
-        const lining_canvas = document.getElementById('lining_original_canvas') as HTMLCanvasElement;
+        const canvas_context = canvas.getContext("2d", { willReadFrequently: true })
+        canvas_context.clearRect(0, 0, canvas.width, canvas.height);
+        canvas_context.drawImage(this.original_canvas, 0, 0);
 
-        const ctx = canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(skin_canvas, 0, 0);
+        const height = bandage_canvas.height;
+        //(document.getElementById('position') as HTMLInputElement).max = (12 - height) + "";
 
-        const height = Math.max(bandage_canvas.height, lining_canvas.height);
-        (document.getElementById('position') as HTMLInputElement).max = (12 - height) + "";
-        const slim = get_skin_type() == 'alex' ? true : false;
-        const body_part = parseInt((document.getElementById('body_part') as HTMLInputElement).value);
-        const position = parseFloat((document.getElementById('position') as HTMLInputElement).value);
-        const clear_pix = (document.getElementById('clear') as HTMLInputElement).checked;
-
-        let pepe = crop_pepe(bandage_canvas, slim, height, body_part);
-        let cropped_pepe = document.createElement("canvas") as HTMLCanvasElement;
+        let pepe = crop_pepe(bandage_canvas, this.slim, height, this.body_part);
+        let cropped_pepe = document.createElement("canvas");
         cropped_pepe.width = 16;
         cropped_pepe.height = height;
-        const ctx_pepe = cropped_pepe.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D;
+        const ctx_pepe = cropped_pepe.getContext("2d", { willReadFrequently: true });
 
-        let lining = crop_pepe(lining_canvas, slim, height, body_part);
+        let lining = crop_pepe(lining_canvas, this.slim, height, this.body_part);
         let cropped_lining = document.createElement("canvas") as HTMLCanvasElement;
         cropped_lining.width = 16;
         cropped_lining.height = height;
-        const ctx_lining = cropped_lining.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D;
+        const ctx_lining = cropped_lining.getContext("2d", { willReadFrequently: true });
 
         if (this.pepe_type == "pepe" || this.pepe_type == "pepe_1") {
             const color_picker = document.getElementById("color_picker") as HTMLInputElement;
@@ -297,41 +296,44 @@ class Client {
             lining = fillPepe(lining, rgb) as HTMLCanvasElement;
         }
 
-        if (clear_pix) clearPepe(canvas, body_part_x_overlay[body_part], body_part_y_overlay[body_part] + position, height);
+        if (this.clear_pix) clearPepe(canvas, body_part_x_overlay[this.body_part], body_part_y_overlay[this.body_part] + this.position, height);
 
-        const coef = slim && (body_part == 0 || body_part == 2) ? 1 : 0;
+        const coef = this.slim && (this.body_part == 0 || this.body_part == 2) ? 1 : 0;
         ctx_pepe.drawImage(pepe, coef, 0, pepe.width - coef, height, 0, 0, pepe.width - coef, height);
         ctx_lining.drawImage(lining, coef, 0, lining.width - coef, height, 0, 0, lining.width - coef, height);
 
-        const first_layer = document.getElementById("first_layer") as HTMLInputElement;
-        const second_layer = document.getElementById("second_layer") as HTMLInputElement;
+        let overlay_x = body_part_x_overlay[this.body_part];
+        let overlay_y = body_part_y_overlay[this.body_part];
 
-        const layers = (document.getElementById("layers") as HTMLSelectElement).value;
-        let overlay_x = body_part_x_overlay[body_part];
-        let overlay_y = body_part_y_overlay[body_part];
+        let first_x = body_part_x[this.body_part];
+        let first_y = body_part_y[this.body_part];
 
-        let first_x = body_part_x[body_part];
-        let first_y = body_part_y[body_part];
-
-        if (layers == "1") {
+        if (this.layers == "1") {
             overlay_x = first_x;
             overlay_y = first_y;
         }
 
-        if (layers == "2") {
+        if (this.layers == "2") {
             first_x = overlay_x;
             first_y = overlay_y;
         }
 
-        if (first_layer.checked){
-            ctx.drawImage(cropped_lining, first_x, first_y + position);
+        if (this.first_layer){
+            canvas_context.drawImage(cropped_lining, first_x, first_y + this.position);
         }
 
-        if (second_layer.checked){
-            ctx.drawImage(cropped_pepe, overlay_x, overlay_y + position);
+        if (this.second_layer){
+            canvas_context.drawImage(cropped_pepe, overlay_x, overlay_y + this.position);
         }
         this.skin = canvas.toDataURL();
         this.triggerEvent("skin_changed");
+    }
+
+    download(){
+        const link = document.createElement('a');
+        link.download = 'skin.png';
+        link.href = this.skin;
+        link.click();
     }
 }
 
@@ -407,9 +409,9 @@ export const fillPepe = (input: HTMLCanvasElement | HTMLImageElement, color: Arr
     return canvas;
 }
 
-export function get_skin_type() {
-    return (document.getElementById("steve") as HTMLInputElement).checked ? "steve" : "alex";
-}
+/*export function get_skin_type() {
+    return (document.getElementById("steve") as HTMLInputElement)?.checked ? "steve" : "alex";
+}*/
 
 const hex2rgb = (hex: string) => {
     const r = parseInt(hex.slice(1, 3), 16);

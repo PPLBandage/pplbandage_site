@@ -52,9 +52,9 @@ export const Paginator = ({total_count, take, onChange}: PaginatorProps) => {
 
     return _display ? <div className={Styles.container}>
             {_pages.length > 0 && <>
-                    <img className={Styles.page} onClick={() => _setPage(0)} src="/static/icons/arrow.svg"/>
+                    <img alt="" className={Styles.page} onClick={() => _setPage(0)} src="/static/icons/arrow.svg"/>
                     {_pages}
-                    <img className={Styles.page} style={{transform: "rotate(180deg)"}} onClick={() => _setPage(Math.ceil(_totalCount / _take) - 1)}  src="/static/icons/arrow.svg" />
+                    <img alt="" className={Styles.page} style={{transform: "rotate(180deg)"}} onClick={() => _setPage(Math.ceil(_totalCount / _take) - 1)}  src="/static/icons/arrow.svg" />
                 </>
             }
         </div> : null;

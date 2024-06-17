@@ -60,7 +60,7 @@ const HeaderElement = (): JSX.Element => {
     <header className={Styles.header}>
         <div className={Styles.header_child}>
             <div style={{display: "flex", alignItems: "center", flexWrap: "nowrap"}}>
-                <Link  href="/"><img style={{width: "3rem"}} src="/static/icons/icon-cropped.svg" /></Link>
+                <Link  href="/"><img alt="" style={{width: "3rem"}} src="/static/icons/icon-cropped.svg" /></Link>
                 <h1 className={Styles.ppl_name}>Повязки <a style={{color: "white", textDecoration: "none"}} href="https://pepeland.net">Pepeland</a></h1>
             </div>
             {cookies.current.get("sessionId") ? 
@@ -73,10 +73,10 @@ const HeaderElement = (): JSX.Element => {
                             height={80}
                     />}
                 </div>
-                <img src="/static/icons/chevron-down.svg" className={ `${Styles.expand_arrow} ${expanded && Styles.expand_arrow_rotated}` } onClick={() => setExpanded(!expanded)} />
+                <img alt="" src="/static/icons/chevron-down.svg" className={ `${Styles.expand_arrow} ${expanded && Styles.expand_arrow_rotated}` } onClick={() => setExpanded(!expanded)} />
             </div> : 
             
-            <img src="/static/icons/burger-menu.svg" onClick={() => setExpanded(!expanded)} className={Styles.login_button}/>
+            <img alt="" src="/static/icons/burger-menu.svg" onClick={() => setExpanded(!expanded)} className={Styles.login_button}/>
             }
         </div>
       <>
@@ -96,14 +96,14 @@ const HeaderElement = (): JSX.Element => {
                 <div className={Styles.menu}>
                   {islogged ? 
                     <>
-                      <Link className={Styles.menu_element} href="/me"><img style={{marginLeft: "-2px"}} src="/static/icons/user.svg" />Личный кабинет</Link>
-                      <Link className={Styles.menu_element} href="/workshop/create"><img style={{marginLeft: "-2px"}} src="/static/icons/plus.svg" />Создать</Link>
+                      <Link className={Styles.menu_element} href="/me"><img alt="" style={{marginLeft: "-2px"}} src="/static/icons/user.svg" />Личный кабинет</Link>
+                      <Link className={Styles.menu_element} href="/workshop/create"><img alt="" style={{marginLeft: "-2px"}} src="/static/icons/plus.svg" />Создать</Link>
                     </> : 
-                    <Link className={Styles.menu_element} href="/me"><img src="/static/icons/login.svg" />Войти</Link>
+                    <Link className={Styles.menu_element} href="/me"><img alt="" src="/static/icons/login.svg" />Войти</Link>
                   }
                     <hr style={{border: "1px #596172 solid", margin: "2px"}}></hr>
-                    <Link className={Styles.menu_element} href="/"><img style={{marginLeft: "-2px"}} src="/static/icons/home.svg" />Главная</Link>
-                    <Link className={Styles.menu_element} href="/workshop"><img style={{marginLeft: "-2px"}} src="/static/icons/stack.svg" />Мастерская</Link>
+                    <Link className={Styles.menu_element} href="/"><img alt="" style={{marginLeft: "-2px"}} src="/static/icons/home.svg" />Главная</Link>
+                    <Link className={Styles.menu_element} href="/workshop"><img alt="" style={{marginLeft: "-2px"}} src="/static/icons/stack.svg" />Мастерская</Link>
                   {islogged &&
                     <a className={Styles.menu_element} 
                       onClick={() => {
@@ -114,7 +114,7 @@ const HeaderElement = (): JSX.Element => {
                         });
                         
                     }}
-                    ><img src="/static/icons/logout.svg"/>Выйти</a>
+                    ><img alt="" src="/static/icons/logout.svg"/>Выйти</a>
                   }
 
                     

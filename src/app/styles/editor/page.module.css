@@ -24,9 +24,6 @@
     box-sizing: border-box;
 }
 
-.info_container {
-}
-
 .title {
     margin: 0;
 }
@@ -84,7 +81,7 @@
     text-decoration: none;
     font-size: 1.2rem;
 
-    padding: .3rem;
+    padding: .2rem;
     background-color: #434957;
     border-radius: 10px;
     display: flex;
@@ -105,6 +102,123 @@
     width: 1.8rem;
 }
 
+.skin_load_base {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes skinLoad {
+    0% {
+        transform: translateY(100px) scale(.8);
+        opacity: 0;
+        filter: blur(5px);
+    }
+
+    to {
+        transform: translateY(0px) scale(1);
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+.skin_load_container {
+    background-color: #262930;
+    border-radius: 10px;
+    width: 50%;
+    animation: skinLoad 250ms;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border: 1px #434957 solid;
+    gap: .5rem;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.skin_drop {
+    border: 2px #576074 dashed;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: .5rem;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.hidable span{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.skin_drop input[type=file] {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+	display: block;
+	width: 0;
+	height: 0;
+}
+
+.position{
+    all: unset;
+    writing-mode: vertical-lr;
+    appearance: none;
+}
+
+.position::-webkit-slider-runnable-track{
+    border: 1px #434957 solid;
+    width: 0.5rem;
+    border-radius: 5px;
+    background: none;
+}
+
+.position::-webkit-slider-thumb {
+    appearance: none;
+    width: 24px;
+    height: 16px;
+    border: 0;
+    border-radius: 3px;
+    background-image: url('../../workshop/[id]/pepe.png');
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    margin-left: -9px;
+    touch-action: none;
+  }
+
+
+.position::-moz-slider-runnable-track{
+    border: 1px #434957 solid;
+    width: 0.5rem;
+    border-radius: 5px;
+}
+
+.position::-moz-slider-thumb {
+    appearance: none;
+    width: 24px;
+    height: 16px;
+    border: 0;
+    border-radius: 3px;
+    background-image: url('../../workshop/[id]/pepe.png');
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    margin-left: -9px;
+    touch-action: none;
+}
+
 @media(max-width: 925px){
     .main_container {
         flex-direction: column;
@@ -123,5 +237,9 @@
     
     .categories {
         max-width: 300px;
+    }
+
+    .skin_load_container {
+        width: 90%;
     }
 }

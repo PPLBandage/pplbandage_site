@@ -5,6 +5,7 @@ import NextImage from 'next/image';
 import { fillPepe } from "../workshop/[id]/bandage_engine.module";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const b64Prefix = "data:image/png;base64,";
 
@@ -75,17 +76,34 @@ export const CategoryEl = ({category}: {category: Category}) => {
 }
 
 export const Card = ({el, base64}: {el: Bandage, base64: string}): JSX.Element => {
+    const [starred, setStrarred] = useState<boolean>(el.starred);
+    const [last, setLast] = useState<boolean>(el.starred);
     const logged = getCookie("sessionId");
-    let starred = !el.starred;
 
     const categories = el.categories.map((category) => {
         return <CategoryEl key={category.id} category={category}/>
     })
 
+    useEffect(() => {
+        if (logged && starred != last){
+            authApi.put(`/star/${el.external_id}?set=${starred}`).then((response) => {
+                if (response.status == 200){
+                    const response_data: {new_count: number, action_set: boolean} = response.data;
+                    (document.getElementById(el.external_id + "_star") as HTMLImageElement)
+                            .src = `/static/icons/star${!response_data.action_set ? "_empty" : ""}.svg`;
+                    (document.getElementById(el.external_id + "_text") as HTMLSpanElement)
+                            .textContent = response_data.new_count.toString();
+                }
+            }).finally(() => {
+                setLast(starred);
+            });
+        }
+    }, [starred]);
+
     return  (<div key={el.id}>
         <div className={Style.star_container}>
             <NextImage 
-                src={`/static/icons/star${!el.starred ? "_empty" : ""}.svg`}
+                src={`/static/icons/star${!starred ? "_empty" : ""}.svg`}
                 className={Style.star}
                 draggable="false"
                 alt="star"
@@ -93,20 +111,7 @@ export const Card = ({el, base64}: {el: Bandage, base64: string}): JSX.Element =
                 height={24} 
                 id={el.external_id + "_star"}
                 style={logged ? {cursor: "pointer"} : {}} 
-                onClick={() => {
-                    if (logged){
-                        authApi.put(`/star/${el.external_id}?set=${starred}`).then((response) => {
-                            if (response.status == 200){
-                                const response_data: {new_count: number, action_set: boolean} = response.data;
-                                (document.getElementById(el.external_id + "_star") as HTMLImageElement)
-                                        .src = `/static/icons/star${!response_data.action_set ? "_empty" : ""}.svg`;
-                                (document.getElementById(el.external_id + "_text") as HTMLSpanElement)
-                                        .textContent = response_data.new_count.toString();
-                                starred = !response_data.action_set;
-                            }
-                        })
-                    }
-                }}/>
+                onClick={() => setStrarred(prev => !prev)}/>
             <span className={Style.star_count} id={el.external_id + "_text"}>{el.stars_count}</span>
         </div>
         <NextImage src={base64} className={Style.skin} alt={el.external_id} width={300} height={300} draggable="false" />

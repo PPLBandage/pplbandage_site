@@ -1,5 +1,4 @@
 .body{
-    background-color: #17181c;
     margin: 0;
     width: 100%;
     font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
@@ -10,6 +9,7 @@
     bottom: 0px;
     right: 0px;
     color: #eeeeee;
+    animation: Load 250ms;
 }
 
 .main{
@@ -40,6 +40,20 @@
 
 .home{
     color: #a7a7a7;
+}
+
+@keyframes Load {
+    0% {
+        transform: translateY(100px) scale(.8);
+        opacity: 0;
+        filter: blur(5px);
+    }
+
+    to {
+        transform: translateY(0px) scale(1);
+        opacity: 1;
+        filter: blur(0px);
+    }
 }
 
 

@@ -9,7 +9,8 @@ interface SkinView3DOptions {
     slim: boolean,
     id: string,
     width?: number,
-    height?: number
+    height?: number,
+    pose?: number
 }
 
 export class TestAnim extends PlayerAnimation {
@@ -26,9 +27,24 @@ export class TestAnim extends PlayerAnimation {
 }
 
 
-const SkinView3D = ({SKIN, CAPE, className, slim, id, width, height}: SkinView3DOptions): JSX.Element => {
+const SkinView3D = ({SKIN, CAPE, className, slim, id, width, height, pose}: SkinView3DOptions): JSX.Element => {
     const canvasRef = useRef<HTMLCanvasElement>();
     const skinViewRef = useRef<SkinViewer>();
+
+    const setPose = (pose: number) => {
+        switch (pose) {
+            case 0:
+                skinViewRef.current.animation = null;
+                break;
+            case 1:
+                skinViewRef.current.animation = new WalkingAnimation();
+                skinViewRef.current.animation.speed = 0.65;
+                break;
+            case 2:
+                skinViewRef.current.animation = new TestAnim();
+                break;
+        }
+    }
 
     useEffect(() => {
         const view = new SkinViewer({
@@ -38,10 +54,9 @@ const SkinView3D = ({SKIN, CAPE, className, slim, id, width, height}: SkinView3D
         });
         skinViewRef.current = view;
         
-        skinViewRef.current.animation = new TestAnim();
+        setPose(pose);
 		skinViewRef.current.controls.enablePan = true;
 		skinViewRef.current.fov = 90;
-		skinViewRef.current.animation.speed = 0.65;
 		skinViewRef.current.globalLight.intensity = 2.5;
         skinViewRef.current.camera.zoom = 0.9;
 
@@ -61,7 +76,6 @@ const SkinView3D = ({SKIN, CAPE, className, slim, id, width, height}: SkinView3D
         const resizeObserver = new ResizeObserver(entries => {
             const { width, height } = entries[0].contentRect;
             if (!skinViewRef.current) return;
-            console.log(skinViewRef.current.width - width)
             skinViewRef.current.width = width;
             skinViewRef.current.height = height;
         });
@@ -76,6 +90,10 @@ const SkinView3D = ({SKIN, CAPE, className, slim, id, width, height}: SkinView3D
     useEffect(() => {
         CAPE ? skinViewRef.current?.loadCape(CAPE) : skinViewRef.current?.resetCape();
     }, [CAPE]);
+
+    useEffect(() => {
+        setPose(pose);
+    }, [pose]);
 
     return  <div id={id} className={className}>
                 <canvas ref={canvasRef as LegacyRef<HTMLCanvasElement>} />

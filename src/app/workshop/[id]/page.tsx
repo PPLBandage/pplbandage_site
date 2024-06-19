@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useEffect, useState, useRef } from 'react';
 import React_image from 'next/image';
 
@@ -18,6 +18,15 @@ import Header from "../../modules/header.module";
 import Searcher, { SlideButton } from "@/app/modules/nick_search.module";
 import { CategoryEl } from '@/app/modules/card.module';
 import NextImage from 'next/image';
+import Select from 'react-select';
+import NotFoundElement from '@/app/nf.module';
+import debounce from 'lodash.debounce';
+
+const anims: readonly {value: number, label: String}[] = [
+    { value: 0, label: "Нет"},
+    { value: 1, label: "Ходьба"},
+    { value: 2, label: "Т-поза"},
+];
 
 
 const AccordionItem: React.FC<Interfaces.AccordionItemProps> = ({ header, dark, ...rest }) => (
@@ -44,19 +53,23 @@ export default function Home({ params }: { params: { id: string } }) {
     const [bandage, setBandage] = useState<Interfaces.Bandage>(null);
     const cookies = useRef<Cookies>(useCookies());
     const [loaded, setLoaded] = useState<boolean>(false);
+    const [isError, setIsError] = useState<boolean>(false);
+    const [pose, setPose] = useState<number>(1);
 
     const [skin, setSkin] = useState<string>("");
     const [cape, setCape] = useState<string>("");
     const [slim, setSlim] = useState<boolean>(false);
 
+    const [loadExpanded, setLoadExpanded] = useState<boolean>(false);
+
     const client = useRef<Client>();
 
-    /*const providerValue = useAccordionProvider({
-        allowMultiple: false,
-        transition: true,
-        transitionTimeout: 250
-    });
-    const { toggle, toggleAll } = providerValue;*/
+    const debouncedHandleColorChange = useCallback(
+        debounce((event) => {
+            client.current.setParams({color: event.target.value});
+        }, 5),
+        []
+    );
 
     useEffect(() => {
         client.current = new Client();
@@ -68,6 +81,10 @@ export default function Home({ params }: { params: { id: string } }) {
 
         client.current.addEventListener("init", () => {
             axios.get(`/api/bandages/${params.id}`, {withCredentials: true, validateStatus: () => true}).then((response) => {
+                if (response.status === 404) {
+                    setIsError(true);
+                    return;
+                }
                 if (response.status === 200) {
                     const data = response.data.data as Interfaces.Bandage;
                     setBandage(data);
@@ -94,6 +111,8 @@ export default function Home({ params }: { params: { id: string } }) {
                         client.current.pepe_canvas = pepe_canvas;
                         client.current.lining_canvas = lining_canvas;
                         client.current.position = 6 - Math.floor(height / 2);
+                        client.current.updatePositionSlider();
+                        client.current.colorable = Object.values(data.categories).some(val => val.icon.indexOf('color-palette.svg') !== -1);
                         client.current.rerender();
                         setLoaded(true);
                     };
@@ -101,78 +120,7 @@ export default function Home({ params }: { params: { id: string } }) {
             });
         });
 
-    }, [])
-
-    /*const update_pepe = (new_value: SingleValue<Interfaces.ColourOption>, actionMeta: ActionMeta<Interfaces.ColourOption>) => {
-        if (client.current)
-            client.current.pepe_type = new_value?.value as string
-        const custom_pepe = document.getElementById('custom_pepe') as HTMLInputElement;
-        const color_pepe = document.getElementById('color_pepe') as HTMLDivElement;
-        if (client.current?.pepe_type.startsWith("pepe")) color_pepe.style.display = "flex";
-        else color_pepe.style.display = "none";
-
-        if (new_value?.value == "not_set"){
-            client.current?.rerender();
-        }else if (new_value?.value != "custom_pepe") {
-            client.current?.bandage_load(new_value?.value as string);
-            custom_pepe.style.display = "none";
-        } else {
-            custom_pepe.style.display = "block";
-        }
-
-    }
-
-    useEffect(() => {
-        client.current = new Client();
-        client.current?.addEventListener('skin_changed', (event: {skin: string, cape: string}) => {
-            setSkin(event.skin);
-            setCape(event.cape);
-            setSlim(get_skin_type() == "alex");
-        })
-
-        const input = document.getElementById('imageInput') as HTMLInputElement;
-        input.onchange = (event) => client.current?.loadSkinFile(event as Interfaces.FileUploadEvent);
-
-        const custom_pepe = document.getElementById('custom_pepe') as HTMLInputElement;
-        custom_pepe.onchange = (event: Event) => client.current?.load_custom(event as Interfaces.FileUploadEvent);
-
-        let dark_local = cookies.current.get("dark");
-        if (!dark_local) {
-            const system_theme = Boolean(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-            cookies.current.set("dark", String(system_theme), { expires: (365 * 10) });
-            change_theme(system_theme, set_dark, cookies.current, setPanorama);
-        } else {
-            change_theme(dark_local == "true", set_dark, cookies.current, setPanorama);
-        }
-
-        const dropContainer = document.getElementById('drop_container') as HTMLLabelElement;
-        dropContainer.ondragover = (evt) => {
-            if (evt.dataTransfer?.items[0].type === "image/png") {
-                evt.preventDefault();
-                const drag_container = document.getElementById("drop_container") as HTMLDivElement;
-                drag_container.style.borderStyle = "solid";
-            }
-        };
-
-        dropContainer.ondragleave = (evt) => {
-            const drag_container = document.getElementById("drop_container") as HTMLDivElement;
-            drag_container.style.borderStyle = "dashed";
-        };
-
-        dropContainer.ondrop = (evt: DragEvent) => {
-            const dT = new DataTransfer();
-            dT.items.add(evt.dataTransfer?.files[0] as File);
-            (document.getElementById('imageInput') as HTMLInputElement).files = dT.files;
-            (document.getElementById('imageInput') as HTMLInputElement).dispatchEvent(new Event('change'))
-            evt.preventDefault();
-            const drag_container = document.getElementById("drop_container") as HTMLDivElement;
-            drag_container.style.borderStyle = "dashed";
-        };
-            
-        return () => {
-            client.current?.removeEventListener("skin_changed");
-        }
-    }, [])*/
+    }, []);
 
     const categories = bandage?.categories.map((category) => {
         return <CategoryEl key={category.id} category={category}/>
@@ -181,23 +129,64 @@ export default function Home({ params }: { params: { id: string } }) {
     return (
         <body>
             <Header />
+            {loadExpanded && <SkinLoad onChange={(evt) => {
+                if (evt) {
+                    client.current?.changeSkin(evt.data, evt.slim, evt.cape ? "data:image/png;base64," + evt.cape : "");
+                }
+                setLoadExpanded(false);
+            }}/>}
+            {isError && <NotFoundElement />}
             <main className={style.main} style={loaded ? {opacity: "1", transform: "translateY(0)"} : {opacity: "0", transform: "translateY(50px)"}}>
                 <div className={style.main_container}>
                     <div className={style.skin_parent}>
                             <SkinView3D SKIN={skin}
                                         CAPE={cape} 
                                         slim={slim} 
-                                        className={style.render_canvas} 
+                                        className={style.render_canvas}
+                                        pose={pose} 
                                         id="canvas_container" />
                             <div className={style.render_footer}>
-                                <button className={style.skin_load}><NextImage src="/static/icons/plus.svg" alt="" width={32} height={32} />Загрузить скин</button>
+                                <button className={style.skin_load} onClick={() => setLoadExpanded(true)}><NextImage src="/static/icons/plus.svg" alt="" width={32} height={32} />Загрузить скин</button>
+                                <Select
+                                    options={anims}
+                                    defaultValue={anims[pose]}
+                                    className={`react-select-container`}
+                                    classNamePrefix="react-select"
+                                    isSearchable={false}
+                                    onChange={(n, a) => setPose(n.value)}
+                                    formatOptionLabel={(nick_value) => nick_value.label}
+                                />
                                 <SlideButton onChange={(val) => client.current?.changeSlim(val)} value={slim} label="Тонкие руки"/>
                             </div>
                         <div className={style.categories}>
                             {categories}
                         </div>
                     </div>
-                    <Info el={bandage} />
+                    <div style={{width: "100%"}}>
+                        <Info el={bandage} />
+                        <hr />
+                        <input type="range" min="0" max='8' defaultValue='4' step='1' id='position' className={style.position} onInput={() => {
+                                const value = document.getElementById('position') as HTMLInputElement;
+                                if (!value) return;
+                                client.current?.setParams({position: Number(value.value)});
+                            }
+                        }/>
+                        <input type='checkbox' defaultChecked={true} id='first_layer' onChange={() => {
+                                const value = document.getElementById('first_layer') as HTMLInputElement;
+                                if (!value) return;
+                                client.current?.setParams({first_layer: value.checked});
+                            }
+                        }/>
+
+                        <input type='checkbox' defaultChecked={true} id='second_layer' onChange={() => {
+                                const value = document.getElementById('second_layer') as HTMLInputElement;
+                                if (!value) return;
+                                client.current?.setParams({second_layer: value.checked});
+                            }
+                        }/>
+
+                        <input type='color' id='color_select' onInput={debouncedHandleColorChange}/>
+                    </div>
                 </div>
             </main>
         </body>
@@ -213,6 +202,151 @@ const Info = ({el}: {el: Interfaces.Bandage}) => {
             </div>
 }
 
+interface SkinLoadProps {
+    onChange(data: {data: string; slim: boolean; cape?: string} | null): void
+}
+
+interface SkinResponse {
+    status: string,
+    data: {
+        skin: {
+            data: string,
+            slim: boolean
+        },
+        cape: string
+    }
+}
+
+const SkinLoad = ({onChange}: SkinLoadProps) => {
+    const [data, setData] = useState<{data: string; slim: boolean; cape?: string}>(null);
+
+    const isSlim = (img: HTMLImageElement): boolean => {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        context?.clearRect(0, 0, 64, 64);
+        context?.drawImage(img, 0, 0, img.width, img.height);
+        const pixelData = context.getImageData(46, 52, 1, 1).data;
+        return pixelData[3] !== 255;
+    }
+
+    const loadSkin = (nickname: string) => {
+        if (!nickname) {
+            return;
+        }
+        axios.get(`/api/skin/${nickname}?cape=true`, { validateStatus: () => true }).then((response) => {
+            if (response.status !== 200) {
+                switch (response.status) {
+                    case 404:
+                        setError("Игрок с таким никнеймом не найден!");
+                        break;
+                    case 429:
+                        setError("Сервера Mojang перегружены, пожалуйста, попробуйте через пару минут");
+                        break;
+                    default:
+                        setError(`Не удалось получить ник! (${response.status})`);
+                        break;
+                }
+                return;
+            }
+
+            const data = response.data as SkinResponse;
+            setData({
+                data: b64Prefix + data.data.skin.data,
+                slim: data.data.skin.slim,
+                cape: data.data.cape
+            });
+        });
+    }
+
+    const setError = (err: string) => {
+        const error = document.getElementById("error");
+        if (error) {
+            error.innerText = err;
+        }
+    }
+
+    const clearError = () => {
+        const error = document.getElementById("error");
+        if (error) {
+            error.innerText = "";
+        }
+    }
+
+    const getData = (file: File) => {
+        if (!file) return;
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            const img = new Image();
+            img.onload = () => {
+                if (img.width != 64 || img.height != 64) {
+                    setError('Скин должен иметь размеры 64x64 пикселя');
+                    return;
+                }
+                clearError();
+                setData({
+                    data: reader.result as string,
+                    slim: isSlim(img)
+                });
+            }
+            img.src = reader.result as string;
+        }
+        reader.readAsDataURL(file);
+    }
+
+    const ondragover = (evt: React.DragEvent<HTMLLabelElement>) => {
+        if (evt.dataTransfer?.items[0].type === "image/png") {
+            evt.preventDefault();
+            const drag_container = document.getElementById("drop_container") as HTMLDivElement;
+            drag_container.style.borderStyle = "solid";
+        }
+    };
+
+    const ondragleave = (evt: React.DragEvent<HTMLLabelElement>) => {
+        const drag_container = document.getElementById("drop_container") as HTMLDivElement;
+        drag_container.style.borderStyle = "dashed";
+    };
+
+    const ondrop = (evt: React.DragEvent<HTMLLabelElement>) => {
+        getData(evt.dataTransfer?.files[0]);
+        
+        evt.preventDefault();
+        const drag_container = document.getElementById("drop_container") as HTMLDivElement;
+        drag_container.style.borderStyle = "dashed";
+    };
+
+    const onChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
+        getData(evt.target?.files[0]);
+        evt.target.files = null;
+    }
+
+    return <div className={style.skin_load_base}>
+                <div className={style.skin_load_container}>
+                <Searcher onChange={(evt) => loadSkin(evt)}/>
+                <label className={style.skin_drop} 
+                       id="drop_container"
+                       onDragOver={(evt) => ondragover(evt)}
+                       onDragLeave={(evt) => ondragleave(evt)}
+                       onDrop={(evt) => ondrop(evt)}>
+                    <div className={style.hidable}>
+                        <input type="file" 
+                               name="imageInput" 
+                               id="imageInput" 
+                               accept="image/png"
+                               onChange={(evt) => onChangeInput(evt)} />
+                        <span id="select_file">Выберите файл<br />или<br />скиньте его сюда</span>
+                    </div>
+                </label>
+                <span id="error"></span>
+                {data && <div style={{display: 'flex', justifyContent: 'center'}}>
+                            <NextImage src={data.data} width={64} height={64} alt='' />
+                        </div>
+                }
+                <button className={style.skin_load} onClick={() => onChange(data)}>
+                    <NextImage src="/static/icons/done.svg" alt="" width={32} height={32} />Готово</button>
+                </div>
+           </div>
+}
 
 /*
 <p>{bandage?.title}</p>

@@ -4,6 +4,7 @@ body {
 	scrollbar-gutter: stable;
 	overflow-y: scroll;
 	color: white;
+	padding-bottom: 1rem;
 }
 
 body::-webkit-scrollbar {
@@ -15,11 +16,11 @@ body::-webkit-scrollbar-thumb {
 	background-color: rgb(60, 60, 60);
 }
 
-
 .react-select-container .react-select__control {
 	border-radius: 8px;
 	background-color: #eeeeee;
 	color: #ffffff;
+	cursor: pointer;
 }
 
 .react-select-container .react-select__control {
@@ -124,4 +125,8 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+hr {
+	border: 1px #434957 solid;
 }

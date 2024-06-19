@@ -17,6 +17,7 @@ import Image from 'next/image';
 import { Me } from '@/app/modules/me.module';
 import { Fira_Code } from "next/font/google";
 import { SlideButton } from '@/app/modules/nick_search.module';
+import { formatDate } from '@/app/modules/card.module';
 const fira = Fira_Code({ subsets: ["latin"] });
 
 const queryClient = new QueryClient();
@@ -34,7 +35,7 @@ interface ConnectionResponse {
     minecraft?: {
         nickname: string,
         uuid: string,
-        expires_at: number,
+        last_cached: number,
         head: string,
         valid: boolean,
         autoload: boolean
@@ -112,17 +113,34 @@ const Main = () => {
                             }} label='Автоматически устанавливать скин в редакторе'/>
                                 
                         </div>
-                        <button className={Style.unlink} onClick={() => {
-                            const confirmed = confirm("Отвязать учётную запись Minecraft? Вы сможете в любое время привязать ее обратно.");
-                            if (confirmed) {
-                                authApi.delete('users/me/connections/minecraft/disconnect').then((response) => {
+                        <div className={Style.checkboxes}>
+                            <span>Последний раз кэшировано {formatDate(new Date(data.minecraft?.last_cached))}</span>
+                            <button className={Style.unlink} onClick={() => {
+                                const load_icon = document.getElementById('refresh');
+                                load_icon.style.animation = `${Style.loading} infinite 1s linear`;
+                                authApi.post("users/me/connections/cache/purge").then((response) => {
                                     if (response.status === 200) {
                                         refetch();
                                         return;
                                     }
+                                    alert(response.data.message);
+                                }).finally(() => {
+                                    load_icon.style.animation = null;
                                 })
-                            }
-                        }}><img alt="" src="/static/icons/plus.svg" style={{width: "1.8rem", transform: "rotate(45deg)"}}/>Отвязать</button>
+                            }}><img alt="" src="/static/icons/refresh.svg" style={{width: "1.5rem"}} id="refresh" />Обновить кэш</button>
+
+                            <button className={Style.unlink} onClick={() => {
+                                const confirmed = confirm("Отвязать учётную запись Minecraft? Вы сможете в любое время привязать ее обратно.");
+                                if (confirmed) {
+                                    authApi.delete('users/me/connections/minecraft/disconnect').then((response) => {
+                                        if (response.status === 200) {
+                                            refetch();
+                                            return;
+                                        }
+                                    })
+                                }
+                            }}><img alt="" src="/static/icons/plus.svg" style={{width: "1.8rem", transform: "rotate(45deg)"}}/>Отвязать</button>
+                        </div>
                     </> : <>
                         <p style={{margin: 0}}>Привяжите свою учётную запись Minecraft к учетной записи PPLBandage для управления кешем скинов и настройками видимости 
                             вашего никнейма в поиске.<br/>Зайдите на Minecraft

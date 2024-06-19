@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as Interfaces from "../../interfaces";
 
+
 interface SkinResponse {
     status: string,
     data: {
@@ -17,6 +18,17 @@ const body_part_x = [32, 16, 40, 0];
 const body_part_y = [52, 52, 20, 20];
 const body_part_x_overlay = [48, 0, 40, 0];
 const body_part_y_overlay = [52, 52, 36, 36];
+
+interface Settings {
+    body_part?: number;
+    position?: number;
+    clear_pix?: boolean;
+    first_layer?: boolean;
+    second_layer?: boolean;
+    layers?: string;
+    color?: string;
+    colorable?: boolean
+}
 
 class Client {
     skin: string = "";
@@ -35,6 +47,8 @@ class Client {
     second_layer: boolean = true;
     layers: string = "0";
     slim: boolean = false;
+    color: string = "";
+    colorable: boolean = false;
 
     loadBase() {
         const skin = new Image();
@@ -261,6 +275,41 @@ class Client {
         this.rerender();
     }
 
+    changeSkin(skin: string, slim?: boolean, cape?: string) {
+        if (slim != undefined) this.slim = slim;
+        this.setOriginalCanvas(skin);
+        this.addEventListener("onload", () => {
+            this.clearError();
+
+            this.skin = skin;
+            this.cape = cape;
+
+            this.rerender();
+            this.removeEventListener("onload");
+        })
+    }
+
+    setParams({body_part, position, clear_pix, first_layer, second_layer, layers, color, colorable}: Settings) {
+        if (body_part != undefined) this.body_part = body_part;
+        if (position != undefined) this.position = position;
+        if (clear_pix != undefined) this.clear_pix = clear_pix;
+        if (first_layer != undefined) this.first_layer = first_layer;
+        if (second_layer != undefined) this.second_layer = second_layer;
+        if (layers != undefined) this.layers = layers;
+        if (color != undefined) this.color = color;
+        if (colorable != undefined) this.colorable = colorable;
+
+        this.rerender();
+    }
+
+    updatePositionSlider() {
+        const value = document.getElementById('position') as HTMLInputElement;
+        if (!value) return;
+        const height = this.pepe_canvas.height;
+        value.max = (12 - height).toString();
+        value.value = this.position.toString();
+    }
+
 
     //-----------RENDER-------------
     rerender(){
@@ -289,9 +338,8 @@ class Client {
         cropped_lining.height = height;
         const ctx_lining = cropped_lining.getContext("2d", { willReadFrequently: true });
 
-        if (this.pepe_type == "pepe" || this.pepe_type == "pepe_1") {
-            const color_picker = document.getElementById("color_picker") as HTMLInputElement;
-            const rgb = hex2rgb(color_picker.value);
+        if (this.colorable) {
+            const rgb = hex2rgb(this.color);
             pepe = fillPepe(pepe, rgb) as HTMLCanvasElement;
             lining = fillPepe(lining, rgb) as HTMLCanvasElement;
         }

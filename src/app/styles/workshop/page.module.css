@@ -145,6 +145,15 @@
     margin-top: .5rem;
 }
 
+.enabled_category {
+    border: 1px #17c43d solid;
+}
+
+.hoverable {
+    cursor: pointer;
+    user-select: none;
+}
+
 @media(max-width: 767px){
     .skins_container{
         justify-content: center;

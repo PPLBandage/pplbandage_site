@@ -96,7 +96,7 @@ const SkinView3D = ({SKIN, CAPE, className, slim, id, width, height, pose}: Skin
     }, [pose]);
 
     return  <div id={id} className={className}>
-                <canvas ref={canvasRef as LegacyRef<HTMLCanvasElement>} />
+                <canvas ref={canvasRef as LegacyRef<HTMLCanvasElement>}/>
             </div>
             
 }

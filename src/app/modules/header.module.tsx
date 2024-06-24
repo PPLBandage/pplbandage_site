@@ -1,5 +1,5 @@
 import { authApi } from "../api.module";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Styles from "../styles/header.module.css";
 import { CSSTransition } from 'react-transition-group';
 import { deleteCookie } from 'cookies-next';
@@ -13,6 +13,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { Cookies, useCookies } from "next-client-cookies";
+import useCookie from "./useCookie.module";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const Header = (): JSX.Element => {
 const HeaderElement = (): JSX.Element => {
     const router = useRouter();
     const cookies = useRef<Cookies>(useCookies());
+    const logged = useCookie('sessionId');
     const { data, isLoading, isError } = useQuery({
         queryKey: ["userProfile"],
         retry: 5,
@@ -52,6 +54,10 @@ const HeaderElement = (): JSX.Element => {
     if (!isLoading && !isError && !islogged && cookies.current.get("sessionId")) {
         setIsLogged(true);
     }
+
+    useEffect(() => {
+        setIsLogged(logged != undefined);
+    }, [logged]);
     
 
   return (

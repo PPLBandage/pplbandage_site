@@ -3,7 +3,7 @@
 import React, { use } from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { authApi } from "@/app/api.module";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import Style from "../../styles/me/connections.module.css";
 import Header from "../../modules/header.module";
 import useCookie from '../../modules/useCookie.module';
@@ -48,6 +48,9 @@ const Main = () => {
     const router = useRouter();
     const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');
+    if (!logged) {
+        redirect('/me');
+    }
     const [isLogged, setIsLogged] = useState<boolean>(cookies.current.get('sessionId') != undefined);
     const [loaded, setLoaded] = useState<boolean>(false);
     const [connected, setConnected] = useState<boolean>(false);
@@ -69,13 +72,6 @@ const Main = () => {
             
         },
     });
-
-    useEffect(() => {
-        if (!isLogged) {
-            router.replace('/me');
-        }
-        setIsLogged(logged != undefined);
-    }, [logged]);
 
     return (
     <body style={{backgroundColor: "#17181C", margin: 0}}>

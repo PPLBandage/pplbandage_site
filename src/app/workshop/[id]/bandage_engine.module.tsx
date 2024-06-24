@@ -319,6 +319,8 @@ class Client {
         const bandage_canvas = this.pepe_canvas;
         const lining_canvas = this.lining_canvas;
 
+        if (!bandage_canvas || !lining_canvas) return;
+
         const canvas_context = canvas.getContext("2d", { willReadFrequently: true })
         canvas_context.clearRect(0, 0, canvas.width, canvas.height);
         canvas_context.drawImage(this.original_canvas, 0, 0);

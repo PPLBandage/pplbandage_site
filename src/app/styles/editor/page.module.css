@@ -26,6 +26,25 @@
 
 .title {
     margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.edit_icon {
+    width: 1.3rem;
+    height: 1.3rem;
+    opacity: 0;
+    transition: opacity 50ms;
+}
+
+.title_editable {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+}
+
+.title_editable:hover .edit_icon {
+    opacity: 1;
 }
 
 .description {
@@ -173,6 +192,8 @@
     all: unset;
     writing-mode: vertical-lr;
     appearance: none;
+    margin-left: calc(12px - 0.25rem);
+    margin-right: calc(12px - 0.25rem);
 }
 
 .position::-webkit-slider-runnable-track{
@@ -219,6 +240,39 @@
     touch-action: none;
 }
 
+.check_notification {
+    width: 100%;
+    background-color: rgba(255, 255, 0, 0.13);
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px yellow solid;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.check_notification h3 {
+    margin: 0;
+}
+
+.check_notification p {
+    margin: 0;
+    margin-top: .3rem;
+}
+
+.settings_slider {
+    display: flex;
+    gap: .7rem;
+}
+
+.settings_slider_1 {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+}
+
 @media(max-width: 925px){
     .main_container {
         flex-direction: column;
@@ -236,7 +290,7 @@
     }
     
     .categories {
-        max-width: 300px;
+        width: 300px;
     }
 
     .skin_load_container {

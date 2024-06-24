@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.link {
+    color: rgb(175, 175, 175);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.01rem;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.last_link {
+    color: white;
+    overflow-wrap: anywhere;
+}
+
+.arrow {
+    width: .8rem;
+    transform: rotate(180deg);
+}

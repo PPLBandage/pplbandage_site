@@ -48,7 +48,7 @@ export default function Home() {
 
     useEffect(() => {
         const filters_str = filters.filter((filter) => filter.enabled).map((filter) => filter.id).toString();
-        const request = `/api/bandages?page=${constrain(page, 0, Math.ceil(totalCount / take))}&take=${take}&search=${search}` + 
+        const request = `/api/workshop?page=${constrain(page, 0, Math.ceil(totalCount / take))}&take=${take}&search=${search}` + 
                         `&filters=${filters_str}&sort=${sort}`;
 
         if (request == lastRequest){
@@ -82,11 +82,11 @@ export default function Home() {
 
                 Promise.all(data.data.map(async (el) => {
                     try {
-                    const result = await generateSkin(el.base64, Object.values(el.categories).some(val => val.id == 3))
-                    await skinViewer.loadSkin(result);
-                    skinViewer.render();
-                    const image = skinViewer.canvas.toDataURL();
-                    return <Card el={el} base64={image} key={el.id}/>
+                        const result = await generateSkin(el.base64, Object.values(el.categories).some(val => val.id == 3))
+                        await skinViewer.loadSkin(result);
+                        skinViewer.render();
+                        const image = skinViewer.canvas.toDataURL();
+                        return <Card el={el} base64={image} key={el.id}/>
                     } catch {
                         return;
                     }

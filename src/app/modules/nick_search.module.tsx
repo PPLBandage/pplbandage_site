@@ -104,14 +104,15 @@ const Searcher = ({onChange}: SearchProps) => {
 interface SlideButtonProps {
     onChange(val: boolean): void;
     value?: boolean;
-    label?: string
+    label?: string;
+    defaultValue?: boolean;
 }
 
-export const SlideButton = ({onChange, value, label}: SlideButtonProps) => {
-    const [active, setActive] = useState<boolean>(value || false);
+export const SlideButton = ({onChange, value, label, defaultValue}: SlideButtonProps) => {
+    const [active, setActive] = useState<boolean>(value || defaultValue);
 
     useEffect(() => {
-        setActive(value || false);
+        setActive(value || defaultValue);
     }, [value]);
 
     useEffect(() => {

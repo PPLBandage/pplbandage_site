@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.select_category {
+    cursor: pointer;
+}

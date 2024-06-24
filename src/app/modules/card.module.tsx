@@ -68,8 +68,8 @@ export const randint = (min: number, max: number): number => {
     return Math.random() * (max - min) + min;
 }
 
-export const CategoryEl = ({category}: {category: Category}) => {
-    return <div key={category.id} className={Style.category}>
+export const CategoryEl = ({category, enabled, onClick, hoverable}: {category: Category, enabled?: boolean, onClick?(): void, hoverable?: boolean}) => {
+    return <div key={category.id} className={`${Style.category} ${enabled && Style.enabled_category} ${hoverable && Style.hoverable}`} onClick={() => onClick()}>
                 <NextImage src={category.icon} alt={category.name} width={15} height={15} />
                 <p>{category.name}</p>
             </div>
@@ -81,12 +81,13 @@ export const Card = ({el, base64}: {el: Bandage, base64: string}): JSX.Element =
     const logged = getCookie("sessionId");
 
     const categories = el.categories.map((category) => {
+        if (category.icon === "/null") return undefined;
         return <CategoryEl key={category.id} category={category}/>
     })
 
     useEffect(() => {
         if (logged && starred != last){
-            authApi.put(`/star/${el.external_id}?set=${starred}`).then((response) => {
+            authApi.put(`/star/${el.external_id}`, {}, {params: { set: starred }}).then((response) => {
                 if (response.status == 200){
                     const response_data: {new_count: number, action_set: boolean} = response.data;
                     (document.getElementById(el.external_id + "_star") as HTMLImageElement)
@@ -111,7 +112,7 @@ export const Card = ({el, base64}: {el: Bandage, base64: string}): JSX.Element =
                 height={24} 
                 id={el.external_id + "_star"}
                 style={logged ? {cursor: "pointer"} : {}} 
-                onClick={() => setStrarred(prev => !prev)}/>
+                onClick={() => {if (logged) setStrarred(prev => !prev)}}/>
             <span className={Style.star_count} id={el.external_id + "_text"}>{el.stars_count}</span>
         </div>
         <NextImage src={base64} className={Style.skin} alt={el.external_id} width={300} height={300} draggable="false" />

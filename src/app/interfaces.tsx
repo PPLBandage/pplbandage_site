@@ -41,7 +41,9 @@ export interface Bandage {
     me_profile?: {
         uuid: string,
         nickname: string
-    }
+    },
+    permissions_level: number,
+    check_state: string | null
 }
 
 export interface Category {

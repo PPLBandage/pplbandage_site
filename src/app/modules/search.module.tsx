@@ -6,6 +6,7 @@ import { CSSTransition } from 'react-transition-group';
 import Styles from "../styles/search.module.css"
 import Image from 'next/image';
 import { Category } from '../interfaces';
+import { CategoryEl } from './card.module';
 
 const options: readonly {value: number, label: String}[] = [
     { value: 12, label: "12"},
@@ -35,11 +36,11 @@ export const Search = ({onSearch, onChangeTake, onChangeFilters, onChangeSort, c
 
     const updateCategory = (id: number, enabled: boolean) => {
         _setCategories((prevCategories) =>
-          prevCategories.map((category) =>
-            category.id === id ? { ...category, enabled: enabled } : category
-          )
+            prevCategories.map((category) =>
+                category.id === id ? { ...category, enabled: enabled } : category
+            )
         );
-      };
+    };
 
     useEffect(() => {
         _setCategories(categories);
@@ -50,11 +51,14 @@ export const Search = ({onSearch, onChangeTake, onChangeFilters, onChangeSort, c
     }, [_categories]);
 
     const categories_el = _categories.map((category) => {
-        return <div key={category.id} className={`${Styles.category} ${category.enabled && Styles.category_enabled}`} onClick={() => {updateCategory(category.id, !category.enabled)}}>
-            <Image src={category.icon} alt={category.name} width={15} height={15} />
-            <p>{category.name}</p>
-        </div>
-    })
+        return <CategoryEl key={category.id} 
+                           category={category} 
+                           enabled={category.enabled} 
+                           hoverable={true}
+                           onClick={() => {updateCategory(category.id, !category.enabled)}} 
+                />
+    });
+            
 
     return (
             <div className={Styles.parent}>

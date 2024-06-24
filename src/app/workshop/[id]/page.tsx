@@ -2,14 +2,11 @@
 
 import React, { useCallback } from 'react';
 import { useEffect, useState, useRef } from 'react';
-import React_image from 'next/image';
 
 import style from "../../styles/editor/page.module.css";
 import * as Interfaces from "../../interfaces";
 
-import { AccordionItem as Item } from "@szhsin/react-accordion";
 import axios from "axios";
-import { Cookies, useCookies } from 'next-client-cookies';
 
 import Client, { b64Prefix } from "./bandage_engine.module";
 import SkinView3D from "../../skinView.module";
@@ -21,6 +18,9 @@ import NextImage from 'next/image';
 import Select from 'react-select';
 import NotFoundElement from '@/app/nf.module';
 import debounce from 'lodash.debounce';
+import NavigatorEl from '@/app/modules/navigator.module';
+import { authApi } from '@/app/api.module';
+import CategorySelector from '@/app/modules/category_selector.module';
 
 const anims: readonly {value: number, label: String}[] = [
     { value: 0, label: "Нет"},
@@ -28,43 +28,53 @@ const anims: readonly {value: number, label: String}[] = [
     { value: 2, label: "Т-поза"},
 ];
 
+const body_part: readonly {value: number, label: String}[] = [
+    { value: 0, label: "Левая рука"},
+    { value: 1, label: "Левая нога"},
+    { value: 2, label: "Правая рука"},
+    { value: 3, label: "Правая нога"}
+];
 
-const AccordionItem: React.FC<Interfaces.AccordionItemProps> = ({ header, dark, ...rest }) => (
-    <Item
-        {...rest}
-        header={
-            <>
-                {header}
-                <React_image width={24} height={24} className={`${style.chevron} ${dark ? style.dark : ""}`} src="/static/icons/chevron-down.svg" alt="Chevron Down" />
-            </>
-        }
-        className={`${style.item} ${dark ? style.dark : ""}`}
-        buttonProps={{
-            className: ({ isEnter }) =>
-                `${style.itemBtn} ${isEnter && style.itemBtnExpanded} ${dark ? style.dark : ""}`
-        }}
-        contentProps={{ className: ({ isEnter }) => `${style.itemContent} ${!isEnter ? style.not_enter : ""}`}}
-        panelProps={{ className: style.itemPanel }}
-    />
-);
+const layers: readonly {value: string, label: String}[] = [
+    { value: "0", label: "На разных слоях"},
+    { value: "1", label: "Только на первом слое"},
+    { value: "2", label: "Только на втором слое"}
+];
+
+
+
+const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  
 
 
 export default function Home({ params }: { params: { id: string } }) {
     const [bandage, setBandage] = useState<Interfaces.Bandage>(null);
-    const cookies = useRef<Cookies>(useCookies());
     const [loaded, setLoaded] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
-    const [pose, setPose] = useState<number>(1);
 
+    const [pose, setPose] = useState<number>(1);
     const [skin, setSkin] = useState<string>("");
     const [cape, setCape] = useState<string>("");
     const [slim, setSlim] = useState<boolean>(false);
+    const [edit, setEdit] = useState<boolean>(false);
 
+    const [randomColor, setRandomColor] = useState<string>("");
     const [loadExpanded, setLoadExpanded] = useState<boolean>(false);
-
     const client = useRef<Client>();
 
+    const [refreshInitiator, setRefreshInitiator] = useState<boolean>(false);
+
+
     const debouncedHandleColorChange = useCallback(
+        // из за частого вызова oninput на слабых клиентах сильно лагает,
+        // поэтому сделан дебаунс на 5мс
         debounce((event) => {
             client.current.setParams({color: event.target.value});
         }, 5),
@@ -72,6 +82,7 @@ export default function Home({ params }: { params: { id: string } }) {
     );
 
     useEffect(() => {
+        setRefreshInitiator(false);
         client.current = new Client();
         client.current.addEventListener('skin_changed', (event: {skin: string, cape: string}) => {
             setSkin(event.skin);
@@ -80,7 +91,7 @@ export default function Home({ params }: { params: { id: string } }) {
         });
 
         client.current.addEventListener("init", () => {
-            axios.get(`/api/bandages/${params.id}`, {withCredentials: true, validateStatus: () => true}).then((response) => {
+            axios.get(`/api/workshop/${params.id}`, {withCredentials: true, validateStatus: () => true}).then((response) => {
                 if (response.status === 404) {
                     setIsError(true);
                     return;
@@ -113,6 +124,9 @@ export default function Home({ params }: { params: { id: string } }) {
                         client.current.position = 6 - Math.floor(height / 2);
                         client.current.updatePositionSlider();
                         client.current.colorable = Object.values(data.categories).some(val => val.icon.indexOf('color-palette.svg') !== -1);
+                        const randomColor = getRandomColor();
+                        setRandomColor(randomColor);
+                        client.current.setParams({color: randomColor});
                         client.current.rerender();
                         setLoaded(true);
                     };
@@ -120,9 +134,10 @@ export default function Home({ params }: { params: { id: string } }) {
             });
         });
 
-    }, []);
+    }, [refreshInitiator]);
 
     const categories = bandage?.categories.map((category) => {
+        if (category.icon === "/null") return undefined;
         return <CategoryEl key={category.id} category={category}/>
     });
 
@@ -137,6 +152,28 @@ export default function Home({ params }: { params: { id: string } }) {
             }}/>}
             {isError && <NotFoundElement />}
             <main className={style.main} style={loaded ? {opacity: "1", transform: "translateY(0)"} : {opacity: "0", transform: "translateY(50px)"}}>
+                <NavigatorEl path={[{
+                        name: "Мастерская",
+                        url: "/workshop"
+                    },
+                    {
+                        name: bandage?.external_id,
+                        url: `/workshop/${bandage?.external_id}`
+                    }
+                ]} style={{marginBottom: "1rem"}}/>
+                {
+                    bandage?.check_state ?
+                    bandage?.check_state === "under review" ?
+                    <div className={style.check_notification}>
+                        <h3>На проверке</h3>
+                        <p>Ваша работа сейчас проходит модерацию, дождитесь ее завершения</p>
+                    </div> 
+                    : 
+                    <div className={style.check_notification} style={{borderColor: "red", backgroundColor: "rgba(255, 0, 0, .13)"}}>
+                        <h3>Отклонено</h3>
+                        <p>Ваша работа была отклонена модерацией. Для получения информации обратитесь в поддержку</p>
+                    </div> : null
+                }
                 <div className={style.main_container}>
                     <div className={style.skin_parent}>
                             <SkinView3D SKIN={skin}
@@ -157,35 +194,70 @@ export default function Home({ params }: { params: { id: string } }) {
                                     formatOptionLabel={(nick_value) => nick_value.label}
                                 />
                                 <SlideButton onChange={(val) => client.current?.changeSlim(val)} value={slim} label="Тонкие руки"/>
+                                <button className={style.skin_load} onClick={() => client.current?.download()}>
+                                    <NextImage 
+                                            src="/static/icons/download.svg" 
+                                            alt="" 
+                                            width={32} 
+                                            height={32}
+                                            style={{width: "1.5rem"}} />Скачать скин</button>
                             </div>
                         <div className={style.categories}>
                             {categories}
                         </div>
                     </div>
                     <div style={{width: "100%"}}>
-                        <Info el={bandage} />
+                        { !edit ? <Info el={bandage} onClick={() => setEdit(true)} /> : 
+                        <EditElement bandage={bandage} onClose={() => {
+                                setEdit(false);
+                                setRefreshInitiator(true);
+                            }
+                        } /> }
                         <hr />
-                        <input type="range" min="0" max='8' defaultValue='4' step='1' id='position' className={style.position} onInput={() => {
-                                const value = document.getElementById('position') as HTMLInputElement;
-                                if (!value) return;
-                                client.current?.setParams({position: Number(value.value)});
+                        <div style={{display: "flex", flexDirection: "column", gap: ".8rem"}}>
+                            {client.current?.colorable && 
+                                <div style={{display: "flex", alignItems: "center"}}>
+                                    <input type='color' id='color_select' defaultValue={randomColor} onInput={debouncedHandleColorChange}/>
+                                    <p style={{margin: 0, marginLeft: '.5rem'}}>Выберите цвет</p>
+                                </div>
                             }
-                        }/>
-                        <input type='checkbox' defaultChecked={true} id='first_layer' onChange={() => {
-                                const value = document.getElementById('first_layer') as HTMLInputElement;
-                                if (!value) return;
-                                client.current?.setParams({first_layer: value.checked});
-                            }
-                        }/>
+                            <div className={style.settings_slider}>
+                                <input type="range" min="0" max='8' defaultValue='4' step='1' id='position' className={style.position} onInput={(evt) => {
+                                        client.current?.setParams({position: Number((evt.target as HTMLInputElement).value)});
+                                    }
+                                }/>
+                                <div className={style.settings_slider_1}>
+                                    <SlideButton onChange={(val) => client.current?.setParams({first_layer: val})} 
+                                                defaultValue={true}
+                                                label='Первый слой' />
 
-                        <input type='checkbox' defaultChecked={true} id='second_layer' onChange={() => {
-                                const value = document.getElementById('second_layer') as HTMLInputElement;
-                                if (!value) return;
-                                client.current?.setParams({second_layer: value.checked});
-                            }
-                        }/>
+                                    <SlideButton onChange={(val) => client.current?.setParams({second_layer: val})} 
+                                                defaultValue={true} 
+                                                label='Второй слой'/>
 
-                        <input type='color' id='color_select' onInput={debouncedHandleColorChange}/>
+                                    <SlideButton onChange={(val) => client.current?.setParams({clear_pix: val})} 
+                                                defaultValue={true} 
+                                                label='Очищать пиксели на втором слое'/>
+
+                                    <Select
+                                        options={body_part}
+                                        defaultValue={body_part[0]}
+                                        className={`react-select-container`}
+                                        classNamePrefix="react-select"
+                                        isSearchable={false}
+                                        onChange={(n, a) => client.current?.setParams({body_part: n.value})}
+                                    />
+                                    <Select
+                                        options={layers}
+                                        defaultValue={layers[0]}
+                                        className={`react-select-container`}
+                                        classNamePrefix="react-select"
+                                        isSearchable={false}
+                                        onChange={(n, a) => client.current?.setParams({layers: n.value})}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -193,10 +265,12 @@ export default function Home({ params }: { params: { id: string } }) {
     );
 }
 
-const Info = ({el}: {el: Interfaces.Bandage}) => {
+const Info = ({el, onClick}: {el: Interfaces.Bandage, onClick(): void}) => {
 
     return <div className={style.info_container}>
-                <h2 className={style.title}>{el?.title}</h2>
+                <h2 className={`${style.title} ${el?.permissions_level == 2 && style.title_editable}`} onClick={() => {if (el?.permissions_level == 2) onClick()}}>
+                    {el?.title}
+                    <NextImage className={style.edit_icon} src="/static/icons/edit.svg" alt="" width={32} height={32} /></h2>
                 <p className={style.description}>{el?.description}</p>
                 <p className={style.author}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32}/>{el?.author.name}</p>
             </div>
@@ -348,172 +422,34 @@ const SkinLoad = ({onChange}: SkinLoadProps) => {
            </div>
 }
 
-/*
-<p>{bandage?.title}</p>
-                    <div style={{display: "flex", alignItems: "center"}}>
-                        <SlideButton onChange={(val) => client.current?.changeSlim(val)} value={slim} />
-                        <label style={{marginLeft: "5px"}}>Тонкие руки</label>
-                    </div>
-                    <Searcher onChange={(evt) => client.current?.loadSkin(evt)}/>
-*/
+const EditElement = ({bandage, onClose}: {bandage: Interfaces.Bandage, onClose(): void}) => {
+    const [title, setTitle] = useState<string>(bandage?.title);
+    const [description, setDescription] = useState<string>(bandage?.description);
 
-/*
-<body className={dark ? "dark" : ""} style={{ colorScheme: dark ? "dark" : "light" }}>
-            <Header />
-            <main className={`${style.main} ${dark ? style.dark : ""}`}>
-                <canvas id="pepe_original_canvas" style={{ display: "none" }} height="4"></canvas>
-                <canvas id="lining_original_canvas" style={{ display: "none" }} height="4"></canvas>
-                <SkinView3D SKIN={skin} CAPE={cape} PANORAMA={panorama} slim={slim} className={style.render_canvas} id="canvas_container"></SkinView3D>
-                <button id="theme_swapper" className={`${style.theme_swapper} ${dark ? style.dark : ""}`} onClick={() => change_theme(!dark, set_dark, cookies.current, setPanorama)}>
-                    <React_image width={32} height={32} src={dark ? "./static/icons/moon.svg" : "./static/icons/sun.svg"} id="sun" alt="theme swapper"/>
-                </button>
+    const [allCategories, setAllCategories] = useState<Interfaces.Category[]>([]);
 
-                <div className={`${style.settings_container} ${dark ? style.dark : ""}`} id="settings_container">
-                    <ControlledAccordion providerValue={providerValue}>
-                        <AccordionItem header="1. Загрузка скина" dark={dark} initialEntered itemKey="item-1">
-                            <div className={style.styles_main}>
-                                <p id="error_label" className={style.error_label}></p>
-                                <p style={{ display: "none" }} className={`trigger ${dark ? "dark" : ""}`}></p>
-                                <Select
-                                    value={{ value: nick_value.value, label: nick_value.label } as unknown as PropsValue<Interfaces.ColourOption>}
-                                    options={nicknames}
-                                    className={`react-select-container`}
-                                    classNamePrefix="react-select"
-                                    isSearchable={true}
-                                    onInputChange={fetch_nicknames}
-                                    inputValue={input_value}
-                                    onChange={(new_value: SingleValue<Interfaces.ColourOption>, actionMeta: ActionMeta<Interfaces.ColourOption>) => {
-                                            if (new_value?.value){
-                                                set_loading(true);
-                                                const nickname = new_value?.value;
-                                                client.current?.loadSkin(nickname.split(" – ").length > 1 ? nickname.split(" – ")[1] : nickname);
-                                            }
-                                            set_loading(false);
-                                        }
-                                    }
-                                    isLoading={loading as boolean}
-                                    id="nick_input"
-                                    formatOptionLabel={(nick_value) => nick_value.label}
-                                />
-                                <div style={{width: "100%"}}>
-                                    <label className={style.input_file} id="drop_container" style={{marginTop: "1rem"}}>
-                                        <div id="hidable" className={style.hidable}>
-                                            <input type="file" name="imageInput" id="imageInput" accept="image/png" />
-                                            <span id="select_file">Выберите файл<br />или<br />скиньте его сюда</span>
-                                        </div>
-                                    </label>
+    useEffect(() => {
+        authApi.get('categories?for_edit=true').then((response) => {
+            if (response.status === 200) {
+                setAllCategories(response.data as Interfaces.Category[]);
+            }
+        })
+    }, []);
 
-                                    <div className={`${style.input_file} ${style.hidable_canvas}`} id="hidable_canvas" style={{ display: "none" }}>
-                                        <canvas id="original_canvas" width="64" height="64" className={style.original_canvas}></canvas>
-                                        <div className={style.type_selector}>
-                                            <h4 style={{ marginBottom: 0, marginTop: "1rem" }}>Тип скина:</h4>
-                                            <div style={{ display: "flex", alignItems: "center" }}>
-                                                <input type="radio" id="steve" name="skin_type" value="steve" onChange={() => client.current?.rerender()} style={{ marginTop: 0 }} defaultChecked/>
-                                                <label htmlFor={"steve"}>Стандартный</label>
-                                            </div>
-
-                                            <div style={{ display: "flex", alignItems: "center" }}>
-                                                <input type="radio" id="alex" name="skin_type" value="alex" onChange={() => client.current?.rerender()} style={{ marginTop: 0 }} />
-                                                <label htmlFor={"alex"}>Тонкий</label>
-                                            </div>
-                                        </div>
-
-                                        <button id="clear_skin" className={`${style.clear_skin} ${dark ? style.dark : ""}`} onClick={() => {
-                                                client.current?.clearSkin();
-                                                set_nick_value({value: "no_data", label: "Введите никнейм / UUID"});
-                                            }
-                                        }>Сбросить скин</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </AccordionItem>
-                        <AccordionItem header="2. Стили" dark={dark}>
-                            <div className={style.styles_main} style={{ paddingBottom: "1rem" }}>
-                                <p style={{ display: "none" }} className={`trigger ${dark ? "dark" : ""}`}></p>
-                                <Select<Interfaces.ColourOption>
-                                    defaultValue={shapeColourOptions[0]}
-                                    options={now_date.getMonth() == 9 && now_date.getDate() >= 24 ? groupedOptionsHalloween : groupedOptions}
-                                    components={{ Group }}
-                                    onChange={update_pepe}
-                                    className={`react-select-container`}
-                                    classNamePrefix="react-select"
-                                    isSearchable={false}
-                                />
-                                
-                                <div style={{display: "none", alignItems: "center", marginTop: "0.7rem"}} id="color_pepe">
-                                    <p style={{margin: 0}}>Выберите цвет:</p>
-                                    <input type="color" id="color_picker" style={{marginLeft: "0.5rem"}}/>
-                                </div>
-                                <div id="custom_pepe" className={style.custom_pepe}>
-                                    <p className={`${style.instruction} ${style.dark}`}><a target="_blank" href="https://github.com/Andcool-Systems/pepe_docs/blob/main/README.md">Инструкция</a></p>
-                                    <input type="file" name="custom_pepe" accept="image/png" />
-                                    <p id="error_label_pepe" className={style.error_label} />
-                                </div>
-                            </div>
-                        </AccordionItem>
-
-                        <AccordionItem header="3. Основные настройки" dark={dark}>
-                            <div className={style.styles_main} style={{ paddingBottom: "1rem" }}>
-                                <div className={style.sidebar}>
-                                    <input type="range" id="position" min="0" max="8" step="1" onInput={() => client.current?.rerender()} className={style.position} />
-                                    <div className={style.side}>
-                                        <div className={style.layers_div}>
-                                            <div style={{ marginRight: "0.5rem" }}>
-                                                <input type="checkbox" id="first_layer" name="first_layer" onInput={() => client.current?.rerender()} defaultChecked/>
-                                                <label htmlFor="first_layer">Первый слой</label>
-                                            </div>
-                                            <div>
-                                                <input type="checkbox" id="second_layer" name="second_layer" onInput={() => client.current?.rerender()} defaultChecked/>
-                                                <label htmlFor="second_layer">Второй слой</label>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <h3>Слой повязки</h3>
-                                            <select name="layers" id="layers" onChange={() => client.current?.rerender()} defaultValue={0}>
-                                                <option value="0">На разных слоях</option>
-                                                <option value="1">Только на первом слое</option>
-                                                <option value="2">Только на втором слое</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <h3>Часть тела</h3>
-                                            <select name="body_part" id="body_part" onChange={() => client.current?.rerender()}>
-                                                <option value="0">Левая рука</option>
-                                                <option value="1">Левая нога</option>
-                                                <option value="2">Правая рука</option>
-                                                <option value="3">Правая нога</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="clear" name="clear" onInput={() => client.current?.rerender()} />
-                                    <label htmlFor="clear">Очистить пиксели на втором слое рядом с повязкой</label>
-                                </div>
-
-                            </div>
-                        </AccordionItem>
-                        <AccordionItem header="4. Скачать готовый скин" dark={dark}>
-                            <div className={style.styles_main} style={{ display: "flex", alignItems: "center", paddingBottom: "1rem" }}>
-                                <canvas id="result_skin_canvas" width="64" height="64" style={{ width: 64, height: 64 }}></canvas>
-                                <div style={{display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
-                                    <button onClick={download_skin} className={`${style.clear_skin} ${dark ? style.dark : ""}`} style={{ marginLeft: "5px" }}>Скачать</button>
-                                    <button onClick={() => {
-                                            const skin_canvas = document.getElementById('original_canvas') as HTMLCanvasElement;
-                                            const out_canvas = document.getElementById("result_skin_canvas") as HTMLCanvasElement;
-                                            const ctx = skin_canvas.getContext('2d', { willReadFrequently: true }) as Context;
-
-                                            ctx.clearRect(0, 0, 64, 64);
-                                            ctx.drawImage(out_canvas, 0, 0);
-                                            toggle('item-1', true);
-                                        }
-                                    } className={`${style.clear_skin} ${dark ? style.dark : ""}`} style={{ marginLeft: "5px" }}>Использовать этот скин как исходный</button>
-                                </div>
-                            </div>
-                        </AccordionItem>
-                    </ControlledAccordion>
-                </div>
-            </main>
-        </body>
-
-*/
+    const save = () => {
+        authApi.put(`workshop/${bandage.external_id}/edit`, {
+            title: title,
+            description: description
+        }).then((response) => {
+            if (response.status === 200) {
+                onClose();
+            }
+        })
+    }
+    return  <div style={{display: "flex", flexDirection: "column", gap: ".3rem"}}>
+                <textarea onInput={(ev) => setTitle((ev.target as HTMLTextAreaElement).value)} value={title} />
+                <textarea onInput={(ev) => setDescription((ev.target as HTMLTextAreaElement).value)} value={description} />
+                <CategorySelector enabledCategories={bandage?.categories} allCategories={allCategories} />
+                <button className={style.skin_load} onClick={() => save()}>Сохранить</button>
+            </div>
+}

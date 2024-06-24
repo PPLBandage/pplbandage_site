@@ -1,9 +1,8 @@
 "use client";
 
-import React, { use } from 'react';
+import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { authApi } from "@/app/api.module";
-import { useRouter } from "next/navigation";
 import style_sidebar from "../../styles/me/sidebar.module.css";
 import Header from "../../modules/header.module";
 import useCookie from '../../modules/useCookie.module';
@@ -14,11 +13,11 @@ import {
     useQuery,
   } from "@tanstack/react-query";
 import Image from 'next/image';
-import Link from 'next/link';
 import { Bandage } from '@/app/interfaces';
 import { SkinViewer } from 'skinview3d';
-import { Card, formatDate, generateSkin } from '@/app/modules/card.module';
+import { Card, generateSkin } from '@/app/modules/card.module';
 import { Me } from '@/app/modules/me.module';
+import { redirect } from 'next/navigation'
 
 const queryClient = new QueryClient();
 
@@ -32,7 +31,6 @@ export default function Home() {
 
 
 const Main = () => {
-    const router = useRouter();
     const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');
     const [isLogged, setIsLogged] = useState<boolean>(cookies.current.get('sessionId') != undefined);
@@ -49,11 +47,9 @@ const Main = () => {
         },
     });
 
-    useEffect(() => {
-        if (!isLogged) {
-            router.replace('/me');
-        }
-    }, [])
+    if (!logged) {
+        redirect('/me');
+    }
 
     useEffect(() => {
         if (data) {

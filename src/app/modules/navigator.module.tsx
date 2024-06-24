@@ -13,7 +13,7 @@ interface NavigatorProps {
 const NavigatorEl = ({path, style}: NavigatorProps) => {
     const rendered_path = path.reduce((acc, element, index) => {
         if (index > 0) {
-            acc.push(<img key={`separator-${index}`} src="/static/icons/arrow.svg" className={styles.arrow}/>);
+            acc.push(<img key={`separator-${index}`} src="/static/icons/arrow.svg" alt="" className={styles.arrow}/>);
         }
         acc.push(
             <Link href={element.url} 

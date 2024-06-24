@@ -49,6 +49,7 @@
 
 .description {
     margin-bottom: .3rem;
+    overflow-wrap: anywhere;
 }
 
 .categories {
@@ -271,6 +272,20 @@
     display: flex;
     flex-direction: column;
     gap: .3rem;
+}
+
+.textarea {
+    resize: vertical;
+    background-color: #434957;
+    border: #434957 1px solid;
+    outline: none;
+    transition: border 100ms;
+    border-radius: 5px;
+    font-family: inherit;
+}
+
+.textarea:focus {
+    border: 1px #717b91 solid;
 }
 
 @media(max-width: 925px){

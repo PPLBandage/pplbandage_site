@@ -1,34 +1,20 @@
 "use client";
 
-import React, { use } from 'react';
-import { useEffect, useState, useRef } from 'react';
+import React, { use, useEffect } from 'react';
+import { useState, useRef } from 'react';
+import { useQuery } from "@tanstack/react-query";
 import { authApi } from "@/app/api.module";
 import { redirect, useRouter } from "next/navigation";
 import Style from "../../styles/me/connections.module.css";
 import Header from "../../modules/header.module";
 import useCookie from '../../modules/useCookie.module';
 import { Cookies, useCookies } from 'next-client-cookies';
-import {
-    QueryClient,
-    QueryClientProvider,
-    useQuery,
-  } from "@tanstack/react-query";
 import Image from 'next/image';
 import { Me } from '@/app/modules/me.module';
 import { Fira_Code } from "next/font/google";
 import { SlideButton } from '@/app/modules/nick_search.module';
 import { formatDate } from '@/app/modules/card.module';
 const fira = Fira_Code({ subsets: ["latin"] });
-
-const queryClient = new QueryClient();
-
-export default function Home() {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <Main/>
-        </QueryClientProvider>
-    );
-}
 
 interface ConnectionResponse {
     statusCode: number,
@@ -45,12 +31,8 @@ interface ConnectionResponse {
 const b64Prefix = "data:image/png;base64,";
 
 const Main = () => {
-    const router = useRouter();
     const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');
-    if (!logged) {
-        redirect('/me');
-    }
     const [isLogged, setIsLogged] = useState<boolean>(cookies.current.get('sessionId') != undefined);
     const [loaded, setLoaded] = useState<boolean>(false);
     const [connected, setConnected] = useState<boolean>(false);
@@ -72,6 +54,12 @@ const Main = () => {
             
         },
     });
+
+    useEffect(() => {
+        if (!logged) {
+            redirect('/me');
+        }
+    }, [logged]);
 
     return (
     <body style={{backgroundColor: "#17181C", margin: 0}}>
@@ -176,3 +164,5 @@ const Main = () => {
     </body>
     );
 }
+
+export default Main;

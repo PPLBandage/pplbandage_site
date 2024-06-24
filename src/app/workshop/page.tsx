@@ -5,18 +5,12 @@ import { useEffect, useState, useRef } from "react";
 import { SkinViewer } from 'skinview3d';
 import Header from "../modules/header.module";
 import Style from "../styles/workshop/page.module.css";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+
 import axios from "axios";
 import { Paginator } from "../modules/paginator.module";
 import { Search } from "../modules/search.module";
 import { Bandage, BandageResponse, Category } from "../interfaces";
 import { Card, constrain, generateSkin } from "../modules/card.module";
-
-const queryClient = new QueryClient();
 
 /*
 <aside className={Style.filters}>

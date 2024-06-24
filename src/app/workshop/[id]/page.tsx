@@ -3,15 +3,15 @@
 import React, { useCallback } from 'react';
 import { useEffect, useState, useRef } from 'react';
 
-import style from "../../styles/editor/page.module.css";
-import * as Interfaces from "../../interfaces";
+import style from "@/app/styles/editor/page.module.css";
+import * as Interfaces from "@/app/interfaces";
 
 import axios from "axios";
 
 import Client, { b64Prefix } from "./bandage_engine.module";
-import SkinView3D from "../../skinView.module";
+import SkinView3D from "@/app/skinView.module";
 
-import Header from "../../modules/header.module";
+import Header from "@/app/modules/header.module";
 import Searcher, { SlideButton } from "@/app/modules/nick_search.module";
 import { CategoryEl } from '@/app/modules/card.module';
 import NextImage from 'next/image';
@@ -41,8 +41,6 @@ const layers: readonly {value: string, label: String}[] = [
     { value: "2", label: "Только на втором слое"}
 ];
 
-
-
 const getRandomColor = () => {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -50,9 +48,7 @@ const getRandomColor = () => {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  }
-  
-
+}
 
 export default function Home({ params }: { params: { id: string } }) {
     const [bandage, setBandage] = useState<Interfaces.Bandage>(null);
@@ -268,11 +264,11 @@ export default function Home({ params }: { params: { id: string } }) {
 const Info = ({el, onClick}: {el: Interfaces.Bandage, onClick(): void}) => {
 
     return <div className={style.info_container}>
-                <h2 className={`${style.title} ${el?.permissions_level == 2 && style.title_editable}`} onClick={() => {if (el?.permissions_level == 2) onClick()}}>
+                <h2 className={`${style.title} ${el?.permissions_level >= 1 && style.title_editable}`} onClick={() => {if (el?.permissions_level >= 1) onClick()}}>
                     {el?.title}
                     <NextImage className={style.edit_icon} src="/static/icons/edit.svg" alt="" width={32} height={32} /></h2>
-                <p className={style.description}>{el?.description}</p>
-                <p className={style.author}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32}/>{el?.author.name}</p>
+                { el?.description && <p className={style.description}>{el?.description}</p> }
+                <p className={style.author}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32}/>{el?.author.name || "Unknown"}</p>
             </div>
 }
 
@@ -422,11 +418,18 @@ const SkinLoad = ({onChange}: SkinLoadProps) => {
            </div>
 }
 
+const access_level: readonly {value: number, label: String}[] = [
+    { value: 0, label: "Ограниченный доступ"},
+    { value: 1, label: "Доступ только по ссылке"},
+    { value: 2, label: "Открытый доступ"}
+];
+
 const EditElement = ({bandage, onClose}: {bandage: Interfaces.Bandage, onClose(): void}) => {
     const [title, setTitle] = useState<string>(bandage?.title);
     const [description, setDescription] = useState<string>(bandage?.description);
-
     const [allCategories, setAllCategories] = useState<Interfaces.Category[]>([]);
+    const [categories, setCategories] = useState<number[]>(undefined);
+    const [accessLevel, setAccessLevel] = useState<number>(undefined);
 
     useEffect(() => {
         authApi.get('categories?for_edit=true').then((response) => {
@@ -439,17 +442,39 @@ const EditElement = ({bandage, onClose}: {bandage: Interfaces.Bandage, onClose()
     const save = () => {
         authApi.put(`workshop/${bandage.external_id}/edit`, {
             title: title,
-            description: description
+            description: description !== "" ? description : null,
+            categories: categories,
+            access_level: accessLevel
         }).then((response) => {
             if (response.status === 200) {
                 onClose();
+                return;
+            }
+            if (response.status === 400) {
+                alert(response.data.message_ru);
             }
         })
     }
     return  <div style={{display: "flex", flexDirection: "column", gap: ".3rem"}}>
-                <textarea onInput={(ev) => setTitle((ev.target as HTMLTextAreaElement).value)} value={title} />
-                <textarea onInput={(ev) => setDescription((ev.target as HTMLTextAreaElement).value)} value={description} />
-                <CategorySelector enabledCategories={bandage?.categories} allCategories={allCategories} />
+                {bandage.permissions_level >= 2 ? <>
+                    <textarea maxLength={50} placeholder="Заголовок" className={style.textarea} onInput={(ev) => setTitle((ev.target as HTMLTextAreaElement).value)} value={title} />
+                    <textarea maxLength={300} placeholder="Описание" className={style.textarea} onInput={(ev) => setDescription((ev.target as HTMLTextAreaElement).value)} value={description} />
+                </> : 
+                <>
+                    <h2 className={style.title}>{bandage?.title}</h2>
+                    { bandage?.description && <p className={style.description}>{bandage?.description}</p> }
+                </> }
+                <CategorySelector enabledCategories={bandage?.categories}
+                                  allCategories={allCategories} 
+                                  onChange={setCategories} />
+                <Select
+                    options={access_level}
+                    defaultValue={access_level[bandage.access_level]}
+                    className={`react-select-container`}
+                    classNamePrefix="react-select"
+                    isSearchable={false}
+                    onChange={(n, a) => setAccessLevel(n.value)}
+                />
                 <button className={style.skin_load} onClick={() => save()}>Сохранить</button>
             </div>
 }

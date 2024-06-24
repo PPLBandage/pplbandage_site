@@ -7,11 +7,7 @@ import style_sidebar from "../../styles/me/sidebar.module.css";
 import Header from "../../modules/header.module";
 import useCookie from '../../modules/useCookie.module';
 import { Cookies, useCookies } from 'next-client-cookies';
-import {
-    QueryClient,
-    QueryClientProvider,
-    useQuery,
-  } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Image from 'next/image';
 import { Bandage } from '@/app/interfaces';
 import { SkinViewer } from 'skinview3d';
@@ -19,37 +15,22 @@ import { Card, generateSkin } from '@/app/modules/card.module';
 import { Me } from '@/app/modules/me.module';
 import { redirect } from 'next/navigation'
 
-const queryClient = new QueryClient();
-
-export default function Home() {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <Main/>
-        </QueryClientProvider>
-    );
-}
-
-
 const Main = () => {
     const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');
     const [isLogged, setIsLogged] = useState<boolean>(cookies.current.get('sessionId') != undefined);
 
     const [elements, setElements] = useState<JSX.Element[]>(null);
+    const [data, setData] = useState<Bandage[]>(null);
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ["userWorks"],
-        retry: 5,
-        queryFn: async () => {
-            const res = await authApi.get("users/me/stars", {withCredentials: true});
-            return res.data as Bandage[] || undefined;
-  
-        },
-    });
+    useEffect(() => {
+        authApi.get("users/me/stars").then((response) => {
+            if (response.status === 200) {
+                setData(response.data as Bandage[]);
+            }
+        })
+    }, []);
 
-    if (!logged) {
-        redirect('/me');
-    }
 
     useEffect(() => {
         if (data) {
@@ -86,6 +67,9 @@ const Main = () => {
 
     useEffect(() => {
         setIsLogged(logged != undefined);
+        if (!logged) {
+            redirect('/me');
+        }
     }, [logged])
 
     return (
@@ -104,3 +88,5 @@ const Main = () => {
     </body>
     );
 }
+
+export default Main;

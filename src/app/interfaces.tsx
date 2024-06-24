@@ -43,7 +43,8 @@ export interface Bandage {
         nickname: string
     },
     permissions_level: number,
-    check_state: string | null
+    check_state: string | null,
+    access_level: number
 }
 
 export interface Category {

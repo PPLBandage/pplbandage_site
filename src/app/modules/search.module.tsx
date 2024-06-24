@@ -66,7 +66,7 @@ export const Search = ({onSearch, onChangeTake, onChangeFilters, onChangeSort, c
                     <div className={Styles.container}>
                         <div style={{display: "flex", alignItems: "center"}}>
                             <input 
-                                onInput={(event) => setSearch((event.target as HTMLInputElement).value)}
+                                onChange={(event) => setSearch(event.target.value)}
                                 onKeyUp={(e) => {
                                     if (e.code == "Enter"){
                                         onSearch(search)

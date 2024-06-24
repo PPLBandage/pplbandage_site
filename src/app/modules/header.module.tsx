@@ -6,16 +6,9 @@ import { deleteCookie } from 'cookies-next';
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
 import Image from 'next/image';
-
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Cookies, useCookies } from "next-client-cookies";
 import useCookie from "./useCookie.module";
-
-const queryClient = new QueryClient();
 
 export interface Query {
   username: string;
@@ -27,14 +20,6 @@ export interface Query {
 }
 
 const Header = (): JSX.Element => {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <HeaderElement />
-    </QueryClientProvider>
-  );
-};
-
-const HeaderElement = (): JSX.Element => {
     const router = useRouter();
     const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');

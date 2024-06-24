@@ -10,11 +10,7 @@ import Header from "../modules/header.module";
 import useCookie from '../modules/useCookie.module';
 import { Cookies, useCookies } from 'next-client-cookies';
 import style_sidebar from "../styles/me/sidebar.module.css";
-import {
-    QueryClient,
-    QueryClientProvider,
-    useQuery,
-  } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Bandage } from '@/app/interfaces';
 import { SkinViewer } from 'skinview3d';
 import { Card, generateSkin } from '@/app/modules/card.module';
@@ -48,17 +44,6 @@ const roles = [
         color: 15105570
     }
 ];
-const queryClient = new QueryClient();
-
-export default function Home() {
-    
-
-    return (
-        <QueryClientProvider client={queryClient}>
-            <Main/>
-        </QueryClientProvider>
-    );
-}
 
 
 const Main = () => {
@@ -68,16 +53,7 @@ const Main = () => {
     const [isLogged, setIsLogged] = useState<boolean>(cookies.current.get('sessionId') != undefined);
 
     const [elements, setElements] = useState<JSX.Element[]>(null);
-
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ["userWorks"],
-        retry: 5,
-        queryFn: async () => {
-            const res = await authApi.get("users/me/works", {withCredentials: true});
-            return res.data as Bandage[] || undefined;
-  
-        },
-    });
+    const [data, setData] = useState<Bandage[]>(null);
 
     useEffect(() => {
         if (data) {
@@ -129,9 +105,15 @@ const Main = () => {
                 }
             })
             router.replace('/me');
+        } else {
+            authApi.get("users/me/works").then((response) => {
+                if (response.status === 200) {
+                    setData(response.data);
+                }
+            })
         }
         return () => {}
-    }, [])
+    }, []);
 
     return (
     <body style={{backgroundColor: "#17181C", margin: 0}}>
@@ -186,3 +168,5 @@ const Login = () => {
         </main>
     );
 }
+
+export default Main;

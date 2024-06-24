@@ -5,10 +5,11 @@ import style from "@/app/styles/category_selector.module.css";
 
 interface CategorySelectorProps {
     enabledCategories: Category[],
-    allCategories: Category[]
+    allCategories: Category[],
+    onChange(selected: number[]): void
 }
 
-const CategorySelector = ({enabledCategories, allCategories}: CategorySelectorProps) => {
+const CategorySelector = ({enabledCategories, allCategories, onChange}: CategorySelectorProps) => {
     const [categories, setCategories] = useState<Category[]>(allCategories);
 
     const updateCategory = (id: number, enabled: boolean) => {
@@ -20,13 +21,16 @@ const CategorySelector = ({enabledCategories, allCategories}: CategorySelectorPr
     };
 
     useEffect(() => {
-        const _categories = allCategories;
-        const categories_sorted = _categories.map(cat => {
+        const categories_sorted = allCategories.map(cat => {
             cat.enabled = enabledCategories.some(category => category.id === cat.id);
             return cat;
         });
         setCategories(categories_sorted)
     }, [enabledCategories, allCategories]);
+
+    useEffect(() => {
+        onChange(categories.filter(el => el.enabled).map(i => i.id));
+    }, [categories]);
 
     const categoriesEnabled = categories.filter(el => el.enabled).map((el) => {
         return <CategoryEl key={el.id} enabled={true} category={el} onClick={() => updateCategory(el.id, false)} hoverable={true} />
@@ -36,8 +40,8 @@ const CategorySelector = ({enabledCategories, allCategories}: CategorySelectorPr
         return <CategoryEl key={el.id} category={el} onClick={() => updateCategory(el.id, true)} hoverable={true} />
     });
 
-    return  <div style={{marginBottom: "1rem"}}>
-                <h3 style={{marginTop: "0", marginBottom: ".9rem"}}>Выбранные категории:</h3>
+    return  <div style={{marginBottom: ".8rem", marginTop: ".8rem"}}>
+                <h4 style={{margin: 0, marginBottom: ".9rem"}}>Выбранные категории:</h4>
                 <div className={style.container}>
                     {categoriesEnabled}
                 </div>

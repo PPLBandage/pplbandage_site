@@ -116,6 +116,7 @@ export const SlideButton = ({onChange, value, label, defaultValue}: SlideButtonP
     }, [value]);
 
     useEffect(() => {
+        if (active === undefined) return;
         onChange(active);
     }, [active]);
 

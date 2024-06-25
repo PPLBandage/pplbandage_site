@@ -100,7 +100,7 @@ const Header = (): JSX.Element => {
                   {islogged &&
                     <a className={Styles.menu_element} 
                       onClick={() => {
-                        authApi.delete("users/logout").then(() => {
+                        authApi.delete("users/me").then(() => {
                           deleteCookie("sessionId");
                           router.replace('/');
                           setIsLogged(false);

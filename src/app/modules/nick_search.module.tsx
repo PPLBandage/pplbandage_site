@@ -1,6 +1,6 @@
 import Select, { GroupBase } from 'react-select';
 import * as Interfaces from "../interfaces";
-import { use, useEffect, useState } from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import Style from "../styles/nick_search.module.css";
 import StyleBtn from "../styles/slidebtn.module.css";
@@ -110,6 +110,7 @@ interface SlideButtonProps {
 
 export const SlideButton = ({onChange, value, label, defaultValue}: SlideButtonProps) => {
     const [active, setActive] = useState<boolean>(value || defaultValue);
+    const isInitialMount = useRef<boolean>(true);
 
     useEffect(() => {
         setActive(value || defaultValue);
@@ -117,7 +118,11 @@ export const SlideButton = ({onChange, value, label, defaultValue}: SlideButtonP
 
     useEffect(() => {
         if (active === undefined) return;
-        onChange(active);
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+        } else {
+            onChange(active);
+        }
     }, [active]);
 
     return  <div className={StyleBtn.container}>

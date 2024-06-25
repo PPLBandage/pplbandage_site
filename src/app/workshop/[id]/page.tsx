@@ -438,7 +438,7 @@ const EditElement = ({bandage, onClose}: {bandage: Interfaces.Bandage, onClose()
     }, []);
 
     const save = () => {
-        authApi.put(`workshop/${bandage.external_id}/edit`, {
+        authApi.put(`workshop/${bandage.external_id}`, {
             title: title,
             description: description !== "" ? description : null,
             categories: categories,

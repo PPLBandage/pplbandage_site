@@ -102,7 +102,7 @@ const Main = () => {
                             <button className={Style.unlink} onClick={() => {
                                 const load_icon = document.getElementById('refresh');
                                 load_icon.style.animation = `${Style.loading} infinite 1s linear`;
-                                authApi.post("users/me/connections/cache/purge").then((response) => {
+                                authApi.post("users/me/connections/minecraft/cache/purge").then((response) => {
                                     if (response.status === 200) {
                                         refetch();
                                         return;
@@ -116,7 +116,7 @@ const Main = () => {
                             <button className={Style.unlink} onClick={() => {
                                 const confirmed = confirm("Отвязать учётную запись Minecraft? Вы сможете в любое время привязать ее обратно.");
                                 if (confirmed) {
-                                    authApi.delete('users/me/connections/minecraft/disconnect').then((response) => {
+                                    authApi.delete('users/me/connections/minecraft').then((response) => {
                                         if (response.status === 200) {
                                             refetch();
                                             return;

@@ -8,12 +8,15 @@
     margin-left: auto;
     margin-right: auto;
     display: flex;
-    transition: opacity 200ms, transform 200ms;
     flex-direction: row;
     gap: 1rem;
+    align-items: flex-start;
+}
+
+.hidable {
+    transition: opacity 200ms, transform 200ms;
     opacity: 0;
     transform: translateY(50px);
-    align-items: flex-start;
 }
 
 .card {

@@ -1,0 +1,46 @@
+.main {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.central_panel {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.skinview {
+    width: 400px;
+    height: 500px;
+    position: relative;
+    z-index: 1;
+    border-radius: 10px;
+    border: 1px #434957 solid;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.render_footer {
+    width: 100%;
+    background-color: #262930;
+    padding: 1rem;
+    box-sizing: border-box;
+    border-radius: 0 0 10px 10px;
+    position: relative;
+    top: -10px;
+    border: 1px #434957 solid;
+    z-index: 0;
+    padding-top: calc(1rem + 10px);
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.skin_parent {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}

@@ -21,12 +21,9 @@ import debounce from 'lodash.debounce';
 import NavigatorEl from '@/app/modules/navigator.module';
 import { authApi } from '@/app/api.module';
 import CategorySelector from '@/app/modules/category_selector.module';
+import Footer from '@/app/modules/footer.module';
+import { anims } from '../poses';
 
-const anims: readonly {value: number, label: String}[] = [
-    { value: 0, label: "Нет"},
-    { value: 1, label: "Ходьба"},
-    { value: 2, label: "Т-поза"},
-];
 
 const body_part: readonly {value: number, label: String}[] = [
     { value: 0, label: "Левая рука"},
@@ -256,6 +253,7 @@ export default function Home({ params }: { params: { id: string } }) {
                         </div>
                     </div>
                 </div>
+                <Footer />
             </main>
         </body>
     );

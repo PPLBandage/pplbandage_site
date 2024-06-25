@@ -5,9 +5,9 @@ import { Query } from "./header.module";
 import style_sidebar from "../styles/me/sidebar.module.css";
 import Image from 'next/image';
 import Link from 'next/link';
-import { formatDate } from "./card.module";
 import { usePathname } from 'next/navigation';
 import { timeStamp } from "./time.module";
+import Footer from "./footer.module";
 
 export const Me = ({children}: {children: JSX.Element}) => {
     const [islogged, setIsLogged] = useState<boolean>(false);
@@ -28,37 +28,40 @@ export const Me = ({children}: {children: JSX.Element}) => {
         setIsLogged(true);
     }
     return  <div className={style_sidebar.main_container}>
-                <div style={islogged ? {opacity: "1", transform: "translateY(0)"} : {}} className={style_sidebar.main}>
-                    <div className={style_sidebar.side}>
-                        <div className={style_sidebar.card}>
-                            <div className={`${style_sidebar.avatar_container} ${!islogged && style_sidebar.placeholders}`}>
-                                {islogged && <Image src={data?.avatar} alt="" width={150} height={150}/>}
+                <div style={islogged ? {opacity: "1", transform: "translateY(0)"} : {}} className={style_sidebar.hidable}>
+                    <div className={style_sidebar.main}>
+                        <div className={style_sidebar.side}>
+                            <div className={style_sidebar.card}>
+                                <div className={`${style_sidebar.avatar_container} ${!islogged && style_sidebar.placeholders}`}>
+                                    {islogged && <Image src={data?.avatar} alt="" width={150} height={150}/>}
+                                </div>
+                                <h3>{data?.name}</h3>
+                                <p className={style_sidebar.username}>{data?.username}</p>
+                                <div className={style_sidebar.joined}>
+                                    <p>Аккаунт создан <span>{timeStamp((new Date(data?.joined_at).getTime()) / 1000)}</span></p>
+                                    
+                                </div>
+                        
+                                <p className={style_sidebar.uid}>Discord id: {data?.discordID}</p>
                             </div>
-                            <h3>{data?.name}</h3>
-                            <p className={style_sidebar.username}>{data?.username}</p>
-                            <div className={style_sidebar.joined}>
-                                <p>Аккаунт создан <span>{timeStamp((new Date(data?.joined_at).getTime()) / 1000)}</span></p>
-                                
-                            </div>
-                    
-                            <p className={style_sidebar.uid}>Discord id: {data?.discordID}</p>
+                            <div className={style_sidebar.card} style={{alignItems: "stretch", gap: ".5rem"}}>
+                                <Link href="/me" className={`${style_sidebar.side_butt} ${path == 'me' && style_sidebar.active}`}>
+                                    <Image src="/static/icons/list.svg" alt="" width={24} height={24}/>
+                                    Мои работы
+                                </Link>
+                                <Link href="/me/stars" className={`${style_sidebar.side_butt} ${path == 'stars' && style_sidebar.active}`}>
+                                    <Image src="/static/icons/star_bw.svg" alt="" width={24} height={24}/>
+                                    Избранное
+                                </Link>
+                                <Link href="/me/connections" className={`${style_sidebar.side_butt} ${path == 'connections' && style_sidebar.active}`}>
+                                    <Image src="/static/icons/block.svg" alt="" width={24} height={24}/>
+                                    Интеграции
+                                </Link>
                         </div>
-                        <div className={style_sidebar.card} style={{alignItems: "stretch", gap: ".5rem"}}>
-                            <Link href="/me" className={`${style_sidebar.side_butt} ${path == 'me' && style_sidebar.active}`}>
-                                <Image src="/static/icons/list.svg" alt="" width={24} height={24}/>
-                                Мои работы
-                            </Link>
-                            <Link href="/me/stars" className={`${style_sidebar.side_butt} ${path == 'stars' && style_sidebar.active}`}>
-                                <Image src="/static/icons/star_bw.svg" alt="" width={24} height={24}/>
-                                Избранное
-                            </Link>
-                            <Link href="/me/connections" className={`${style_sidebar.side_butt} ${path == 'connections' && style_sidebar.active}`}>
-                                <Image src="/static/icons/block.svg" alt="" width={24} height={24}/>
-                                Интеграции
-                            </Link>
+                        </div>
+                        {children}
                     </div>
-                    </div>
-                    {children}
+                    <Footer />
                 </div>
             </div>
 }

@@ -126,3 +126,8 @@ input::-webkit-inner-spin-button {
 hr {
 	border: 1px #434957 solid;
 }
+
+a {
+	color: #ffffff;
+	text-decoration: underline;
+}

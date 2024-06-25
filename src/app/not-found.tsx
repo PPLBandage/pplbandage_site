@@ -1,5 +1,4 @@
-"use client";
-
+import Footer from './modules/footer.module';
 import Header from './modules/header.module';
 import NotFoundElement from './nf.module';
 
@@ -8,5 +7,9 @@ export default function NotFound() {
         <body>
             <Header />
             <NotFoundElement />
-        </body>);
+            <div style={{position: "absolute", bottom: "1rem", left: "1rem", right: "1rem", boxSizing: "border-box"}}>
+                <Footer />
+            </div>
+        </body>
+    );
 }

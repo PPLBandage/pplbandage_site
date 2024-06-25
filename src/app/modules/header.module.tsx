@@ -1,3 +1,5 @@
+"use client";
+
 import { authApi } from "../api.module";
 import { useEffect, useRef, useState } from "react";
 import Styles from "../styles/header.module.css";

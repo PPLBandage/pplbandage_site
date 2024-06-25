@@ -135,6 +135,25 @@ class Client {
         reader.readAsDataURL(file);
     }
 
+    async loadSkinUrl(url: string) {
+        axios.get(url, {responseType: 'blob'}).then((result => {
+            if (result.status === 200) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    this.setOriginalCanvas(reader.result as string);
+
+                    this.addEventListener("onload", () => {
+                        this.clearError();
+                        this.skin = reader.result as string;
+                        this.rerender();
+                        this.removeEventListener("onload");
+                    });
+                }
+                reader.readAsDataURL(result.data);
+            }
+        }))
+    }
+
     clearSkin() {
         this.skin = "";
         this.cape = "";
@@ -192,8 +211,6 @@ class Client {
             }
             context?.clearRect(0, 0, 64, 64);
             context?.drawImage(img, 0, 0, img.width, img.height);
-            //const pixelData = context.getImageData(46, 52, 1, 1).data;
-            //this.slim = pixelData[3] !== 255;
             this.triggerEvent("onload");
         }
         img.src = b64;

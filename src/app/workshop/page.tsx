@@ -9,17 +9,15 @@ import Style from "../styles/workshop/page.module.css";
 import axios from "axios";
 import { Paginator } from "../modules/paginator.module";
 import { Search } from "../modules/search.module";
-import { Bandage, BandageResponse, Category } from "../interfaces";
+import { BandageResponse, Category } from "../interfaces";
 import { Card, constrain, generateSkin } from "../modules/card.module";
+import Footer from "../modules/footer.module";
+import Image from "next/image";
 
-/*
-<aside className={Style.filters}>
-    <h2>Фильтры</h2>
-</aside>
-*/
+
 export default function Home() {
     const [data, setData] = useState<BandageResponse>(null);
-    const [elements, setElements] = useState<JSX.Element[]>([]);
+    const [elements, setElements] = useState<JSX.Element[]>(null);
     const [totalCount, setTotalCount] = useState<number>(0);
     const [page, setPage] = useState<number>(0);
     const [take, setTake] = useState<number>(12);
@@ -100,8 +98,14 @@ export default function Home() {
           <div className={Style.center}>
             <Search onSearch={setSearch} onChangeTake={setTake} categories={categories} onChangeSort={setSort} onChangeFilters={setFilters}/>
             <Paginator total_count={totalCount} take={take} onChange={setPage}/>
-            <div className={Style.skins_container}>{elements}</div>
+            {elements && elements.length > 0 ? <div className={Style.skins_container}>{elements}</div> : 
+            elements && elements.length === 0 ? <>
+                <p style={{display: "flex", alignItems: "center", fontSize: "1.1rem", fontWeight: 500, width: "100%", justifyContent: "center", margin: 0}}>
+                <Image style={{marginRight: ".5rem"}} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />Похоже, тут ничего нет</p>
+            </> : <Image src="/static/icons/icon.svg" alt="" width={86} height={86} className={Style.loading}/>
+            }
           </div>
+          <Footer />
         </main>
       </body>
   );

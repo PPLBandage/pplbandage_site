@@ -1,3 +1,5 @@
+"use client";
+
 import Footer from './modules/footer.module';
 import Header from './modules/header.module';
 import NotFoundElement from './nf.module';

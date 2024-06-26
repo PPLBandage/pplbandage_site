@@ -10,6 +10,7 @@ import Select from 'react-select';
 import { SlideButton } from '@/app/modules/nick_search.module';
 import Client from '../[id]/bandage_engine.module';
 import Link from 'next/link';
+import Footer from '@/app/modules/footer.module';
 
 
 export default function Home() {
@@ -61,6 +62,7 @@ export default function Home() {
                     <h3 style={{margin: 0}}>Перед началом создания повязки прочитайте <Link href="/tutorials/bandage">туториал</Link></h3>
                 </div>
             </div>
+            <Footer />
         </main>
     </body>
     );

@@ -10,7 +10,6 @@ import Header from "../modules/header.module";
 import useCookie from '../modules/useCookie.module';
 import { Cookies, useCookies } from 'next-client-cookies';
 import style_sidebar from "../styles/me/sidebar.module.css";
-import { useQuery } from "@tanstack/react-query";
 import { Bandage } from '@/app/interfaces';
 import { SkinViewer } from 'skinview3d';
 import { Card, generateSkin } from '@/app/modules/card.module';

@@ -5,6 +5,7 @@ import { useEffect, useState, useRef } from 'react';
 
 import style from "@/app/styles/editor/page.module.css";
 import * as Interfaces from "@/app/interfaces";
+import { useRouter } from "next/navigation";
 
 import axios from "axios";
 
@@ -62,7 +63,7 @@ export default function Home({ params }: { params: { id: string } }) {
     const [loadExpanded, setLoadExpanded] = useState<boolean>(false);
     const client = useRef<Client>();
 
-    const [refreshInitiator, setRefreshInitiator] = useState<boolean>(false);
+    const [refreshInitiator, setRefreshInitiator] = useState<boolean>(true);
 
 
     const debouncedHandleColorChange = useCallback(
@@ -75,6 +76,10 @@ export default function Home({ params }: { params: { id: string } }) {
     );
 
     useEffect(() => {
+        if (!refreshInitiator) {
+            return
+        };
+        console.log(refreshInitiator)
         setRefreshInitiator(false);
         client.current = new Client();
         client.current.addEventListener('skin_changed', (event: {skin: string, cape: string}) => {
@@ -423,6 +428,7 @@ const access_level: readonly {value: number, label: String}[] = [
 ];
 
 const EditElement = ({bandage, onClose}: {bandage: Interfaces.Bandage, onClose(): void}) => {
+    const router = useRouter();
     const [title, setTitle] = useState<string>(bandage?.title);
     const [description, setDescription] = useState<string>(bandage?.description);
     const [allCategories, setAllCategories] = useState<Interfaces.Category[]>([]);
@@ -473,6 +479,36 @@ const EditElement = ({bandage, onClose}: {bandage: Interfaces.Bandage, onClose()
                     isSearchable={false}
                     onChange={(n, a) => setAccessLevel(n.value)}
                 />
-                <button className={style.skin_load} onClick={() => save()}>Сохранить</button>
+                <div className={style.check_notification} style={{borderColor: "red", 
+                                                                  backgroundColor: "rgba(255, 0, 0, .13)", 
+                                                                  margin: 0,
+                                                                  marginTop: ".5rem", 
+                                                                  marginBottom: '.5rem'}}>
+                    <h3>Опасная зона</h3>
+                    <p>Все действия в данной зоне имеют необратимый характкер, делайте их с умом!</p>
+                    
+                    <div style={{display: 'flex', 
+                                alignItems: 'center', 
+                                flexDirection: 'row', 
+                                gap: '.4rem', 
+                                marginTop: '1rem'}}>
+                        <div className={style.deleteButton} onClick={() => {
+                            const first = confirm(`Вы собираетесь удалить повязку ${bandage.title}! Это действе необратимо! Подтверждаете?`);
+                            if (!first) return;
+                            const second = confirm('Последний шанс! Удалить?');
+                            if (!second) return;
+                            authApi.delete(`workshop/${bandage.external_id}`).then((res) => {
+                                if (res.status === 200) {
+                                    router.replace('/workshop');
+                                }
+                            })
+                        }}>
+                            <img className={style.binUp} src="/static/icons/bin_up.png"></img>
+                            <img className={style.binDown} src="/static/icons/bin_down.png"></img>
+                        </div>
+                        <p style={{margin: 0}}>Удалить повязку</p>
+                    </div>
+                </div>
+                <button className={style.skin_load} onClick={() => save()} style={{padding: ".4rem"}}>Сохранить</button>
             </div>
 }

@@ -300,14 +300,6 @@ class Client {
     }
 
 
-    private pasteImageToCanvas(name: string, image: HTMLImageElement) {
-        const canvas = document.getElementById(name) as HTMLCanvasElement;
-        const context = canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D;
-        canvas.width = image.width;
-        canvas.height = image.height;
-        context.drawImage(image, 0, 0);
-    }
-
     changeSlim(slim: boolean) {
         this.slim = slim;
         this.rerender();

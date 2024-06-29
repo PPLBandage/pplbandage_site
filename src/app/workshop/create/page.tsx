@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Header from '@/app/modules/header.module';
 import style from '@/app/styles/workshop/create/page.module.css';
 import SkinView3D from '@/app/skinView.module';
 import { anims } from '../poses';
-import NextImage from 'next/image';
+import { useRouter } from "next/navigation";
 import Select from 'react-select';
 import { SlideButton } from '@/app/modules/nick_search.module';
 import Client from '../[id]/bandage_engine.module';
@@ -14,6 +14,8 @@ import Footer from '@/app/modules/footer.module';
 import CategorySelector from '@/app/modules/category_selector.module';
 import { authApi } from '@/app/api.module';
 import * as Interfaces from "@/app/interfaces";
+import debounce from 'lodash.debounce';
+import InfoCard from '@/app/modules/info.module';
 
 
 export default function Home() {
@@ -61,7 +63,11 @@ export default function Home() {
                         <SlideButton onChange={(v) => {setSlim(v); console.log(v)}} value={slim} label="Тонкие руки"/>
                     </div>
                 </aside>
-                <Editor onBandageChange={(b64) => {client.current.loadFromImage(b64)}}/>
+                <Editor onBandageChange={(b64) => {client.current.loadFromImage(b64)}} onColorChange={(color) => {
+                    client.current?.setParams({color: color});
+                }} onColorableChange={(colorable) => {
+                    client.current?.setParams({colorable: colorable});
+                }}/>
             </div>
             <Footer />
         </main>
@@ -71,15 +77,20 @@ export default function Home() {
 
 interface EditorProps {
     onBandageChange(img: HTMLImageElement): void;
+    onColorChange(color: string): void;
+    onColorableChange(colorable: boolean): void;
 }
 
-const Editor = ({onBandageChange}: EditorProps) => {
+const Editor = ({onBandageChange, onColorChange, onColorableChange}: EditorProps) => {
+    const router = useRouter();
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [enabledCategories, setEnabledCategories] = useState<Interfaces.Category[]>([]);
     const [allCategories, setAllCategories] = useState<Interfaces.Category[]>([]);
     const [categories, setCategories] = useState<number[]>(undefined);
     const [base64, setBase64] = useState<string>(null);
+    const [mutex, setMutex] = useState<boolean>(false);
+    const [colorable, setColorable] = useState<boolean>(false);
 
     useEffect(() => {
         authApi.get('categories?for_edit=true').then((response) => {
@@ -89,12 +100,32 @@ const Editor = ({onBandageChange}: EditorProps) => {
         })
     }, []);
 
-    /*useEffect(() => {
-        console.log(categories)
-    }, [categories]);*/
+    const debouncedHandleColorChange = useCallback(
+        // из за частого вызова oninput на слабых клиентах сильно лагает,
+        // поэтому сделан дебаунс на 5мс
+        debounce((event) => {
+            onColorChange(event.target.value);
+        }, 5),
+        []
+    );
+
+
+    useEffect(() => {
+        if (!categories || categories.length === 0) {
+            setColorable(false);
+            onColorableChange(false);
+            return;
+        }
+        const _colorable = categories.includes(Number(process.env.NEXT_PUBLIC_COLORABLE_ID));
+        setColorable(_colorable);
+        onColorableChange(_colorable);
+    }, [categories]);
 
     const getData = (file: File) => {
         if (!file) return;
+        if (title === "") {
+            setTitle(file.name.split('.').slice(0, -1).join('.'));
+        }
         const reader = new FileReader();
 
         reader.onload = () => {
@@ -115,7 +146,13 @@ const Editor = ({onBandageChange}: EditorProps) => {
                 }
                 clearError();
                 onBandageChange(img);
-                setBase64(reader.result as string)
+                setBase64(reader.result as string);
+
+                const cont = document.getElementById('drop_container') as HTMLLabelElement;
+                if (cont) {
+                    cont.style.borderColor = "#576074";
+                    cont.style.borderStyle = "solid";
+                }
             }
             img.src = reader.result as string;
         }
@@ -162,13 +199,49 @@ const Editor = ({onBandageChange}: EditorProps) => {
         evt.target.files = null;
     }
 
+    useEffect(() => {
+        const title_el = document.getElementById('title') as HTMLLabelElement;
+        if (title_el) {
+            title_el.style.borderColor = null;
+        }
+        return;
+    }, [title]);
+
     const create = () => {
+        if (!base64) {
+            const cont = document.getElementById('drop_container') as HTMLLabelElement;
+            if (cont) {
+                cont.style.borderColor = "rgb(247 22 22)";
+            }
+            return;
+        }
+
+        if (!title) {
+            const title_el = document.getElementById('title') as HTMLLabelElement;
+            if (title_el) {
+                title_el.style.borderColor = "rgb(247 22 22)";
+            }
+            return;
+        }
+
+        if (mutex) return;
+
+        setMutex(true);
         authApi.post('/workshop', {
             title: title,
             description: description,
             categories: categories,
             base64: base64.replace('data:image/png;base64,', '')
-        });
+        }).then((response) => {
+            if (response.status !== 201) {
+                const error_el = document.getElementById('create_error') as HTMLLabelElement;
+                if (error_el) {
+                    error_el.innerText = response.data.message_ru || response.data.message;
+                }
+            } else {
+                router.replace(`/workshop/${response.data.external_id}`);
+            }
+        }).finally(() => {setMutex(false)})
     }
 
     return (
@@ -189,11 +262,22 @@ const Editor = ({onBandageChange}: EditorProps) => {
                 </div>
             </label>
             <p id="error" style={{margin: 0, color: "rgb(247 22 22)"}}></p>
-            <textarea maxLength={50} placeholder="Заголовок" className={style.textarea} onInput={(ev) => setTitle((ev.target as HTMLTextAreaElement).value)} value={title} />
+            <textarea maxLength={50} id="title" placeholder="Заголовок" className={style.textarea} onInput={(ev) => setTitle((ev.target as HTMLTextAreaElement).value)} value={title} />
             <textarea maxLength={300} placeholder="Описание" className={style.textarea} onInput={(ev) => setDescription((ev.target as HTMLTextAreaElement).value)} value={description} />
+            
+            {colorable && 
+            <InfoCard title='Повязка отмечена как окрашиваемая!'>
+                <div>
+                    <input type='color' id='color_select' onInput={debouncedHandleColorChange}/>
+                    <label htmlFor='color_select' style={{marginLeft: '.5rem'}}>Предпросмотр цвета</label>
+                </div>
+            </InfoCard>
+            }
+            
             <CategorySelector enabledCategories={enabledCategories}
                               allCategories={allCategories}
                               onChange={setCategories}/>
+            <label id="create_error" style={{margin: 0, color: "rgb(247 22 22)"}}></label>
             <button onClick={() => create()} className={style.skin_load}>Создать</button>
         </div>
     );

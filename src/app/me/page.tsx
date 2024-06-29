@@ -97,10 +97,10 @@ const Main = () => {
         if (code) {
             authApi.get(`oauth/discord/${code}`).then((response) => {
                 if (response.status == 403) {
-                    const about_logining = document.getElementById('about_logining');
-                    about_logining.style.color = "#ff2a2a";
-                    about_logining.style.textDecoration = "underline";
-                    about_logining.style.animation = `${styles.attention} 4s ease-in-out 0s 0.5`;
+                    const about_logging = document.getElementById('about_logging');
+                    about_logging.style.color = "#ff2a2a";
+                    about_logging.style.textDecoration = "underline";
+                    about_logging.style.animation = `${styles.attention} 4s ease-in-out 0s 0.5`;
                 }
             })
             router.replace('/me');
@@ -125,7 +125,7 @@ const Main = () => {
         {!isLogged ? <Login/> : 
             <Me>
                 <div style={elements ? {opacity: "1", transform: "translateY(0)"} : {opacity: "0", transform: "translateY(50px)"}} className={styles.cont}>
-                    <div style={{display: "flex", flexDirection: "column", alignItems: "stretch"}}>  
+                    <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>  
                         <Link className={styles.create} href="/workshop/create"><img alt="" src="/static/icons/plus.svg" />Создать</Link>
                         <div className={style_sidebar.skins_container}>
                             {elements}
@@ -157,8 +157,8 @@ const Login = () => {
                     Discord
                 </a>
 
-                <span className={styles.p} id="about_logining">Для регистрации вам нужно быть членом Discord сервера <a href='https://baad.pw/ds' className={styles.a}>Pwgood</a> и иметь одну из этих <Tooltip 
-                    parent_id="about_logining"
+                <span className={styles.p} id="about_logging">Для регистрации вам нужно быть членом Discord сервера <a href='https://baad.pw/ds' className={styles.a}>Pwgood</a> и иметь одну из этих <Tooltip 
+                    parent_id="about_logging"
                     body={
                     <div className={styles.roles_container}>
                         {dat}

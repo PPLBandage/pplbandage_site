@@ -132,6 +132,9 @@
     flex-direction: row;
     border: 2px transparent solid;
     transition: border 150ms;
+    box-sizing: border-box;
+
+    width: 300px;
 }
 
 .create:hover {
@@ -160,4 +163,16 @@
 	75% {
 		transform: translateY(-15px) scale(1.05);
 	}
+}
+
+@media (min-width: 1006px) {
+    .create{
+        width: calc(600px + 1rem);
+    }
+}
+
+@media (min-width: 1322px) {
+    .create{
+        width: calc(900px + 2rem);
+    }
 }

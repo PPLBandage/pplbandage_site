@@ -458,14 +458,14 @@ const EditElement = ({bandage, onClose}: {bandage: Interfaces.Bandage, onClose()
             }
         })
     }
-    return  <div style={{display: "flex", flexDirection: "column", gap: ".3rem"}}>
+    return  <div style={{display: "flex", flexDirection: "column", gap: ".8rem"}}>
                 {bandage.permissions_level >= 2 ? <>
                     <textarea maxLength={50} placeholder="Заголовок" className={style.textarea} onInput={(ev) => setTitle((ev.target as HTMLTextAreaElement).value)} value={title} />
                     <textarea maxLength={300} placeholder="Описание" className={style.textarea} onInput={(ev) => setDescription((ev.target as HTMLTextAreaElement).value)} value={description} />
                 </> : 
                 <>
                     <h2 className={style.title}>{bandage?.title}</h2>
-                    { bandage?.description && <p className={style.description}>{bandage?.description}</p> }
+                    { bandage?.description && <p className={style.description} style={{margin: 0}}>{bandage?.description}</p> }
                 </> }
                 <CategorySelector enabledCategories={bandage?.categories}
                                   allCategories={allCategories} 
@@ -480,11 +480,9 @@ const EditElement = ({bandage, onClose}: {bandage: Interfaces.Bandage, onClose()
                 />
                 <div className={style.check_notification} style={{borderColor: "red", 
                                                                   backgroundColor: "rgba(255, 0, 0, .13)", 
-                                                                  margin: 0,
-                                                                  marginTop: ".5rem", 
-                                                                  marginBottom: '.5rem'}}>
+                                                                  margin: 0}}>
                     <h3>Опасная зона</h3>
-                    <p>Все действия в данной зоне имеют необратимый характкер, делайте их с умом!</p>
+                    <p>Все действия в данной зоне имеют необратимый характер, делайте их с умом!</p>
                     
                     <div style={{display: 'flex', 
                                 alignItems: 'center', 

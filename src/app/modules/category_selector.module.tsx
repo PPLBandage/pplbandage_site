@@ -44,7 +44,7 @@ const CategorySelector = ({enabledCategories, allCategories, onChange}: Category
         return <CategoryEl key={el.id} category={el} onClick={() => updateCategory(el.id, true)} hoverable={true} />
     });
 
-    return  <div style={{marginBottom: ".8rem", marginTop: ".8rem"}}>
+    return  <div>
                 <h4 style={{margin: 0, marginBottom: ".9rem"}}>Выбранные категории:</h4>
                 <div className={style.container}>
                     {categoriesEnabled.length > 0 ? categoriesEnabled : <p style={{margin: 0, color: "gray", marginTop: "2.5px", marginBottom: "2.5px"}}>Категории не выбраны</p>}

@@ -79,7 +79,6 @@ export default function Home({ params }: { params: { id: string } }) {
         if (!refreshInitiator) {
             return
         };
-        console.log(refreshInitiator)
         setRefreshInitiator(false);
         client.current = new Client();
         client.current.addEventListener('skin_changed', (event: {skin: string, cape: string}) => {

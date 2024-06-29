@@ -240,6 +240,27 @@ class Client {
 
     //---------------------bandage_manager-------------------
 
+    loadFromImage(img: HTMLImageElement) { 
+        const height = img.height / 2;
+        const pepe_canvas = document.createElement('canvas') as HTMLCanvasElement;
+        const context_pepe = pepe_canvas.getContext("2d");
+        pepe_canvas.width = 16;
+        pepe_canvas.height = height;
+
+        const lining_canvas = document.createElement('canvas') as HTMLCanvasElement;
+        const context_lining = lining_canvas.getContext("2d");
+        lining_canvas.width = 16;
+        lining_canvas.height = height;
+
+        context_pepe.drawImage(img, 0, 0, 16, height, 0, 0, 16, height);
+        context_lining.drawImage(img, 0, height, 16, height, 0, 0, 16, height);
+        this.pepe_canvas = pepe_canvas;
+        this.lining_canvas = lining_canvas;
+        this.position = 6 - Math.floor(height / 2);
+
+        this.rerender();
+    }
+
     load_custom(event: Interfaces.FileUploadEvent) {
         const file = event.target.files?.item(0);
         if (!file) return;

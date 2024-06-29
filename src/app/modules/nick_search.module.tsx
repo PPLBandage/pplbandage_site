@@ -106,9 +106,10 @@ interface SlideButtonProps {
     value?: boolean;
     label?: string;
     defaultValue?: boolean;
+    strict?: boolean
 }
 
-export const SlideButton = ({onChange, value, label, defaultValue}: SlideButtonProps) => {
+export const SlideButton = ({onChange, value, label, defaultValue, strict}: SlideButtonProps) => {
     const [active, setActive] = useState<boolean>(value || defaultValue);
     const isInitialMount = useRef<boolean>(true);
 
@@ -118,7 +119,7 @@ export const SlideButton = ({onChange, value, label, defaultValue}: SlideButtonP
 
     useEffect(() => {
         if (active === undefined) return;
-        if (isInitialMount.current) {
+        if (isInitialMount.current && strict) {
             isInitialMount.current = false;
         } else {
             onChange(active);

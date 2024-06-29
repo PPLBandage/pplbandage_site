@@ -77,7 +77,7 @@ const Main = () => {
                             </div>
                         </div>
                         <div className={Style.checkboxes}>
-                            <SlideButton value={valid} onChange={(val) => {
+                            <SlideButton value={valid} strict={true} onChange={(val) => {
                                 authApi.put('users/me/connections/minecraft/set_valid', {}, {params: {
                                     state: val
                                 }}).then((response) => {
@@ -86,7 +86,7 @@ const Main = () => {
                                     }
                                 })
                             }} label='Отображать ник в поиске' />
-                            <SlideButton value={autoload} onChange={(val) => {
+                            <SlideButton value={autoload} strict={true} onChange={(val) => {
                                 authApi.put('users/me/connections/minecraft/set_autoload', {}, {params: {
                                     state: val
                                 }}).then((response) => {

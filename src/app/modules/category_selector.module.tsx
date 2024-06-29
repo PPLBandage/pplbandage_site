@@ -22,6 +22,10 @@ const CategorySelector = ({enabledCategories, allCategories, onChange}: Category
 
     useEffect(() => {
         const categories_sorted = allCategories.map(cat => {
+            if (!enabledCategories) {
+                cat.enabled = false;
+                return cat;
+            }
             cat.enabled = enabledCategories.some(category => category.id === cat.id);
             return cat;
         });
@@ -43,7 +47,7 @@ const CategorySelector = ({enabledCategories, allCategories, onChange}: Category
     return  <div style={{marginBottom: ".8rem", marginTop: ".8rem"}}>
                 <h4 style={{margin: 0, marginBottom: ".9rem"}}>Выбранные категории:</h4>
                 <div className={style.container}>
-                    {categoriesEnabled}
+                    {categoriesEnabled.length > 0 ? categoriesEnabled : <p style={{margin: 0, color: "gray", marginTop: "2.5px", marginBottom: "2.5px"}}>Категории не выбраны</p>}
                 </div>
                 <hr/>
                 <div className={style.container}>

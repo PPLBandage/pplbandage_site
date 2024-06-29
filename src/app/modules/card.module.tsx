@@ -5,7 +5,7 @@ import NextImage from 'next/image';
 import { fillPepe } from "../workshop/[id]/bandage_engine.module";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 
 const b64Prefix = "data:image/png;base64,";
 
@@ -68,8 +68,8 @@ export const randint = (min: number, max: number): number => {
     return Math.random() * (max - min) + min;
 }
 
-export const CategoryEl = ({category, enabled, onClick, hoverable}: {category: Category, enabled?: boolean, onClick?(): void, hoverable?: boolean}) => {
-    return <div key={category.id} className={`${Style.category} ${enabled && Style.enabled_category} ${hoverable && Style.hoverable}`} onClick={() => onClick()}>
+export const CategoryEl = ({category, enabled, onClick, hoverable, style}: {category: Category, enabled?: boolean, onClick?(): void, hoverable?: boolean, style?: CSSProperties}) => {
+    return <div key={category.id} className={`${Style.category} ${enabled && Style.enabled_category} ${hoverable && Style.hoverable}`} onClick={() => onClick()} style={style}>
                 <NextImage src={category.icon} alt={category.name} width={15} height={15} />
                 <p>{category.name}</p>
             </div>

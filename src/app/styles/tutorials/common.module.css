@@ -11,6 +11,16 @@
     display: flex;
     flex-direction: row;
     gap: 1rem;
+    align-items: flex-start;
+}
+
+.CustomLink {
+    color: rgba(12, 247, 215);
+    transition: color 150ms;
+}
+
+.CustomLink:hover {
+    color: rgb(179, 250, 241);
 }
 
 @media(max-width: 650px){

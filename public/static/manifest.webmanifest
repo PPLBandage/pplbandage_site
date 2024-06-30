@@ -1,0 +1,12 @@
+{
+    "name": "Повязки PepeLand",
+    "short_name": "PPLBandage",
+    "description": "Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!",
+    "icons": [
+        {
+            "src": "https://pplbandage.ru/static/icons/icon.svg",
+            "sizes": "512x512",
+            "type": "image/svg+xml"
+        }
+    ]
+}

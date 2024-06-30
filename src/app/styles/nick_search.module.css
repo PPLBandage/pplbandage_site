@@ -1,5 +1,5 @@
 .color {
-    color: #00ADB5;
+    color: var(--main-action-color);
 }
 
 .p_div .color{

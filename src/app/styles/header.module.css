@@ -92,7 +92,7 @@
 }
 
 .menu_element:hover {
-    background-color: #434957;
+    background-color: var(--main-element-color);
     transform: scale(1.01);
     box-shadow: #1d2025 1px 1px 5px 0px;
 }
@@ -132,12 +132,12 @@
 	0%,
 	50%,
 	100% {
-		background-color: #434957;
+		background-color: var(--main-element-color);
 	}
 
 	25%,
 	75% {
-		background-color: #262930;
+		background-color: var(--main-card-color);
 	}
 }
 
@@ -148,7 +148,7 @@
 
 .avatar_container{
     border-radius: 15rem;
-    border: 3.5px #262930 solid;
+    border: 3.5px var(--main-card-color) solid;
     cursor: pointer;
     width: 3rem;
     height: 3rem;

@@ -18,20 +18,20 @@
     position: relative;
     z-index: 1;
     border-radius: 10px;
-    border: 1px #434957 solid;
+    border: 1px var(--main-element-color) solid;
     box-sizing: border-box;
     overflow: hidden;
 }
 
 .render_footer {
     width: 100%;
-    background-color: #262930;
+    background-color: var(--main-card-color);
     padding: 1rem;
     box-sizing: border-box;
     border-radius: 0 0 10px 10px;
     position: relative;
     top: -10px;
-    border: 1px #434957 solid;
+    border: 1px var(--main-element-color) solid;
     z-index: 0;
     padding-top: calc(1rem + 10px);
     display: flex;
@@ -81,8 +81,8 @@
 
 .textarea {
     resize: vertical;
-    background-color: #434957;
-    border: #434957 1px solid;
+    background-color: var(--main-element-color);
+    border: var(--main-element-color) 1px solid;
     outline: none;
     transition: border 100ms;
     border-radius: 5px;
@@ -104,7 +104,7 @@
     font-size: 1.1rem;
 
     padding: .4rem;
-    background-color: #434957;
+    background-color: var(--main-element-color);
     border-radius: 10px;
     display: flex;
     align-items: center;

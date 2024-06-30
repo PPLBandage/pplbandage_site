@@ -25,7 +25,7 @@
     display: flex;
     box-sizing: border-box;
     align-items: center;
-    background-color: #434957;
+    background-color: var(--main-element-color);
     padding: 4px;
     margin: 2px;
     border-radius: 5px;
@@ -79,11 +79,11 @@
 }
 
 .login_button{
-    background-color: #434957;
+    background-color: var(--main-element-color);
     padding: .5rem;
     border-radius: 10px;
     box-sizing: border-box;
-    border: 1px #434957 solid;
+    border: 1px var(--main-element-color) solid;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -103,7 +103,6 @@
 
 .login_button img {
     width: 1.5rem;
-    filter: invert(100%);
     margin-right: .5rem;
 }
 
@@ -122,7 +121,7 @@
     font-size: 1.2rem;
 
     padding: .4rem;
-    background-color: #262930;
+    background-color: var(--main-card-color);
     margin-bottom: 1rem;
     border-radius: 15px;
     display: flex;
@@ -138,7 +137,7 @@
 }
 
 .create:hover {
-    border: 2px #434957 solid;
+    border: 2px var(--main-element-color) solid;
 }
 
 .create img{

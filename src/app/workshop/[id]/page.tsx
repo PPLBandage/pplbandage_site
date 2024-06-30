@@ -500,8 +500,8 @@ const EditElement = ({bandage, onClose}: {bandage: Interfaces.Bandage, onClose()
                                 }
                             })
                         }}>
-                            <img className={style.binUp} src="/static/icons/bin_up.png"></img>
-                            <img className={style.binDown} src="/static/icons/bin_down.png"></img>
+                            <img className={style.binUp} alt="" src="/static/icons/bin_up.png"></img>
+                            <img className={style.binDown} alt="" src="/static/icons/bin_down.png"></img>
                         </div>
                         <p style={{margin: 0}}>Удалить повязку</p>
                     </div>

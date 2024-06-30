@@ -16,12 +16,21 @@ import { authApi } from '@/app/api.module';
 import * as Interfaces from "@/app/interfaces";
 import debounce from 'lodash.debounce';
 import InfoCard from '@/app/modules/info.module';
+import useCookie from '@/app/modules/useCookie.module';
+import { redirect } from 'next/navigation';
 
 
 export default function Home() {
     const [SKIN, setSKIN] = useState<string>("");
     const [slim, setSlim] = useState<boolean>(false);
     const [pose, setPose] = useState<number>(1);
+    const logged = useCookie('sessionId');
+
+    useEffect(() => {
+        if (!logged) {
+            redirect('/me');
+        }
+    }, [logged])
 
     const client = useRef<Client>(null);
 
@@ -38,7 +47,7 @@ export default function Home() {
 
 
     return (
-    <body style={{backgroundColor: "#17181C", margin: 0}}>
+    <body>
         <Header/>
         <main className={style.main}>
             <div className={style.central_panel}>

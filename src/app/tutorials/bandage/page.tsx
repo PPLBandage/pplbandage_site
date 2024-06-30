@@ -6,7 +6,7 @@ import React from "react";
 import style from '@/app/styles/tutorials/common.module.css';
 import ASide from "../header.module";
 
-export default function () {
+export default function Home () {
     return (
         <body>
             <Header />

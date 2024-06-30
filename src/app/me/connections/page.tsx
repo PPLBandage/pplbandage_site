@@ -62,7 +62,7 @@ const Main = () => {
     }, [logged]);
 
     return (
-    <body style={{backgroundColor: "#17181C", margin: 0}}>
+    <body>
         <Header/>
         {isLogged &&
             <Me>

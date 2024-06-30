@@ -1,6 +1,6 @@
 .container {
     flex-direction: column;
-    background-color: #262930;
+    background-color: var(--main-card-color);
     border-radius: 15px;
     padding: 1rem;
     color: white;
@@ -55,9 +55,9 @@
 }
 
 .code_input {
-    background-color: #262930;
+    background-color: var(--main-card-color);
     border-radius: 10px 0 0 10px;
-    border: 1px #434957 solid;
+    border: 1px var(--main-element-color) solid;
     height: 2.4rem;
     color: white;
     font-size: 1rem;
@@ -71,9 +71,9 @@
 
 .code_send {
     color: white;
-    background-color: #262930;
+    background-color: var(--main-card-color);
     border-radius: 0 10px 10px 0;
-    border: 1px #434957 solid;
+    border: 1px var(--main-element-color) solid;
     height: 2.4rem;
     
     box-sizing: border-box;
@@ -86,7 +86,7 @@
 }
 
 .code_send:hover {
-    background-color: #434957;
+    background-color: var(--main-element-color);
 }
 
 .code_input:focus {
@@ -107,9 +107,9 @@
 
 .unlink {
     color: white;
-    background-color: #262930;
+    background-color: var(--main-card-color);
     border-radius: 10px;
-    border: 1px #434957 solid;
+    border: 1px var(--main-element-color) solid;
     height: 2.4rem;
     
     box-sizing: border-box;
@@ -127,7 +127,7 @@
 }
 
 .unlink:hover {
-    background-color: #434957;
+    background-color: var(--main-element-color);
 }
 
 @keyframes loading{

@@ -8,7 +8,7 @@ const Footer = () => {
                 <div className={style.links}>
                     <div className={style.links_cont}>
                         <Link href="/tos">Правила сайта</Link>
-                        <Link href="/credits">Credits</Link>
+                        <Link href="/contacts">Контакты</Link>
 
                         <Link href="/tutorials">Туториалы</Link>
                         <Link href="https://www.donationalerts.com/r/andcool_systems">Поддержать</Link>

@@ -1,7 +1,7 @@
 .tooltipStyle{
     all: unset;
     position: fixed;
-    background-color: #262930;
+    background-color: var(--main-card-color);
     color: #fff;
     border-radius: 5px;
     padding: 0.5%;

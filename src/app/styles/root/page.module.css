@@ -120,10 +120,10 @@
     color: white;
     text-decoration: none;
     padding: .6rem;
-    border: 2px #434957 dashed;
+    border: 2px var(--main-element-color) dashed;
     border-radius: 10px;
     font-weight: 600;
-    background-color: #262930;
+    background-color: var(--main-card-color);
     transition: border 150ms;
 }
 

@@ -11,7 +11,7 @@
     justify-content: center;
     flex-direction: row;
 
-    background-color: #262930;
+    background-color: var(--main-card-color);
     border-radius: 10px;
     padding: .6rem;
 
@@ -25,9 +25,9 @@
 }
 
 .search {
-    background-color: #262930;
+    background-color: var(--main-card-color);
     border-radius: 10px 0 0 10px;
-    border: 1px #434957 solid;
+    border: 1px var(--main-element-color) solid;
     height: 2.4rem;
     color: white;
     font-size: 1rem;
@@ -47,9 +47,9 @@
 }
 
 .search_loop{
-    background-color: #262930;
+    background-color: var(--main-card-color);
     border-radius: 0 10px 10px 0;
-    border: 1px #434957 solid;
+    border: 1px var(--main-element-color) solid;
     width: 2.4rem;
     height: 2.4rem;
     display: flex;
@@ -64,7 +64,7 @@
 }
 
 .search_loop:hover {
-    background-color: #434957;
+    background-color: var(--main-element-color);
 }
 
 .search_loop_icon{
@@ -96,10 +96,10 @@
 .filter_div{
     padding: .4rem;
     cursor: pointer;
-    background-color: #262930;
+    background-color: var(--main-card-color);
     border-radius: 10px;
     transition: background-color 150ms;
-    border: 1px #434957 solid;
+    border: 1px var(--main-element-color) solid;
 }
 
 .filter_div:hover{
@@ -136,7 +136,7 @@
 .category_menu {
     transform-origin: top;
     position: absolute;
-    background-color: #262930;
+    background-color: var(--main-card-color);
     margin-top: 1rem;
     z-index: 10;
     padding: .6rem;
@@ -153,7 +153,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #434957;
+    background-color: var(--main-element-color);
     padding: .1rem .2rem .1rem .2rem;
     border-radius: 5px;
     border: 1px #717b91 solid;

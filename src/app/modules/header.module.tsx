@@ -28,8 +28,9 @@ const Header = (): JSX.Element => {
     const { data, isLoading, isError } = useQuery({
         queryKey: ["userProfile"],
         retry: 5,
+        refetchOnWindowFocus: false,
         queryFn: async () => {
-            const res = await authApi.get("/users/me", {withCredentials: true});
+            const res = await authApi.get("/users/me");
             return res.data as Query;
 
         },

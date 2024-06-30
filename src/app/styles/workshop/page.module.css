@@ -17,7 +17,7 @@
 
 .filters {
     max-width: 300px;
-    background-color: #262930;
+    background-color: var(--main-card-color);
     padding: 1rem;
     border-radius: 15px;
 }
@@ -28,7 +28,7 @@
 }
 
 .right {
-    background-color: #262930;
+    background-color: var(--main-card-color);
     padding: 1rem;
     border-radius: 15px;
 }
@@ -50,12 +50,12 @@
     position: relative;
     z-index: 2;
     cursor: pointer;
-    border: 1px #434957 solid;
+    border: 1px var(--main-element-color) solid;
     box-sizing: border-box;
 }
 
 .skin_descr {
-    background-color: #262930;
+    background-color: var(--main-card-color);
     border-radius: 0 0 15px 15px;
     padding: 1rem;
     position: relative;
@@ -66,7 +66,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    border: 1px #434957 solid;
+    border: 1px var(--main-element-color) solid;
 }
 
 .star {
@@ -124,7 +124,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #434957;
+    background-color: var(--main-element-color);
     padding: .1rem .2rem .1rem .2rem;
     border-radius: 5px;
     border: 1px #717b91 solid;

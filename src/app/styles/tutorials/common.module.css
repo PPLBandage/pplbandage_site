@@ -23,6 +23,21 @@
     color: rgb(179, 250, 241);
 }
 
+.animated {
+    animation: initial_anim .2s;
+}
+
+@keyframes initial_anim {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
 @media(max-width: 650px){
     .main_container {
         flex-direction: column;

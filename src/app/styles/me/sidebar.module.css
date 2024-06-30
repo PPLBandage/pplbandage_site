@@ -22,7 +22,7 @@
 .card {
     display: flex;
     flex-direction: column;
-    background-color: #262930;
+    background-color: var(--main-card-color);
     border-radius: 15px;
     padding: 1rem;
     color: white;
@@ -54,7 +54,7 @@
 .uid {
     margin: 0;
     font-size: .8rem;
-    background-color: #434957;
+    background-color: var(--main-element-color);
     padding: .3rem;
     border-radius: 5px;
 }
@@ -63,12 +63,12 @@
 	0%,
 	50%,
 	100% {
-		background-color: #434957;
+		background-color: var(--main-element-color);
 	}
 
 	25%,
 	75% {
-		background-color: #262930;
+		background-color: var(--main-card-color);
 	}
 }
 
@@ -100,7 +100,7 @@
 }
 
 .side_butt:hover {
-    background-color: #434957;
+    background-color: var(--main-element-color);
 }
 
 .side_butt img {
@@ -126,7 +126,7 @@
 }
 
 .active {
-    background-color: #434957;
+    background-color: var(--main-element-color);
 }
 
 .animated {

@@ -6,15 +6,9 @@ import React from "react";
 import style from '@/app/styles/tutorials/common.module.css';
 import ASide from "./header.module";
 import InfoCard from "../modules/info.module";
-import Link from "next/link";
 import NextImage from "next/image";
 import { CategoryEl } from "../modules/card.module";
-
-const CustomLink = ({children, href}: {children: JSX.Element | string, href: string}) => {
-    return (
-        <Link className={style.CustomLink} href={href}>{children}</Link>
-    );
-}
+import { CustomLink } from "../modules/search.module";
 
 export default function Home () {
     return (

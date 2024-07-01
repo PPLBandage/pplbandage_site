@@ -15,7 +15,7 @@ const NotFoundElement = () => {
 
     return <div className={style.body}>
         <div className={style.circle} id="circle-1"></div>
-        <div className={style.circle} id="circle-2" style={{left: "60%", top: "60%", backgroundColor: "rgb(126 255 244)"}}></div>
+        <div className={style.circle} id="circle-2" style={{left: "60%", top: "60%", backgroundColor: "#00ADB5"}}></div>
         <main className={style.main}>
             <h1>404</h1>
             <h2 style={{margin: 0, marginBottom: "0.5%"}}>Page not found</h2>

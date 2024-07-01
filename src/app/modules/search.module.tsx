@@ -7,6 +7,8 @@ import Styles from "../styles/search.module.css"
 import Image from 'next/image';
 import { Category } from '../interfaces';
 import { CategoryEl } from './card.module';
+import styleLink from '@/app/styles/tutorials/common.module.css';
+import Link from 'next/link';
 
 const options: readonly {value: number, label: String}[] = [
     { value: 12, label: "12"},
@@ -129,3 +131,9 @@ export const Search = ({onSearch, onChangeTake, onChangeFilters, onChangeSort, c
             </div>
     );
 };
+
+export const CustomLink = ({children, href}: {children: JSX.Element | string, href: string}) => {
+    return (
+        <Link className={styleLink.CustomLink} href={href}>{children}</Link>
+    );
+}

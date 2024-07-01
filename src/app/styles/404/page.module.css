@@ -28,7 +28,7 @@
     width: 150px;
     height: 150px;
     transform: translate(-50%, -50%);
-    background-color: aquamarine;
+    background-color: #03d4df;
     position: absolute;
     border-radius: 50%;
     filter: blur(130px);

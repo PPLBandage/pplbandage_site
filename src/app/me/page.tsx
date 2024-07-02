@@ -22,6 +22,11 @@ const roles = [
         title: "Игрок PepeLand 8",
         color: 3003583
     },
+    {
+        id: 1123363907692666910,
+        title: "Игрок экспериментов (до 8 сезона)",
+        color: 1357990
+    },
     {   
         id: 958432771519422476,
         title: "Игрок PepeLand 7",
@@ -33,14 +38,14 @@ const roles = [
         color: 6333946
     },
     {
-        id: 589530176501579780,
-        title: "Discord Server Booster",
-        color: 15235577
-    },
-    {
         id: 987234058478186506,
         title: "Бусти",
         color: 15105570
+    },
+    {
+        id: 589530176501579780,
+        title: "Discord Server Booster",
+        color: 15235577
     }
 ];
 

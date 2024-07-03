@@ -1,0 +1,29 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: show .6s;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.container h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.container img {
+    width: 5rem;
+    filter: brightness(.8);
+}
+
+@keyframes show {
+    0% {
+        filter: blur(15px);
+    }
+
+    100% {
+        filter: blur(0px);
+    }
+}

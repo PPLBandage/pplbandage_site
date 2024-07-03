@@ -146,11 +146,13 @@ const Main = () => {
 
 const Login = () => {
     const dat = roles.map((role) => {
-        return(<div key={role.id} className={styles.role_container}>
+        return (
+        <div key={role.id} className={styles.role_container}>
             <span style={{backgroundColor: "#" + role.color.toString(16)}} className={styles.role_dot}>
             </span>
             <span className={styles.role_title}>{role.title}</span>
-        </div>)
+        </div>
+        )
     })
 
     return (

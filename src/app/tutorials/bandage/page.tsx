@@ -6,6 +6,8 @@ import React from "react";
 import style from '@/app/styles/tutorials/common.module.css';
 import ASide from "../header.module";
 import { CustomLink } from "@/app/modules/search.module";
+import InfoCard from "@/app/modules/info.module";
+import NextImage from "next/image";
 
 export default function Home () {
     return (
@@ -48,6 +50,30 @@ export default function Home () {
                             <li>
                                 <h4 style={{marginBottom: '.5rem'}}>Финальное наложение на скин.</h4>
                                 <p style={{margin: 0}}>Диапазон позиций вычисляется как 12-*высота повязки*.</p>
+                            </li>
+                        </ol>
+
+                        <h2>Сборка повязки</h2>
+                        <p>После того как вы нарисовали повязку вам следует собрать её в понятный для сайта формат.</p>
+                        <InfoCard color="#3FB950" title={
+                            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem'}}>
+                                <NextImage alt='' src='/static/icons/blocks/tip.svg' width={20} height={20}/>
+                                <p style={{margin: 0}}>Заметка</p>
+                            </div>}>
+                            <p style={{margin: 0}}>Если вы рисуете повязку в программах по типу Blockbench или подобных, удобнее всего будет это делать на левой руке и со стандартной моделькой скина. В таком случае будет легче всего собрать повязку.</p>
+                        </InfoCard>
+                        <p>Для упрощения понимания я разделил сборку повязки на этапы:</p>
+                        <ol>
+                            <li>
+                                <h4 style={{marginBottom: '.5rem'}}>Определение размеров повязки.</h4>
+                                <p style={{margin: 0}}>Так как ширина повязки всегда должна быть 16 пикселей, определять нужно высоту. Если у вас слои имеют различную высоту, то нужно брать <b>максимальную</b> высоту слоя. Учтите, что определенные границы первого и второго слоя должны начинаться и заканчиваться на одной координате Y.</p>
+                                <h4 style={{marginBottom: '.5rem'}}>Пример:</h4>
+                                <img alt="example_1" src="/static/tutorials/tutorial_1.png"/>
+                            </li>
+                            <li>
+                                <h4 style={{marginBottom: '.5rem'}}>Разбиение на слои.</h4>
+                                <p style={{margin: 0}}></p>
+                                
                             </li>
                         </ol>
                     </div>

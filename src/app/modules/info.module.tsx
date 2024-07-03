@@ -6,11 +6,16 @@ interface InfoCardProps {
     color?: string
 }
 
+//<div style={{backgroundColor: (color || '#0000ff')}} className={Style.circle} />
+
 const InfoCard = ({title, children, color}: InfoCardProps) => {
-    return  <div style={{backgroundColor: (color || '#0000ff') + '21', borderColor: color || '#0000ff'}} className={Style.container}>
+    const _color = color || '#0000ff';
+    return  (
+            <div style={{borderColor: _color, background: `linear-gradient(90deg, ${_color} -10%, rgba(0,0,0,0) 40%)`}} className={Style.container}>
                 <h3 className={Style.header}>{title}</h3>
                 {children}
             </div>
+    );
 }
 
 export default InfoCard;

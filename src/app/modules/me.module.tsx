@@ -53,6 +53,10 @@ export const Me = ({children}: {children: JSX.Element}) => {
                                     <Image src="/static/icons/star_bw.svg" alt="" width={24} height={24}/>
                                     Избранное
                                 </Link>
+                                <Link href="/me/notifications" className={`${style_sidebar.side_butt} ${path == 'notifications' && style_sidebar.active}`}>
+                                    <Image src="/static/icons/bell.svg" alt="" width={24} height={24}/>
+                                    Уведомления
+                                </Link>
                                 <Link href="/me/connections" className={`${style_sidebar.side_butt} ${path == 'connections' && style_sidebar.active}`}>
                                     <Image src="/static/icons/block.svg" alt="" width={24} height={24}/>
                                     Интеграции

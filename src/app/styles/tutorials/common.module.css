@@ -44,3 +44,7 @@
         align-items: stretch;
     }
 }
+
+.main img {
+    max-width: 100%;
+}

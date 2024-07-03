@@ -8,10 +8,11 @@ interface TooltipProps {
     children: JSX.Element,
     timeout: number,
     className: string,
-    parent_id?: string
+    parent_id?: string,
+    opacity?: string
 }
 
-export const Tooltip = ({ body, children, timeout = 800, className, parent_id }: TooltipProps) => {
+export const Tooltip = ({ body, children, timeout = 800, className, parent_id, opacity = ".9"}: TooltipProps) => {
     const [showTooltip, setShowTooltip] = useState<boolean>(false);
     const [position, setPosition] = useState<{x: number, y: number}>({ x: 0, y: 0 });
     const [mf, setmf] = useState<boolean>(false);
@@ -63,7 +64,7 @@ export const Tooltip = ({ body, children, timeout = 800, className, parent_id }:
         >
             {children}
             {(showTooltip && mf) && (
-                <div className={Style.tooltipStyle} id="tooltip" style={{ left: position.x + 10 + 'px', top: position.y + 10 + 'px' }} ref={bodyRef as LegacyRef<HTMLDivElement>}>
+                <div className={Style.tooltipStyle} id="tooltip" style={{ left: position.x + 10 + 'px', top: position.y + 10 + 'px', opacity: opacity }} ref={bodyRef as LegacyRef<HTMLDivElement>}>
                     {body}
                 </div>
             )

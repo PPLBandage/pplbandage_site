@@ -16,7 +16,7 @@ import { Card, generateSkin } from '@/app/modules/card.module';
 import { Me } from '@/app/modules/me.module';
 import Link from 'next/link';
 
-const roles = [
+export const roles = [
     {
         id: 1142141232685006990,
         title: "Игрок PepeLand 8",

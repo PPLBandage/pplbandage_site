@@ -6,7 +6,6 @@ interface InfoCardProps {
     color?: string
 }
 
-//<div style={{backgroundColor: (color || '#0000ff')}} className={Style.circle} />
 
 const InfoCard = ({title, children, color}: InfoCardProps) => {
     const _color = color || '#0000ff';

@@ -7,6 +7,7 @@ import style from '@/app/styles/tutorials/common.module.css';
 import ASide from "../header.module";
 import { CustomLink } from "@/app/modules/search.module";
 import InfoCard from "@/app/modules/info.module";
+import styleLink from '@/app/styles/tutorials/common.module.css';
 import NextImage from "next/image";
 
 export default function Home () {
@@ -66,16 +67,25 @@ export default function Home () {
                         <ol>
                             <li>
                                 <h4 style={{marginBottom: '.5rem'}}>Определение размеров повязки.</h4>
-                                <p style={{margin: 0}}>Так как ширина повязки всегда должна быть 16 пикселей, определять нужно высоту. Если у вас слои имеют различную высоту, то нужно брать <b>максимальную</b> высоту слоя. Учтите, что определенные границы первого и второго слоя должны начинаться и заканчиваться на одной координате Y.</p>
+                                <p style={{margin: 0}}>Так как ширина повязки всегда должна быть 16 пикселей, определять нужно высоту. Если слои имеют различную высоту, то нужно брать <b>максимальную</b> высоту слоя. Учтите, что определенные границы первого и второго слоя должны начинаться и заканчиваться на одной координате Y.</p>
                                 <h4 style={{marginBottom: '.5rem'}}>Пример:</h4>
-                                <img alt="example_1" src="/static/tutorials/tutorial_1.png"/>
+                                <a href="/static/tutorials/tutorial_1.png" target="_blank"><img alt="example_1" src="/static/tutorials/tutorial_1.png" /></a>
                             </li>
                             <li>
                                 <h4 style={{marginBottom: '.5rem'}}>Разбиение на слои.</h4>
-                                <p style={{margin: 0}}></p>
-                                
+                                <p style={{margin: 0}}> После определения размеров повязки, нужно разделить повязку на слои.<br />
+                                Создайте новый <span style={{color: "rgba(12, 247, 215)"}}>`.png`</span> файл шириной в 16 пикселей и высотой, вдвое большей высоте повязки. Расположите второй слой повязки в верхней половине нового файла, а первый – в нижней.</p>
+                                <h4 style={{marginBottom: '.5rem'}}>Пример:</h4>
+                                <a href="/static/tutorials/tutorial_2.png" target="_blank"><img alt="example_2" src="/static/tutorials/tutorial_2.png" /></a>
                             </li>
                         </ol>
+                        <p>И в общем это всё ¯\_(ツ)_/¯. Эти два этапа помогут вам правильно собрать свою повязку в понятный для сайта файл. Осталось только <CustomLink href="/workshop/create">опубликовать её в мастерской</CustomLink>.</p>
+                        <h3>Несколько примеров:</h3>
+                        <div style={{display: 'flex', flexDirection: 'column', gap: '.3rem'}}>
+                            <a className={styleLink.CustomLink} href="/static/tutorials/examples/ex_1.png" download={"ex_1.png"}>Пример №1</a>
+                            <a className={styleLink.CustomLink} href="/static/tutorials/examples/ex_2.png" download={"ex_2.png"}>Пример №2</a>
+                            <a className={styleLink.CustomLink} href="/static/tutorials/examples/ex_3.png" download={"ex_3.png"}>Пример №3</a>
+                        </div>
                     </div>
                 </div>
                 <Footer />

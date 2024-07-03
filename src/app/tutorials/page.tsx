@@ -9,8 +9,20 @@ import InfoCard from "../modules/info.module";
 import NextImage from "next/image";
 import { CategoryEl } from "../modules/card.module";
 import { CustomLink } from "../modules/search.module";
+import styles from "../styles/me/me.module.css";
+import { roles } from "../me/page";
+import { Tooltip } from "../modules/tooltip";
 
 export default function Home () {
+    const dat = roles.map((role) => {
+        return (
+        <div key={role.id} className={styles.role_container}>
+            <span style={{backgroundColor: "#" + role.color.toString(16)}} className={styles.role_dot}>
+            </span>
+            <span className={styles.role_title}>{role.title}</span>
+        </div>
+        )
+    })
     return (
         <body>
             <Header />
@@ -20,10 +32,26 @@ export default function Home () {
                     <div className={style.animated}>
                         <h1 style={{marginTop: 0, fontSize: '2rem'}}>Повязки Pepeland</h1>
                         <p>В этом разделе вы найдете все что нужно знать о регистрации и работе на сайте, а так же о создании повязок.</p>
+
+                        <h2>Мастерская</h2>
+                        <p>Мастерская – это главное место, где вы можете найти то, что ищите. В мастерской отображаются все повязки, которые были одобрены администрацией и имеющие публичный доступ. 
+                            Доступ к мастерской имеют все без исключения пользователи, как зарегистрированные, так и нет.</p>
+
                         <h2>Регистрация на сайте</h2>
-                        <p>Регистрация разрешена только пользователям, являющимися членами Discord сервера PWGood, 
-                            а так же имеющие определенные роли. При регистрации сайт сохраняет ваш никнейм с учётной записи Discord. 
-                            Дальнейшее его изменение возможно только через администрацию сайта.</p>
+                        <span style={{display: 'block', marginBottom: '1rem'}}>Регистрация разрешена только пользователям, являющимися членами Discord сервера PWGood, 
+                            а так же имеющие определенные <Tooltip 
+                                                            body={
+                                                                <div className={styles.roles_container}>
+                                                                    {dat}
+                                                                </div>
+                                                            }
+                                                            opacity="1"
+                                                            timeout={0} 
+                                                            className={styles.roles_text_container}>
+                                                                <span className={styles.roles_text}> роли</span>
+                                                          </Tooltip>. 
+                        При регистрации сайт сохраняет ваш никнейм с учётной записи Discord. 
+                            Дальнейшее его изменение возможно только через администрацию сайта.</span>
                         <InfoCard color="#4493F8" title={
                             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem'}}>
                                 <NextImage alt='' src='/static/icons/blocks/note.svg' width={20} height={20}/>

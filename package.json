@@ -2,6 +2,8 @@
   "name": "pplbandage_site",
   "version": "infinity",
   "private": true,
+  "license": "GPL-3.0-only",
+  "author": "AndcoolSystems",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

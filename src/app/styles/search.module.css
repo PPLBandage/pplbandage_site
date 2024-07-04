@@ -35,6 +35,7 @@
     box-sizing: border-box;
     overflow: visible;
     outline: none;
+    transition: border .15s;
 }
 
 .search:focus {
@@ -60,7 +61,7 @@
     border-left: none;
     cursor: pointer;
 
-    transition: background-color 150ms;
+    transition: background-color 150ms, border .15s;
 }
 
 .search_loop:hover {

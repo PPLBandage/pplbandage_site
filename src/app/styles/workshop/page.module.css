@@ -130,6 +130,8 @@
     border: 1px #717b91 solid;
     flex-grow: 0;
     flex-shrink: 0;
+
+    transition: border .15s;
 }
 
 .category p {
@@ -152,6 +154,10 @@
 .hoverable {
     cursor: pointer;
     user-select: none;
+}
+
+.hoverable:hover {
+    border: 1px var(--main-element-color) solid;
 }
 
 .loading {

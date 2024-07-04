@@ -24,7 +24,7 @@
 }
 
 .animated {
-    animation: initial_anim .25s;
+    animation: initial_anim .4s;
 }
 
 @keyframes initial_anim {

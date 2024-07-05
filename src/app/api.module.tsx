@@ -16,6 +16,9 @@ interface CookieObj {
 export const authApi = axios.create({
     baseURL: api,
     withCredentials: true,
+    headers: {
+        'Cache-Control': 'no-cache'
+    },
     validateStatus: (status) => {
         return status != 401
     }

@@ -1,0 +1,12 @@
+.main {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.main_container {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+}

@@ -160,6 +160,10 @@
     border: 1px var(--main-element-color) solid;
 }
 
+.enabled_category:hover {
+    border: 1px rgb(15, 133, 41) solid;
+}
+
 .loading {
     width: 100%;
     animation: loading 3s infinite ease-in-out;

@@ -16,7 +16,6 @@ export interface Query {
   username: string;
   name: string;
   avatar: string;
-  avatar_small: string;
   discordID: number;
   joined_at: Date;
 }
@@ -61,7 +60,7 @@ const Header = (): JSX.Element => {
             <div style={{display: "flex", alignItems: "center", flexWrap: "nowrap"}}>
                 <div className={`${Styles.avatar_container} ${!islogged && Styles.placeholders}`} onClick={() => setExpanded(!expanded)}>
                     {data && <Image className={Styles.avatar}
-                            src={data?.avatar_small || ""}
+                            src={(data?.avatar || "") + '?size=80'}
                             alt="avatar"
                             width={80}
                             height={80}

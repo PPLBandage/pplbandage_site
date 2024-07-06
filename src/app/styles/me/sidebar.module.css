@@ -133,6 +133,54 @@
     transition: opacity 200ms, transform 200ms;
 }
 
+.background_image {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: auto;
+}
+
+.card_improved {
+    background: none;
+    backdrop-filter: blur(7px);
+}
+
+.background_image_container {
+    overflow: hidden;
+    position: relative;
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.style_change {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2rem;
+    height: 2rem;
+
+    border-radius: 50%;
+    border: none;
+
+    cursor: pointer;
+
+    background-color: var(--main-element-color);
+    border: 1px var(--main-element-color) solid;
+    transition: border .1s;
+}
+
+.style_change:hover {
+    border: 1px #656f85 solid;
+}
+
 @media(max-width: 650px){
     .main {
         flex-direction: column;
@@ -142,6 +190,5 @@
     .card {
         width: auto;
         min-width: 300px;
-        
     }
 }

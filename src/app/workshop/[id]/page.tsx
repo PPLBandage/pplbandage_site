@@ -24,6 +24,7 @@ const Main = async ({ params }: { params: { id: string } }) => {
                     <meta property="og:description" content={data.description || 'Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!'} />
                     <meta property="og:url" content={`https://pplbandage.ru/workshop/${data.external_id}`} />
                     <meta property="og:site_name" content="Повязки Pepeland" />
+                    <meta property="og:image" content={`data:image/png;base64,${data.base64}`} />
                 </>
             }
             <Home data={data} />

@@ -64,6 +64,7 @@ const Header = (): JSX.Element => {
                             alt="avatar"
                             width={80}
                             height={80}
+                            priority={true}
                     />}
                 </div>
                 <img alt="" src="/static/icons/chevron-down.svg" className={ `${Styles.expand_arrow} ${expanded && Styles.expand_arrow_rotated}` } onClick={() => setExpanded(!expanded)} />

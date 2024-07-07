@@ -5,7 +5,7 @@ import style from '@/app/styles/contacts/contacts.module.css';
 
 const Home = () => {
     return (
-        <body style={{height: '100vh'}}>
+        <body>
             <Header/>
             <main className={style.main}>
                 <div className={style.main_container}>

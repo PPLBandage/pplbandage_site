@@ -10,7 +10,7 @@ const nextConfig = {
             pathname: '/avatars/**',
           },
         ],
-      },
+    },
 };
 
 export default nextConfig;

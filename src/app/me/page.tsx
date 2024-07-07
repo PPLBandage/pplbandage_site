@@ -48,7 +48,7 @@ const Main = () => {
                     await skinViewer.loadSkin(result);
                     skinViewer.render();
                     const image = skinViewer.canvas.toDataURL();
-                    return <Card el={el} base64={image} key={el.id}/>
+                    return <Card el={el} base64={image} key={el.id} className={styles}/>
                     } catch {
                         return;
                     }

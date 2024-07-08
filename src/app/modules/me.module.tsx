@@ -9,10 +9,11 @@ import { usePathname } from 'next/navigation';
 import { timeStamp } from "./time.module";
 import Footer from "./footer.module";
 import { useCookies } from 'next-client-cookies';
+import Menu from "./theme_select.module";
 
-const Default = ({data, islogged}: {data: Query, islogged: boolean}) => {
+const Default = ({data, islogged, color = "#262930"}: {data: Query, islogged: boolean, color?: string}) => {
     return (
-        <div className={style_sidebar.card}>
+        <div className={style_sidebar.card} style={{backgroundColor: color}}>
             <div className={`${style_sidebar.avatar_container} ${!islogged && style_sidebar.placeholders}`}>
                 {islogged && <Image src={data?.avatar + "?size=1024"} alt="" width={150} height={150} priority={true} draggable={false} />}
             </div>
@@ -54,7 +55,8 @@ export const Me = ({children}: {children: JSX.Element}) => {
     const pathname = usePathname();
     const path = pathname.split('/')[pathname.split('/').length - 1];
     const cookies = useCookies();
-    const [theme, setTheme] = useState<boolean>(cookies.get('theme') == "1");
+    const initial_theme = Number(cookies.get('theme')) || 0
+    const [theme, setTheme] = useState<number>(initial_theme);
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ["userProfile"],
@@ -71,18 +73,29 @@ export const Me = ({children}: {children: JSX.Element}) => {
     }
 
     useEffect(() => {
-        cookies.set('theme', theme ? '1' : '0');
+        cookies.set('theme', theme.toString());
     }, [theme]);
+
+    let background;
+    switch (theme) {
+        case 1:
+            background = <ImprovedTheme data={data} islogged={islogged} />;
+            break;
+        case 2:
+            background = <Default data={data} islogged={islogged} color={data?.banner_color} />;
+            break;
+        default:
+            background = <Default data={data} islogged={islogged} />;
+            break;
+    }
 
     return  <div className={style_sidebar.main_container}>
                 <div style={islogged ? {opacity: "1", transform: "translateY(0)"} : {}} className={style_sidebar.hidable}>
                     <div className={style_sidebar.main}>
                         <div className={style_sidebar.side}>
                             <div style={{position: 'relative'}}>
-                                {theme ? <ImprovedTheme data={data} islogged={islogged} /> : <Default data={data} islogged={islogged} />}
-                                <button className={style_sidebar.style_change} onClick={() => setTheme(prev => !prev)}>
-                                    <Image src="/static/icons/scenery.svg" alt="" width={16} height={16} />
-                                </button>
+                                {background}
+                                <Menu initialValue={initial_theme} color_available={!!data?.banner_color} onChange={setTheme} />
                             </div>
                             <div className={style_sidebar.card} style={{alignItems: "stretch", gap: ".5rem"}}>
                                 <Link href="/me" className={`${style_sidebar.side_butt} ${path == 'me' && style_sidebar.active}`}>

@@ -63,8 +63,6 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
     const [loadExpanded, setLoadExpanded] = useState<boolean>(false);
     const client = useRef<Client>();
 
-    const [refreshInitiator, setRefreshInitiator] = useState<boolean>(true);
-
 
     const debouncedHandleColorChange = useCallback(
         // из за частого вызова oninput на слабых клиентах сильно лагает,
@@ -76,10 +74,6 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
     );
 
     useEffect(() => {
-        if (!refreshInitiator) {
-            return
-        };
-        setRefreshInitiator(false);
         client.current = new Client();
         client.current.addEventListener('skin_changed', (event: {skin: string, cape: string}) => {
             setSkin(event.skin);
@@ -126,7 +120,7 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
             };  
         });
 
-    }, [refreshInitiator]);
+    }, []);
 
     const categories = bandage?.categories.map((category) => {
         if (category.icon === "/null") return undefined;
@@ -202,7 +196,7 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
                         { !edit ? <Info el={bandage} onClick={() => setEdit(true)} /> : 
                         <EditElement bandage={bandage} onClose={() => {
                                 setEdit(false);
-                                setRefreshInitiator(true);
+                                window.location.reload();
                             }
                         } /> }
                         <hr />

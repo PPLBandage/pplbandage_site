@@ -25,6 +25,7 @@ export interface Bandage {
     id: number;
     external_id: string,
     base64: string,
+    average_og_color: string,
     userId: number,
     creation_date: Date,
     verified: boolean,

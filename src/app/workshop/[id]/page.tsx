@@ -13,7 +13,8 @@ const Main = async ({ params }: { params: { id: string } }) => {
         withCredentials: true,
         headers: {
             "Cookie": cookie,
-            "User-Agent": userAgent
+            "User-Agent": userAgent,
+            "Unique-Access": process.env.NEXT_PUBLIC_TOKEN
         }});
     const data = initial_response.data.data as Interfaces.Bandage;
     return (
@@ -24,7 +25,8 @@ const Main = async ({ params }: { params: { id: string } }) => {
                     <meta property="og:description" content={data.description || 'Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!'} />
                     <meta property="og:url" content={`https://pplbandage.ru/workshop/${data.external_id}`} />
                     <meta property="og:site_name" content="Повязки Pepeland" />
-                    <meta property="og:image" content={`data:image/png;base64,${data.base64}`} />
+                    <meta property="og:image" content={`/api/workshop/${data.external_id}/as_image`} />
+                    <meta name="theme-color" content={data.average_og_color} />
                 </>
             }
             <Home data={data} />

@@ -156,30 +156,6 @@
     justify-content: center;
 }
 
-.style_change {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 2rem;
-    height: 2rem;
-
-    border-radius: 50%;
-    border: none;
-
-    cursor: pointer;
-
-    background-color: var(--main-element-color);
-    border: 1px var(--main-element-color) solid;
-    transition: border .1s;
-}
-
-.style_change:hover {
-    border: 1px #656f85 solid;
-}
 
 @media(max-width: 650px){
     .main {

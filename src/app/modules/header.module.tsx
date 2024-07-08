@@ -18,6 +18,7 @@ export interface Query {
   avatar: string;
   discordID: number;
   joined_at: Date;
+  banner_color: string
 }
 
 const Header = (): JSX.Element => {

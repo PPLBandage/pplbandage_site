@@ -46,9 +46,9 @@ const Menu = ({initialValue, color_available, onChange}: MenuProps) => {
                     }}
                     unmountOnExit>
                     <div className={Styles.menu}>
-                        <button className={theme === 0 && Styles.enabled}><Image src="/static/icons/fill.svg" alt="" width={16} height={16} onClick={() => setTheme(0)} /></button>
-                        <button className={theme === 1 && Styles.enabled}><Image src="/static/icons/scenery.svg" alt="" width={16} height={16} onClick={() => setTheme(1)} /></button>
-                        {color_available && <button className={theme === 2 && Styles.enabled}><Image src="/static/icons/color-palette.svg" alt="" width={16} height={16} onClick={() => setTheme(2)} /></button>}
+                        <button className={theme === 0 && Styles.enabled} onClick={() => setTheme(0)}><Image src="/static/icons/fill.svg" alt="" width={16} height={16} /></button>
+                        <button className={theme === 1 && Styles.enabled} onClick={() => setTheme(1)}><Image src="/static/icons/scenery.svg" alt="" width={16} height={16} /></button>
+                        {color_available && <button className={theme === 2 && Styles.enabled} onClick={() => setTheme(2)}><Image src="/static/icons/color-palette.svg" alt="" width={16} height={16} /></button>}
                     </div>
                 </CSSTransition>
             </div>);

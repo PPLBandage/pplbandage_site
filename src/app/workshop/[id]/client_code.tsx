@@ -119,7 +119,7 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
                 setLoaded(true);
             };  
         });
-
+        scrollTo(0, 0);
     }, []);
 
     const categories = bandage?.categories.map((category) => {

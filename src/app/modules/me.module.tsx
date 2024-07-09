@@ -73,7 +73,7 @@ export const Me = ({children}: {children: JSX.Element}) => {
     }
 
     useEffect(() => {
-        cookies.set('theme', theme.toString());
+        cookies.set('theme', theme.toString(), { expires: (365 * 10) });
     }, [theme]);
 
     let background;

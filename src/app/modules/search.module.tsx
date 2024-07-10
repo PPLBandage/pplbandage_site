@@ -70,7 +70,7 @@ export const Search = ({onSearch, onChangeTake, onChangeFilters, onChangeSort, c
                             <input 
                                 onChange={(event) => setSearch(event.target.value)}
                                 onKeyUp={(e) => {
-                                    if (e.code == "Enter"){
+                                    if (e.code == "Enter" || e.code == "NumpadEnter"){
                                         onSearch(search)
                                     }
                                 }}

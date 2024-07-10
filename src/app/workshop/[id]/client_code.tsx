@@ -136,7 +136,7 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
                 }
                 setLoadExpanded(false);
             }}/>}
-            {isError && <NotFoundElement />}
+            {isError ? <NotFoundElement /> : 
             <main className={style.main} style={loaded ? {opacity: "1", transform: "translateY(0)"} : {opacity: "0", transform: "translateY(50px)"}}>
                 <NavigatorEl path={[{
                         name: "Мастерская",
@@ -198,7 +198,8 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
                                 setEdit(false);
                                 window.location.reload();
                             }
-                        } /> }
+                        } /> 
+                        }
                         <hr />
                         <div style={{display: "flex", flexDirection: "column", gap: ".8rem"}}>
                             {client.current?.colorable && 
@@ -247,7 +248,7 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
                     </div>
                 </div>
                 <Footer />
-            </main>
+            </main> }
         </body>
     );
 }

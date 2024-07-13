@@ -152,6 +152,8 @@
     cursor: pointer;
     width: 3rem;
     height: 3rem;
+
+    transition: border-color .2s;
 }
 
 .login_button{
@@ -184,6 +186,10 @@
 
 .auth_cont{
     display: flex;
+}
+
+.unreaded {
+    border-color: #1bd96a;
 }
 
 

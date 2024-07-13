@@ -1,14 +1,32 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { redirect, } from "next/navigation";
 import Style from "@/app/styles/me/notifications.module.css";
 import Header from "@/app/modules/header.module";
 import useCookie from '@/app/modules/useCookie.module';
 import { Me } from '@/app/modules/me.module';
+import { authApi } from '@/app/api.module';
+import { formatDate } from '@/app/modules/card.module';
+import { Paginator } from '@/app/modules/paginator.module';
+import style_sidebar from "@/app/styles/me/sidebar.module.css";
+import Image from "next/image";
+
+interface Notifications {
+    data: {
+        id: number,
+        content: string,
+        author: string,
+        type: number,
+        creation_date: Date
+    }[],
+    total_count: number
+}
 
 const Main = () => {
     const logged = useCookie('sessionId');
+    const [notifications, setNotifications] = useState<Notifications>(null);
+    const [page, setPage] = useState<number>(0);
 
     useEffect(() => {
         if (!logged) {
@@ -16,13 +34,50 @@ const Main = () => {
         }
     }, [logged]);
 
+    useEffect(() => {
+        if (page < 0) return;
+        authApi.get('users/me/notifications', { params: { page: page } }).then((response) => {
+            if (response.status === 200) {
+                setNotifications(response.data);
+            }
+        });
+    }, [page]);
+
+    const notifications_el = notifications?.data.map((notification) => {
+        let classN = Style.default;
+        switch (notification.type) {
+            case 1:
+                classN = Style.pass;
+                break;
+            case 2:
+                classN = Style.denied;
+                break;
+        }
+        return (
+            <div key={notification.id} className={`${Style.notification_container} ${classN}`}>
+                <div className={Style.date_container}>
+                    <h1>{notification.author}</h1>
+                    <p>{formatDate(new Date(notification.creation_date))}</p>
+                </div>
+                <p dangerouslySetInnerHTML={{ __html: notification.content }} className={Style.content} />
+            </div>
+        );
+    })
+
     return (
     <body>
         <Header/>
         <Me>
-            <div className={Style.container}>
-                <img alt="crane" src='/static/icons/crane.svg'/>
-                <h1>Раздел в разработке</h1>
+            <div className={Style.container} style={notifications != null ? {opacity: "1", transform: "translateY(0)"} : {opacity: "0", transform: "translateY(50px)"}}>
+                {notifications?.data.length > 0 ? 
+                <>
+                    {notifications?.total_count > 5 && <Paginator total_count={notifications?.total_count} take={5} onChange={(page) => setPage(page || 0)} />}
+                    {notifications_el}
+                </> : 
+                <div className={style_sidebar.animated} style={notifications != null ? {opacity: "1", transform: "translateY(0)", width: "100%"} : {opacity: "0", transform: "translateY(50px)", width: "100%"}}>
+                    <p style={{display: "flex", alignItems: "center", fontSize: "1.1rem", fontWeight: 500, width: "100%", justifyContent: "center", margin: 0}}><Image style={{marginRight: ".5rem"}} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />Похоже, тут ничего нет</p>
+                </div>
+                }
             </div>
         </Me>
     </body>

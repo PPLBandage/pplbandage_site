@@ -109,6 +109,15 @@ export const Me = ({children}: {children: JSX.Element}) => {
                                 <Link href="/me/notifications" className={`${style_sidebar.side_butt} ${path == 'notifications' && style_sidebar.active}`}>
                                     <Image src="/static/icons/bell.svg" alt="" width={24} height={24}/>
                                     Уведомления
+                                    {data?.has_unreaded_notifications && 
+                                        <span style={{
+                                            backgroundColor: '#1bd96a', 
+                                            width: '8px',
+                                            height: '8px',
+                                            marginLeft: '5px',
+                                            marginTop: '2px',
+                                            borderRadius: '50%'}}/>
+                                    }
                                 </Link>
                                 <Link href="/me/connections" className={`${style_sidebar.side_butt} ${path == 'connections' && style_sidebar.active}`}>
                                     <Image src="/static/icons/block.svg" alt="" width={24} height={24}/>

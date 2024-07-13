@@ -13,12 +13,13 @@ import { Cookies, useCookies } from "next-client-cookies";
 import useCookie from "./useCookie.module";
 
 export interface Query {
-  username: string;
-  name: string;
-  avatar: string;
-  discordID: number;
-  joined_at: Date;
-  banner_color: string
+    username: string;
+    name: string;
+    avatar: string;
+    discordID: number;
+    joined_at: Date;
+    banner_color: string;
+    has_unreaded_notifications: Boolean
 }
 
 const Header = (): JSX.Element => {
@@ -32,7 +33,6 @@ const Header = (): JSX.Element => {
         queryFn: async () => {
             const res = await authApi.get("/users/me");
             return res.data as Query;
-
         },
     });
 
@@ -59,7 +59,7 @@ const Header = (): JSX.Element => {
             </div>
             {cookies.current.get("sessionId") ? 
             <div style={{display: "flex", alignItems: "center", flexWrap: "nowrap"}}>
-                <div className={`${Styles.avatar_container} ${!islogged && Styles.placeholders}`} onClick={() => setExpanded(!expanded)}>
+                <div className={`${Styles.avatar_container} ${!islogged && Styles.placeholders} ${data?.has_unreaded_notifications && Styles.unreaded}`} onClick={() => setExpanded(!expanded)}>
                     {data && <Image className={Styles.avatar}
                             src={(data?.avatar || "") + '?size=80'}
                             alt="avatar"

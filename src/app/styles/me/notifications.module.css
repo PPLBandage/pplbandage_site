@@ -2,10 +2,10 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    animation: show .6s;
-    padding: 1rem;
+    align-items: stretch;
     box-sizing: border-box;
+    transition: opacity 200ms, transform 200ms;
+    gap: .5rem;
 }
 
 .container h1 {
@@ -13,17 +13,53 @@
     font-size: 1.5rem;
 }
 
-.container img {
-    width: 5rem;
-    filter: brightness(.8);
+.date_container {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
 }
 
-@keyframes show {
-    0% {
-        filter: blur(15px);
-    }
+.date_container h1 {
+    margin: 0;
+    font-size: 1.2rem;
+}
 
-    100% {
-        filter: blur(0px);
-    }
+.date_container p {
+    margin: 0;
+    font-size: .8rem;
+    color: gray;
+}
+
+.notification_container {
+    background-color: var(--main-card-color);
+    border: 1px var(--main-element-color) solid;
+    border-radius: 15px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .5rem;
+}
+
+.notification_container p {
+    margin: 0;
+}
+
+.content a {
+    color: rgba(12, 247, 215);
+    transition: color 150ms;
+}
+
+.content a:hover {
+    color: rgb(179, 250, 241);
+}
+
+.pass {
+    border-color: #4493F8;
+    background-color: #4493f84a;
+}
+
+.denied {
+    border-color: #F85149;
+    background-color: #F851494a;
 }

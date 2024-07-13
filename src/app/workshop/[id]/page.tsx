@@ -8,7 +8,7 @@ const Main = async ({ params }: { params: { id: string } }) => {
     const cookie = headersList.get('Cookie');
     const userAgent = headersList.get('User-Agent');
 
-    const initial_response = await axios.get(`https://pplbandage.ru/api/workshop/${params.id}`, {
+    const initial_response = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${params.id}`, {
         validateStatus: () => true, 
         withCredentials: true,
         headers: {

@@ -1,7 +1,8 @@
 import axios from "axios";
 import Home from "./client_code";
 import * as Interfaces from "@/app/interfaces";
-import { headers } from 'next/headers'
+import { headers } from 'next/headers';
+import { notFound } from "next/navigation";
 
 const Main = async ({ params }: { params: { id: string } }) => {
     const headersList = headers()
@@ -9,14 +10,19 @@ const Main = async ({ params }: { params: { id: string } }) => {
     const userAgent = headersList.get('User-Agent');
 
     const initial_response = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${params.id}`, {
-        validateStatus: () => true, 
+        validateStatus: () => true,
+        maxRedirects: 0,
         withCredentials: true,
         headers: {
             "Cookie": cookie,
             "User-Agent": userAgent,
-            "Unique-Access": process.env.NEXT_PUBLIC_TOKEN
+            "Unique-Access": process.env.TOKEN
         }});
     const data = initial_response.data.data as Interfaces.Bandage;
+
+    if (initial_response.status !== 200) {
+        notFound();
+    }
     return (
         <>  
             {data && 

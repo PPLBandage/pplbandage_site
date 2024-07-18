@@ -13,6 +13,7 @@ import NextImage from "next/image";
 export default function Home () {
     return (
         <body>
+            <title>Туториалы · Повязки Pepeland</title>
             <Header />
             <main className={style.main}>
                 <div className={style.main_container}>

@@ -18,6 +18,7 @@ import debounce from 'lodash.debounce';
 import InfoCard from '@/app/modules/info.module';
 import useCookie from '@/app/modules/useCookie.module';
 import { redirect } from 'next/navigation';
+import { Cookies, useCookies } from 'next-client-cookies';
 
 
 export default function Home() {
@@ -25,6 +26,11 @@ export default function Home() {
     const [slim, setSlim] = useState<boolean>(false);
     const [pose, setPose] = useState<number>(1);
     const logged = useCookie('sessionId');
+    const cookies = useRef<Cookies>(useCookies());
+
+    if (!cookies.current.get('sessionId')) {
+        redirect('/me');
+    }
 
     useEffect(() => {
         if (!logged) {
@@ -60,6 +66,7 @@ export default function Home() {
 
     return (
     <body>
+        <title>Создать · Повязки Pepeland</title>
         <Header/>
         <main className={style.main}>
             <div className={style.central_panel}>
@@ -119,7 +126,6 @@ const Editor = ({onBandageChange, onColorChange, onColorableChange}: EditorProps
                 setAllCategories(response.data as Interfaces.Category[]);
             }
         })
-
     }, []);
 
     const debouncedHandleColorChange = useCallback(

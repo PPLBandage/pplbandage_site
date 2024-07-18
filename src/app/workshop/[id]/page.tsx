@@ -11,7 +11,6 @@ const Main = async ({ params }: { params: { id: string } }) => {
 
     const initial_response = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${params.id}`, {
         validateStatus: () => true,
-        maxRedirects: 0,
         withCredentials: true,
         headers: {
             "Cookie": cookie,
@@ -33,6 +32,7 @@ const Main = async ({ params }: { params: { id: string } }) => {
                     <meta property="og:site_name" content="Повязки Pepeland" />
                     <meta property="og:image" content={`/api/workshop/${data.external_id}/as_image`} />
                     <meta name="theme-color" content={data.average_og_color} />
+                    <title>{`${data.title} · Повязки Pepeland`}</ title>
                 </>
             }
             <Home data={data} />

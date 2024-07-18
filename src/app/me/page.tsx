@@ -94,6 +94,7 @@ const Main = () => {
 
     return (
     <body>
+        <title>Личный кабинет · Повязки Pepeland</title>
         <Header/>
         {!isLogged ? <Login/> : 
             <Me>

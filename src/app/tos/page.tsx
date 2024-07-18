@@ -5,6 +5,7 @@ import style from '@/app/styles/tutorials/common.module.css';
 const Main = () => {
     return (
         <body>
+            <title>Правила · Повязки Pepeland</title>
             <Header />
             <main className={style.main}>
                 <div className={style.main_container}>

@@ -23,6 +23,10 @@ const Main = () => {
     const [elements, setElements] = useState<JSX.Element[]>(null);
     const [data, setData] = useState<Bandage[]>(null);
 
+    if (!cookies.current.get('sessionId')) {
+        redirect('/me');
+    }
+
     useEffect(() => {
         authApi.get("users/me/stars").then((response) => {
             if (response.status === 200) {
@@ -74,6 +78,7 @@ const Main = () => {
 
     return (
     <body>
+        <title>Избранное · Повязки Pepeland</title>
         <Header/>
         {isLogged &&
             <Me>

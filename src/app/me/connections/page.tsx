@@ -4,7 +4,7 @@ import React, { use, useEffect } from 'react';
 import { useState, useRef } from 'react';
 import { useQuery } from "@tanstack/react-query";
 import { authApi } from "@/app/api.module";
-import { redirect, usePathname, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import Style from "../../styles/me/connections.module.css";
 import Header from "../../modules/header.module";
 import useCookie from '../../modules/useCookie.module';
@@ -38,7 +38,6 @@ interface ConnectionResponse {
 const b64Prefix = "data:image/png;base64,";
 
 const Main = () => {
-    const pathname = usePathname();
     const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');
     const [isLogged, setIsLogged] = useState<boolean>(cookies.current.get('sessionId') != undefined);
@@ -47,6 +46,10 @@ const Main = () => {
 
     const [valid, setValid] = useState<boolean>(false);
     const [autoload, setAutoload] = useState<boolean>(false);
+
+    if (!cookies.current.get('sessionId')) {
+        redirect('/me');
+    }
 
     const { data, refetch } = useQuery({
         queryKey: ["userConnections"],
@@ -71,6 +74,7 @@ const Main = () => {
 
     return (
     <body>
+        <title>Интеграции · Повязки Pepeland</title>
         <Header/>
         {isLogged &&
             <Me>

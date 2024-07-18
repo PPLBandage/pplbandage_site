@@ -7,7 +7,7 @@ import { CookiesProvider } from 'next-client-cookies/server';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "Повязки PepeLand",
+	title: "Повязки Pepeland",
 	description: "Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!",
 	manifest: "/static/manifest.webmanifest",
 	icons: {

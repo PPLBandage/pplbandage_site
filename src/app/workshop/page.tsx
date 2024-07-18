@@ -92,6 +92,7 @@ export default function Home() {
 
     return (
       <body>
+        <title>Мастерская · Повязки Pepeland</title>
         <Header />
 
         <main className={Style.main}>

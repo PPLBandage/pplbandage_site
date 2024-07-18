@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { redirect, } from "next/navigation";
 import Style from "@/app/styles/me/notifications.module.css";
 import Header from "@/app/modules/header.module";
@@ -11,6 +11,7 @@ import { formatDate } from '@/app/modules/card.module';
 import { Paginator } from '@/app/modules/paginator.module';
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import Image from "next/image";
+import { Cookies, useCookies } from 'next-client-cookies';
 
 interface Notifications {
     data: {
@@ -24,9 +25,14 @@ interface Notifications {
 }
 
 const Main = () => {
+    const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');
     const [notifications, setNotifications] = useState<Notifications>(null);
     const [page, setPage] = useState<number>(0);
+
+    if (!cookies.current.get('sessionId')) {
+        redirect('/me');
+    }
 
     useEffect(() => {
         if (!logged) {
@@ -66,6 +72,7 @@ const Main = () => {
 
     return (
     <body>
+        <title>Уведомления · Повязки Pepeland</title>
         <Header/>
         <Me>
             <div className={Style.container} style={notifications != null ? {opacity: "1", transform: "translateY(0)"} : {opacity: "0", transform: "translateY(50px)"}}>

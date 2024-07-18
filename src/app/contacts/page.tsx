@@ -1,11 +1,11 @@
 import Link from "next/link";
-import Footer from "../modules/footer.module";
 import Header from "../modules/header.module";
 import style from '@/app/styles/contacts/contacts.module.css';
 
 const Home = () => {
     return (
         <body>
+            <title>Контакты · Повязки Pepeland</title>
             <Header/>
             <main className={style.main}>
                 <div className={style.main_container}>

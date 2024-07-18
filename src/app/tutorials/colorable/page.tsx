@@ -12,6 +12,7 @@ import { CategoryEl } from "@/app/modules/card.module";
 export default function Home () {
     return (
         <body>
+            <title>Туториалы · Повязки Pepeland</title>
             <Header />
             <main className={style.main}>
                 <div className={style.main_container}>

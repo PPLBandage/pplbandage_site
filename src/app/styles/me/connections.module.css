@@ -1,14 +1,21 @@
+.main {
+    flex-direction: column;
+    display: flex;
+    transition: opacity 200ms, transform 200ms;
+    width: 100%;
+    align-items: stretch;
+    gap: 1rem;
+}
+
 .container {
     flex-direction: column;
     background-color: var(--main-card-color);
     border-radius: 15px;
     padding: 1rem;
     color: white;
-    width: 100%;
     box-sizing: border-box;
     gap: 1rem;
     display: flex;
-    transition: opacity 200ms, transform 200ms;
     align-items: stretch;
 }
 
@@ -128,6 +135,37 @@
 
 .unlink:hover {
     background-color: var(--main-element-color);
+}
+
+.discord_avatar {
+    width: 64px;
+    height: 64px;
+}
+
+.discord_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .5rem;
+}
+
+.discord_name_container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.discord_name_container h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.discord_name_container p {
+    margin: 0;
+    color: gray;
+    font-size: .8rem;
 }
 
 @keyframes loading{

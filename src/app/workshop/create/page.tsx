@@ -34,6 +34,13 @@ export default function Home() {
 
     const client = useRef<Client>(null);
 
+    const beforeUnload = (e: BeforeUnloadEvent) => {
+        console.log(e)
+        const confirmationMessage = 'У вас есть несохраненные изменения. Вы уверены, что хотите покинуть страницу?';
+        e.returnValue = confirmationMessage;
+        return confirmationMessage;
+    }
+
     useEffect(() => {
         client.current = new Client();
         client.current.addEventListener('skin_changed', (event: {skin: string, cape: string}) => {
@@ -42,6 +49,11 @@ export default function Home() {
         });
 
         client.current.loadSkinUrl("/static/workshop_base.png");
+        window.addEventListener('beforeunload', beforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', beforeUnload);
+        }
 
     }, []);
 
@@ -69,7 +81,7 @@ export default function Home() {
                             onChange={(n, a) => setPose(n.value)}
                             formatOptionLabel={(nick_value) => nick_value.label}
                         />
-                        <SlideButton onChange={(v) => {setSlim(v); console.log(v)}} value={slim} label="Тонкие руки"/>
+                        <SlideButton onChange={(v) => {setSlim(v)}} value={slim} label="Тонкие руки"/>
                     </div>
                 </aside>
                 <Editor onBandageChange={(b64) => {client.current.loadFromImage(b64)}} onColorChange={(color) => {
@@ -107,6 +119,7 @@ const Editor = ({onBandageChange, onColorChange, onColorableChange}: EditorProps
                 setAllCategories(response.data as Interfaces.Category[]);
             }
         })
+
     }, []);
 
     const debouncedHandleColorChange = useCallback(

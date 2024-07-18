@@ -11,9 +11,9 @@ import Footer from "./footer.module";
 import { useCookies } from 'next-client-cookies';
 import Menu from "./theme_select.module";
 
-const Default = ({data, islogged, color = "#262930"}: {data: Query, islogged: boolean, color?: string}) => {
+const Default = ({data, islogged, color}: {data: Query, islogged: boolean, color?: string}) => {
     return (
-        <div className={style_sidebar.card} style={{backgroundColor: color}}>
+        <div className={style_sidebar.card} style={{backgroundColor: color || "#262930"}}>
             <div className={`${style_sidebar.avatar_container} ${!islogged && style_sidebar.placeholders}`}>
                 {islogged && <Image src={data?.avatar + "?size=1024"} alt="" width={150} height={150} priority={true} draggable={false} />}
             </div>

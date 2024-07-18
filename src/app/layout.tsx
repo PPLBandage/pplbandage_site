@@ -16,7 +16,10 @@ export const metadata: Metadata = {
 		apple: "/static/icons/icon.svg"
 	},
 	creator: "AndcoolSystems",
-	other: {'darkreader-lock': 'darkreader-lock'}
+	other: {
+		'darkreader-lock': 'darkreader-lock',
+		'theme-color': '#0f766e'
+	}
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

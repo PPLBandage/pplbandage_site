@@ -19,9 +19,7 @@ export const authApi = axios.create({
     headers: {
         'Cache-Control': 'no-cache'
     },
-    validateStatus: (status) => {
-        return status != 401
-    }
+    validateStatus: (status) => status != 401
 });
 
 const convertCookie = (cookie: string): CookieObj | null => {
@@ -62,7 +60,11 @@ authApi.interceptors.request.use(async (config) => {
 authApi.interceptors.response.use((response) => {
     const setcookie = convertCookie(response.headers['setcookie']);
     if (setcookie) {
-        setCookie('sessionId', setcookie.sessionId, { expires: new Date(setcookie.Expires), path: setcookie.Path, sameSite: setcookie.SameSite == 'true' });
+        setCookie('sessionId', setcookie.sessionId, { 
+            expires: new Date(setcookie.Expires), 
+            path: setcookie.Path, 
+            sameSite: setcookie.SameSite == 'true' 
+        });
     }
     tokenMutex.release();
     return response;

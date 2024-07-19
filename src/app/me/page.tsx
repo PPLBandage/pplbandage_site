@@ -69,16 +69,16 @@ const Main = () => {
         const code = urlParams.get('code');
         if (code) {
             authApi.get(`oauth/discord/${code}`).then((response) => {
-                if (response.status == 403) {
+                if (response.status === 403) {
                     const about_logging = document.getElementById('about_logging');
                     about_logging.style.color = "#ff2a2a";
                     about_logging.style.textDecoration = "underline";
                     about_logging.style.animation = `${styles.attention} 4s ease-in-out 0s 0.5`;
+                    return;
                 }
+                router.replace('/me');
             })
-            router.replace('/me');
         }
-        
         return () => {}
     }, []);
 

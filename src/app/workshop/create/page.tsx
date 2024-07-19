@@ -41,7 +41,6 @@ export default function Home() {
     const client = useRef<Client>(null);
 
     const beforeUnload = (e: BeforeUnloadEvent) => {
-        console.log(e)
         const confirmationMessage = 'У вас есть несохраненные изменения. Вы уверены, что хотите покинуть страницу?';
         e.returnValue = confirmationMessage;
         return confirmationMessage;

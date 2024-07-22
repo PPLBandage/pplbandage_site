@@ -24,6 +24,7 @@ import { authApi } from '@/app/api.module';
 import CategorySelector from '@/app/modules/category_selector.module';
 import Footer from '@/app/modules/footer.module';
 import { anims } from '../poses';
+import { tree } from 'next/dist/build/templates/app-page';
 
 
 const body_part: readonly {value: number, label: String}[] = [
@@ -281,6 +282,7 @@ interface SkinResponse {
 
 const SkinLoad = ({onChange}: SkinLoadProps) => {
     const [data, setData] = useState<{data: string; slim: boolean; cape?: string}>(null);
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     const isSlim = (img: HTMLImageElement): boolean => {
         const canvas = document.createElement('canvas');
@@ -317,6 +319,7 @@ const SkinLoad = ({onChange}: SkinLoadProps) => {
                 slim: data.data.skin.slim,
                 cape: data.data.cape
             });
+            setLoaded(true);
         });
     }
 
@@ -350,6 +353,7 @@ const SkinLoad = ({onChange}: SkinLoadProps) => {
                     data: reader.result as string,
                     slim: isSlim(img)
                 });
+                setLoaded(true);
             }
             img.src = reader.result as string;
         }
@@ -404,8 +408,14 @@ const SkinLoad = ({onChange}: SkinLoadProps) => {
                             <NextImage src={data.data} width={64} height={64} alt='' />
                         </div>
                 }
-                <button className={style.skin_load} onClick={() => onChange(data)}>
-                    <NextImage src="/static/icons/done.svg" alt="" width={32} height={32} />Готово</button>
+                    <div style={{display: 'flex', width: '100%', gap: '.5rem'}}>
+                        <button className={style.skin_load} onClick={() => onChange(null)} style={{width: '2.7rem'}}>
+                            <NextImage src="/static/icons/plus.svg" alt="" width={32} height={32} style={{margin: 0, transform: 'rotate(45deg)'}}/>
+                        </button>
+                        <button className={`${style.skin_load} ${!loaded && style.disabled_load}`} onClick={() => {loaded && onChange(data)}} style={{width: '100%'}}>
+                            <NextImage src="/static/icons/done.svg" alt="" width={32} height={32} />Готово
+                        </button>
+                    </div>
                 </div>
            </div>
 }

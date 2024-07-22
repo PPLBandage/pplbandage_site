@@ -111,6 +111,8 @@
     flex-direction: row;
     cursor: pointer;
     transition: background-color 150ms;
+
+    height: 2.5rem;
 }
 
 .skin_load:hover {
@@ -161,6 +163,14 @@
     gap: .5rem;
     justify-content: space-between;
     box-sizing: border-box;
+}
+
+.disabled_load {
+    cursor: default;
+}
+
+.disabled_load:hover {
+    background-color: var(--main-element-color);
 }
 
 .skin_drop {

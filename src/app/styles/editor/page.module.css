@@ -93,7 +93,7 @@
 
 .skin_load {
     border: none;
-    color: white;
+    color: var(--main-text-color);
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -110,13 +110,13 @@
     flex-wrap: nowrap;
     flex-direction: row;
     cursor: pointer;
-    transition: background-color 150ms;
+    transition: background-color 250ms;
 
     height: 2.5rem;
 }
 
 .skin_load:hover {
-    background-color: #576074;
+    background-color: var(--hr-color);
 }
 
 .skin_load img {
@@ -295,7 +295,7 @@
 }
 
 .textarea:focus {
-    border: 1px #717b91 solid;
+    border: 1px var(--focus-color) solid;
 }
 
 .deleteButton {

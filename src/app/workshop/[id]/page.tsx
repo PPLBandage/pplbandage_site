@@ -16,15 +16,16 @@ const Main = async ({ params }: { params: { id: string } }) => {
             "Cookie": cookie,
             "User-Agent": userAgent,
             "Unique-Access": process.env.TOKEN
-        }});
+        }
+    });
     const data = initial_response.data.data as Interfaces.Bandage;
 
     if (initial_response.status !== 200) {
         notFound();
     }
     return (
-        <>  
-            {data && 
+        <>
+            {data &&
                 <>
                     <meta property="og:title" content={data.title} />
                     <meta property="og:description" content={data.description || 'Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!'} />

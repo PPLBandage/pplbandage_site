@@ -48,7 +48,7 @@ export default function Home() {
 
     useEffect(() => {
         client.current = new Client();
-        client.current.addEventListener('skin_changed', (event: {skin: string, cape: string}) => {
+        client.current.addEventListener('skin_changed', (event: { skin: string, cape: string }) => {
             setSKIN(event.skin);
             setSlim(client.current.slim);
         });
@@ -64,51 +64,55 @@ export default function Home() {
 
 
     return (
-    <body>
-        <title>Создать · Повязки Pepeland</title>
-        <Header/>
-        <main className={style.main}>
-            <div className={style.central_panel}>
-                <aside className={style.skin_parent}>
-                    <SkinView3D SKIN={SKIN}
-                                CAPE={null} 
-                                slim={slim} 
-                                className={style.skinview}
-                                pose={pose} 
-                                id="canvas_container" />
-                    
-                    <div className={style.render_footer}>
-                        <Select
-                            options={anims}
-                            defaultValue={anims[pose]}
-                            className={`react-select-container`}
-                            classNamePrefix="react-select"
-                            isSearchable={false}
-                            onChange={(n, a) => setPose(n.value)}
-                            formatOptionLabel={(nick_value) => nick_value.label}
-                        />
-                        <SlideButton onChange={(v) => {setSlim(v)}} value={slim} label="Тонкие руки"/>
-                    </div>
-                </aside>
-                <Editor onBandageChange={(b64) => {client.current.loadFromImage(b64)}} onColorChange={(color) => {
-                    client.current?.setParams({color: color});
-                }} onColorableChange={(colorable) => {
-                    client.current?.setParams({colorable: colorable});
-                }}/>
-            </div>
-            <Footer />
-        </main>
-    </body>
+        <body>
+            <title>Создать · Повязки Pepeland</title>
+            <Header />
+            <main className={style.main}>
+                <div className={style.central_panel}>
+                    <aside className={style.skin_parent}>
+                        <SkinView3D SKIN={SKIN}
+                            CAPE={null}
+                            slim={slim}
+                            className={style.skinview}
+                            pose={pose}
+                            background='/static/background_big.png'
+                            id="canvas_container" />
+
+                        <div className={style.render_footer}>
+                            <Select
+                                options={anims}
+                                defaultValue={anims[pose]}
+                                className={`react-select-container`}
+                                classNamePrefix="react-select"
+                                isSearchable={false}
+                                onChange={(n, a) => setPose(n.value)}
+                                formatOptionLabel={(nick_value) => nick_value.label}
+                            />
+                            <SlideButton onChange={(v) => { setSlim(v); client.current?.changeSlim(v) }} value={slim} label="Тонкие руки" />
+                        </div>
+                    </aside>
+                    <Editor onBandageChange={(b64) => { client.current?.loadFromImage(b64) }}
+                        onColorChange={(color) => { client.current?.setParams({ color: color }) }}
+                        onColorableChange={(colorable) => { client.current?.setParams({ colorable: colorable }) }}
+                        onBandageChangeSlim={(b64) => { client.current?.loadFromImage(b64, true) }}
+                        onChangeSplitTypes={(split) => { client.current?.setParams({ split_types: split }) }}
+                    />
+                </div>
+                <Footer />
+            </main>
+        </body>
     );
 }
 
 interface EditorProps {
     onBandageChange(img: HTMLImageElement): void;
+    onBandageChangeSlim?(img: HTMLImageElement): void;
     onColorChange(color: string): void;
     onColorableChange(colorable: boolean): void;
+    onChangeSplitTypes(evt: boolean): void;
 }
 
-const Editor = ({onBandageChange, onColorChange, onColorableChange}: EditorProps) => {
+const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageChangeSlim, onChangeSplitTypes }: EditorProps) => {
     const router = useRouter();
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -116,8 +120,11 @@ const Editor = ({onBandageChange, onColorChange, onColorableChange}: EditorProps
     const [allCategories, setAllCategories] = useState<Interfaces.Category[]>([]);
     const [categories, setCategories] = useState<number[]>(undefined);
     const [base64, setBase64] = useState<string>(null);
+    const [base64Slim, setBase64Slim] = useState<string>(null);
     const [mutex, setMutex] = useState<boolean>(false);
     const [colorable, setColorable] = useState<boolean>(false);
+    const [splitTypes, setSplitTypes] = useState<boolean>(false);
+    const [height, setHeight] = useState<number>(-1);
 
     useEffect(() => {
         authApi.get('categories?for_edit=true').then((response) => {
@@ -148,84 +155,6 @@ const Editor = ({onBandageChange, onColorChange, onColorableChange}: EditorProps
         onColorableChange(_colorable);
     }, [categories]);
 
-    const getData = (file: File) => {
-        if (!file) return;
-        if (title === "") {
-            setTitle(file.name.split('.').slice(0, -1).join('.'));
-        }
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            const img = new Image();
-            img.onload = () => {
-                if (img.width !== 16) {
-                    setError('Развертка повязки должна иметь ширину 16 пикселей');
-                    return;
-                }
-                if (img.height < 2 || img.height > 24) {
-                    setError('Развертка повязки должна иметь высоту от 2 до 24 пикселей');
-                    return;
-                }
-
-                if (img.height % 2 !== 0) {
-                    setError('Развертка повязки должна иметь чётную высоту');
-                    return;
-                }
-                clearError();
-                onBandageChange(img);
-                setBase64(reader.result as string);
-
-                const cont = document.getElementById('drop_container') as HTMLLabelElement;
-                if (cont) {
-                    cont.style.borderColor = "#576074";
-                    cont.style.borderStyle = "solid";
-                }
-            }
-            img.src = reader.result as string;
-        }
-        reader.readAsDataURL(file);
-    }
-
-    const setError = (err: string) => {
-        const error = document.getElementById("error");
-        if (error) {
-            error.innerText = err;
-        }
-    }
-
-    const clearError = () => {
-        const error = document.getElementById("error");
-        if (error) {
-            error.innerText = "";
-        }
-    }
-
-    const ondragover = (evt: React.DragEvent<HTMLLabelElement>) => {
-        if (evt.dataTransfer?.items[0].type === "image/png") {
-            evt.preventDefault();
-            const drag_container = document.getElementById("drop_container") as HTMLDivElement;
-            drag_container.style.borderStyle = "solid";
-        }
-    };
-
-    const ondragleave = (evt: React.DragEvent<HTMLLabelElement>) => {
-        const drag_container = document.getElementById("drop_container") as HTMLDivElement;
-        drag_container.style.borderStyle = "dashed";
-    };
-
-    const ondrop = (evt: React.DragEvent<HTMLLabelElement>) => {
-        getData(evt.dataTransfer?.files[0]);
-        
-        evt.preventDefault();
-        const drag_container = document.getElementById("drop_container") as HTMLDivElement;
-        drag_container.style.borderStyle = "dashed";
-    };
-
-    const onChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        getData(evt.target?.files[0]);
-        evt.target.files = null;
-    }
-
     useEffect(() => {
         const title_el = document.getElementById('title') as HTMLLabelElement;
         if (title_el) {
@@ -233,6 +162,10 @@ const Editor = ({onBandageChange, onColorChange, onColorableChange}: EditorProps
         }
         return;
     }, [title]);
+
+    useEffect(() => {
+        onChangeSplitTypes(splitTypes);
+    }, [splitTypes])
 
     const create = () => {
         if (!base64) {
@@ -258,7 +191,9 @@ const Editor = ({onBandageChange, onColorChange, onColorableChange}: EditorProps
             title: title,
             description: description,
             categories: categories,
-            base64: base64.replace('data:image/png;base64,', '')
+            base64: base64.replace('data:image/png;base64,', ''),
+            base64_slim: base64Slim?.replace('data:image/png;base64,', ''),
+            split_type: splitTypes
         }).then((response) => {
             if (response.status !== 201) {
                 const error_el = document.getElementById('create_error') as HTMLLabelElement;
@@ -268,44 +203,160 @@ const Editor = ({onBandageChange, onColorChange, onColorableChange}: EditorProps
             } else {
                 router.replace(`/workshop/${response.data.external_id}`);
             }
-        }).finally(() => {setMutex(false)})
+        }).finally(() => { setMutex(false) })
     }
 
     return (
         <div className={style.editor_div}>
-            <h3 style={{margin: 0}}>Перед началом создания повязки прочитайте <Link href="/tutorials/bandage">туториал</Link></h3>
-            <label className={style.skin_drop} 
-                id="drop_container"
+            <h3 style={{ margin: 0 }}>Перед началом создания повязки прочитайте <Link href="/tutorials/bandage">туториал</Link></h3>
+            <Selector onChange={setBase64}
+                onBandageChange={(ev) => {
+                    onBandageChange(ev.img);
+                    setHeight(ev.height)
+                }}
+                setTitle={(ev) => { if (!title) setTitle(ev) }} />
+            <SlideButton onChange={setSplitTypes} label='Использовать разные повязки для разных типов скинов' />
+
+            {splitTypes &&
+                <>
+                    <p style={{ margin: 0, fontWeight: 500 }}>Повязка для тонких рук</p>
+                    <Selector onChange={setBase64Slim}
+                        onBandageChange={(ev) => onBandageChangeSlim && onBandageChangeSlim(ev.img)}
+                        heightVal={height} />
+                </>
+            }
+            <p id="error" style={{ margin: 0, color: "rgb(247 22 22)" }}></p>
+            <textarea maxLength={50} id="title" placeholder="Заголовок" className={style.textarea} onInput={(ev) => setTitle((ev.target as HTMLTextAreaElement).value)} value={title} />
+            <textarea maxLength={300} placeholder="Описание" className={style.textarea} onInput={(ev) => setDescription((ev.target as HTMLTextAreaElement).value)} value={description} />
+
+            {colorable &&
+                <InfoCard title='Повязка отмечена как окрашиваемая!'>
+                    <div>
+                        <input type='color' id='color_select' onInput={debouncedHandleColorChange} />
+                        <label htmlFor='color_select' style={{ marginLeft: '.5rem' }}>Предпросмотр цвета</label>
+                    </div>
+                </InfoCard>
+            }
+
+            <CategorySelector enabledCategories={enabledCategories}
+                allCategories={allCategories}
+                onChange={setCategories} />
+            <label id="create_error" style={{ margin: 0, color: "rgb(247 22 22)" }}></label>
+            <button onClick={() => create()} className={style.skin_load}>Создать</button>
+        </div>
+    );
+}
+
+interface OnBandageChange {
+    img: HTMLImageElement,
+    height: number
+}
+interface SelectorInterface {
+    setTitle?(title: string): void
+    onBandageChange?({ img, height }: OnBandageChange): void,
+    onChange(b64: string): void,
+    heightVal?: number
+}
+
+const Selector = ({ setTitle, onBandageChange, onChange, heightVal }: SelectorInterface) => {
+    const errorRef = useRef<HTMLParagraphElement>();
+    const containerRef = useRef<HTMLLabelElement>();
+
+    const getData = (file: File) => {
+        if (!file) return;
+        if (setTitle) setTitle(file.name.split('.').slice(0, -1).join('.'));
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            const img = new Image();
+            img.onload = () => {
+                if (img.width !== 16) {
+                    setError('Развертка повязки должна иметь ширину 16 пикселей');
+                    return;
+                }
+                if (img.height < 2 || img.height > 24) {
+                    setError('Развертка повязки должна иметь высоту от 2 до 24 пикселей');
+                    return;
+                }
+
+                if (heightVal != undefined && heightVal === -1) {
+                    setError('Вначале загрузите основную повязку!');
+                    return;
+                }
+
+                if (heightVal != undefined && img.height !== heightVal) {
+                    setError('Высоты повязок должны быть одинаковыми!');
+                    return;
+                }
+
+                if (img.height % 2 !== 0) {
+                    setError('Развертка повязки должна иметь чётную высоту');
+                    return;
+                }
+                clearError();
+                if (onBandageChange) onBandageChange({ img: img, height: img.height });
+                onChange(reader.result as string);
+
+                if (containerRef.current) {
+                    containerRef.current.style.borderColor = "#576074";
+                    containerRef.current.style.borderStyle = "solid";
+                }
+            }
+            img.src = reader.result as string;
+        }
+        reader.readAsDataURL(file);
+    }
+
+    const onChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
+        getData(evt.target?.files[0]);
+        evt.target.files = null;
+    }
+
+    const ondragover = (evt: React.DragEvent<HTMLLabelElement>) => {
+        if (evt.dataTransfer?.items[0].type === "image/png") {
+            evt.preventDefault();
+            containerRef.current.style.borderStyle = "solid";
+        }
+    };
+
+    const ondragleave = (evt: React.DragEvent<HTMLLabelElement>) => {
+        containerRef.current.style.borderStyle = "dashed";
+    };
+
+    const ondrop = (evt: React.DragEvent<HTMLLabelElement>) => {
+        getData(evt.dataTransfer?.files[0])
+
+        evt.preventDefault();
+        containerRef.current.style.borderStyle = "dashed";
+    };
+
+    const setError = (err: string) => {
+        errorRef.current.innerText = err;
+        errorRef.current.style.display = 'block';
+    }
+
+    const clearError = () => {
+        errorRef.current.innerText = "";
+        errorRef.current.style.display = 'none';
+    }
+
+    return (
+        <>
+            <label className={style.skin_drop}
+                ref={containerRef}
                 onDragOver={(evt) => ondragover(evt)}
                 onDragLeave={(evt) => ondragleave(evt)}
                 onDrop={(evt) => ondrop(evt)}>
                 <div className={style.hidable}>
-                    <input type="file" 
-                        name="imageInput" 
-                        id="imageInput" 
+                    <input type="file"
+                        name="imageInput"
                         accept="image/png"
                         onChange={(evt) => onChangeInput(evt)} />
                     <span id="select_file">Выберите файл<br />или<br />скиньте его сюда</span>
                 </div>
             </label>
-            <p id="error" style={{margin: 0, color: "rgb(247 22 22)"}}></p>
-            <textarea maxLength={50} id="title" placeholder="Заголовок" className={style.textarea} onInput={(ev) => setTitle((ev.target as HTMLTextAreaElement).value)} value={title} />
-            <textarea maxLength={300} placeholder="Описание" className={style.textarea} onInput={(ev) => setDescription((ev.target as HTMLTextAreaElement).value)} value={description} />
-            
-            {colorable && 
-            <InfoCard title='Повязка отмечена как окрашиваемая!'>
-                <div>
-                    <input type='color' id='color_select' onInput={debouncedHandleColorChange}/>
-                    <label htmlFor='color_select' style={{marginLeft: '.5rem'}}>Предпросмотр цвета</label>
-                </div>
-            </InfoCard>
-            }
-            
-            <CategorySelector enabledCategories={enabledCategories}
-                              allCategories={allCategories}
-                              onChange={setCategories}/>
-            <label id="create_error" style={{margin: 0, color: "rgb(247 22 22)"}}></label>
-            <button onClick={() => create()} className={style.skin_load}>Создать</button>
-        </div>
+            <p ref={errorRef} style={{ margin: 0, marginBottom: '1rem', display: 'none' }} />
+        </>
     );
 }

@@ -23,12 +23,13 @@
     0% {
         opacity: 0;
     }
+
     100% {
         opacity: 1;
     }
 }
 
-.div img{
+.div img {
     width: 50%;
     height: auto;
 }

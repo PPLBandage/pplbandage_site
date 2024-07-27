@@ -21,7 +21,7 @@
 }
 
 .last_link {
-    color: white;
+    color: var(--main-text-color);
     overflow-wrap: anywhere;
 }
 

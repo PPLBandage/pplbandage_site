@@ -15,7 +15,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <p className={style.beta}>PPLBandage project 2023–{new Date().getFullYear()}, <img src="/static/icons/beta.svg" alt="" />–version</p>
-                <p style={{fontSize: ".8rem", margin: 0, marginTop: ".5rem"}}>NOT AN OFFICIAL MINECRAFT SERVICE. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.</p>
+                <p style={{ fontSize: ".8rem", margin: 0, marginTop: ".5rem" }}>NOT AN OFFICIAL MINECRAFT SERVICE. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.</p>
             </div>
         </footer>
     )

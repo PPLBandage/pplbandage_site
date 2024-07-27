@@ -29,7 +29,7 @@
     border-radius: 10px 0 0 10px;
     border: 1px var(--main-element-color) solid;
     height: 2.4rem;
-    color: white;
+    color: var(--main-text-color);
     font-size: 1rem;
     padding: .5rem;
     box-sizing: border-box;
@@ -39,15 +39,15 @@
 }
 
 .search:focus {
-    border: 1px #717b91 solid;
+    border: 1px var(--focus-color) solid;
 }
 
-.search:focus + .search_loop{
-    border: 1px #717b91 solid;
+.search:focus+.search_loop {
+    border: 1px var(--focus-color) solid;
     border-left: none;
 }
 
-.search_loop{
+.search_loop {
     background-color: var(--main-card-color);
     border-radius: 0 10px 10px 0;
     border: 1px var(--main-element-color) solid;
@@ -68,7 +68,7 @@
     background-color: var(--main-element-color);
 }
 
-.search_loop_icon{
+.search_loop_icon {
     width: 1.3rem;
 }
 
@@ -76,13 +76,13 @@
     font-size: .9rem;
 }
 
-.take{ 
+.take {
     margin: 0;
     margin-right: .7rem;
     font-weight: 600;
 }
 
-.select_sortir{
+.select_sortir {
     width: 13rem;
 }
 
@@ -94,7 +94,7 @@
     user-select: none;
 }
 
-.filter_div{
+.filter_div {
     padding: .4rem;
     cursor: pointer;
     background-color: var(--main-card-color);
@@ -103,8 +103,8 @@
     border: 1px var(--main-element-color) solid;
 }
 
-.filter_div:hover{
-    background-color: #393d47;
+.filter_div:hover {
+    background-color: var(--main-element-color);
 }
 
 .menu-enter {
@@ -150,21 +150,21 @@
     max-height: 15rem;
 }
 
-.category{
+.category {
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--main-element-color);
     padding: .1rem .2rem .1rem .2rem;
     border-radius: 5px;
-    border: 1px #717b91 solid;
+    border: 1px var(--category-color) solid;
     user-select: none;
     cursor: pointer;
     transition: background-color 150ms, border 150ms;
 }
 
-.category:hover{
-    background-color: #717b91;
+.category:hover {
+    background-color: var(--category-color);
 }
 
 .category p {
@@ -176,7 +176,7 @@
     border: 1px #17c43d solid;
 }
 
-@media(max-width: 767px){
+@media(max-width: 767px) {
     .container {
         justify-content: flex-start;
     }
@@ -188,6 +188,7 @@
     .category_menu {
         left: 2rem;
         right: 2rem;
+        max-height: none;
     }
 
 }

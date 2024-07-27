@@ -6,15 +6,15 @@ import Style from "../styles/tooltip.module.css";
 interface TooltipProps {
     body: JSX.Element,
     children: JSX.Element,
-    timeout: number,
-    className: string,
+    timeout?: number,
+    className?: string,
     parent_id?: string,
     opacity?: string
 }
 
-export const Tooltip = ({ body, children, timeout = 800, className, parent_id, opacity = ".9"}: TooltipProps) => {
+export const Tooltip = ({ body, children, timeout = 800, className, parent_id, opacity = ".9" }: TooltipProps) => {
     const [showTooltip, setShowTooltip] = useState<boolean>(false);
-    const [position, setPosition] = useState<{x: number, y: number}>({ x: 0, y: 0 });
+    const [position, setPosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
     const [mf, setmf] = useState<boolean>(false);
     const [time, setTime] = useState<number>(0);
     const bodyRef = useRef<HTMLDivElement>();

@@ -44,18 +44,18 @@ const Main = () => {
 
                 Promise.all(data.map(async (el) => {
                     try {
-                    const result = await generateSkin(el.base64, Object.values(el.categories).some(val => val.id == 3))
-                    await skinViewer.loadSkin(result);
-                    skinViewer.render();
-                    const image = skinViewer.canvas.toDataURL();
-                    return <Card el={el} base64={image} key={el.id} className={styles}/>
+                        const result = await generateSkin(el.base64, Object.values(el.categories).some(val => val.id == 3))
+                        await skinViewer.loadSkin(result);
+                        skinViewer.render();
+                        const image = skinViewer.canvas.toDataURL();
+                        return <Card el={el} base64={image} key={el.id} className={styles} />
                     } catch {
                         return;
                     }
                 }))
-                .then(results => setElements(results))
-                .catch(error => console.error('Error generating skins', error))
-                .finally(() => skinViewer.dispose());
+                    .then(results => setElements(results))
+                    .catch(error => console.error('Error generating skins', error))
+                    .finally(() => skinViewer.dispose());
             });
         }
     }, [data]);
@@ -79,7 +79,7 @@ const Main = () => {
                 router.replace('/me');
             })
         }
-        return () => {}
+        return () => { }
     }, []);
 
     useEffect(() => {
@@ -93,22 +93,22 @@ const Main = () => {
     }, [isLogged])
 
     return (
-    <body>
-        <title>Личный кабинет · Повязки Pepeland</title>
-        <Header/>
-        {!isLogged ? <Login/> : 
-            <Me>
-                <div style={elements ? {opacity: "1", transform: "translateY(0)"} : {opacity: "0", transform: "translateY(50px)"}} className={styles.cont}>
-                    <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>  
-                        <Link className={styles.create} href="/workshop/create"><img alt="" src="/static/icons/plus.svg" />Создать</Link>
-                        <div className={style_sidebar.skins_container}>
-                            {elements}
+        <body>
+            <title>Личный кабинет · Повязки Pepeland</title>
+            <Header />
+            {!isLogged ? <Login /> :
+                <Me>
+                    <div style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }} className={styles.cont}>
+                        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                            <Link className={styles.create} href="/workshop/create"><img alt="" src="/static/icons/plus.svg" />Создать</Link>
+                            <div className={style_sidebar.skins_container}>
+                                {elements}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </Me>
-        }
-    </body>
+                </Me>
+            }
+        </body>
     );
 }
 
@@ -116,11 +116,11 @@ const Main = () => {
 const Login = () => {
     const dat = roles.map((role) => {
         return (
-        <div key={role.id} className={styles.role_container}>
-            <span style={{backgroundColor: "#" + role.color.toString(16)}} className={styles.role_dot}>
-            </span>
-            <span className={styles.role_title}>{role.title}</span>
-        </div>
+            <div key={role.id} className={styles.role_container}>
+                <span style={{ backgroundColor: "#" + role.color.toString(16) }} className={styles.role_dot}>
+                </span>
+                <span className={styles.role_title}>{role.title}</span>
+            </div>
         )
     })
 
@@ -133,22 +133,20 @@ const Login = () => {
                     Discord
                 </a>
 
-                <span className={styles.p} id="about_logging">Для регистрации вам нужно быть членом Discord сервера <a href='https://baad.pw/ds' className={styles.a}>Pwgood</a> и иметь одну из этих <Tooltip 
+                <span className={styles.p} id="about_logging">Для регистрации вам нужно быть членом Discord сервера <a href='https://baad.pw/ds' className={styles.a}>Pwgood</a> и иметь одну из этих <Tooltip
                     parent_id="about_logging"
                     body={
-                    <div className={styles.roles_container}>
-                        {dat}
-                    </div>} timeout={0} className={styles.roles_text_container}>
-                        <span className={styles.roles_text}> ролей</span>
-                    </Tooltip>
+                        <div className={styles.roles_container}>
+                            {dat}
+                        </div>} timeout={0} className={styles.roles_text_container}>
+                    <span className={styles.roles_text}> ролей</span>
+                </Tooltip>
                 </span>
 
-                <p style={{color: "gray", marginBottom: 0}}>Регистрируясь на сайте вы соглашаетесь с настоящими <a className={styles.a} href="/tos" style={{color: "gray"}}>условиями пользования</a></p>
+                <p style={{ color: "gray", marginBottom: 0 }}>Регистрируясь на сайте вы соглашаетесь с настоящими <a className={styles.a} href="/tos" style={{ color: "gray" }}>условиями пользования</a></p>
             </div>
         </main>
     );
 }
 
 export default Main;
-
-// https://discord.com/oauth2/authorize?client_id=1248263705033048094&response_type=code&redirect_uri=http%3A%2F%2F192.168.0.53%2Fme&scope=identify

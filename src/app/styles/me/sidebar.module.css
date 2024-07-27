@@ -1,4 +1,4 @@
-.main_container{
+.main_container {
     margin-left: 2rem;
     margin-right: 2rem;
 }
@@ -25,19 +25,20 @@
     background-color: var(--main-card-color);
     border-radius: 15px;
     padding: 1rem;
-    color: white;
+    color: var(--main-text-color);
     width: 300px;
     align-items: flex-start;
     box-sizing: border-box;
 }
 
-.card img, .avatar_container {
+.card img,
+.avatar_container {
     border-radius: 50%;
     width: 7rem;
     height: 7rem;
 }
 
-.card .username{
+.card .username {
     margin: 0;
     color: #c9c9c9;
     overflow-wrap: anywhere;
@@ -60,19 +61,20 @@
 }
 
 @keyframes plshdrs {
-	0%,
-	50%,
-	100% {
-		background-color: var(--main-element-color);
-	}
 
-	25%,
-	75% {
-		background-color: var(--main-card-color);
-	}
+    0%,
+    50%,
+    100% {
+        background-color: var(--main-element-color);
+    }
+
+    25%,
+    75% {
+        background-color: var(--main-card-color);
+    }
 }
 
-.placeholders{
+.placeholders {
     animation: plshdrs 2s ease-in-out infinite;
 }
 
@@ -87,12 +89,12 @@
 
 .side_butt {
     display: flex;
-    color: white;
+    color: var(--main-text-color);
     align-items: center;
     text-decoration: none;
     padding: .3rem;
     border-radius: 4px;
-    background-color: #252a30;
+    background-color: transparent;
     box-shadow: none;
     cursor: pointer;
     transition: background-color 150ms, box-shadow 150ms;
@@ -113,9 +115,12 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+    position: sticky;
+    top: 1rem;
 }
 
-.skins_container{
+.skins_container {
     transition: opacity 200ms, transform 200ms;
     display: grid;
     gap: 1rem;
@@ -157,19 +162,25 @@
 }
 
 
-@media(max-width: 650px){
+@media(max-width: 650px) {
     .main {
         flex-direction: column;
         align-items: stretch;
     }
 
     .card {
-        width: auto ;
+        width: auto;
         min-width: 300px;
     }
+
     .skins_container {
         display: flex;
         flex-direction: column;
         min-width: 300px;
+    }
+
+    .side {
+        position: relative;
+        top: 0;
     }
 }

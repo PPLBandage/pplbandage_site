@@ -32,7 +32,7 @@ export default function Home() {
 
     useEffect(() => {
         axios.get(`/api/categories`).then((response) => {
-            if (response.status == 200) { 
+            if (response.status == 200) {
                 setCategories(response.data as Category[]);
             }
         });
@@ -40,15 +40,15 @@ export default function Home() {
 
     useEffect(() => {
         const filters_str = filters.filter((filter) => filter.enabled).map((filter) => filter.id).toString();
-        const request = `/api/workshop?page=${constrain(page, 0, Math.ceil(totalCount / take))}&take=${take}&search=${search}` + 
-                        `&filters=${filters_str}&sort=${sort}`;
+        const request = `/api/workshop?page=${constrain(page, 0, Math.ceil(totalCount / take))}&take=${take}&search=${search}` +
+            `&filters=${filters_str}&sort=${sort}`;
 
-        if (request == lastRequest){
+        if (request == lastRequest) {
             return;
         }
 
         axios.get(request, { withCredentials: true }).then((response) => {
-            if (response.status == 200){
+            if (response.status == 200) {
                 const data = response.data as BandageResponse;
                 setData(data);
                 setTotalCount(data.totalCount);
@@ -78,36 +78,36 @@ export default function Home() {
                         await skinViewer.loadSkin(result);
                         skinViewer.render();
                         const image = skinViewer.canvas.toDataURL();
-                        return <Card el={el} base64={image} key={el.id}/>
+                        return <Card el={el} base64={image} key={el.id} />
                     } catch {
                         return;
                     }
-                }))
-                .then(results => setElements(results))
-                .catch(error => console.error('Error generating skins', error))
-                .finally(() => skinViewer.dispose());
+                })).then(results => setElements(results))
+                    .catch(error => console.error('Error generating skins', error))
+                    .finally(() => skinViewer.dispose());
             });
         }
     }, [data]);
 
     return (
-      <body>
-        <title>Мастерская · Повязки Pepeland</title>
-        <Header />
-
-        <main className={Style.main}>
-          <div className={Style.center}>
-            <Search onSearch={setSearch} onChangeTake={setTake} categories={categories} onChangeSort={setSort} onChangeFilters={setFilters}/>
-            <Paginator total_count={totalCount} take={take} onChange={setPage}/>
-            {elements && elements.length > 0 ? <div className={Style.skins_container}>{elements}</div> : 
-            elements && elements.length === 0 ? <>
-                <p style={{display: "flex", alignItems: "center", fontSize: "1.1rem", fontWeight: 500, width: "100%", justifyContent: "center", margin: 0}}>
-                <Image style={{marginRight: ".5rem"}} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />Похоже, тут ничего нет</p>
-            </> : <Image src="/static/icons/icon.svg" alt="" width={86} height={86} className={Style.loading}/>
-            }
-          </div>
-          <Footer />
-        </main>
-      </body>
-  );
+        <body>
+            <title>Мастерская · Повязки Pepeland</title>
+            <Header />
+            <main className={Style.main}>
+                <div className={Style.center}>
+                    <Search onSearch={setSearch} onChangeTake={setTake} categories={categories} onChangeSort={setSort} onChangeFilters={setFilters} />
+                    <Paginator total_count={totalCount} take={take} onChange={setPage} />
+                    {elements && elements.length > 0 ? <div className={Style.skins_container}>{elements}</div> :
+                        elements && elements.length === 0 ?
+                            <>
+                                <p style={{ display: "flex", alignItems: "center", fontSize: "1.1rem", fontWeight: 500, width: "100%", justifyContent: "center", margin: 0 }}>
+                                    <Image style={{ marginRight: ".5rem" }} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />Похоже, тут ничего нет</p>
+                            </> :
+                            <Image src="/static/icons/icon.svg" alt="" width={86} height={86} className={Style.loading} />
+                    }
+                </div>
+                <Footer />
+            </main>
+        </body>
+    );
 }

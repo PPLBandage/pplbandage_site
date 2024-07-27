@@ -9,7 +9,7 @@ export default function NotFound() {
         <body>
             <Header />
             <NotFoundElement />
-            <div style={{position: "absolute", bottom: "1rem", left: "1rem", right: "1rem", boxSizing: "border-box"}}>
+            <div style={{ position: "absolute", bottom: "1rem", left: "1rem", right: "1rem", boxSizing: "border-box" }}>
                 <Footer />
             </div>
         </body>

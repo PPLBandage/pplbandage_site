@@ -12,7 +12,7 @@
     background-color: var(--main-card-color);
     border-radius: 15px;
     padding: 1rem;
-    color: white;
+    color: var(--main-text-color);
     box-sizing: border-box;
     gap: 1rem;
     display: flex;
@@ -66,7 +66,7 @@
     border-radius: 10px 0 0 10px;
     border: 1px var(--main-element-color) solid;
     height: 2.4rem;
-    color: white;
+    color: var(--main-text-color);
     font-size: 1rem;
     padding: .5rem;
     box-sizing: border-box;
@@ -77,12 +77,12 @@
 }
 
 .code_send {
-    color: white;
+    color: var(--main-text-color);
     background-color: var(--main-card-color);
     border-radius: 0 10px 10px 0;
     border: 1px var(--main-element-color) solid;
     height: 2.4rem;
-    
+
     box-sizing: border-box;
 
     border-left: none;
@@ -97,11 +97,11 @@
 }
 
 .code_input:focus {
-    border: 1px #717b91 solid;
+    border: 1px var(--focus-color) solid;
 }
 
-.code_input:focus + .code_send {
-    border: 1px #717b91 solid;
+.code_input:focus+.code_send {
+    border: 1px var(--focus-color) solid;
     border-left: none;
 }
 
@@ -113,12 +113,12 @@
 }
 
 .unlink {
-    color: white;
+    color: var(--main-text-color);
     background-color: var(--main-card-color);
     border-radius: 10px;
     border: 1px var(--main-element-color) solid;
     height: 2.4rem;
-    
+
     box-sizing: border-box;
     cursor: pointer;
 
@@ -168,7 +168,7 @@
     font-size: .8rem;
 }
 
-@keyframes loading{
+@keyframes loading {
     0% {
         transform: rotate(0deg);
     }
@@ -178,7 +178,7 @@
     }
 }
 
-@media(max-width: 650px){
+@media(max-width: 650px) {
     .container {
         width: auto;
         min-width: 300px;

@@ -75,7 +75,7 @@ export const CategoryEl = ({category, enabled, onClick, hoverable, style}: {cate
             </div>
 }
 
-export const Card = ({el, base64}: {el: Bandage, base64: string}): JSX.Element => {
+export const Card = ({el, base64, className}: {el: Bandage, base64: string, className?: {readonly [key: string]: string;}}): JSX.Element => {
     const [starred, setStrarred] = useState<boolean>(el.starred);
     const [last, setLast] = useState<boolean>(el.starred);
     const logged = getCookie("sessionId");
@@ -115,8 +115,10 @@ export const Card = ({el, base64}: {el: Bandage, base64: string}): JSX.Element =
                 onClick={() => {if (logged) setStrarred(prev => !prev)}}/>
             <span className={Style.star_count} id={el.external_id + "_text"}>{el.stars_count}</span>
         </div>
-        <Link href={`/workshop/${el.external_id}`}><NextImage src={base64} className={Style.skin} alt={el.external_id} width={300} height={300} draggable="false"/></Link>
-        <div className={Style.skin_descr}>
+        <Link href={`/workshop/${el.external_id}`}>
+            <NextImage src={base64} className={`${Style.skin} ${className?.skin_props}`} alt={el.external_id} width={300} height={300} draggable="false"/>
+        </Link>
+        <div className={`${Style.skin_descr} ${className?.skin_description_props}`}>
             <Link className={Style.header} href={`/workshop/${el.external_id}`}>{el.title}</Link>
             <p className={Style.description}>{el.description}</p>
             <div className={Style.categories}>{categories}</div>

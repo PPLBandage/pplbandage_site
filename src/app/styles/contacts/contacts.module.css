@@ -4,9 +4,17 @@
 }
 
 .main_container {
-    max-width: 1280px;
+    max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+}
+
+.main_container p {
+    font-size: 1.2rem;
+}
+
+.main_container a {
+    font-weight: 600;
 }

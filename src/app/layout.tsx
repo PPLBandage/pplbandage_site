@@ -15,12 +15,13 @@ export const metadata: Metadata = {
 		shortcut: "/static/icons/icon.svg",
 		apple: "/static/icons/icon.svg"
 	},
-	creator: "AndcoolSystems"
+	creator: "AndcoolSystems",
+	other: {'darkreader-lock': 'darkreader-lock'}
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
-		<html lang="en" className={inter.className}>
+		<html lang="ru" className={inter.className}>
 			<CookiesProvider>
 				<Providers>
 					{children}

@@ -133,6 +133,30 @@
     transition: opacity 200ms, transform 200ms;
 }
 
+.background_image {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: auto;
+}
+
+.card_improved {
+    background: none;
+    backdrop-filter: blur(7px);
+}
+
+.background_image_container {
+    overflow: hidden;
+    position: relative;
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+
 @media(max-width: 650px){
     .main {
         flex-direction: column;
@@ -140,8 +164,12 @@
     }
 
     .card {
-        width: auto;
+        width: auto ;
         min-width: 300px;
-        
+    }
+    .skins_container {
+        display: flex;
+        flex-direction: column;
+        min-width: 300px;
     }
 }

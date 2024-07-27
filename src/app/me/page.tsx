@@ -48,7 +48,7 @@ const Main = () => {
                     await skinViewer.loadSkin(result);
                     skinViewer.render();
                     const image = skinViewer.canvas.toDataURL();
-                    return <Card el={el} base64={image} key={el.id}/>
+                    return <Card el={el} base64={image} key={el.id} className={styles}/>
                     } catch {
                         return;
                     }
@@ -127,7 +127,7 @@ const Login = () => {
         <main className={styles.login_main}>
             <div className={styles.login_container}>
                 <h1>Войти через</h1>
-                <a className={styles.login_button} href='https://discord.com/oauth2/authorize?client_id=1248263705033048094&response_type=code&redirect_uri=http%3A%2F%2F192.168.0.53%2Fme&scope=identify'>
+                <a className={styles.login_button} href={process.env.NEXT_PUBLIC_LOGIN_URL}>
                     <img alt="" src="/static/icons/discord.svg" />
                     Discord
                 </a>
@@ -149,3 +149,5 @@ const Login = () => {
 }
 
 export default Main;
+
+// https://discord.com/oauth2/authorize?client_id=1248263705033048094&response_type=code&redirect_uri=http%3A%2F%2F192.168.0.53%2Fme&scope=identify

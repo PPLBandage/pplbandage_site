@@ -175,3 +175,20 @@
         width: calc(900px + 2rem);
     }
 }
+
+@media(max-width: 650px){
+    .create{
+        width: 100% !important;
+        min-width: 300px !important;
+    }
+
+    .skin_props {
+        height: auto !important;
+        image-rendering: pixelated !important;
+    }
+
+    .skin_props, .skin_description_props {
+        width: 100% !important;
+        min-width: 300px !important;
+    }
+}

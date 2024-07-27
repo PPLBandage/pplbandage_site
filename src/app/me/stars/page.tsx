@@ -7,7 +7,7 @@ import style_sidebar from "../../styles/me/sidebar.module.css";
 import Header from "../../modules/header.module";
 import useCookie from '../../modules/useCookie.module';
 import { Cookies, useCookies } from 'next-client-cookies';
-import { useQuery } from "@tanstack/react-query";
+import styles_me from "../../styles/me/me.module.css";
 import Image from 'next/image';
 import { Bandage } from '@/app/interfaces';
 import { SkinViewer } from 'skinview3d';
@@ -53,7 +53,7 @@ const Main = () => {
                     await skinViewer.loadSkin(result);
                     skinViewer.render();
                     const image = skinViewer.canvas.toDataURL();
-                    return <Card el={el} base64={image} key={el.id}/>
+                    return <Card el={el} base64={image} key={el.id} className={styles_me}/>
                     } catch {
                         return;
                     }

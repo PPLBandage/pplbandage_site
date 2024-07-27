@@ -62,7 +62,7 @@ const Header = (): JSX.Element => {
                         <div style={{ display: "flex", alignItems: "center", flexWrap: "nowrap" }}>
                             <div className={`${Styles.avatar_container} ${!islogged && Styles.placeholders} ${data?.has_unreaded_notifications && Styles.unreaded}`} onClick={() => setExpanded(!expanded)}>
                                 {data && <Image className={Styles.avatar}
-                                    src={(data?.avatar || "") + '?size=80'}
+                                    src={data?.avatar && data?.avatar + '?size=80'}
                                     alt="avatar"
                                     width={80}
                                     height={80}

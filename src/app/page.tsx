@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import Header from "./modules/header.module";
 import Style from "./styles/root/page.module.css";

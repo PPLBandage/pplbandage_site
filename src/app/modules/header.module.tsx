@@ -19,7 +19,8 @@ export interface Query {
     discordID: number;
     joined_at: Date;
     banner_color: string;
-    has_unreaded_notifications: Boolean
+    has_unreaded_notifications: Boolean,
+    permissions: string[]
 }
 
 const Header = (): JSX.Element => {

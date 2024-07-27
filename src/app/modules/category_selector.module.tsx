@@ -9,7 +9,7 @@ interface CategorySelectorProps {
     onChange(selected: number[]): void
 }
 
-const CategorySelector = ({enabledCategories, allCategories, onChange}: CategorySelectorProps) => {
+const CategorySelector = ({ enabledCategories, allCategories, onChange }: CategorySelectorProps) => {
     const [categories, setCategories] = useState<Category[]>(allCategories);
 
     const updateCategory = (id: number, enabled: boolean) => {
@@ -44,16 +44,18 @@ const CategorySelector = ({enabledCategories, allCategories, onChange}: Category
         return <CategoryEl key={el.id} category={el} onClick={() => updateCategory(el.id, true)} hoverable={true} />
     });
 
-    return  <div>
-                <h4 style={{margin: 0, marginBottom: ".9rem"}}>Выбранные категории:</h4>
-                <div className={style.container}>
-                    {categoriesEnabled.length > 0 ? categoriesEnabled : <p style={{margin: 0, color: "gray", marginTop: "2.5px", marginBottom: "2.5px"}}>Категории не выбраны</p>}
-                </div>
-                <hr/>
-                <div className={style.container}>
-                    {categoriesAvailable}
-                </div>
-            </div>;
+    return (
+        <div>
+            <h4 style={{ margin: 0, marginBottom: ".9rem" }}>Выбранные категории:</h4>
+            <div className={style.container}>
+                {categoriesEnabled.length > 0 ? categoriesEnabled : <p style={{ margin: 0, color: "gray", marginTop: "2.5px", marginBottom: "2.5px" }}>Категории не выбраны</p>}
+            </div>
+            <hr />
+            <div className={style.container}>
+                {categoriesAvailable}
+            </div>
+        </div>
+    );
 
 }
 

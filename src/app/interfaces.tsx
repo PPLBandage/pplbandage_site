@@ -12,7 +12,7 @@ export interface rerenderInterface {
     (param: string): void;
 }
 export interface ComponentProps {
-	triggerEvent: rerenderInterface;
+    triggerEvent: rerenderInterface;
 }
 
 export interface Option {
@@ -25,6 +25,8 @@ export interface Bandage {
     id: number;
     external_id: string,
     base64: string,
+    base64_slim?: string,
+    split_type: boolean,
     average_og_color: string,
     userId: number,
     creation_date: Date,

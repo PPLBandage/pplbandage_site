@@ -1,18 +1,18 @@
-.body{
+.body {
     margin: 0;
     width: 100%;
     font-family: '__Inter_aaf875', '__Inter_Fallback_aaf875';
-    color:#111112;
+    color: #111112;
     position: absolute;
     top: 0px;
     left: 0px;
     bottom: 0px;
     right: 0px;
-    color: #eeeeee;
+    color: var(--main-text-color);
     animation: Load 250ms;
 }
 
-.main{
+.main {
     display: flex;
     position: absolute;
     top: 0px;
@@ -24,7 +24,7 @@
     flex-direction: column;
 }
 
-.circle{
+.circle {
     width: 150px;
     height: 150px;
     transform: translate(-50%, -50%);
@@ -38,7 +38,7 @@
     transform-origin: center;
 }
 
-.home{
+.home {
     color: #a7a7a7;
 }
 
@@ -57,8 +57,8 @@
 }
 
 
-@media(max-width: 767px){
-    .circle{
+@media(max-width: 767px) {
+    .circle {
         width: 100px;
         height: 100px;
         transform: translate(-50%, -50%);

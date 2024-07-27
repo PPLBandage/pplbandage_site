@@ -1,8 +1,8 @@
-.tooltipStyle{
+.tooltipStyle {
     all: unset;
     position: fixed;
     background-color: var(--main-card-color);
-    color: #fff;
+    color: var(--main-text-color);
     border-radius: 5px;
     padding: 0.5%;
     z-index: 99999;
@@ -10,15 +10,24 @@
     border-top-left-radius: 0%;
     opacity: .9;
     box-sizing: border-box;
-    box-shadow: rgba(0,0,0,.25) 0px 2px 4px 0px;
+    box-shadow: rgba(0, 0, 0, .25) 0px 2px 4px 0px;
 }
 
-@media(max-width: 425px){
-    .tooltipStyle{max-width: 80%; padding: 2%}
-    .video{
+@media(max-width: 425px) {
+    .tooltipStyle {
+        max-width: 80%;
+        padding: 2%
+    }
+
+    .video {
         width: 150px;
     }
-    .h3{font-size: 90%;}
-    
-    .p{font-size: 80%;}
+
+    .h3 {
+        font-size: 90%;
+    }
+
+    .p {
+        font-size: 80%;
+    }
 }

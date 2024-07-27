@@ -68,14 +68,14 @@
 }
 
 .style_change:hover {
-    border: 1px #656f85 solid;
+    border: 1px var(--category-color) solid;
 }
 
 .menu button {
     border: none;
     cursor: pointer;
     background-color: var(--main-element-color);
-    
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -97,5 +97,5 @@
 }
 
 .menu button:hover {
-    border: 1px #656f85 solid;
+    border: 1px var(--category-color) solid;
 }

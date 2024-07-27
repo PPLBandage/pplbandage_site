@@ -1,4 +1,3 @@
-
 .container {
     margin-left: auto;
     margin-right: auto;
@@ -47,11 +46,11 @@
     font-size: 1.1rem;
 }
 
-.links_cont a:hover{
+.links_cont a:hover {
     text-decoration: underline;
 }
 
-@media(max-width: 450px){ 
+@media(max-width: 450px) {
     .beta {
         font-size: .8rem;
         margin-top: .3rem;

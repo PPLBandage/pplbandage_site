@@ -22,7 +22,7 @@ const getIcon = (theme: number) => {
     }
 }
 
-const Menu = ({initialValue, color_available, onChange}: MenuProps) => {
+const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
     const [expanded, setExpanded] = useState<boolean>(false);
     const [theme, setTheme] = useState<number>(initialValue);
 
@@ -31,27 +31,27 @@ const Menu = ({initialValue, color_available, onChange}: MenuProps) => {
     }, [theme]);
 
 
-    return (<div className={Styles.main}>  
-                <button className={Styles.style_change} onClick={() => setExpanded(_prev => !_prev)}>
-                    <Image src={getIcon(theme)} alt="" width={16} height={16} />
-                </button>
-                <CSSTransition
-                    in={expanded}
-                    timeout={150}
-                    classNames={{
-                        enter: Styles['menu-enter'],
-                        enterActive: Styles['menu-enter-active'],
-                        exit: Styles['menu-exit'],
-                        exitActive: Styles['menu-exit-active'],
-                    }}
-                    unmountOnExit>
-                    <div className={Styles.menu}>
-                        <button className={theme === 0 && Styles.enabled} onClick={() => setTheme(0)}><Image src="/static/icons/fill.svg" alt="" width={16} height={16} /></button>
-                        <button className={theme === 1 && Styles.enabled} onClick={() => setTheme(1)}><Image src="/static/icons/scenery.svg" alt="" width={16} height={16} /></button>
-                        {color_available && <button className={theme === 2 && Styles.enabled} onClick={() => setTheme(2)}><Image src="/static/icons/color-palette.svg" alt="" width={16} height={16} /></button>}
-                    </div>
-                </CSSTransition>
-            </div>);
+    return (<div className={Styles.main}>
+        <button className={Styles.style_change} onClick={() => setExpanded(_prev => !_prev)}>
+            <Image src={getIcon(theme)} alt="" width={16} height={16} />
+        </button>
+        <CSSTransition
+            in={expanded}
+            timeout={150}
+            classNames={{
+                enter: Styles['menu-enter'],
+                enterActive: Styles['menu-enter-active'],
+                exit: Styles['menu-exit'],
+                exitActive: Styles['menu-exit-active'],
+            }}
+            unmountOnExit>
+            <div className={Styles.menu}>
+                <button className={theme === 0 && Styles.enabled} onClick={() => setTheme(0)}><Image src="/static/icons/fill.svg" alt="" width={16} height={16} /></button>
+                <button className={theme === 1 && Styles.enabled} onClick={() => setTheme(1)}><Image src="/static/icons/scenery.svg" alt="" width={16} height={16} /></button>
+                {color_available && <button className={theme === 2 && Styles.enabled} onClick={() => setTheme(2)}><Image src="/static/icons/color-palette.svg" alt="" width={16} height={16} /></button>}
+            </div>
+        </CSSTransition>
+    </div>);
 }
 
 export default Menu;

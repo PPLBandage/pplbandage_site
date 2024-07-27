@@ -21,7 +21,7 @@ interface SearchProps {
     onChange(value: string): void
 }
 
-const Searcher = ({onChange}: SearchProps) => {
+const Searcher = ({ onChange }: SearchProps) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [input, setInput] = useState<string>("");
     const [nicknames, setNicknames] = useState<(Interfaces.Option | GroupBase<Interfaces.Option>)[]>([{
@@ -29,15 +29,15 @@ const Searcher = ({onChange}: SearchProps) => {
         label: <>Введите никнейм / UUID</>,
         isDisabled: true
     }]);
-    const [nickValue, setNickValue] = useState<Interfaces.Option>({value: "no_data", label: <>Введите никнейм / UUID</>});
+    const [nickValue, setNickValue] = useState<Interfaces.Option>({ value: "no_data", label: <>Введите никнейм / UUID</> });
 
     const fetch_nicknames = (nickname: string) => {
         nickname = nickname.replaceAll("-", "").replace(/[^a-z_0-9\s]/gi, '');
-        if (nickname.length >= 32){
+        if (nickname.length >= 32) {
             nickname = nickname.slice(0, 32);
         }
         setInput(nickname);
-        if (nickname.length == 0){
+        if (nickname.length == 0) {
             setNicknames([{ value: "no_data", label: <>Введите никнейм / UUID</>, isDisabled: true }]);
             return;
         }
@@ -45,10 +45,10 @@ const Searcher = ({onChange}: SearchProps) => {
         setNicknames([{ value: nickname, label: <b>{nickname}</b> }]);
         if (nickname.length == 17) return;
 
-        if (nickname.length > 2){
+        if (nickname.length > 2) {
             setLoading(true);
             axios.get("/api/search/" + nickname).then(response => {
-                if (response.status == 200){
+                if (response.status == 200) {
                     const response_data = response.data as SearchResponse;
                     const data = response_data.data.map((nick) => {
                         const first_pos = nick.name.toLowerCase().indexOf(nickname.toLowerCase());
@@ -57,18 +57,20 @@ const Searcher = ({onChange}: SearchProps) => {
                         const last = nick.name.slice(first_pos + nickname.length, nick.name.length);
                         const label = first_pos != -1 ? <>{first}<b className={Style.color}>{middle}</b>{last}</> : <>{nick.name}</>;
 
-                        return {value: `${nick?.name} – ${nick?.uuid}`, label: <><div style={{display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
-                            <img alt="" src={"data:image/png;base64," + nick.head} width={32} style={{marginRight: "3px", borderRadius: "10px"}}/>
-                            {label}
-                        </div></>}
+                        return {
+                            value: `${nick?.name} – ${nick?.uuid}`, label: <><div style={{ display: "flex", flexWrap: "nowrap", alignItems: "center" }}>
+                                <img alt="" src={"data:image/png;base64," + nick.head} width={32} style={{ marginRight: "3px", borderRadius: "10px" }} />
+                                {label}
+                            </div></>
+                        }
                     })
                     setNicknames([
                         {
-                            value: response.data.requestedFragment, 
+                            value: response.data.requestedFragment,
                             label: <b>{response.data.requestedFragment}</b>
-                        }, 
-                        { 
-                            label: <>Совпадения</>, 
+                        },
+                        {
+                            label: <>Совпадения</>,
                             options: data
                         }
                     ]);
@@ -78,27 +80,27 @@ const Searcher = ({onChange}: SearchProps) => {
     }
 
     return <Select
-            value={nickValue}
-            options={nicknames}
-            className={`react-select-container`}
-            classNamePrefix="react-select"
-            isSearchable={true}
-            onInputChange={(n, a) => fetch_nicknames(n)}
-            inputValue={input}
-            onChange={(n, a) => {
-                    if (n?.value){
-                        setLoading(true);
-                        const nickname = n?.value;
-                        onChange(nickname.split(" – ").length > 1 ? nickname.split(" – ")[1] : nickname);
-                        setNickValue({value: n.value, label: <div className={Style.p_div}>{n.label}</div>});
-                    }
-                    setLoading(false);
-                }
+        value={nickValue}
+        options={nicknames}
+        className={`react-select-container`}
+        classNamePrefix="react-select"
+        isSearchable={true}
+        onInputChange={(n, a) => fetch_nicknames(n)}
+        inputValue={input}
+        onChange={(n, a) => {
+            if (n?.value) {
+                setLoading(true);
+                const nickname = n?.value;
+                onChange(nickname.split(" – ").length > 1 ? nickname.split(" – ")[1] : nickname);
+                setNickValue({ value: n.value, label: <div className={Style.p_div}>{n.label}</div> });
             }
-            isLoading={loading}
-            id="nick_input"
-            formatOptionLabel={(nick_value) => nick_value.label}
-        />
+            setLoading(false);
+        }
+        }
+        isLoading={loading}
+        id="nick_input"
+        formatOptionLabel={(nick_value) => nick_value.label}
+    />
 }
 
 interface SlideButtonProps {
@@ -109,7 +111,7 @@ interface SlideButtonProps {
     strict?: boolean
 }
 
-export const SlideButton = ({onChange, value, label, defaultValue, strict}: SlideButtonProps) => {
+export const SlideButton = ({ onChange, value, label, defaultValue, strict }: SlideButtonProps) => {
     const [active, setActive] = useState<boolean>(value || defaultValue || false);
     const isInitialMount = useRef<boolean>(true);
 
@@ -126,12 +128,14 @@ export const SlideButton = ({onChange, value, label, defaultValue, strict}: Slid
         }
     }, [active]);
 
-    return  <div className={StyleBtn.container}>
-                <div className={StyleBtn.main} onClick={() => setActive(prev => !prev)}>
-                    <div className={StyleBtn.child} style={active ? {left: "1.3rem"} : {left: "0", backgroundColor: "rgb(77 83 99)"}} />
-                </div>
-                {label && <label className={StyleBtn.label}>{label}</label>}
+    return (
+        <div className={StyleBtn.container}>
+            <div className={StyleBtn.main} onClick={() => setActive(prev => !prev)}>
+                <div className={StyleBtn.child} style={active ? { left: "1.3rem" } : { left: "0", backgroundColor: "rgb(77 83 99)" }} />
             </div>
+            {label && <label className={StyleBtn.label}>{label}</label>}
+        </div>
+    );
 }
 
 export default Searcher;

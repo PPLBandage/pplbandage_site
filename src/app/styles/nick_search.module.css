@@ -2,7 +2,7 @@
     color: var(--main-action-color);
 }
 
-.p_div .color{
-    color: white;
+.p_div .color {
+    color: var(--main-text-color);
     font-weight: inherit;
 }

@@ -10,7 +10,7 @@ export const roles = [
         title: "Игрок экспериментов (до 8 сезона)",
         color: 1357990
     },
-    {   
+    {
         id: 958432771519422476,
         title: "Игрок PepeLand 7",
         color: 3003583

@@ -33,11 +33,11 @@
 
 .menu {
     width: 15rem;
-    background-color: #252a30;
+    background-color: var(--main-menu-color);
     position: absolute;
     z-index: 9999;
     border-radius: 15px;
-    border: 1px #596172 solid;
+    border: 1px var(--hr-color) solid;
     transform-origin: top;
     display: grid;
     gap: 5px;
@@ -45,7 +45,7 @@
     box-sizing: border-box;
     user-select: none;
     margin-top: .5rem;
-    box-shadow: 5px 5px 8px -3px rgba(0,0,0,0.75);
+    box-shadow: 5px 5px 8px -3px rgba(0, 0, 0, 0.75);
 }
 
 
@@ -74,13 +74,13 @@
 .menu_element {
     padding: .8rem;
     border-radius: 7px;
-    background-color: #252a30;
+    background-color: var(--main-menu-color);
     box-shadow: none;
     transform: scale(1);
     transition: background-color 150ms, box-shadow 150ms;
     cursor: pointer;
 
-    color: white;
+    color: var(--main-text-color);
     margin: 0;
     text-decoration: none;
 
@@ -124,38 +124,41 @@
     visibility: visible;
 }
 
-.placeholders img{
+.placeholders img {
     visibility: hidden;
 }
 
 @keyframes plshdrs {
-	0%,
-	50%,
-	100% {
-		background-color: var(--main-element-color);
-	}
 
-	25%,
-	75% {
-		background-color: var(--main-card-color);
-	}
+    0%,
+    50%,
+    100% {
+        background-color: var(--main-element-color);
+    }
+
+    25%,
+    75% {
+        background-color: var(--main-card-color);
+    }
 }
 
-.placeholders{
+.placeholders {
     animation: plshdrs 2s ease-in-out infinite;
 }
 
 
-.avatar_container{
+.avatar_container {
     border-radius: 15rem;
     border: 3.5px var(--main-card-color) solid;
     cursor: pointer;
     width: 3rem;
     height: 3rem;
+
+    transition: border-color .2s;
 }
 
-.login_button{
-    color: white;
+.login_button {
+    color: var(--main-text-color);
     padding: .7rem;
     margin: 0;
     border-radius: 30px;
@@ -171,37 +174,53 @@
     width: 1.8rem;
 }
 
-.login_button:hover{
-    background-color: #1d2025;
+.login_button:hover {
+    background-color: var(--dark-hover);
 }
 
-.ppl_name{
-    color: white;
+.ppl_name {
+    color: var(--main-text-color);
     font-size: 1.5rem;
     margin: 0;
     margin-left: .5rem;
 }
 
-.auth_cont{
+.auth_cont {
     display: flex;
 }
 
+.unreaded {
+    border-color: #1bd96a;
+}
 
-@media(max-width: 767px){
-    .ppl_name{
+.main_icon {
+    transform: scale(1);
+    transition: transform 100ms ease-in-out;
+}
+
+.main_icon:active {
+    transform: scale(.9);
+}
+
+
+@media(max-width: 767px) {
+    .ppl_name {
         display: none;
     }
-    .login_button{
+
+    .login_button {
         font-size: 0;
     }
-    .login_button img{
+
+    .login_button img {
         margin: 0;
     }
-    .expand_arrow{
+
+    .expand_arrow {
         display: none;
     }
 
-    .menu{
+    .menu {
         width: auto;
         left: 1rem;
         right: 1rem;

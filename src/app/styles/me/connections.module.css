@@ -1,14 +1,21 @@
+.main {
+    flex-direction: column;
+    display: flex;
+    transition: opacity 200ms, transform 200ms;
+    width: 100%;
+    align-items: stretch;
+    gap: 1rem;
+}
+
 .container {
     flex-direction: column;
     background-color: var(--main-card-color);
     border-radius: 15px;
     padding: 1rem;
-    color: white;
-    width: 100%;
+    color: var(--main-text-color);
     box-sizing: border-box;
     gap: 1rem;
     display: flex;
-    transition: opacity 200ms, transform 200ms;
     align-items: stretch;
 }
 
@@ -59,7 +66,7 @@
     border-radius: 10px 0 0 10px;
     border: 1px var(--main-element-color) solid;
     height: 2.4rem;
-    color: white;
+    color: var(--main-text-color);
     font-size: 1rem;
     padding: .5rem;
     box-sizing: border-box;
@@ -70,12 +77,12 @@
 }
 
 .code_send {
-    color: white;
+    color: var(--main-text-color);
     background-color: var(--main-card-color);
     border-radius: 0 10px 10px 0;
     border: 1px var(--main-element-color) solid;
     height: 2.4rem;
-    
+
     box-sizing: border-box;
 
     border-left: none;
@@ -90,11 +97,11 @@
 }
 
 .code_input:focus {
-    border: 1px #717b91 solid;
+    border: 1px var(--focus-color) solid;
 }
 
-.code_input:focus + .code_send {
-    border: 1px #717b91 solid;
+.code_input:focus+.code_send {
+    border: 1px var(--focus-color) solid;
     border-left: none;
 }
 
@@ -106,12 +113,12 @@
 }
 
 .unlink {
-    color: white;
+    color: var(--main-text-color);
     background-color: var(--main-card-color);
     border-radius: 10px;
     border: 1px var(--main-element-color) solid;
     height: 2.4rem;
-    
+
     box-sizing: border-box;
     cursor: pointer;
 
@@ -130,7 +137,38 @@
     background-color: var(--main-element-color);
 }
 
-@keyframes loading{
+.discord_avatar {
+    width: 64px;
+    height: 64px;
+}
+
+.discord_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .5rem;
+}
+
+.discord_name_container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.discord_name_container h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.discord_name_container p {
+    margin: 0;
+    color: gray;
+    font-size: .8rem;
+}
+
+@keyframes loading {
     0% {
         transform: rotate(0deg);
     }
@@ -140,7 +178,7 @@
     }
 }
 
-@media(max-width: 650px){
+@media(max-width: 650px) {
     .container {
         width: auto;
         min-width: 300px;

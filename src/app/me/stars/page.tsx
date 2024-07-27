@@ -23,6 +23,10 @@ const Main = () => {
     const [elements, setElements] = useState<JSX.Element[]>(null);
     const [data, setData] = useState<Bandage[]>(null);
 
+    if (!cookies.current.get('sessionId')) {
+        redirect('/me');
+    }
+
     useEffect(() => {
         authApi.get("users/me/stars").then((response) => {
             if (response.status === 200) {
@@ -49,18 +53,18 @@ const Main = () => {
 
                 Promise.all(data.map(async (el) => {
                     try {
-                    const result = await generateSkin(el.base64, Object.values(el.categories).some(val => val.id == 3))
-                    await skinViewer.loadSkin(result);
-                    skinViewer.render();
-                    const image = skinViewer.canvas.toDataURL();
-                    return <Card el={el} base64={image} key={el.id} className={styles_me}/>
+                        const result = await generateSkin(el.base64, Object.values(el.categories).some(val => val.id == 3))
+                        await skinViewer.loadSkin(result);
+                        skinViewer.render();
+                        const image = skinViewer.canvas.toDataURL();
+                        return <Card el={el} base64={image} key={el.id} className={styles_me} />
                     } catch {
                         return;
                     }
                 }))
-                .then(results => setElements(results))
-                .catch(error => console.error('Error generating skins', error))
-                .finally(() => skinViewer.dispose());
+                    .then(results => setElements(results))
+                    .catch(error => console.error('Error generating skins', error))
+                    .finally(() => skinViewer.dispose());
             });
         }
     }, [data]);
@@ -73,19 +77,20 @@ const Main = () => {
     }, [logged])
 
     return (
-    <body>
-        <Header/>
-        {isLogged &&
-            <Me>
-                {data && data.length != 0 ? <div className={style_sidebar.skins_container} style={elements ? {opacity: "1", transform: "translateY(0)"} : {opacity: "0", transform: "translateY(50px)"}}>
-                    {elements}
-                </div> : 
-                <div className={style_sidebar.animated} style={elements ? {opacity: "1", transform: "translateY(0)", width: "100%"} : {opacity: "0", transform: "translateY(50px)", width: "100%"}}>
-                    <p style={{display: "flex", alignItems: "center", fontSize: "1.1rem", fontWeight: 500, width: "100%", justifyContent: "center", margin: 0}}><Image style={{marginRight: ".5rem"}} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />Похоже, тут ничего нет</p>
-                </div>}
-            </Me>
-        }
-    </body>
+        <body>
+            <title>Избранное · Повязки Pepeland</title>
+            <Header />
+            {isLogged &&
+                <Me>
+                    {data && data.length != 0 ? <div className={style_sidebar.skins_container} style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
+                        {elements}
+                    </div> :
+                        <div className={style_sidebar.animated} style={elements ? { opacity: "1", transform: "translateY(0)", width: "100%" } : { opacity: "0", transform: "translateY(50px)", width: "100%" }}>
+                            <p style={{ display: "flex", alignItems: "center", fontSize: "1.1rem", fontWeight: 500, width: "100%", justifyContent: "center", margin: 0 }}><Image style={{ marginRight: ".5rem" }} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />Похоже, тут ничего нет</p>
+                        </div>}
+                </Me>
+            }
+        </body>
     );
 }
 

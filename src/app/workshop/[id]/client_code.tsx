@@ -24,31 +24,32 @@ import { authApi } from '@/app/api.module';
 import CategorySelector from '@/app/modules/category_selector.module';
 import Footer from '@/app/modules/footer.module';
 import { anims } from '../poses';
+import asyncImage from '@/app/asyncImage';
 
 
-const body_part: readonly {value: number, label: String}[] = [
-    { value: 0, label: "Левая рука"},
-    { value: 1, label: "Левая нога"},
-    { value: 2, label: "Правая рука"},
-    { value: 3, label: "Правая нога"}
+const body_part: readonly { value: number, label: String }[] = [
+    { value: 0, label: "Левая рука" },
+    { value: 1, label: "Левая нога" },
+    { value: 2, label: "Правая рука" },
+    { value: 3, label: "Правая нога" }
 ];
 
-const layers: readonly {value: string, label: String}[] = [
-    { value: "0", label: "На разных слоях"},
-    { value: "1", label: "Только на первом слое"},
-    { value: "2", label: "Только на втором слое"}
+const layers: readonly { value: string, label: String }[] = [
+    { value: "0", label: "На разных слоях" },
+    { value: "1", label: "Только на первом слое" },
+    { value: "2", label: "Только на втором слое" }
 ];
 
 const getRandomColor = () => {
     const letters = '0123456789ABCDEF';
     let color = '#';
     for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+        color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
 }
 
-export default function Home({ data }: {data: Interfaces.Bandage }) {
+export default function Home({ data }: { data: Interfaces.Bandage }) {
     const [bandage, setBandage] = useState<Interfaces.Bandage>(null);
     const [loaded, setLoaded] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
@@ -68,14 +69,14 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
         // из за частого вызова oninput на слабых клиентах сильно лагает,
         // поэтому сделан дебаунс на 5мс
         debounce((event) => {
-            client.current.setParams({color: event.target.value});
+            client.current.setParams({ color: event.target.value });
         }, 5),
         []
     );
 
     useEffect(() => {
         client.current = new Client();
-        client.current.addEventListener('skin_changed', (event: {skin: string, cape: string}) => {
+        client.current.addEventListener('skin_changed', (event: { skin: string, cape: string }) => {
             setSkin(event.skin);
             setCape(event.cape);
             setSlim(client.current.slim);
@@ -87,13 +88,9 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
                 return;
             }
             setBandage(data);
-
-            const bandage = new Image();
-            bandage.src = b64Prefix + data.base64;
-
             if (data.me_profile) client.current.loadSkin(data.me_profile.uuid);
 
-            bandage.onload = () => {
+            asyncImage(b64Prefix + data.base64).then((bandage) => {
                 const height = bandage.height / 2;
                 const pepe_canvas = document.createElement('canvas') as HTMLCanvasElement;
                 const context_pepe = pepe_canvas.getContext("2d");
@@ -114,18 +111,22 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
                 client.current.colorable = Object.values(data.categories).some(val => val.icon.indexOf('color-palette.svg') !== -1);
                 const randomColor = getRandomColor();
                 setRandomColor(randomColor);
-                client.current.setParams({color: randomColor});
+                client.current.setParams({ color: randomColor });
                 client.current.rerender();
                 setLoaded(true);
-            };  
-        });
+            });
 
+            if (data.split_type) {
+                client.current?.setParams({ split_types: true });
+                asyncImage(b64Prefix + data?.base64_slim).then((img) => {
+                    client.current?.loadFromImage(img, true)
+                });
+            }
+        });
+        scrollTo(0, 0);
     }, []);
 
-    const categories = bandage?.categories.map((category) => {
-        if (category.icon === "/null") return undefined;
-        return <CategoryEl key={category.id} category={category}/>
-    });
+    const categories = bandage?.categories.map((category) => <CategoryEl key={category.id} category={category} />);
 
     return (
         <body>
@@ -135,10 +136,10 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
                     client.current?.changeSkin(evt.data, evt.slim, evt.cape ? "data:image/png;base64," + evt.cape : "");
                 }
                 setLoadExpanded(false);
-            }}/>}
-            {isError && <NotFoundElement />}
-            <main className={style.main} style={loaded ? {opacity: "1", transform: "translateY(0)"} : {opacity: "0", transform: "translateY(50px)"}}>
-                <NavigatorEl path={[{
+            }} />}
+            {isError ? <NotFoundElement /> :
+                <main className={style.main} style={loaded ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
+                    <NavigatorEl path={[{
                         name: "Мастерская",
                         url: "/workshop"
                     },
@@ -146,28 +147,29 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
                         name: bandage?.external_id,
                         url: `/workshop/${bandage?.external_id}`
                     }
-                ]} style={{marginBottom: "1rem"}}/>
-                {
-                    bandage?.check_state ?
-                    bandage?.check_state === "under review" ?
-                    <div className={style.check_notification}>
-                        <h3>На проверке</h3>
-                        <p>Ваша работа сейчас проходит модерацию, дождитесь ее завершения</p>
-                    </div> 
-                    : 
-                    <div className={style.check_notification} style={{borderColor: "red", backgroundColor: "rgba(255, 0, 0, .13)"}}>
-                        <h3>Отклонено</h3>
-                        <p>Ваша работа была отклонена модерацией. Для получения информации обратитесь в поддержку</p>
-                    </div> : null
-                }
-                <div className={style.main_container}>
-                    <div className={style.skin_parent}>
+                    ]} style={{ marginBottom: "1rem" }} />
+                    {
+                        bandage?.check_state ?
+                            bandage?.check_state === "under review" ?
+                                <div className={style.check_notification}>
+                                    <h3>На проверке</h3>
+                                    <p>Ваша работа сейчас проходит модерацию, дождитесь ее завершения</p>
+                                </div>
+                                :
+                                <div className={style.check_notification} style={{ borderColor: "red", backgroundColor: "rgba(255, 0, 0, .13)" }}>
+                                    <h3>Отклонено</h3>
+                                    <p>Ваша работа была отклонена модерацией. Для получения информации обратитесь в поддержку</p>
+                                </div> : null
+                    }
+                    <div className={style.main_container}>
+                        <div className={style.skin_parent}>
                             <SkinView3D SKIN={skin}
-                                        CAPE={cape} 
-                                        slim={slim} 
-                                        className={style.render_canvas}
-                                        pose={pose} 
-                                        id="canvas_container" />
+                                CAPE={cape}
+                                slim={slim}
+                                className={style.render_canvas}
+                                pose={pose}
+                                background='/static/background_big.png'
+                                id="canvas_container" />
                             <div className={style.render_footer}>
                                 <button className={style.skin_load} onClick={() => setLoadExpanded(true)}><NextImage src="/static/icons/plus.svg" alt="" width={32} height={32} />Загрузить скин</button>
                                 <Select
@@ -179,92 +181,93 @@ export default function Home({ data }: {data: Interfaces.Bandage }) {
                                     onChange={(n, a) => setPose(n.value)}
                                     formatOptionLabel={(nick_value) => nick_value.label}
                                 />
-                                <SlideButton onChange={(val) => client.current?.changeSlim(val)} value={slim} label="Тонкие руки"/>
+                                <SlideButton onChange={(val) => client.current?.changeSlim(val)} value={slim} label="Тонкие руки" />
                                 <button className={style.skin_load} onClick={() => client.current?.download()}>
-                                    <NextImage 
-                                            src="/static/icons/download.svg" 
-                                            alt="" 
-                                            width={32} 
-                                            height={32}
-                                            style={{width: "1.5rem"}} />Скачать скин</button>
+                                    <NextImage
+                                        src="/static/icons/download.svg"
+                                        alt=""
+                                        width={32}
+                                        height={32}
+                                        style={{ width: "1.5rem" }} />Скачать скин</button>
                             </div>
-                        <div className={style.categories}>
-                            {categories}
+                            <div className={style.categories}>
+                                {categories}
+                            </div>
                         </div>
-                    </div>
-                    <div style={{width: "100%"}}>
-                        { !edit ? <Info el={bandage} onClick={() => setEdit(true)} /> : 
-                        <EditElement bandage={bandage} onClose={() => {
-                                setEdit(false);
-                                window.location.reload();
+                        <div style={{ width: "100%" }}>
+                            {!edit ? <Info el={bandage} onClick={() => setEdit(true)} /> :
+                                <EditElement bandage={bandage} onClose={() => {
+                                    setEdit(false);
+                                    window.location.reload();
+                                }
+                                } />
                             }
-                        } /> }
-                        <hr />
-                        <div style={{display: "flex", flexDirection: "column", gap: ".8rem"}}>
-                            {client.current?.colorable && 
-                                <div style={{display: "flex", alignItems: "center"}}>
-                                    <input type='color' id='color_select' defaultValue={randomColor} onInput={debouncedHandleColorChange}/>
-                                    <p style={{margin: 0, marginLeft: '.5rem'}}>Выберите цвет</p>
-                                </div>
-                            }
-                            <div className={style.settings_slider}>
-                                <input type="range" min="0" max='8' defaultValue='4' step='1' id='position' className={style.position} onInput={(evt) => {
-                                        client.current?.setParams({position: Number((evt.target as HTMLInputElement).value)});
+                            <hr />
+                            <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>
+                                {client.current?.colorable &&
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <input type='color' id='color_select' defaultValue={randomColor} onInput={debouncedHandleColorChange} />
+                                        <p style={{ margin: 0, marginLeft: '.5rem' }}>Выберите цвет</p>
+                                    </div>
+                                }
+                                <div className={style.settings_slider}>
+                                    <input type="range" min="0" max='8' defaultValue='4' step='1' id='position' className={style.position} onInput={(evt) => {
+                                        client.current?.setParams({ position: Number((evt.target as HTMLInputElement).value) });
                                     }
-                                }/>
-                                <div className={style.settings_slider_1}>
-                                    <SlideButton onChange={(val) => client.current?.setParams({first_layer: val})} 
-                                                defaultValue={true}
-                                                label='Первый слой' />
+                                    } />
+                                    <div className={style.settings_slider_1}>
+                                        <SlideButton onChange={(val) => client.current?.setParams({ first_layer: val })}
+                                            defaultValue={true}
+                                            label='Первый слой' />
 
-                                    <SlideButton onChange={(val) => client.current?.setParams({second_layer: val})} 
-                                                defaultValue={true} 
-                                                label='Второй слой'/>
+                                        <SlideButton onChange={(val) => client.current?.setParams({ second_layer: val })}
+                                            defaultValue={true}
+                                            label='Второй слой' />
 
-                                    <SlideButton onChange={(val) => client.current?.setParams({clear_pix: val})} 
-                                                defaultValue={true} 
-                                                label='Очищать пиксели на втором слое'/>
+                                        <SlideButton onChange={(val) => client.current?.setParams({ clear_pix: val })}
+                                            defaultValue={true}
+                                            label='Очищать пиксели на втором слое' />
 
-                                    <Select
-                                        options={body_part}
-                                        defaultValue={body_part[0]}
-                                        className={`react-select-container`}
-                                        classNamePrefix="react-select"
-                                        isSearchable={false}
-                                        onChange={(n, a) => client.current?.setParams({body_part: n.value})}
-                                    />
-                                    <Select
-                                        options={layers}
-                                        defaultValue={layers[0]}
-                                        className={`react-select-container`}
-                                        classNamePrefix="react-select"
-                                        isSearchable={false}
-                                        onChange={(n, a) => client.current?.setParams({layers: n.value})}
-                                    />
+                                        <Select
+                                            options={body_part}
+                                            defaultValue={body_part[0]}
+                                            className={`react-select-container`}
+                                            classNamePrefix="react-select"
+                                            isSearchable={false}
+                                            onChange={(n, a) => client.current?.setParams({ body_part: n.value })}
+                                        />
+                                        <Select
+                                            options={layers}
+                                            defaultValue={layers[0]}
+                                            className={`react-select-container`}
+                                            classNamePrefix="react-select"
+                                            isSearchable={false}
+                                            onChange={(n, a) => client.current?.setParams({ layers: n.value })}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <Footer />
-            </main>
+                    <Footer />
+                </main>
+            }
         </body>
     );
 }
 
-const Info = ({el, onClick}: {el: Interfaces.Bandage, onClick(): void}) => {
-
+const Info = ({ el, onClick }: { el: Interfaces.Bandage, onClick(): void }) => {
     return <div className={style.info_container}>
-                <h2 className={`${style.title} ${el?.permissions_level >= 1 && style.title_editable}`} onClick={() => {if (el?.permissions_level >= 1) onClick()}}>
-                    {el?.title}
-                    <NextImage className={style.edit_icon} src="/static/icons/edit.svg" alt="" width={32} height={32} /></h2>
-                { el?.description && <p className={style.description}>{el?.description}</p> }
-                <p className={style.author}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32}/>{el?.author.name || "Unknown"}</p>
-            </div>
+        <h2 className={`${style.title} ${el?.permissions_level >= 1 && style.title_editable}`} onClick={() => { if (el?.permissions_level >= 1) onClick() }}>
+            {el?.title}
+            <NextImage className={style.edit_icon} src="/static/icons/edit.svg" alt="" width={32} height={32} /></h2>
+        {el?.description && <p className={style.description}>{el?.description}</p>}
+        <p className={style.author}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32} />{el?.author.name || "Unknown"}</p>
+    </div>
 }
 
 interface SkinLoadProps {
-    onChange(data: {data: string; slim: boolean; cape?: string} | null): void
+    onChange(data: { data: string; slim: boolean; cape?: string } | null): void
 }
 
 interface SkinResponse {
@@ -278,8 +281,9 @@ interface SkinResponse {
     }
 }
 
-const SkinLoad = ({onChange}: SkinLoadProps) => {
-    const [data, setData] = useState<{data: string; slim: boolean; cape?: string}>(null);
+const SkinLoad = ({ onChange }: SkinLoadProps) => {
+    const [data, setData] = useState<{ data: string; slim: boolean; cape?: string }>(null);
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     const isSlim = (img: HTMLImageElement): boolean => {
         const canvas = document.createElement('canvas');
@@ -316,6 +320,7 @@ const SkinLoad = ({onChange}: SkinLoadProps) => {
                 slim: data.data.skin.slim,
                 cape: data.data.cape
             });
+            setLoaded(true);
         });
     }
 
@@ -349,6 +354,7 @@ const SkinLoad = ({onChange}: SkinLoadProps) => {
                     data: reader.result as string,
                     slim: isSlim(img)
                 });
+                setLoaded(true);
             }
             img.src = reader.result as string;
         }
@@ -370,7 +376,7 @@ const SkinLoad = ({onChange}: SkinLoadProps) => {
 
     const ondrop = (evt: React.DragEvent<HTMLLabelElement>) => {
         getData(evt.dataTransfer?.files[0]);
-        
+
         evt.preventDefault();
         const drag_container = document.getElementById("drop_container") as HTMLDivElement;
         drag_container.style.borderStyle = "dashed";
@@ -382,40 +388,46 @@ const SkinLoad = ({onChange}: SkinLoadProps) => {
     }
 
     return <div className={style.skin_load_base}>
-                <div className={style.skin_load_container}>
-                <Searcher onChange={(evt) => loadSkin(evt)}/>
-                <label className={style.skin_drop} 
-                       id="drop_container"
-                       onDragOver={(evt) => ondragover(evt)}
-                       onDragLeave={(evt) => ondragleave(evt)}
-                       onDrop={(evt) => ondrop(evt)}>
-                    <div className={style.hidable}>
-                        <input type="file" 
-                               name="imageInput" 
-                               id="imageInput" 
-                               accept="image/png"
-                               onChange={(evt) => onChangeInput(evt)} />
-                        <span id="select_file">Выберите файл<br />или<br />скиньте его сюда</span>
-                    </div>
-                </label>
-                <span id="error"></span>
-                {data && <div style={{display: 'flex', justifyContent: 'center'}}>
-                            <NextImage src={data.data} width={64} height={64} alt='' />
-                        </div>
-                }
-                <button className={style.skin_load} onClick={() => onChange(data)}>
-                    <NextImage src="/static/icons/done.svg" alt="" width={32} height={32} />Готово</button>
+        <div className={style.skin_load_container}>
+            <Searcher onChange={(evt) => loadSkin(evt)} />
+            <label className={style.skin_drop}
+                id="drop_container"
+                onDragOver={(evt) => ondragover(evt)}
+                onDragLeave={(evt) => ondragleave(evt)}
+                onDrop={(evt) => ondrop(evt)}>
+                <div className={style.hidable}>
+                    <input type="file"
+                        name="imageInput"
+                        id="imageInput"
+                        accept="image/png"
+                        onChange={(evt) => onChangeInput(evt)} />
+                    <span id="select_file">Выберите файл<br />или<br />скиньте его сюда</span>
                 </div>
-           </div>
+            </label>
+            <span id="error"></span>
+            {data && <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <NextImage src={data.data} width={64} height={64} alt='' />
+            </div>
+            }
+            <div style={{ display: 'flex', width: '100%', gap: '.5rem' }}>
+                <button className={style.skin_load} onClick={() => onChange(null)} style={{ width: '2.7rem' }}>
+                    <NextImage src="/static/icons/plus.svg" alt="" width={32} height={32} style={{ margin: 0, transform: 'rotate(45deg)' }} />
+                </button>
+                <button className={`${style.skin_load} ${!loaded && style.disabled_load}`} onClick={() => { loaded && onChange(data) }} style={{ width: '100%' }}>
+                    <NextImage src="/static/icons/done.svg" alt="" width={32} height={32} />Готово
+                </button>
+            </div>
+        </div>
+    </div>
 }
 
-const access_level: readonly {value: number, label: String}[] = [
-    { value: 0, label: "Ограниченный доступ"},
-    { value: 1, label: "Доступ только по ссылке"},
-    { value: 2, label: "Открытый доступ"}
+const access_level: readonly { value: number, label: String }[] = [
+    { value: 0, label: "Ограниченный доступ" },
+    { value: 1, label: "Доступ только по ссылке" },
+    { value: 2, label: "Открытый доступ" }
 ];
 
-const EditElement = ({bandage, onClose}: {bandage: Interfaces.Bandage, onClose(): void}) => {
+const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClose(): void }) => {
     const router = useRouter();
     const [title, setTitle] = useState<string>(bandage?.title);
     const [description, setDescription] = useState<string>(bandage?.description);
@@ -447,54 +459,58 @@ const EditElement = ({bandage, onClose}: {bandage: Interfaces.Bandage, onClose()
             }
         })
     }
-    return  <div style={{display: "flex", flexDirection: "column", gap: ".8rem"}}>
-                {bandage.permissions_level >= 2 ? <>
-                    <textarea maxLength={50} placeholder="Заголовок" className={style.textarea} onInput={(ev) => setTitle((ev.target as HTMLTextAreaElement).value)} value={title} />
-                    <textarea maxLength={300} placeholder="Описание" className={style.textarea} onInput={(ev) => setDescription((ev.target as HTMLTextAreaElement).value)} value={description} />
-                </> : 
-                <>
-                    <h2 className={style.title}>{bandage?.title}</h2>
-                    { bandage?.description && <p className={style.description} style={{margin: 0}}>{bandage?.description}</p> }
-                </> }
-                <CategorySelector enabledCategories={bandage?.categories}
-                                  allCategories={allCategories} 
-                                  onChange={setCategories} />
-                <Select
-                    options={access_level}
-                    defaultValue={access_level[bandage.access_level]}
-                    className={`react-select-container`}
-                    classNamePrefix="react-select"
-                    isSearchable={false}
-                    onChange={(n, a) => setAccessLevel(n.value)}
-                />
-                <div className={style.check_notification} style={{borderColor: "red", 
-                                                                  backgroundColor: "rgba(255, 0, 0, .13)", 
-                                                                  margin: 0}}>
-                    <h3>Опасная зона</h3>
-                    <p>Все действия в данной зоне имеют необратимый характер, делайте их с умом!</p>
-                    
-                    <div style={{display: 'flex', 
-                                alignItems: 'center', 
-                                flexDirection: 'row', 
-                                gap: '.4rem', 
-                                marginTop: '1rem'}}>
-                        <div className={style.deleteButton} onClick={() => {
-                            const first = confirm(`Вы собираетесь удалить повязку ${bandage.title}! Это действе необратимо! Подтверждаете?`);
-                            if (!first) return;
-                            const second = confirm('Последний шанс! Удалить?');
-                            if (!second) return;
-                            authApi.delete(`workshop/${bandage.external_id}`).then((res) => {
-                                if (res.status === 200) {
-                                    router.replace('/workshop');
-                                }
-                            })
-                        }}>
-                            <img className={style.binUp} alt="" src="/static/icons/bin_up.png"></img>
-                            <img className={style.binDown} alt="" src="/static/icons/bin_down.png"></img>
-                        </div>
-                        <p style={{margin: 0}}>Удалить повязку</p>
-                    </div>
+    return <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>
+        {bandage.permissions_level >= 2 ? <>
+            <textarea maxLength={50} placeholder="Заголовок" className={style.textarea} onInput={(ev) => setTitle((ev.target as HTMLTextAreaElement).value)} value={title} />
+            <textarea maxLength={300} placeholder="Описание" className={style.textarea} onInput={(ev) => setDescription((ev.target as HTMLTextAreaElement).value)} value={description} />
+        </> :
+            <>
+                <h2 className={style.title}>{bandage?.title}</h2>
+                {bandage?.description && <p className={style.description} style={{ margin: 0 }}>{bandage?.description}</p>}
+            </>}
+        <CategorySelector enabledCategories={bandage?.categories}
+            allCategories={allCategories}
+            onChange={setCategories} />
+        <Select
+            options={access_level}
+            defaultValue={access_level[bandage.access_level]}
+            className={`react-select-container`}
+            classNamePrefix="react-select"
+            isSearchable={false}
+            onChange={(n, a) => setAccessLevel(n.value)}
+        />
+        <div className={style.check_notification} style={{
+            borderColor: "red",
+            backgroundColor: "rgba(255, 0, 0, .13)",
+            margin: 0
+        }}>
+            <h3>Опасная зона</h3>
+            <p>Все действия в данной зоне имеют необратимый характер, делайте их с умом!</p>
+
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'row',
+                gap: '.4rem',
+                marginTop: '1rem'
+            }}>
+                <div className={style.deleteButton} onClick={() => {
+                    const first = confirm(`Вы собираетесь удалить повязку ${bandage.title}! Это действе необратимо! Подтверждаете?`);
+                    if (!first) return;
+                    const second = confirm('Последний шанс! Удалить?');
+                    if (!second) return;
+                    authApi.delete(`workshop/${bandage.external_id}`).then((res) => {
+                        if (res.status === 200) {
+                            router.replace('/workshop');
+                        }
+                    })
+                }}>
+                    <img className={style.binUp} alt="" src="/static/icons/bin_up.png"></img>
+                    <img className={style.binDown} alt="" src="/static/icons/bin_down.png"></img>
                 </div>
-                <button className={style.skin_load} onClick={() => save()} style={{padding: ".4rem"}}>Сохранить</button>
+                <p style={{ margin: 0 }}>Удалить повязку</p>
             </div>
+        </div>
+        <button className={style.skin_load} onClick={() => save()} style={{ padding: ".4rem" }}>Сохранить</button>
+    </div>
 }

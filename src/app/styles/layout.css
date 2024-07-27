@@ -1,13 +1,9 @@
 body {
-	--main-bg-color: #17181c;
-	--main-card-color: #262930;
-	--main-element-color: #434957;
-	--main-action-color: #00ADB5;
 	background-color: var(--main-bg-color);
 	margin: 0;
 	scrollbar-gutter: stable;
 	overflow-y: scroll;
-	color: white;
+	color: var(--main-text-color);
 	padding-bottom: 1rem;
 	color-scheme: dark;
 }
@@ -116,8 +112,8 @@ body::-webkit-scrollbar-thumb {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  appearance: none;
-  margin: 0;
+	appearance: none;
+	margin: 0;
 }
 
 hr {
@@ -127,4 +123,8 @@ hr {
 a {
 	color: #ffffff;
 	text-decoration: underline;
+}
+
+img {
+	user-select: none !important;
 }

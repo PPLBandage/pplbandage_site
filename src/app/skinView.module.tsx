@@ -10,10 +10,11 @@ interface SkinView3DOptions {
     id: string,
     width?: number,
     height?: number,
-    pose?: number
+    pose?: number,
+    background?: string
 }
 
-export class TestAnim extends PlayerAnimation {
+export class TPose extends PlayerAnimation {
     protected animate(player: PlayerObject): void {
         const t = this.progress * 2;
         const PI = Math.PI;
@@ -27,7 +28,7 @@ export class TestAnim extends PlayerAnimation {
 }
 
 
-const SkinView3D = ({SKIN, CAPE, className, slim, id, width, height, pose}: SkinView3DOptions): JSX.Element => {
+const SkinView3D = ({ SKIN, CAPE, className, slim, id, width, height, pose, background }: SkinView3DOptions): JSX.Element => {
     const canvasRef = useRef<HTMLCanvasElement>();
     const skinViewRef = useRef<SkinViewer>();
 
@@ -41,7 +42,7 @@ const SkinView3D = ({SKIN, CAPE, className, slim, id, width, height, pose}: Skin
                 skinViewRef.current.animation.speed = 0.65;
                 break;
             case 2:
-                skinViewRef.current.animation = new TestAnim();
+                skinViewRef.current.animation = new TPose();
                 break;
         }
     }
@@ -53,11 +54,11 @@ const SkinView3D = ({SKIN, CAPE, className, slim, id, width, height, pose}: Skin
             height: height || 400
         });
         skinViewRef.current = view;
-        
+
         setPose(pose);
-		skinViewRef.current.controls.enablePan = true;
-		skinViewRef.current.fov = 90;
-		skinViewRef.current.globalLight.intensity = 2.5;
+        skinViewRef.current.controls.enablePan = true;
+        skinViewRef.current.fov = 90;
+        skinViewRef.current.globalLight.intensity = 2.5;
         skinViewRef.current.camera.zoom = 0.9;
 
         skinViewRef.current.camera.rotation.x = -0.36;
@@ -68,7 +69,7 @@ const SkinView3D = ({SKIN, CAPE, className, slim, id, width, height, pose}: Skin
         skinViewRef.current.camera.position.z = 15;
 
         skinViewRef.current.scene.position.y = -2.5;
-        skinViewRef.current.loadBackground("/static/background.png");
+        skinViewRef.current.loadBackground(background || "/static/background.png");
 
         skinViewRef.current.loadSkin(SKIN ? SKIN : "/static/workshop_base.png", { model: slim ? "slim" : "default" });
         CAPE && skinViewRef.current.loadSkin(CAPE);
@@ -79,7 +80,7 @@ const SkinView3D = ({SKIN, CAPE, className, slim, id, width, height, pose}: Skin
             skinViewRef.current.width = width;
             skinViewRef.current.height = height;
         });
-    
+
         resizeObserver.observe(document.getElementById(id) as HTMLDivElement);
     }, [])
 
@@ -95,10 +96,10 @@ const SkinView3D = ({SKIN, CAPE, className, slim, id, width, height, pose}: Skin
         setPose(pose);
     }, [pose]);
 
-    return  <div id={id} className={className}>
-                <canvas ref={canvasRef as LegacyRef<HTMLCanvasElement>}/>
-            </div>
-            
+    return <div id={id} className={className}>
+        <canvas ref={canvasRef as LegacyRef<HTMLCanvasElement>} />
+    </div>
+
 }
 
 export default SkinView3D;

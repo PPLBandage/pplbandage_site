@@ -27,7 +27,8 @@ interface Settings {
     second_layer?: boolean;
     layers?: string;
     color?: string;
-    colorable?: boolean
+    colorable?: boolean;
+    split_types?: boolean;
 }
 
 class Client {
@@ -40,6 +41,9 @@ class Client {
     pepe_canvas: HTMLCanvasElement = null;
     lining_canvas: HTMLCanvasElement = null;
 
+    pepe_canvas_slim: HTMLCanvasElement = null;
+    lining_canvas_slim: HTMLCanvasElement = null;
+
     body_part: number = 0;
     position: number = 4;
     clear_pix: boolean = true;
@@ -49,6 +53,8 @@ class Client {
     slim: boolean = false;
     color: string = "";
     colorable: boolean = false;
+
+    split_types: boolean = false;
 
     loadBase() {
         const skin = new Image();
@@ -136,7 +142,7 @@ class Client {
     }
 
     async loadSkinUrl(url: string) {
-        axios.get(url, {responseType: 'blob'}).then((result => {
+        axios.get(url, { responseType: 'blob' }).then((result => {
             if (result.status === 200) {
                 const reader = new FileReader();
                 reader.onloadend = () => {
@@ -240,7 +246,7 @@ class Client {
 
     //---------------------bandage_manager-------------------
 
-    loadFromImage(img: HTMLImageElement) { 
+    loadFromImage(img: HTMLImageElement, slim?: boolean) {
         const height = img.height / 2;
         const pepe_canvas = document.createElement('canvas') as HTMLCanvasElement;
         const context_pepe = pepe_canvas.getContext("2d");
@@ -254,8 +260,8 @@ class Client {
 
         context_pepe.drawImage(img, 0, 0, 16, height, 0, 0, 16, height);
         context_lining.drawImage(img, 0, height, 16, height, 0, 0, 16, height);
-        this.pepe_canvas = pepe_canvas;
-        this.lining_canvas = lining_canvas;
+        !slim ? this.pepe_canvas = pepe_canvas : this.pepe_canvas_slim = pepe_canvas;
+        !slim ? this.lining_canvas = lining_canvas : this.lining_canvas_slim = lining_canvas;
         this.position = 6 - Math.floor(height / 2);
 
         this.rerender();
@@ -264,7 +270,7 @@ class Client {
     load_custom(event: Interfaces.FileUploadEvent) {
         const file = event.target.files?.item(0);
         if (!file) return;
-    
+
         const reader = new FileReader();
         const img = new Image();
         reader.onload = (e) => {
@@ -280,8 +286,8 @@ class Client {
             const ctx_lining = lining_canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D;
 
             if (img.height % 2 != 0 || img.width != 16 || (img.height > 24 || img.height < 2)) {
-                this.setError("Файл с повязкой должен иметь ширину 16 и высоту от 2 до 24 пикселей", 
-                              document.getElementById('error_label_pepe') as HTMLParagraphElement);
+                this.setError("Файл с повязкой должен иметь ширину 16 и высоту от 2 до 24 пикселей",
+                    document.getElementById('error_label_pepe') as HTMLParagraphElement);
                 return
             }
             this.clearError(document.getElementById('error_label_pepe') as HTMLParagraphElement);
@@ -319,7 +325,7 @@ class Client {
         })
     }
 
-    setParams({body_part, position, clear_pix, first_layer, second_layer, layers, color, colorable}: Settings) {
+    setParams({ body_part, position, clear_pix, first_layer, second_layer, layers, color, colorable, split_types }: Settings) {
         if (body_part != undefined) this.body_part = body_part;
         if (position != undefined) this.position = position;
         if (clear_pix != undefined) this.clear_pix = clear_pix;
@@ -328,6 +334,7 @@ class Client {
         if (layers != undefined) this.layers = layers;
         if (color != undefined) this.color = color;
         if (colorable != undefined) this.colorable = colorable;
+        if (split_types != undefined) this.split_types = split_types;
 
         this.rerender();
     }
@@ -342,12 +349,18 @@ class Client {
 
 
     //-----------RENDER-------------
-    rerender(){
+    rerender() {
         const canvas = document.createElement('canvas');
         canvas.width = 64;
         canvas.height = 64;
-        const bandage_canvas = this.pepe_canvas;
-        const lining_canvas = this.lining_canvas;
+
+        let bandage_canvas = this.pepe_canvas;
+        let lining_canvas = this.lining_canvas;
+
+        if (this.split_types && this.slim) {
+            bandage_canvas = this.pepe_canvas_slim;
+            lining_canvas = this.lining_canvas_slim;
+        }
 
         if (!bandage_canvas || !lining_canvas) return;
 
@@ -398,18 +411,18 @@ class Client {
             first_y = overlay_y;
         }
 
-        if (this.first_layer){
+        if (this.first_layer) {
             canvas_context.drawImage(cropped_lining, first_x, first_y + this.position);
         }
 
-        if (this.second_layer){
+        if (this.second_layer) {
             canvas_context.drawImage(cropped_pepe, overlay_x, overlay_y + this.position);
         }
         this.skin = canvas.toDataURL();
         this.triggerEvent("skin_changed");
     }
 
-    download(){
+    download() {
         const link = document.createElement('a');
         link.download = 'skin.png';
         link.href = this.skin;
@@ -497,8 +510,8 @@ const hex2rgb = (hex: string) => {
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
     const b = parseInt(hex.slice(5, 7), 16);
-    
-    return [ r, g, b ];
+
+    return [r, g, b];
 }
 
 export default Client;

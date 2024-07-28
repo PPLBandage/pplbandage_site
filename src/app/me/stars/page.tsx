@@ -28,7 +28,7 @@ const Main = () => {
     }
 
     useEffect(() => {
-        authApi.get("users/me/stars").then((response) => {
+        authApi.get("user/me/stars").then((response) => {
             if (response.status === 200) {
                 setData(response.data as Bandage[]);
             }

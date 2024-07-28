@@ -84,7 +84,7 @@ const Main = () => {
 
     useEffect(() => {
         if (isLogged) {
-            authApi.get("users/me/works").then((response) => {
+            authApi.get("user/me/works").then((response) => {
                 if (response.status === 200) {
                     setData(response.data);
                 }

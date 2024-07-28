@@ -104,6 +104,12 @@
     align-items: center;
     margin-bottom: 0;
     color: var(--main-text-color);
+    margin-top: 1rem;
+    text-decoration: none;
+}
+
+.username:hover {
+    text-decoration: underline;
 }
 
 .description {

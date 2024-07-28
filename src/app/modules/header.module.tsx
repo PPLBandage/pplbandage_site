@@ -32,7 +32,7 @@ const Header = (): JSX.Element => {
         retry: 5,
         refetchOnWindowFocus: false,
         queryFn: async () => {
-            const res = await authApi.get("/users/me");
+            const res = await authApi.get("/user/me");
             return res.data as Query;
         },
     });
@@ -103,7 +103,7 @@ const Header = (): JSX.Element => {
                                     {islogged &&
                                         <a className={Styles.menu_element}
                                             onClick={() => {
-                                                authApi.delete("users/me").then(() => {
+                                                authApi.delete("user/me").then(() => {
                                                     deleteCookie("sessionId");
                                                     router.replace('/');
                                                     setIsLogged(false);

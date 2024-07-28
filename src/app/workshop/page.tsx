@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { SkinViewer } from 'skinview3d';
 import Header from "../modules/header.module";
 import Style from "../styles/workshop/page.module.css";

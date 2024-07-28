@@ -42,7 +42,7 @@ const Main = () => {
 
     useEffect(() => {
         if (page < 0) return;
-        authApi.get('users/me/notifications', { params: { page: page } }).then((response) => {
+        authApi.get('user/me/notifications', { params: { page: page } }).then((response) => {
             if (response.status === 200) {
                 setNotifications(response.data);
             }

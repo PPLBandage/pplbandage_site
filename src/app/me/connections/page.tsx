@@ -55,7 +55,7 @@ const Main = () => {
         queryKey: ["userConnections"],
         retry: false,
         queryFn: async () => {
-            const res = await authApi.get("users/me/connections", { withCredentials: true, validateStatus: () => true });
+            const res = await authApi.get("user/me/connections", { withCredentials: true, validateStatus: () => true });
             const data = res.data as ConnectionResponse;
 
             setConnected(data.minecraft !== null);
@@ -105,7 +105,7 @@ const Main = () => {
                                 </div>
                                 <div className={Style.checkboxes}>
                                     <SlideButton value={valid} strict={true} onChange={(val) => {
-                                        authApi.put('users/me/connections/minecraft/set_valid', {}, {
+                                        authApi.put('user/me/connections/minecraft/set_valid', {}, {
                                             params: {
                                                 state: val
                                             }
@@ -116,7 +116,7 @@ const Main = () => {
                                         })
                                     }} label='Отображать ник в поиске' />
                                     <SlideButton value={autoload} strict={true} onChange={(val) => {
-                                        authApi.put('users/me/connections/minecraft/set_autoload', {}, {
+                                        authApi.put('user/me/connections/minecraft/set_autoload', {}, {
                                             params: {
                                                 state: val
                                             }
@@ -133,7 +133,7 @@ const Main = () => {
                                     <button className={Style.unlink} onClick={() => {
                                         const load_icon = document.getElementById('refresh');
                                         load_icon.style.animation = `${Style.loading} infinite 1s linear`;
-                                        authApi.post("users/me/connections/minecraft/cache/purge").then((response) => {
+                                        authApi.post("user/me/connections/minecraft/cache/purge").then((response) => {
                                             if (response.status === 200) {
                                                 refetch();
                                                 return;
@@ -147,7 +147,7 @@ const Main = () => {
                                     <button className={Style.unlink} onClick={() => {
                                         const confirmed = confirm("Отвязать учётную запись Minecraft? Вы сможете в любое время привязать ее обратно.");
                                         if (confirmed) {
-                                            authApi.delete('users/me/connections/minecraft').then((response) => {
+                                            authApi.delete('user/me/connections/minecraft').then((response) => {
                                                 if (response.status === 200) {
                                                     refetch();
                                                     return;
@@ -174,7 +174,7 @@ const Main = () => {
                                             const target = document.getElementById('code') as HTMLInputElement;
                                             if (target.value.length != 6) return;
 
-                                            authApi.post(`users/me/connections/minecraft/connect/${target.value}`).then((response) => {
+                                            authApi.post(`user/me/connections/minecraft/connect/${target.value}`).then((response) => {
                                                 if (response.status === 200) {
                                                     refetch();
                                                     return;

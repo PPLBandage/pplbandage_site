@@ -23,7 +23,7 @@ const Admin = () => {
     }, [logged]);
 
     useEffect(() => {
-        authApi.get('users/me').then((response) => {
+        authApi.get('user/me').then((response) => {
             if (response.status === 200) {
                 const data = response.data as Query;
                 if (!data.permissions.includes('admin')) {

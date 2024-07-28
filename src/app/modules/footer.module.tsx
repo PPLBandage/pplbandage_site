@@ -12,7 +12,7 @@ const Footer = () => {
 
                         <Link href="/tutorials">Туториалы</Link>
                         <Link href="https://www.donationalerts.com/r/andcool_systems" target="_blank">Поддержать</Link>
-                        <Link href="https://github.com/Andcool-Systems/pplbandage_site" target="_blank">GitHub</Link>
+                        <Link href="https://github.com/PPLBandage" target="_blank">GitHub</Link>
                     </div>
                 </div>
                 <p className={style.beta}>PPLBandage project 2023–{new Date().getFullYear()}, <img src="/static/icons/beta.svg" alt="" />–version</p>

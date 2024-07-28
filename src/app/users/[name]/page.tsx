@@ -4,6 +4,7 @@ import axios from "axios";
 import { redirect } from "next/navigation";
 import UsersClient from "./client_code";
 import { headers } from "next/headers";
+import { numbersTxt } from "@/app/modules/time.module";
 
 export interface Users {
     userID: number,
@@ -41,7 +42,17 @@ const Users = async ({ params }: { params: { name: string } }) => {
         redirect('/me');
     }
 
-    return <UsersClient user={data} />
+    return (
+        <>
+            <meta property="og:title" content={`${data.name} · Автор`} />
+            <meta property="og:description" content={`${numbersTxt(data.works.length, ['работа', 'работы', 'работ'])}`} />
+            <meta property="og:url" content={`https://pplbandage.ru/users/${data.username}`} />
+            <meta property="og:site_name" content="Повязки Pepeland" />
+            <meta property="og:image" content={`${data.avatar}?size=256`} />
+            <meta name="theme-color" content={data.banner_color} />
+            <UsersClient user={data} />
+        </>
+    );
 
 }
 

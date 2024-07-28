@@ -63,6 +63,11 @@
     align-items: center;
     gap: 3px;
     margin: 0;
+    text-decoration: none;
+}
+
+.author:hover {
+    text-decoration: underline;
 }
 
 .author img {

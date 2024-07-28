@@ -25,6 +25,7 @@ import CategorySelector from '@/app/modules/category_selector.module';
 import Footer from '@/app/modules/footer.module';
 import { anims } from '../poses';
 import asyncImage from '@/app/asyncImage';
+import Link from 'next/link';
 
 
 const body_part: readonly { value: number, label: String }[] = [
@@ -262,7 +263,7 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage, onClick(): void }) => {
             {el?.title}
             <NextImage className={style.edit_icon} src="/static/icons/edit.svg" alt="" width={32} height={32} /></h2>
         {el?.description && <p className={style.description}>{el?.description}</p>}
-        <p className={style.author}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32} />{el?.author.name || "Unknown"}</p>
+        <Link className={style.author} href={`/users/${el?.author.username}`}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32} />{el?.author.name || "Unknown"}</Link>
     </div>
 }
 

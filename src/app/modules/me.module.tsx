@@ -11,6 +11,7 @@ import Footer from "./footer.module";
 import { useCookies } from 'next-client-cookies';
 import Menu from "./theme_select.module";
 import { Users } from "../users/[name]/page";
+import { formatDate } from "./card.module";
 
 const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, color?: string }) => {
     return (
@@ -21,8 +22,7 @@ const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, co
             <h3>{data?.name}</h3>
             <p className={style_sidebar.username}>{data?.username}</p>
             <div className={style_sidebar.joined}>
-                <p>Аккаунт создан <span>{timeStamp((new Date(data?.joined_at).getTime()) / 1000)}</span></p>
-
+                <p title={formatDate(new Date(data?.joined_at))}>Аккаунт создан {timeStamp((new Date(data?.joined_at).getTime()) / 1000)}</p>
             </div>
 
             <p className={style_sidebar.uid}>Discord id: {data?.discordID}</p>
@@ -41,8 +41,7 @@ const ImprovedTheme = ({ data, islogged }: { data: Query, islogged: boolean }) =
                 <h3>{data?.name}</h3>
                 <p className={style_sidebar.username}>{data?.username}</p>
                 <div className={style_sidebar.joined}>
-                    <p>Аккаунт создан <span>{timeStamp((new Date(data?.joined_at).getTime()) / 1000)}</span></p>
-
+                    <p title={formatDate(new Date(data?.joined_at))}>Аккаунт создан {timeStamp((new Date(data?.joined_at).getTime()) / 1000)}</p>
                 </div>
 
                 <p className={style_sidebar.uid}>Discord id: {data?.discordID}</p>

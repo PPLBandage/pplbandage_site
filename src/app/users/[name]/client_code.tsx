@@ -10,6 +10,7 @@ import { Card, generateSkin } from "@/app/modules/card.module";
 import styles from "@/app/styles/me/me.module.css";
 import { Me } from "@/app/modules/me.module";
 import Link from "next/link";
+import Footer from "@/app/modules/footer.module";
 
 const UsersClient = ({ user }: { user: Users }) => {
     const [elements, setElements] = useState<JSX.Element[]>(null);
@@ -62,7 +63,6 @@ const UsersClient = ({ user }: { user: Users }) => {
                     </div>
                 </div>
             </Me>
-
         </body>
     );
 }

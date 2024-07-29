@@ -112,8 +112,6 @@ const Header = (): JSX.Element => {
                                             }}
                                         ><img alt="" src="/static/icons/logout.svg" />Выйти</a>
                                     }
-
-
                                 </div>
                             </CSSTransition>
                         </div>

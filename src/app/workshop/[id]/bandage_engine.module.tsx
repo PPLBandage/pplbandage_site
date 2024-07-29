@@ -369,7 +369,6 @@ class Client {
         canvas_context.drawImage(this.original_canvas, 0, 0);
 
         const height = bandage_canvas.height;
-        //(document.getElementById('position') as HTMLInputElement).max = (12 - height) + "";
 
         let pepe = crop_pepe(bandage_canvas, this.slim, height, this.body_part);
         let cropped_pepe = document.createElement("canvas");
@@ -493,7 +492,7 @@ export const fillPepe = (input: HTMLCanvasElement | HTMLImageElement, color: Arr
                 data[index] = (r / 255) * color[0];
                 data[index + 1] = (g / 255) * color[1];
                 data[index + 2] = (b / 255) * color[2];
-                data[index + 3] = a; // альфа-канал остаётся неизменным
+                data[index + 3] = a;
             }
         }
     }
@@ -502,9 +501,6 @@ export const fillPepe = (input: HTMLCanvasElement | HTMLImageElement, color: Arr
     return canvas;
 }
 
-/*export function get_skin_type() {
-    return (document.getElementById("steve") as HTMLInputElement)?.checked ? "steve" : "alex";
-}*/
 
 const hex2rgb = (hex: string) => {
     const r = parseInt(hex.slice(1, 3), 16);

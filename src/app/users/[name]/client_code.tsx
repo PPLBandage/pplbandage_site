@@ -31,9 +31,7 @@ const UsersClient = ({ user }: { user: Users }) => {
             skinViewer.loadBackground("/static/background.png").then(() => {
                 Promise.all(user?.works.map(async (el) => {
                     try {
-                        console.log(el.base64)
                         const result = await generateSkin(el.base64, Object.values(el.categories).some(val => val.id == 3));
-                        console.log(result)
                         await skinViewer.loadSkin(result);
                         skinViewer.render();
                         const image = skinViewer.canvas.toDataURL();

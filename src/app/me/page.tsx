@@ -10,12 +10,12 @@ import Header from "../modules/header.module";
 import useCookie from '../modules/useCookie.module';
 import { Cookies, useCookies } from 'next-client-cookies';
 import style_sidebar from "../styles/me/sidebar.module.css";
-import { Bandage } from '@/app/interfaces';
+import { Bandage, Role } from '@/app/interfaces';
 import { SkinViewer } from 'skinview3d';
 import { Card, generateSkin } from '@/app/modules/card.module';
 import { Me } from '@/app/modules/me.module';
 import Link from 'next/link';
-import { roles } from '../roles';
+import axios from 'axios';
 
 
 const Main = () => {
@@ -68,7 +68,7 @@ const Main = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         if (code) {
-            authApi.get(`oauth/discord/${code}`).then((response) => {
+            authApi.post(`oauth/discord/${code}`).then((response) => {
                 if (response.status === 403) {
                     const about_logging = document.getElementById('about_logging');
                     about_logging.style.color = "#ff2a2a";
@@ -112,8 +112,8 @@ const Main = () => {
     );
 }
 
-
 const Login = () => {
+    const [roles, setRoles] = useState<Role[]>([]);
     const dat = roles.map((role) => {
         return (
             <div key={role.id} className={styles.role_container}>
@@ -123,6 +123,14 @@ const Login = () => {
             </div>
         )
     })
+
+    useEffect(() => {
+        axios.get(process.env.NEXT_PUBLIC_API_URL + `oauth/roles`).then((response) => {
+            if (response.status === 200) {
+                setRoles(response.data);
+            }
+        })
+    }, [])
 
     return (
         <main className={styles.login_main}>

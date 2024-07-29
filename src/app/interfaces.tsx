@@ -62,3 +62,9 @@ export interface BandageResponse {
     totalCount: number,
     next_page: number
 }
+
+export interface Role {
+    id: number,
+    title: string,
+    color: number
+}

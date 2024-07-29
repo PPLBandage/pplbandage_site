@@ -2,7 +2,7 @@
 
 import Footer from "../modules/footer.module";
 import Header from "../modules/header.module";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from '@/app/styles/tutorials/common.module.css';
 import ASide from "./header.module";
 import InfoCard from "../modules/info.module";
@@ -11,9 +11,20 @@ import { CategoryEl } from "../modules/card.module";
 import { CustomLink } from "../modules/search.module";
 import styles from "../styles/me/me.module.css";
 import { Tooltip } from "../modules/tooltip";
-import { roles } from "../roles";
+import axios from "axios";
+import { Role } from "../interfaces";
 
 export default function Home() {
+    const [roles, setRoles] = useState<Role[]>([]);
+
+    useEffect(() => {
+        axios.get(process.env.NEXT_PUBLIC_API_URL + `oauth/roles`).then((response) => {
+            if (response.status === 200) {
+                setRoles(response.data);
+            }
+        })
+    }, [])
+
     const dat = roles.map((role) => {
         return (
             <div key={role.id} className={styles.role_container}>

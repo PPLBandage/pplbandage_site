@@ -18,6 +18,14 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Create .env file
+        run: |
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
+          echo "NEXT_PUBLIC_GLOBAL_API_URL=${{ secrets.NEXT_PUBLIC_GLOBAL_API_URL }}" >> .env
+          echo "NEXT_PUBLIC_COLORABLE_ID=${{ secrets.NEXT_PUBLIC_COLORABLE_ID }}" >> .env
+          echo "NEXT_PUBLIC_LOGIN_URL=${{ secrets.NEXT_PUBLIC_LOGIN_URL }}" >> .env
+          echo "TOKEN=${{ secrets.TOKEN }}" >> .env
+
       - name: Install dependencies
         run: npm install
 

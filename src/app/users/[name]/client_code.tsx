@@ -32,7 +32,7 @@ const UsersClient = ({ user }: { user: Users }) => {
                 Promise.all(user?.works.map(async (el) => {
                     try {
                         const result = await generateSkin(el.base64, Object.values(el.categories).some(val => val.id == 3));
-                        await skinViewer.loadSkin(result);
+                        await skinViewer.loadSkin(result, { model: 'default' });
                         skinViewer.render();
                         const image = skinViewer.canvas.toDataURL();
                         return <Card el={el} base64={image} key={el.id} className={styles} />

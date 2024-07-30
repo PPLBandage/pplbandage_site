@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import Styles from '@/app/styles/theme_selector.module.css';
 import Image from 'next/image';
-import { authApi } from '../api.module';
 
 interface MenuProps {
     initialValue?: number;
@@ -26,16 +25,10 @@ const getIcon = (theme: number) => {
 const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
     const [expanded, setExpanded] = useState<boolean>(false);
     const [theme, setTheme] = useState<number>(initialValue);
-    const [firstLoad, setFirstLoad] = useState<boolean>(false);
 
     useEffect(() => {
         onChange(theme);
-        !firstLoad ? setFirstLoad(true) : theme !== initialValue && authApi.post('/user/me/profile_theme', { theme: theme });
     }, [theme]);
-
-    useEffect(() => {
-        setTheme(initialValue);
-    }, [initialValue])
 
 
     return (<div className={Styles.main}>

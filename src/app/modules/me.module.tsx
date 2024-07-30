@@ -54,9 +54,7 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
     const [islogged, setIsLogged] = useState<boolean>(false);
     const pathname = usePathname();
     const path = pathname.split('/')[pathname.split('/').length - 1];
-    const cookies = useCookies();
-    const initial_theme = Number(cookies.get('theme')) || 0
-    const [theme, setTheme] = useState<number>(initial_theme);
+    const [theme, setTheme] = useState<number>(user_data?.profile_theme || 0);
 
     const { data, isLoading, isError } = useQuery({
         queryKey: [`user_${user_data?.username}`],
@@ -64,7 +62,9 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
         queryFn: async () => {
             if (!user_data) {
                 const res = await authApi.get("/user/me", { withCredentials: true });
-                return res.data as Query;
+                const data = res.data as Query;
+                setTheme(data.profile_theme);
+                return data;
             } else {
                 return user_data;
             }
@@ -74,10 +74,6 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
     if (!isLoading && !isError && !islogged && data) {
         setIsLogged(true);
     }
-
-    useEffect(() => {
-        cookies.set('theme', theme.toString(), { expires: (365 * 10) });
-    }, [theme]);
 
     let background;
     switch (theme) {
@@ -92,10 +88,6 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
             break;
     }
 
-    if (!!user_data) {
-        background = <Default data={data as Query} islogged={islogged} />;
-    }
-
     return (
         <div className={style_sidebar.main_container}>
             <div style={islogged ? { opacity: "1", transform: "translateY(0)" } : {}} className={style_sidebar.hidable}>
@@ -103,7 +95,7 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
                     <div className={style_sidebar.side}>
                         <div style={{ position: 'relative' }}>
                             {background}
-                            {!user_data && <Menu initialValue={initial_theme} color_available={!!data?.banner_color} onChange={setTheme} />}
+                            {!user_data && <Menu initialValue={theme} color_available={!!data?.banner_color} onChange={setTheme} />}
                         </div>
                         {!user_data &&
                             <div className={style_sidebar.card} style={{ alignItems: "stretch", gap: ".5rem" }}>

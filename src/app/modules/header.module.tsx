@@ -20,7 +20,8 @@ export interface Query {
     joined_at: Date;
     banner_color: string;
     has_unreaded_notifications: Boolean,
-    permissions: string[]
+    permissions: string[],
+    profile_theme: number
 }
 
 const Header = (): JSX.Element => {

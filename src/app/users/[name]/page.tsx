@@ -5,17 +5,13 @@ import { redirect } from "next/navigation";
 import UsersClient from "./client_code";
 import { headers } from "next/headers";
 import { numbersTxt } from "@/app/modules/time.module";
+import { Query } from "@/app/modules/header.module";
 
-export interface Users {
+export interface Users extends Query {
     userID: number,
-    discordID: number,
-    username: string,
-    name: string,
-    joined_at: Date,
-    avatar: string,
-    banner_color: string,
     works: Bandage[],
-    is_self: boolean
+    is_self: boolean,
+    profile_theme: number
 }
 
 const Users = async ({ params }: { params: { name: string } }) => {

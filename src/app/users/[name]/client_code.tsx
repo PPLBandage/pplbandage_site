@@ -11,6 +11,7 @@ import styles from "@/app/styles/me/me.module.css";
 import { Me } from "@/app/modules/me.module";
 import Link from "next/link";
 import Footer from "@/app/modules/footer.module";
+import AdaptiveGrid from "@/app/modules/adaptiveGrid.module";
 
 const UsersClient = ({ user }: { user: Users }) => {
     const [elements, setElements] = useState<JSX.Element[]>(null);
@@ -55,9 +56,7 @@ const UsersClient = ({ user }: { user: Users }) => {
             <Me user_data={user}>
                 <div style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }} className={styles.cont}>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        <div className={style_sidebar.skins_container}>
-                            {elements}
-                        </div>
+                        <AdaptiveGrid child_width={300}>{elements}</AdaptiveGrid>
                     </div>
                 </div>
             </Me>

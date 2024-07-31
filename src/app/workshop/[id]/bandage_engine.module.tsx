@@ -1,6 +1,4 @@
 import axios from 'axios';
-import * as Interfaces from "../../interfaces";
-
 
 interface SkinResponse {
     status: string,
@@ -91,17 +89,6 @@ class Client {
         }
         const response = await axios.get(`/api/skin/${nickname}?cape=true`, { validateStatus: () => true });
         if (response.status !== 200) {
-            switch (response.status) {
-                case 404:
-                    this.setError("Игрок с таким никнеймом не найден!");
-                    break;
-                case 429:
-                    this.setError("Сервера Mojang перегружены, пожалуйста, попробуйте через пару минут");
-                    break;
-                default:
-                    this.setError(`Не удалось получить ник! (${response.status})`);
-                    break;
-            }
             return;
         }
 
@@ -111,8 +98,6 @@ class Client {
         this.setOriginalCanvas(b64Prefix + data.data.skin.data);
 
         this.addEventListener("onload", () => {
-            this.clearError();
-            //this.switchToSelected();
 
             this.skin = b64Prefix + data.data.skin;
             this.cape = b64Prefix + data.data.cape;
@@ -120,25 +105,6 @@ class Client {
             this.rerender();
             this.removeEventListener("onload");
         })
-    }
-
-    async loadSkinFile(event: Interfaces.FileUploadEvent) {
-        const file = event.target.files?.item(0);
-        if (!file) return;
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            this.setOriginalCanvas(reader.result as string);
-
-            this.addEventListener("onload", () => {
-                this.clearError();
-                this.switchToSelected();
-                this.skin = reader.result as string;
-                this.rerender();
-                this.removeEventListener("onload");
-            });
-        }
-        reader.readAsDataURL(file);
     }
 
     async loadSkinUrl(url: string) {
@@ -149,7 +115,6 @@ class Client {
                     this.setOriginalCanvas(reader.result as string);
 
                     this.addEventListener("onload", () => {
-                        this.clearError();
                         this.skin = reader.result as string;
                         this.rerender();
                         this.removeEventListener("onload");
@@ -160,38 +125,12 @@ class Client {
         }))
     }
 
-    clearSkin() {
-        this.skin = "";
-        this.cape = "";
-
-        const result_canvas = document.getElementById('hidable_canvas') as HTMLCanvasElement;
-        result_canvas.style.display = "none";
-
-        const select_file = document.getElementById('drop_container') as HTMLSpanElement;
-        select_file.style.display = "inline-flex";
-
-        const nick = document.getElementById("nick_input") as HTMLInputElement;
-        nick.style.display = "block";
-
-        (document.getElementById("steve") as HTMLInputElement).checked = true;
-
-        const context = this.original_canvas.getContext('2d');
-
-        context?.clearRect(0, 0, 64, 64);
-        this.loadBase();
-
-        this.rerender();
-        this.clearError();
-    }
 
     triggerEvent(property: string, parameters?: string) {
         if (property == "rerender" || this.listeners[property]) {
             switch (property) {
                 case "skin_changed":
                     this.listeners[property]({ skin: this.skin, cape: this.cape });
-                    break;
-                case "onerror":
-                    this.setError(parameters as string);
                     break;
                 case "rerender":
                     this.rerender();
@@ -212,7 +151,6 @@ class Client {
 
         img.onload = () => {
             if (img.width != 64 || img.height != 64) {
-                this.setError('Скин должен иметь размеры 64x64 пикселя');
                 return;
             }
             context?.clearRect(0, 0, 64, 64);
@@ -222,27 +160,6 @@ class Client {
         img.src = b64;
     }
 
-    private setError(caption: string, p?: HTMLParagraphElement) {
-        const error_label = p ? p : (document.getElementById('error_label') as HTMLParagraphElement);
-        error_label.innerHTML = caption;
-        error_label.style.display = "block";
-    }
-
-    private clearError(p?: HTMLParagraphElement) {
-        const error_label = p ? p : (document.getElementById('error_label') as HTMLParagraphElement);
-        if (error_label) error_label.style.display = "none";
-    }
-
-    private switchToSelected() {
-        const result_canvas = document.getElementById('hidable_canvas') as HTMLCanvasElement;
-        result_canvas.style.display = "inline-flex";
-
-        const select_file = document.getElementById('drop_container') as HTMLSpanElement;
-        select_file.style.display = "none";
-
-        const nick = document.getElementById("nick_input") as HTMLInputElement;
-        nick.style.display = "none";
-    }
 
     //---------------------bandage_manager-------------------
 
@@ -267,45 +184,6 @@ class Client {
         this.rerender();
     }
 
-    load_custom(event: Interfaces.FileUploadEvent) {
-        const file = event.target.files?.item(0);
-        if (!file) return;
-
-        const reader = new FileReader();
-        const img = new Image();
-        reader.onload = (e) => {
-            img.src = e.target?.result as string;
-        };
-        reader.readAsDataURL(file);
-
-        img.onload = () => {
-            let bandage_canvas = document.getElementById("pepe_original_canvas") as HTMLCanvasElement;
-            const ctx = bandage_canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D;
-
-            let lining_canvas = document.getElementById("lining_original_canvas") as HTMLCanvasElement;
-            const ctx_lining = lining_canvas.getContext("2d", { willReadFrequently: true }) as CanvasRenderingContext2D;
-
-            if (img.height % 2 != 0 || img.width != 16 || (img.height > 24 || img.height < 2)) {
-                this.setError("Файл с повязкой должен иметь ширину 16 и высоту от 2 до 24 пикселей",
-                    document.getElementById('error_label_pepe') as HTMLParagraphElement);
-                return
-            }
-            this.clearError(document.getElementById('error_label_pepe') as HTMLParagraphElement);
-            let height = Math.floor(img.height / 2);
-
-            bandage_canvas.width = 16;
-            bandage_canvas.height = height;
-
-            lining_canvas.width = 16;
-            lining_canvas.height = height;
-
-            ctx.drawImage(img, 0, 0, 16, height, 0, 0, 16, height);
-            ctx_lining.drawImage(img, 0, height, 16, height, 0, 0, 16, height);
-            this.rerender();
-        };
-    }
-
-
     changeSlim(slim: boolean) {
         this.slim = slim;
         this.rerender();
@@ -315,8 +193,6 @@ class Client {
         if (slim != undefined) this.slim = slim;
         this.setOriginalCanvas(skin);
         this.addEventListener("onload", () => {
-            this.clearError();
-
             this.skin = skin;
             this.cape = cape;
 

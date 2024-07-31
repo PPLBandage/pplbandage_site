@@ -31,7 +31,7 @@ const AdaptiveGrid = ({ child_width, children }: AdaptiveGridProps) => {
     }, [children, columnCount])
 
     return (
-        <div id='layout_parent' style={{ width: '100%', display: 'flex', columnGap: '.8rem', justifyContent: 'center' }}>
+        <div id='layout_parent' style={{ width: '100%', display: 'flex', columnGap: '.8rem', justifyContent: children?.length >= columnCount ? 'center' : 'flex-start' }}>
             {columns}
         </div>
     );

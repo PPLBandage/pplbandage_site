@@ -9,7 +9,7 @@ interface AdaptiveGridProps {
 
 const AdaptiveGrid = ({ child_width, children }: AdaptiveGridProps) => {
     const [columns, setColumns] = useState<JSX.Element[]>([]);
-    const [columnCount, setColumnCount] = useState<number>(4);
+    const [columnCount, setColumnCount] = useState<number>(0);
 
     useEffect(() => {
         const resizeObserver = new ResizeObserver(entries => {

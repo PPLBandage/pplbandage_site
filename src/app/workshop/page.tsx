@@ -98,7 +98,7 @@ export default function Home() {
                 <div className={Style.center}>
                     <Search onSearch={setSearch} onChangeTake={setTake} categories={categories} onChangeSort={setSort} onChangeFilters={setFilters} />
                     <Paginator total_count={totalCount} take={take} onChange={setPage} />
-                    {elements && elements.length > 0 ? <AdaptiveGrid child_width={300} children={elements} /> :
+                    {elements && elements.length > 0 ? <AdaptiveGrid child_width={300}>{elements}</AdaptiveGrid> :
                         elements && elements.length === 0 ?
                             <>
                                 <p style={{ display: "flex", alignItems: "center", fontSize: "1.1rem", fontWeight: 500, width: "100%", justifyContent: "center", margin: 0 }}>

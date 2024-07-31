@@ -16,6 +16,7 @@ import { Card, generateSkin } from '@/app/modules/card.module';
 import { Me } from '@/app/modules/me.module';
 import Link from 'next/link';
 import axios from 'axios';
+import AdaptiveGrid from '../modules/adaptiveGrid.module';
 
 
 const Main = () => {
@@ -101,9 +102,7 @@ const Main = () => {
                     <div style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }} className={styles.cont}>
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                             <Link className={styles.create} href="/workshop/create"><img alt="" src="/static/icons/plus.svg" />Создать</Link>
-                            <div className={style_sidebar.skins_container}>
-                                {elements}
-                            </div>
+                            <AdaptiveGrid child_width={300} children={elements} />
                         </div>
                     </div>
                 </Me>

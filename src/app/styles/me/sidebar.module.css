@@ -130,6 +130,11 @@
     width: 100%;
 }
 
+.skins_container_2 {
+    transition: opacity 200ms, transform 200ms;
+    width: 100%;
+}
+
 .active {
     background-color: var(--main-element-color);
 }

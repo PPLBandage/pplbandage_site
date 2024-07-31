@@ -13,6 +13,7 @@ import { BandageResponse, Category } from "../interfaces";
 import { Card, constrain, generateSkin } from "../modules/card.module";
 import Footer from "../modules/footer.module";
 import Image from "next/image";
+import AdaptiveGrid from "../modules/adaptiveGrid.module";
 
 
 export default function Home() {
@@ -97,7 +98,7 @@ export default function Home() {
                 <div className={Style.center}>
                     <Search onSearch={setSearch} onChangeTake={setTake} categories={categories} onChangeSort={setSort} onChangeFilters={setFilters} />
                     <Paginator total_count={totalCount} take={take} onChange={setPage} />
-                    {elements && elements.length > 0 ? <div className={Style.skins_container}>{elements}</div> :
+                    {elements && elements.length > 0 ? <AdaptiveGrid child_width={300} children={elements} /> :
                         elements && elements.length === 0 ?
                             <>
                                 <p style={{ display: "flex", alignItems: "center", fontSize: "1.1rem", fontWeight: 500, width: "100%", justifyContent: "center", margin: 0 }}>
@@ -105,6 +106,7 @@ export default function Home() {
                             </> :
                             <Image src="/static/icons/icon.svg" alt="" width={86} height={86} className={Style.loading} />
                     }
+
                 </div>
                 <Footer />
             </main>

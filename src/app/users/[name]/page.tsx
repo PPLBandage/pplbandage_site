@@ -1,11 +1,11 @@
 import { Bandage } from "@/app/interfaces";
-import NotFound from "@/app/not-found";
 import axios from "axios";
 import { redirect } from "next/navigation";
 import UsersClient from "./client_code";
 import { headers } from "next/headers";
 import { numbersTxt } from "@/app/modules/time.module";
 import { Query } from "@/app/modules/header.module";
+import { notFound } from "next/navigation";
 
 export interface Users extends Query {
     userID: number,
@@ -30,7 +30,7 @@ const Users = async ({ params }: { params: { name: string } }) => {
     });
 
     if (data_request.status !== 200) {
-        return <NotFound />
+        notFound();
     }
 
     const data = data_request.data as Users;

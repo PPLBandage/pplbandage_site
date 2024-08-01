@@ -19,12 +19,16 @@ import InfoCard from '@/app/modules/info.module';
 import useCookie from '@/app/modules/useCookie.module';
 import { redirect } from 'next/navigation';
 import { Cookies, useCookies } from 'next-client-cookies';
+import { Fira_Code } from "next/font/google";
+import { CustomLink } from '@/app/modules/search.module';
+const fira = Fira_Code({ subsets: ["latin"] });
 
 
 export default function Home() {
     const [SKIN, setSKIN] = useState<string>("");
     const [slim, setSlim] = useState<boolean>(false);
     const [pose, setPose] = useState<number>(1);
+    const [height, setHeight] = useState<number>(-1);
     const logged = useCookie('sessionId');
     const cookies = useRef<Cookies>(useCookies());
 
@@ -79,6 +83,12 @@ export default function Home() {
                             id="canvas_container" />
 
                         <div className={style.render_footer}>
+                            {height != -1 && <p style={{ margin: 0 }}>Расчётная высота: <span className={fira.className} style={{
+                                padding: '5px',
+                                backgroundColor: 'var(--dark-hover)',
+                                borderRadius: '3px',
+                                fontSize: '.8rem'
+                            }}>{Math.floor(height / 2)}px</span></p>}
                             <Select
                                 options={anims}
                                 defaultValue={anims[pose]}
@@ -96,6 +106,7 @@ export default function Home() {
                         onColorableChange={(colorable) => { client.current?.setParams({ colorable: colorable }) }}
                         onBandageChangeSlim={(b64) => { client.current?.loadFromImage(b64, true) }}
                         onChangeSplitTypes={(split) => { client.current?.setParams({ split_types: split }) }}
+                        onHeightChange={setHeight}
                     />
                 </div>
                 <Footer />
@@ -110,9 +121,10 @@ interface EditorProps {
     onColorChange(color: string): void;
     onColorableChange(colorable: boolean): void;
     onChangeSplitTypes(evt: boolean): void;
+    onHeightChange(evt: number): void;
 }
 
-const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageChangeSlim, onChangeSplitTypes }: EditorProps) => {
+const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageChangeSlim, onChangeSplitTypes, onHeightChange }: EditorProps) => {
     const router = useRouter();
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -167,6 +179,10 @@ const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageCh
         onChangeSplitTypes(splitTypes);
     }, [splitTypes])
 
+    useEffect(() => {
+        onHeightChange(height);
+    }, [height])
+
     const create = () => {
         if (!base64) {
             const cont = document.getElementById('drop_container') as HTMLLabelElement;
@@ -208,7 +224,7 @@ const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageCh
 
     return (
         <div className={style.editor_div}>
-            <h3 style={{ margin: 0 }}>Перед началом создания повязки прочитайте <Link href="/tutorials/bandage">туториал</Link></h3>
+            <h3 style={{ margin: 0 }}>Перед началом создания повязки прочитайте <CustomLink href="/tutorials/bandage">туториал</CustomLink></h3>
             <Selector onChange={setBase64}
                 onBandageChange={(ev) => {
                     onBandageChange(ev.img);

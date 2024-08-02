@@ -106,7 +106,6 @@ export default function Home() {
                             </> :
                             <Image src="/static/icons/icon.svg" alt="" width={86} height={86} className={Style.loading} />
                     }
-
                 </div>
                 <Footer />
             </main>

@@ -184,24 +184,33 @@ const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageCh
     }, [height])
 
     const create = () => {
+        const error = document.getElementById('error') as HTMLLabelElement;
         if (!base64) {
-            const cont = document.getElementById('drop_container') as HTMLLabelElement;
-            if (cont) {
-                cont.style.borderColor = "rgb(247 22 22)";
+            if (error) {
+                error.textContent = "Выберите изображение повязки";
+            }
+            return;
+        }
+
+        if (!base64Slim && splitTypes) {
+            if (error) {
+                error.textContent = "Выберите изображение повязки для тонких рук";
             }
             return;
         }
 
         if (!title) {
-            const title_el = document.getElementById('title') as HTMLLabelElement;
-            if (title_el) {
-                title_el.style.borderColor = "rgb(247 22 22)";
+            if (error) {
+                error.textContent = "Введите заголовок";
             }
             return;
         }
 
-        if (mutex) return;
+        if (error) {
+            error.textContent = "";
+        }
 
+        if (mutex) return;
         setMutex(true);
         authApi.post('/workshop', {
             title: title,
@@ -214,7 +223,7 @@ const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageCh
             if (response.status !== 201) {
                 const error_el = document.getElementById('create_error') as HTMLLabelElement;
                 if (error_el) {
-                    error_el.innerText = response.data.message_ru || response.data.message;
+                    error_el.innerText = response.data.message_ru || response.data.message || `Unhandled error: ${response.status}`;
                 }
             } else {
                 router.replace(`/workshop/${response.data.external_id}`);

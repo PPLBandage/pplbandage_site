@@ -143,6 +143,17 @@
     border: 2px rgba(12, 247, 215) dashed;
 }
 
+.api_unavailable {
+    max-width: 400px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    background-color: rgba(41, 41, 41, 0.8);
+    border-radius: 5px;
+    border: 1px yellow solid;
+    padding: .8rem;
+    box-sizing: border-box;
+}
+
 @media(max-width: 1057px) {
     .svg {
         display: none;

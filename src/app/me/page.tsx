@@ -9,7 +9,6 @@ import { Tooltip } from '../modules/tooltip';
 import Header from "../modules/header.module";
 import useCookie from '../modules/useCookie.module';
 import { Cookies, useCookies } from 'next-client-cookies';
-import style_sidebar from "../styles/me/sidebar.module.css";
 import { Bandage, Role } from '@/app/interfaces';
 import { SkinViewer } from 'skinview3d';
 import { Card, generateSkin } from '@/app/modules/card.module';
@@ -17,6 +16,8 @@ import { Me } from '@/app/modules/me.module';
 import Link from 'next/link';
 import axios from 'axios';
 import AdaptiveGrid from '../modules/adaptiveGrid.module';
+import style_workshop from "@/app/styles/workshop/page.module.css";
+import NextImage from 'next/image';
 
 
 const Main = () => {
@@ -147,7 +148,7 @@ const Login = () => {
                     parent_id="about_logging"
                     body={
                         <div className={styles.roles_container}>
-                            {dat}
+                            {dat.length > 0 ? dat : <NextImage src="/static/icons/icon.svg" alt="" width={86} height={86} className={style_workshop.loading} style={{ width: 'auto' }} />}
                         </div>} timeout={0} className={styles.roles_text_container}>
                     <span className={styles.roles_text}> ролей</span>
                 </Tooltip>

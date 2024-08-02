@@ -9,6 +9,7 @@ import { Category } from '../interfaces';
 import { CategoryEl } from './card.module';
 import styleLink from '@/app/styles/tutorials/common.module.css';
 import Link from 'next/link';
+import style_workshop from "@/app/styles/workshop/page.module.css";
 
 const options: readonly { value: number, label: String }[] = [
     { value: 12, label: "12" },
@@ -123,7 +124,7 @@ export const Search = ({ onSearch, onChangeTake, onChangeFilters, onChangeSort, 
                         }}
                         unmountOnExit>
                         <div className={Styles.category_menu}>
-                            {categories_el}
+                            {categories.length > 0 ? categories_el : <Image src="/static/icons/icon.svg" alt="" width={86} height={86} className={style_workshop.loading} />}
                         </div>
                     </CSSTransition>
                 </div>

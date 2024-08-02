@@ -13,6 +13,7 @@ import styles from "../styles/me/me.module.css";
 import { Tooltip } from "../modules/tooltip";
 import axios from "axios";
 import { Role } from "../interfaces";
+import style_workshop from "@/app/styles/workshop/page.module.css";
 
 export default function Home() {
     const [roles, setRoles] = useState<Role[]>([]);
@@ -54,7 +55,7 @@ export default function Home() {
                             а так же имеющие определенные <Tooltip
                                 body={
                                     <div className={styles.roles_container}>
-                                        {dat}
+                                        {dat.length > 0 ? dat : <NextImage src="/static/icons/icon.svg" alt="" width={86} height={86} className={style_workshop.loading} />}
                                     </div>
                                 }
                                 opacity="1"

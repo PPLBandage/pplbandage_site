@@ -62,9 +62,9 @@ const Header = (): JSX.Element => {
                     {cookies.current.get("sessionId") ?
                         <div style={{ display: "flex", alignItems: "center", flexWrap: "nowrap" }}>
                             <div className={`${Styles.avatar_container} ${!islogged && Styles.placeholders} ${data?.has_unreaded_notifications && Styles.unreaded}`} onClick={() => setExpanded(!expanded)}>
-                                {data && <Image className={Styles.avatar}
+                                {data?.avatar && <Image className={Styles.avatar}
                                     src={data?.avatar && data?.avatar + '?size=80'}
-                                    alt="avatar"
+                                    alt=""
                                     width={80}
                                     height={80}
                                     priority={true}

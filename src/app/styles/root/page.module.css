@@ -18,6 +18,8 @@
     filter: brightness(0.7);
     image-rendering: pixelated;
     user-select: none;
+
+    cursor: pointer;
 }
 
 .img:nth-child(1) {
@@ -112,6 +114,10 @@
     animation: in_animation .5s ease-out;
 }
 
+.container p {
+    user-select: none;
+}
+
 .bandages {
     position: absolute;
 }
@@ -137,6 +143,7 @@
     font-weight: 600;
     background-color: var(--main-card-color);
     transition: border 150ms;
+    user-select: none;
 }
 
 .link:hover {

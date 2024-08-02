@@ -16,6 +16,11 @@ export const metadata: Metadata = {
 	other: {
 		'darkreader-lock': 'darkreader-lock',
 		'theme-color': '#0f766e'
+	},
+	openGraph: {
+		title: 'Повязки Pepeland',
+		description: 'Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!',
+		images: '/static/icons/icon.svg'
 	}
 };
 

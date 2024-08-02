@@ -37,7 +37,7 @@ interface ConnectionResponse {
 
 const b64Prefix = "data:image/png;base64,";
 
-const Main = () => {
+const Connections = () => {
     const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');
     const [isLogged, setIsLogged] = useState<boolean>(cookies.current.get('sessionId') != undefined);
@@ -74,10 +74,6 @@ const Main = () => {
 
     return (
         <body>
-            <title>Интеграции · Повязки Pepeland</title>
-            <meta name="description" content="Подключите сторонние аккаунты к аккаунту PPLBandage." />
-            <meta name="og:title" content="Интеграции · Повязки Pepeland" />
-            <meta name="og:description" content="Подключите сторонние аккаунты к аккаунту PPLBandage." />
             <Header />
             {isLogged &&
                 <Me>
@@ -201,4 +197,4 @@ const Main = () => {
     );
 }
 
-export default Main;
+export default Connections;

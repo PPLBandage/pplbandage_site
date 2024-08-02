@@ -92,10 +92,6 @@ export default function Home() {
 
     return (
         <body>
-            <title>Мастерская · Повязки Pepeland</title>
-            <meta name="description" content="Главная страница мастерской" />
-            <meta name="og:title" content="Мастерская · Повязки Pepeland" />
-            <meta name="og:description" content="Главная страница мастерской" />
             <Header />
             <main className={Style.main}>
                 <div className={Style.center}>

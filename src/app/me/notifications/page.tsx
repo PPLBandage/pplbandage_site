@@ -13,7 +13,7 @@ import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import Image from "next/image";
 import { Cookies, useCookies } from 'next-client-cookies';
 
-interface Notifications {
+interface NotificationsInterface {
     data: {
         id: number,
         content: string,
@@ -24,10 +24,10 @@ interface Notifications {
     total_count: number
 }
 
-const Main = () => {
+const Notifications = () => {
     const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');
-    const [notifications, setNotifications] = useState<Notifications>(null);
+    const [notifications, setNotifications] = useState<NotificationsInterface>(null);
     const [page, setPage] = useState<number>(0);
 
     if (!cookies.current.get('sessionId')) {
@@ -72,10 +72,6 @@ const Main = () => {
 
     return (
         <body>
-            <title>Уведомления · Повязки Pepeland</title>
-            <meta name="description" content="Ваши уведомления." />
-            <meta name="og:title" content="Уведомления · Повязки Pepeland" />
-            <meta name="og:description" content="Ваши уведомления." />
             <Header />
             <Me>
                 <div className={Style.container} style={notifications != null ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
@@ -94,4 +90,4 @@ const Main = () => {
     );
 }
 
-export default Main;
+export default Notifications;

@@ -1,11 +1,16 @@
 import Link from "next/link";
 import Header from "../modules/header.module";
 import style from '@/app/styles/contacts/contacts.module.css';
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'Контакты · Повязки Pepeland',
+    description: 'Способы связи с администрацией'
+}
 
 const Home = () => {
     return (
         <body>
-            <title>Контакты · Повязки Pepeland</title>
             <Header />
             <main className={style.main}>
                 <div className={style.main_container}>

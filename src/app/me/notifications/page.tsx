@@ -73,6 +73,7 @@ const Main = () => {
     return (
         <body>
             <title>Уведомления · Повязки Pepeland</title>
+            <meta name="description" content="Ваши уведомления." />
             <Header />
             <Me>
                 <div className={Style.container} style={notifications != null ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>

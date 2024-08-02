@@ -38,6 +38,7 @@ export default function Home() {
     return (
         <body>
             <title>Туториалы · Повязки Pepeland</title>
+            <meta name="description" content="Общее описание работы на сайте." />
             <Header />
             <main className={style.main}>
                 <div className={style.main_container}>

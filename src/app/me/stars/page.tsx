@@ -80,6 +80,7 @@ const Main = () => {
     return (
         <body>
             <title>Избранное · Повязки Pepeland</title>
+            <meta name="description" content="Избранные работы в мастерской." />
             <Header />
             {isLogged &&
                 <Me>

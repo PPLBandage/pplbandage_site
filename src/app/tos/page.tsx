@@ -6,6 +6,7 @@ const Main = () => {
     return (
         <body>
             <title>Правила · Повязки Pepeland</title>
+            <meta name="description" content="Правила использования сайта." />
             <Header />
             <main className={style.main}>
                 <div className={style.main_container}>

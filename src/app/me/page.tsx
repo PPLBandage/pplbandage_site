@@ -19,7 +19,6 @@ import AdaptiveGrid from '../modules/adaptiveGrid.module';
 import style_workshop from "@/app/styles/workshop/page.module.css";
 import NextImage from 'next/image';
 
-
 const Main = () => {
     const router = useRouter();
     const cookies = useRef<Cookies>(useCookies());
@@ -97,6 +96,7 @@ const Main = () => {
     return (
         <body>
             <title>Личный кабинет · Повязки Pepeland</title>
+            <meta name="description" content="Личный кабинет создателя повязок." />
             <Header />
             {!isLogged ? <Login /> :
                 <Me>
@@ -137,6 +137,8 @@ const Login = () => {
 
     return (
         <main className={styles.login_main}>
+            <title>Войти · Повязки Pepeland</title>
+            <meta name="description" content="Войти в личный кабинет." />
             <div className={styles.login_container}>
                 <h1>Войти через</h1>
                 <a className={styles.login_button} href={process.env.NEXT_PUBLIC_LOGIN_URL}>
@@ -153,7 +155,6 @@ const Login = () => {
                     <span className={styles.roles_text}> ролей</span>
                 </Tooltip>
                 </span>
-
                 <p style={{ color: "gray", marginBottom: 0 }}>Регистрируясь на сайте вы соглашаетесь с настоящими <a className={styles.a} href="/tos" style={{ color: "gray" }}>условиями пользования</a></p>
             </div>
         </main>

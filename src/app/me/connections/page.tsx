@@ -75,6 +75,7 @@ const Main = () => {
     return (
         <body>
             <title>Интеграции · Повязки Pepeland</title>
+            <meta name="description" content="Подключите сторонние аккаунты к аккаунту PPLBandage." />
             <Header />
             {isLogged &&
                 <Me>

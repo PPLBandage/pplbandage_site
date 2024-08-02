@@ -33,6 +33,7 @@ const Main = async ({ params }: { params: { id: string } }) => {
                     <meta property="og:site_name" content="Повязки Pepeland" />
                     <meta property="og:image" content={`/api/workshop/${data.external_id}/as_image?width=256`} />
                     <meta name="theme-color" content={data.average_og_color} />
+                    <meta name="description" content={data.description || 'Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!'} />
                     <title>{`${data.title} · Повязки Pepeland`}</ title>
                 </>
             }

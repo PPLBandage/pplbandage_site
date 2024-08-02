@@ -52,6 +52,7 @@ const UsersClient = ({ user }: { user: Users }) => {
     return (
         <body>
             <title>{`${user.name} · Повязки Pepeland`}</title>
+            <meta name="description" content={`Профиль пользователя ${user.name}`} />
             <Header />
             <Me user_data={user}>
                 <div style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }} className={styles.cont}>

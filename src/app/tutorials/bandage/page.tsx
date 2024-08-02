@@ -15,6 +15,7 @@ export default function Home() {
         <body>
             <title>Создание повязки · Повязки Pepeland</title>
             <meta name="description" content="Инструкция по созданию повязки." />
+            <meta name="og:description" content="Инструкция по созданию повязки." />
             <Header />
             <main className={style.main}>
                 <div className={style.main_container}>

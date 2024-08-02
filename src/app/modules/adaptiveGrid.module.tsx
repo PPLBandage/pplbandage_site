@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 
 interface AdaptiveGridProps {
     child_width: number,
-    children: JSX.Element[]
+    children: JSX.Element[],
+    header?: JSX.Element
 }
 
-const AdaptiveGrid = ({ child_width, children }: AdaptiveGridProps) => {
+const AdaptiveGrid = ({ child_width, children, header }: AdaptiveGridProps) => {
     const [columns, setColumns] = useState<JSX.Element[]>([]);
     const [columnCount, setColumnCount] = useState<number>(0);
 
@@ -31,9 +32,16 @@ const AdaptiveGrid = ({ child_width, children }: AdaptiveGridProps) => {
     }, [children, columnCount])
 
     return (
-        <div id='layout_parent' style={{ width: '100%', display: 'flex', columnGap: '15px', justifyContent: children?.length >= columnCount ? 'center' : 'flex-start' }}>
-            {columns}
-        </div>
+        <>
+            {!!header &&
+                <div style={{ width: '100%', display: 'flex', justifyContent: children?.length >= columnCount && columnCount !== 1 ? 'center' : 'flex-start' }}>
+                    {header}
+                </div>
+            }
+            <div id='layout_parent' style={{ width: '100%', display: 'flex', columnGap: '15px', justifyContent: children?.length >= columnCount && columnCount !== 1 ? 'center' : 'flex-start', flexDirection: columnCount === 1 ? 'column' : 'row' }}>
+                {columns}
+            </div>
+        </>
     );
 }
 

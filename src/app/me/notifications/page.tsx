@@ -74,6 +74,7 @@ const Main = () => {
         <body>
             <title>Уведомления · Повязки Pepeland</title>
             <meta name="description" content="Ваши уведомления." />
+            <meta name="og:title" content="Уведомления · Повязки Pepeland" />
             <meta name="og:description" content="Ваши уведомления." />
             <Header />
             <Me>

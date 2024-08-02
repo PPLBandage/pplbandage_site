@@ -76,6 +76,7 @@ const Main = () => {
         <body>
             <title>Интеграции · Повязки Pepeland</title>
             <meta name="description" content="Подключите сторонние аккаунты к аккаунту PPLBandage." />
+            <meta name="og:title" content="Интеграции · Повязки Pepeland" />
             <meta name="og:description" content="Подключите сторонние аккаунты к аккаунту PPLBandage." />
             <Header />
             {isLogged &&

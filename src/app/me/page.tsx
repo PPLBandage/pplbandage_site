@@ -98,6 +98,7 @@ const Main = () => {
             {isLogged && <>
                 <title>Личный кабинет · Повязки Pepeland</title>
                 <meta name="description" content="Личный кабинет создателя повязок." />
+                <meta name="og:title" content="Личный кабинет · Повязки Pepeland" />
                 <meta name="og:description" content="Личный кабинет создателя повязок." />
             </>}
             <Header />
@@ -142,6 +143,7 @@ const Login = () => {
         <main className={styles.login_main}>
             <title>Войти · Повязки Pepeland</title>
             <meta name="description" content="Войти в личный кабинет." />
+            <meta name="og:title" content="Войти · Повязки Pepeland" />
             <meta name="og:description" content="Войти в личный кабинет." />
             <div className={styles.login_container}>
                 <h1>Войти через</h1>

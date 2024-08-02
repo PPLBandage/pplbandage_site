@@ -14,6 +14,7 @@ export default function Home() {
         <body>
             <title>Создание окрашиваемой повязки · Повязки Pepeland</title>
             <meta name="description" content="Инструкция по созданию окрашиваемой повязки." />
+            <meta name="og:title" content="Создание окрашиваемой повязки · Повязки Pepeland" />
             <meta name="og:description" content="Инструкция по созданию окрашиваемой повязки." />
             <Header />
             <main className={style.main}>

@@ -5,7 +5,11 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: 'Контакты · Повязки Pepeland',
-    description: 'Способы связи с администрацией'
+    description: 'Способы связи с администрацией',
+    openGraph: {
+        title: 'Контакты · Повязки Pepeland',
+        description: 'Способы связи с администрацией'
+    }
 }
 
 const Home = () => {

@@ -19,8 +19,7 @@ export const metadata: Metadata = {
 	},
 	openGraph: {
 		title: 'Повязки Pepeland',
-		description: 'Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!',
-		images: 'https://pplbandage.ru/static/icons/icon.svg'
+		description: 'Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!'
 	}
 };
 

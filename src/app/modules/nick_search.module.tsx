@@ -1,9 +1,9 @@
 import Select, { GroupBase } from 'react-select';
-import * as Interfaces from "../interfaces";
-import { use, useEffect, useRef, useState } from 'react';
+import * as Interfaces from "@/app/interfaces";
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import Style from "../styles/nick_search.module.css";
-import StyleBtn from "../styles/slidebtn.module.css";
+import Style from "@/app/styles/nick_search.module.css";
+import StyleBtn from "@/app/styles/slidebtn.module.css";
 
 interface SearchResponse {
     status: string;

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { authApi } from "./api.module";
 import { Query } from "./header.module";
-import style_sidebar from "../styles/me/sidebar.module.css";
+import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -10,7 +10,7 @@ import { timeStamp } from "./time.module";
 import Footer from "./footer.module";
 import { useCookies } from 'next-client-cookies';
 import Menu from "./theme_select.module";
-import { Users } from "../users/[name]/page";
+import { Users } from "@/app/users/[name]/page";
 import { formatDate } from "./card.module";
 
 const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, color?: string }) => {

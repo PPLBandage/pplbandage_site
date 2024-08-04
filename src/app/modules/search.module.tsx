@@ -1,11 +1,11 @@
 "use client";
 
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { CSSTransition } from 'react-transition-group';
-import Styles from "../styles/search.module.css"
+import Styles from "@/app/styles/search.module.css"
 import Image from 'next/image';
-import { Category } from '../interfaces';
+import { Category } from '@/app/interfaces';
 import { CategoryEl } from './card.module';
 import styleLink from '@/app/styles/tutorials/common.module.css';
 import Link from 'next/link';

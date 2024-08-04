@@ -23,7 +23,7 @@ import NavigatorEl from '@/app/modules/navigator.module';
 import { authApi } from '@/app/modules/api.module';
 import CategorySelector from '@/app/modules/category_selector.module';
 import Footer from '@/app/modules/footer.module';
-import { anims } from '../poses';
+import { anims } from '@/app/workshop/poses';
 import asyncImage from '@/app/modules/asyncImage.module';
 import Link from 'next/link';
 

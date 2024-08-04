@@ -1,5 +1,5 @@
 import Link from "next/link";
-import style_sidebar from "../styles/me/sidebar.module.css";
+import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import style_add from '@/app/styles/tutorials/common.module.css';
 import { usePathname } from "next/navigation";
 

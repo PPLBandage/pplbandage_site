@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "../styles/navigator.module.css";
+import styles from "@/app/styles/navigator.module.css";
 
 
 interface NavigatorProps {

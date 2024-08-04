@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Header from "../modules/header.module";
+import Header from "@/app/modules/header.module";
 import style from '@/app/styles/contacts/contacts.module.css';
 import { Metadata } from "next";
 

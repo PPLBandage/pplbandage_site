@@ -1,13 +1,13 @@
 "use client";
 
-import React, { use, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useState, useRef } from 'react';
 import { useQuery } from "@tanstack/react-query";
 import { authApi } from "@/app/modules/api.module";
 import { redirect } from "next/navigation";
-import Style from "../../styles/me/connections.module.css";
-import Header from "../../modules/header.module";
-import useCookie from '../../modules/useCookie.module';
+import Style from "@/app/styles/me/connections.module.css";
+import Header from "@/app/modules/header.module";
+import useCookie from '@/app/modules/useCookie.module';
 import { Cookies, useCookies } from 'next-client-cookies';
 import Image from 'next/image';
 import { Me } from '@/app/modules/me.module';

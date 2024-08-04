@@ -4,7 +4,7 @@ import Footer from "@/app/modules/footer.module";
 import Header from "@/app/modules/header.module";
 import React from "react";
 import style from '@/app/styles/tutorials/common.module.css';
-import ASide from "../header.module";
+import ASide from "@/app/tutorials/header.module";
 import InfoCard from "@/app/modules/info.module";
 import NextImage from 'next/image';
 import { CategoryEl } from "@/app/modules/card.module";

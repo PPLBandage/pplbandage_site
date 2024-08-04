@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import Styles from "../styles/paginator.module.css";
+import Styles from "@/app/styles/paginator.module.css";
 
 interface PaginatorProps {
     total_count: number,

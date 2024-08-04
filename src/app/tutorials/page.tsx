@@ -1,18 +1,18 @@
 "use client";
 
-import Footer from "../modules/footer.module";
-import Header from "../modules/header.module";
+import Footer from "@/app/modules/footer.module";
+import Header from "@/app/modules/header.module";
 import React, { useEffect, useState } from "react";
 import style from '@/app/styles/tutorials/common.module.css';
 import ASide from "./header.module";
-import InfoCard from "../modules/info.module";
+import InfoCard from "@/app/modules/info.module";
 import NextImage from "next/image";
-import { CategoryEl } from "../modules/card.module";
-import { CustomLink } from "../modules/search.module";
-import styles from "../styles/me/me.module.css";
-import { Tooltip } from "../modules/tooltip";
+import { CategoryEl } from "@/app/modules/card.module";
+import { CustomLink } from "@/app/modules/search.module";
+import styles from "@/app/styles/me/me.module.css";
+import { Tooltip } from "@/app/modules/tooltip";
 import axios from "axios";
-import { Role } from "../interfaces";
+import { Role } from "@/app/interfaces";
 import style_workshop from "@/app/styles/workshop/page.module.css";
 
 export default function Home() {

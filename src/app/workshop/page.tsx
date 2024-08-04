@@ -3,17 +3,17 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { SkinViewer } from 'skinview3d';
-import Header from "../modules/header.module";
-import Style from "../styles/workshop/page.module.css";
+import Header from "@/app/modules/header.module";
+import Style from "@/app/styles/workshop/page.module.css";
 
 import axios from "axios";
-import { Paginator } from "../modules/paginator.module";
-import { Search } from "../modules/search.module";
-import { BandageResponse, Category } from "../interfaces";
-import { Card, constrain, generateSkin } from "../modules/card.module";
-import Footer from "../modules/footer.module";
+import { Paginator } from "@/app/modules/paginator.module";
+import { Search } from "@/app/modules/search.module";
+import { BandageResponse, Category } from "@/app/interfaces";
+import { Card, constrain, generateSkin } from "@/app/modules/card.module";
+import Footer from "@/app/modules/footer.module";
 import Image from "next/image";
-import AdaptiveGrid from "../modules/adaptiveGrid.module";
+import AdaptiveGrid from "@/app/modules/adaptiveGrid.module";
 
 
 export default function Home() {

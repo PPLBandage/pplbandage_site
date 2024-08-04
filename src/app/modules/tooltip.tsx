@@ -1,7 +1,7 @@
 "use client";
 
 import React, { LegacyRef, useEffect, useRef, useState } from 'react';
-import Style from "../styles/tooltip.module.css";
+import Style from "@/app/styles/tooltip.module.css";
 
 interface TooltipProps {
     body: JSX.Element,

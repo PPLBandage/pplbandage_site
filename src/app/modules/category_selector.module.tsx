@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { Category } from "../interfaces"
-import { CategoryEl } from "./card.module";
+import { Category } from "@/app/interfaces"
+import { CategoryEl } from "@/app/modules/card.module";
 import style from "@/app/styles/category_selector.module.css";
 import NextImage from 'next/image';
 import style_workshop from "@/app/styles/workshop/page.module.css";

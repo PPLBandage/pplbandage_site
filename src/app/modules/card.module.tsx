@@ -1,8 +1,8 @@
 import { authApi } from "./api.module";
-import { Bandage, Category } from "../interfaces";
-import Style from "../styles/workshop/page.module.css";
+import { Bandage, Category } from "@/app/interfaces";
+import Style from "@/app/styles/workshop/page.module.css";
 import NextImage from 'next/image';
-import { fillPepe } from "../workshop/[id]/bandage_engine.module";
+import { fillPepe } from "@/app/workshop/[id]/bandage_engine.module";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
 import { CSSProperties, useEffect, useState } from "react";

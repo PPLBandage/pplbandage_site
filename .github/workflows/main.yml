@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-env:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
@@ -43,7 +43,7 @@ jobs:
           path: .env.enc
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build-env
 
     steps:
@@ -91,7 +91,7 @@ jobs:
           path: build.tar.gz
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
 
     steps:

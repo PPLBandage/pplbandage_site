@@ -344,8 +344,7 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
         const reader = new FileReader();
 
         reader.onload = () => {
-            const img = new Image();
-            img.onload = () => {
+            asyncImage(reader.result as string).then((img) => {
                 if (img.width != 64 || img.height != 64) {
                     setError('Скин должен иметь размеры 64x64 пикселя');
                     return;
@@ -356,8 +355,7 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
                     slim: isSlim(img)
                 });
                 setLoaded(true);
-            }
-            img.src = reader.result as string;
+            });
         }
         reader.readAsDataURL(file);
     }

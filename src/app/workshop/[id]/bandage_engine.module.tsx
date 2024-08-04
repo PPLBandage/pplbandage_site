@@ -1,3 +1,4 @@
+import asyncImage from '@/app/modules/asyncImage.module';
 import axios from 'axios';
 
 interface SkinResponse {
@@ -54,13 +55,11 @@ class Client {
     split_types: boolean = false;
 
     loadBase() {
-        const skin = new Image();
-        skin.onload = () => {
+        asyncImage('/static/workshop_base.png').then((skin) => {
             const context = this.original_canvas.getContext("2d");
             context?.drawImage(skin, 0, 0);
             this.triggerEvent("init");
-        };
-        skin.src = "/static/workshop_base.png";
+        });
     }
 
     constructor() {
@@ -92,9 +91,7 @@ class Client {
         }
 
         const data = response.data as SkinResponse;
-
         this.slim = data.data.skin.slim;
-        this.setOriginalCanvas(b64Prefix + data.data.skin.data);
 
         this.addEventListener("onload", () => {
 
@@ -103,10 +100,12 @@ class Client {
 
             this.rerender();
             this.removeEventListener("onload");
-        })
+        });
+
+        this.setOriginalCanvas(b64Prefix + data.data.skin.data);
     }
 
-    async loadSkinUrl(url: string) {
+    loadSkinUrl(url: string) {
         axios.get(url, { responseType: 'blob' }).then((result => {
             if (result.status === 200) {
                 const reader = new FileReader();
@@ -125,8 +124,8 @@ class Client {
     }
 
 
-    triggerEvent(property: string, parameters?: string) {
-        if (property == "rerender" || this.listeners[property]) {
+    triggerEvent(property: string) {
+        if (property === 'rerender' || this.listeners[property]) {
             switch (property) {
                 case "skin_changed":
                     this.listeners[property]({ skin: this.skin, cape: this.cape });
@@ -146,17 +145,15 @@ class Client {
         if (!context) {
             return;
         }
-        const img = new Image();
 
-        img.onload = () => {
+        asyncImage(b64).then((img) => {
             if (img.width != 64 || img.height != 64) {
                 return;
             }
-            context?.clearRect(0, 0, 64, 64);
-            context?.drawImage(img, 0, 0, img.width, img.height);
+            context.clearRect(0, 0, 64, 64);
+            context.drawImage(img, 0, 0, img.width, img.height);
             this.triggerEvent("onload");
-        }
-        img.src = b64;
+        });
     }
 
 
@@ -239,7 +236,7 @@ class Client {
 
         if (!bandage_canvas || !lining_canvas) return;
 
-        const canvas_context = canvas.getContext("2d", { willReadFrequently: true })
+        const canvas_context = canvas.getContext("2d", { willReadFrequently: true });
         canvas_context.clearRect(0, 0, canvas.width, canvas.height);
         canvas_context.drawImage(this.original_canvas, 0, 0);
 
@@ -259,11 +256,11 @@ class Client {
 
         if (this.colorable) {
             const rgb = hex2rgb(this.color);
-            pepe = fillPepe(pepe, rgb) as HTMLCanvasElement;
-            lining = fillPepe(lining, rgb) as HTMLCanvasElement;
+            pepe = fillPepe(pepe, rgb);
+            lining = fillPepe(lining, rgb);
         }
 
-        if (this.clear_pix) clearPepe(canvas, body_part_x_overlay[this.body_part], body_part_y_overlay[this.body_part] + this.position, height);
+        this.clear_pix && clearPepe(canvas, body_part_x_overlay[this.body_part], body_part_y_overlay[this.body_part] + this.position, height);
 
         const coef = this.slim && (this.body_part == 0 || this.body_part == 2) ? 1 : 0;
         ctx_pepe.drawImage(pepe, coef, 0, pepe.width - coef, height, 0, 0, pepe.width - coef, height);
@@ -275,23 +272,20 @@ class Client {
         let first_x = body_part_x[this.body_part];
         let first_y = body_part_y[this.body_part];
 
-        if (this.layers == "1") {
-            overlay_x = first_x;
-            overlay_y = first_y;
+        switch (this.layers) {
+            case "1":
+                overlay_x = first_x;
+                overlay_y = first_y;
+                break;
+            case "2":
+                first_x = overlay_x;
+                first_y = overlay_y;
+                break;
         }
 
-        if (this.layers == "2") {
-            first_x = overlay_x;
-            first_y = overlay_y;
-        }
+        this.first_layer && canvas_context.drawImage(cropped_lining, first_x, first_y + this.position);
+        this.second_layer && canvas_context.drawImage(cropped_pepe, overlay_x, overlay_y + this.position);
 
-        if (this.first_layer) {
-            canvas_context.drawImage(cropped_lining, first_x, first_y + this.position);
-        }
-
-        if (this.second_layer) {
-            canvas_context.drawImage(cropped_pepe, overlay_x, overlay_y + this.position);
-        }
         this.skin = canvas.toDataURL();
         this.triggerEvent("skin_changed");
     }
@@ -310,7 +304,7 @@ export const crop_pepe = (pepe_canvas: HTMLCanvasElement, slim: boolean, height:
     bandage_canvas.height = height;
     const context = bandage_canvas.getContext("2d", { willReadFrequently: true });
 
-    if (slim && (body_part == 0 || body_part == 2)) {
+    if (slim && (body_part === 0 || body_part === 2)) {
         context?.drawImage(pepe_canvas, 0, 0, 15, height, 0, 0, 15, height);
     } else {
         context?.drawImage(pepe_canvas, 0, 0);
@@ -332,7 +326,8 @@ export const crop_pepe = (pepe_canvas: HTMLCanvasElement, slim: boolean, height:
 
 export const clearPepe = (canvas: HTMLCanvasElement, pos_x: number, pos_y: number, height: number) => {
     const context = canvas.getContext("2d", { willReadFrequently: true });
-    context?.clearRect(pos_x, pos_y, 16, height);
+    if (!context) return;
+    context.clearRect(pos_x, pos_y, 16, height);
 }
 
 export const fillPepe = (input: HTMLCanvasElement | HTMLImageElement, color: Array<number>): HTMLCanvasElement => {
@@ -342,9 +337,7 @@ export const fillPepe = (input: HTMLCanvasElement | HTMLImageElement, color: Arr
         canvas.width = input.width;
         canvas.height = input.height;
         const context = canvas.getContext('2d');
-        if (context) {
-            context.drawImage(input, 0, 0, input.width, input.height);
-        }
+        context && context.drawImage(input, 0, 0, input.width, input.height);
     } else {
         canvas = input;
     }
@@ -375,7 +368,6 @@ export const fillPepe = (input: HTMLCanvasElement | HTMLImageElement, color: Arr
     context.putImageData(imageData, 0, 0);
     return canvas;
 }
-
 
 const hex2rgb = (hex: string) => {
     const r = parseInt(hex.slice(1, 3), 16);

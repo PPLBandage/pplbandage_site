@@ -20,6 +20,7 @@ import { redirect } from 'next/navigation';
 import { Cookies, useCookies } from 'next-client-cookies';
 import { Fira_Code } from "next/font/google";
 import { CustomLink } from '@/app/modules/search.module';
+import asyncImage from '@/app/modules/asyncImage.module';
 const fira = Fira_Code({ subsets: ["latin"] });
 
 
@@ -132,7 +133,7 @@ const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageCh
     const [description, setDescription] = useState<string>("");
     const [enabledCategories, setEnabledCategories] = useState<Interfaces.Category[]>([]);
     const [allCategories, setAllCategories] = useState<Interfaces.Category[]>([]);
-    const [categories, setCategories] = useState<number[]>(undefined);
+    const [categories, setCategories] = useState<number[]>([]);
     const [base64, setBase64] = useState<string>(null);
     const [base64Slim, setBase64Slim] = useState<string>(null);
     const [mutex, setMutex] = useState<boolean>(false);
@@ -296,8 +297,7 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal }: SelectorIn
         const reader = new FileReader();
 
         reader.onload = () => {
-            const img = new Image();
-            img.onload = () => {
+            asyncImage(reader.result as string).then((img) => {
                 if (img.width !== 16) {
                     setError('Развертка повязки должна иметь ширину 16 пикселей');
                     return;
@@ -329,8 +329,7 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal }: SelectorIn
                     containerRef.current.style.borderColor = "#576074";
                     containerRef.current.style.borderStyle = "solid";
                 }
-            }
-            img.src = reader.result as string;
+            });
         }
         reader.readAsDataURL(file);
     }
@@ -347,7 +346,7 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal }: SelectorIn
         }
     };
 
-    const ondragleave = (evt: React.DragEvent<HTMLLabelElement>) => {
+    const ondragleave = () => {
         containerRef.current.style.borderStyle = "dashed";
     };
 
@@ -373,7 +372,7 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal }: SelectorIn
             <label className={style.skin_drop}
                 ref={containerRef}
                 onDragOver={(evt) => ondragover(evt)}
-                onDragLeave={(evt) => ondragleave(evt)}
+                onDragLeave={(evt) => ondragleave()}
                 onDrop={(evt) => ondrop(evt)}>
                 <div className={style.hidable}>
                     <input type="file"

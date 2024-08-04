@@ -3,16 +3,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Header from '@/app/modules/header.module';
 import style from '@/app/styles/workshop/create/page.module.css';
-import SkinView3D from '@/app/skinView.module';
+import SkinView3D from '@/app/modules/skinView.module';
 import { anims } from '../poses';
 import { useRouter } from "next/navigation";
 import Select from 'react-select';
 import { SlideButton } from '@/app/modules/nick_search.module';
 import Client from '../[id]/bandage_engine.module';
-import Link from 'next/link';
 import Footer from '@/app/modules/footer.module';
 import CategorySelector from '@/app/modules/category_selector.module';
-import { authApi } from '@/app/api.module';
+import { authApi } from '@/app/modules/api.module';
 import * as Interfaces from "@/app/interfaces";
 import debounce from 'lodash.debounce';
 import InfoCard from '@/app/modules/info.module';

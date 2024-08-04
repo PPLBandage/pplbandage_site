@@ -3,7 +3,7 @@
 import React, { use, useEffect } from 'react';
 import { useState, useRef } from 'react';
 import { useQuery } from "@tanstack/react-query";
-import { authApi } from "@/app/api.module";
+import { authApi } from "@/app/modules/api.module";
 import { redirect } from "next/navigation";
 import Style from "../../styles/me/connections.module.css";
 import Header from "../../modules/header.module";

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { authApi } from "../api.module";
+import { authApi } from "./api.module";
 import { Query } from "./header.module";
 import style_sidebar from "../styles/me/sidebar.module.css";
 import Image from 'next/image';

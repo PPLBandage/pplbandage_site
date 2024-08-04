@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
-import { authApi } from "@/app/api.module";
+import { authApi } from "@/app/modules/api.module";
 import style_sidebar from "../../styles/me/sidebar.module.css";
 import Header from "../../modules/header.module";
 import useCookie from '../../modules/useCookie.module';

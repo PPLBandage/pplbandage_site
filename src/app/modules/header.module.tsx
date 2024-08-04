@@ -1,6 +1,6 @@
 "use client";
 
-import { authApi } from "../api.module";
+import { authApi } from "./api.module";
 import { useEffect, useRef, useState } from "react";
 import Styles from "../styles/header.module.css";
 import { CSSTransition } from 'react-transition-group';

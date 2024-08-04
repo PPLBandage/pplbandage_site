@@ -2,15 +2,11 @@
 
 import Header from "@/app/modules/header.module";
 import { Users } from "./page";
-import style_sidebar from "@/app/styles/me/sidebar.module.css";
-import { useEffect, useRef, useState } from "react";
-import { Bandage } from "@/app/interfaces";
+import { useEffect, useState } from "react";
 import { SkinViewer } from "skinview3d";
 import { Card, generateSkin } from "@/app/modules/card.module";
 import styles from "@/app/styles/me/me.module.css";
 import { Me } from "@/app/modules/me.module";
-import Link from "next/link";
-import Footer from "@/app/modules/footer.module";
 import AdaptiveGrid from "@/app/modules/adaptiveGrid.module";
 
 const UsersClient = ({ user }: { user: Users }) => {

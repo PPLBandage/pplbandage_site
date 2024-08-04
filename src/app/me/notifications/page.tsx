@@ -6,7 +6,7 @@ import Style from "@/app/styles/me/notifications.module.css";
 import Header from "@/app/modules/header.module";
 import useCookie from '@/app/modules/useCookie.module';
 import { Me } from '@/app/modules/me.module';
-import { authApi } from '@/app/api.module';
+import { authApi } from '@/app/modules/api.module';
 import { formatDate } from '@/app/modules/card.module';
 import { Paginator } from '@/app/modules/paginator.module';
 import style_sidebar from "@/app/styles/me/sidebar.module.css";

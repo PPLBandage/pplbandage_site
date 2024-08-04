@@ -5,7 +5,7 @@ import useCookie from "../modules/useCookie.module";
 import { useEffect, useRef } from "react";
 import { redirect, useRouter } from "next/navigation";
 import Header, { Query } from "../modules/header.module";
-import { authApi } from "../api.module";
+import { authApi } from "../modules/api.module";
 
 const Admin = () => {
     const logged = useCookie('sessionId');

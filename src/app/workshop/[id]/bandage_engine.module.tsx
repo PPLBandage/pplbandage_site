@@ -51,7 +51,6 @@ class Client {
     slim: boolean = false;
     color: string = "";
     colorable: boolean = false;
-
     split_types: boolean = false;
 
     loadBase() {

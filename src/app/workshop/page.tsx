@@ -104,8 +104,18 @@ export default function Home() {
                     {elements && elements.length > 0 ? <AdaptiveGrid child_width={300}>{elements}</AdaptiveGrid> :
                         elements && elements.length === 0 ?
                             <>
-                                <p style={{ display: "flex", alignItems: "center", fontSize: "1.1rem", fontWeight: 500, width: "100%", justifyContent: "center", margin: 0 }}>
-                                    <Image style={{ marginRight: ".5rem" }} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />Похоже, тут ничего нет</p>
+                                <p style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    fontSize: "1.1rem",
+                                    fontWeight: 500,
+                                    width: "100%",
+                                    justifyContent: "center",
+                                    margin: 0
+                                }}>
+                                    <Image style={{ marginRight: ".5rem" }} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />
+                                    Похоже, тут ничего нет
+                                </p>
                             </> :
                             <Image src="/static/icons/icon.svg" alt="" width={86} height={86} className={Style.loading} />
                     }

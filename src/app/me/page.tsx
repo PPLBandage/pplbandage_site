@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
-import { authApi } from "@/app/api.module";
+import { authApi } from "@/app/modules/api.module";
 import { useRouter } from "next/navigation";
 import styles from "../styles/me/me.module.css";
 import { Tooltip } from '../modules/tooltip';

@@ -10,21 +10,21 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 import Client, { b64Prefix } from "./bandage_engine.module";
-import SkinView3D from "@/app/skinView.module";
+import SkinView3D from "@/app/modules/skinView.module";
 
 import Header from "@/app/modules/header.module";
 import Searcher, { SlideButton } from "@/app/modules/nick_search.module";
 import { CategoryEl } from '@/app/modules/card.module';
 import NextImage from 'next/image';
 import Select from 'react-select';
-import NotFoundElement from '@/app/nf.module';
+import NotFoundElement from '@/app/modules/nf.module';
 import debounce from 'lodash.debounce';
 import NavigatorEl from '@/app/modules/navigator.module';
-import { authApi } from '@/app/api.module';
+import { authApi } from '@/app/modules/api.module';
 import CategorySelector from '@/app/modules/category_selector.module';
 import Footer from '@/app/modules/footer.module';
 import { anims } from '../poses';
-import asyncImage from '@/app/asyncImage';
+import asyncImage from '@/app/modules/asyncImage.module';
 import Link from 'next/link';
 
 

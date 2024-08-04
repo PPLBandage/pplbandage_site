@@ -2,7 +2,7 @@
 
 import Footer from './modules/footer.module';
 import Header from './modules/header.module';
-import NotFoundElement from './nf.module';
+import NotFoundElement from './modules/nf.module';
 
 export default function NotFound() {
     return (

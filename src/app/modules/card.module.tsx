@@ -1,4 +1,4 @@
-import { authApi } from "../api.module";
+import { authApi } from "./api.module";
 import { Bandage, Category } from "../interfaces";
 import Style from "../styles/workshop/page.module.css";
 import NextImage from 'next/image';

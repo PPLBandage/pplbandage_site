@@ -59,7 +59,7 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
     const [theme, setTheme] = useState<number>(initial_theme);
 
     const { data, isLoading, isError } = useQuery({
-        queryKey: [`user_${user_data?.username}`],
+        queryKey: [!!user_data?.username ? `user_${user_data?.username}` : `userProfile`],
         retry: 5,
         queryFn: async () => {
             if (!user_data) {

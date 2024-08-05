@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
 import { getCookie } from 'cookies-next';
+import { useCookies } from 'next-client-cookies';
 
 const useCookie = (cookieName: string) => {
-    const [cookieValue, setCookieValue] = useState<string>(getCookie(cookieName));
+    const cookies = useCookies();
+    const [cookieValue, setCookieValue] = useState<string>(getCookie(cookieName) || cookies.get(cookieName));
 
     useEffect(() => {
         const handleCookieChange = () => {
             setCookieValue(getCookie(cookieName));
         };
-
-        // Запускаем проверку изменения кукис
-        const intervalId = setInterval(handleCookieChange, 1000); // Проверка каждые 1000 мс
-
+        const intervalId = setInterval(handleCookieChange, 1000);
         return () => clearInterval(intervalId);
     }, [cookieName]);
 

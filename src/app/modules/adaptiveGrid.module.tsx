@@ -25,7 +25,7 @@ const AdaptiveGrid = ({ child_width, children, header }: AdaptiveGridProps) => {
         const result_arr = [];
         for (let i = 1; i < columnCount + 1; i++) {
             const _children = children.filter((_, index) => (index + 1 - i) % columnCount === 0);
-            const column = <div>{_children}</div>;
+            const column = <div key={i}>{_children}</div>;
             result_arr.push(column);
         }
         setColumns(result_arr);

@@ -31,6 +31,7 @@ const AdaptiveGrid = ({ child_width, children, header }: AdaptiveGridProps) => {
         setColumns(result_arr);
     }, [children, columnCount])
 
+    console.log(children?.length, columnCount)
     return (
         <>
             {!!header &&
@@ -38,7 +39,7 @@ const AdaptiveGrid = ({ child_width, children, header }: AdaptiveGridProps) => {
                     {header}
                 </div>
             }
-            <div id='layout_parent' style={{ width: '100%', display: 'flex', columnGap: '15px', justifyContent: children?.length >= columnCount && columnCount !== 1 ? 'center' : 'flex-start', flexDirection: columnCount === 1 ? 'column' : 'row' }}>
+            <div id='layout_parent' style={{ width: '100%', display: 'flex', columnGap: '15px', justifyContent: children?.length >= columnCount ? 'center' : 'flex-start' }}>
                 {columns}
             </div>
         </>

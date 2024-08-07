@@ -11,7 +11,7 @@ const Home = async () => {
         console.log(e);
     }
     return (
-        <HomeClient pong={pong.status} />
+        <HomeClient pong={pong?.status} />
     )
 }
 

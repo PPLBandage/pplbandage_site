@@ -31,11 +31,10 @@ const AdaptiveGrid = ({ child_width, children, header }: AdaptiveGridProps) => {
         setColumns(result_arr);
     }, [children, columnCount])
 
-    console.log(children?.length, columnCount)
     return (
         <>
             {!!header &&
-                <div style={{ width: '100%', display: 'flex', justifyContent: children?.length >= columnCount && columnCount !== 1 ? 'center' : 'flex-start' }}>
+                <div style={{ width: '100%', display: 'flex', justifyContent: children?.length >= columnCount ? 'center' : 'flex-start' }}>
                     {header}
                 </div>
             }

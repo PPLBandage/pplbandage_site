@@ -330,6 +330,10 @@
     top: 0;
 }
 
+.username_private:hover {
+    text-decoration: none;
+}
+
 @media(max-width: 925px) {
     .main_container {
         flex-direction: column;

@@ -23,9 +23,12 @@ const Users = async ({ params }: { params: { name: string } }) => {
         withCredentials: true,
         validateStatus: () => true,
         headers: {
-            "Cookie": cookie,
-            "User-Agent": userAgent,
-            "Unique-Access": process.env.TOKEN
+            'Cookie': cookie,
+            'User-Agent': userAgent,
+            'Unique-Access': process.env.TOKEN,
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+            'Expires': '0'
         }
     });
 

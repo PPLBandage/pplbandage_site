@@ -112,6 +112,10 @@
     text-decoration: underline;
 }
 
+.username_private:hover {
+    text-decoration: none;
+}
+
 .description {
     margin: 0;
     color: var(--main-text-color);

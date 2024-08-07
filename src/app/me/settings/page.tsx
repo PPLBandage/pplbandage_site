@@ -15,26 +15,28 @@ import { Fira_Code } from "next/font/google";
 import { SlideButton } from '@/app/modules/nick_search.module';
 import { formatDate } from '@/app/modules/card.module';
 import { getTheme } from '@/app/modules/providers.module';
-import { setCookie } from 'cookies-next';
 import { useCookies } from 'next-client-cookies';
 const fira = Fira_Code({ subsets: ["latin"] });
 
-interface ConnectionResponse {
+interface SettingsResponse {
     statusCode: number,
-    discord?: {
-        user_id: number,
-        username: string,
-        name: string,
-        connected_at: Date,
-        avatar: string
-    },
-    minecraft?: {
-        nickname: string,
-        uuid: string,
-        last_cached: number,
-        head: string,
-        valid: boolean,
-        autoload: boolean
+    public_profile: boolean,
+    connections: {
+        discord: {
+            user_id: number,
+            username: string,
+            name: string,
+            connected_at: Date,
+            avatar: string
+        },
+        minecraft?: {
+            nickname: string,
+            uuid: string,
+            last_cached: number,
+            head: string,
+            valid: boolean,
+            autoload: boolean
+        }
     }
 }
 
@@ -56,7 +58,7 @@ const Page = () => {
         retry: false,
         queryFn: async () => {
             const res = await authApi.get("user/me/settings", { withCredentials: true, validateStatus: () => true });
-            const data = res.data as ConnectionResponse;
+            const data = res.data as SettingsResponse;
             setLoaded(true);
             return data;
         },
@@ -73,8 +75,13 @@ const Page = () => {
             {logged &&
                 <Me>
                     <div className={Style.main} style={loaded ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
-                        <Connections data={data} refetch={refetch} />
-                        <Themes />
+                        {data &&
+                            <>
+                                <UserSettings data={data} />
+                                <Connections data={data} refetch={refetch} />
+                                <Themes />
+                            </>
+                        }
                     </div>
                 </Me>
             }
@@ -82,33 +89,50 @@ const Page = () => {
     );
 }
 
-const Connections = ({ data, refetch }: { data: ConnectionResponse, refetch(): void }) => {
-    const [valid, setValid] = useState<boolean>(data?.minecraft?.valid);
-    const [autoload, setAutoload] = useState<boolean>(data?.minecraft?.autoload);
+const UserSettings = ({ data }: { data: SettingsResponse }) => {
+    const [value, setValue] = useState<boolean>(data?.public_profile);
+    const change = (val: boolean) => {
+        authApi.put('user/me/settings/set_public', {}, { params: { state: val } }).then((response) => {
+            if (response.status === 200) {
+                setValue(response.data.new_data);
+            }
+        })
+    }
+    return (
+        <div className={Style.container}>
+            <h3><Image src="/static/icons/user.svg" alt="" width={26} height={26} style={{ marginRight: ".3rem", borderRadius: 0 }} />Настройки аккаунта</h3>
+            <SlideButton label='Публичный профиль' value={value} onChange={change} strict={true} />
+        </div>
+    );
+}
+
+const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): void }) => {
+    const [valid, setValid] = useState<boolean>(data.connections.minecraft?.valid);
+    const [autoload, setAutoload] = useState<boolean>(data.connections?.minecraft?.autoload);
 
     return (
         <div className={Style.container}>
             <h3><Image src="/static/icons/discord.svg" alt="" width={32} height={32} style={{ marginRight: ".4rem", borderRadius: 0 }} />Discord аккаунт</h3>
             <div className={Style.discord_container}>
-                {data?.discord &&
-                    <Image src={data.discord.avatar + "?size=64"} alt="" width={64} height={64} style={{ borderRadius: "50%" }} className={Style.discord_avatar} />
+                {data.connections?.discord &&
+                    <Image src={data.connections?.discord.avatar + "?size=64"} alt="" width={64} height={64} style={{ borderRadius: "50%" }} className={Style.discord_avatar} />
                 }
                 <div className={Style.discord_name_container}>
-                    <h1>{data?.discord.name}</h1>
-                    <p className={fira.className}>{data?.discord.username}</p>
+                    <h1>{data.connections?.discord?.name}</h1>
+                    <p className={fira.className}>{data.connections?.discord?.username}</p>
                 </div>
             </div>
-            <p style={{ margin: 0 }}>с {data?.discord && formatDate(new Date(data?.discord.connected_at))}</p>
+            <p style={{ margin: 0 }}>с {data.connections?.discord && formatDate(new Date(data.connections?.discord?.connected_at))}</p>
 
             <hr style={{ border: '1px var(--hr-color) solid', width: '100%' }} />
 
             <h3><Image src="/static/icons/block.svg" alt="" width={32} height={32} style={{ marginRight: ".4rem" }} />Minecraft аккаунт</h3>
-            {!!data?.minecraft ? <>
+            {!!data.connections?.minecraft ? <>
                 <div className={Style.head_container}>
-                    {data && <Image src={b64Prefix + data?.minecraft.head} alt="" width={64} height={64} />}
+                    {data && <Image src={b64Prefix + data.connections?.minecraft.head} alt="" width={64} height={64} />}
                     <div className={Style.name_container}>
-                        <p className={Style.name}>{data?.minecraft.nickname}</p>
-                        <p className={`${Style.uuid} ${fira.className}`}>{data?.minecraft.uuid}</p>
+                        <p className={Style.name}>{data.connections?.minecraft.nickname}</p>
+                        <p className={`${Style.uuid} ${fira.className}`}>{data.connections?.minecraft.uuid}</p>
                     </div>
                 </div>
                 <div className={Style.checkboxes}>
@@ -137,7 +161,7 @@ const Connections = ({ data, refetch }: { data: ConnectionResponse, refetch(): v
 
                 </div>
                 <div className={Style.checkboxes}>
-                    <span>Последний раз кэшировано {formatDate(new Date(data?.minecraft?.last_cached))}</span>
+                    <span>Последний раз кэшировано {formatDate(new Date(data.connections?.minecraft?.last_cached))}</span>
                     <button className={Style.unlink} onClick={() => {
                         const load_icon = document.getElementById('refresh');
                         load_icon.style.animation = `${Style.loading} infinite 1s linear`;

@@ -57,7 +57,7 @@ const Page = () => {
         queryKey: ["userConnections"],
         retry: false,
         queryFn: async () => {
-            const res = await authApi.get("user/me/settings", { withCredentials: true, validateStatus: () => true });
+            const res = await authApi.get("user/me/settings");
             const data = res.data as SettingsResponse;
             setLoaded(true);
             return data;

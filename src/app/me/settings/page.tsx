@@ -67,10 +67,10 @@ const Page = () => {
 
     return (
         <body>
-            <title>Интеграции · Повязки Pepeland</title>
-            <meta name="description" content="Подключите сторонние аккаунты к аккаунту PPLBandage." />
-            <meta name="og:title" content="Интеграции · Повязки Pepeland" />
-            <meta name="og:description" content="Подключите сторонние аккаунты к аккаунту PPLBandage." />
+            <title>Настройки · Повязки Pepeland</title>
+            <meta name="description" content="Настройте свой аккаунт здесь." />
+            <meta name="og:title" content="Настройки · Повязки Pepeland" />
+            <meta name="og:description" content="Настройте свой аккаунт здесь." />
             <Header />
             {logged &&
                 <Me>

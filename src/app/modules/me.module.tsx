@@ -129,9 +129,9 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
                                         }} />
                                     }
                                 </Link>
-                                <Link href="/me/connections" className={`${style_sidebar.side_butt} ${path == 'connections' && style_sidebar.active}`}>
-                                    <Image src="/static/icons/block.svg" alt="" width={24} height={24} />
-                                    Интеграции
+                                <Link href="/me/settings" className={`${style_sidebar.side_butt} ${path == 'settings' && style_sidebar.active}`}>
+                                    <Image src="/static/icons/cog.svg" alt="" width={24} height={24} />
+                                    Настройки
                                 </Link>
                             </div>
                         }

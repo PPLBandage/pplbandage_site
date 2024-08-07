@@ -34,11 +34,11 @@ const AdaptiveGrid = ({ child_width, children, header }: AdaptiveGridProps) => {
     return (
         <>
             {!!header &&
-                <div style={{ width: '100%', display: 'flex', justifyContent: children?.length >= columnCount && columnCount !== 1 ? 'center' : 'flex-start' }}>
+                <div style={{ width: '100%', display: 'flex', justifyContent: children?.length >= columnCount ? 'center' : 'flex-start' }}>
                     {header}
                 </div>
             }
-            <div id='layout_parent' style={{ width: '100%', display: 'flex', columnGap: '15px', justifyContent: children?.length >= columnCount && columnCount !== 1 ? 'center' : 'flex-start', flexDirection: columnCount === 1 ? 'column' : 'row' }}>
+            <div id='layout_parent' style={{ width: '100%', display: 'flex', columnGap: '15px', justifyContent: children?.length >= columnCount ? 'center' : 'flex-start' }}>
                 {columns}
             </div>
         </>

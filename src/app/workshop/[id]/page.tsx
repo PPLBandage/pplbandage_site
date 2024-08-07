@@ -13,9 +13,12 @@ const Main = async ({ params }: { params: { id: string } }) => {
         validateStatus: () => true,
         withCredentials: true,
         headers: {
-            "Cookie": cookie,
-            "User-Agent": userAgent,
-            "Unique-Access": process.env.TOKEN
+            'Cookie': cookie,
+            'User-Agent': userAgent,
+            'Unique-Access': process.env.TOKEN,
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+            'Expires': '0'
         }
     });
     const data = initial_response.data.data as Interfaces.Bandage;

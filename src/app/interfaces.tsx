@@ -38,7 +38,8 @@ export interface Bandage {
     author: {
         id: number,
         username: string,
-        name: string
+        name: string,
+        public: boolean
     },
     categories: Category[],
     me_profile?: {

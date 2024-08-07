@@ -263,7 +263,10 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage, onClick(): void }) => {
             {el?.title}
             <NextImage className={style.edit_icon} src="/static/icons/edit.svg" alt="" width={32} height={32} /></h2>
         {el?.description && <p className={style.description}>{el?.description}</p>}
-        <Link className={style.author} href={`/users/${el?.author.username}`}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32} />{el?.author.name || "Unknown"}</Link>
+        {el?.author.public ?
+            <Link className={style.author} href={!!el.author.name ? `/users/${el.author.username}` : ``}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32} />{el?.author.name || "Unknown"}</Link> :
+            <a className={`${style.author} ${style.username_private}`}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32} />{el?.author.name || "Unknown"}</a>
+        }
     </div>
 }
 

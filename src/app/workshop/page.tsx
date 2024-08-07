@@ -14,6 +14,7 @@ import { Card, constrain, generateSkin } from "@/app/modules/card.module";
 import Footer from "@/app/modules/footer.module";
 import Image from "next/image";
 import AdaptiveGrid from "@/app/modules/adaptiveGrid.module";
+import styles_card from "@/app/styles/me/me.module.css";
 
 
 export default function Home() {
@@ -79,7 +80,7 @@ export default function Home() {
                         await skinViewer.loadSkin(result, { model: 'default' });
                         skinViewer.render();
                         const image = skinViewer.canvas.toDataURL();
-                        return <Card el={el} base64={image} key={el.id} />
+                        return <Card el={el} base64={image} key={el.id} className={styles_card} />
                     } catch {
                         return;
                     }

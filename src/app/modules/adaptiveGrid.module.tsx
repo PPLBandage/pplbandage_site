@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import style from '@/app/styles/editor/page.module.css';
 
 interface AdaptiveGridProps {
     child_width: number,
@@ -43,8 +44,9 @@ const AdaptiveGrid = ({ child_width, children, header }: AdaptiveGridProps) => {
                 display: 'flex',
                 columnGap: '15px',
                 justifyContent: children?.length >= columnCount ? 'center' : 'flex-start',
-                flexDirection: columnCount === 1 ? 'column' : 'row'
-            }}>
+                flexDirection: columnCount === 1 ? 'column' : 'row',
+                alignItems: columnCount === 1 ? 'center' : 'normal'
+            }} className={style.adaptive_grid_parent}>
                 {columns}
             </div>
         </>

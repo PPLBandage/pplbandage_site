@@ -358,3 +358,9 @@
         width: 90%;
     }
 }
+
+@media(max-width: 650px) {
+    .adaptive_grid_parent {
+        align-items: normal !important;
+    }
+}

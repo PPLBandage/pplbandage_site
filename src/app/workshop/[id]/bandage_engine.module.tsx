@@ -1,4 +1,4 @@
-import asyncImage from '@/app/modules/asyncImage.module';
+import asyncImage from '@/app/modules/components/asyncImage.module';
 import axios from 'axios';
 
 interface SkinResponse {

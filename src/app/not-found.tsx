@@ -1,8 +1,8 @@
 "use client";
 
-import Footer from './modules/footer.module';
-import Header from './modules/header.module';
-import NotFoundElement from './modules/nf.module';
+import Footer from './modules/components/footer.module';
+import Header from './modules/components/header.module';
+import NotFoundElement from './modules/components/nf.module';
 
 export default function NotFound() {
     return (

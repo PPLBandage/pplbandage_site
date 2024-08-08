@@ -3,8 +3,8 @@ import axios from "axios";
 import { redirect } from "next/navigation";
 import UsersClient from "./client_code";
 import { headers } from "next/headers";
-import { numbersTxt } from "@/app/modules/time.module";
-import { Query } from "@/app/modules/header.module";
+import { numbersTxt } from "@/app/modules/utils/time.module";
+import { Query } from "@/app/modules/components/header.module";
 import { notFound } from "next/navigation";
 
 export interface Users extends Query {
@@ -37,6 +37,10 @@ const Users = async ({ params }: { params: { name: string } }) => {
     }
 
     const data = data_request.data as Users;
+    if (!data) {
+        notFound();
+    }
+
     if (data.is_self) {
         redirect('/me');
     }

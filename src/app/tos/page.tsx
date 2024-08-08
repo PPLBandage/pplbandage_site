@@ -1,5 +1,5 @@
-import Footer from "@/app/modules/footer.module";
-import Header from "@/app/modules/header.module";
+import Footer from "@/app/modules/components/footer.module";
+import Header from "@/app/modules/components/header.module";
 import style from '@/app/styles/tutorials/common.module.css';
 
 const Main = () => {

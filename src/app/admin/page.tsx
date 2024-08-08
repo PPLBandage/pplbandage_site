@@ -1,11 +1,11 @@
 "use client";
 
 import { Cookies, useCookies } from "next-client-cookies";
-import useCookie from "@/app/modules/useCookie.module";
+import useCookie from "@/app/modules/utils/useCookie.module";
 import { useEffect, useRef } from "react";
 import { redirect, useRouter } from "next/navigation";
-import Header, { Query } from "@/app/modules/header.module";
-import { authApi } from "@/app/modules/api.module";
+import Header, { Query } from "@/app/modules/components/header.module";
+import { authApi } from "@/app/modules/utils/api.module";
 
 const Admin = () => {
     const logged = useCookie('sessionId');

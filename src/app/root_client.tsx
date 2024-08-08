@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import Header from "./modules/header.module";
+import Header from "./modules/components/header.module";
 import React, { useState } from "react";
 import Style from "./styles/root/page.module.css";
 import Link from "next/link";
-import { CustomLink } from "./modules/search.module";
+import { CustomLink } from "./modules/components/search.module";
 
 
 const HomeClient = ({ pong }: { pong: number }) => {

@@ -1,13 +1,13 @@
 "use client";
 
-import Header from "@/app/modules/header.module";
+import Header from "@/app/modules/components/header.module";
 import { Users } from "./page";
 import { useEffect, useState } from "react";
 import { SkinViewer } from "skinview3d";
-import { Card, generateSkin } from "@/app/modules/card.module";
+import { Card, generateSkin } from "@/app/modules/components/card.module";
 import styles from "@/app/styles/me/me.module.css";
-import { Me } from "@/app/modules/me.module";
-import AdaptiveGrid from "@/app/modules/adaptiveGrid.module";
+import { Me } from "@/app/modules/components/me.module";
+import AdaptiveGrid from "@/app/modules/components/adaptiveGrid.module";
 
 const UsersClient = ({ user }: { user: Users }) => {
     const [elements, setElements] = useState<JSX.Element[]>(null);
@@ -26,7 +26,7 @@ const UsersClient = ({ user }: { user: Users }) => {
             skinViewer.camera.position.y = 6.5;
             skinViewer.camera.position.z = 11;
             skinViewer.loadBackground("/static/background.png").then(() => {
-                Promise.all(user?.works.map(async (el) => {
+                Promise.all(user.works.map(async (el) => {
                     try {
                         const result = await generateSkin(el.base64, Object.values(el.categories).some(val => val.id == 3));
                         await skinViewer.loadSkin(result, { model: 'default' });

@@ -23,7 +23,7 @@ const Main = async ({ params }: { params: { id: string } }) => {
     });
     const data = initial_response.data.data as Interfaces.Bandage;
 
-    if (initial_response.status !== 200) {
+    if (initial_response.status !== 200 || !data) {
         notFound();
     }
     return (

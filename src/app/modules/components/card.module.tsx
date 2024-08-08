@@ -1,4 +1,4 @@
-import { authApi } from "./api.module";
+import { authApi } from "@/app/modules/utils/api.module";
 import { Bandage, Category } from "@/app/interfaces";
 import Style from "@/app/styles/workshop/page.module.css";
 import NextImage from 'next/image';
@@ -6,7 +6,7 @@ import { fillPepe } from "@/app/workshop/[id]/bandage_engine.module";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
 import { CSSProperties, useEffect, useState } from "react";
-import asyncImage from "./asyncImage.module";
+import asyncImage from "@/app/modules/components/asyncImage.module";
 
 const b64Prefix = "data:image/png;base64,";
 

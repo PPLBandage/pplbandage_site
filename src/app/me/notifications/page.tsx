@@ -3,12 +3,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { redirect, } from "next/navigation";
 import Style from "@/app/styles/me/notifications.module.css";
-import Header from "@/app/modules/header.module";
-import useCookie from '@/app/modules/useCookie.module';
-import { Me } from '@/app/modules/me.module';
-import { authApi } from '@/app/modules/api.module';
-import { formatDate } from '@/app/modules/card.module';
-import { Paginator } from '@/app/modules/paginator.module';
+import Header from "@/app/modules/components/header.module";
+import useCookie from '@/app/modules/utils/useCookie.module';
+import { Me } from '@/app/modules/components/me.module';
+import { authApi } from '@/app/modules/utils/api.module';
+import { formatDate } from '@/app/modules/components/card.module';
+import { Paginator } from '@/app/modules/components/paginator.module';
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import Image from "next/image";
 import { Cookies, useCookies } from 'next-client-cookies';

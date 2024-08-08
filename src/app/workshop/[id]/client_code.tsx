@@ -10,21 +10,20 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 import Client, { b64Prefix } from "./bandage_engine.module";
-import SkinView3D from "@/app/modules/skinView.module";
+import SkinView3D from "@/app/modules/components/skinView.module";
 
-import Header from "@/app/modules/header.module";
-import Searcher, { SlideButton } from "@/app/modules/nick_search.module";
-import { CategoryEl } from '@/app/modules/card.module';
+import Header from "@/app/modules/components/header.module";
+import Searcher, { SlideButton } from "@/app/modules/components/nick_search.module";
+import { CategoryEl } from '@/app/modules/components/card.module';
 import NextImage from 'next/image';
 import Select from 'react-select';
-import NotFoundElement from '@/app/modules/nf.module';
 import debounce from 'lodash.debounce';
-import NavigatorEl from '@/app/modules/navigator.module';
-import { authApi } from '@/app/modules/api.module';
-import CategorySelector from '@/app/modules/category_selector.module';
-import Footer from '@/app/modules/footer.module';
+import NavigatorEl from '@/app/modules/components/navigator.module';
+import { authApi } from '@/app/modules/utils/api.module';
+import CategorySelector from '@/app/modules/components/category_selector.module';
+import Footer from '@/app/modules/components/footer.module';
 import { anims } from '@/app/workshop/poses';
-import asyncImage from '@/app/modules/asyncImage.module';
+import asyncImage from '@/app/modules/components/asyncImage.module';
 import Link from 'next/link';
 
 
@@ -51,9 +50,8 @@ const getRandomColor = () => {
 }
 
 export default function Home({ data }: { data: Interfaces.Bandage }) {
-    const [bandage, setBandage] = useState<Interfaces.Bandage>(null);
     const [loaded, setLoaded] = useState<boolean>(false);
-    const [isError, setIsError] = useState<boolean>(false);
+    const categories = data.categories.map((category) => <CategoryEl key={category.id} category={category} />);
 
     const [pose, setPose] = useState<number>(1);
     const [skin, setSkin] = useState<string>("");
@@ -84,11 +82,6 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
         });
 
         client.current.addEventListener("init", () => {
-            if (!data) {
-                setIsError(true);
-                return;
-            }
-            setBandage(data);
             if (data.me_profile) client.current.loadSkin(data.me_profile.uuid);
 
             asyncImage(b64Prefix + data.base64).then((bandage) => {
@@ -109,7 +102,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                 client.current.lining_canvas = lining_canvas;
                 client.current.position = 6 - Math.floor(height / 2);
                 client.current.updatePositionSlider();
-                client.current.colorable = Object.values(data.categories).some(val => val.icon.indexOf('color-palette.svg') !== -1);
+                client.current.colorable = Object.values(data.categories).some(val => val.id.toString() === process.env.NEXT_PUBLIC_COLORABLE_ID);
                 const randomColor = getRandomColor();
                 setRandomColor(randomColor);
                 client.current.setParams({ color: randomColor });
@@ -118,16 +111,14 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
             });
 
             if (data.split_type) {
-                client.current?.setParams({ split_types: true });
-                asyncImage(b64Prefix + data?.base64_slim).then((img) => {
-                    client.current?.loadFromImage(img, true)
+                client.current.setParams({ split_types: true });
+                asyncImage(b64Prefix + data.base64_slim).then((img) => {
+                    client.current.loadFromImage(img, true)
                 });
             }
         });
         scrollTo(0, 0);
     }, []);
-
-    const categories = bandage?.categories.map((category) => <CategoryEl key={category.id} category={category} />);
 
     return (
         <body>
@@ -138,134 +129,141 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                 }
                 setLoadExpanded(false);
             }} />}
-            {isError ? <NotFoundElement /> :
-                <main className={style.main} style={loaded ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
-                    <NavigatorEl path={[{
+            <main className={style.main} style={loaded ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
+                <NavigatorEl path={[
+                    {
                         name: "Мастерская",
                         url: "/workshop"
                     },
                     {
-                        name: bandage?.external_id,
-                        url: `/workshop/${bandage?.external_id}`
+                        name: data.external_id,
+                        url: `/workshop/${data.external_id}`
                     }
-                    ]} style={{ marginBottom: "1rem" }} />
-                    {
-                        bandage?.check_state ?
-                            bandage?.check_state === "under review" ?
-                                <div className={style.check_notification}>
-                                    <h3>На проверке</h3>
-                                    <p>Ваша работа сейчас проходит модерацию, дождитесь ее завершения</p>
-                                </div>
-                                :
-                                <div className={style.check_notification} style={{ borderColor: "red", backgroundColor: "rgba(255, 0, 0, .13)" }}>
-                                    <h3>Отклонено</h3>
-                                    <p>Ваша работа была отклонена модерацией. Для получения информации обратитесь в поддержку</p>
-                                </div> : null
-                    }
-                    <div className={style.main_container}>
-                        <div className={style.skin_parent}>
-                            <SkinView3D SKIN={skin}
-                                CAPE={cape}
-                                slim={slim}
-                                className={style.render_canvas}
-                                pose={pose}
-                                background='/static/background_big.png'
-                                id="canvas_container" />
-                            <div className={style.render_footer}>
-                                <button className={style.skin_load} onClick={() => setLoadExpanded(true)}><NextImage src="/static/icons/plus.svg" alt="" width={32} height={32} />Загрузить скин</button>
-                                <Select
-                                    options={anims}
-                                    defaultValue={anims[pose]}
-                                    className={`react-select-container`}
-                                    classNamePrefix="react-select"
-                                    isSearchable={false}
-                                    onChange={(n, a) => setPose(n.value)}
-                                    formatOptionLabel={(nick_value) => nick_value.label}
-                                />
-                                <SlideButton onChange={(val) => client.current?.changeSlim(val)} value={slim} label="Тонкие руки" />
-                                <button className={style.skin_load} onClick={() => client.current?.download()}>
-                                    <NextImage
-                                        src="/static/icons/download.svg"
-                                        alt=""
-                                        width={32}
-                                        height={32}
-                                        style={{ width: "1.5rem" }} />Скачать скин</button>
+                ]}
+                    style={{ marginBottom: "1rem" }}
+                />
+                {
+                    data.check_state ?
+                        data.check_state === "under review" ?
+                            <div className={style.check_notification}>
+                                <h3>На проверке</h3>
+                                <p>Ваша работа сейчас проходит модерацию, дождитесь ее завершения</p>
                             </div>
-                            <div className={style.categories}>
-                                {categories}
-                            </div>
+                            :
+                            <div className={style.check_notification} style={{ borderColor: "red", backgroundColor: "rgba(255, 0, 0, .13)" }}>
+                                <h3>Отклонено</h3>
+                                <p>Ваша работа была отклонена модерацией. Для получения информации обратитесь в поддержку</p>
+                            </div> : null
+                }
+                <div className={style.main_container}>
+                    <div className={style.skin_parent}>
+                        <SkinView3D SKIN={skin}
+                            CAPE={cape}
+                            slim={slim}
+                            className={style.render_canvas}
+                            pose={pose}
+                            background='/static/background_big.png'
+                            id="canvas_container" />
+                        <div className={style.render_footer}>
+                            <button className={style.skin_load} onClick={() => setLoadExpanded(true)}><NextImage src="/static/icons/plus.svg" alt="" width={32} height={32} />Загрузить скин</button>
+                            <Select
+                                options={anims}
+                                defaultValue={anims[pose]}
+                                className={`react-select-container`}
+                                classNamePrefix="react-select"
+                                isSearchable={false}
+                                onChange={(n, a) => setPose(n.value)}
+                                formatOptionLabel={(nick_value) => nick_value.label}
+                            />
+                            <SlideButton onChange={(val) => client.current?.changeSlim(val)} value={slim} label="Тонкие руки" />
+                            <button className={style.skin_load} onClick={() => client.current?.download()}>
+                                <NextImage
+                                    src="/static/icons/download.svg"
+                                    alt=""
+                                    width={32}
+                                    height={32}
+                                    style={{ width: "1.5rem" }} />Скачать скин</button>
                         </div>
-                        <div style={{ width: "100%" }}>
-                            {!edit ? <Info el={bandage} onClick={() => setEdit(true)} /> :
-                                <EditElement bandage={bandage} onClose={() => {
-                                    setEdit(false);
-                                    window.location.reload();
+                        <div className={style.categories}>
+                            {categories}
+                        </div>
+                    </div>
+                    <div style={{ width: "100%" }}>
+                        {!edit ? <Info el={data} onClick={() => setEdit(true)} /> :
+                            <EditElement bandage={data} onClose={() => {
+                                setEdit(false);
+                                window.location.reload();
+                            }
+                            } />
+                        }
+                        <hr />
+                        <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>
+                            {client.current?.colorable &&
+                                <div style={{ display: "flex", alignItems: "center" }}>
+                                    <input
+                                        type='color'
+                                        id='color_select'
+                                        defaultValue={randomColor}
+                                        onInput={debouncedHandleColorChange}
+                                        style={{ cursor: 'pointer' }}
+                                    />
+                                    <p style={{ margin: 0, marginLeft: '.5rem' }}>Выберите цвет</p>
+                                </div>
+                            }
+                            <div className={style.settings_slider}>
+                                <input type="range" min="0" max='8' defaultValue='4' step='1' id='position' className={style.position} onInput={(evt) => {
+                                    client.current?.setParams({ position: Number((evt.target as HTMLInputElement).value) });
                                 }
                                 } />
-                            }
-                            <hr />
-                            <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>
-                                {client.current?.colorable &&
-                                    <div style={{ display: "flex", alignItems: "center" }}>
-                                        <input type='color' id='color_select' defaultValue={randomColor} onInput={debouncedHandleColorChange} />
-                                        <p style={{ margin: 0, marginLeft: '.5rem' }}>Выберите цвет</p>
-                                    </div>
-                                }
-                                <div className={style.settings_slider}>
-                                    <input type="range" min="0" max='8' defaultValue='4' step='1' id='position' className={style.position} onInput={(evt) => {
-                                        client.current?.setParams({ position: Number((evt.target as HTMLInputElement).value) });
-                                    }
-                                    } />
-                                    <div className={style.settings_slider_1}>
-                                        <SlideButton onChange={(val) => client.current?.setParams({ first_layer: val })}
-                                            defaultValue={true}
-                                            label='Первый слой' />
+                                <div className={style.settings_slider_1}>
+                                    <SlideButton onChange={(val) => client.current?.setParams({ first_layer: val })}
+                                        defaultValue={true}
+                                        label='Первый слой' />
 
-                                        <SlideButton onChange={(val) => client.current?.setParams({ second_layer: val })}
-                                            defaultValue={true}
-                                            label='Второй слой' />
+                                    <SlideButton onChange={(val) => client.current?.setParams({ second_layer: val })}
+                                        defaultValue={true}
+                                        label='Второй слой' />
 
-                                        <SlideButton onChange={(val) => client.current?.setParams({ clear_pix: val })}
-                                            defaultValue={true}
-                                            label='Очищать пиксели на втором слое' />
+                                    <SlideButton onChange={(val) => client.current?.setParams({ clear_pix: val })}
+                                        defaultValue={true}
+                                        label='Очищать пиксели на втором слое' />
 
-                                        <Select
-                                            options={body_part}
-                                            defaultValue={body_part[0]}
-                                            className={`react-select-container`}
-                                            classNamePrefix="react-select"
-                                            isSearchable={false}
-                                            onChange={(n, a) => client.current?.setParams({ body_part: n.value })}
-                                        />
-                                        <Select
-                                            options={layers}
-                                            defaultValue={layers[0]}
-                                            className={`react-select-container`}
-                                            classNamePrefix="react-select"
-                                            isSearchable={false}
-                                            onChange={(n, a) => client.current?.setParams({ layers: n.value })}
-                                        />
-                                    </div>
+                                    <Select
+                                        options={body_part}
+                                        defaultValue={body_part[0]}
+                                        className={`react-select-container`}
+                                        classNamePrefix="react-select"
+                                        isSearchable={false}
+                                        onChange={(n, a) => client.current?.setParams({ body_part: n.value })}
+                                    />
+                                    <Select
+                                        options={layers}
+                                        defaultValue={layers[0]}
+                                        className={`react-select-container`}
+                                        classNamePrefix="react-select"
+                                        isSearchable={false}
+                                        onChange={(n, a) => client.current?.setParams({ layers: n.value })}
+                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <Footer />
-                </main>
-            }
+                </div>
+                <Footer />
+            </main>
         </body>
     );
 }
 
 const Info = ({ el, onClick }: { el: Interfaces.Bandage, onClick(): void }) => {
     return <div className={style.info_container}>
-        <h2 className={`${style.title} ${el?.permissions_level >= 1 && style.title_editable}`} onClick={() => { if (el?.permissions_level >= 1) onClick() }}>
-            {el?.title}
+        <h2 className={`${style.title} ${el.permissions_level >= 1 && style.title_editable}`} onClick={() => { if (el.permissions_level >= 1) onClick() }}>
+            {el.title}
             <NextImage className={style.edit_icon} src="/static/icons/edit.svg" alt="" width={32} height={32} /></h2>
-        {el?.description && <p className={style.description}>{el?.description}</p>}
-        {el?.author.public ?
-            <Link className={style.author} href={!!el.author.name ? `/users/${el.author.username}` : ``}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32} />{el?.author.name || "Unknown"}</Link> :
-            <a className={`${style.author} ${style.username_private}`}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32} />{el?.author.name || "Unknown"}</a>
+        {el.description && <p className={style.description}>{el.description}</p>}
+        {el.author.public ?
+            <Link className={style.author} href={!!el.author.name ? `/users/${el.author.username}` : ``}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32} />{el.author.name || "Unknown"}</Link> :
+            <a className={`${style.author} ${style.username_private}`}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32} />{el.author.name || "Unknown"}</a>
         }
     </div>
 }
@@ -431,8 +429,8 @@ const access_level: readonly { value: number, label: String }[] = [
 
 const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClose(): void }) => {
     const router = useRouter();
-    const [title, setTitle] = useState<string>(bandage?.title);
-    const [description, setDescription] = useState<string>(bandage?.description);
+    const [title, setTitle] = useState<string>(bandage.title);
+    const [description, setDescription] = useState<string>(bandage.description);
     const [allCategories, setAllCategories] = useState<Interfaces.Category[]>([]);
     const [categories, setCategories] = useState<number[]>(undefined);
     const [accessLevel, setAccessLevel] = useState<number>(undefined);
@@ -467,10 +465,10 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
             <textarea maxLength={300} placeholder="Описание" className={style.textarea} onInput={(ev) => setDescription((ev.target as HTMLTextAreaElement).value)} value={description} />
         </> :
             <>
-                <h2 className={style.title}>{bandage?.title}</h2>
-                {bandage?.description && <p className={style.description} style={{ margin: 0 }}>{bandage?.description}</p>}
+                <h2 className={style.title}>{bandage.title}</h2>
+                {bandage.description && <p className={style.description} style={{ margin: 0 }}>{bandage.description}</p>}
             </>}
-        <CategorySelector enabledCategories={bandage?.categories}
+        <CategorySelector enabledCategories={bandage.categories}
             allCategories={allCategories}
             onChange={setCategories} />
         <Select

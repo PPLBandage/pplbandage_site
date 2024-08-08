@@ -1,13 +1,13 @@
 "use client";
 
-import Footer from "@/app/modules/footer.module";
-import Header from "@/app/modules/header.module";
+import Footer from "@/app/modules/components/footer.module";
+import Header from "@/app/modules/components/header.module";
 import React from "react";
 import style from '@/app/styles/tutorials/common.module.css';
 import ASide from "@/app/tutorials/header.module";
-import InfoCard from "@/app/modules/info.module";
+import InfoCard from "@/app/modules/components/info.module";
 import NextImage from 'next/image';
-import { CategoryEl } from "@/app/modules/card.module";
+import { CategoryEl } from "@/app/modules/components/card.module";
 
 export default function Home() {
     return (

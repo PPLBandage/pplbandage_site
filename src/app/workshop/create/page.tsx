@@ -1,26 +1,26 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Header from '@/app/modules/header.module';
+import Header from '@/app/modules/components/header.module';
 import style from '@/app/styles/workshop/create/page.module.css';
-import SkinView3D from '@/app/modules/skinView.module';
+import SkinView3D from '@/app/modules/components/skinView.module';
 import { anims } from '@/app/workshop/poses';
 import { useRouter } from "next/navigation";
 import Select from 'react-select';
-import { SlideButton } from '@/app/modules/nick_search.module';
+import { SlideButton } from '@/app/modules/components/nick_search.module';
 import Client from '@/app/workshop/[id]/bandage_engine.module';
-import Footer from '@/app/modules/footer.module';
-import CategorySelector from '@/app/modules/category_selector.module';
-import { authApi } from '@/app/modules/api.module';
+import Footer from '@/app/modules/components/footer.module';
+import CategorySelector from '@/app/modules/components/category_selector.module';
+import { authApi } from '@/app/modules/utils/api.module';
 import * as Interfaces from "@/app/interfaces";
 import debounce from 'lodash.debounce';
-import InfoCard from '@/app/modules/info.module';
-import useCookie from '@/app/modules/useCookie.module';
+import InfoCard from '@/app/modules/components/info.module';
+import useCookie from '@/app/modules/utils/useCookie.module';
 import { redirect } from 'next/navigation';
 import { Cookies, useCookies } from 'next-client-cookies';
 import { Fira_Code } from "next/font/google";
-import { CustomLink } from '@/app/modules/search.module';
-import asyncImage from '@/app/modules/asyncImage.module';
+import { CustomLink } from '@/app/modules/components/search.module';
+import asyncImage from '@/app/modules/components/asyncImage.module';
 const fira = Fira_Code({ subsets: ["latin"] });
 
 
@@ -86,7 +86,7 @@ export default function Home() {
                             id="canvas_container" />
 
                         <div className={style.render_footer}>
-                            {height != -1 && <p style={{ margin: 0 }}>Расчётная высота: <span className={fira.className} style={{
+                            {height != -1 && <p style={{ margin: 0, display: 'flex', alignItems: 'baseline', gap: '.3rem' }}>Расчётная высота: <span className={fira.className} style={{
                                 padding: '5px',
                                 backgroundColor: 'var(--dark-hover)',
                                 borderRadius: '3px',

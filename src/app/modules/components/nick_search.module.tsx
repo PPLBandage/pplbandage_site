@@ -108,12 +108,14 @@ interface SlideButtonProps {
     value?: boolean;
     label?: string;
     defaultValue?: boolean;
-    strict?: boolean
+    strict?: boolean,
+    disabled?: boolean
 }
 
-export const SlideButton = ({ onChange, value, label, defaultValue, strict }: SlideButtonProps) => {
+export const SlideButton = ({ onChange, value, label, defaultValue, strict, disabled }: SlideButtonProps) => {
     const [active, setActive] = useState<boolean>(value || defaultValue || false);
     const isInitialMount = useRef<boolean>(true);
+    console.log(disabled)
 
     useEffect(() => {
         setActive(value || defaultValue || false);
@@ -128,10 +130,11 @@ export const SlideButton = ({ onChange, value, label, defaultValue, strict }: Sl
         }
     }, [active]);
 
+    const color = disabled ? 'var(--category-color)' : (active ? undefined : 'rgb(77 83 99)');
     return (
         <div className={StyleBtn.container}>
-            <div className={StyleBtn.main} onClick={() => setActive(prev => !prev)}>
-                <div className={StyleBtn.child} style={active ? { left: "1.3rem" } : { left: "0", backgroundColor: "rgb(77 83 99)" }} />
+            <div className={StyleBtn.main} onClick={() => setActive(prev => !disabled ? !prev : prev)} style={{ cursor: disabled ? 'auto' : 'pointer' }}>
+                <div className={StyleBtn.child} style={active ? { left: "1.3rem", backgroundColor: color } : { left: "0", backgroundColor: color }} />
             </div>
             {label && <label className={StyleBtn.label}>{label}</label>}
         </div>

@@ -3,17 +3,17 @@
 import React, { ChangeEvent, useEffect } from 'react';
 import { useState } from 'react';
 import { useQuery } from "@tanstack/react-query";
-import { authApi } from "@/app/modules/api.module";
+import { authApi } from "@/app/modules/utils/api.module";
 import { redirect } from "next/navigation";
 import Style from "@/app/styles/me/connections.module.css";
 import Style_themes from "@/app/styles/me/themes.module.css";
-import Header from "@/app/modules/header.module";
-import useCookie from '@/app/modules/useCookie.module';
+import Header from "@/app/modules/components/header.module";
+import useCookie from '@/app/modules/utils/useCookie.module';
 import Image from 'next/image';
-import { Me } from '@/app/modules/me.module';
+import { Me } from '@/app/modules/components/me.module';
 import { Fira_Code } from "next/font/google";
-import { SlideButton } from '@/app/modules/nick_search.module';
-import { formatDate } from '@/app/modules/card.module';
+import { SlideButton } from '@/app/modules/components/nick_search.module';
+import { formatDate } from '@/app/modules/components/card.module';
 import { getTheme } from '@/app/modules/providers.module';
 import { useCookies } from 'next-client-cookies';
 const fira = Fira_Code({ subsets: ["latin"] });
@@ -21,6 +21,7 @@ const fira = Fira_Code({ subsets: ["latin"] });
 interface SettingsResponse {
     statusCode: number,
     public_profile: boolean,
+    can_be_public: boolean,
     connections: {
         discord: {
             user_id: number,
@@ -101,7 +102,7 @@ const UserSettings = ({ data }: { data: SettingsResponse }) => {
     return (
         <div className={Style.container}>
             <h3><Image src="/static/icons/user.svg" alt="" width={26} height={26} style={{ marginRight: ".3rem", borderRadius: 0 }} />Настройки аккаунта</h3>
-            <SlideButton label='Публичный профиль' value={value} onChange={change} strict={true} />
+            <SlideButton label='Публичный профиль' value={data.can_be_public ? value : false} onChange={change} strict={true} disabled={!data.can_be_public} />
         </div>
     );
 }
@@ -109,6 +110,32 @@ const UserSettings = ({ data }: { data: SettingsResponse }) => {
 const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): void }) => {
     const [valid, setValid] = useState<boolean>(data.connections.minecraft?.valid);
     const [autoload, setAutoload] = useState<boolean>(data.connections?.minecraft?.autoload);
+
+    const refresh = () => {
+        const load_icon = document.getElementById('refresh');
+        load_icon.style.animation = `${Style.loading} infinite 1s linear`;
+        authApi.post("user/me/connections/minecraft/cache/purge").then((response) => {
+            if (response.status === 200) {
+                refetch();
+                return;
+            }
+            alert(response.data.message);
+        }).finally(() => {
+            load_icon.style.animation = null;
+        })
+    }
+
+    const disconnect = () => {
+        const confirmed = confirm("Отвязать учётную запись Minecraft? Вы сможете в любое время привязать ее обратно.");
+        if (confirmed) {
+            authApi.delete('user/me/connections/minecraft').then((response) => {
+                if (response.status === 200) {
+                    refetch();
+                    return;
+                }
+            })
+        }
+    }
 
     return (
         <div className={Style.container}>
@@ -162,31 +189,13 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
                 </div>
                 <div className={Style.checkboxes}>
                     <span>Последний раз кэшировано {formatDate(new Date(data.connections?.minecraft?.last_cached))}</span>
-                    <button className={Style.unlink} onClick={() => {
-                        const load_icon = document.getElementById('refresh');
-                        load_icon.style.animation = `${Style.loading} infinite 1s linear`;
-                        authApi.post("user/me/connections/minecraft/cache/purge").then((response) => {
-                            if (response.status === 200) {
-                                refetch();
-                                return;
-                            }
-                            alert(response.data.message);
-                        }).finally(() => {
-                            load_icon.style.animation = null;
-                        })
-                    }}><img alt="" src="/static/icons/refresh.svg" style={{ width: "1.5rem" }} id="refresh" />Обновить кэш</button>
+                    <button className={Style.unlink} onClick={() => refresh()}>
+                        <img alt="" src="/static/icons/refresh.svg" style={{ width: "1.5rem" }} id="refresh" />Обновить кэш
+                    </button>
 
-                    <button className={Style.unlink} onClick={() => {
-                        const confirmed = confirm("Отвязать учётную запись Minecraft? Вы сможете в любое время привязать ее обратно.");
-                        if (confirmed) {
-                            authApi.delete('user/me/connections/minecraft').then((response) => {
-                                if (response.status === 200) {
-                                    refetch();
-                                    return;
-                                }
-                            })
-                        }
-                    }}><img alt="" src="/static/icons/plus.svg" style={{ width: "1.8rem", transform: "rotate(45deg)" }} />Отвязать</button>
+                    <button className={Style.unlink} onClick={() => disconnect()}>
+                        <img alt="" src="/static/icons/plus.svg" style={{ width: "1.8rem", transform: "rotate(45deg)" }} />Отвязать
+                    </button>
                 </div>
             </> : <>
                 <p style={{ margin: 0 }}>Привяжите свою учётную запись Minecraft к учетной записи PPLBandage для управления кешем скинов и настройками видимости

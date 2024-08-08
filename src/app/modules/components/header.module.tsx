@@ -1,6 +1,6 @@
 "use client";
 
-import { authApi } from "./api.module";
+import { authApi } from "@/app/modules/utils/api.module";
 import { useEffect, useState } from "react";
 import Styles from "@/app/styles/header.module.css";
 import { CSSTransition } from 'react-transition-group';
@@ -8,7 +8,7 @@ import { deleteCookie } from 'cookies-next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useQuery } from "@tanstack/react-query";
-import useCookie from "./useCookie.module";
+import useCookie from "@/app/modules/utils/useCookie.module";
 
 export interface Query {
     username: string;

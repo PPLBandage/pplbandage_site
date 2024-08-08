@@ -2,20 +2,20 @@
 
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
-import { authApi } from "@/app/modules/api.module";
+import { authApi } from "@/app/modules/utils/api.module";
 import { useRouter } from "next/navigation";
 import styles from "@/app/styles/me/me.module.css";
-import { Tooltip } from '@/app/modules/tooltip';
-import Header from "@/app/modules/header.module";
-import useCookie from '@/app/modules/useCookie.module';
+import { Tooltip } from '@/app/modules/components/tooltip';
+import Header from "@/app/modules/components/header.module";
+import useCookie from '@/app/modules/utils/useCookie.module';
 import { Cookies, useCookies } from 'next-client-cookies';
 import { Bandage, Role } from '@/app/interfaces';
 import { SkinViewer } from 'skinview3d';
-import { Card, generateSkin } from '@/app/modules/card.module';
-import { Me } from '@/app/modules/me.module';
+import { Card, generateSkin } from '@/app/modules/components/card.module';
+import { Me } from '@/app/modules/components/me.module';
 import Link from 'next/link';
 import axios from 'axios';
-import AdaptiveGrid from '@/app/modules/adaptiveGrid.module';
+import AdaptiveGrid from '@/app/modules/components/adaptiveGrid.module';
 import style_workshop from "@/app/styles/workshop/page.module.css";
 import NextImage from 'next/image';
 

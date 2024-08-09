@@ -53,6 +53,9 @@ const HomeClient = ({ pong }: { pong: number }) => {
                     }
                 </div>
             </div>
+            <footer className={Style.footer}>
+                <p>Сайт pplbandage.ru не является официальной частью сети серверов PepeLand.</p>
+            </footer>
         </body>
     )
 }

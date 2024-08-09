@@ -161,6 +161,19 @@
     box-sizing: border-box;
 }
 
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+}
+
+.footer p {
+    color: gray;
+    margin: 0;
+    font-size: .8rem;
+}
+
 @media(max-width: 1057px) {
     .svg {
         display: none;

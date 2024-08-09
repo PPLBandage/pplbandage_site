@@ -159,7 +159,7 @@
     background-color: var(--main-card-color);
     border-radius: 10px;
     width: 50%;
-    animation: skinLoad 250ms;
+    /*animation: skinLoad 250ms;*/
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -332,6 +332,57 @@
 
 .username_private:hover {
     text-decoration: none;
+}
+
+.bandage_raw_menu {
+    position: absolute;
+    transform-origin: top;
+    width: 100%;
+    background-color: var(--category-color);
+    padding: .6rem;
+    box-sizing: border-box;
+    border-radius: 10px;
+    margin-top: .5rem;
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+.menu-enter {
+    opacity: 0;
+    transform: scaleY(0.5);
+}
+
+.menu-enter-active {
+    opacity: 1;
+    transform: scaleY(1);
+    transition: opacity 150ms, transform 150ms;
+}
+
+@keyframes test {
+    0% {
+        opacity: 1;
+        transform: scale(1, 1);
+    }
+
+    50% {
+        transform: scale(1, .1);
+    }
+
+    100% {
+        opacity: 0.5;
+        transform: scale(0, .1);
+    }
+}
+
+.menu-exit {
+    opacity: 1;
+}
+
+.menu-exit-active {
+    opacity: 0.5;
+    transition: opacity 300ms;
+    animation: test 300ms;
 }
 
 @media(max-width: 925px) {

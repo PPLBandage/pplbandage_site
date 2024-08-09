@@ -221,7 +221,7 @@ class Client {
 
 
     //-----------RENDER-------------
-    rerender() {
+    rerender(render_original: boolean = true, download?: boolean) {
         const canvas = document.createElement('canvas');
         canvas.width = 64;
         canvas.height = 64;
@@ -238,7 +238,7 @@ class Client {
 
         const canvas_context = canvas.getContext("2d", { willReadFrequently: true });
         canvas_context.clearRect(0, 0, canvas.width, canvas.height);
-        canvas_context.drawImage(this.original_canvas, 0, 0);
+        render_original && canvas_context.drawImage(this.original_canvas, 0, 0);
 
         const height = bandage_canvas.height;
 
@@ -286,14 +286,18 @@ class Client {
         this.first_layer && canvas_context.drawImage(cropped_lining, first_x, first_y + this.position);
         this.second_layer && canvas_context.drawImage(cropped_pepe, overlay_x, overlay_y + this.position);
 
-        this.skin = canvas.toDataURL();
-        this.triggerEvent("skin_changed");
+        if (!download) {
+            this.skin = canvas.toDataURL();
+            this.triggerEvent("skin_changed");
+        } else {
+            this.download(canvas.toDataURL());
+        }
     }
 
-    download() {
+    download(skin?: string, name?: string) {
         const link = document.createElement('a');
-        link.download = 'skin.png';
-        link.href = this.skin;
+        link.download = name || 'skin.png';
+        link.href = skin || this.skin;
         link.click();
     }
 }

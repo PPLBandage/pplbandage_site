@@ -25,6 +25,7 @@ import Footer from '@/app/modules/components/footer.module';
 import { anims } from '@/app/workshop/poses';
 import asyncImage from '@/app/modules/components/asyncImage.module';
 import Link from 'next/link';
+import { CSSTransition } from 'react-transition-group';
 
 
 const body_part: readonly { value: number, label: String }[] = [
@@ -123,12 +124,24 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
     return (
         <body>
             <Header />
-            {loadExpanded && <SkinLoad onChange={(evt) => {
-                if (evt) {
-                    client.current?.changeSkin(evt.data, evt.slim, evt.cape ? "data:image/png;base64," + evt.cape : "");
-                }
-                setLoadExpanded(false);
-            }} />}
+            <CSSTransition
+                in={loadExpanded}
+                timeout={280}
+                classNames={{
+                    enter: style['menu-enter'],
+                    enterActive: style['menu-enter-active'],
+                    exit: style['menu-exit'],
+                    exitActive: style['menu-exit-active'],
+                }}
+                unmountOnExit>
+                <SkinLoad onChange={(evt) => {
+                    if (evt) {
+                        client.current?.changeSkin(evt.data, evt.slim, evt.cape ? "data:image/png;base64," + evt.cape : "");
+                    }
+                    setLoadExpanded(false);
+                }} />
+            </CSSTransition>
+
             <main className={style.main} style={loaded ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
                 <NavigatorEl path={[
                     {
@@ -182,7 +195,11 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                                     alt=""
                                     width={32}
                                     height={32}
-                                    style={{ width: "1.5rem" }} />Скачать скин</button>
+                                    style={{ width: "1.5rem" }}
+                                />
+                                Скачать скин
+                            </button>
+                            <RawBandageDownload client={client} bandage={slim ? data.base64_slim : data.base64} />
                         </div>
                         <div className={style.categories}>
                             {categories}
@@ -252,6 +269,53 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                 <Footer />
             </main>
         </body>
+    );
+}
+
+
+const RawBandageDownload = ({ client, bandage }: { client: React.MutableRefObject<Client>, bandage: string }) => {
+    const [expanded, setExpanded] = useState<boolean>(false);
+
+    return (
+        <div style={{ position: 'relative' }}>
+            <button className={style.skin_load}
+                onClick={() => setExpanded(prev => !prev)}
+                style={{ width: '100%' }}
+            >
+                Скачать повязку
+                <NextImage
+                    src="/static/icons/arrow.svg"
+                    alt=""
+                    width={32}
+                    height={32}
+                    style={{
+                        width: "1.25rem",
+                        transform: `rotate(${expanded ? '90deg' : '270deg'})`,
+                        transition: 'transform 250ms',
+                        marginLeft: '.3rem'
+                    }}
+                />
+            </button>
+            <CSSTransition
+                in={expanded}
+                timeout={150}
+                classNames={{
+                    enter: style['menu-enter'],
+                    enterActive: style['menu-enter-active'],
+                    exit: style['menu-exit'],
+                    exitActive: style['menu-exit-active'],
+                }}
+                unmountOnExit>
+                <div className={style.bandage_raw_menu}>
+                    <button className={style.skin_load} style={{ width: '100%' }} onClick={() => client.current?.download(b64Prefix + bandage, 'bandage.png')}>
+                        Исходный файл
+                    </button>
+                    <button className={style.skin_load} style={{ width: '100%' }} onClick={() => client.current?.rerender(false, true)}>
+                        Обработанная
+                    </button>
+                </div>
+            </CSSTransition>
+        </div>
     );
 }
 

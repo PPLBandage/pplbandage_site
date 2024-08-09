@@ -115,7 +115,6 @@ interface SlideButtonProps {
 export const SlideButton = ({ onChange, value, label, defaultValue, strict, disabled }: SlideButtonProps) => {
     const [active, setActive] = useState<boolean>(value || defaultValue || false);
     const isInitialMount = useRef<boolean>(true);
-    console.log(disabled)
 
     useEffect(() => {
         setActive(value || defaultValue || false);

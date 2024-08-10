@@ -124,7 +124,7 @@
 
 .creation_date {
     margin: 0;
-    color: var(--main-text-color);
+    color: gray;
 }
 
 .category {

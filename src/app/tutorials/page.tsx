@@ -78,7 +78,7 @@ export default function Home() {
 
                         <h2>Интеграции</h2>
                         <p>Сайт позволяет искать скины через встроенную базу Minecraft ников, которые постоянно пополняются автоматически при поиске нового никнейма. Вы можете привязать свой Minecraft аккаунт к учётной записи PPLBandage через сервис <CustomLink href="https://github.com/Andcool-Systems/MC-OAuth_server">mc-oauth</CustomLink>.
-                            Для привязки вам нужно зайти на Minecraft сервер <u>oauth.pplbandage.ru</u> для версии начиная с 1.8 и получить там 6-значный код, который нужно будет ввести на странице <CustomLink href='/me/connections'>/me/connections</CustomLink>.</p>
+                            Для привязки вам нужно зайти на Minecraft сервер <u>oauth.pplbandage.ru</u> для версии начиная с 1.8 и получить там 6-значный код, который нужно будет ввести на странице <CustomLink href='/me/settings'>/me/settings</CustomLink>.</p>
                         <InfoCard color="#3FB950" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
                                 <NextImage alt='' src='/static/icons/blocks/tip.svg' width={20} height={20} />

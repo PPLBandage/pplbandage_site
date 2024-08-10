@@ -6,7 +6,7 @@ import { SkinViewer } from 'skinview3d';
 import Header from "@/app/modules/components/header.module";
 import Style from "@/app/styles/workshop/page.module.css";
 
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { Paginator } from "@/app/modules/components/paginator.module";
 import { Search } from "@/app/modules/components/search.module";
 import { BandageResponse, Category } from "@/app/interfaces";
@@ -25,7 +25,7 @@ export default function Home() {
     const [take, setTake] = useState<number>(12);
     const [search, setSearch] = useState<string>("");
 
-    const [lastRequest, setLastRequest] = useState<string>("");
+    const [lastConfig, setLastConfig] = useState<AxiosRequestConfig<any>>(null);
     const [categories, setCategories] = useState<Category[]>([]);
 
     const [filters, setFilters] = useState<Category[]>([]);
@@ -42,21 +42,28 @@ export default function Home() {
 
     useEffect(() => {
         const filters_str = filters.filter((filter) => filter.enabled).map((filter) => filter.id).toString();
-        const request = `/api/workshop?page=${constrain(page, 0, Math.ceil(totalCount / take))}&take=${take}&search=${search}` +
-            `&filters=${filters_str}&sort=${sort}`;
+        const config: AxiosRequestConfig<any> = {
+            params: {
+                page: constrain(page, 0, Math.ceil(totalCount / take)),
+                take: take,
+                search: search ? search : undefined,
+                filters: filters_str ? filters_str : undefined,
+                sort: sort ? sort : undefined
+            }
+        }
 
-        if (request == lastRequest) {
+        if (config == lastConfig) {
             return;
         }
 
-        axios.get(request, { withCredentials: true }).then((response) => {
+        axios.get('/api/workshop', { withCredentials: true, ...config }).then((response) => {
             if (response.status == 200) {
                 const data = response.data as BandageResponse;
                 setData(data);
                 setTotalCount(data.totalCount);
             }
         });
-        setLastRequest(request);
+        setLastConfig(config);
     }, [page, search, take, filters, sort])
 
     useEffect(() => {

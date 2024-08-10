@@ -214,6 +214,14 @@
     justify-content: center;
 }
 
+.discord_id {
+    text-decoration: none;
+}
+
+.discord_id:hover {
+    text-decoration: underline;
+}
+
 
 @media(max-width: 650px) {
     .main {

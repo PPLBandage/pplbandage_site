@@ -381,4 +381,68 @@ const hex2rgb = (hex: string) => {
     return [r, g, b];
 }
 
+export const to64 = (skin: HTMLImageElement): HTMLCanvasElement => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        throw new Error("Unable to get canvas context");
+    }
+
+    canvas.width = 64;
+    canvas.height = 64;
+
+    const leg = document.createElement('canvas');
+    const legCtx = leg.getContext('2d');
+    if (!legCtx) {
+        throw new Error("Unable to get canvas context for leg");
+    }
+    leg.width = 16;
+    leg.height = 16;
+    legCtx.drawImage(skin, 0, 16, 16, 16, 0, 0, 16, 16);
+
+    const arm = document.createElement('canvas');
+    const armCtx = arm.getContext('2d');
+    if (!armCtx) {
+        throw new Error("Unable to get canvas context for arm");
+    }
+    arm.width = 24;
+    arm.height = 16;
+    armCtx.drawImage(skin, 40, 16, 24, 16, 0, 0, 24, 16);
+
+    ctx.drawImage(leg, 16, 48);
+    ctx.drawImage(arm, 32, 48);
+    ctx.drawImage(skin, 0, 0);
+
+    // Mirroring functions for easier handling of symmetrical parts
+    const mirrorImage = (srcCanvas: HTMLCanvasElement, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number) => {
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        if (!tempCtx) {
+            throw new Error("Unable to get temporary canvas context");
+        }
+        tempCanvas.width = sw;
+        tempCanvas.height = sh;
+        tempCtx.scale(-1, 1);
+        tempCtx.drawImage(srcCanvas, sx, sy, sw, sh, -sw, 0, sw, sh);
+        ctx.drawImage(tempCanvas, 0, 0, sw, sh, dx, dy, sw, sh);
+    }
+
+    mirrorImage(leg, 0, 4, 4, 12, 24, 52);
+    mirrorImage(leg, 8, 4, 4, 12, 16, 52);
+    mirrorImage(leg, 4, 4, 4, 12, 20, 52);
+    mirrorImage(leg, 12, 4, 4, 12, 28, 52);
+    mirrorImage(leg, 4, 0, 4, 4, 20, 48);
+    mirrorImage(leg, 8, 0, 4, 4, 24, 48);
+
+    mirrorImage(arm, 0, 4, 4, 12, 40, 52);
+    mirrorImage(arm, 8, 4, 4, 12, 32, 52);
+    mirrorImage(arm, 4, 4, 4, 12, 36, 52);
+    mirrorImage(arm, 12, 4, 4, 12, 44, 52);
+    mirrorImage(arm, 4, 0, 4, 4, 36, 48);
+    mirrorImage(arm, 8, 0, 4, 4, 40, 48);
+
+    return canvas;
+}
+
+
 export default Client;

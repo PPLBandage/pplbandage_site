@@ -25,7 +25,7 @@ const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, co
                 <p title={formatDate(new Date(data?.joined_at))}>Аккаунт создан {timeStamp((new Date(data?.joined_at).getTime()) / 1000)}</p>
             </div>
 
-            <p className={style_sidebar.uid}>Discord id: {data?.discordID}</p>
+            <p className={style_sidebar.uid}>Discord id: <Link href={`https://discord.com/users/${data?.discordID}`} className={style_sidebar.discord_id} target="_blank">{data?.discordID}</Link></p>
         </div>
     );
 }
@@ -44,7 +44,7 @@ const ImprovedTheme = ({ data, islogged }: { data: Query, islogged: boolean }) =
                     <p title={formatDate(new Date(data?.joined_at))}>Аккаунт создан {timeStamp((new Date(data?.joined_at).getTime()) / 1000)}</p>
                 </div>
 
-                <p className={style_sidebar.uid}>Discord id: {data?.discordID}</p>
+                <p className={style_sidebar.uid}>Discord id: <Link href={`https://discord.com/users/${data?.discordID}`} className={style_sidebar.discord_id} target="_blank">{data?.discordID}</Link></p>
             </div>
         </div>
     );

@@ -130,7 +130,7 @@
 }
 
 .skin_load_base {
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     top: 0;
@@ -355,11 +355,10 @@
 
 .menu-enter-active {
     opacity: 1;
-    transform: scaleY(1);
-    transition: opacity 150ms, transform 150ms;
+    animation: exit_animation 250ms reverse;
 }
 
-@keyframes test {
+@keyframes exit_animation {
     0% {
         opacity: 1;
         transform: scale(1, 1);
@@ -381,8 +380,30 @@
 
 .menu-exit-active {
     opacity: 0.5;
-    transition: opacity 300ms;
-    animation: test 300ms;
+    transition: opacity 250ms;
+    animation: exit_animation 250ms;
+}
+
+.menu-exit-bandage {
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+.menu-exit-bandage-active {
+    opacity: 0;
+    transform: scaleY(0.5);
+    transition: opacity 150ms, transform 150ms;
+}
+
+.menu-enter-bandage {
+    opacity: 0;
+    transform: scaleY(0.5);
+}
+
+.menu-enter-bandage-active {
+    opacity: 1;
+    transform: scaleY(1);
+    transition: opacity 150ms, transform 150ms;
 }
 
 @media(max-width: 925px) {
@@ -391,6 +412,48 @@
         align-items: center;
     }
 
+    .render_canvas {
+        width: 600px;
+        height: 400px;
+    }
+
+    .skin_parent {
+        align-items: center;
+        width: 600px;
+    }
+
+    .categories {
+        width: 600px;
+    }
+
+    .skin_load_container {
+        width: 90%;
+    }
+}
+
+@media(max-width: 650px) {
+    .adaptive_grid_parent {
+        align-items: normal !important;
+    }
+}
+
+@media(max-width: 670px) {
+    .render_canvas {
+        width: 400px;
+        height: 400px;
+    }
+
+    .skin_parent {
+        align-items: center;
+        width: 400px;
+    }
+
+    .categories {
+        width: 400px;
+    }
+}
+
+@media(max-width:530px) {
     .render_canvas {
         width: 300px;
         height: 400px;
@@ -403,15 +466,5 @@
 
     .categories {
         width: 300px;
-    }
-
-    .skin_load_container {
-        width: 90%;
-    }
-}
-
-@media(max-width: 650px) {
-    .adaptive_grid_parent {
-        align-items: normal !important;
     }
 }

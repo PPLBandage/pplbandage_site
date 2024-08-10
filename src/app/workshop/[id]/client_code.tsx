@@ -126,7 +126,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
             <Header />
             <CSSTransition
                 in={loadExpanded}
-                timeout={280}
+                timeout={230}
                 classNames={{
                     enter: style['menu-enter'],
                     enterActive: style['menu-enter-active'],
@@ -300,10 +300,10 @@ const RawBandageDownload = ({ client, bandage }: { client: React.MutableRefObjec
                 in={expanded}
                 timeout={150}
                 classNames={{
-                    enter: style['menu-enter'],
-                    enterActive: style['menu-enter-active'],
-                    exit: style['menu-exit'],
-                    exitActive: style['menu-exit-active'],
+                    enter: style['menu-enter-bandage'],
+                    enterActive: style['menu-enter-bandage-active'],
+                    exit: style['menu-exit-bandage'],
+                    exitActive: style['menu-exit-bandage-active'],
                 }}
                 unmountOnExit>
                 <div className={style.bandage_raw_menu}>

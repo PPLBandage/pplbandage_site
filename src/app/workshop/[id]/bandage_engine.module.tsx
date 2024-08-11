@@ -229,7 +229,7 @@ class Client {
         let bandage_canvas = this.pepe_canvas;
         let lining_canvas = this.lining_canvas;
 
-        if (this.split_types && this.slim) {
+        if (this.split_types && this.slim && [0, 2].includes(this.body_part)) {
             bandage_canvas = this.pepe_canvas_slim;
             lining_canvas = this.lining_canvas_slim;
         }

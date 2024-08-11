@@ -87,7 +87,7 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
     }, [starred]);
 
     return (
-        <div key={el.id}>
+        <div key={el.id} style={{ position: 'relative' }}>
             <div className={`${Style.head_container} ${className?.skin_description_props}`}>
                 <div className={Style.star_container}>
                     <NextImage

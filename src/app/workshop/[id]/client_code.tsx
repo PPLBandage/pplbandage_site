@@ -507,6 +507,11 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
         })
     }, []);
 
+    function capitalize(string: string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+
     const save = () => {
         authApi.put(`workshop/${bandage.external_id}`, {
             title: title,
@@ -519,7 +524,7 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
                 return;
             }
             if (response.status === 400) {
-                alert(response.data.message_ru);
+                alert(response.data.message.map((str: string) => capitalize(str)).join(', '));
             }
         })
     }

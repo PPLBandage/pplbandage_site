@@ -1,0 +1,58 @@
+.main {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.main_container {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.user_card {
+    width: 350px;
+    background-color: var(--main-card-color);
+    border-radius: 10px;
+    padding: .8rem;
+    border: var(--hr-color) 1px solid;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user_card h3 {
+    margin: 0;
+}
+
+.adaptive_grid_parent {
+    justify-content: flex-start !important;
+}
+
+.username {
+    margin: 0;
+    color: gray;
+    text-decoration: none;
+}
+
+.username:hover {
+    text-decoration: underline;
+}
+
+.did {
+    margin: 0;
+    color: gray;
+    font-size: .8rem;
+}
+
+.name {
+    font-size: 1.1rem;
+    text-decoration: none;
+}
+
+.name:hover {
+    text-decoration: underline;
+}

@@ -23,6 +23,9 @@ import { CustomLink } from '@/app/modules/components/search.module';
 import asyncImage from '@/app/modules/components/asyncImage.module';
 const fira = Fira_Code({ subsets: ["latin"] });
 
+function capitalize(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 export default function Home() {
     const [SKIN, setSKIN] = useState<string>("");
@@ -226,7 +229,7 @@ const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageCh
             if (response.status !== 201) {
                 const error_el = document.getElementById('create_error') as HTMLLabelElement;
                 if (error_el) {
-                    error_el.innerText = response.data.message_ru || response.data.message || `Unhandled error: ${response.status}`;
+                    error_el.innerText = response.data.message.map((str: string) => capitalize(str)).join('\n') || `Unhandled error: ${response.status}`;
                 }
             } else {
                 router.replace(`/workshop/${response.data.external_id}`);

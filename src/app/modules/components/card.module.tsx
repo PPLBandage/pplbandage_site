@@ -102,11 +102,14 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
                         onClick={() => { if (logged) setStarred(prev => !prev) }} />
                     <span className={Style.star_count} id={el.external_id + "_text"}>{el.stars_count}</span>
                 </div>
-                {el.split_type && <NextImage src="/static/icons/split_types.svg"
-                    className={Style.split_type}
-                    alt=""
-                    width={24}
-                    height={24} />}
+                {
+                    el.split_type && <NextImage src="/static/icons/split_types.svg"
+                        className={Style.split_type}
+                        alt=""
+                        width={24}
+                        height={24}
+                    />
+                }
             </div>
             <Link href={`/workshop/${el.external_id}`}>
                 <NextImage src={base64} className={`${Style.skin} ${className?.skin_props}`} alt={el.external_id} width={300} height={300} draggable="false" />

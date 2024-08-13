@@ -8,6 +8,7 @@ import { Card, generateSkin } from "@/app/modules/components/card.module";
 import styles from "@/app/styles/me/me.module.css";
 import { Me } from "@/app/modules/components/me.module";
 import AdaptiveGrid from "@/app/modules/components/adaptiveGrid.module";
+import asyncImage from "@/app/modules/components/asyncImage.module";
 
 const UsersClient = ({ user }: { user: Users }) => {
     const [elements, setElements] = useState<JSX.Element[]>(null);
@@ -25,23 +26,21 @@ const UsersClient = ({ user }: { user: Users }) => {
             skinViewer.camera.position.x = 17;
             skinViewer.camera.position.y = 6.5;
             skinViewer.camera.position.z = 11;
-            skinViewer.loadBackground("/static/background.png").then(() => {
+            skinViewer.loadBackground("/static/background.png").then(() => asyncImage('/static/workshop_base.png').then((base_skin) => {
                 Promise.all(user.works.map(async (el) => {
                     try {
-                        const result = await generateSkin(el.base64, Object.values(el.categories).some(val => val.id == 3));
+                        const result = await generateSkin(el.base64, base_skin, Object.values(el.categories).some(val => val.id == 3))
                         await skinViewer.loadSkin(result, { model: 'default' });
                         skinViewer.render();
                         const image = skinViewer.canvas.toDataURL();
                         return <Card el={el} base64={image} key={el.id} className={styles} />
-                    } catch (e) {
-                        console.error(e)
+                    } catch {
                         return;
                     }
-                }))
-                    .then(results => setElements(results))
+                })).then(results => setElements(results))
                     .catch(error => console.error('Error generating skins', error))
                     .finally(() => skinViewer.dispose());
-            });
+            }));
         }
     }, []);
 

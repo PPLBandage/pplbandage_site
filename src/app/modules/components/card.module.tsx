@@ -10,9 +10,8 @@ import asyncImage from "@/app/modules/components/asyncImage.module";
 
 const b64Prefix = "data:image/png;base64,";
 
-export const generateSkin = async (b64: string, colorable: boolean): Promise<string> => {
+export const generateSkin = async (b64: string, base_skin: HTMLImageElement, colorable: boolean): Promise<string> => {
     const bandage = await asyncImage(b64Prefix + b64);
-    const skin = await asyncImage('/static/workshop_base.png');
 
     const height = Math.floor(bandage.height / 2);
     const position = 6 - Math.floor(height / 2);
@@ -23,7 +22,7 @@ export const generateSkin = async (b64: string, colorable: boolean): Promise<str
     skin_canvas.height = 64;
 
     const bandage_new = colorable ? fillPepe(bandage, [randint(0, 255), randint(0, 255), randint(0, 255)]) : bandage;
-    skin_context.drawImage(skin, 0, 0);
+    skin_context.drawImage(base_skin, 0, 0);
     skin_context.drawImage(bandage_new, 0, 0, 16, height, 48, 52 + position, 16, height);
     skin_context.drawImage(bandage_new, 0, height, 16, height, 32, 52 + position, 16, height);
 

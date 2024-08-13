@@ -18,6 +18,7 @@ import axios from 'axios';
 import AdaptiveGrid from '@/app/modules/components/adaptiveGrid.module';
 import style_workshop from "@/app/styles/workshop/page.module.css";
 import NextImage from 'next/image';
+import asyncImage from "@/app/modules/components/asyncImage.module";
 
 const Main = () => {
     const router = useRouter();
@@ -41,11 +42,10 @@ const Main = () => {
             skinViewer.camera.position.x = 17;
             skinViewer.camera.position.y = 6.5;
             skinViewer.camera.position.z = 11;
-            skinViewer.loadBackground("/static/background.png").then(() => {
-
+            skinViewer.loadBackground("/static/background.png").then(() => asyncImage('/static/workshop_base.png').then((base_skin) => {
                 Promise.all(data.map(async (el) => {
                     try {
-                        const result = await generateSkin(el.base64, Object.values(el.categories).some(val => val.id == 3))
+                        const result = await generateSkin(el.base64, base_skin, Object.values(el.categories).some(val => val.id == 3))
                         await skinViewer.loadSkin(result, { model: 'default' });
                         skinViewer.render();
                         const image = skinViewer.canvas.toDataURL();
@@ -53,11 +53,10 @@ const Main = () => {
                     } catch {
                         return;
                     }
-                }))
-                    .then(results => setElements(results))
+                })).then(results => setElements(results))
                     .catch(error => console.error('Error generating skins', error))
                     .finally(() => skinViewer.dispose());
-            });
+            }));
         }
     }, [data]);
 

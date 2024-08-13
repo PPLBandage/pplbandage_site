@@ -91,6 +91,7 @@ export const Search = ({ onSearch, onChangeTake, onChangeFilters, onChangeSort, 
                             classNamePrefix="react-select"
                             defaultValue={options_sortir[0]}
                             onChange={(n, a) => onChangeSort(n.value)}
+                            isSearchable={false}
                         />
                     </div>
 
@@ -101,6 +102,7 @@ export const Search = ({ onSearch, onChangeTake, onChangeFilters, onChangeSort, 
                             className={`react-select-container ${Styles.select_take}`}
                             classNamePrefix="react-select"
                             defaultValue={options[0]}
+                            isSearchable={false}
                             onChange={(n, a) => onChangeTake(n.value)}
                         />
                     </div>

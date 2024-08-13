@@ -15,6 +15,7 @@ import Footer from "@/app/modules/components/footer.module";
 import Image from "next/image";
 import AdaptiveGrid from "@/app/modules/components/adaptiveGrid.module";
 import styles_card from "@/app/styles/me/me.module.css";
+import asyncImage from "@/app/modules/components/asyncImage.module";
 
 
 export default function Home() {
@@ -51,8 +52,7 @@ export default function Home() {
                 sort: sort ? sort : undefined
             }
         }
-
-        if (config == lastConfig) {
+        if (JSON.stringify(config) == JSON.stringify(lastConfig)) {
             return;
         }
 
@@ -79,11 +79,10 @@ export default function Home() {
             skinViewer.camera.position.x = 17;
             skinViewer.camera.position.y = 6.5;
             skinViewer.camera.position.z = 11;
-            skinViewer.loadBackground("/static/background.png").then(() => {
-
+            skinViewer.loadBackground("/static/background.png").then(() => asyncImage('/static/workshop_base.png').then((base_skin) => {
                 Promise.all(data.data.map(async (el) => {
                     try {
-                        const result = await generateSkin(el.base64, Object.values(el.categories).some(val => val.id == 3))
+                        const result = await generateSkin(el.base64, base_skin, Object.values(el.categories).some(val => val.id == 3))
                         await skinViewer.loadSkin(result, { model: 'default' });
                         skinViewer.render();
                         const image = skinViewer.canvas.toDataURL();
@@ -94,7 +93,7 @@ export default function Home() {
                 })).then(results => setElements(results))
                     .catch(error => console.error('Error generating skins', error))
                     .finally(() => skinViewer.dispose());
-            });
+            }));
         }
     }, [data]);
 

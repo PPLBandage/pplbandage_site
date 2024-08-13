@@ -103,7 +103,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                 client.current.lining_canvas = lining_canvas;
                 client.current.position = 6 - Math.floor(height / 2);
                 client.current.updatePositionSlider();
-                client.current.colorable = Object.values(data.categories).some(val => val.id.toString() === process.env.NEXT_PUBLIC_COLORABLE_ID);
+                client.current.colorable = data.categories.some(val => val.id.toString() === process.env.NEXT_PUBLIC_COLORABLE_ID);
                 const randomColor = getRandomColor();
                 setRandomColor(randomColor);
                 client.current.setParams({ color: randomColor });

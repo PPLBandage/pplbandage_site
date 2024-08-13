@@ -54,7 +54,7 @@ const Main = () => {
             skinViewer.loadBackground("/static/background.png").then(() => asyncImage('/static/workshop_base.png').then((base_skin) => {
                 Promise.all(data.map(async (el) => {
                     try {
-                        const result = await generateSkin(el.base64, base_skin, Object.values(el.categories).some(val => val.id == 3))
+                        const result = await generateSkin(el.base64, base_skin, el.categories.some(val => val.id == 3))
                         await skinViewer.loadSkin(result, { model: 'default' });
                         skinViewer.render();
                         const image = skinViewer.canvas.toDataURL();

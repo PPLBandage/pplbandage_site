@@ -99,6 +99,7 @@
     cursor: pointer;
     transition: background-color 150ms, box-shadow 150ms;
     transform-origin: center center;
+    gap: .3rem;
 }
 
 .side_butt:hover {

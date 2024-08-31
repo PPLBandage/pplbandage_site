@@ -27,6 +27,8 @@ import asyncImage from '@/app/modules/components/asyncImage.module';
 import Link from 'next/link';
 import { CSSTransition } from 'react-transition-group';
 
+import { IconDownload, IconPlus, IconChevronDown, IconUser, IconEdit, IconX, IconCheck } from '@tabler/icons-react';
+
 
 const body_part: readonly { value: number, label: String }[] = [
     { value: 0, label: "Левая рука" },
@@ -178,7 +180,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                             background='/static/background_big.png'
                             id="canvas_container" />
                         <div className={style.render_footer}>
-                            <button className={style.skin_load} onClick={() => setLoadExpanded(true)}><NextImage src="/static/icons/plus.svg" alt="" width={32} height={32} />Загрузить скин</button>
+                            <button className={style.skin_load} onClick={() => setLoadExpanded(true)}><IconPlus width={24} height={24} />Загрузить скин</button>
                             <Select
                                 options={anims}
                                 defaultValue={anims[pose]}
@@ -190,12 +192,9 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                             />
                             <SlideButton onChange={(val) => client.current?.changeSlim(val)} value={slim} label="Тонкие руки" />
                             <button className={style.skin_load} onClick={() => client.current?.download()}>
-                                <NextImage
-                                    src="/static/icons/download.svg"
-                                    alt=""
-                                    width={32}
-                                    height={32}
-                                    style={{ width: "1.5rem" }}
+                                <IconDownload
+                                    width={24}
+                                    height={24}
                                 />
                                 Скачать скин
                             </button>
@@ -283,16 +282,13 @@ const RawBandageDownload = ({ client, bandage }: { client: React.MutableRefObjec
                 style={{ width: '100%' }}
             >
                 Скачать повязку
-                <NextImage
-                    src="/static/icons/arrow.svg"
-                    alt=""
-                    width={32}
-                    height={32}
+                <IconChevronDown
+                    width={24}
+                    height={24}
                     style={{
-                        width: "1.25rem",
-                        transform: `rotate(${expanded ? '90deg' : '270deg'})`,
+                        transform: `rotate(${expanded ? '180deg' : '0deg'})`,
                         transition: 'transform 250ms',
-                        marginLeft: '.3rem'
+                        marginLeft: '.2rem'
                     }}
                 />
             </button>
@@ -323,11 +319,11 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage, onClick(): void }) => {
     return <div className={style.info_container}>
         <h2 className={`${style.title} ${el.permissions_level >= 1 && style.title_editable}`} onClick={() => { if (el.permissions_level >= 1) onClick() }}>
             {el.title}
-            <NextImage className={style.edit_icon} src="/static/icons/edit.svg" alt="" width={32} height={32} /></h2>
+            <IconEdit className={style.edit_icon} width={24} height={24} /></h2>
         {el.description && <p className={style.description}>{el.description}</p>}
         {el.author.public ?
-            <Link className={style.author} href={!!el.author.name ? `/users/${el.author.username}` : ``}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32} />{el.author.name || "Unknown"}</Link> :
-            <a className={`${style.author} ${style.username_private}`}><NextImage src="/static/icons/user.svg" alt="" width={32} height={32} />{el.author.name || "Unknown"}</a>
+            <Link className={style.author} href={!!el.author.name ? `/users/${el.author.username}` : ``}><IconUser width={24} height={24} />{el.author.name || "Unknown"}</Link> :
+            <a className={`${style.author} ${style.username_private}`}><IconUser width={24} height={24} />{el.author.name || "Unknown"}</a>
         }
     </div>
 }
@@ -475,10 +471,10 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
             }
             <div style={{ display: 'flex', width: '100%', gap: '.5rem' }}>
                 <button className={style.skin_load} onClick={() => onChange(null)} style={{ width: '2.7rem' }}>
-                    <NextImage src="/static/icons/plus.svg" alt="" width={32} height={32} style={{ margin: 0, transform: 'rotate(45deg)' }} />
+                    <IconX width={24} height={24} style={{ margin: 0 }} />
                 </button>
                 <button className={`${style.skin_load} ${!loaded && style.disabled_load}`} onClick={() => { loaded && onChange(data) }} style={{ width: '100%' }}>
-                    <NextImage src="/static/icons/done.svg" alt="" width={32} height={32} />Готово
+                    <IconCheck width={24} height={24} style={{ marginRight: '.2rem' }} />Готово
                 </button>
             </div>
         </div>

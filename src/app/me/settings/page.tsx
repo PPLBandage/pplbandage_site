@@ -16,6 +16,7 @@ import { SlideButton } from '@/app/modules/components/nick_search.module';
 import { formatDate } from '@/app/modules/components/card.module';
 import { getTheme } from '@/app/modules/providers.module';
 import { useCookies } from 'next-client-cookies';
+import { IconUser, IconBrandDiscord, IconCube, IconPhoto, IconX, IconRefresh } from '@tabler/icons-react';
 const fira = Fira_Code({ subsets: ["latin"] });
 
 interface SettingsResponse {
@@ -101,7 +102,7 @@ const UserSettings = ({ data }: { data: SettingsResponse }) => {
     }
     return (
         <div className={Style.container}>
-            <h3><Image src="/static/icons/user.svg" alt="" width={26} height={26} style={{ marginRight: ".3rem", borderRadius: 0 }} />Настройки аккаунта</h3>
+            <h3><IconUser width={26} height={26} style={{ marginRight: ".3rem", borderRadius: 0 }} />Настройки аккаунта</h3>
             <SlideButton label='Публичный профиль' value={data.can_be_public ? value : false} onChange={change} strict={true} disabled={!data.can_be_public} />
         </div>
     );
@@ -113,7 +114,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
 
     const refresh = () => {
         const load_icon = document.getElementById('refresh');
-        load_icon.style.animation = `${Style.loading} infinite 1s linear`;
+        load_icon.style.animation = `${Style.loading} infinite 1s reverse ease-in-out`;
         authApi.post("user/me/connections/minecraft/cache/purge").then((response) => {
             if (response.status === 200) {
                 refetch();
@@ -139,7 +140,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
 
     return (
         <div className={Style.container}>
-            <h3><Image src="/static/icons/discord.svg" alt="" width={32} height={32} style={{ marginRight: ".4rem", borderRadius: 0 }} />Discord аккаунт</h3>
+            <h3><IconBrandDiscord width={32} height={32} style={{ marginRight: ".3rem", borderRadius: 0 }} />Discord аккаунт</h3>
             <div className={Style.discord_container}>
                 {data.connections?.discord &&
                     <Image src={data.connections?.discord.avatar + "?size=64"} alt="" width={64} height={64} style={{ borderRadius: "50%" }} className={Style.discord_avatar} />
@@ -153,7 +154,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
 
             <hr style={{ border: '1px var(--hr-color) solid', width: '100%' }} />
 
-            <h3><Image src="/static/icons/block.svg" alt="" width={32} height={32} style={{ marginRight: ".4rem" }} />Minecraft аккаунт</h3>
+            <h3><IconCube width={32} height={32} style={{ marginRight: ".3rem" }} />Minecraft аккаунт</h3>
             {!!data.connections?.minecraft ? <>
                 <div className={Style.head_container}>
                     {data && <Image src={b64Prefix + data.connections?.minecraft.head} alt="" width={64} height={64} />}
@@ -190,11 +191,11 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
                 <div className={Style.checkboxes}>
                     <span>Последний раз кэшировано {formatDate(new Date(data.connections?.minecraft?.last_cached))}</span>
                     <button className={Style.unlink} onClick={() => refresh()}>
-                        <img alt="" src="/static/icons/refresh.svg" style={{ width: "1.5rem" }} id="refresh" />Обновить кэш
+                        <IconRefresh style={{ width: "1.8rem" }} id="refresh" />Обновить кэш
                     </button>
 
                     <button className={Style.unlink} onClick={() => disconnect()}>
-                        <img alt="" src="/static/icons/plus.svg" style={{ width: "1.8rem", transform: "rotate(45deg)" }} />Отвязать
+                        <IconX style={{ width: "1.8rem" }} />Отвязать
                     </button>
                 </div>
             </> : <>
@@ -253,7 +254,7 @@ const Themes = () => {
 
     return (
         <div className={Style.container} style={{ paddingBottom: 'calc(1rem - 10px)' }}>
-            <h3><Image src="/static/icons/scenery.svg" alt="" width={24} height={24} style={{ marginRight: ".4rem", borderRadius: 0 }} />Внешний вид</h3>
+            <h3><IconPhoto width={24} height={24} style={{ marginRight: ".3rem", borderRadius: 0 }} />Внешний вид</h3>
             <div className={Style_themes.parent}>
                 <Theme data={{
                     name: 'default',

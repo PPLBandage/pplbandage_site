@@ -17,8 +17,10 @@ import Link from 'next/link';
 import axios from 'axios';
 import AdaptiveGrid from '@/app/modules/components/adaptiveGrid.module';
 import style_workshop from "@/app/styles/workshop/page.module.css";
-import NextImage from 'next/image';
 import asyncImage from "@/app/modules/components/asyncImage.module";
+
+import { IconPlus } from '@tabler/icons-react';
+import IconSvg from '@/app/resources/icon.svg';
 
 const Main = () => {
     const router = useRouter();
@@ -107,7 +109,7 @@ const Main = () => {
                         <AdaptiveGrid
                             child_width={300}
                             header={<Link className={styles.create} href="/workshop/create">
-                                <img alt="" src="/static/icons/plus.svg" />Создать
+                                <IconPlus />Создать
                             </Link>}>
                             {elements}
                         </AdaptiveGrid>
@@ -155,7 +157,7 @@ const Login = () => {
                     parent_id="about_logging"
                     body={
                         <div className={styles.roles_container}>
-                            {dat.length > 0 ? dat : <NextImage src="/static/icons/icon.svg" alt="" width={86} height={86} className={style_workshop.loading} style={{ width: 'auto' }} />}
+                            {dat.length > 0 ? dat : <IconSvg width={86} height={86} className={style_workshop.loading} style={{ width: 'auto' }} />}
                         </div>} timeout={0} className={styles.roles_text_container}>
                     <span className={styles.roles_text}> ролей</span>
                 </Tooltip>

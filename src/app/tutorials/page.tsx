@@ -15,6 +15,9 @@ import axios from "axios";
 import { Role } from "@/app/interfaces";
 import style_workshop from "@/app/styles/workshop/page.module.css";
 
+import { IconInfoCircle, IconAlertTriangle, IconBulb } from '@tabler/icons-react';
+import IconSvg from '@/app/resources/icon.svg';
+
 export default function Home() {
     const [roles, setRoles] = useState<Role[]>([]);
 
@@ -58,7 +61,7 @@ export default function Home() {
                             а так же имеющие определенные <Tooltip
                                 body={
                                     <div className={styles.roles_container}>
-                                        {dat.length > 0 ? dat : <NextImage src="/static/icons/icon.svg" alt="" width={86} height={86} className={style_workshop.loading} />}
+                                        {dat.length > 0 ? dat : <IconSvg width={86} height={86} className={style_workshop.loading} />}
                                     </div>
                                 }
                                 opacity="1"
@@ -70,7 +73,7 @@ export default function Home() {
                             Дальнейшее его изменение возможно только через администрацию сайта.</span>
                         <InfoCard color="#4493F8" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
-                                <NextImage alt='' src='/static/icons/blocks/note.svg' width={20} height={20} />
+                                <IconInfoCircle width={24} height={24} />
                                 <p style={{ margin: 0 }}>Примечание</p>
                             </div>}>
                             <p style={{ margin: 0 }}>Если ваш никнейм будет содержать слова и выражения, запрещенные правилами сайта, администрация может принудительно заменить его на другой. Последующая смена будет доступна так же через администрацию.</p>
@@ -81,7 +84,7 @@ export default function Home() {
                             Для привязки вам нужно зайти на Minecraft сервер <u>oauth.pplbandage.ru</u> для версии начиная с 1.8 и получить там 6-значный код, который нужно будет ввести на странице <CustomLink href='/me/settings'>/me/settings</CustomLink>.</p>
                         <InfoCard color="#3FB950" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
-                                <NextImage alt='' src='/static/icons/blocks/tip.svg' width={20} height={20} />
+                                <IconBulb width={24} height={24} />
                                 <p style={{ margin: 0 }}>Заметка</p>
                             </div>}>
                             <p style={{ margin: 0 }}>Сервис <span style={{ color: "rgba(12, 247, 215)" }}>mc-oauth</span> был разработан специально для этого сайта. Он полностью повторяет систему авторизации оригинальных серверов Minecraft и получает доступ только к никнейму и UUID.</p>
@@ -91,7 +94,7 @@ export default function Home() {
                         <h2>Публикация повязок</h2>
                         <InfoCard color="#3FB950" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
-                                <NextImage alt='' src='/static/icons/blocks/tip.svg' width={20} height={20} />
+                                <IconBulb width={24} height={24} />
                                 <p style={{ margin: 0 }}>Заметка</p>
                             </div>}>
                             <p style={{ margin: 0 }}>Подробнее о создании повязок читайте на странице <CustomLink href='/tutorials/bandage'>/tutorials/bandage</CustomLink>.</p>
@@ -107,7 +110,7 @@ export default function Home() {
                         </ul>
                         <InfoCard color="#4493F8" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
-                                <NextImage alt='' src='/static/icons/blocks/note.svg' width={20} height={20} />
+                                <IconInfoCircle width={24} height={24} />
                                 <p style={{ margin: 0 }}>Примечание</p>
                             </div>}>
                             <p style={{ margin: 0 }}>После создания повязки изменить её внешний вид будет <u>невозможно</u>.</p>
@@ -124,7 +127,7 @@ export default function Home() {
 
                         <InfoCard color="#4493F8" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
-                                <NextImage alt='' src='/static/icons/blocks/note.svg' width={20} height={20} />
+                                <IconAlertTriangle width={24} height={24} />
                                 <p style={{ margin: 0 }}>Примечание</p>
                             </div>}>
                             <p style={{ margin: 0 }}>Вы не можете иметь одновременно более 5 повязок на проверке. Общих ограничений по количеству повязок нет.</p>
@@ -135,7 +138,7 @@ export default function Home() {
 
                         <InfoCard color="#D29922" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
-                                <NextImage alt='' src='/static/icons/blocks/warning.svg' width={20} height={20} />
+                                <IconAlertTriangle width={24} height={24} />
                                 <p style={{ margin: 0 }}>Внимание</p>
                             </div>}>
                             <p style={{ margin: 0 }}>Злоупотребление категориями может привести к блокировке повязки.</p>

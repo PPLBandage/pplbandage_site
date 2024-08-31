@@ -12,6 +12,8 @@
     max-width: 1280px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: .5rem;
 }
 
 .expanding_menu_parent {
@@ -86,6 +88,7 @@
 
     display: flex;
     align-items: center;
+    gap: .3rem;
 
     font-weight: 600;
     transform-origin: center;
@@ -103,8 +106,8 @@
 }
 
 .expand_arrow {
-    filter: invert(80%);
-    width: 1.8rem;
+    width: 2rem;
+    height: auto;
     margin-left: .3rem;
     cursor: pointer;
     transform: rotate(0deg);
@@ -159,28 +162,21 @@
 
 .login_button {
     color: var(--main-text-color);
-    padding: .7rem;
     margin: 0;
     border-radius: 30px;
-    background-color: none;
-    transition: background-color 150ms;
     user-select: none;
     cursor: pointer;
     text-decoration: none;
-    font-size: 115%;
-    font-weight: 600;
     display: flex;
     align-items: center;
     width: 1.8rem;
+    height: auto;
 }
 
-.login_button:hover {
-    background-color: var(--dark-hover);
-}
 
 .ppl_name {
     color: var(--main-text-color);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     margin: 0;
     margin-left: .5rem;
 }

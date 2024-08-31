@@ -13,6 +13,8 @@ import Menu from "./theme_select.module";
 import { Users } from "@/app/users/[name]/page";
 import { formatDate } from "./card.module";
 
+import { IconSettings, IconBell, IconStar, IconList } from '@tabler/icons-react';
+
 const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, color?: string }) => {
     return (
         <div className={style_sidebar.card} style={{ backgroundColor: color || "var(--main-card-color)" }}>
@@ -108,15 +110,15 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
                         {!user_data &&
                             <div className={style_sidebar.card} style={{ alignItems: "stretch", gap: ".5rem" }}>
                                 <Link href="/me" className={`${style_sidebar.side_butt} ${path == 'me' && style_sidebar.active}`}>
-                                    <Image src="/static/icons/list.svg" alt="" width={24} height={24} />
+                                    <IconList width={24} height={24} />
                                     Мои работы
                                 </Link>
                                 <Link href="/me/stars" className={`${style_sidebar.side_butt} ${path == 'stars' && style_sidebar.active}`}>
-                                    <Image src="/static/icons/star_bw.svg" alt="" width={24} height={24} />
+                                    <IconStar width={24} height={24} />
                                     Избранное
                                 </Link>
                                 <Link href="/me/notifications" className={`${style_sidebar.side_butt} ${path == 'notifications' && style_sidebar.active}`}>
-                                    <Image src="/static/icons/bell.svg" alt="" width={24} height={24} />
+                                    <IconBell width={24} height={24} />
                                     Уведомления
                                     {(data as Query)?.has_unreaded_notifications &&
                                         <span style={{
@@ -130,7 +132,7 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
                                     }
                                 </Link>
                                 <Link href="/me/settings" className={`${style_sidebar.side_butt} ${path == 'settings' && style_sidebar.active}`}>
-                                    <Image src="/static/icons/cog.svg" alt="" width={24} height={24} />
+                                    <IconSettings width={24} height={24} />
                                     Настройки
                                 </Link>
                             </div>

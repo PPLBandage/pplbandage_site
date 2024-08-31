@@ -16,7 +16,7 @@ import Image from "next/image";
 import AdaptiveGrid from "@/app/modules/components/adaptiveGrid.module";
 import styles_card from "@/app/styles/me/me.module.css";
 import asyncImage from "@/app/modules/components/asyncImage.module";
-
+import IconSvg from '@/app/resources/icon.svg';
 
 export default function Home() {
     const [data, setData] = useState<BandageResponse>(null);
@@ -124,7 +124,7 @@ export default function Home() {
                                     Похоже, тут ничего нет
                                 </p>
                             </> :
-                            <Image src="/static/icons/icon.svg" alt="" width={86} height={86} className={Style.loading} />
+                            <IconSvg width={86} height={86} className={Style.loading} />
                     }
                 </div>
                 <Footer />

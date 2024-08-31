@@ -9,6 +9,7 @@ import { CustomLink } from "@/app/modules/components/search.module";
 import InfoCard from "@/app/modules/components/info.module";
 import styleLink from '@/app/styles/tutorials/common.module.css';
 import NextImage from "next/image";
+import { IconBulb } from '@tabler/icons-react';
 
 export default function Home() {
     return (
@@ -62,7 +63,7 @@ export default function Home() {
                         <p>После того как вы нарисовали повязку, вам следует собрать её в понятный для сайта формат.</p>
                         <InfoCard color="#3FB950" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
-                                <NextImage alt='' src='/static/icons/blocks/tip.svg' width={20} height={20} />
+                                <IconBulb width={24} height={24} />
                                 <p style={{ margin: 0 }}>Заметка</p>
                             </div>}>
                             <p style={{ margin: 0 }}>Если вы рисуете повязку в программе Blockbench или подобной, удобнее всего будет рисовать повязку на левой руке и со стандартной моделькой скина. В таком случае будет легче всего собрать повязку.</p>
@@ -85,7 +86,7 @@ export default function Home() {
                         </ol>
                         <InfoCard color="#3FB950" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
-                                <NextImage alt='' src='/static/icons/blocks/tip.svg' width={20} height={20} />
+                                <IconBulb width={24} height={24} />
                                 <p style={{ margin: 0 }}>Заметка</p>
                             </div>}>
                             <p style={{ margin: 0 }}>При создании повязки есть возможность загрузить отдельное изображение для тонких рук скина. Правила создания повязки остаются те же, как и для обычной повязки, за исключением того, что обе повязки должны иметь одинаковую высоту.</p>

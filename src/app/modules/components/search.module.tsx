@@ -10,6 +10,8 @@ import { CategoryEl } from './card.module';
 import styleLink from '@/app/styles/tutorials/common.module.css';
 import Link from 'next/link';
 import style_workshop from "@/app/styles/workshop/page.module.css";
+import { IconSearch, IconFilter } from '@tabler/icons-react';
+import IconSvg from '@/app/resources/icon.svg';
 
 const options: readonly { value: number, label: String }[] = [
     { value: 12, label: "12" },
@@ -79,7 +81,7 @@ export const Search = ({ onSearch, onChangeTake, onChangeFilters, onChangeSort, 
                             placeholder='Введите название/автора/id'
                         />
                         <div className={Styles.search_loop} onClick={() => onSearch(search)}>
-                            <Image className={Styles.search_loop_icon} src="/static/icons/search.svg" alt="search" width={25} height={25} />
+                            <IconSearch className={Styles.search_loop_icon} width={25} height={25} />
                         </div>
                     </div>
 
@@ -110,7 +112,7 @@ export const Search = ({ onSearch, onChangeTake, onChangeFilters, onChangeSort, 
                     <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}
                         className={Styles.filter_div}
                         onClick={() => setExpanded(prev => !prev)}>
-                        <Image src="/static/icons/filter.svg" alt="filter" width={24} height={24} />
+                        <IconFilter width={24} height={24} />
                         <p className={Styles.filter}>Фильтры</p>
                     </div>
                 </div>
@@ -126,7 +128,7 @@ export const Search = ({ onSearch, onChangeTake, onChangeFilters, onChangeSort, 
                         }}
                         unmountOnExit>
                         <div className={Styles.category_menu}>
-                            {categories.length > 0 ? categories_el : <Image src="/static/icons/icon.svg" alt="" width={86} height={86} className={style_workshop.loading} />}
+                            {categories.length > 0 ? categories_el : <IconSvg width={86} height={86} className={style_workshop.loading} />}
                         </div>
                     </CSSTransition>
                 </div>

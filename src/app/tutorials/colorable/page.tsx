@@ -6,8 +6,8 @@ import React from "react";
 import style from '@/app/styles/tutorials/common.module.css';
 import ASide from "@/app/tutorials/header.module";
 import InfoCard from "@/app/modules/components/info.module";
-import NextImage from 'next/image';
 import { CategoryEl } from "@/app/modules/components/card.module";
+import { IconInfoCircle, IconBulb } from '@tabler/icons-react';
 
 export default function Home() {
     return (
@@ -31,7 +31,7 @@ export default function Home() {
 
                         <InfoCard color="#4493F8" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
-                                <NextImage alt='' src='/static/icons/blocks/note.svg' width={20} height={20} />
+                                <IconInfoCircle width={24} height={24} />
                                 <p style={{ margin: 0 }}>Примечание</p>
                             </div>}>
                             <p style={{ margin: 0 }}>Итоговый цвет после заливки определяется формулой <span style={{ color: "rgba(12, 247, 215)" }}>c / 255 * new_c</span>, где <span style={{ color: "rgba(12, 247, 215)" }}>c</span> – это исходное значение канала цвета,
@@ -41,7 +41,7 @@ export default function Home() {
 
                         <InfoCard color="#3FB950" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
-                                <NextImage alt='' src='/static/icons/blocks/tip.svg' width={20} height={20} />
+                                <IconBulb width={24} height={24} />
                                 <p style={{ margin: 0 }}>Заметка</p>
                             </div>}>
                             <p style={{ margin: 0 }}>Если вам нужно сделать какой-либо пиксель незаливаемым, вы можете изменить значение одного из каналов цвета в этом пикселе на 1 и движок повязок пропустит его на этапе заливки.</p>

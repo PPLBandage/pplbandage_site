@@ -12,6 +12,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@svgr/webpack": "^8.1.0",
+    "@tabler/icons-react": "^3.14.0",
     "@tanstack/react-query": "^5.40.1",
     "@types/lodash.debounce": "^4.0.9",
     "async-mutex": "^0.5.0",

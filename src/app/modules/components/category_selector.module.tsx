@@ -4,6 +4,7 @@ import { CategoryEl } from "@/app/modules/components/card.module";
 import style from "@/app/styles/category_selector.module.css";
 import NextImage from 'next/image';
 import style_workshop from "@/app/styles/workshop/page.module.css";
+import IconSvg from '@/app/resources/icon.svg';
 
 interface CategorySelectorProps {
     enabledCategories: Category[],
@@ -54,7 +55,7 @@ const CategorySelector = ({ enabledCategories, allCategories, onChange }: Catego
             </div>
             <hr />
             <div className={style.container}>
-                {allCategories.length > 0 ? categoriesAvailable : <NextImage src="/static/icons/icon.svg" alt="" width={48} height={48} className={style_workshop.loading} />}
+                {allCategories.length > 0 ? categoriesAvailable : <IconSvg width={48} height={48} className={style_workshop.loading} />}
             </div>
         </div>
     );

@@ -140,10 +140,10 @@
     border: 2px var(--main-element-color) solid;
 }
 
-.create img {
-    width: 1.5rem;
+.create svg {
     margin-right: .1rem;
     width: 1.9rem;
+    height: auto;
 }
 
 .cont {

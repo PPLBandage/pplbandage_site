@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Styles from "@/app/styles/paginator.module.css";
+import { IconChevronRight, IconChevronLeft } from '@tabler/icons-react'
 
 interface PaginatorProps {
     total_count: number,
@@ -37,7 +38,7 @@ export const Paginator = ({ total_count, take, onChange }: PaginatorProps) => {
         let itpage = _page > 2 && pages_count > 4 ? _page - 2 : 0;
         for (let x = itpage; x < 5 + itpage; x++) {
             data.push(
-                <p style={x == _page ? { backgroundColor: "var(--main-element-color)", padding: ".9rem" } : x < pages_count ? {} : { visibility: "hidden" }}
+                <p style={x == _page ? { backgroundColor: "var(--main-element-color)", padding: ".5rem" } : x < pages_count ? {} : { visibility: "hidden" }}
                     key={x}
                     className={Styles.page}
                     onClick={() => _setPage(x)}>
@@ -52,9 +53,9 @@ export const Paginator = ({ total_count, take, onChange }: PaginatorProps) => {
 
     return _display ? <div className={Styles.container}>
         {_pages.length > 0 && <>
-            <img alt="" className={Styles.page} onClick={() => _setPage(last => Math.max(0, last - 1))} src="/static/icons/arrow.svg" />
+            <IconChevronLeft className={Styles.page} onClick={() => _setPage(last => Math.max(0, last - 1))} />
             {_pages}
-            <img alt="" className={Styles.page} style={{ transform: "rotate(180deg)" }} onClick={() => _setPage(last => Math.min(last + 1, Math.ceil(_totalCount / _take) - 1))} src="/static/icons/arrow.svg" />
+            <IconChevronRight className={Styles.page} onClick={() => _setPage(last => Math.min(last + 1, Math.ceil(_totalCount / _take) - 1))} />
         </>
         }
     </div> : null;

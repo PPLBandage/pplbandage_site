@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styles from "@/app/styles/navigator.module.css";
+import { IconChevronRight } from '@tabler/icons-react';
 
 
 interface NavigatorProps {
@@ -13,7 +14,7 @@ interface NavigatorProps {
 const NavigatorEl = ({ path, style }: NavigatorProps) => {
     const rendered_path = path.reduce((acc, element, index) => {
         if (index > 0) {
-            acc.push(<img key={`separator-${index}`} src="/static/icons/arrow.svg" alt="" className={styles.arrow} />);
+            acc.push(<IconChevronRight key={`separator-${index}`} className={styles.arrow} />);
         }
         acc.push(
             <Link href={element.url}

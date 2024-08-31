@@ -8,6 +8,8 @@ import Link from "next/link";
 import { CSSProperties, useEffect, useState } from "react";
 import asyncImage from "@/app/modules/components/asyncImage.module";
 
+import { IconCircleHalf2, IconStar, IconStarFilled, IconUser } from '@tabler/icons-react';
+
 const b64Prefix = "data:image/png;base64,";
 
 export const generateSkin = async (b64: string, base_skin: HTMLImageElement, colorable: boolean): Promise<string> => {
@@ -74,8 +76,6 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
             authApi.put(`/star/${el.external_id}`, {}, { params: { set: starred } }).then((response) => {
                 if (response.status == 200) {
                     const response_data: { new_count: number, action_set: boolean } = response.data;
-                    (document.getElementById(el.external_id + "_star") as HTMLImageElement)
-                        .src = `/static/icons/star${!response_data.action_set ? "_empty" : ""}.svg`;
                     (document.getElementById(el.external_id + "_text") as HTMLSpanElement)
                         .textContent = response_data.new_count.toString();
                 }
@@ -89,22 +89,29 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
         <div key={el.id} style={{ position: 'relative' }}>
             <div className={`${Style.head_container} ${className?.skin_description_props}`}>
                 <div className={Style.star_container}>
-                    <NextImage
-                        src={`/static/icons/star${!starred ? "_empty" : ""}.svg`}
-                        className={Style.star}
-                        draggable="false"
-                        alt="star"
-                        width={24}
-                        height={24}
-                        id={el.external_id + "_star"}
-                        style={logged ? { cursor: "pointer" } : {}}
-                        onClick={() => { if (logged) setStarred(prev => !prev) }} />
+                    {starred ?
+                        <IconStarFilled
+                            className={Style.star}
+                            width={24}
+                            height={24}
+                            color="#ffb900"
+                            id={el.external_id + "_star"}
+                            style={logged ? { cursor: "pointer" } : {}}
+                            onClick={() => { if (logged) setStarred(prev => !prev) }} /> :
+                        <IconStar
+                            className={Style.star}
+                            width={24}
+                            height={24}
+                            color="#ffb900"
+                            id={el.external_id + "_star"}
+                            style={logged ? { cursor: "pointer" } : {}}
+                            onClick={() => { if (logged) setStarred(prev => !prev) }} />
+                    }
                     <span className={Style.star_count} id={el.external_id + "_text"}>{el.stars_count}</span>
                 </div>
                 {
-                    el.split_type && <NextImage src="/static/icons/split_types.svg"
+                    el.split_type && <IconCircleHalf2
                         className={Style.split_type}
-                        alt=""
                         width={24}
                         height={24}
                     />
@@ -119,8 +126,8 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
                 <div className={Style.categories}>{categories}</div>
 
                 {el.author.public ?
-                    <Link className={Style.username} href={!!el.author.name ? `/users/${el.author.username}` : ``}><img alt="" src="/static/icons/user.svg" style={{ width: "1.5rem" }} />{el.author.name || "Unknown"}</Link> :
-                    <a className={`${Style.username} ${Style.username_private}`}><img alt="" src="/static/icons/user.svg" style={{ width: "1.5rem" }} />{el.author.name || "Unknown"}</a>
+                    <Link className={Style.username} href={!!el.author.name ? `/users/${el.author.username}` : ``}><IconUser style={{ width: "1.5rem" }} />{el.author.name || "Unknown"}</Link> :
+                    <a className={`${Style.username} ${Style.username_private}`}><IconUser style={{ width: "1.5rem" }} />{el.author.name || "Unknown"}</a>
                 }
                 <p className={Style.creation_date}>{formatDate(new Date(el.creation_date))}</p>
             </div>

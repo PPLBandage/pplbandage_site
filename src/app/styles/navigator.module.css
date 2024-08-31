@@ -26,6 +26,6 @@
 }
 
 .arrow {
-    width: .8rem;
-    transform: rotate(180deg);
+    width: 1.25rem;
+    height: auto;
 }

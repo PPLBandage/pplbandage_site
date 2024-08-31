@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import Styles from '@/app/styles/theme_selector.module.css';
 import Image from 'next/image';
+import { IconBucketDroplet, IconPalette, IconPhoto } from '@tabler/icons-react'
 
 interface MenuProps {
     initialValue?: number;
@@ -14,11 +15,11 @@ interface MenuProps {
 const getIcon = (theme: number) => {
     switch (theme) {
         case 1:
-            return "/static/icons/scenery.svg";
+            return <IconPhoto width={16} height={16} />;
         case 2:
-            return "/static/icons/color-palette.svg";
+            return <IconPalette width={16} height={16} />;
         default:
-            return "/static/icons/fill.svg";
+            return <IconBucketDroplet width={16} height={16} />;
     }
 }
 
@@ -33,7 +34,7 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
 
     return (<div className={Styles.main}>
         <button className={Styles.style_change} onClick={() => setExpanded(_prev => !_prev)}>
-            <Image src={getIcon(theme)} alt="" width={16} height={16} />
+            {getIcon(theme)}
         </button>
         <CSSTransition
             in={expanded}
@@ -46,9 +47,9 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
             }}
             unmountOnExit>
             <div className={Styles.menu}>
-                <button className={theme === 0 && Styles.enabled} onClick={() => setTheme(0)}><Image src="/static/icons/fill.svg" alt="" width={16} height={16} /></button>
-                <button className={theme === 1 && Styles.enabled} onClick={() => setTheme(1)}><Image src="/static/icons/scenery.svg" alt="" width={16} height={16} /></button>
-                {color_available && <button className={theme === 2 && Styles.enabled} onClick={() => setTheme(2)}><Image src="/static/icons/color-palette.svg" alt="" width={16} height={16} /></button>}
+                <button className={theme === 0 && Styles.enabled} onClick={() => setTheme(0)}>{getIcon(0)}</button>
+                <button className={theme === 1 && Styles.enabled} onClick={() => setTheme(1)}>{getIcon(1)}</button>
+                {color_available && <button className={theme === 2 && Styles.enabled} onClick={() => setTheme(2)}>{getIcon(2)}</button>}
             </div>
         </CSSTransition>
     </div>);

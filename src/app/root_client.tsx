@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import Style from "./styles/root/page.module.css";
 import Link from "next/link";
 import { CustomLink } from "./modules/components/search.module";
-
+import { IconInfinity, IconAlertTriangle } from '@tabler/icons-react';
 
 const HomeClient = ({ pong }: { pong: number }) => {
     const [animationState, setAnimationState] = useState<boolean>(true);
@@ -40,12 +40,12 @@ const HomeClient = ({ pong }: { pong: number }) => {
                 </div>
                 <div className={Style.container}>
                     <p className={Style.p}><span className={Style.one}>1</span> Сайт</p>
-                    <p className={Style.p} style={{ display: "flex", alignItems: "center" }}><Image src="/static/icons/infinity.svg" alt="" width={40} height={40} className={Style.inf} draggable={false} />Стилей</p>
+                    <p className={Style.p} style={{ display: "flex", alignItems: "center" }}><IconInfinity width={40} height={40} className={Style.inf} color='rgba(45, 212, 191)' />Стилей</p>
                     <Link href="/workshop" className={Style.link}>Открыть мастерскую</Link>
                     {pong !== 200 &&
                         <div className={Style.api_unavailable}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-                                <Image src='/static/icons/blocks/warning.svg' alt="warning" width={24} height={24} />
+                                <IconAlertTriangle width={24} height={24} />
                                 <h3 style={{ margin: 0 }}>Service Unavailable</h3>
                             </div>
                             <p>Сервис в настоящий момент недоступен. Попробуйте позже или обратитесь в <CustomLink href="/contacts">администрацию</CustomLink></p>

@@ -147,7 +147,7 @@ export default function Home() {
                         <span style={{ display: 'block', marginTop: '.5rem', marginBottom: '.5rem' }}>Некоторые категории несут больше чем информативный характер. К примеру, категория <CategoryEl style={{ display: 'inline-flex', height: '1rem', verticalAlign: 'top' }} category={{
                             id: -1,
                             name: "Окрашиваемые",
-                            icon: '/dynamic/categories/color-palette.svg'
+                            icon: 'IconPalette'
                         }} /> показывает, что эта повязка имеет возможность окрашивания, и на странице повязки будет отображён соответствующий элемент для выбора цвета.</span>
                     </div>
                 </div>

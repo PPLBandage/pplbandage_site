@@ -8,6 +8,7 @@ import ASide from "@/app/tutorials/header.module";
 import InfoCard from "@/app/modules/components/info.module";
 import { CategoryEl } from "@/app/modules/components/card.module";
 import { IconInfoCircle, IconBulb } from '@tabler/icons-react';
+import Link from "next/link";
 
 export default function Home() {
     return (
@@ -48,11 +49,11 @@ export default function Home() {
                         </InfoCard>
 
                         <h2>Публикация окрашиваемой повязки</h2>
-                        <span style={{ display: 'block', marginTop: '.5rem', marginBottom: '.5rem' }}>Публикация окрашиваемой повязки ничем не отличается от публикации обычной повязки. Но на моменте выбора категорий вам нужно выбрать категорию <CategoryEl style={{ display: 'inline-flex', height: '1rem', verticalAlign: 'top' }} category={{
+                        <span style={{ display: 'block', marginTop: '.5rem', marginBottom: '.5rem' }}>Публикация окрашиваемой повязки ничем не отличается от публикации обычной повязки. Но на моменте выбора категорий вам нужно выбрать категорию <Link href='/workshop/create#colorable'><CategoryEl style={{ display: 'inline-flex', height: '1rem', verticalAlign: 'top' }} category={{
                             id: -1,
                             name: "Окрашиваемые",
-                            icon: '/dynamic/categories/color-palette.svg'
-                        }} />. Таким образом вы отметите свою работу как окрашиваемую и на странице повязки в мастерской будет отображён соответствующий элемент выбора цвета.</span>
+                            icon: 'IconPalette'
+                        }} /></Link>. Таким образом вы отметите свою работу как окрашиваемую и на странице повязки в мастерской будет отображён соответствующий элемент выбора цвета.</span>
                     </div>
                 </div>
                 <Footer />

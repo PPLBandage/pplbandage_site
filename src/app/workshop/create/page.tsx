@@ -147,7 +147,15 @@ const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageCh
     useEffect(() => {
         authApi.get('categories?for_edit=true').then((response) => {
             if (response.status === 200) {
-                setAllCategories(response.data as Interfaces.Category[]);
+                const categories = response.data as Interfaces.Category[]
+                setAllCategories(categories);
+                console.log(window.location.hash)
+                if (window.location.hash === '#colorable') {
+                    const colorable_category = categories.find((category) => category.id === Number(process.env.NEXT_PUBLIC_COLORABLE_ID));
+                    if (colorable_category) {
+                        setEnabledCategories([colorable_category]);
+                    }
+                }
             }
         })
     }, []);

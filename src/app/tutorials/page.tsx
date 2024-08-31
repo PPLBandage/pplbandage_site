@@ -17,6 +17,7 @@ import style_workshop from "@/app/styles/workshop/page.module.css";
 
 import { IconInfoCircle, IconAlertTriangle, IconBulb } from '@tabler/icons-react';
 import IconSvg from '@/app/resources/icon.svg';
+import Link from "next/link";
 
 export default function Home() {
     const [roles, setRoles] = useState<Role[]>([]);
@@ -144,11 +145,11 @@ export default function Home() {
                             <p style={{ margin: 0 }}>Злоупотребление категориями может привести к блокировке повязки.</p>
                         </InfoCard>
 
-                        <span style={{ display: 'block', marginTop: '.5rem', marginBottom: '.5rem' }}>Некоторые категории несут больше чем информативный характер. К примеру, категория <CategoryEl style={{ display: 'inline-flex', height: '1rem', verticalAlign: 'top' }} category={{
+                        <span style={{ display: 'block', marginTop: '.5rem', marginBottom: '.5rem' }}>Некоторые категории несут больше чем информативный характер. К примеру, категория <Link href='/workshop/create#colorable'><CategoryEl style={{ display: 'inline-flex', height: '1rem', verticalAlign: 'top' }} category={{
                             id: -1,
                             name: "Окрашиваемые",
                             icon: 'IconPalette'
-                        }} /> показывает, что эта повязка имеет возможность окрашивания, и на странице повязки будет отображён соответствующий элемент для выбора цвета.</span>
+                        }} /></Link> показывает, что эта повязка имеет возможность окрашивания, и на странице повязки будет отображён соответствующий элемент для выбора цвета.</span>
                     </div>
                 </div>
                 <Footer />

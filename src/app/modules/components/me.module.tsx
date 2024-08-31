@@ -13,7 +13,7 @@ import Menu from "./theme_select.module";
 import { Users } from "@/app/users/[name]/page";
 import { formatDate } from "./card.module";
 
-import { IconSettings, IconBell, IconStar, IconList } from '@tabler/icons-react';
+import { IconSettings, IconBell, IconStar, IconList, IconStarFilled } from '@tabler/icons-react';
 
 const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, color?: string }) => {
     return (
@@ -23,10 +23,11 @@ const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, co
             </div>
             <h3>{data?.name}</h3>
             <p className={style_sidebar.username}>{data?.username}</p>
+
+            <p className={style_sidebar.total_stars}>Звёзд: {data?.stars_count}<IconStarFilled width={16} height={16} /></p>
             <div className={style_sidebar.joined}>
                 <p title={formatDate(new Date(data?.joined_at))}>Аккаунт создан {timeStamp((new Date(data?.joined_at).getTime()) / 1000)}</p>
             </div>
-
             <p className={style_sidebar.uid}>Discord id: <Link href={`https://discord.com/users/${data?.discordID}`} className={style_sidebar.discord_id} target="_blank">{data?.discordID}</Link></p>
         </div>
     );
@@ -42,10 +43,11 @@ const ImprovedTheme = ({ data, islogged }: { data: Query, islogged: boolean }) =
                 </div>
                 <h3>{data?.name}</h3>
                 <p className={style_sidebar.username}>{data?.username}</p>
+
+                <p className={style_sidebar.total_stars}>Звёзд: {data?.stars_count}<IconStarFilled width={16} height={16} /></p>
                 <div className={style_sidebar.joined}>
                     <p title={formatDate(new Date(data?.joined_at))}>Аккаунт создан {timeStamp((new Date(data?.joined_at).getTime()) / 1000)}</p>
                 </div>
-
                 <p className={style_sidebar.uid}>Discord id: <Link href={`https://discord.com/users/${data?.discordID}`} className={style_sidebar.discord_id} target="_blank">{data?.discordID}</Link></p>
             </div>
         </div>

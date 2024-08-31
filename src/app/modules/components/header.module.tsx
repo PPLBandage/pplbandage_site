@@ -22,7 +22,8 @@ export interface Query {
     banner_color: string;
     has_unreaded_notifications: Boolean,
     permissions: string[],
-    profile_theme: number
+    profile_theme: number,
+    stars_count: number
 }
 
 const Header = (): JSX.Element => {

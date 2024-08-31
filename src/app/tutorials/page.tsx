@@ -127,7 +127,7 @@ export default function Home() {
 
                         <InfoCard color="#4493F8" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
-                                <IconAlertTriangle width={24} height={24} />
+                                <IconInfoCircle width={24} height={24} />
                                 <p style={{ margin: 0 }}>Примечание</p>
                             </div>}>
                             <p style={{ margin: 0 }}>Вы не можете иметь одновременно более 5 повязок на проверке. Общих ограничений по количеству повязок нет.</p>

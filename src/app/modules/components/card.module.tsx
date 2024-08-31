@@ -9,6 +9,7 @@ import { CSSProperties, useEffect, useState } from "react";
 import asyncImage from "@/app/modules/components/asyncImage.module";
 
 import { IconCircleHalf2, IconStar, IconStarFilled, IconUser } from '@tabler/icons-react';
+import { getIcon } from "../utils/categories.module";
 
 const b64Prefix = "data:image/png;base64,";
 
@@ -58,7 +59,7 @@ interface CategoryProps {
 export const CategoryEl = ({ category, enabled, onClick, hoverable, style }: CategoryProps) => {
     return (
         <div key={category.id} className={`${Style.category} ${enabled && Style.enabled_category} ${hoverable && Style.hoverable}`} onClick={() => onClick()} style={style}>
-            <NextImage src={category.icon} alt={category.name} width={15} height={15} />
+            {getIcon(category.icon)}
             <p>{category.name}</p>
         </div>
     );

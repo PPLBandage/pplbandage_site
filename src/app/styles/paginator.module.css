@@ -21,7 +21,6 @@
 
 .page:hover {
     background-color: var(--main-card-color);
-    box-shadow: #1d2025 0px 0px 5px 0px;
 }
 
 @media(max-width: 767px) {
@@ -36,5 +35,6 @@
     .arrow {
         width: 1.5rem !important;
         height: auto;
+        padding: .5rem !important;
     }
 }

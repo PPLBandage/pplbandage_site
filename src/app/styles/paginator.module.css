@@ -29,7 +29,12 @@
         font-size: 1rem;
         width: .8rem;
         height: .8rem;
-        padding: .9rem;
+        padding: .9rem !important;
         margin: .1rem;
+    }
+
+    .arrow {
+        width: 1.5rem !important;
+        height: auto;
     }
 }

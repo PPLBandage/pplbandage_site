@@ -53,9 +53,9 @@ export const Paginator = ({ total_count, take, onChange }: PaginatorProps) => {
 
     return _display ? <div className={Styles.container}>
         {_pages.length > 0 && <>
-            <IconChevronLeft className={Styles.page} onClick={() => _setPage(last => Math.max(0, last - 1))} />
+            <IconChevronLeft className={`${Styles.page} ${Styles.arrow}`} onClick={() => _setPage(last => Math.max(0, last - 1))} />
             {_pages}
-            <IconChevronRight className={Styles.page} onClick={() => _setPage(last => Math.min(last + 1, Math.ceil(_totalCount / _take) - 1))} />
+            <IconChevronRight className={`${Styles.page} ${Styles.arrow}`} onClick={() => _setPage(last => Math.min(last + 1, Math.ceil(_totalCount / _take) - 1))} />
         </>
         }
     </div> : null;

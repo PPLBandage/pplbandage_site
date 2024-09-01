@@ -17,7 +17,7 @@ export const generateSkin = async (b64: string, base_skin: HTMLImageElement, col
     const bandage = await asyncImage(b64Prefix + b64);
 
     const height = Math.floor(bandage.height / 2);
-    const position = 6 - Math.floor(height / 2);
+    const position = 6 - Math.ceil(height / 2);
 
     const skin_canvas = document.createElement('canvas');
     const skin_context = skin_canvas.getContext('2d');

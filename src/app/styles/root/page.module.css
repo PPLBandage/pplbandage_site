@@ -144,6 +144,10 @@
     background-color: var(--main-card-color);
     transition: border 150ms;
     user-select: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .4rem;
 }
 
 .link:hover {

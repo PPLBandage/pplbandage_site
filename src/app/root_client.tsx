@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import Style from "./styles/root/page.module.css";
 import Link from "next/link";
 import { CustomLink } from "./modules/components/search.module";
-import { IconInfinity, IconAlertTriangle } from '@tabler/icons-react';
+import { IconInfinity, IconAlertTriangle, IconStack } from '@tabler/icons-react';
 
 const HomeClient = ({ pong }: { pong: number }) => {
     const [animationState, setAnimationState] = useState<boolean>(true);
@@ -40,7 +40,7 @@ const HomeClient = ({ pong }: { pong: number }) => {
                 <div className={Style.container}>
                     <p className={Style.p}><span className={Style.one}>1</span> Сайт</p>
                     <p className={Style.p} style={{ display: "flex", alignItems: "center" }}><IconInfinity width={40} height={40} className={Style.inf} color='rgba(45, 212, 191)' />Стилей</p>
-                    <Link href="/workshop" className={Style.link}>Открыть мастерскую</Link>
+                    <Link href="/workshop" className={Style.link}><IconStack />Открыть мастерскую</Link>
                     {pong !== 200 &&
                         <div className={Style.api_unavailable}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>

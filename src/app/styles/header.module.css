@@ -170,6 +170,7 @@
     align-items: center;
     width: 1.8rem;
     height: auto;
+    padding: calc((54px - 28px) / 2);
 }
 
 

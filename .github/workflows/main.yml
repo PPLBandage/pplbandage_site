@@ -32,18 +32,15 @@ jobs:
       - name: Set up OpenSSL
         run: sudo apt-get install -y openssl
 
-      - name: Encrypt .env file
+      - name: Encrypt env file
         run: |
-          openssl aes-256-cbc -salt -in ./production_build/.env -out .env.enc -k ${{ secrets.ENCRYPTION_KEY }}
+          openssl aes-256-cbc -salt -in ./production_build/env -out env.enc -k ${{ secrets.ENCRYPTION_KEY }}
 
-      - name: ls
-        run: ls production_build/
-
-      - name: Upload .env file
+      - name: Upload env file
         uses: actions/upload-artifact@v4
         with:
           name: encrypted-env
-          path: .env.enc
+          path: env.enc
 
   build:
     runs-on: ubuntu-latest
@@ -68,15 +65,15 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Download .env file
+      - name: Download env file
         uses: actions/download-artifact@v4
         with:
           name: encrypted-env
           path: .
 
-      - name: Decrypt .env file
+      - name: Decrypt env file
         run: |
-          openssl aes-256-cbc -d -in .env.enc -out .env -k ${{ secrets.ENCRYPTION_KEY }}
+          openssl aes-256-cbc -d -in env.enc -out .env -k ${{ secrets.ENCRYPTION_KEY }}
 
       - name: Install dependencies
         run: npm install

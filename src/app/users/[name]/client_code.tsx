@@ -50,7 +50,7 @@ const UsersClient = ({ user }: { user: Users }) => {
             <Me user_data={user}>
                 <div style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }} className={styles.cont}>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        <AdaptiveGrid child_width={300}>{elements}</AdaptiveGrid>
+                        <AdaptiveGrid child_width={300} className={styles}>{elements}</AdaptiveGrid>
                     </div>
                 </div>
             </Me>

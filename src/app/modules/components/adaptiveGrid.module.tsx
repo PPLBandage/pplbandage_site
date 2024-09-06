@@ -24,12 +24,13 @@ const AdaptiveGrid = ({ child_width, children, header, className }: AdaptiveGrid
 
     useEffect(() => {
         if (!children) return;
-        const result_arr = [];
+        let result_arr = [];
         for (let i = 1; i < columnCount + 1; i++) {
             const _children = children.filter((_, index) => (index + 1 - i) % columnCount === 0);
-            const column = <div key={i}>{_children}</div>;
+            const column = <div key={i} style={{ width: child_width }} className={className?.adaptive_grid_column}>{_children}</div>;
             result_arr.push(column);
         }
+        result_arr = result_arr.concat(new Array(columnCount - result_arr.length).fill(0));
         setColumns(result_arr);
     }, [children, columnCount])
 
@@ -44,10 +45,9 @@ const AdaptiveGrid = ({ child_width, children, header, className }: AdaptiveGrid
             <div id='layout_parent' style={{
                 width: '100%',
                 display: 'flex',
-                columnGap: '15px',
-                justifyContent: children?.length >= columnCount ? 'center' : 'flex-start',
-                flexDirection: columnCount === 1 ? 'column' : 'row',
-                alignItems: columnCount === 1 ? 'center' : 'normal'
+                columnGap: '1rem',
+                justifyContent: 'center',
+                flexDirection: 'row',
             }} className={`${style.adaptive_grid_parent} ${className?.adaptive_grid_parent}`}>
                 {columns}
             </div>

@@ -193,4 +193,8 @@
         width: 100% !important;
         min-width: 300px !important;
     }
+
+    .adaptive_grid_column {
+        width: 100% !important;
+    }
 }

@@ -108,6 +108,7 @@ const Main = () => {
                     <div style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }} className={styles.cont}>
                         <AdaptiveGrid
                             child_width={300}
+                            className={styles}
                             header={<Link className={styles.create} href="/workshop/create">
                                 <IconPlus />Создать
                             </Link>}>

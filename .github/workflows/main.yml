@@ -36,6 +36,9 @@ jobs:
         run: |
           openssl aes-256-cbc -salt -in ./production_build/.env -out .env.enc -k ${{ secrets.ENCRYPTION_KEY }}
 
+      - name: ls
+        run: ls
+
       - name: Upload .env file
         uses: actions/upload-artifact@v4
         with:

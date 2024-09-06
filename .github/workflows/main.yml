@@ -82,7 +82,7 @@ jobs:
         run: npm run build
 
       - name: Archive production artifacts
-        run: tar -czf build.tar.gz .next public package.json package-lock.json .env.enc
+        run: tar -czf build.tar.gz .next public package.json package-lock.json env.enc
 
       - name: Upload production artifacts
         uses: actions/upload-artifact@v4
@@ -120,7 +120,7 @@ jobs:
           sshpass -e ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << 'EOF'
             cd /home/ppl_site
             tar -xzf build.tar.gz
-            openssl aes-256-cbc -d -in .env.enc -out .env -k ${{ secrets.ENCRYPTION_KEY }}
+            openssl aes-256-cbc -d -in env.enc -out .env -k ${{ secrets.ENCRYPTION_KEY }}
             rm build.tar.gz
             npm install --production
             systemctl restart ppl_site

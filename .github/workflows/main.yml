@@ -32,6 +32,9 @@ jobs:
       - name: Set up OpenSSL
         run: sudo apt-get install -y openssl
 
+      - name: Run ls
+        run: ls
+
       - name: Encrypt .env file
         run: |
           openssl aes-256-cbc -salt -in production_build/.env -out .env.enc -k ${{ secrets.ENCRYPTION_KEY }}

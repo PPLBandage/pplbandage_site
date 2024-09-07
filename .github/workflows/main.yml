@@ -102,7 +102,7 @@ jobs:
         env:
           SSHPASS: ${{ secrets.ROOT_SSH_PASSWORD }}
         run: |
-          sshpass -e scp -o -r StrictHostKeyChecking=no ./* root@${{ secrets.SERVER_IP }}:/home/andcoolsystems/pplbandage_site
+          sshpass -e scp -o StrictHostKeyChecking=no ./* -r root@${{ secrets.SERVER_IP }}:/home/andcoolsystems/pplbandage_site
 
       - name: Extract build artifacts on server
         env:

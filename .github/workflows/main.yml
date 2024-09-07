@@ -118,12 +118,12 @@ jobs:
           SSHPASS: ${{ secrets.ROOT_SSH_PASSWORD }}
         run: |
           sshpass -e ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << 'EOF'
-            cd /home/ppl_site
+            cd /home/andcool/pplbandage_site
             tar -xzf build.tar.gz
             openssl aes-256-cbc -d -in env.enc -out .env -k ${{ secrets.ENCRYPTION_KEY }}
             rm build.tar.gz
-            npm install --production
-            systemctl restart ppl_site
+            docker compose build
+            docker compose up -d
           EOF
       - name: Clean up local build artifacts
         run: rm build.tar.gz

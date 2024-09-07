@@ -1,0 +1,17 @@
+services:
+  ppl_site:
+    container_name: ppl_site
+    ports:
+      - "3000:3000"
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    networks:
+      - nginx
+    command: npm run start
+    restart: unless-stopped
+
+networks:
+  nginx:
+    external: true
+    name: nginx

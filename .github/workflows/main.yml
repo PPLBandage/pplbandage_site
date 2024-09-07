@@ -42,7 +42,7 @@ jobs:
           name: encrypted-env
           path: env.enc
 
-  build:
+  check:
     runs-on: ubuntu-latest
     needs: build-env
 
@@ -81,37 +81,28 @@ jobs:
       - name: Run build
         run: npm run build
 
-      - name: Archive production artifacts
-        run: tar -czf build.tar.gz .next public package.json package-lock.json env.enc
-
-      - name: Upload production artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: build.tar.gz
-
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: check
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download production artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-          path: .
-
       - name: Install SSH and SCP
         run: sudo apt-get update && sudo apt-get install -y openssh-client sshpass
 
-      - name: Copy build artifacts via SCP
+      - name: Download env file
+        uses: actions/download-artifact@v4
+        with:
+          name: encrypted-env
+          path: .
+
+      - name: Upload sources
         env:
           SSHPASS: ${{ secrets.ROOT_SSH_PASSWORD }}
         run: |
-          sshpass -e scp -o StrictHostKeyChecking=no build.tar.gz root@${{ secrets.SERVER_IP }}:/home/ppl_site
+          sshpass -e scp -o StrictHostKeyChecking=no ./* root@${{ secrets.SERVER_IP }}:/home/andcool/pplbandage_site
 
       - name: Extract build artifacts on server
         env:
@@ -119,11 +110,7 @@ jobs:
         run: |
           sshpass -e ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << 'EOF'
             cd /home/andcool/pplbandage_site
-            tar -xzf build.tar.gz
             openssl aes-256-cbc -d -in env.enc -out .env -k ${{ secrets.ENCRYPTION_KEY }}
-            rm build.tar.gz
             docker compose build
             docker compose up -d
           EOF
-      - name: Clean up local build artifacts
-        run: rm build.tar.gz

@@ -5,6 +5,7 @@ import { CSSTransition } from 'react-transition-group';
 import Styles from '@/app/styles/theme_selector.module.css';
 import Image from 'next/image';
 import { IconBucketDroplet, IconPalette, IconPhoto } from '@tabler/icons-react'
+import { authApi } from '../utils/api.module';
 
 interface MenuProps {
     initialValue?: number;
@@ -25,10 +26,13 @@ const getIcon = (theme: number) => {
 
 const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
     const [expanded, setExpanded] = useState<boolean>(false);
+    const [firstLoad, setFirstLoad] = useState<boolean>(true);
     const [theme, setTheme] = useState<number>(initialValue);
+    console.log(initialValue)
 
     useEffect(() => {
         onChange(theme);
+        firstLoad ? setFirstLoad(false) : authApi.put('user/me/profile_theme', { theme: theme });
     }, [theme]);
 
 

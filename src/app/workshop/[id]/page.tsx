@@ -35,6 +35,7 @@ const Main = async ({ params }: { params: { id: string } }) => {
                     <meta property="og:url" content={`https://pplbandage.ru/workshop/${data.external_id}`} />
                     <meta property="og:site_name" content="Повязки Pepeland" />
                     <meta property="og:image" content={`/api/workshop/${data.external_id}/og`} />
+                    <meta name="twitter:card" content="summary_large_image" />
                     <meta name="theme-color" content={data.average_og_color} />
                     <meta name="description" content={data.description || 'Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!'} />
                     <title>{`${data.title} · Повязки Pepeland`}</ title>

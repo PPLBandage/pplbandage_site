@@ -29,9 +29,6 @@ const HomeClient = ({ pong }: { pong: number }) => {
     }
     return (
         <body style={{ overflow: "hidden", overflowY: "scroll" }}>
-            <meta property="og:image" content='/static/banner.png' />
-            <meta property="twitter:image" content='/static/banner.png' />
-            <meta name="twitter:card" content="summary_large_image" />
             <Header />
             <div className={Style.test}>
                 <svg width="958" height="318" className={Style.svg}>

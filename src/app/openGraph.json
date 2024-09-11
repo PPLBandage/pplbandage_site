@@ -1,0 +1,104 @@
+{
+    "base": {
+        "title": "Повязки Pepeland",
+        "description": "Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!",
+        "manifest": "/static/manifest.webmanifest",
+        "icons": {
+            "icon": "/static/icons/icon.svg",
+            "shortcut": "/static/icons/icon.svg",
+            "apple": "/static/icons/icon.svg"
+        },
+        "creator": "AndcoolSystems",
+        "other": {
+            "darkreader-lock": "darkreader-lock",
+            "theme-color": "#0f766e"
+        },
+        "openGraph": {
+            "images": "https://pplbandage.ru/static/banner.png"
+        },
+        "twitter": {
+            "images": "https://pplbandage.ru/static/banner.png",
+            "card": "summary_large_image"
+        }
+    },
+    "/workshop": {
+        "title": "Мастерская · Повязки Pepeland",
+        "description": "Главная страница мастерской",
+        "openGraph": {
+            "title": "Мастерская · Повязки Pepeland",
+            "description": "Главная страница мастерской"
+        }
+    },
+    "/me": {
+        "title": "Личный кабинет · Повязки Pepeland",
+        "description": "Личный кабинет создателя повязок",
+        "openGraph": {
+            "title": "Личный кабинет · Повязки Pepeland",
+            "description": "Личный кабинет создателя повязок"
+        }
+    },
+    "/me/notifications": {
+        "title": "Уведомления · Повязки Pepeland",
+        "description": "Ваши уведомления",
+        "openGraph": {
+            "title": "Уведомления · Повязки Pepeland",
+            "description": "Ваши уведомления"
+        }
+    },
+    "/me/settings": {
+        "title": "Настройки · Повязки Pepeland",
+        "description": "Настройте свой аккаунт здесь",
+        "openGraph": {
+            "title": "Настройки · Повязки Pepeland",
+            "description": "Настройте свой аккаунт здесь"
+        }
+    },
+    "/me/stars": {
+        "title": "Избранное · Повязки Pepeland",
+        "description": "Ваши избранные работы",
+        "openGraph": {
+            "title": "Избранное · Повязки Pepeland",
+            "description": "Ваши избранные работы"
+        }
+    },
+    "/tos": {
+        "title": "Правила · Повязки Pepeland",
+        "description": "Правила использования сайта",
+        "openGraph": {
+            "title": "Правила · Повязки Pepeland",
+            "description": "Правила использования сайта"
+        }
+    },
+    "/tutorials": {
+        "title": "Туториалы · Повязки Pepeland",
+        "description": "Общее описание работы на сайте",
+        "openGraph": {
+            "title": "Туториалы · Повязки Pepeland",
+            "description": "Общее описание работы на сайте"
+        }
+    },
+    "/tutorials/bandage": {
+        "title": "Создание повязки · Повязки Pepeland",
+        "description": "Инструкция по созданию повязки",
+        "openGraph": {
+            "title": "Создание повязки · Повязки Pepeland",
+            "description": "Инструкция по созданию повязки"
+        }
+    },
+    "/tutorials/colorable": {
+        "title": "Создание окрашиваемой повязки · Повязки Pepeland",
+        "description": "Инструкция по созданию окрашиваемой повязки",
+        "openGraph": {
+            "title": "Создание окрашиваемой повязки · Повязки Pepeland",
+            "description": "Инструкция по созданию окрашиваемой повязки"
+        }
+    },
+    "/workshop/create": {
+        "title": "Создать · Повязки Pepeland",
+        "description": "Создание повязки",
+        "openGraph": {
+            "title": "Создать · Повязки Pepeland",
+            "description": "Создание повязки"
+        }
+    }
+}

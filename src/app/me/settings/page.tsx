@@ -69,10 +69,6 @@ const Page = () => {
 
     return (
         <body>
-            <title>Настройки · Повязки Pepeland</title>
-            <meta name="description" content="Настройте свой аккаунт здесь." />
-            <meta name="og:title" content="Настройки · Повязки Pepeland" />
-            <meta name="og:description" content="Настройте свой аккаунт здесь." />
             <Header />
             {logged &&
                 <Me>

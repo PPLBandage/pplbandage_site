@@ -8,16 +8,11 @@ import ASide from "@/app/tutorials/header.module";
 import { CustomLink } from "@/app/modules/components/search.module";
 import InfoCard from "@/app/modules/components/info.module";
 import styleLink from '@/app/styles/tutorials/common.module.css';
-import NextImage from "next/image";
 import { IconBulb } from '@tabler/icons-react';
 
 export default function Home() {
     return (
         <body>
-            <title>Создание повязки · Повязки Pepeland</title>
-            <meta name="description" content="Инструкция по созданию повязки." />
-            <meta name="og:title" content="Создание повязки · Повязки Pepeland" />
-            <meta name="og:description" content="Инструкция по созданию повязки." />
             <Header />
             <main className={style.main}>
                 <div className={style.main_container}>

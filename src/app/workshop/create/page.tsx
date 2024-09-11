@@ -72,10 +72,6 @@ export default function Home() {
 
     return (
         <body>
-            <title>Создать · Повязки Pepeland</title>
-            <meta name="description" content="Создание повязки" />
-            <meta name="og:title" content="Создать · Повязки Pepeland" />
-            <meta name="og:description" content="Создание повязки" />
             <Header />
             <main className={style.main}>
                 <div className={style.central_panel}>

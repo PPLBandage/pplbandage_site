@@ -6,12 +6,47 @@ import { headers } from "next/headers";
 import { numbersTxt } from "@/app/modules/utils/time.module";
 import { Query } from "@/app/modules/components/header.module";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 export interface Users extends Query {
     userID: number,
     works: Bandage[],
+    works_count: number,
     is_self: boolean,
     profile_theme: number
+}
+
+export const generateMetadata = async ({ params }: { params: { name: string } }): Promise<Metadata> => {
+    const meta = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}users/${params.name}/og`, {
+        validateStatus: () => true,
+        withCredentials: true,
+        headers: {
+            'Unique-Access': process.env.TOKEN,
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+        }
+    });
+
+    const data = meta.data as Users;
+    if (!data) return null;
+    return {
+        title: `${data.name} · Повязки Pepeland`,
+        description: `Профиль пользователя ${data.name}`,
+        openGraph: {
+            title: `${data.name} · Автор`,
+            description: `${numbersTxt(data.works_count, ['работа', 'работы', 'работ'])}`,
+            url: `https://pplbandage.ru/users/${data.username}`,
+            siteName: 'Повязки Pepeland',
+            images: `${data.avatar}?size=256`
+        },
+        twitter: {
+            card: 'summary'
+        },
+        other: {
+            'theme-color': data.banner_color
+        }
+    }
 }
 
 const Users = async ({ params }: { params: { name: string } }) => {
@@ -45,21 +80,7 @@ const Users = async ({ params }: { params: { name: string } }) => {
         redirect('/me');
     }
 
-    return (
-        <>
-            <head>
-                <title>{`${data.name} · Повязки Pepeland`}</title >
-                <meta name="description" content={`Профиль пользователя ${data.name}`} />
-                <meta property="og:title" content={`${data.name} · Автор`} />
-                <meta property="og:description" content={`${numbersTxt(data.works.length, ['работа', 'работы', 'работ'])}`} />
-                <meta property="og:url" content={`https://pplbandage.ru/users/${data.username}`} />
-                <meta property="og:site_name" content="Повязки Pepeland" />
-                <meta property="og:image" content={`${data.avatar}?size=256`} />
-                <meta name="theme-color" content={data.banner_color} />
-            </head>
-            <UsersClient user={data} />
-        </>
-    );
+    return <UsersClient user={data} />;
 
 }
 

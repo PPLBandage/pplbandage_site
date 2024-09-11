@@ -78,10 +78,6 @@ const Main = () => {
 
     return (
         <body>
-            <title>Избранное · Повязки Pepeland</title>
-            <meta name="description" content="Избранные работы в мастерской." />
-            <meta name="og:title" content="Избранное · Повязки Pepeland" />
-            <meta name="og:description" content="Избранные работы в мастерской." />
             <Header />
             {isLogged &&
                 <Me>

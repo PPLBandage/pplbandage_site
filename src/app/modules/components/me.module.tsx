@@ -77,10 +77,6 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
         setIsLogged(true);
     }
 
-    useEffect(() => {
-        console.log(theme)
-    }, [theme])
-
     let background;
     switch (theme ?? user_data?.profile_theme ?? data?.profile_theme) {
         case 1:

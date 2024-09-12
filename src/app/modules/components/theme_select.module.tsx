@@ -28,7 +28,6 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
     const [expanded, setExpanded] = useState<boolean>(false);
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
     const [theme, setTheme] = useState<number>(initialValue);
-    console.log(initialValue)
 
     useEffect(() => {
         onChange(theme);

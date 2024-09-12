@@ -145,7 +145,6 @@ const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageCh
             if (response.status === 200) {
                 const categories = response.data as Interfaces.Category[]
                 setAllCategories(categories);
-                console.log(window.location.hash)
                 if (window.location.hash === '#colorable') {
                     const colorable_category = categories.find((category) => category.id === Number(process.env.NEXT_PUBLIC_COLORABLE_ID));
                     if (colorable_category) {

@@ -101,34 +101,36 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
                                     {background}
                                     {!user_data && <Menu initialValue={data?.profile_theme} color_available={!!data?.banner_color} onChange={setTheme} />}
                                 </div>
-                                <div className={style_sidebar.card} style={{ alignItems: "stretch", gap: ".5rem" }}>
-                                    <Link href="/me" className={`${style_sidebar.side_butt} ${path == 'me' && style_sidebar.active}`}>
-                                        <IconList width={24} height={24} />
-                                        Мои работы
-                                    </Link>
-                                    <Link href="/me/stars" className={`${style_sidebar.side_butt} ${path == 'stars' && style_sidebar.active}`}>
-                                        <IconStar width={24} height={24} />
-                                        Избранное
-                                    </Link>
-                                    <Link href="/me/notifications" className={`${style_sidebar.side_butt} ${path == 'notifications' && style_sidebar.active}`}>
-                                        <IconBell width={24} height={24} />
-                                        Уведомления
-                                        {(data as Query)?.has_unreaded_notifications &&
-                                            <span style={{
-                                                backgroundColor: '#1bd96a',
-                                                width: '8px',
-                                                height: '8px',
-                                                marginLeft: '5px',
-                                                marginTop: '2px',
-                                                borderRadius: '50%'
-                                            }} />
-                                        }
-                                    </Link>
-                                    <Link href="/me/settings" className={`${style_sidebar.side_butt} ${path == 'settings' && style_sidebar.active}`}>
-                                        <IconSettings width={24} height={24} />
-                                        Настройки
-                                    </Link>
-                                </div>
+                                {!user_data &&
+                                    <div className={style_sidebar.card} style={{ alignItems: "stretch", gap: ".5rem" }}>
+                                        <Link href="/me" className={`${style_sidebar.side_butt} ${path == 'me' && style_sidebar.active}`}>
+                                            <IconList width={24} height={24} />
+                                            Мои работы
+                                        </Link>
+                                        <Link href="/me/stars" className={`${style_sidebar.side_butt} ${path == 'stars' && style_sidebar.active}`}>
+                                            <IconStar width={24} height={24} />
+                                            Избранное
+                                        </Link>
+                                        <Link href="/me/notifications" className={`${style_sidebar.side_butt} ${path == 'notifications' && style_sidebar.active}`}>
+                                            <IconBell width={24} height={24} />
+                                            Уведомления
+                                            {(data as Query)?.has_unreaded_notifications &&
+                                                <span style={{
+                                                    backgroundColor: '#1bd96a',
+                                                    width: '8px',
+                                                    height: '8px',
+                                                    marginLeft: '5px',
+                                                    marginTop: '2px',
+                                                    borderRadius: '50%'
+                                                }} />
+                                            }
+                                        </Link>
+                                        <Link href="/me/settings" className={`${style_sidebar.side_butt} ${path == 'settings' && style_sidebar.active}`}>
+                                            <IconSettings width={24} height={24} />
+                                            Настройки
+                                        </Link>
+                                    </div>
+                                }
                             </>
                         }
                     </div>

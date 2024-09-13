@@ -38,11 +38,13 @@
     height: 7rem;
 }
 
+
 .card .username {
     margin: 0;
     color: #c9c9c9;
     overflow-wrap: anywhere;
     margin-bottom: 1rem;
+    text-shadow: 1px 1px 1px var(--main-card-color);
 }
 
 .card h3 {
@@ -50,6 +52,7 @@
     overflow-wrap: anywhere;
     margin: 0;
     margin-top: .5rem;
+    text-shadow: 1px 1px 1px var(--main-card-color);
 }
 
 .uid {
@@ -85,6 +88,7 @@
 
 .joined p {
     margin: 0;
+    text-shadow: 1px 1px 1px var(--main-card-color);
 }
 
 .side_butt {
@@ -229,6 +233,11 @@
     gap: .15rem;
     margin: 0;
     margin-bottom: .3rem;
+    text-shadow: 1px 1px 1px var(--main-card-color);
+}
+
+.total_stars path {
+    filter: drop-shadow(1px 1px 1px var(--main-card-color));
 }
 
 

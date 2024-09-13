@@ -27,7 +27,7 @@ interface NotificationsInterface {
 const Notifications = () => {
     const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');
-    const [notifications, setNotifications] = useState<NotificationsInterface>(null);
+    const [notifications, setNotifications] = useState<NotificationsInterface | null>(null);
     const [page, setPage] = useState<number>(0);
 
     if (!cookies.current.get('sessionId')) {

@@ -1,12 +1,7 @@
 import Link from "next/link";
 import Header from "@/app/modules/components/header.module";
 import style from '@/app/styles/contacts/contacts.module.css';
-import { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: 'Контакты · Повязки Pepeland',
-    description: 'Способы связи с администрацией'
-}
 
 const Home = () => {
     return (

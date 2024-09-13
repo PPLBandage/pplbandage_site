@@ -100,5 +100,13 @@
             "title": "Создать · Повязки Pepeland",
             "description": "Создание повязки"
         }
+    },
+    "/contacts": {
+        "title": "Контакты · Повязки Pepeland",
+        "description": "Способы связи с администрацией",
+        "openGraph": {
+            "title": "Контакты · Повязки Pepeland",
+            "description": "Способы связи с администрацией"
+        }
     }
 }

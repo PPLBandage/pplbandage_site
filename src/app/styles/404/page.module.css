@@ -8,7 +8,7 @@
     bottom: 0px;
     right: 0px;
     color: var(--main-text-color);
-    animation: Load 250ms;
+    animation: Load 1s;
 }
 
 .main {

@@ -18,9 +18,9 @@ const NotFoundElement = () => {
         <div className={style.circle} id="circle-2" style={{ left: "60%", top: "60%", backgroundColor: "#00ADB5" }}></div>
         <main className={style.main}>
             <h1>404</h1>
-            <h2 style={{ margin: 0, marginBottom: "0.5%" }}>Page not found</h2>
+            <h2 style={{ margin: 0, marginBottom: "0.5%" }}>Страница не найдена</h2>
             <div>
-                <a href="/" className={style.home}>Return to home</a>
+                <a href="/" className={style.home}>Вернуться домой</a>
             </div>
         </main>
     </div>

@@ -45,7 +45,7 @@ export default function Home() {
             <main className={style.main}>
                 <div className={style.main_container}>
                     <ASide />
-                    <div className={style.animated}>
+                    <div className={style.animated} id='tutorials'>
                         <h1 style={{ marginTop: 0, fontSize: '2rem' }}>Повязки Pepeland</h1>
                         <p>В этом разделе вы найдете все что нужно знать о регистрации и работе на сайте, а так же о создании повязок.</p>
 

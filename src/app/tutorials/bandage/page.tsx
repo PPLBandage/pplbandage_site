@@ -17,7 +17,7 @@ export default function Home() {
             <main className={style.main}>
                 <div className={style.main_container}>
                     <ASide />
-                    <div className={style.animated}>
+                    <div className={style.animated} id='tutorials'>
                         <h1 style={{ marginTop: 0, fontSize: '2rem' }}>Создание повязки</h1>
                         <p>На этой странице описан весь процесс создания повязки со всеми особенностями.</p>
 

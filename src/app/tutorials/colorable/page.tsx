@@ -17,7 +17,7 @@ export default function Home() {
             <main className={style.main}>
                 <div className={style.main_container}>
                     <ASide />
-                    <div className={style.animated}>
+                    <div className={style.animated} id='tutorials'>
                         <h1 style={{ marginTop: 0, fontSize: '2rem' }}>Окрашиваемые повязки</h1>
                         <p>Тут вы найдёте всё что нужно знать о процессе окрашивания повязок и как сделать это правильно.</p>
 

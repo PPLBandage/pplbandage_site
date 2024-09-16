@@ -10,7 +10,7 @@ interface InfoCardProps {
 const InfoCard = ({ title, children, color }: InfoCardProps) => {
     const _color = color || '#4493F8';
     return (
-        <div style={{ borderColor: _color, background: `linear-gradient(90deg, ${_color} -10%, rgba(0,0,0,0) 40%)` }} className={Style.container}>
+        <div style={{ borderLeftColor: _color, backgroundColor: `${_color}20` }} className={Style.container}>
             <h3 className={Style.header}>{title}</h3>
             {children}
         </div>

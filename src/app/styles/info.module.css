@@ -2,13 +2,12 @@
     width: 100%;
     padding: 1rem;
     border-radius: 10px;
-    border: 1px blue solid;
+    border-left: 3px transparent solid;
     box-sizing: border-box;
     max-width: 1280px;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-
     gap: .5rem;
 }
 

@@ -47,12 +47,12 @@ export default function Home() {
             params: {
                 page: constrain(page, 0, Math.ceil(totalCount / take)),
                 take: take,
-                search: search ? search : undefined,
-                filters: filters_str ? filters_str : undefined,
-                sort: sort ? sort : undefined
+                search: search || undefined,
+                filters: filters_str || undefined,
+                sort: sort || undefined
             }
         }
-        if (JSON.stringify(config) == JSON.stringify(lastConfig)) {
+        if (JSON.stringify(config) === JSON.stringify(lastConfig)) {
             return;
         }
 

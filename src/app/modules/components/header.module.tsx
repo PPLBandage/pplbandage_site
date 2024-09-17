@@ -10,7 +10,17 @@ import Image from 'next/image';
 import { useQuery } from "@tanstack/react-query";
 import useCookie from "@/app/modules/utils/useCookie.module";
 
-import { IconUser, IconPlus, IconSmartHome, IconStack, IconLogin, IconLogout, IconChevronDown, IconMenu2 } from '@tabler/icons-react';
+import {
+    IconUser,
+    IconPlus,
+    IconSmartHome,
+    IconStack,
+    IconLogin,
+    IconLogout,
+    IconChevronDown,
+    IconMenu2,
+    IconUserCog
+} from '@tabler/icons-react';
 import IconCropped from '@/app/resources/icon-cropped.svg';
 
 export interface Query {
@@ -49,6 +59,7 @@ const Header = (): JSX.Element => {
     });
 
     const [loading, setLoading] = useState<boolean>(!!cookie && !data);
+    const admin = ['superadmin', 'updateusers'].some(perm => data?.permissions.includes(perm));
 
     useEffect(() => {
         setLogged(!!cookie);
@@ -81,7 +92,7 @@ const Header = (): JSX.Element => {
                         }}
                         unmountOnExit>
                         <div className={Styles.menu}>
-                            {logged ? <LoggedMenu /> : <UnloggedMenu />}
+                            {logged ? <LoggedMenu admin={admin} /> : <UnloggedMenu />}
                         </div>
                     </CSSTransition>
                 </div>
@@ -123,13 +134,14 @@ const AvatarMenu = ({ data, loading, expanded, expand }: AvatarMenuProps) => {
     );
 }
 
-const LoggedMenu = () => {
+const LoggedMenu = ({ admin }: { admin: boolean }) => {
     return (
         <>
             <Link className={Styles.menu_element} href="/me"><IconUser />Личный кабинет</Link>
             <Link className={Styles.menu_element} href="/workshop/create"><IconPlus />Создать</Link>
             <hr style={{ border: "1px var(--hr-color) solid", margin: "2px" }}></hr>
             <Link className={Styles.menu_element} href="/"><IconSmartHome />Главная</Link>
+            {admin && <Link className={Styles.menu_element} href="/admin"><IconUserCog />Админ панель</Link>}
             <Link className={Styles.menu_element} href="/workshop"><IconStack />Мастерская</Link>
             <a className={Styles.menu_element} onClick={() => logout()}><IconLogout />Выйти</a>
         </>

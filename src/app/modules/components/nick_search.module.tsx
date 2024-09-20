@@ -47,7 +47,7 @@ const Searcher = ({ onChange }: SearchProps) => {
 
         if (nickname.length > 2) {
             setLoading(true);
-            axios.get("/api/search/" + nickname).then(response => {
+            axios.get("/api/minecraft/search/" + nickname).then(response => {
                 if (response.status == 200) {
                     const response_data = response.data as SearchResponse;
                     const data = response_data.data.map((nick) => {

@@ -360,7 +360,7 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
         if (!nickname) {
             return;
         }
-        axios.get(`/api/skin/${nickname}?cape=true`, { validateStatus: () => true }).then((response) => {
+        axios.get(`/api/minecraft/skin/${nickname}?cape=true`, { validateStatus: () => true }).then((response) => {
             if (response.status !== 200) {
                 switch (response.status) {
                     case 404:

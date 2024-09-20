@@ -232,7 +232,11 @@ const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageCh
             if (response.status !== 201) {
                 const error_el = document.getElementById('create_error') as HTMLLabelElement;
                 if (error_el) {
-                    error_el.innerText = response.data.message.map((str: string) => capitalize(str)).join('\n') || `Unhandled error: ${response.status}`;
+                    if (typeof response.data.message === 'object') {
+                        error_el.innerText = response.data.message.map((str: string) => capitalize(str)).join('\n') || `Unhandled error: ${response.status}`;
+                    } else {
+                        error_el.innerText = response.data.message_ru || response.data.message;
+                    }
                 }
             } else {
                 router.replace(`/workshop/${response.data.external_id}`);
@@ -259,7 +263,7 @@ const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageCh
                         heightVal={height} />
                 </>
             }
-            <p id="error" style={{ margin: 0, color: "rgb(247 22 22)" }}></p>
+            <p id="error" style={{ margin: 0, color: "#dc2626" }}></p>
             <textarea maxLength={50} id="title" placeholder="Заголовок" className={style.textarea} onInput={(ev) => setTitle((ev.target as HTMLTextAreaElement).value)} value={title} />
             <textarea maxLength={300} placeholder="Описание" className={style.textarea} onInput={(ev) => setDescription((ev.target as HTMLTextAreaElement).value)} value={description} />
 
@@ -275,7 +279,7 @@ const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageCh
             <CategorySelector enabledCategories={enabledCategories}
                 allCategories={allCategories}
                 onChange={setCategories} />
-            <label id="create_error" style={{ margin: 0, color: "rgb(247 22 22)" }}></label>
+            <label id="create_error" style={{ margin: 0, color: "#dc2626" }}></label>
             <button onClick={() => create()} className={style.skin_load}>Создать</button>
         </div>
     );

@@ -520,7 +520,11 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
                 return;
             }
             if (response.status === 400) {
-                alert(response.data.message.map((str: string) => capitalize(str)).join(', '));
+                if (typeof response.data.message === 'object') {
+                    alert(response.data.message.map((str: string) => capitalize(str)).join('\n') || `Unhandled error: ${response.status}`);
+                } else {
+                    alert(response.data.message_ru || response.data.message);
+                }
             }
         })
     }

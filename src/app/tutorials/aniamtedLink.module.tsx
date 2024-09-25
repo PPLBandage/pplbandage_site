@@ -34,12 +34,6 @@ export const TransitionLink: React.FC<AnimatedLinkProps> = ({
 
         await sleep(400);
         router.push(href);
-        await sleep(400);
-
-        if (body) {
-            body.style.transform = '';
-            body.style.opacity = '';
-        }
     };
 
     return (

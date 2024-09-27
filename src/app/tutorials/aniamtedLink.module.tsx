@@ -15,16 +15,9 @@ function sleep(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export const TransitionLink: React.FC<AnimatedLinkProps> = ({
-    children,
-    href,
-    ...props
-}) => {
+export const TransitionLink: React.FC<AnimatedLinkProps> = ({ children, href, ...props }) => {
     const router = useRouter();
-
-    const handleTransition = async (
-        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-    ) => {
+    const handleTransition = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
         const body = document.getElementById("tutorials");
         if (body) {

@@ -67,34 +67,34 @@ export default function Home() {
     }, [page, search, take, filters, sort])
 
     useEffect(() => {
-        if (data) {
-            const skinViewer = new SkinViewer({
-                width: 300,
-                height: 300,
-                renderPaused: true
-            });
-            skinViewer.camera.rotation.x = -0.4;
-            skinViewer.camera.rotation.y = 0.8;
-            skinViewer.camera.rotation.z = 0.29;
-            skinViewer.camera.position.x = 17;
-            skinViewer.camera.position.y = 6.5;
-            skinViewer.camera.position.z = 11;
-            skinViewer.loadBackground("/static/background.png").then(() => asyncImage('/static/workshop_base.png').then((base_skin) => {
-                Promise.all(data.data.map(async (el) => {
-                    try {
-                        const result = await generateSkin(el.base64, base_skin, el.categories.some(val => val.id == 3))
-                        await skinViewer.loadSkin(result, { model: 'default' });
-                        skinViewer.render();
-                        const image = skinViewer.canvas.toDataURL();
-                        return <Card el={el} base64={image} key={el.id} className={styles_card} />
-                    } catch {
-                        return;
-                    }
-                })).then(results => setElements(results))
-                    .catch(error => console.error('Error generating skins', error))
-                    .finally(() => skinViewer.dispose());
-            }));
-        }
+        if (!data) return;
+        const skinViewer = new SkinViewer({
+            width: 300,
+            height: 300,
+            renderPaused: true
+        });
+        skinViewer.camera.rotation.x = -0.4;
+        skinViewer.camera.rotation.y = 0.8;
+        skinViewer.camera.rotation.z = 0.29;
+        skinViewer.camera.position.x = 17;
+        skinViewer.camera.position.y = 6.5;
+        skinViewer.camera.position.z = 11;
+        skinViewer.loadBackground("/static/background.png").then(() => asyncImage('/static/workshop_base.png').then((base_skin) => {
+            Promise.all(data.data.map(async (el) => {
+                try {
+                    const result = await generateSkin(el.base64, base_skin, el.categories.some(val => val.id == 3))
+                    await skinViewer.loadSkin(result, { model: 'default' });
+                    skinViewer.render();
+                    const image = skinViewer.canvas.toDataURL();
+                    return <Card el={el} base64={image} key={el.id} className={styles_card} />
+                } catch {
+                    return;
+                }
+            })).then(results => setElements(results))
+                .catch(error => console.error('Error generating skins', error))
+                .finally(() => skinViewer.dispose());
+        }));
+
     }, [data]);
 
     return (

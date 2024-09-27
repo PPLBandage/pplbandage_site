@@ -90,20 +90,22 @@ export default function Home() {
                                 backgroundColor: 'var(--dark-hover)',
                                 borderRadius: '3px',
                                 fontSize: '.8rem'
-                            }}>{Math.floor(height / 2)}px</span></p>}
+                            }}>{Math.floor(height / 2)}px</span></p>
+                            }
                             <Select
                                 options={anims}
                                 defaultValue={anims[pose]}
                                 className={`react-select-container`}
                                 classNamePrefix="react-select"
                                 isSearchable={false}
-                                onChange={(n, a) => setPose(n.value)}
+                                onChange={(n, _) => setPose(n.value)}
                                 formatOptionLabel={(nick_value) => nick_value.label}
                             />
                             <SlideButton onChange={(v) => { setSlim(v); client.current?.changeSlim(v) }} value={slim} label="Тонкие руки" />
                         </div>
                     </aside>
-                    <Editor onBandageChange={(b64) => { client.current?.loadFromImage(b64) }}
+                    <Editor
+                        onBandageChange={(b64) => { client.current?.loadFromImage(b64) }}
                         onColorChange={(color) => { client.current?.setParams({ color: color }) }}
                         onColorableChange={(colorable) => { client.current?.setParams({ colorable: colorable }) }}
                         onBandageChangeSlim={(b64) => { client.current?.loadFromImage(b64, true) }}
@@ -382,7 +384,7 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal }: SelectorIn
             <label className={style.skin_drop}
                 ref={containerRef}
                 onDragOver={(evt) => ondragover(evt)}
-                onDragLeave={(evt) => ondragleave()}
+                onDragLeave={(_) => ondragleave()}
                 onDrop={(evt) => ondrop(evt)}>
                 <div className={style.hidable}>
                     <input type="file"

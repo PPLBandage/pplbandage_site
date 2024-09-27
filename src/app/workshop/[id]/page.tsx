@@ -11,10 +11,7 @@ export const generateMetadata = async ({ params }: { params: { id: string } }): 
         validateStatus: () => true,
         withCredentials: true,
         headers: {
-            'Unique-Access': process.env.TOKEN,
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache',
-            'Expires': '0'
+            'Unique-Access': process.env.TOKEN
         }
     });
 

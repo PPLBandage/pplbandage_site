@@ -1,7 +1,7 @@
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import style_add from '@/app/styles/tutorials/common.module.css';
 import { usePathname } from "next/navigation";
-import { TransitionLink } from "./aniamtedLink.module";
+import { TransitionLink } from "./animatedLink.module";
 
 const ASide = () => {
     const pathname = usePathname();

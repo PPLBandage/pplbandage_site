@@ -8,7 +8,7 @@ interface AnimatedLinkProps
     LinkProps {
     children: ReactNode;
     href: string;
-    delay?: number; // задержка перед переходом (в миллисекундах)
+    delay?: number;
 }
 
 function sleep(ms: number): Promise<void> {

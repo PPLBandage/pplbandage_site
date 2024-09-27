@@ -30,7 +30,7 @@ export default function Home() {
         })
     }, [])
 
-    const dat = roles.map((role) => {
+    const roles_data = roles.map((role) => {
         return (
             <div key={role.id} className={styles.role_container}>
                 <span style={{ backgroundColor: "#" + role.color.toString(16) }} className={styles.role_dot}>
@@ -58,7 +58,7 @@ export default function Home() {
                             а так же имеющие определенные <Tooltip
                                 body={
                                     <div className={styles.roles_container}>
-                                        {dat.length > 0 ? dat : <IconSvg width={86} height={86} className={style_workshop.loading} />}
+                                        {roles_data.length > 0 ? roles_data : <IconSvg width={86} height={86} className={style_workshop.loading} />}
                                     </div>
                                 }
                                 opacity="1"

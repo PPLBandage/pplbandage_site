@@ -168,7 +168,8 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                             <div className={style.check_notification} style={{ borderColor: "red", backgroundColor: "rgba(255, 0, 0, .13)" }}>
                                 <h3>Отклонено</h3>
                                 <p>Ваша работа была отклонена модерацией. Для получения информации обратитесь в поддержку</p>
-                            </div> : null
+                            </div>
+                        : null
                 }
                 <div className={style.main_container}>
                     <div className={style.skin_parent}>
@@ -187,7 +188,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                                 className={`react-select-container`}
                                 classNamePrefix="react-select"
                                 isSearchable={false}
-                                onChange={(n, a) => setPose(n.value)}
+                                onChange={(n, _) => setPose(n.value)}
                                 formatOptionLabel={(nick_value) => nick_value.label}
                             />
                             <SlideButton onChange={(val) => client.current?.changeSlim(val)} value={slim} label="Тонкие руки" />
@@ -205,12 +206,18 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                         </div>
                     </div>
                     <div style={{ width: "100%" }}>
-                        {!edit ? <Info el={data} onClick={() => setEdit(true)} /> :
-                            <EditElement bandage={data} onClose={() => {
-                                setEdit(false);
-                                window.location.reload();
-                            }
-                            } />
+                        {!edit ?
+                            <Info
+                                el={data}
+                                onClick={() => setEdit(true)}
+                            /> :
+                            <EditElement
+                                bandage={data}
+                                onClose={() => {
+                                    setEdit(false);
+                                    window.location.reload();
+                                }}
+                            />
                         }
                         <hr />
                         <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>
@@ -227,20 +234,27 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                                 </div>
                             }
                             <div className={style.settings_slider}>
-                                <input type="range" min="0" max='8' defaultValue='4' step='1' id='position' className={style.position} onInput={(evt) => {
-                                    client.current?.setParams({ position: Number((evt.target as HTMLInputElement).value) });
-                                }
-                                } />
+                                <input
+                                    type="range"
+                                    min='0'
+                                    max='8'
+                                    defaultValue='4'
+                                    step='1'
+                                    id='position'
+                                    className={style.position}
+                                    onInput={evt => client.current?.setParams({ position: Number((evt.target as HTMLInputElement).value) })
+                                    }
+                                />
                                 <div className={style.settings_slider_1}>
-                                    <SlideButton onChange={(val) => client.current?.setParams({ first_layer: val })}
+                                    <SlideButton onChange={val => client.current?.setParams({ first_layer: val })}
                                         defaultValue={true}
                                         label='Первый слой' />
 
-                                    <SlideButton onChange={(val) => client.current?.setParams({ second_layer: val })}
+                                    <SlideButton onChange={val => client.current?.setParams({ second_layer: val })}
                                         defaultValue={true}
                                         label='Второй слой' />
 
-                                    <SlideButton onChange={(val) => client.current?.setParams({ clear_pix: val })}
+                                    <SlideButton onChange={val => client.current?.setParams({ clear_pix: val })}
                                         defaultValue={true}
                                         label='Очищать пиксели на втором слое' />
 
@@ -250,7 +264,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                                         className={`react-select-container`}
                                         classNamePrefix="react-select"
                                         isSearchable={false}
-                                        onChange={(n, a) => client.current?.setParams({ body_part: n.value })}
+                                        onChange={(n, _) => client.current?.setParams({ body_part: n.value })}
                                     />
                                     <Select
                                         options={layers}
@@ -258,7 +272,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                                         className={`react-select-container`}
                                         classNamePrefix="react-select"
                                         isSearchable={false}
-                                        onChange={(n, a) => client.current?.setParams({ layers: n.value })}
+                                        onChange={(n, _) => client.current?.setParams({ layers: n.value })}
                                     />
                                 </div>
                             </div>
@@ -405,7 +419,7 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
         const reader = new FileReader();
 
         reader.onload = () => {
-            asyncImage(reader.result as string).then((img) => {
+            asyncImage(reader.result as string).then(img => {
                 if (img.width != 64 || img.height != 64) {
                     setError('Скин должен иметь размеры 64x64 пикселя');
                     return;
@@ -427,12 +441,12 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
             const drag_container = document.getElementById("drop_container") as HTMLDivElement;
             drag_container.style.borderStyle = "solid";
         }
-    };
+    }
 
-    const ondragleave = (evt: React.DragEvent<HTMLLabelElement>) => {
+    const ondragleave = () => {
         const drag_container = document.getElementById("drop_container") as HTMLDivElement;
         drag_container.style.borderStyle = "dashed";
-    };
+    }
 
     const ondrop = (evt: React.DragEvent<HTMLLabelElement>) => {
         getData(evt.dataTransfer?.files[0]);
@@ -440,7 +454,7 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
         evt.preventDefault();
         const drag_container = document.getElementById("drop_container") as HTMLDivElement;
         drag_container.style.borderStyle = "dashed";
-    };
+    }
 
     const onChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
         getData(evt.target?.files[0]);
@@ -453,7 +467,7 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
             <label className={style.skin_drop}
                 id="drop_container"
                 onDragOver={(evt) => ondragover(evt)}
-                onDragLeave={(evt) => ondragleave(evt)}
+                onDragLeave={(_) => ondragleave()}
                 onDrop={(evt) => ondrop(evt)}>
                 <div className={style.hidable}>
                     <input type="file"

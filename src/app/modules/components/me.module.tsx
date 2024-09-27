@@ -7,13 +7,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { timeStamp } from "../utils/time.module";
-import Footer from "./footer.module";
 import Menu from "./theme_select.module";
 import { Users } from "@/app/users/[name]/page";
 import { formatDate } from "./card.module";
 
 import { IconSettings, IconBell, IconStar, IconList, IconStarFilled } from '@tabler/icons-react';
-import { TransitionLink } from "@/app/me/aniamtedLink.module";
+import { TransitionLink } from "@/app/me/animatedLink.module";
 
 const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, color?: string }) => {
     return (

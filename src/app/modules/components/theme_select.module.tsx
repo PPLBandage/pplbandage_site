@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import Styles from '@/app/styles/theme_selector.module.css';
-import Image from 'next/image';
 import { IconBucketDroplet, IconPalette, IconPhoto } from '@tabler/icons-react'
 import { authApi } from '../utils/api.module';
 

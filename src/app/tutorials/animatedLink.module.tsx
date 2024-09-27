@@ -1,7 +1,7 @@
 "use client";
 import Link, { LinkProps } from "next/link";
 import React, { ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface AnimatedLinkProps
     extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">,
@@ -16,9 +16,11 @@ function sleep(ms: number): Promise<void> {
 }
 
 export const TransitionLink: React.FC<AnimatedLinkProps> = ({ children, href, ...props }) => {
+    const pathname = usePathname();
     const router = useRouter();
     const handleTransition = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
+        if (pathname.endsWith(href)) return;
         const body = document.getElementById("tutorials");
         if (body) {
             body.style.transform = 'translateY(50px)';

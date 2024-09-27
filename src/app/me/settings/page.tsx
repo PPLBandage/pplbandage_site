@@ -105,7 +105,7 @@ const UserSettings = ({ data }: { data: SettingsResponse }) => {
 }
 
 const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): void }) => {
-    const [valid, setValid] = useState<boolean>(data.connections.minecraft?.valid);
+    const [valid, setValid] = useState<boolean>(data.connections?.minecraft?.valid);
     const [autoload, setAutoload] = useState<boolean>(data.connections?.minecraft?.autoload);
 
     const refresh = () => {

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { authApi } from "../utils/api.module";
 import { Query } from "./header.module";
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
@@ -8,12 +8,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { timeStamp } from "../utils/time.module";
 import Footer from "./footer.module";
-import { useCookies } from 'next-client-cookies';
 import Menu from "./theme_select.module";
 import { Users } from "@/app/users/[name]/page";
 import { formatDate } from "./card.module";
 
 import { IconSettings, IconBell, IconStar, IconList, IconStarFilled } from '@tabler/icons-react';
+import { TransitionLink } from "@/app/me/aniamtedLink.module";
 
 const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, color?: string }) => {
     return (
@@ -103,15 +103,15 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
                                 </div>
                                 {!user_data &&
                                     <div className={style_sidebar.card} style={{ alignItems: "stretch", gap: ".5rem" }}>
-                                        <Link href="/me" className={`${style_sidebar.side_butt} ${path == 'me' && style_sidebar.active}`}>
+                                        <TransitionLink href="/me" className={`${style_sidebar.side_butt} ${path == 'me' && style_sidebar.active}`}>
                                             <IconList width={24} height={24} />
                                             Мои работы
-                                        </Link>
-                                        <Link href="/me/stars" className={`${style_sidebar.side_butt} ${path == 'stars' && style_sidebar.active}`}>
+                                        </TransitionLink>
+                                        <TransitionLink href="/me/stars" className={`${style_sidebar.side_butt} ${path == 'stars' && style_sidebar.active}`}>
                                             <IconStar width={24} height={24} />
                                             Избранное
-                                        </Link>
-                                        <Link href="/me/notifications" className={`${style_sidebar.side_butt} ${path == 'notifications' && style_sidebar.active}`}>
+                                        </TransitionLink>
+                                        <TransitionLink href="/me/notifications" className={`${style_sidebar.side_butt} ${path == 'notifications' && style_sidebar.active}`}>
                                             <IconBell width={24} height={24} />
                                             Уведомления
                                             {(data as Query)?.has_unreaded_notifications &&
@@ -124,11 +124,11 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
                                                     borderRadius: '50%'
                                                 }} />
                                             }
-                                        </Link>
-                                        <Link href="/me/settings" className={`${style_sidebar.side_butt} ${path == 'settings' && style_sidebar.active}`}>
+                                        </TransitionLink>
+                                        <TransitionLink href="/me/settings" className={`${style_sidebar.side_butt} ${path == 'settings' && style_sidebar.active}`}>
                                             <IconSettings width={24} height={24} />
                                             Настройки
-                                        </Link>
+                                        </TransitionLink>
                                     </div>
                                 }
                             </>
@@ -136,7 +136,6 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
                     </div>
                     {children}
                 </div>
-                <Footer />
             </div>
         </div>
     );

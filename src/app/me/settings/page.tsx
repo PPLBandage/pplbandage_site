@@ -72,7 +72,7 @@ const Page = () => {
             <Header />
             {logged &&
                 <Me>
-                    <div className={Style.main} style={loaded ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
+                    <div id="sidebar" className={Style.main} style={loaded ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
                         {data &&
                             <>
                                 <UserSettings data={data} />

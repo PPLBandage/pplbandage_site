@@ -74,7 +74,7 @@ const Notifications = () => {
         <body>
             <Header />
             <Me>
-                <div className={Style.container} style={notifications != null ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
+                <div id="sidebar" className={Style.container} style={notifications != null ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
                     {notifications?.data.length > 0 ?
                         <>
                             {notifications?.total_count > 5 && <Paginator total_count={notifications?.total_count} take={5} onChange={(page) => setPage(page || 0)} />}

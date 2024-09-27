@@ -78,7 +78,7 @@
     background-color: var(--main-menu-color);
     box-shadow: none;
     transform: scale(1);
-    transition: background-color 150ms, box-shadow 150ms;
+    transition: background-color 200ms, box-shadow 200ms, transform 200ms;
     cursor: pointer;
 
     color: var(--main-text-color);

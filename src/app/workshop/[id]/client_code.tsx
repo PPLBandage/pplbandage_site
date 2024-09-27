@@ -507,11 +507,10 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-
     const save = () => {
         authApi.put(`workshop/${bandage.external_id}`, {
             title: title,
-            description: description !== "" ? description : null,
+            description: description || null,
             categories: categories,
             access_level: accessLevel
         }).then((response) => {
@@ -546,7 +545,7 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
             className={`react-select-container`}
             classNamePrefix="react-select"
             isSearchable={false}
-            onChange={(n, a) => setAccessLevel(n.value)}
+            onChange={(n, _) => setAccessLevel(n.value)}
         />
         <div className={style.check_notification} style={{
             borderColor: "red",

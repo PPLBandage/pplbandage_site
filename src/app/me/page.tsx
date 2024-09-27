@@ -99,7 +99,7 @@ const Main = () => {
             <Header />
             {!isLogged ? <Login /> :
                 <Me>
-                    <div style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }} className={styles.cont}>
+                    <div style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }} className={styles.cont} id="sidebar">
                         <AdaptiveGrid
                             child_width={300}
                             className={styles}

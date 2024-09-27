@@ -81,12 +81,14 @@ const Main = () => {
             <Header />
             {isLogged &&
                 <Me>
-                    {data && data.length != 0 ? <div className={style_sidebar.skins_container_2} style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
-                        <AdaptiveGrid child_width={300}>{elements}</AdaptiveGrid>
-                    </div> :
+                    {data && data.length != 0 ?
+                        <div id="sidebar" className={style_sidebar.skins_container_2} style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
+                            <AdaptiveGrid child_width={300}>{elements}</AdaptiveGrid>
+                        </div> :
                         <div className={style_sidebar.animated} style={elements ? { opacity: "1", transform: "translateY(0)", width: "100%" } : { opacity: "0", transform: "translateY(50px)", width: "100%" }}>
                             <p style={{ display: "flex", alignItems: "center", fontSize: "1.1rem", fontWeight: 500, width: "100%", justifyContent: "center", margin: 0 }}><Image style={{ marginRight: ".5rem" }} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />Похоже, тут ничего нет</p>
-                        </div>}
+                        </div>
+                    }
                 </Me>
             }
         </body>

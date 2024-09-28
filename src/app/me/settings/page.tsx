@@ -334,29 +334,32 @@ const Safety = () => {
             });
     }, []);
 
-    const sessions_elements = sessions.sort(session => session.is_self ? -1 : 1).map(session =>
-        <div key={session.id} className={Style_safety.container}>
-            <div className={Style_safety.session}>
-                <h2 className={Style_safety.header}>
-                    {session.is_mobile ? <IconDeviceMobile /> : <IconDeviceDesktop />}
-                    {session.browser} {session.browser_version} {session.is_self && <p>Это устройство</p>}
-                </h2>
-                <p className={Style_safety.last_accessed}>Последний доступ {timeStamp((new Date(session.last_accessed).getTime()) / 1000)}</p>
+    const sessions_elements = sessions
+        .sort((session1, session2) => new Date(session1.last_accessed).getTime() - new Date(session2.last_accessed).getTime())
+        .sort(session => session.is_self ? -1 : 1)
+        .map(session =>
+            <div key={session.id} className={Style_safety.container}>
+                <div className={Style_safety.session}>
+                    <h2 className={Style_safety.header}>
+                        {session.is_mobile ? <IconDeviceMobile /> : <IconDeviceDesktop />}
+                        {session.browser} {session.browser_version} {session.is_self && <p>Это устройство</p>}
+                    </h2>
+                    <p className={Style_safety.last_accessed}>Последний доступ {timeStamp((new Date(session.last_accessed).getTime()) / 1000)}</p>
+                </div>
+                {!session.is_self &&
+                    <button className={Style_safety.button} onClick={_ => {
+                        if (!confirm(`Выйти с этого устройства?`)) return;
+                        authApi.delete(`user/me/sessions/${session.id}`).then(response => {
+                            if (response.status === 200) {
+                                setSessions(sessions.filter(session_ => session_.id !== session.id));
+                            }
+                        })
+                    }}>
+                        <IconX />
+                    </button>
+                }
             </div>
-            {!session.is_self &&
-                <button className={Style_safety.button} onClick={_ => {
-                    if (!confirm(`Выйти с этого устройства?`)) return;
-                    authApi.delete(`user/me/sessions/${session.id}`).then(response => {
-                        if (response.status === 200) {
-                            setSessions(sessions.filter(session_ => session_.id !== session.id));
-                        }
-                    })
-                }}>
-                    <IconX />
-                </button>
-            }
-        </div>
-    );
+        );
 
     return (
         <div className={Style.container}>

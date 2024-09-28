@@ -18,7 +18,17 @@ import { formatDate } from '@/app/modules/components/card.module';
 import { getTheme } from '@/app/modules/providers.module';
 import { useCookies } from 'next-client-cookies';
 import IconSvg from '@/app/resources/icon.svg';
-import { IconUser, IconBrandDiscord, IconCube, IconPhoto, IconX, IconRefresh, IconShield, IconDeviceMobile, IconDeviceDesktop } from '@tabler/icons-react';
+import {
+    IconUser,
+    IconBrandDiscord,
+    IconCube,
+    IconPalette,
+    IconX,
+    IconRefresh,
+    IconShield,
+    IconDeviceMobile,
+    IconDeviceDesktop
+} from '@tabler/icons-react';
 import { timeStamp } from '@/app/modules/utils/time.module';
 import style_workshop from "@/app/styles/workshop/page.module.css";
 const fira = Fira_Code({ subsets: ["latin"] });
@@ -255,7 +265,7 @@ const Themes = () => {
 
     return (
         <div className={Style.container} style={{ paddingBottom: 'calc(1rem - 10px)' }}>
-            <h3><IconPhoto width={24} height={24} style={{ marginRight: ".3rem", borderRadius: 0 }} />Внешний вид</h3>
+            <h3><IconPalette width={24} height={24} style={{ marginRight: ".3rem", borderRadius: 0 }} />Внешний вид</h3>
             <div className={Style_themes.parent}>
                 <Theme data={{
                     name: 'default',

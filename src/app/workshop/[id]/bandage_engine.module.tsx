@@ -360,7 +360,7 @@ export const fillPepe = (input: HTMLCanvasElement | HTMLImageElement, color: Arr
             const b = data[index + 2];
             const a = data[index + 3];
 
-            if (a != 0 && r == g && g == b) {
+            if (a !== 0 && r === g && g === b) {
                 data[index] = (r / 255) * color[0];
                 data[index + 1] = (g / 255) * color[1];
                 data[index + 2] = (b / 255) * color[2];

@@ -4,6 +4,10 @@
 ![Lines Count](https://img.shields.io/endpoint?url=https%3A%2F%2Fghloc.vercel.app%2Fapi%2FPPLBandage%2Fpplbandage_site%2Fbadge%3Ffilter%3D.ts%24%2C.tsx%24%2C.css%24)  
 **Исходный код сайта с повязками.**
 
+<h2 style="color: #ED4245">Известные проблемы</h2>
+
+- В браузерах `FireFox <=130.0` окрашивание повязок работает некорректно.
+
 ## Запуск
 
 1. Установка зависимостей  

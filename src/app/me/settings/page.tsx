@@ -320,6 +320,14 @@ interface Session {
     browser_version: string
 }
 
+const moveToStart = (arr: Session[]) => {
+    const filteredArray = arr.filter(el => !el.is_self);
+    const element = arr.find(el => el.is_self);
+    if (!element) return arr;
+    filteredArray.unshift(element);
+    return filteredArray;
+}
+
 const Safety = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [sessions, setSessions] = useState<Session[]>([]);
@@ -334,9 +342,8 @@ const Safety = () => {
             });
     }, []);
 
-    const sessions_elements = sessions
-        .sort((session1, session2) => new Date(session2.last_accessed).getTime() - new Date(session1.last_accessed).getTime())
-        .sort(session => session.is_self ? -1 : 1)
+    const sessions_elements = moveToStart(sessions
+        .sort((session1, session2) => new Date(session2.last_accessed).getTime() - new Date(session1.last_accessed).getTime()))
         .map(session =>
             <div key={session.id} className={Style_safety.container}>
                 <div className={Style_safety.session}>

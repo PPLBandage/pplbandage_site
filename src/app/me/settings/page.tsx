@@ -335,7 +335,7 @@ const Safety = () => {
     }, []);
 
     const sessions_elements = sessions
-        .sort((session1, session2) => new Date(session1.last_accessed).getTime() - new Date(session2.last_accessed).getTime())
+        .sort((session1, session2) => new Date(session2.last_accessed).getTime() - new Date(session1.last_accessed).getTime())
         .sort(session => session.is_self ? -1 : 1)
         .map(session =>
             <div key={session.id} className={Style_safety.container}>

@@ -7,6 +7,7 @@ import { authApi } from "@/app/modules/utils/api.module";
 import { redirect } from "next/navigation";
 import Style from "@/app/styles/me/connections.module.css";
 import Style_themes from "@/app/styles/me/themes.module.css";
+import Style_safety from "@/app/styles/me/safety.module.css";
 import Header from "@/app/modules/components/header.module";
 import useCookie from '@/app/modules/utils/useCookie.module';
 import Image from 'next/image';
@@ -16,7 +17,8 @@ import { SlideButton } from '@/app/modules/components/nick_search.module';
 import { formatDate } from '@/app/modules/components/card.module';
 import { getTheme } from '@/app/modules/providers.module';
 import { useCookies } from 'next-client-cookies';
-import { IconUser, IconBrandDiscord, IconCube, IconPhoto, IconX, IconRefresh } from '@tabler/icons-react';
+import { IconUser, IconBrandDiscord, IconCube, IconPhoto, IconX, IconRefresh, IconShield, IconDeviceMobile, IconDeviceDesktop } from '@tabler/icons-react';
+import { timeStamp } from '@/app/modules/utils/time.module';
 const fira = Fira_Code({ subsets: ["latin"] });
 
 interface SettingsResponse {
@@ -78,6 +80,7 @@ const Page = () => {
                                 <UserSettings data={data} />
                                 <Connections data={data} refetch={refetch} />
                                 <Themes />
+                                <Safety />
                             </>
                         }
                     </div>
@@ -301,6 +304,53 @@ const Theme = ({ data, theme, onChange }: { data: ThemeProps, theme: string, onC
             <div className={Style_themes.footer}>
                 <input type='radio' name='theme' id={data.name} checked={theme === data.name} onChange={change} />
                 <label htmlFor={data.name}>{data.title}</label>
+            </div>
+        </div>
+    )
+}
+
+interface Session {
+    id: number,
+    last_accessed: Date,
+    is_self: boolean,
+    is_mobile: boolean,
+    browser: string,
+    browser_version: string
+}
+
+const Safety = () => {
+    const [loading, setLoading] = useState<boolean>(true);
+    const [sessions, setSessions] = useState<Session[]>([]);
+
+    useEffect(() => {
+        authApi.get('user/me/sessions', { validateStatus: () => true })
+            .then(response => {
+                if (response.status === 200) {
+                    setSessions(response.data);
+                    setLoading(false);
+                }
+            });
+    }, []);
+
+    const sessions_elements = sessions.sort(session => session.is_self ? -1 : 0).map(session =>
+        <div key={session.id} className={Style_safety.container}>
+            <div className={Style_safety.session}>
+                <h2 className={Style_safety.header}>
+                    {session.is_mobile ? <IconDeviceMobile /> : <IconDeviceDesktop />}
+                    {session.browser} {session.browser_version} {session.is_self && <p>Это устройство</p>}
+                </h2>
+                <p className={Style_safety.last_accessed}>Последний доступ {timeStamp((new Date(session.last_accessed).getTime()) / 1000)}</p>
+            </div>
+            <button className={Style_safety.button}>Выйти</button>
+        </div>
+    );
+
+    return (
+        <div className={Style.container}>
+            <h3><IconShield width={24} height={24} style={{ marginRight: ".3rem", borderRadius: 0 }} />Безопасность</h3>
+            <h4 style={{ margin: 0 }}>Все устройства</h4>
+            <div className={Style_safety.parent}>
+                {sessions_elements}
             </div>
         </div>
     )

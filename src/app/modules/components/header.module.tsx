@@ -70,7 +70,7 @@ const Header = (): JSX.Element => {
         <>
             {expanded && <div className={Styles.expanding_menu_parent} onClick={() => setExpanded(false)} />}
             <header className={Styles.header}>
-                <div className={Styles.header_child}>
+                <div className={Styles.header_child} style={{ padding: logged ? '.5rem' : '.9rem' }}>
                     <div style={{ display: "flex", alignItems: "center", flexWrap: "nowrap" }}>
                         <Link href="/"><IconCropped style={{ width: "2.5rem" }} className={Styles.main_icon} /></Link>
                         <h1 className={Styles.ppl_name}>Повязки <a style={{ color: "var(--main-text-color)", textDecoration: "none" }} href="https://pepeland.net">Pepeland</a></h1>

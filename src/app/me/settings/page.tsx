@@ -17,8 +17,10 @@ import { SlideButton } from '@/app/modules/components/nick_search.module';
 import { formatDate } from '@/app/modules/components/card.module';
 import { getTheme } from '@/app/modules/providers.module';
 import { useCookies } from 'next-client-cookies';
+import IconSvg from '@/app/resources/icon.svg';
 import { IconUser, IconBrandDiscord, IconCube, IconPhoto, IconX, IconRefresh, IconShield, IconDeviceMobile, IconDeviceDesktop } from '@tabler/icons-react';
 import { timeStamp } from '@/app/modules/utils/time.module';
+import style_workshop from "@/app/styles/workshop/page.module.css";
 const fira = Fira_Code({ subsets: ["latin"] });
 
 interface SettingsResponse {
@@ -211,7 +213,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
                             const target = document.getElementById('code') as HTMLInputElement;
                             if (target.value.length > 6) target.value = target.value.slice(0, 6)
                         }} />
-                        <button className={Style.code_send} onClick={e => {
+                        <button className={Style.code_send} onClick={_ => {
                             const target = document.getElementById('code') as HTMLInputElement;
                             if (target.value.length != 6) return;
 
@@ -341,7 +343,18 @@ const Safety = () => {
                 </h2>
                 <p className={Style_safety.last_accessed}>Последний доступ {timeStamp((new Date(session.last_accessed).getTime()) / 1000)}</p>
             </div>
-            <button className={Style_safety.button}>Выйти</button>
+            {!session.is_self &&
+                <button className={Style_safety.button} onClick={_ => {
+                    if (!confirm(`Выйти с этого устройства?`)) return;
+                    authApi.delete(`user/me/sessions/${session.id}`).then(response => {
+                        if (response.status === 200) {
+                            setSessions(sessions.filter(session_ => session_.id !== session.id));
+                        }
+                    })
+                }}>
+                    <IconX />
+                </button>
+            }
         </div>
     );
 
@@ -350,7 +363,10 @@ const Safety = () => {
             <h3><IconShield width={24} height={24} style={{ marginRight: ".3rem", borderRadius: 0 }} />Безопасность</h3>
             <h4 style={{ margin: 0 }}>Все устройства</h4>
             <div className={Style_safety.parent}>
-                {sessions_elements}
+                {loading ?
+                    <IconSvg width={86} height={86} className={style_workshop.loading} /> :
+                    sessions_elements
+                }
             </div>
         </div>
     )

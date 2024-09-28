@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { getCookie, deleteCookie, setCookie } from 'cookies-next';
 
 const api = process.env.NEXT_PUBLIC_API_URL;
-const login_endpoint = "oauth/discord/";
+const login_endpoint = "auth/discord/";
 
 interface CookieObj {
     sessionId: string,

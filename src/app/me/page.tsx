@@ -70,7 +70,7 @@ const Main = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         if (code) {
-            authApi.post(`oauth/discord/${code}`).then((response) => {
+            authApi.post(`auth/discord/${code}`).then((response) => {
                 if (response.status === 403) {
                     const about_logging = document.getElementById('about_logging');
                     about_logging.style.color = "#ff2a2a";
@@ -128,7 +128,7 @@ const Login = () => {
     })
 
     useEffect(() => {
-        axios.get(process.env.NEXT_PUBLIC_API_URL + `oauth/roles`).then((response) => {
+        axios.get(process.env.NEXT_PUBLIC_API_URL + `auth/roles`).then((response) => {
             if (response.status === 200) {
                 setRoles(response.data);
             }

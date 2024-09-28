@@ -23,7 +23,7 @@ export default function Home() {
     const [roles, setRoles] = useState<Role[]>([]);
 
     useEffect(() => {
-        axios.get(process.env.NEXT_PUBLIC_API_URL + `oauth/roles`).then((response) => {
+        axios.get(process.env.NEXT_PUBLIC_API_URL + `auth/roles`).then((response) => {
             if (response.status === 200) {
                 setRoles(response.data);
             }

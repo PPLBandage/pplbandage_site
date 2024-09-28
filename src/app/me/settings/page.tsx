@@ -334,7 +334,7 @@ const Safety = () => {
             });
     }, []);
 
-    const sessions_elements = sessions.sort(session => session.is_self ? -1 : 0).map(session =>
+    const sessions_elements = sessions.sort(session => session.is_self ? -1 : 1).map(session =>
         <div key={session.id} className={Style_safety.container}>
             <div className={Style_safety.session}>
                 <h2 className={Style_safety.header}>

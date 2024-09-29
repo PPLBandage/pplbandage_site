@@ -37,20 +37,20 @@ const Searcher = ({ onChange }: SearchProps) => {
             nickname = nickname.slice(0, 32);
         }
         setInput(nickname);
-        if (nickname.length == 0) {
+        if (nickname.length === 0) {
             setNicknames([{ value: "no_data", label: <>Введите никнейм / UUID</>, isDisabled: true }]);
             return;
         }
 
         setNicknames([{ value: nickname, label: <b>{nickname}</b> }]);
-        if (nickname.length == 17) return;
+        if (nickname.length === 17) return;
 
         if (nickname.length > 2) {
             setLoading(true);
             axios.get("/api/minecraft/search/" + nickname).then(response => {
                 if (response.status == 200) {
                     const response_data = response.data as SearchResponse;
-                    const data = response_data.data.map((nick) => {
+                    const data = response_data.data.map(nick => {
                         const first_pos = nick.name.toLowerCase().indexOf(nickname.toLowerCase());
                         const first = nick.name.slice(0, first_pos);
                         const middle = nick.name.slice(first_pos, first_pos + nickname.length);
@@ -58,10 +58,12 @@ const Searcher = ({ onChange }: SearchProps) => {
                         const label = first_pos != -1 ? <>{first}<b className={Style.color}>{middle}</b>{last}</> : <>{nick.name}</>;
 
                         return {
-                            value: `${nick?.name} – ${nick?.uuid}`, label: <><div style={{ display: "flex", flexWrap: "nowrap", alignItems: "center" }}>
-                                <img alt="" src={"data:image/png;base64," + nick.head} width={32} style={{ marginRight: "3px", borderRadius: "10px" }} />
-                                {label}
-                            </div></>
+                            value: `${nick?.name} – ${nick?.uuid}`,
+                            label:
+                                <div style={{ display: "flex", flexWrap: "nowrap", alignItems: "center" }}>
+                                    <img alt="" src={"data:image/png;base64," + nick.head} width={32} style={{ marginRight: "3px", borderRadius: "10px" }} />
+                                    {label}
+                                </div>
                         }
                     })
                     setNicknames([
@@ -85,9 +87,9 @@ const Searcher = ({ onChange }: SearchProps) => {
         className={`react-select-container`}
         classNamePrefix="react-select"
         isSearchable={true}
-        onInputChange={(n, a) => fetch_nicknames(n)}
+        onInputChange={(n, _) => fetch_nicknames(n)}
         inputValue={input}
-        onChange={(n, a) => {
+        onChange={(n, _) => {
             if (n?.value) {
                 setLoading(true);
                 const nickname = n?.value;
@@ -99,7 +101,7 @@ const Searcher = ({ onChange }: SearchProps) => {
         }
         isLoading={loading}
         id="nick_input"
-        formatOptionLabel={(nick_value) => nick_value.label}
+        formatOptionLabel={nick_value => nick_value.label}
     />
 }
 

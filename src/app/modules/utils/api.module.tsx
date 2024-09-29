@@ -45,7 +45,7 @@ const checkAccess = (token: string): boolean => {  // true if ready to refresh
 
 const tokenMutex = new Mutex();
 
-authApi.interceptors.request.use(async (config) => {
+authApi.interceptors.request.use(async config => {
     const sessionId = getCookie('sessionId') as string;
     if (!sessionId && !config.url.startsWith(login_endpoint)) {
         const error = new Error('No cookie');
@@ -57,7 +57,7 @@ authApi.interceptors.request.use(async (config) => {
     return config;
 });
 
-authApi.interceptors.response.use((response) => {
+authApi.interceptors.response.use(response => {
     const setcookie = convertCookie(response.headers['setcookie']);
     if (setcookie) {
         setCookie('sessionId', setcookie.sessionId, {
@@ -68,7 +68,7 @@ authApi.interceptors.response.use((response) => {
     }
     tokenMutex.release();
     return response;
-}, async (error) => {
+}, async error => {
     tokenMutex.release();
     if (error.message != "No cookie" && error.response.status == 401) {
         deleteCookie('sessionId');

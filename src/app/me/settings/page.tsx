@@ -346,37 +346,48 @@ const Safety = () => {
         authApi.get('user/me/sessions', { validateStatus: () => true })
             .then(response => {
                 if (response.status === 200) {
-                    setSessions(response.data);
+                    const _sessions = response.data as Session[];
+                    setSessions(
+                        moveToStart(
+                            _sessions.sort((session1, session2) => new Date(session2.last_accessed).getTime() - new Date(session1.last_accessed).getTime()
+                            )
+                        ));
                     setLoading(false);
                 }
             });
     }, []);
 
-    const sessions_elements = moveToStart(sessions
-        .sort((session1, session2) => new Date(session2.last_accessed).getTime() - new Date(session1.last_accessed).getTime()))
-        .map(session =>
-            <div key={session.id} className={Style_safety.container}>
-                <div className={Style_safety.session}>
-                    <h2 className={Style_safety.header}>
-                        {session.is_mobile ? <IconDeviceMobile /> : <IconDeviceDesktop />}
-                        {session.browser} {session.browser_version} {session.is_self && <p>Это устройство</p>}
-                    </h2>
-                    <p className={Style_safety.last_accessed}>Последний доступ {timeStamp((new Date(session.last_accessed).getTime()) / 1000)}</p>
-                </div>
-                {!session.is_self &&
-                    <button className={Style_safety.button} onClick={_ => {
-                        if (!confirm(`Выйти с этого устройства?`)) return;
-                        authApi.delete(`user/me/sessions/${session.id}`).then(response => {
-                            if (response.status === 200) {
-                                setSessions(sessions.filter(session_ => session_.id !== session.id));
-                            }
-                        })
-                    }}>
-                        <IconX />
-                    </button>
-                }
+    const sessions_elements = sessions.map(session =>
+        <div key={session.id} className={Style_safety.container}>
+            <div className={Style_safety.session}>
+                <h2 className={Style_safety.header}>
+                    {session.is_mobile ? <IconDeviceMobile /> : <IconDeviceDesktop />}
+                    {session.browser} {session.browser_version} {session.is_self && <p>Это устройство</p>}
+                </h2>
+                <p className={Style_safety.last_accessed}>Последний доступ {timeStamp((new Date(session.last_accessed).getTime()) / 1000)}</p>
             </div>
-        );
+            {!session.is_self &&
+                <button className={Style_safety.button} onClick={_ => {
+                    if (!confirm(`Выйти с этого устройства?`)) return;
+                    authApi.delete(`user/me/sessions/${session.id}`).then(response => {
+                        if (response.status === 200) {
+                            setSessions(sessions.filter(session_ => session_.id !== session.id));
+                        }
+                    })
+                }}>
+                    <IconX />
+                </button>
+            }
+        </div>
+    );
+
+    const logoutAll = () => {
+        if (!confirm('Выйти со всех устройств, кроме этого?')) return;
+        authApi.delete('/user/me/sessions/all').then(response => {
+            if (response.status !== 200) alert(response.data.message);
+            else setSessions(sessions.filter(session_ => session_.is_self));
+        })
+    }
 
     return (
         <div className={Style.container}>
@@ -385,7 +396,10 @@ const Safety = () => {
             <div className={Style_safety.parent}>
                 {loading ?
                     <IconSvg width={86} height={86} className={style_workshop.loading} /> :
-                    sessions_elements
+                    <>
+                        {sessions_elements}
+                        {sessions.length > 1 && <button className={Style.unlink}><IconX style={{ width: "1.8rem" }} onClick={logoutAll} />Выйти со всех устройств</button>}
+                    </>
                 }
             </div>
         </div>

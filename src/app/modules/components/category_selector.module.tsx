@@ -16,8 +16,8 @@ const CategorySelector = ({ enabledCategories, allCategories, onChange }: Catego
     const [categories, setCategories] = useState<Category[]>(allCategories);
 
     const updateCategory = (id: number, enabled: boolean) => {
-        setCategories((prevCategories) =>
-            prevCategories.map((category) =>
+        setCategories(prevCategories =>
+            prevCategories.map(category =>
                 category.id === id ? { ...category, enabled: enabled } : category
             )
         );
@@ -39,13 +39,12 @@ const CategorySelector = ({ enabledCategories, allCategories, onChange }: Catego
         onChange(categories.filter(el => el.enabled).map(i => i.id));
     }, [categories]);
 
-    const categoriesEnabled = categories.filter(el => el.enabled).map((el) => {
-        return <CategoryEl key={el.id} enabled={true} category={el} onClick={() => updateCategory(el.id, false)} hoverable={true} />
-
-    });
-    const categoriesAvailable = categories.filter(el => !el.enabled).map((el) => {
-        return <CategoryEl key={el.id} category={el} onClick={() => updateCategory(el.id, true)} hoverable={true} />
-    });
+    const categoriesEnabled = categories.filter(el => el.enabled).map(el =>
+        <CategoryEl key={el.id} enabled={true} category={el} onClick={() => updateCategory(el.id, false)} hoverable={true} />
+    );
+    const categoriesAvailable = categories.filter(el => !el.enabled).map(el =>
+        <CategoryEl key={el.id} category={el} onClick={() => updateCategory(el.id, true)} hoverable={true} />
+    );
 
     return (
         <div>

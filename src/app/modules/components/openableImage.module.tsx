@@ -21,7 +21,8 @@ const OpenableImage = ({ style, src, width, height, className, bigStyle }: opena
             {opened &&
                 <div className={Style.div} onClick={() => setOpened(false)}>
                     <NextImage src={src} width={width} height={height} alt="" style={bigStyle} />
-                </div>}
+                </div>
+            }
         </>
     );
 }

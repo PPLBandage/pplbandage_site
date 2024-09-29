@@ -52,12 +52,13 @@ const Main = () => {
             skinViewer.camera.position.y = 6.5;
             skinViewer.camera.position.z = 11;
             skinViewer.loadBackground("/static/background.png").then(() => asyncImage('/static/workshop_base.png').then((base_skin) => {
-                Promise.all(data.map(async (el) => {
+                Promise.all(data.map(async el => {
                     try {
                         const result = await generateSkin(el.base64, base_skin, el.categories.some(val => val.id == 3))
                         await skinViewer.loadSkin(result, { model: 'default' });
                         skinViewer.render();
                         const image = skinViewer.canvas.toDataURL();
+                        console.log(styles_me)
                         return <Card el={el} base64={image} key={el.id} className={styles_me} />
                     } catch {
                         return;
@@ -83,7 +84,11 @@ const Main = () => {
                 <Me>
                     {data && data.length != 0 ?
                         <div id="sidebar" className={style_sidebar.skins_container_2} style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
-                            <AdaptiveGrid child_width={300}>{elements}</AdaptiveGrid>
+                            <AdaptiveGrid
+                                className={styles_me}
+                                child_width={300}>
+                                {elements}
+                            </AdaptiveGrid>
                         </div> :
                         <div className={style_sidebar.animated} style={elements ? { opacity: "1", transform: "translateY(0)", width: "100%" } : { opacity: "0", transform: "translateY(50px)", width: "100%" }}>
                             <p style={{ display: "flex", alignItems: "center", fontSize: "1.1rem", fontWeight: 500, width: "100%", justifyContent: "center", margin: 0 }}><Image style={{ marginRight: ".5rem" }} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />Похоже, тут ничего нет</p>

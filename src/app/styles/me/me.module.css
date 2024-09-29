@@ -165,19 +165,19 @@
     }
 }
 
-@media (min-width: 1006px) {
+@media (min-width: 1020px) {
     .create {
         width: calc(600px + 1rem);
     }
 }
 
-@media (min-width: 1322px) {
+@media (min-width: 1335px) {
     .create {
         width: calc(900px + 2rem);
     }
 }
 
-@media(max-width: 650px) {
+@media(max-width: 730px) {
     .create {
         width: 100% !important;
         min-width: 300px !important;

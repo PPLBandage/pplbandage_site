@@ -28,7 +28,7 @@ jobs:
           NEXT_PUBLIC_COLORABLE_ID: ${{ secrets.NEXT_PUBLIC_COLORABLE_ID }}
           NEXT_PUBLIC_LOGIN_URL: ${{ secrets.NEXT_PUBLIC_LOGIN_URL }}
           TOKEN: ${{ secrets.TOKEN }}
-          COMMIT_SHA: $GITHUB_SHA
+          COMMIT_SHA: ${{ github.sha }}
 
       - name: Set up OpenSSL
         run: sudo apt-get install -y openssl

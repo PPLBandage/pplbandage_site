@@ -21,6 +21,14 @@ export default function Home() {
                         <h1 style={{ marginTop: 0, fontSize: '2rem' }}>Создание повязки</h1>
                         <p>На этой странице описан весь процесс создания повязки со всеми особенностями.</p>
 
+                        <InfoCard color="#3FB950" title={
+                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
+                                <IconBulb width={24} height={24} />
+                                <p style={{ margin: 0 }}>Совет</p>
+                            </div>}>
+                            <p style={{ margin: 0 }}>Старайтесь не копировать уже существующие повязки. Например, если ваша работа дублирует один цвет уже существующей окрашиваемой повязки, или если она имеет незначительные различия с другой работой.</p>
+                        </InfoCard>
+
                         <h2>Строение</h2>
                         <p>Перед тем как начать создание повязки, нужно рассказать о её строении:</p>
                         <ul>
@@ -91,7 +99,7 @@ export default function Home() {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '.3rem' }}>
                             <a className={styleLink.CustomLink} href="/static/tutorials/examples/ex_1.png" download={"ex_1.png"}>Пример №1</a>
                             <a className={styleLink.CustomLink} href="/static/tutorials/examples/ex_2.png" download={"ex_2.png"}>Пример №2</a>
-                            <a className={styleLink.CustomLink} href="/static/tutorials/examples/ex_3.png" download={"ex_3.png"}>Пример №3</a>
+                            <a className={styleLink.CustomLink} style={{ marginBottom: '1rem' }} href="/static/tutorials/examples/ex_3.png" download={"ex_3.png"}>Пример №3</a>
                         </div>
                     </div>
                 </div>

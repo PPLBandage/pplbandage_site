@@ -50,6 +50,16 @@
     text-decoration: underline;
 }
 
+.git {
+    color: var(--main-action-color);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.git:hover {
+    text-decoration: underline;
+}
+
 @media(max-width: 450px) {
     .beta {
         font-size: .8rem;

@@ -34,7 +34,7 @@ export default function Home() {
 
 
     useEffect(() => {
-        axios.get(`/api/categories`).then((response) => {
+        axios.get(process.env.NEXT_PUBLIC_API_URL + `categories`).then((response) => {
             if (response.status == 200) {
                 setCategories(response.data as Category[]);
             }
@@ -56,7 +56,7 @@ export default function Home() {
             return;
         }
 
-        axios.get('/api/workshop', { withCredentials: true, ...config }).then((response) => {
+        axios.get(process.env.NEXT_PUBLIC_API_URL + 'workshop', { withCredentials: true, ...config }).then((response) => {
             if (response.status == 200) {
                 const data = response.data as BandageResponse;
                 setData(data);

@@ -25,7 +25,7 @@ export const generateMetadata = async ({ params }: { params: { id: string } }): 
             description: data.description,
             url: `https://pplbandage.ru/workshop/${data.external_id}`,
             siteName: 'Повязки Pepeland',
-            images: `https://pplbandage.ru/api/workshop/${data.external_id}/og`
+            images: `https://pplbandage.ru/api/v1/workshop/${data.external_id}/og`
         },
         twitter: {
             card: 'summary_large_image'

@@ -85,7 +85,7 @@ class Client {
         if (!nickname) {
             return;
         }
-        const response = await axios.get(`/api/minecraft/${nickname}?cape=true`, { validateStatus: () => true });
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `minecraft/${nickname}?cape=true`, { validateStatus: () => true });
         if (response.status !== 200) {
             return;
         }

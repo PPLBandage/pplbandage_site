@@ -26,10 +26,10 @@ const Searcher = ({ onChange }: SearchProps) => {
     const [input, setInput] = useState<string>("");
     const [nicknames, setNicknames] = useState<(Interfaces.Option | GroupBase<Interfaces.Option>)[]>([{
         value: "no_data",
-        label: <>Введите никнейм / UUID</>,
+        label: <>Введите никнейм</>,
         isDisabled: true
     }]);
-    const [nickValue, setNickValue] = useState<Interfaces.Option>({ value: "no_data", label: <>Введите никнейм / UUID</> });
+    const [nickValue, setNickValue] = useState<Interfaces.Option>({ value: "no_data", label: <>Введите никнейм</> });
 
     const fetch_nicknames = (nickname: string) => {
         nickname = nickname.replaceAll("-", "").replace(/[^a-z_0-9\s]/gi, '');
@@ -38,7 +38,7 @@ const Searcher = ({ onChange }: SearchProps) => {
         }
         setInput(nickname);
         if (nickname.length === 0) {
-            setNicknames([{ value: "no_data", label: <>Введите никнейм / UUID</>, isDisabled: true }]);
+            setNicknames([{ value: "no_data", label: <>Введите никнейм</>, isDisabled: true }]);
             return;
         }
 

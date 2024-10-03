@@ -28,6 +28,7 @@ import Link from 'next/link';
 import { CSSTransition } from 'react-transition-group';
 
 import { IconDownload, IconPlus, IconChevronDown, IconUser, IconEdit, IconX, IconCheck } from '@tabler/icons-react';
+import Slider from '@/app/modules/components/slider.module';
 
 
 const body_part: readonly { value: number, label: String }[] = [
@@ -64,6 +65,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
 
     const [randomColor, setRandomColor] = useState<string>("");
     const [loadExpanded, setLoadExpanded] = useState<boolean>(false);
+    const [rangeProps, setRangeProps] = useState<{ max: number, value: number }>({ max: 8, value: 4 });
     const client = useRef<Client>();
 
 
@@ -104,7 +106,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                 client.current.pepe_canvas = pepe_canvas;
                 client.current.lining_canvas = lining_canvas;
                 client.current.position = 6 - Math.floor(height / 2);
-                client.current.updatePositionSlider();
+                setRangeProps({ value: client.current.position, max: (12 - client.current.pepe_canvas.height) });
                 client.current.colorable = data.categories.some(val => val.id.toString() === process.env.NEXT_PUBLIC_COLORABLE_ID);
                 const randomColor = getRandomColor();
                 setRandomColor(randomColor);
@@ -234,16 +236,10 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                                 </div>
                             }
                             <div className={style.settings_slider}>
-                                <input
-                                    type="range"
-                                    min='0'
-                                    max='8'
-                                    defaultValue='4'
-                                    step='1'
-                                    id='position'
-                                    className={style.position}
-                                    onInput={evt => client.current?.setParams({ position: Number((evt.target as HTMLInputElement).value) })
-                                    }
+                                <Slider
+                                    initial={rangeProps.value}
+                                    range={rangeProps.max}
+                                    onChange={val => client.current?.setParams({ position: val })}
                                 />
                                 <div className={style.settings_slider_1}>
                                     <SlideButton onChange={val => client.current?.setParams({ first_layer: val })}

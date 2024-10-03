@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { Category } from "@/app/interfaces"
 import { CategoryEl } from "@/app/modules/components/card.module";
 import style from "@/app/styles/category_selector.module.css";
-import NextImage from 'next/image';
 import style_workshop from "@/app/styles/workshop/page.module.css";
 import IconSvg from '@/app/resources/icon.svg';
 
@@ -50,7 +49,9 @@ const CategorySelector = ({ enabledCategories, allCategories, onChange }: Catego
         <div>
             <h4 style={{ margin: 0, marginBottom: ".9rem" }}>Выбранные категории:</h4>
             <div className={style.container}>
-                {categoriesEnabled.length > 0 ? categoriesEnabled : <p style={{ margin: 0, color: "gray", marginTop: "2.5px", marginBottom: "2.5px" }}>Категории не выбраны</p>}
+                {categoriesEnabled.length > 0 ? categoriesEnabled :
+                    <p style={{ margin: 0, color: "gray", marginTop: "2.5px", marginBottom: "2.5px" }}>Категории не выбраны</p>
+                }
             </div>
             <hr />
             <div className={style.container}>

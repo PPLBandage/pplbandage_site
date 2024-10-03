@@ -1,0 +1,24 @@
+.track {
+    width: 0.5rem;
+    border-radius: 5px;
+    border: 1px var(--main-element-color) solid;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+.thumb {
+    background-image: url('../workshop/[id]/pepe.png');
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 16px;
+    position: relative;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: top 150ms;
+}

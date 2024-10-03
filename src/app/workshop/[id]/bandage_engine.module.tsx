@@ -211,14 +211,6 @@ class Client {
         this.rerender();
     }
 
-    updatePositionSlider() {
-        const value = document.getElementById('position') as HTMLInputElement;
-        if (!value) return;
-        const height = this.pepe_canvas.height;
-        value.max = (12 - height).toString();
-        value.value = this.position.toString();
-    }
-
 
     //-----------RENDER-------------
     rerender(render_original: boolean = true, download?: boolean) {

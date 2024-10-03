@@ -44,7 +44,7 @@ const Slider = ({ initial, range, onChange }: { initial: number, range: number, 
 
     useEffect(() => {
         setPosition(calcPosition(range, 0, initial).position);
-    }, [])
+    }, [initial, range])
 
     return (
         <>

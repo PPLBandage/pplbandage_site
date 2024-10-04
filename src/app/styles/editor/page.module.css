@@ -330,6 +330,29 @@
     top: 0;
 }
 
+.archiveButton {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(175, 22, 22);
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.archiveButton svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    transition: transform 150ms;
+}
+
+.archiveButton:hover svg {
+    transform: scale(1.05);
+}
+
 .username_private:hover {
     text-decoration: none;
 }

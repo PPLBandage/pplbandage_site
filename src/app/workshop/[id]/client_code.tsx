@@ -27,7 +27,7 @@ import asyncImage from '@/app/modules/components/asyncImage.module';
 import Link from 'next/link';
 import { CSSTransition } from 'react-transition-group';
 
-import { IconDownload, IconPlus, IconChevronDown, IconUser, IconEdit, IconX, IconCheck } from '@tabler/icons-react';
+import { IconDownload, IconPlus, IconChevronDown, IconUser, IconEdit, IconX, IconCheck, IconArchive } from '@tabler/icons-react';
 import Slider from '@/app/modules/components/slider.module';
 
 
@@ -570,14 +570,15 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
                 alignItems: 'center',
                 flexDirection: 'row',
                 gap: '.4rem',
-                marginTop: '1rem'
+                marginTop: '1rem',
+                marginBottom: '.4rem'
             }}>
                 <div className={style.deleteButton} onClick={() => {
                     const first = confirm(`Вы собираетесь удалить повязку ${bandage.title}! Это действе необратимо! Подтверждаете?`);
                     if (!first) return;
                     const second = confirm('Последний шанс! Удалить?');
                     if (!second) return;
-                    authApi.delete(`workshop/${bandage.external_id}`).then((res) => {
+                    authApi.delete(`workshop/${bandage.external_id}`).then(res => {
                         if (res.status === 200) {
                             router.replace('/workshop');
                         }
@@ -587,6 +588,23 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
                     <img className={style.binDown} alt="" src="/static/icons/bin_down.png"></img>
                 </div>
                 <p style={{ margin: 0 }}>Удалить повязку</p>
+            </div>
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '.4rem'
+            }}>
+                <button className={style.archiveButton} onClick={_ => {
+                    if (!confirm('Заархивировать повязку? После архивации её будет невозможно изменить!')) return;
+                    authApi.put(`workshop/${bandage.external_id}/archive`).then(res => {
+                        if (res.status !== 200) {
+                            alert(res.data.message);
+                            return
+                        }
+                        window.location.reload();
+                    })
+                }}><IconArchive /></button>
+                <p style={{ margin: 0 }}>Архивировать</p>
             </div>
         </div>
         <button className={style.skin_load} onClick={() => save()} style={{ padding: ".4rem" }}>Сохранить</button>

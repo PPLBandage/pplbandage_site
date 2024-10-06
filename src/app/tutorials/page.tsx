@@ -47,7 +47,7 @@ export default function Home() {
                     <ASide />
                     <div className={style.animated} id='tutorials'>
                         <h1 style={{ marginTop: 0, fontSize: '2rem' }}>Повязки Pepeland</h1>
-                        <p>В этом разделе вы найдете все что нужно знать о регистрации и работе на сайте, а так же о создании повязок.</p>
+                        <p>В этом разделе вы найдете все, что нужно знать о регистрации и работе на сайте, а так же о создании повязок.</p>
 
                         <h2>Мастерская</h2>
                         <p>Мастерская – это главное место, где вы можете найти то, что ищите. В мастерской отображаются все повязки, которые были одобрены администрацией и имеющие публичный доступ.
@@ -131,7 +131,7 @@ export default function Home() {
                         </InfoCard>
 
                         <h2>Категории</h2>
-                        <p>Любая повязка может иметь категории, это помогает пользователям легче искать работы. Любая повязка может иметь неограниченное количество категорий. Категории, установленные на вашей работе должны точно её описывать. Не стоит ими злоупотреблять.</p>
+                        <p>Любая повязка может иметь категории. Это помогает пользователям легче искать работы. Повязка может иметь неограниченное количество категорий. Категории, установленные на вашей работе должны точно её описывать. Не стоит ими злоупотреблять.</p>
 
                         <InfoCard color="#D29922" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
@@ -141,7 +141,7 @@ export default function Home() {
                             <p style={{ margin: 0 }}>Злоупотребление категориями может привести к блокировке повязки.</p>
                         </InfoCard>
 
-                        <span style={{ display: 'block', marginTop: '.5rem', marginBottom: '.5rem' }}>Некоторые категории несут больше чем информативный характер. К примеру, категория <Link href='/workshop/create#colorable'><CategoryEl style={{ display: 'inline-flex', height: '1rem', verticalAlign: 'top' }} category={{
+                        <span style={{ display: 'block', marginTop: '.5rem', marginBottom: '.5rem' }}>Некоторые категории несут больше чем информативный характер. Например, категория <Link href='/workshop/create#colorable'><CategoryEl style={{ display: 'inline-flex', height: '1rem', verticalAlign: 'top' }} category={{
                             id: -1,
                             name: "Окрашиваемые",
                             icon: 'IconPalette'

@@ -9,6 +9,12 @@ const nextConfig = {
         port: "",
         pathname: "/avatars/**",
       },
+      {
+        protocol: "https",
+        hostname: "cdn-discord.drolll2007.workers.dev",
+        port: "",
+        pathname: "/avatars/**",
+      },
     ],
   },
   webpack(config) {

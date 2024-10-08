@@ -11,9 +11,9 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "cdn-discord.drolll2007.workers.dev",
+        hostname: "discord-cdn.pplbandage.ru",
         port: "",
-        pathname: "/avatars/**",
+        pathname: "/**",
       },
     ],
   },

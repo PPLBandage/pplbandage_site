@@ -4,14 +4,14 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "cdn.discordapp.com",
+        protocol: "http",
+        hostname: "192.168.0.53",
         port: "",
-        pathname: "/avatars/**",
+        pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "discord-cdn.pplbandage.ru",
+        hostname: "pplbandage.ru",
         port: "",
         pathname: "/**",
       },

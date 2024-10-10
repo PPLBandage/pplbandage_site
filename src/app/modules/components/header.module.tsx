@@ -122,7 +122,7 @@ const AvatarMenu = ({ data, loading, expanded, expand }: AvatarMenuProps) => {
             <div className={`${Styles.avatar_container} ${loading && Styles.placeholders} ${data?.has_unreaded_notifications && Styles.unreaded}`} onClick={() => expand(!expanded)}>
                 {data?.avatar &&
                     <Image className={Styles.avatar}
-                        src={data?.avatar + '?size=80'}
+                        src={data?.avatar}
                         alt=''
                         width={80}
                         height={80}

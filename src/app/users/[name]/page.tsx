@@ -38,7 +38,7 @@ export const generateMetadata = async ({ params }: { params: { name: string } })
             description: `${numbersTxt(data.works_count, ['работа', 'работы', 'работ'])}`,
             url: `https://pplbandage.ru/users/${data.username}`,
             siteName: 'Повязки Pepeland',
-            images: `${data.avatar}?size=256`
+            images: data.avatar
         },
         twitter: {
             card: 'summary'

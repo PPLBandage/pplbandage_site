@@ -154,7 +154,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
             <h3><IconBrandDiscord width={32} height={32} style={{ marginRight: ".3rem", borderRadius: 0 }} />Discord аккаунт</h3>
             <div className={Style.discord_container}>
                 {data.connections?.discord &&
-                    <Image src={data.connections?.discord.avatar + "?size=64"} alt="" width={64} height={64} style={{ borderRadius: "50%" }} className={Style.discord_avatar} />
+                    <Image src={data.connections?.discord.avatar} alt="" width={64} height={64} style={{ borderRadius: "50%" }} className={Style.discord_avatar} />
                 }
                 <div className={Style.discord_name_container}>
                     <h1>{data.connections?.discord?.name}</h1>

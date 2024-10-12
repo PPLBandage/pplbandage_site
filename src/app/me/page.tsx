@@ -20,7 +20,9 @@ import style_workshop from "@/app/styles/workshop/page.module.css";
 import asyncImage from "@/app/modules/components/asyncImage.module";
 
 import { IconArrowBack, IconPlus } from '@tabler/icons-react';
-import IconSvg from '@/app/resources/icon-cropped.svg';
+import IconSvgCropped from '@/app/resources/icon-cropped.svg';
+import IconSvg from '@/app/resources/icon.svg';
+import { httpStatusCodes } from '../modules/utils/statusCodes.module';
 
 const Main = () => {
     const router = useRouter();
@@ -77,7 +79,7 @@ const Main = () => {
         if (code) {
             authApi.post(`auth/discord/${code}`).then(response => {
                 if (response.status !== 200) {
-                    setLoadingStatus(`${response.status}: ${response.data.message_ru || response.data.message}`);
+                    setLoadingStatus(`${response.status}: ${response.data.message_ru || response.data.message || httpStatusCodes[response.status]}`);
                     return;
                 }
                 setIsLogged(true);
@@ -125,7 +127,7 @@ const Main = () => {
 const Loading = ({ loadingStatus }: { loadingStatus: string }) => {
     return (
         <div className={styles.loading_container}>
-            <IconSvg width={58} height={58} className={`${!loadingStatus && styles.loading}`} />
+            <IconSvgCropped width={58} height={58} className={`${!loadingStatus && styles.loading}`} />
             <h3>{loadingStatus || 'Загрузка'}</h3>
             <Link className={styles.link} style={{ visibility: !!loadingStatus ? 'visible' : 'hidden' }} href='/me'>
                 <IconArrowBack />Назад

@@ -3,7 +3,7 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { authApi } from "@/app/modules/utils/api.module";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import styles from "@/app/styles/me/me.module.css";
 import { Tooltip } from '@/app/modules/components/tooltip';
 import Header from "@/app/modules/components/header.module";
@@ -19,14 +19,19 @@ import AdaptiveGrid from '@/app/modules/components/adaptiveGrid.module';
 import style_workshop from "@/app/styles/workshop/page.module.css";
 import asyncImage from "@/app/modules/components/asyncImage.module";
 
-import { IconPlus } from '@tabler/icons-react';
-import IconSvg from '@/app/resources/icon.svg';
+import { IconArrowBack, IconPlus } from '@tabler/icons-react';
+import IconSvg from '@/app/resources/icon-cropped.svg';
 
 const Main = () => {
     const router = useRouter();
+
+    const searchParams = useSearchParams();
+    const code = searchParams.get('code');
+
     const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');
     const [isLogged, setIsLogged] = useState<boolean>(cookies.current.get('sessionId') != undefined);
+    const [loadingStatus, setLoadingStatus] = useState<string>('');
 
     const [elements, setElements] = useState<JSX.Element[]>(null);
     const [data, setData] = useState<Bandage[]>(null);
@@ -70,14 +75,12 @@ const Main = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         if (code) {
-            authApi.post(`auth/discord/${code}`).then((response) => {
-                if (response.status === 403) {
-                    const about_logging = document.getElementById('about_logging');
-                    about_logging.style.color = "#ff2a2a";
-                    about_logging.style.textDecoration = "underline";
-                    about_logging.style.animation = `${styles.attention} 4s ease-in-out 0s 0.5`;
+            authApi.post(`auth/discord/${code}`).then(response => {
+                if (response.status !== 200) {
+                    setLoadingStatus(`${response.status}: ${response.data.message_ru || response.data.message}`);
                     return;
                 }
+                setIsLogged(true);
                 router.replace('/me');
             })
         }
@@ -86,7 +89,7 @@ const Main = () => {
 
     useEffect(() => {
         if (isLogged) {
-            authApi.get("user/me/works").then((response) => {
+            authApi.get('user/me/works').then(response => {
                 if (response.status === 200) {
                     setData(response.data);
                 }
@@ -97,22 +100,38 @@ const Main = () => {
     return (
         <body>
             <Header />
-            {!isLogged ? <Login /> :
-                <Me>
-                    <div style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }} className={styles.cont} id="sidebar">
-                        <AdaptiveGrid
-                            child_width={300}
-                            className={styles}
-                            header={<Link className={styles.create} href="/workshop/create">
-                                <IconPlus />Создать
-                            </Link>}>
-                            {elements}
-                        </AdaptiveGrid>
-                    </div>
-                </Me>
+            {!!code ?
+                <Loading loadingStatus={loadingStatus} /> :
+                !isLogged ?
+                    <Login /> :
+                    <Me>
+                        <div style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }} className={styles.cont} id="sidebar">
+                            <AdaptiveGrid
+                                child_width={300}
+                                className={styles}
+                                header={<Link className={styles.create} href="/workshop/create">
+                                    <IconPlus />Создать
+                                </Link>}>
+                                {elements}
+                            </AdaptiveGrid>
+                        </div>
+                    </Me>
+
             }
         </body>
     );
+}
+
+const Loading = ({ loadingStatus }: { loadingStatus: string }) => {
+    return (
+        <div className={styles.loading_container}>
+            <IconSvg width={58} height={58} className={`${!loadingStatus && styles.loading}`} />
+            <h3>{loadingStatus || 'Загрузка'}</h3>
+            <Link className={styles.link} style={{ visibility: !!loadingStatus ? 'visible' : 'hidden' }} href='/me'>
+                <IconArrowBack />Назад
+            </Link>
+        </div>
+    )
 }
 
 const Login = () => {

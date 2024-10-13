@@ -55,7 +55,7 @@ const ImprovedTheme = ({ data, islogged }: { data: Query, islogged: boolean }) =
 
 const Roles = ({ user }: { user: Query }) => {
     const roles = user.roles.map(role => (
-        <CategoryEl category={role} />
+        <CategoryEl category={role} key={role.id} />
     ))
     return (
         <div className={style_sidebar.card} style={{ gap: ".5rem", alignItems: 'stretch' }}>

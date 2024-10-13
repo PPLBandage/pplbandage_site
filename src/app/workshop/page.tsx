@@ -83,7 +83,7 @@ export default function Home() {
         skinViewer.loadBackground("/static/background.png").then(() => asyncImage('/static/workshop_base.png').then((base_skin) => {
             Promise.all(data.data.map(async (el) => {
                 try {
-                    const result = await generateSkin(el.base64, base_skin, el.categories.some(val => val.id == 3))
+                    const result = await generateSkin(el.base64, base_skin, el.categories.some(val => val.id === Number(process.env.NEXT_PUBLIC_COLORABLE_ID)))
                     await skinViewer.loadSkin(result, { model: 'default' });
                     skinViewer.render();
                     const image = skinViewer.canvas.toDataURL();
@@ -111,26 +111,25 @@ export default function Home() {
             <main className={Style.main}>
                 <div className={Style.center}>
                     <Search onSearch={setSearch} onChangeTake={setTake} categories={categories} onChangeSort={setSort} onChangeFilters={setFilters} />
-                    <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />
-                    {elements && elements.length > 0 ? <AdaptiveGrid child_width={300} className={styles_card}>{elements}</AdaptiveGrid> :
+                    {elements && elements.length > 0 && <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
+                    {elements && elements.length > 0 ?
+                        <AdaptiveGrid child_width={300} className={styles_card}>{elements}</AdaptiveGrid> :
                         elements && elements.length === 0 ?
-                            <>
-                                <p style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    fontSize: "1.1rem",
-                                    fontWeight: 500,
-                                    width: "100%",
-                                    justifyContent: "center",
-                                    margin: 0
-                                }}>
-                                    <Image style={{ marginRight: ".5rem" }} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />
-                                    Похоже, тут ничего нет
-                                </p>
-                            </> :
+                            <p style={{
+                                display: "flex",
+                                alignItems: "center",
+                                fontSize: "1.1rem",
+                                fontWeight: 500,
+                                width: "100%",
+                                justifyContent: "center",
+                                margin: 0
+                            }}>
+                                <Image style={{ marginRight: ".5rem" }} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />
+                                Похоже, тут ничего нет
+                            </p> :
                             <IconSvg width={86} height={86} className={Style.loading} />
                     }
-                    <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />
+                    {elements && elements.length > 0 && <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
                 </div>
                 <Footer />
             </main>

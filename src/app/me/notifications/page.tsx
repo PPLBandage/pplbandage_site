@@ -77,7 +77,7 @@ const Notifications = () => {
                 <div id="sidebar" className={Style.container} style={notifications != null ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
                     {notifications?.data.length > 0 ?
                         <>
-                            {notifications?.total_count > 5 && <Paginator total_count={notifications?.total_count} take={5} onChange={(page) => setPage(page || 0)} />}
+                            {notifications?.total_count > 5 && <Paginator total_count={notifications?.total_count} take={5} onChange={(page) => setPage(page || 0)} page={page} />}
                             {notifications_el}
                         </> :
                         <div className={style_sidebar.animated} style={notifications != null ? { opacity: "1", transform: "translateY(0)", width: "100%" } : { opacity: "0", transform: "translateY(50px)", width: "100%" }}>

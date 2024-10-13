@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 import { timeStamp } from "../utils/time.module";
 import Menu from "./theme_select.module";
 import { Users } from "@/app/users/[name]/page";
-import { formatDate } from "./card.module";
+import { CategoryEl, formatDate } from "./card.module";
 
 import { IconSettings, IconBell, IconStar, IconList, IconStarFilled } from '@tabler/icons-react';
 import { TransitionLink } from "@/app/me/animatedLink.module";
@@ -51,6 +51,17 @@ const ImprovedTheme = ({ data, islogged }: { data: Query, islogged: boolean }) =
             </div>
         </div>
     );
+}
+
+const Roles = ({ user }: { user: Query }) => {
+    const roles = user.roles.map(role => (
+        <CategoryEl category={role} />
+    ))
+    return (
+        <div className={style_sidebar.card} style={{ gap: ".5rem", alignItems: 'stretch' }}>
+            {roles}
+        </div >
+    )
 }
 
 export const Me = ({ children, user_data }: { children: JSX.Element, user_data?: Users }) => {
@@ -100,6 +111,7 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
                                     {background}
                                     {!user_data && <Menu initialValue={data?.profile_theme} color_available={!!data?.banner_color} onChange={setTheme} />}
                                 </div>
+                                {data.roles.length > 0 && <Roles user={data} />}
                                 {!user_data &&
                                     <div className={style_sidebar.card} style={{ alignItems: "stretch", gap: ".5rem" }}>
                                         <TransitionLink href="/me" className={`${style_sidebar.side_butt} ${path == 'me' && style_sidebar.active}`}>

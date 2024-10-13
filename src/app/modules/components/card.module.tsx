@@ -59,7 +59,7 @@ interface CategoryProps {
 
 export const CategoryEl = ({ category, enabled, onClick, hoverable, style }: CategoryProps) => {
     return (
-        <div key={category.id} className={`${Style.category} ${enabled && Style.enabled_category} ${hoverable && Style.hoverable}`} onClick={() => onClick()} style={style}>
+        <div key={category.id} className={`${Style.category} ${enabled && Style.enabled_category} ${hoverable && Style.hoverable}`} onClick={() => onClick && onClick()} style={style}>
             {getIcon(category.icon)}
             <p>{category.name}</p>
         </div>

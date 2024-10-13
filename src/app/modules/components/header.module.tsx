@@ -34,7 +34,12 @@ export interface Query {
     has_unreaded_notifications: Boolean,
     permissions: string[],
     profile_theme: number,
-    stars_count: number
+    stars_count: number,
+    roles: {
+        id: number,
+        name: string,
+        icon: string
+    }[]
 }
 
 const Header = (): JSX.Element => {

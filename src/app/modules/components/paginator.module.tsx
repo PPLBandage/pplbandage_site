@@ -7,10 +7,11 @@ import { IconChevronRight, IconChevronLeft } from '@tabler/icons-react'
 interface PaginatorProps {
     total_count: number,
     take: number,
-    onChange(page: number): void
+    onChange(page: number): void,
+    page: number
 }
 
-export const Paginator = ({ total_count, take, onChange }: PaginatorProps) => {
+export const Paginator = ({ total_count, take, onChange, page }: PaginatorProps) => {
     const [_page, _setPage] = useState<number>(0);
     const [_pages, _setPages] = useState<JSX.Element[]>([]);
 
@@ -30,6 +31,10 @@ export const Paginator = ({ total_count, take, onChange }: PaginatorProps) => {
             onChange(page);
         }
     }, [total_count, take]);
+
+    useEffect(() => {
+        _setPage(page);
+    }, [page])
 
     useEffect(() => {
         const pages_count = Math.ceil(_totalCount / _take);

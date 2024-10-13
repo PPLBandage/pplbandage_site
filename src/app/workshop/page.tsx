@@ -66,6 +66,7 @@ export default function Home() {
         setLastConfig(config);
     }, [page, search, take, filters, sort])
 
+
     useEffect(() => {
         if (!data) return;
         const skinViewer = new SkinViewer({
@@ -103,7 +104,7 @@ export default function Home() {
             <main className={Style.main}>
                 <div className={Style.center}>
                     <Search onSearch={setSearch} onChangeTake={setTake} categories={categories} onChangeSort={setSort} onChangeFilters={setFilters} />
-                    <Paginator total_count={totalCount} take={take} onChange={setPage} />
+                    <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />
                     {elements && elements.length > 0 ? <AdaptiveGrid child_width={300} className={styles_card}>{elements}</AdaptiveGrid> :
                         elements && elements.length === 0 ?
                             <>
@@ -122,6 +123,7 @@ export default function Home() {
                             </> :
                             <IconSvg width={86} height={86} className={Style.loading} />
                     }
+                    <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />
                 </div>
                 <Footer />
             </main>

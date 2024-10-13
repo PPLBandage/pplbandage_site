@@ -98,6 +98,13 @@ export default function Home() {
 
     }, [data]);
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }, [page])
+
     return (
         <body>
             <Header />

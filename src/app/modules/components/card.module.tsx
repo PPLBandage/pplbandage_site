@@ -10,6 +10,7 @@ import asyncImage from "@/app/modules/components/asyncImage.module";
 
 import { IconCircleHalf2, IconStar, IconStarFilled, IconUser } from '@tabler/icons-react';
 import { getIcon } from "../utils/categories.module";
+import { useRouter } from "next/navigation";
 
 const b64Prefix = "data:image/png;base64,";
 
@@ -69,6 +70,7 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
     const [starred, setStarred] = useState<boolean>(el.starred);
     const [last, setLast] = useState<boolean>(el.starred);
     const logged = getCookie("sessionId");
+    const router = useRouter();
 
     const categories = el.categories.map((category) => <CategoryEl key={category.id} category={category} />);
 
@@ -97,16 +99,16 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
                             height={24}
                             color="#ffb900"
                             id={el.external_id + "_star"}
-                            style={logged ? { cursor: "pointer" } : {}}
-                            onClick={() => { if (logged) setStarred(prev => !prev) }} /> :
+                            style={{ cursor: "pointer" }}
+                            onClick={() => { logged ? setStarred(prev => !prev) : router.push('/me') }} /> :
                         <IconStar
                             className={Style.star}
                             width={24}
                             height={24}
                             color="#ffb900"
                             id={el.external_id + "_star"}
-                            style={logged ? { cursor: "pointer" } : {}}
-                            onClick={() => { if (logged) setStarred(prev => !prev) }} />
+                            style={{ cursor: "pointer" }}
+                            onClick={() => { logged ? setStarred(prev => !prev) : router.push('/me') }} />
                     }
                     <span className={Style.star_count} id={el.external_id + "_text"}>{el.stars_count}</span>
                 </div>

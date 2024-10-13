@@ -74,8 +74,6 @@ const Main = () => {
     }, [logged])
 
     useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
         if (code) {
             authApi.post(`auth/discord/${code}`).then(response => {
                 if (response.status !== 200) {

@@ -169,54 +169,8 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: center;
-}
-
-
-.background_image {
-    position: absolute;
-    z-index: -1;
-    width: 100%;
-    height: auto;
-}
-
-.card_improved {
-    background: none;
-    backdrop-filter: blur(7px);
-}
-
-.background_image_container {
-    overflow: hidden;
-    position: relative;
-    border-radius: 15px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-}
-
-
-.background_image {
-    position: absolute;
-    z-index: -1;
-    width: 100%;
-    height: auto;
-}
-
-.card_improved {
-    background: none;
-    backdrop-filter: blur(7px);
-}
-
-.background_image_container {
-    overflow: hidden;
-    position: relative;
-    border-radius: 15px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
+    background-position: center;
+    background-size: cover;
 }
 
 .discord_id {

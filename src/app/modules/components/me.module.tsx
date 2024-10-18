@@ -34,8 +34,7 @@ const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, co
 
 const ImprovedTheme = ({ data, islogged }: { data: Query, islogged: boolean }) => {
     return (
-        <div className={style_sidebar.background_image_container}>
-            {islogged && data?.avatar && <Image src={data?.avatar} alt="" width={512} height={512} className={style_sidebar.background_image} quality={100} priority={true} />}
+        <div className={style_sidebar.background_image_container} style={{ backgroundImage: `url("${data?.avatar}")` }}>
             <div className={`${style_sidebar.card} ${style_sidebar.card_improved}`}>
                 <div className={`${style_sidebar.avatar_container} ${!islogged && style_sidebar.placeholders}`}>
                     {islogged && data?.avatar && <Image src={data?.avatar} alt="" width={150} height={150} priority={true} draggable={false} />}

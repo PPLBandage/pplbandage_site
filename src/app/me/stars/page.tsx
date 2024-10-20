@@ -32,7 +32,7 @@ const Main = () => {
     useEffect(() => {
         authApi.get("user/me/stars").then((response) => {
             if (response.status === 200) {
-                setData(response.data as Bandage[]);
+                setData((response.data as Bandage[]).reverse());
             }
         })
     }, []);

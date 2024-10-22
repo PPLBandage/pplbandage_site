@@ -1,0 +1,50 @@
+.menu_enter {
+    transform: translateX(calc(100% + .7rem));
+}
+
+.menu_enter_active {
+    transform: translateX(0%);
+    transition: transform 400ms;
+}
+
+.menu_exit {
+    transform: translateX(0%);
+}
+
+.menu_exit_active {
+    transform: translateX(calc(100% + .7rem));
+    transition: transform 400ms;
+}
+
+
+.container {
+    max-width: 400px;
+    background-color: var(--main-action-color);
+    padding: .7rem;
+    border-radius: 7px;
+    position: fixed;
+    margin: .5rem;
+    margin-bottom: 0;
+    z-index: 999;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.container p {
+    font-size: .9rem;
+    margin: 0;
+}
+
+.container button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    filter: brightness(.9);
+    transition: filter 250ms;
+}
+
+.container button:hover {
+    filter: brightness(1);
+}

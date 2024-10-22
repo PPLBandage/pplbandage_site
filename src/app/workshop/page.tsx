@@ -17,8 +17,11 @@ import AdaptiveGrid from "@/app/modules/components/adaptiveGrid.module";
 import styles_card from "@/app/styles/me/me.module.css";
 import asyncImage from "@/app/modules/components/asyncImage.module";
 import IconSvg from '@/app/resources/icon.svg';
+import { BrowserNotification, calcChecksum } from "./checkBrowserAPI.module";
+import { useCookies } from "next-client-cookies";
 
 export default function Home() {
+    const cookies = useCookies();
     const [data, setData] = useState<BandageResponse>(null);
     const [elements, setElements] = useState<JSX.Element[]>(null);
     const [totalCount, setTotalCount] = useState<number>(0);
@@ -31,10 +34,11 @@ export default function Home() {
 
     const [filters, setFilters] = useState<Category[]>([]);
     const [sort, setSort] = useState<String>("popular_up");
+    const [alertShown, setAlertShown] = useState<boolean>(false);
 
 
     useEffect(() => {
-        axios.get(process.env.NEXT_PUBLIC_API_URL + `categories`).then((response) => {
+        axios.get(process.env.NEXT_PUBLIC_API_URL + `categories`).then(response => {
             if (response.status == 200) {
                 setCategories(response.data as Category[]);
             }
@@ -42,7 +46,7 @@ export default function Home() {
     }, [])
 
     useEffect(() => {
-        const filters_str = filters.filter((filter) => filter.enabled).map((filter) => filter.id).toString();
+        const filters_str = filters.filter(filter => filter.enabled).map(filter => filter.id).toString();
         const config: AxiosRequestConfig<any> = {
             params: {
                 page: constrain(page, 0, Math.ceil(totalCount / take)),
@@ -68,6 +72,9 @@ export default function Home() {
 
 
     useEffect(() => {
+        if (!cookies.get('warningAccepted')) {
+            calcChecksum().then(result => !result && setAlertShown(true));
+        }
         if (!data) return;
         const skinViewer = new SkinViewer({
             width: 300,
@@ -107,6 +114,13 @@ export default function Home() {
 
     return (
         <body>
+            <BrowserNotification
+                expanded={alertShown}
+                onClose={() => {
+                    cookies.set('warningAccepted', 'true');
+                    setAlertShown(false);
+                }}
+            />
             <Header />
             <main className={Style.main}>
                 <div className={Style.center}>

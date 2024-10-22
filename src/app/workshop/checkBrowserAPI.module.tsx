@@ -1,6 +1,5 @@
 import AsyncImage from "../modules/components/asyncImage.module";
 import { sha256 } from 'js-sha256';
-import { useEffect, useState } from "react";
 import { CSSTransition } from 'react-transition-group';
 import style from '@/app/styles/browserAPINotification.module.css';
 import { IconX } from "@tabler/icons-react";
@@ -38,7 +37,7 @@ export const BrowserNotification = ({ expanded, onClose }: { expanded: boolean, 
             unmountOnExit>
             <div className={style.container}>
                 <div>
-                    <p>Мы определили, что ваш браузер может неккоректно отображать скины.</p>
+                    <p>Мы определили, что ваш браузер может некорректно отображать скины.</p>
                     <p>Если возникнут проблемы, попробуйте использовать другой браузер.</p>
                 </div>
                 <button onClick={onClose}><IconX /></button>

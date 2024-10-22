@@ -1,0 +1,20 @@
+{
+    "name": "Повязки PepeLand",
+    "start_url": "/",
+    "short_name": "PPLBandage",
+    "description": "Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!",
+    "display": "standalone",
+    "background_color": "#17181c",
+    "theme_color": "#17181c",
+    "icons": [
+        {
+            "src": "https://pplbandage.ru/static/icons/icon.svg",
+            "sizes": "512x512",
+            "type": "image/svg+xml"
+        }
+    ],
+    "orientation": "natural",
+    "dir": "auto",
+    "lang": "ru",
+    "id": "ppl.andcool"
+}

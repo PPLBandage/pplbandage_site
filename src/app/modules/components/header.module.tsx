@@ -78,7 +78,7 @@ const Header = (): JSX.Element => {
                 <div className={Styles.header_child} style={{ padding: logged ? '.5rem' : '.9rem' }}>
                     <div style={{ display: "flex", alignItems: "center", flexWrap: "nowrap" }}>
                         <Link href="/"><IconCropped style={{ width: "2.5rem" }} className={Styles.main_icon} /></Link>
-                        <h1 className={Styles.ppl_name}>Повязки <a style={{ color: "var(--main-text-color)", textDecoration: "none" }} href="https://pepeland.net">Pepeland</a></h1>
+                        <h1 className={Styles.ppl_name}>Повязки Pepeland</h1>
                     </div>
 
                     {logged ?

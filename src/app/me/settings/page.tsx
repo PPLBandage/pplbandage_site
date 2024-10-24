@@ -364,7 +364,7 @@ const Safety = () => {
                     {session.is_mobile ? <IconDeviceMobile /> : <IconDeviceDesktop />}
                     {session.browser} {session.browser_version} {session.is_self && <p>Это устройство</p>}
                 </h2>
-                <p className={Style_safety.last_accessed}>Последний доступ {timeStamp((new Date(session.last_accessed).getTime()) / 1000)}</p>
+                <p className={Style_safety.last_accessed} title={formatDate(new Date(session.last_accessed))}>Последний доступ {timeStamp((new Date(session.last_accessed).getTime()) / 1000)}</p>
             </div>
             {!session.is_self &&
                 <button className={Style_safety.button} onClick={_ => {
@@ -398,7 +398,7 @@ const Safety = () => {
                     <IconSvg width={86} height={86} className={style_workshop.loading} /> :
                     <>
                         {sessions_elements}
-                        {sessions.length > 1 && <button className={Style.unlink}><IconX style={{ width: "1.8rem" }} onClick={logoutAll} />Выйти со всех устройств</button>}
+                        {sessions.length > 1 && <button className={Style.unlink} onClick={logoutAll} ><IconX style={{ width: "1.8rem" }} />Выйти со всех устройств</button>}
                     </>
                 }
             </div>

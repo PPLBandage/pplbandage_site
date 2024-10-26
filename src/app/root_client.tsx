@@ -6,7 +6,6 @@ import Style from "./styles/root/page.module.css";
 import Link from "next/link";
 import { CustomLink } from "./modules/components/search.module";
 import { IconInfinity, IconAlertTriangle, IconStack, IconX } from '@tabler/icons-react';
-import PPLLogo from '@/app/resources/icon.svg';
 import NextImage from 'next/image';
 
 const HomeClient = ({ pong }: { pong: number }) => {

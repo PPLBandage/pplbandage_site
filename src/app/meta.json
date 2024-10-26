@@ -14,7 +14,8 @@
             "theme-color": "#0f766e"
         },
         "openGraph": {
-            "images": "https://pplbandage.ru/static/banner.png"
+            "images": "https://pplbandage.ru/static/banner.png",
+            "siteName": "pplbandage.ru"
         },
         "twitter": {
             "images": "https://pplbandage.ru/static/banner.png",

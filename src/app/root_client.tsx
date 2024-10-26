@@ -5,7 +5,9 @@ import React, { useState } from "react";
 import Style from "./styles/root/page.module.css";
 import Link from "next/link";
 import { CustomLink } from "./modules/components/search.module";
-import { IconInfinity, IconAlertTriangle, IconStack } from '@tabler/icons-react';
+import { IconInfinity, IconAlertTriangle, IconStack, IconX } from '@tabler/icons-react';
+import PPLLogo from '@/app/resources/icon.svg';
+import NextImage from 'next/image';
 
 const HomeClient = ({ pong }: { pong: number }) => {
     const [animationState, setAnimationState] = useState<boolean>(true);
@@ -53,7 +55,22 @@ const HomeClient = ({ pong }: { pong: number }) => {
                 </div>
             </div>
             <footer className={Style.footer}>
-                <p>Сайт pplbandage.ru не является официальной частью сети серверов PepeLand.</p>
+                {/*<p>Сайт pplbandage.ru не является официальной частью сети серверов PepeLand.</p>*/}
+                <div className={Style.collaborate}>
+                    <Link
+                        href='https://t.me/shapestd'
+                        style={{ display: 'contents' }}
+                        target="_blank"
+                        className={Style.shape}
+                    >
+                        <div className={Style.shape_box}>
+                            <p className={Style.shape_name}>Shape std</p>
+                        </div>
+                        <NextImage src='/static/icons/shape.svg' alt='' width={24} height={24} />
+                    </Link>
+                    <IconX width={16} height={16} strokeWidth={3} />
+                    <NextImage src='/static/icons/icon-cropped.svg' alt='' width={24} height={24} />
+                </div>
             </footer>
         </body>
     )

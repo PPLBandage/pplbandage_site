@@ -10,6 +10,7 @@ import { authApi } from "@/app/modules/utils/api.module";
 import AdaptiveGrid from "../modules/components/adaptiveGrid.module";
 import { SlideButton } from "../modules/components/nick_search.module";
 import { Fira_Code } from "next/font/google";
+import Link from "next/link";
 
 const fira = Fira_Code({ subsets: ["latin"] });
 
@@ -61,8 +62,8 @@ const Admin = () => {
         return (
             <div key={user.id} className={style_root.user_card}>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <a href={`/users/${user.username}`} className={style_root.name}>{user.name}</a>
-                    <a href={`https://discord.com/users/${user.discord_id}`} className={style_root.username}>{user.username}</a>
+                    <Link href={`/users/${user.username}`} className={style_root.name}>{user.name}</Link>
+                    <Link href={`https://discord.com/users/${user.discord_id}`} className={style_root.username}>{user.username}</Link>
                     <p className={`${style_root.did} ${fira.className}`}>{user.discord_id}</p>
                 </div>
                 <div>

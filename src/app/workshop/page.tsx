@@ -19,20 +19,31 @@ import asyncImage from "@/app/modules/components/asyncImage.module";
 import IconSvg from '@/app/resources/icon.svg';
 import { BrowserNotification, calcChecksum } from "./checkBrowserAPI.module";
 import { useCookies } from "next-client-cookies";
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
     const cookies = useCookies();
+    const query = useSearchParams();
+    const fl_categories = (query.get('filters') ?? '')
+        .split(',')
+        .filter(filter => !isNaN(Number(filter)) && filter !== '')
+        .map(filter => ({
+            id: Number(filter),
+            name: '',
+            icon: '',
+            enabled: true
+        }))
     const [data, setData] = useState<BandageResponse>(null);
     const [elements, setElements] = useState<JSX.Element[]>(null);
     const [totalCount, setTotalCount] = useState<number>(0);
     const [page, setPage] = useState<number>(0);
     const [take, setTake] = useState<number>(12);
-    const [search, setSearch] = useState<string>("");
+    const [search, setSearch] = useState<string>(query.get('query') || '');
 
     const [lastConfig, setLastConfig] = useState<AxiosRequestConfig<any>>(null);
     const [categories, setCategories] = useState<Category[]>([]);
 
-    const [filters, setFilters] = useState<Category[]>([]);
+    const [filters, setFilters] = useState<Category[]>(fl_categories);
     const [sort, setSort] = useState<String>("popular_up");
     const [alertShown, setAlertShown] = useState<boolean>(false);
 
@@ -40,7 +51,13 @@ export default function Home() {
     useEffect(() => {
         axios.get(process.env.NEXT_PUBLIC_API_URL + `categories`).then(response => {
             if (response.status == 200) {
-                setCategories(response.data as Category[]);
+                const data = response.data as Category[];
+                const categories_load = data.map(cat => {
+                    const fl_cat = fl_categories.find(pr => pr.id === cat.id);
+                    if (fl_cat) cat.enabled = true;
+                    return cat;
+                })
+                setCategories(categories_load);
             }
         });
     }, [])
@@ -124,7 +141,14 @@ export default function Home() {
             <Header />
             <main className={Style.main}>
                 <div className={Style.center}>
-                    <Search onSearch={setSearch} onChangeTake={setTake} categories={categories} onChangeSort={setSort} onChangeFilters={setFilters} />
+                    <Search
+                        search={search}
+                        onSearch={setSearch}
+                        onChangeTake={setTake}
+                        categories={categories}
+                        onChangeSort={setSort}
+                        onChangeFilters={setFilters}
+                    />
                     {elements && elements.length > 0 && <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
                     {elements && elements.length > 0 ?
                         <AdaptiveGrid child_width={300} className={styles_card}>{elements}</AdaptiveGrid> :

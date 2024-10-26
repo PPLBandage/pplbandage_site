@@ -26,6 +26,7 @@ const options_sortir: readonly { value: string, label: String }[] = [
 ];
 
 interface SearchProps {
+    search: string,
     onSearch(search: string): void,
     onChangeTake(take: number): void,
     onChangeSort(sort: string): void,
@@ -33,8 +34,15 @@ interface SearchProps {
     categories: Category[]
 }
 
-export const Search = ({ onSearch, onChangeTake, onChangeFilters, onChangeSort, categories }: SearchProps) => {
-    const [search, setSearch] = useState<string>("");
+export const Search = ({
+    search,
+    onSearch,
+    onChangeTake,
+    onChangeFilters,
+    onChangeSort,
+    categories
+}: SearchProps) => {
+    const [_search, _setSearch] = useState<string>(search || "");
     const [expanded, setExpanded] = useState<boolean>(false);
     const [_categories, _setCategories] = useState<Category[]>([]);
 
@@ -70,16 +78,17 @@ export const Search = ({ onSearch, onChangeTake, onChangeFilters, onChangeSort, 
                 <div className={Styles.container}>
                     <div style={{ display: "flex", alignItems: "center" }}>
                         <input
-                            onChange={(event) => setSearch(event.target.value)}
+                            onChange={(event) => _setSearch(event.target.value)}
                             onKeyUp={(e) => {
                                 if (e.code == "Enter" || e.code == "NumpadEnter") {
-                                    onSearch(search)
+                                    onSearch(_search)
                                 }
                             }}
                             className={Styles.search}
                             placeholder='Введите название/автора/id'
+                            defaultValue={search}
                         />
-                        <div className={Styles.search_loop} onClick={() => onSearch(search)}>
+                        <div className={Styles.search_loop} onClick={() => onSearch(_search)}>
                             <IconSearch className={Styles.search_loop_icon} width={25} height={25} />
                         </div>
                     </div>

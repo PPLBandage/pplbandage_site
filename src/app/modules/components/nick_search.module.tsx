@@ -137,7 +137,7 @@ export const SlideButton = ({ onChange, value, label, defaultValue, strict, disa
             <div className={StyleBtn.main} onClick={() => setActive(prev => !disabled ? !prev : prev)} style={{ cursor: disabled ? 'auto' : 'pointer' }}>
                 <div className={StyleBtn.child} style={active ? { left: "1.3rem", backgroundColor: color } : { left: "0", backgroundColor: color }} />
             </div>
-            {label && <label className={StyleBtn.label}>{label}</label>}
+            {label && <label className={StyleBtn.label} onClick={() => setActive(prev => !disabled ? !prev : prev)}>{label}</label>}
         </div>
     );
 }

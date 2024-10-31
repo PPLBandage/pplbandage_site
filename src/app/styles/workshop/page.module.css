@@ -45,13 +45,18 @@
     border-radius: 15px;
     width: 300px;
     height: 300px;
-    box-shadow: var(--main-shadow-color) 0 2px 5px 0px;
+    box-shadow: var(--main-shadow-color) 0 0px 5px 0px;
     user-select: none;
     position: relative;
     z-index: 2;
     cursor: pointer;
     border: 1px var(--main-element-color) solid;
     box-sizing: border-box;
+    transition: box-shadow 200ms;
+}
+
+.skin:hover {
+    box-shadow: var(--shadow-color) 0 0px 6px 0px;
 }
 
 .skin_descr {
@@ -59,7 +64,7 @@
     border-radius: 0 0 15px 15px;
     padding: 1rem;
     position: relative;
-    top: -15px;
+    top: -16px;
     z-index: 1;
     box-sizing: border-box;
     width: 300px;

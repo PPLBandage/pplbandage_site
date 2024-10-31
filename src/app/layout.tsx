@@ -6,9 +6,10 @@ import { headers } from 'next/headers';
 import meta from '@/app/meta.json';
 import { merge } from 'lodash';
 
-export const generateMetadata = async (): Promise<Metadata> => {
+export const generateMetadata = async (): Promise<Metadata | undefined> => {
 	const headersList = headers();
-	const path = headersList.get('X-Forwarded-Path').split('?')[0];  // Working only with Nginx config!
+	const path = headersList.get('X-Forwarded-Path')?.split('?')[0];  // Working only with Nginx config!
+	if (!path) return;
 	const object = (meta as { [key: string]: any });
 	const base = meta.base;
 	const extend = object[path];

@@ -121,7 +121,15 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
                 }
             </div>
             <Link href={`/workshop/${el.external_id}`}>
-                <NextImage src={base64} className={`${Style.skin} ${className?.skin_props}`} alt={el.external_id} width={300} height={300} draggable="false" />
+                <NextImage
+                    src={base64}
+                    className={`${Style.skin} ${className?.skin_props}`}
+                    alt={el.external_id}
+                    width={300}
+                    height={300}
+                    draggable='false'
+                    style={{ '--shadow-color': el.accent_color } as React.CSSProperties}
+                />
             </Link>
             <div className={`${Style.skin_descr} ${className?.skin_description_props}`}>
                 <Link className={Style.header} href={`/workshop/${el.external_id}`}>{el.title}</Link>

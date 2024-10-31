@@ -3,8 +3,7 @@ import Link, { LinkProps } from "next/link";
 import React, { ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-interface AnimatedLinkProps
-    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">,
+interface AnimatedLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">,
     LinkProps {
     children: ReactNode;
     href: string;

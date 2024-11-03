@@ -294,14 +294,20 @@ class Client {
     }
 }
 
-export const crop_pepe = (pepe_canvas: HTMLCanvasElement, slim: boolean, height: number, body_part: number): HTMLCanvasElement => {
+export const crop_pepe = (
+    pepe_canvas: HTMLCanvasElement,
+    slim: boolean,
+    height: number,
+    body_part: number
+): HTMLCanvasElement => {
     const bandage_canvas = document.createElement("canvas") as HTMLCanvasElement;
     bandage_canvas.width = 16;
     bandage_canvas.height = height;
     const context = bandage_canvas.getContext("2d", { willReadFrequently: true });
 
     if (slim && (body_part === 0 || body_part === 2)) {
-        context?.drawImage(pepe_canvas, 0, 0, 15, height, 0, 0, 15, height);
+        context?.drawImage(pepe_canvas, 5, 0, 10, height, 5, 0, 10, height);
+        context?.drawImage(pepe_canvas, 0, 0, 4, height, 1, 0, 4, height);
     } else {
         context?.drawImage(pepe_canvas, 0, 0);
     }

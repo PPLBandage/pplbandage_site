@@ -1,0 +1,48 @@
+.main {
+    width: 100%;
+    max-width: 1260px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header {
+    background-color: var(--main-card-color);
+    padding: 1rem;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: .8rem;
+}
+
+.body {
+    border: 2px var(--main-card-color) solid;
+    border-top: none;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    border-radius: 0 0 15px 15px;
+    padding: 1rem 1rem 0 1rem;
+    box-sizing: border-box;
+}
+
+.beta {
+    border: 2px var(--main-action-color) solid;
+    padding: 3px 8px 3px 8px;
+    font-size: .9rem;
+    border-radius: 99999px;
+    color: var(--main-action-color);
+}
+
+.colors {
+    display: flex;
+    gap: 4px;
+}
+
+.color {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 1px var(--main-element-color) solid;
+}

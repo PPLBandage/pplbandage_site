@@ -74,7 +74,7 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
         retry: 5,
         queryFn: async () => {
             if (!user_data) {
-                const res = await authApi.get("/user/me", { withCredentials: true });
+                const res = await authApi.get("/user/me");
                 return res.data as Query;
             } else {
                 return user_data;

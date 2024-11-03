@@ -343,7 +343,7 @@ const Safety = () => {
     const [sessions, setSessions] = useState<Session[]>([]);
 
     useEffect(() => {
-        authApi.get('user/me/sessions', { validateStatus: () => true })
+        authApi.get('user/me/sessions')
             .then(response => {
                 if (response.status === 200) {
                     const _sessions = response.data as Session[];

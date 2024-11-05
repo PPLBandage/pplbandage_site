@@ -158,7 +158,7 @@ const Login = () => {
         <main className={styles.login_main}>
             <div className={styles.login_container}>
                 <h1>Войти через</h1>
-                <a className={styles.login_button} href={process.env.NEXT_PUBLIC_LOGIN_URL}>
+                <a className={styles.login_button} href={'/me/login'}>
                     <img alt="" src="/static/icons/discord.svg" />
                     Discord
                 </a>

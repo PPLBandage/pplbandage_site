@@ -31,6 +31,7 @@ export default function Home() {
             id: Number(filter),
             name: '',
             icon: '',
+            colorable: false,
             enabled: true
         }))
     const [data, setData] = useState<BandageResponse>(null);
@@ -107,7 +108,7 @@ export default function Home() {
         skinViewer.loadBackground("/static/background.png").then(() => asyncImage('/static/workshop_base.png').then((base_skin) => {
             Promise.all(data.data.map(async (el) => {
                 try {
-                    const result = await generateSkin(el.base64, base_skin, el.categories.some(val => val.id === Number(process.env.NEXT_PUBLIC_COLORABLE_ID)))
+                    const result = await generateSkin(el.base64, base_skin, el.categories.some(val => val.colorable))
                     await skinViewer.loadSkin(result, { model: 'default' });
                     skinViewer.render();
                     const image = skinViewer.canvas.toDataURL();

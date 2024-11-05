@@ -148,7 +148,7 @@ const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageCh
                 const categories = response.data as Interfaces.Category[]
                 setAllCategories(categories);
                 if (window.location.hash === '#colorable') {
-                    const colorable_category = categories.find((category) => category.id === Number(process.env.NEXT_PUBLIC_COLORABLE_ID));
+                    const colorable_category = categories.find(category => category.colorable);
                     if (colorable_category) {
                         setEnabledCategories([colorable_category]);
                     }
@@ -173,7 +173,7 @@ const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageCh
             onColorableChange(false);
             return;
         }
-        const _colorable = categories.includes(Number(process.env.NEXT_PUBLIC_COLORABLE_ID));
+        const _colorable = categories.some(category => allCategories.find(cat => cat.id === category).colorable);
         setColorable(_colorable);
         onColorableChange(_colorable);
     }, [categories]);

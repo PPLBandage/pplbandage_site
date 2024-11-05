@@ -9,6 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useQuery } from "@tanstack/react-query";
 import useCookie from "@/app/modules/utils/useCookie.module";
+import * as Interfaces from '@/app/interfaces';
 
 import {
     IconUser,
@@ -35,11 +36,7 @@ export interface Query {
     permissions: string[],
     profile_theme: number,
     stars_count: number,
-    roles: {
-        id: number,
-        name: string,
-        icon: string
-    }[]
+    roles: Interfaces.Category[]
 }
 
 const Header = (): JSX.Element => {

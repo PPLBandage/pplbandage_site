@@ -39,7 +39,7 @@ export interface Category {
     id: number,
     name: string,
     icon: string,
-    colorable: boolean,
+    colorable?: boolean,
     enabled?: boolean
 }
 

@@ -2,7 +2,6 @@ import asyncImage from '@/app/modules/components/asyncImage.module';
 import axios from 'axios';
 
 interface SkinResponse {
-    status: string,
     data: {
         skin: {
             data: string,
@@ -33,7 +32,6 @@ interface Settings {
 class Client {
     skin: string = "";
     cape: string = "";
-    pepe_type: string = "";
     listeners: { [key: string]: Function } = {};
     original_canvas: HTMLCanvasElement = null;
 

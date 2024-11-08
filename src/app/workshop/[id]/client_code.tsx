@@ -343,7 +343,6 @@ interface SkinLoadProps {
 }
 
 interface SkinResponse {
-    status: string,
     data: {
         skin: {
             data: string,

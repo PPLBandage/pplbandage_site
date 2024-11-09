@@ -107,7 +107,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                 client.current.lining_canvas = lining_canvas;
                 client.current.position = 6 - Math.floor(height / 2);
                 setRangeProps({ value: client.current.position, max: (12 - client.current.pepe_canvas.height) });
-                client.current.colorable = data.categories.some(val => val.id.toString() === process.env.NEXT_PUBLIC_COLORABLE_ID);
+                client.current.colorable = data.categories.some(val => val.colorable);
                 const randomColor = getRandomColor();
                 setRandomColor(randomColor);
                 client.current.setParams({ color: randomColor });
@@ -343,7 +343,6 @@ interface SkinLoadProps {
 }
 
 interface SkinResponse {
-    status: string,
     data: {
         skin: {
             data: string,

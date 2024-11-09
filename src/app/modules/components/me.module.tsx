@@ -110,7 +110,7 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
                                     {background}
                                     {!user_data && <Menu initialValue={data?.profile_theme} color_available={!!data?.banner_color} onChange={setTheme} />}
                                 </div>
-                                {data.roles.length > 0 && <Roles user={data} />}
+                                {data.roles?.length > 0 && <Roles user={data} />}
                                 {!user_data &&
                                     <div className={style_sidebar.card} style={{ alignItems: "stretch", gap: ".5rem" }}>
                                         <TransitionLink href="/me" className={`${style_sidebar.side_butt} ${path == 'me' && style_sidebar.active}`}>

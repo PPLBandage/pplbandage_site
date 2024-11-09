@@ -9,6 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useQuery } from "@tanstack/react-query";
 import useCookie from "@/app/modules/utils/useCookie.module";
+import * as Interfaces from '@/app/interfaces';
 
 import {
     IconUser,
@@ -35,11 +36,7 @@ export interface Query {
     permissions: string[],
     profile_theme: number,
     stars_count: number,
-    roles: {
-        id: number,
-        name: string,
-        icon: string
-    }[]
+    roles: Interfaces.Category[]
 }
 
 const Header = (): JSX.Element => {
@@ -143,14 +140,14 @@ const AvatarMenu = ({ data, loading, expanded, expand }: AvatarMenuProps) => {
 const LoggedMenu = ({ admin }: { admin: boolean }) => {
     return (
         <>
-            <Link className={Styles.menu_element} href="/me"><IconUser />Личный кабинет</Link>
-            <Link className={Styles.menu_element} href="/workshop/create"><IconPlus />Создать</Link>
+            <Link className={Styles.menu_element} href="/me"><IconUser /><span>Личный кабинет</span></Link>
+            <Link className={Styles.menu_element} href="/workshop/create"><IconPlus /><span>Создать</span></Link>
             <hr style={{ border: "1px var(--hr-color) solid", margin: "2px" }}></hr>
-            <Link className={Styles.menu_element} href="/"><IconSmartHome />Главная</Link>
-            <Link className={Styles.menu_element} href="/workshop"><IconStack />Мастерская</Link>
-            <Link className={Styles.menu_element} href="/tutorials"><IconBooks />Туториалы</Link>
-            {admin && <Link className={Styles.menu_element} href="/admin"><IconUserCog />Админ панель</Link>}
-            <a className={Styles.menu_element} onClick={() => logout()}><IconLogout />Выйти</a>
+            <Link className={Styles.menu_element} href="/"><IconSmartHome /><span>Главная</span></Link>
+            <Link className={Styles.menu_element} href="/workshop"><IconStack /><span>Мастерская</span></Link>
+            <Link className={Styles.menu_element} href="/tutorials"><IconBooks /><span>Туториалы</span></Link>
+            {admin && <Link className={Styles.menu_element} href="/admin"><IconUserCog /><span>Админ панель</span></Link>}
+            <a className={Styles.menu_element} onClick={() => logout()}><IconLogout /><span>Выйти</span></a>
         </>
     );
 }
@@ -158,11 +155,11 @@ const LoggedMenu = ({ admin }: { admin: boolean }) => {
 const UnloggedMenu = () => {
     return (
         <>
-            <Link className={Styles.menu_element} href="/me"><IconLogin />Войти</Link>
+            <Link className={Styles.menu_element} href="/me"><IconLogin /><span>Войти</span></Link>
             <hr style={{ border: "1px var(--hr-color) solid", margin: "2px" }}></hr>
-            <Link className={Styles.menu_element} href="/"><IconSmartHome />Главная</Link>
-            <Link className={Styles.menu_element} href="/workshop"><IconStack />Мастерская</Link>
-            <Link className={Styles.menu_element} href="/tutorials"><IconBooks />Туториалы</Link >
+            <Link className={Styles.menu_element} href="/"><IconSmartHome /><span>Главная</span></Link>
+            <Link className={Styles.menu_element} href="/workshop"><IconStack /><span>Мастерская</span></Link>
+            <Link className={Styles.menu_element} href="/tutorials"><IconBooks /><span>Туториалы</span></Link >
         </>
     );
 }

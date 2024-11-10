@@ -10,19 +10,17 @@ import Header from "@/app/modules/components/header.module";
 import useCookie from '@/app/modules/utils/useCookie.module';
 import { Cookies, useCookies } from 'next-client-cookies';
 import { Bandage, Role } from '@/app/interfaces';
-import { SkinViewer } from 'skinview3d';
-import { Card, generateSkin } from '@/app/modules/components/card.module';
 import { Me } from '@/app/modules/components/me.module';
 import Link from 'next/link';
 import axios from 'axios';
 import AdaptiveGrid from '@/app/modules/components/adaptiveGrid.module';
 import style_workshop from "@/app/styles/workshop/page.module.css";
-import asyncImage from "@/app/modules/components/asyncImage.module";
 
 import { IconArrowBack, IconPlus } from '@tabler/icons-react';
 import IconSvgCropped from '@/app/resources/icon-cropped.svg';
 import IconSvg from '@/app/resources/icon.svg';
 import { httpStatusCodes } from '../modules/utils/statusCodes.module';
+import { render, renderSkin } from '../modules/utils/skinCardRender.module';
 
 const Main = () => {
     const router = useRouter();
@@ -39,34 +37,7 @@ const Main = () => {
     const [data, setData] = useState<Bandage[]>(null);
 
     useEffect(() => {
-        if (data) {
-            const skinViewer = new SkinViewer({
-                width: 300,
-                height: 300,
-                renderPaused: true
-            });
-            skinViewer.camera.rotation.x = -0.4;
-            skinViewer.camera.rotation.y = 0.8;
-            skinViewer.camera.rotation.z = 0.29;
-            skinViewer.camera.position.x = 17;
-            skinViewer.camera.position.y = 6.5;
-            skinViewer.camera.position.z = 11;
-            skinViewer.loadBackground("/static/background.png").then(() => asyncImage('/static/workshop_base.png').then((base_skin) => {
-                Promise.all(data.map(async (el) => {
-                    try {
-                        const result = await generateSkin(el.base64, base_skin, el.categories.some(val => val.id == 3))
-                        await skinViewer.loadSkin(result, { model: 'default' });
-                        skinViewer.render();
-                        const image = skinViewer.canvas.toDataURL();
-                        return <Card el={el} base64={image} key={el.id} className={styles} />
-                    } catch {
-                        return;
-                    }
-                })).then(results => setElements(results))
-                    .catch(error => console.error('Error generating skins', error))
-                    .finally(() => skinViewer.dispose());
-            }));
-        }
+        data && renderSkin(data, styles).then(results => setElements(results));
     }, [data]);
 
     useEffect(() => {

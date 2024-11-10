@@ -2,36 +2,13 @@ import { authApi } from "@/app/modules/utils/api.module";
 import { Bandage, Category } from "@/app/interfaces";
 import Style from "@/app/styles/workshop/page.module.css";
 import NextImage from 'next/image';
-import { fillPepe } from "@/app/workshop/[id]/bandage_engine.module";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
 import { CSSProperties, useEffect, useState } from "react";
-import asyncImage from "@/app/modules/components/asyncImage.module";
 
 import { IconCircleHalf2, IconStar, IconStarFilled, IconUser } from '@tabler/icons-react';
 import { getIcon } from "../utils/categories.module";
 import { useRouter } from "next/navigation";
-
-const b64Prefix = "data:image/png;base64,";
-
-export const generateSkin = async (b64: string, base_skin: HTMLImageElement, colorable: boolean): Promise<string> => {
-    const bandage = await asyncImage(b64Prefix + b64);
-
-    const height = Math.floor(bandage.height / 2);
-    const position = 6 - Math.ceil(height / 2);
-
-    const skin_canvas = document.createElement('canvas');
-    const skin_context = skin_canvas.getContext('2d');
-    skin_canvas.width = 64;
-    skin_canvas.height = 64;
-
-    const bandage_new = colorable ? fillPepe(bandage, [randint(0, 255), randint(0, 255), randint(0, 255)]) : bandage;
-    skin_context.drawImage(base_skin, 0, 0);
-    skin_context.drawImage(bandage_new, 0, 0, 16, height, 48, 52 + position, 16, height);
-    skin_context.drawImage(bandage_new, 0, height, 16, height, 32, 52 + position, 16, height);
-
-    return skin_canvas.toDataURL();
-};
 
 
 export const formatDate = (date: Date) => {
@@ -42,11 +19,6 @@ export const formatDate = (date: Date) => {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString();
     return `${hours}:${minutes} ${day}.${month}.${year}`;
-}
-
-
-export const randint = (min: number, max: number): number => {
-    return Math.random() * (max - min) + min;
 }
 
 interface CategoryProps {

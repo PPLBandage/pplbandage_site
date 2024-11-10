@@ -204,58 +204,6 @@
     height: 0;
 }
 
-.position {
-    all: unset;
-    writing-mode: vertical-lr;
-    appearance: none;
-    margin-left: calc(12px - 0.25rem);
-    margin-right: calc(12px - 0.25rem);
-}
-
-.position::-webkit-slider-runnable-track {
-    border: 1px var(--main-element-color) solid;
-    width: 0.5rem;
-    border-radius: 5px;
-    background: none;
-}
-
-.position::-webkit-slider-thumb {
-    appearance: none;
-    width: 24px;
-    height: 16px;
-    border: 0;
-    border-radius: 3px;
-    background-image: url('../../workshop/[id]/pepe.png');
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    margin-left: -9px;
-    touch-action: none;
-}
-
-
-.position::-moz-slider-runnable-track {
-    border: 1px var(--main-element-color) solid;
-    width: 0.5rem;
-    border-radius: 5px;
-}
-
-.position::-moz-slider-thumb {
-    appearance: none;
-    width: 24px;
-    height: 16px;
-    border: 0;
-    border-radius: 3px;
-    background-image: url('../../workshop/[id]/pepe.png');
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    margin-left: -9px;
-    touch-action: none;
-}
-
 .check_notification {
     width: 100%;
     background-color: rgba(255, 255, 0, 0.13);

@@ -3,8 +3,15 @@
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/PPLBandage/pplbandage_site/main.yml?style=flat&label=Build%20%26%20Deploy&link=https%3A%2F%2Fgithub.com%2FPPLBandage%2Fpplbandage_site%2Factions)
 ![Lines Count](https://img.shields.io/endpoint?url=https%3A%2F%2Fghloc.vercel.app%2Fapi%2FPPLBandage%2Fpplbandage_site%2Fbadge%3Ffilter%3D.ts%24%2C.tsx%24%2C.css%24) 
 [![CodeFactor](https://www.codefactor.io/repository/github/pplbandage/pplbandage_site/badge/master)](https://www.codefactor.io/repository/github/pplbandage/pplbandage_site/overview/master)  
-**Исходный код сайта с повязками.**
+**Source code for the PPLBandage site.**
 
-<h2 style="color: #ED4245">Известные проблемы</h2>
+<h2 style="color: #ED4245">Known Issues</h2>
 
-- В браузерах `FireFox <=130.0` окрашивание повязок работает некорректно.
+- In `FireFox <=130.0` browsers, coloring of bandages does not work correctly.
+
+## Contributors
+- [@Andcool-Systems](https://github.com/Andcool-Systems)
+- [@Krimax0](https://github.com/Krimax0)
+
+- Sleepless nights
+- ChatGPT

@@ -10,7 +10,7 @@
 .container {
     flex-direction: column;
     background-color: var(--main-card-color);
-    border-radius: 15px;
+    border-radius: 10px;
     padding: 1rem;
     color: var(--main-text-color);
     box-sizing: border-box;

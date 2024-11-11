@@ -52,6 +52,8 @@ class Client {
     colorable: boolean = false;
     split_types: boolean = false;
 
+    private main_bandage: HTMLCanvasElement = null;
+
     loadBase() {
         asyncImage('/static/workshop_base.png').then((skin) => {
             const context = this.original_canvas.getContext("2d");
@@ -262,6 +264,8 @@ class Client {
         let first_x = body_part_x[this.body_part];
         let first_y = body_part_y[this.body_part];
 
+        this.main_bandage = cropped_lining;
+
         switch (this.layers) {
             case "1":
                 overlay_x = first_x;
@@ -282,6 +286,43 @@ class Client {
         } else {
             this.download(canvas.toDataURL());
         }
+    }
+
+    calcColor() {
+        const on_second_layer = this.layers === "2";  // Брать пиксели со второго слоя
+
+        const pos_x = on_second_layer ? body_part_x_overlay[this.body_part] : body_part_x[this.body_part];
+        const pos_y = (on_second_layer ? body_part_y_overlay[this.body_part] : body_part_y[this.body_part]) + this.position;
+
+        const skin_context = this.original_canvas.getContext('2d', { willReadFrequently: true });
+        const bandage_data = skin_context.getImageData(pos_x, pos_y, this.main_bandage.width, this.main_bandage.height).data;
+
+        let r_avg = 0;
+        let g_avg = 0;
+        let b_avg = 0;
+        let count = 0;
+
+        for (let y = 0; y < this.main_bandage.height; y++) {
+            for (let x = 0; x < 16; x++) {
+                const index = (y * this.main_bandage.height + x) * 4;
+                const r = bandage_data[index];
+                const g = bandage_data[index + 1];
+                const b = bandage_data[index + 2];
+                const a = bandage_data[index + 3];
+
+                if (a !== 0) {
+                    r_avg += r;
+                    g_avg += g;
+                    b_avg += b;
+                    count++;
+                }
+            }
+        }
+        return {
+            r: r_avg / count,
+            g: g_avg / count,
+            b: b_avg / count
+        };
     }
 
     download(skin?: string, name?: string) {

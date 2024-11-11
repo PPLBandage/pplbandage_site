@@ -2,15 +2,19 @@ import { Bandage } from "@/app/interfaces";
 import { Card } from "../components/card.module";
 import { SkinViewer } from "skinview3d";
 import asyncImage from "@/app/modules/components/asyncImage.module";
-import { fillPepe } from "@/app/workshop/[id]/bandage_engine.module";
+import { b64Prefix, fillPepe } from "@/app/workshop/[id]/bandage_engine.module";
 
-const b64Prefix = "data:image/png;base64,";
 
 const randint = (min: number, max: number): number => {
     return Math.random() * (max - min) + min;
 }
 
-export const generateSkin = async (b64: string, base_skin: HTMLImageElement, colorable: boolean): Promise<string> => {
+
+export const generateSkin = async (
+    b64: string,
+    base_skin: HTMLImageElement,
+    colorable: boolean
+): Promise<string> => {
     const bandage = await asyncImage(b64Prefix + b64);
 
     const height = Math.floor(bandage.height / 2);
@@ -29,6 +33,7 @@ export const generateSkin = async (b64: string, base_skin: HTMLImageElement, col
     return skin_canvas.toDataURL();
 };
 
+
 export const render = (
     skinViewer: SkinViewer,
     data: Bandage[],
@@ -36,23 +41,20 @@ export const render = (
     base_skin: HTMLImageElement
 ): Promise<JSX.Element[]> => {
     return Promise.all(data.map(async el => {
-        try {
-            const result = await generateSkin(el.base64, base_skin, el.categories.some(val => val.colorable));
-            await skinViewer.loadSkin(result, { model: 'default' });
-            skinViewer.render();
-            return (
-                <Card
-                    el={el}
-                    base64={skinViewer.canvas.toDataURL()}
-                    key={el.id}
-                    className={styles}
-                />
-            );
-        } catch {
-            return null;
-        }
+        const result = await generateSkin(el.base64, base_skin, el.categories.some(val => val.colorable));
+        await skinViewer.loadSkin(result, { model: 'default' });
+        skinViewer.render();
+        return (
+            <Card
+                el={el}
+                base64={skinViewer.canvas.toDataURL()}
+                key={el.id}
+                className={styles}
+            />
+        );
     }));
 }
+
 
 export const renderSkin = async (
     data: Bandage[],

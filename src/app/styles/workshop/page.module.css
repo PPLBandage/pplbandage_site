@@ -19,7 +19,7 @@
     max-width: 300px;
     background-color: var(--main-card-color);
     padding: 1rem;
-    border-radius: 15px;
+    border-radius: 10px;
 }
 
 .filters h2 {
@@ -30,7 +30,7 @@
 .right {
     background-color: var(--main-card-color);
     padding: 1rem;
-    border-radius: 15px;
+    border-radius: 10px;
 }
 
 .skins_container {
@@ -42,7 +42,7 @@
 }
 
 .skin {
-    border-radius: 15px;
+    border-radius: 10px;
     width: 300px;
     height: 300px;
     box-shadow: var(--main-shadow-color) 0 0px 5px 0px;
@@ -61,7 +61,7 @@
 
 .skin_descr {
     background-color: var(--main-card-color);
-    border-radius: 0 0 15px 15px;
+    border-radius: 0 0 10px 10px;
     padding: 1rem;
     position: relative;
     top: -16px;

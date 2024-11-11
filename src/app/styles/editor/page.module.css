@@ -377,6 +377,22 @@
     transition: opacity 150ms, transform 150ms;
 }
 
+.adjust_color {
+    height: 27px;
+    background-color: var(--main-element-color);
+    transition: background-color 250ms;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: .85rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+.adjust_color:hover {
+    background-color: var(--hr-color);
+}
+
 @media(max-width: 925px) {
     .main_container {
         flex-direction: column;

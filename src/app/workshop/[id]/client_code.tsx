@@ -53,6 +53,15 @@ const getRandomColor = () => {
     return color;
 }
 
+const componentToHex = (c: number) => {
+    const hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+export const rgbToHex = (r: number, g: number, b: number) => {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
 export default function Home({ data }: { data: Interfaces.Bandage }) {
     const [loaded, setLoaded] = useState<boolean>(false);
     const categories = data.categories.map((category) => <CategoryEl key={category.id} category={category} />);
@@ -77,6 +86,15 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
         }, 5),
         []
     );
+
+    const adjustColor = () => {
+        const color = client.current.calcColor();
+        const selector = document.getElementById('color_select') as HTMLInputElement;
+
+        selector.value = rgbToHex(~~color.r, ~~color.g, ~~color.b);
+        client.current.setParams({ color: selector.value });
+        client.current.rerender();
+    }
 
     useEffect(() => {
         client.current = new Client();
@@ -224,15 +242,20 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                         <hr />
                         <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>
                             {client.current?.colorable &&
-                                <div style={{ display: "flex", alignItems: "center" }}>
-                                    <input
-                                        type='color'
-                                        id='color_select'
-                                        defaultValue={randomColor}
-                                        onInput={debouncedHandleColorChange}
-                                        style={{ cursor: 'pointer' }}
-                                    />
-                                    <p style={{ margin: 0, marginLeft: '.5rem' }}>Выберите цвет</p>
+                                <div style={{ display: "flex", alignItems: "center", flexWrap: 'wrap', gap: '.5rem' }}>
+                                    {!!client.current.original_canvas &&
+                                        <button onClick={adjustColor} className={style.adjust_color}>Подобрать цвет</button>
+                                    }
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <input
+                                            type='color'
+                                            id='color_select'
+                                            defaultValue={randomColor}
+                                            onInput={debouncedHandleColorChange}
+                                            style={{ cursor: 'pointer' }}
+                                        />
+                                        <p style={{ margin: 0, marginLeft: '.5rem' }}>Выберите цвет</p>
+                                    </div>
                                 </div>
                             }
                             <div className={style.settings_slider}>

@@ -21,7 +21,9 @@ const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, co
                 {islogged && data?.avatar && <Image src={data?.avatar} alt="" width={150} height={150} priority={true} draggable={false} />}
             </div>
             <h3>{data?.name}</h3>
-            <p className={style_sidebar.username}>{data?.username}</p>
+            <p className={style_sidebar.username}>{data?.username} {!!data.last_accessed &&
+                <span title={formatDate(new Date(data?.last_accessed))}>({timeStamp((new Date(data?.last_accessed).getTime()) / 1000)})</span>
+            }</p>
 
             <p className={style_sidebar.total_stars}>Звёзд: {data?.stars_count}<IconStarFilled width={16} height={16} /></p>
             <div className={style_sidebar.joined}>
@@ -40,7 +42,9 @@ const ImprovedTheme = ({ data, islogged }: { data: Query, islogged: boolean }) =
                     {islogged && data?.avatar && <Image src={data?.avatar} alt="" width={150} height={150} priority={true} draggable={false} />}
                 </div>
                 <h3>{data?.name}</h3>
-                <p className={style_sidebar.username}>{data?.username}</p>
+                <p className={style_sidebar.username}>{data?.username} {!!data.last_accessed &&
+                    <span title={formatDate(new Date(data?.last_accessed))}>({timeStamp((new Date(data?.last_accessed).getTime()) / 1000)})</span>
+                }</p>
 
                 <p className={style_sidebar.total_stars}>Звёзд: {data?.stars_count}<IconStarFilled width={16} height={16} /></p>
                 <div className={style_sidebar.joined}>

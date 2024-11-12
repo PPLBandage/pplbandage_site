@@ -243,9 +243,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                         <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>
                             {client.current?.colorable &&
                                 <div style={{ display: "flex", alignItems: "center", flexWrap: 'wrap', gap: '.5rem' }}>
-                                    {!!client.current.original_canvas &&
-                                        <button onClick={adjustColor} className={style.adjust_color}>Подобрать цвет</button>
-                                    }
+                                    <button onClick={adjustColor} className={style.adjust_color}>Подобрать цвет</button>
                                     <div style={{ display: "flex", alignItems: "center" }}>
                                         <input
                                             type='color'

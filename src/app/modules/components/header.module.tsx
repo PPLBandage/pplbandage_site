@@ -36,7 +36,8 @@ export interface Query {
     permissions: string[],
     profile_theme: number,
     stars_count: number,
-    roles: Interfaces.Category[]
+    roles: Interfaces.Category[],
+    last_accessed?: Date
 }
 
 const Header = (): JSX.Element => {

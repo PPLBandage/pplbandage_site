@@ -48,7 +48,8 @@
 }
 
 .description {
-    margin-bottom: .3rem;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
     overflow-wrap: anywhere;
 }
 

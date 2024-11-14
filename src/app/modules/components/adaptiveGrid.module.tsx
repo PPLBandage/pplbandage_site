@@ -1,7 +1,8 @@
 "use client";
 
-import { CSSProperties, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import style from '@/app/styles/editor/page.module.css';
+import Style from "@/app/styles/workshop/page.module.css";
 
 interface AdaptiveGridProps {
     child_width: number,
@@ -56,3 +57,11 @@ const AdaptiveGrid = ({ child_width, children, header, className }: AdaptiveGrid
 }
 
 export default AdaptiveGrid;
+
+export const SimpleGrid = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
+    return (
+        <div className={Style.grid_container}>
+            <div className={Style.grid}>{children}</div>
+        </div>
+    )
+}

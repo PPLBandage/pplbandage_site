@@ -13,7 +13,7 @@ import { Bandage, Role } from '@/app/interfaces';
 import { Me } from '@/app/modules/components/me.module';
 import Link from 'next/link';
 import axios from 'axios';
-import AdaptiveGrid from '@/app/modules/components/adaptiveGrid.module';
+import { SimpleGrid } from '@/app/modules/components/adaptiveGrid.module';
 import style_workshop from "@/app/styles/workshop/page.module.css";
 
 import { IconArrowBack, IconPlus } from '@tabler/icons-react';
@@ -77,14 +77,14 @@ const Main = () => {
                     <Login /> :
                     <Me>
                         <div style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }} className={styles.cont} id="sidebar">
-                            <AdaptiveGrid
-                                child_width={300}
-                                className={styles}
-                                header={<Link className={styles.create} href="/workshop/create">
-                                    <IconPlus />Создать
-                                </Link>}>
-                                {elements}
-                            </AdaptiveGrid>
+                            <Link
+                                className={styles.create}
+                                href='/workshop/create'
+                                style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                            >
+                                <IconPlus />Создать
+                            </Link>
+                            <SimpleGrid>{elements}</SimpleGrid>
                         </div>
                     </Me>
 

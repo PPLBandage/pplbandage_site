@@ -12,13 +12,13 @@ import { BandageResponse, Category } from "@/app/interfaces";
 import { constrain } from "@/app/modules/components/card.module";
 import Footer from "@/app/modules/components/footer.module";
 import Image from "next/image";
-import AdaptiveGrid from "@/app/modules/components/adaptiveGrid.module";
 import styles_card from "@/app/styles/me/me.module.css";
 import IconSvg from '@/app/resources/icon.svg';
 import { BrowserNotification, calcChecksum } from "./checkBrowserAPI.module";
 import { useCookies } from "next-client-cookies";
 import { useSearchParams } from "next/navigation";
 import { renderSkin } from "../modules/utils/skinCardRender.module";
+import { SimpleGrid } from "../modules/components/adaptiveGrid.module";
 
 export default function Home() {
     const cookies = useCookies();
@@ -122,28 +122,41 @@ export default function Home() {
                         onChangeSort={setSort}
                         onChangeFilters={setFilters}
                     />
-                    {elements && elements.length > 0 && <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
+                    {elements && elements.length > 0 &&
+                        <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
                     {elements && elements.length > 0 ?
-                        <AdaptiveGrid child_width={300} className={styles_card}>{elements}</AdaptiveGrid> :
-                        elements && elements.length === 0 ?
-                            <p style={{
-                                display: "flex",
-                                alignItems: "center",
-                                fontSize: "1.1rem",
-                                fontWeight: 500,
-                                width: "100%",
-                                justifyContent: "center",
-                                margin: 0
-                            }}>
-                                <Image style={{ marginRight: ".5rem" }} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />
-                                Похоже, тут ничего нет
-                            </p> :
-                            <IconSvg width={86} height={86} className={Style.loading} />
+                        <SimpleGrid>{elements}</SimpleGrid> :
+                        <TheresNothingHere elements={elements} />
                     }
-                    {elements && elements.length > 0 && <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
+                    {elements && elements.length > 0 &&
+                        <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
                 </div>
                 <Footer />
             </main>
         </body>
+    );
+}
+
+
+const TheresNothingHere = ({ elements }: { elements: JSX.Element[] }) => {
+    return (
+        <>
+            {
+                elements && elements.length === 0 ?
+                    <p style={{
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "1.1rem",
+                        fontWeight: 500,
+                        width: "100%",
+                        justifyContent: "center",
+                        margin: 0
+                    }}>
+                        <Image style={{ marginRight: ".5rem" }} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />
+                        Похоже, тут ничего нет
+                    </p> :
+                    <IconSvg width={86} height={86} className={Style.loading} />
+            }
+        </>
     );
 }

@@ -12,7 +12,7 @@ import Image from 'next/image';
 import { Bandage } from '@/app/interfaces';
 import { Me } from '@/app/modules/components/me.module';
 import { redirect } from 'next/navigation'
-import AdaptiveGrid from '@/app/modules/components/adaptiveGrid.module';
+import { SimpleGrid } from '@/app/modules/components/adaptiveGrid.module';
 import { renderSkin } from '@/app/modules/utils/skinCardRender.module';
 
 const Main = () => {
@@ -54,11 +54,7 @@ const Main = () => {
                 <Me>
                     {data && data.length != 0 ?
                         <div id="sidebar" className={style_sidebar.skins_container_2} style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
-                            <AdaptiveGrid
-                                className={styles_me}
-                                child_width={300}>
-                                {elements}
-                            </AdaptiveGrid>
+                            <SimpleGrid>{elements}</SimpleGrid>
                         </div> :
                         <div className={style_sidebar.animated} style={elements ? { opacity: "1", transform: "translateY(0)", width: "100%" } : { opacity: "0", transform: "translateY(50px)", width: "100%" }}>
                             <p style={{ display: "flex", alignItems: "center", fontSize: "1.1rem", fontWeight: 500, width: "100%", justifyContent: "center", margin: 0 }}><Image style={{ marginRight: ".5rem" }} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />Похоже, тут ничего нет</p>

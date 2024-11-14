@@ -1,6 +1,7 @@
 import { authApi } from "@/app/modules/utils/api.module";
 import { Bandage, Category } from "@/app/interfaces";
 import Style from "@/app/styles/workshop/page.module.css";
+import style_card from "@/app/styles/workshop/card.module.css";
 import NextImage from 'next/image';
 import { getCookie } from "cookies-next";
 import Link from "next/link";
@@ -38,13 +39,18 @@ export const CategoryEl = ({ category, enabled, onClick, hoverable, style }: Cat
     );
 }
 
-export const Card = ({ el, base64, className }: { el: Bandage, base64: string, className?: { readonly [key: string]: string; } }): JSX.Element => {
+
+export const constrain = (val: number, min_val: number, max_val: number) => {
+    return Math.min(max_val, Math.max(min_val, val))
+}
+
+export const Card = ({ el, base64, className }: { el: Bandage, base64: string, className?: { readonly [key: string]: string; } }) => {
     const [starred, setStarred] = useState<boolean>(el.starred);
     const [last, setLast] = useState<boolean>(el.starred);
     const logged = getCookie("sessionId");
     const router = useRouter();
 
-    const categories = el.categories.map((category) => <CategoryEl key={category.id} category={category} />);
+    const categories = el.categories.map(category => <CategoryEl key={category.id} category={category} />);
 
     useEffect(() => {
         if (logged && starred != last) {
@@ -60,33 +66,28 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
         }
     }, [starred]);
 
+    const StarIcon = starred ? IconStarFilled : IconStar;
+
     return (
-        <div key={el.id} style={{ position: 'relative' }}>
-            <div className={`${Style.head_container} ${className?.skin_description_props}`}>
-                <div className={Style.star_container}>
-                    {starred ?
-                        <IconStarFilled
-                            className={Style.star}
-                            width={24}
-                            height={24}
-                            color="#ffb900"
-                            id={el.external_id + "_star"}
-                            style={{ cursor: "pointer" }}
-                            onClick={() => { logged ? setStarred(prev => !prev) : router.push('/me') }} /> :
-                        <IconStar
-                            className={Style.star}
-                            width={24}
-                            height={24}
-                            color="#ffb900"
-                            id={el.external_id + "_star"}
-                            style={{ cursor: "pointer" }}
-                            onClick={() => { logged ? setStarred(prev => !prev) : router.push('/me') }} />
-                    }
-                    <span className={Style.star_count} id={el.external_id + "_text"}>{el.stars_count}</span>
+        <article className={`${style_card.card}  ${className?.skin_description_props}`}>
+
+            <div className={style_card.head_container}>
+                <div className={style_card.star_container}>
+                    <StarIcon
+                        className={style_card.star}
+                        width={24}
+                        height={24}
+                        color="#ffb900"
+                        id={el.external_id + "_star"}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => { logged ? setStarred(prev => !prev) : router.push('/me') }}
+                    />
+                    <span className={style_card.star_count} id={el.external_id + "_text"}>{el.stars_count}</span>
                 </div>
+
                 {
-                    el.split_type && <IconCircleHalf2
-                        className={Style.split_type}
+                    el.split_type &&
+                    <IconCircleHalf2
                         width={24}
                         height={24}
                     />
@@ -95,7 +96,7 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
             <Link href={`/workshop/${el.external_id}`}>
                 <NextImage
                     src={base64}
-                    className={`${Style.skin} ${className?.skin_props}`}
+                    className={style_card.skin}
                     alt={el.external_id}
                     width={300}
                     height={300}
@@ -103,21 +104,21 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
                     style={{ '--shadow-color': el.accent_color } as React.CSSProperties}
                 />
             </Link>
-            <div className={`${Style.skin_descr} ${className?.skin_description_props}`}>
-                <Link className={Style.header} href={`/workshop/${el.external_id}`}>{el.title}</Link>
-                <p className={Style.description}>{el.description}</p>
-                <div className={Style.categories}>{categories}</div>
+            <div className={style_card.about}>
+                <div>
+                    <Link className={style_card.title} href={`/workshop/${el.external_id}`}>{el.title}</Link>
+                    <p className={style_card.description}>{el.description}</p>
+                    <div className={style_card.categories}>{categories}</div>
+                </div>
 
-                {el.author.public ?
-                    <Link className={Style.username} href={!!el.author.name ? `/users/${el.author.username}` : ``}><IconUser style={{ width: "1.5rem" }} />{el.author.name || "Unknown"}</Link> :
-                    <a className={`${Style.username} ${Style.username_private}`}><IconUser style={{ width: "1.5rem" }} />{el.author.name || "Unknown"}</a>
-                }
-                <p className={Style.creation_date}>{formatDate(new Date(el.creation_date))}</p>
+                <div>
+                    {el.author.public ?
+                        <Link className={style_card.username} href={!!el.author.name ? `/users/${el.author.username}` : ``}><IconUser style={{ width: "1.5rem" }} />{el.author.name || "Unknown"}</Link> :
+                        <a className={`${style_card.username} ${style_card.username_private}`}><IconUser style={{ width: "1.5rem" }} />{el.author.name || "Unknown"}</a>
+                    }
+                    <p className={style_card.creation_date}>{formatDate(new Date(el.creation_date))}</p>
+                </div>
             </div>
-        </div>
-    );
-}
-
-export const constrain = (val: number, min_val: number, max_val: number) => {
-    return Math.min(max_val, Math.max(min_val, val))
+        </article>
+    )
 }

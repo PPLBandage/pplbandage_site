@@ -1,9 +1,8 @@
 import Select, { GroupBase } from 'react-select';
 import * as Interfaces from "@/app/interfaces";
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import Style from "@/app/styles/nick_search.module.css";
-import StyleBtn from "@/app/styles/slidebtn.module.css";
 
 interface SearchResponse {
     status: string;
@@ -103,43 +102,6 @@ const Searcher = ({ onChange }: SearchProps) => {
         id="nick_input"
         formatOptionLabel={nick_value => nick_value.label}
     />
-}
-
-interface SlideButtonProps {
-    onChange(val: boolean): void;
-    value?: boolean;
-    label?: string;
-    defaultValue?: boolean;
-    strict?: boolean,
-    disabled?: boolean
-}
-
-export const SlideButton = ({ onChange, value, label, defaultValue, strict, disabled }: SlideButtonProps) => {
-    const [active, setActive] = useState<boolean>(value || defaultValue || false);
-    const isInitialMount = useRef<boolean>(true);
-
-    useEffect(() => {
-        setActive(value || defaultValue || false);
-    }, [value]);
-
-    useEffect(() => {
-        if (active === undefined) return;
-        if (isInitialMount.current && strict) {
-            isInitialMount.current = false;
-        } else {
-            onChange(active);
-        }
-    }, [active]);
-
-    const color = disabled ? 'var(--category-color)' : (active ? undefined : 'rgb(77 83 99)');
-    return (
-        <div className={StyleBtn.container}>
-            <div className={StyleBtn.main} onClick={() => setActive(prev => !disabled ? !prev : prev)} style={{ cursor: disabled ? 'auto' : 'pointer' }}>
-                <div className={StyleBtn.child} style={active ? { left: "1.3rem", backgroundColor: color } : { left: "0", backgroundColor: color }} />
-            </div>
-            {label && <label className={StyleBtn.label} onClick={() => setActive(prev => !disabled ? !prev : prev)}>{label}</label>}
-        </div>
-    );
 }
 
 export default Searcher;

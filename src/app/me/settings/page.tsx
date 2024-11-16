@@ -13,7 +13,6 @@ import useCookie from '@/app/modules/utils/useCookie.module';
 import Image from 'next/image';
 import { Me } from '@/app/modules/components/me.module';
 import { Fira_Code } from "next/font/google";
-import { SlideButton } from '@/app/modules/components/nick_search.module';
 import { formatDate } from '@/app/modules/components/card.module';
 import { getTheme } from '@/app/modules/providers.module';
 import { useCookies } from 'next-client-cookies';
@@ -31,6 +30,7 @@ import {
 } from '@tabler/icons-react';
 import { timeStamp } from '@/app/modules/utils/time.module';
 import style_workshop from "@/app/styles/workshop/page.module.css";
+import SlideButton from '@/app/modules/components/slideButton.module';
 const fira = Fira_Code({ subsets: ["latin"] });
 
 interface SettingsResponse {
@@ -86,7 +86,11 @@ const Page = () => {
             <Header />
             {logged &&
                 <Me>
-                    <div id="sidebar" className={Style.main} style={loaded ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
+                    <div
+                        id="sidebar"
+                        className={Style.main}
+                        style={loaded ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}
+                    >
                         {data &&
                             <>
                                 <UserSettings data={data} />
@@ -104,17 +108,24 @@ const Page = () => {
 
 const UserSettings = ({ data }: { data: SettingsResponse }) => {
     const [value, setValue] = useState<boolean>(data?.public_profile);
-    const change = (val: boolean) => {
-        authApi.put('user/me/settings/set_public', {}, { params: { state: val } }).then((response) => {
-            if (response.status === 200) {
-                setValue(response.data.new_data);
-            }
-        })
+    const change = (val: boolean, resolve: () => void) => {
+        authApi.put('user/me/settings/set_public', {}, { params: { state: val } })
+            .then(response => {
+                if (response.status === 200) setValue(response.data.new_data);
+                resolve();
+            });
     }
     return (
         <div className={Style.container}>
             <h3><IconUser width={26} height={26} style={{ marginRight: ".3rem", borderRadius: 0 }} />Настройки аккаунта</h3>
-            <SlideButton label='Публичный профиль' value={data.can_be_public ? value : false} onChange={change} strict={true} disabled={!data.can_be_public} />
+            <SlideButton
+                label='Публичный профиль'
+                value={data.can_be_public ? value : false}
+                loadable={true}
+                strict={true}
+                onChange={change}
+                disabled={!data.can_be_public}
+            />
         </div>
     );
 }
@@ -175,28 +186,30 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
                     </div>
                 </div>
                 <div className={Style.checkboxes}>
-                    <SlideButton value={valid} strict={true} onChange={(val) => {
-                        authApi.put('user/me/connections/minecraft/set_valid', {}, {
-                            params: {
-                                state: val
-                            }
-                        }).then((response) => {
-                            if (response.status == 200) {
-                                setValid((response.data as { new_data: boolean }).new_data);
-                            }
-                        })
-                    }} label='Отображать ник в поиске' />
-                    <SlideButton value={autoload} strict={true} onChange={(val) => {
-                        authApi.put('user/me/connections/minecraft/set_autoload', {}, {
-                            params: {
-                                state: val
-                            }
-                        }).then((response) => {
-                            if (response.status == 200) {
-                                setAutoload((response.data as { new_data: boolean }).new_data);
-                            }
-                        })
-                    }} label='Автоматически устанавливать скин в редакторе' />
+                    <SlideButton
+                        value={valid}
+                        strict={true}
+                        loadable={true}
+                        onChange={(val, resolve) => {
+                            authApi.put('user/me/connections/minecraft/set_valid',
+                                {}, { params: { state: val } })
+                                .then((response) => {
+                                    if (response.status === 200) setValid((response.data as { new_data: boolean }).new_data);
+                                    resolve();
+                                })
+                        }} label='Отображать ник в поиске' />
+                    <SlideButton
+                        value={autoload}
+                        strict={true}
+                        loadable={true}
+                        onChange={(val, resolve) => {
+                            authApi.put('user/me/connections/minecraft/set_autoload',
+                                {}, { params: { state: val } })
+                                .then((response) => {
+                                    if (response.status === 200) setAutoload((response.data as { new_data: boolean }).new_data);
+                                    resolve();
+                                })
+                        }} label='Автоматически устанавливать скин в редакторе' />
 
                 </div>
                 <div className={Style.checkboxes}>

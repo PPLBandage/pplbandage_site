@@ -13,7 +13,7 @@ import Client, { b64Prefix } from "./bandage_engine.module";
 import SkinView3D from "@/app/modules/components/skinView.module";
 
 import Header from "@/app/modules/components/header.module";
-import Searcher, { SlideButton } from "@/app/modules/components/nick_search.module";
+import Searcher from "@/app/modules/components/nick_search.module";
 import { CategoryEl } from '@/app/modules/components/card.module';
 import NextImage from 'next/image';
 import Select from 'react-select';
@@ -29,6 +29,7 @@ import { CSSTransition } from 'react-transition-group';
 
 import { IconDownload, IconPlus, IconChevronDown, IconUser, IconEdit, IconX, IconCheck, IconArchive } from '@tabler/icons-react';
 import Slider from '@/app/modules/components/slider.module';
+import SlideButton from '@/app/modules/components/slideButton.module';
 
 
 const body_part: readonly { value: number, label: String }[] = [
@@ -81,7 +82,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
     const debouncedHandleColorChange = useCallback(
         // из за частого вызова oninput на слабых клиентах сильно лагает,
         // поэтому сделан дебаунс на 5мс
-        debounce((event) => {
+        debounce(event => {
             client.current.setParams({ color: event.target.value });
         }, 5),
         []
@@ -104,18 +105,18 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
             setSlim(client.current.slim);
         });
 
-        client.current.addEventListener("init", () => {
+        client.current.addEventListener('init', () => {
             if (data.me_profile) client.current.loadSkin(data.me_profile.uuid);
 
-            asyncImage(b64Prefix + data.base64).then((bandage) => {
+            asyncImage(b64Prefix + data.base64).then(bandage => {
                 const height = bandage.height / 2;
                 const pepe_canvas = document.createElement('canvas') as HTMLCanvasElement;
-                const context_pepe = pepe_canvas.getContext("2d");
+                const context_pepe = pepe_canvas.getContext('2d');
                 pepe_canvas.width = 16;
                 pepe_canvas.height = height;
 
                 const lining_canvas = document.createElement('canvas') as HTMLCanvasElement;
-                const context_lining = lining_canvas.getContext("2d");
+                const context_lining = lining_canvas.getContext('2d');
                 lining_canvas.width = 16;
                 lining_canvas.height = height;
 
@@ -135,7 +136,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
 
             if (data.split_type) {
                 client.current.setParams({ split_types: true });
-                asyncImage(b64Prefix + data.base64_slim).then((img) => {
+                asyncImage(b64Prefix + data.base64_slim).then(img => {
                     client.current.loadFromImage(img, true)
                 });
             }
@@ -156,27 +157,21 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                     exitActive: style['menu-exit-active'],
                 }}
                 unmountOnExit>
-                <SkinLoad onChange={(evt) => {
-                    if (evt) {
-                        client.current?.changeSkin(evt.data, evt.slim, evt.cape ? "data:image/png;base64," + evt.cape : "");
-                    }
+                <SkinLoad onChange={evt => {
+                    evt && client.current?.changeSkin(evt.data, evt.slim, evt.cape ? 'data:image/png;base64,' + evt.cape : '');
                     setLoadExpanded(false);
                 }} />
             </CSSTransition>
 
-            <main className={style.main} style={loaded ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
+            <main
+                className={style.main}
+                style={loaded ? { opacity: '1', transform: 'translateY(0)' } : { opacity: '0', transform: 'translateY(50px)' }}
+            >
                 <NavigatorEl path={[
-                    {
-                        name: "Мастерская",
-                        url: "/workshop"
-                    },
-                    {
-                        name: data.external_id,
-                        url: `/workshop/${data.external_id}`
-                    }
+                    { name: 'Мастерская', url: '/workshop' },
+                    { name: data.external_id, url: `/workshop/${data.external_id}` }
                 ]}
-                    style={{ marginBottom: "1rem" }}
-                />
+                    style={{ marginBottom: "1rem" }} />
                 {
                     data.check_state ?
                         data.check_state === "under review" ?
@@ -199,27 +194,29 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                             className={style.render_canvas}
                             pose={pose}
                             background='/static/background_big.png'
-                            id="canvas_container" />
+                            id='canvas_container' />
                         <div className={style.render_footer}>
                             <button className={style.skin_load} onClick={() => setLoadExpanded(true)}><IconPlus width={24} height={24} />Загрузить скин</button>
                             <Select
                                 options={anims}
                                 defaultValue={anims[pose]}
                                 className={`react-select-container`}
-                                classNamePrefix="react-select"
+                                classNamePrefix='react-select'
                                 isSearchable={false}
                                 onChange={(n, _) => setPose(n.value)}
-                                formatOptionLabel={(nick_value) => nick_value.label}
-                            />
-                            <SlideButton onChange={(val) => client.current?.changeSlim(val)} value={slim} label="Тонкие руки" />
+                                formatOptionLabel={nick_value => nick_value.label} />
+                            <SlideButton
+                                onChange={val => client.current?.changeSlim(val)}
+                                value={slim} label="Тонкие руки" />
                             <button className={style.skin_load} onClick={() => client.current?.download()}>
                                 <IconDownload
                                     width={24}
-                                    height={24}
-                                />
+                                    height={24} />
                                 Скачать скин
                             </button>
-                            <RawBandageDownload client={client} bandage={slim ? data.base64_slim : data.base64} />
+                            <RawBandageDownload
+                                client={client}
+                                bandage={slim ? data.base64_slim : data.base64} />
                         </div>
                         <div className={style.categories}>
                             {categories}
@@ -281,16 +278,14 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                                         className={`react-select-container`}
                                         classNamePrefix="react-select"
                                         isSearchable={false}
-                                        onChange={(n, _) => client.current?.setParams({ body_part: n.value })}
-                                    />
+                                        onChange={(n, _) => client.current?.setParams({ body_part: n.value })} />
                                     <Select
                                         options={layers}
                                         defaultValue={layers[0]}
                                         className={`react-select-container`}
                                         classNamePrefix="react-select"
                                         isSearchable={false}
-                                        onChange={(n, _) => client.current?.setParams({ layers: n.value })}
-                                    />
+                                        onChange={(n, _) => client.current?.setParams({ layers: n.value })} />
                                 </div>
                             </div>
                         </div>

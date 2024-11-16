@@ -55,7 +55,7 @@ class Client {
     private main_bandage: HTMLCanvasElement = null;
 
     loadBase() {
-        asyncImage('/static/workshop_base.png').then((skin) => {
+        asyncImage('/static/workshop_base.png').then(skin => {
             const context = this.original_canvas.getContext("2d");
             context?.drawImage(skin, 0, 0);
             this.triggerEvent("init");

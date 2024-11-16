@@ -8,9 +8,9 @@ import { redirect, useRouter } from "next/navigation";
 import Header, { Query } from "@/app/modules/components/header.module";
 import { authApi } from "@/app/modules/utils/api.module";
 import AdaptiveGrid from "../modules/components/adaptiveGrid.module";
-import { SlideButton } from "../modules/components/nick_search.module";
 import { Fira_Code } from "next/font/google";
 import Link from "next/link";
+import SlideButton from "../modules/components/slideButton.module";
 
 const fira = Fira_Code({ subsets: ["latin"] });
 
@@ -44,7 +44,7 @@ const Admin = () => {
         authApi.get('user/me').then((response) => {
             if (response.status === 200) {
                 const data = response.data as Query;
-                if (data.permissions.every((perm) => perm === 'default')) {
+                if (data.permissions.every(perm => perm === 'default')) {
                     router.replace('/');
                     return;
                 }
@@ -67,11 +67,16 @@ const Admin = () => {
                     <p className={`${style_root.did} ${fira.className}`}>{user.discord_id}</p>
                 </div>
                 <div>
-                    <SlideButton label='Banned' strict={true} onChange={(value) => {
-                        authApi.put(`/users/${user.username}`, { banned: value }).then((response) => {
-                            if (response.status !== 200) alert(`${response.data.message} ${response.status}`);
-                        })
-                    }} defaultValue={user.banned} disabled={!user.permissions.every((perm) => perm === 'default')} />
+                    <SlideButton
+                        label='Banned'
+                        strict={true}
+                        loadable={true}
+                        onChange={(value, resolve) => {
+                            authApi.put(`/users/${user.username}`, { banned: value }).then((response) => {
+                                resolve();
+                                if (response.status !== 200) alert(`${response.data.message} ${response.status}`);
+                            })
+                        }} defaultValue={user.banned} disabled={!user.permissions.every((perm) => perm === 'default')} />
                 </div>
             </div>
         );

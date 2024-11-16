@@ -56,9 +56,26 @@
     top: 1rem;
 }
 
+.video {
+    margin-bottom: 1rem;
+    max-width: 500px;
+}
+
+@media(max-width: 1020px) {
+    .video {
+        max-width: none;
+        width: 100%;
+    }
+}
+
 @media(max-width: 650px) {
     .side_card {
         position: relative;
         top: 0;
+    }
+
+    .video {
+        max-width: none;
+        width: 100%;
     }
 }

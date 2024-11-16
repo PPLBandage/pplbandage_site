@@ -87,6 +87,12 @@ export default function Home() {
                                 <a href="/static/tutorials/tutorial_2.png" target="_blank"><img alt="example_2" src="/static/tutorials/tutorial_2.png" /></a>
                             </li>
                         </ol>
+
+                        <h2>Видеопример</h2>
+                        <video
+                            className={style.video}
+                            src="/static/tutorials/video.mp4"
+                            controls />
                         <InfoCard color="#3FB950" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
                                 <IconBulb width={24} height={24} />

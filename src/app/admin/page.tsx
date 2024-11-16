@@ -58,7 +58,7 @@ const Admin = () => {
         })
     }, [])
 
-    const UsersEl = users.map((user) => {
+    const usersEl = users.map((user) => {
         return (
             <div key={user.id} className={style_root.user_card}>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -83,10 +83,10 @@ const Admin = () => {
             <main className={style_root.main}>
                 <div className={style_root.main_container}>
                     {
-                        UsersEl.length !== 0 &&
+                        usersEl.length !== 0 &&
                         <>
-                            <h2>Пользователи</h2>
-                            <AdaptiveGrid child_width={350} className={style_root}>{UsersEl}</AdaptiveGrid>
+                            <h2>Пользователи ({usersEl.length})</h2>
+                            <AdaptiveGrid child_width={350} className={style_root}>{usersEl}</AdaptiveGrid>
                         </>
                     }
                 </div>

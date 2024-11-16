@@ -7,7 +7,6 @@ import SkinView3D from '@/app/modules/components/skinView.module';
 import { anims } from '@/app/workshop/poses';
 import { useRouter } from "next/navigation";
 import Select from 'react-select';
-import { SlideButton } from '@/app/modules/components/nick_search.module';
 import Client from '@/app/workshop/[id]/bandage_engine.module';
 import Footer from '@/app/modules/components/footer.module';
 import CategorySelector from '@/app/modules/components/category_selector.module';
@@ -21,6 +20,7 @@ import { Cookies, useCookies } from 'next-client-cookies';
 import { Fira_Code } from "next/font/google";
 import { CustomLink } from '@/app/modules/components/search.module';
 import asyncImage from '@/app/modules/components/asyncImage.module';
+import SlideButton from '@/app/modules/components/slideButton.module';
 const fira = Fira_Code({ subsets: ["latin"] });
 
 function capitalize(string: string) {
@@ -101,7 +101,7 @@ export default function Home() {
                                 onChange={(n, _) => setPose(n.value)}
                                 formatOptionLabel={(nick_value) => nick_value.label}
                             />
-                            <SlideButton onChange={(v) => { setSlim(v); client.current?.changeSlim(v) }} value={slim} label="Тонкие руки" />
+                            <SlideButton onChange={v => { setSlim(v); client.current?.changeSlim(v) }} value={slim} label="Тонкие руки" />
                         </div>
                     </aside>
                     <Editor
@@ -128,7 +128,14 @@ interface EditorProps {
     onHeightChange(evt: number): void;
 }
 
-const Editor = ({ onBandageChange, onColorChange, onColorableChange, onBandageChangeSlim, onChangeSplitTypes, onHeightChange }: EditorProps) => {
+const Editor = ({
+    onBandageChange,
+    onColorChange,
+    onColorableChange,
+    onBandageChangeSlim,
+    onChangeSplitTypes,
+    onHeightChange
+}: EditorProps) => {
     const router = useRouter();
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");

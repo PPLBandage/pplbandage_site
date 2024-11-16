@@ -32,6 +32,11 @@ export const SlideButton = ({
         setLoading(false);
     }
 
+    const change = () => {
+        loadable && setLoading(true);
+        setActive(prev => !disabled && !loading ? !prev : prev);
+    }
+
     useEffect(() => {
         if (active === undefined) return;
         if (isInitialMount.current && strict) {
@@ -46,13 +51,10 @@ export const SlideButton = ({
 
     return (
         <div className={StyleBtn.container}>
-            <div className={StyleBtn.main} onClick={() => {
-                loadable && setLoading(true);
-                setActive(prev => !disabled && !loading ? !prev : prev);
-            }} style={{ cursor: disabled ? 'auto' : 'pointer' }}>
+            <div className={StyleBtn.main} onClick={change} style={{ cursor: disabled ? 'auto' : 'pointer' }}>
                 <div className={StyleBtn.child} style={{ left: position, backgroundColor: color }} />
             </div>
-            {label && <label className={StyleBtn.label} onClick={() => setActive(prev => !disabled ? !prev : prev)}>{label}</label>}
+            {label && <label className={StyleBtn.label} onClick={change}>{label}</label>}
         </div>
     );
 }

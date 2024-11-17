@@ -347,9 +347,11 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage, onClick(): void }) => {
             {el.title}
             <IconEdit className={style.edit_icon} width={24} height={24} /></h2>
         {el.description && <p className={style.description}>{el.description}</p>}
-        {el.author.public ?
-            <Link className={style.author} href={!!el.author.name ? `/users/${el.author.username}` : ``}><IconUser width={24} height={24} />{el.author.name || "Unknown"}</Link> :
-            <a className={`${style.author} ${style.username_private}`}><IconUser width={24} height={24} />{el.author.name || "Unknown"}</a>
+        {el.author ?
+            el.author.public ?
+                <Link className={style.author} href={`/users/${el.author.username}`}><IconUser width={24} height={24} />{el.author.name}</Link> :
+                <a className={`${style.author} ${style.username_private}`}><IconUser width={24} height={24} />{el.author.name}</a> :
+            <a className={`${style.author} ${style.username_private}`}><IconUser width={24} height={24} />Unknown</a>
         }
     </div>
 }

@@ -112,9 +112,11 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
                 </div>
 
                 <div>
-                    {el.author.public ?
-                        <Link className={style_card.username} href={!!el.author.name ? `/users/${el.author.username}` : ``}><IconUser style={{ width: "1.5rem" }} />{el.author.name || "Unknown"}</Link> :
-                        <a className={`${style_card.username} ${style_card.username_private}`}><IconUser style={{ width: "1.5rem" }} />{el.author.name || "Unknown"}</a>
+                    {el.author ?
+                        el.author.public ?
+                            <Link className={style_card.username} href={`/users/${el.author.username}`}><IconUser style={{ width: "1.5rem" }} />{el.author.name}</Link> :
+                            <a className={`${style_card.username} ${style_card.username_private}`}><IconUser style={{ width: "1.5rem" }} />{el.author.name}</a> :
+                        <a className={`${style_card.username} ${style_card.username_private}`}><IconUser style={{ width: "1.5rem" }} />Unknown</a>
                     }
                     <p className={style_card.creation_date}>{formatDate(new Date(el.creation_date))}</p>
                 </div>

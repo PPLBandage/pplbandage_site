@@ -31,6 +31,7 @@ import {
 import { timeStamp } from '@/app/modules/utils/time.module';
 import style_workshop from "@/app/styles/workshop/page.module.css";
 import SlideButton from '@/app/modules/components/slideButton.module';
+import { reject } from 'lodash';
 const fira = Fira_Code({ subsets: ["latin"] });
 
 interface SettingsResponse {
@@ -108,13 +109,22 @@ const Page = () => {
 
 const UserSettings = ({ data }: { data: SettingsResponse }) => {
     const [value, setValue] = useState<boolean>(data?.public_profile);
-    const change = (val: boolean, resolve: () => void) => {
-        authApi.put('user/me/settings/set_public', {}, { params: { state: val } })
-            .then(response => {
-                if (response.status === 200) setValue(response.data.new_data);
-                resolve();
-            });
+
+    const changePublic = (val: boolean): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            authApi.put('user/me/settings/public', {}, { params: { state: val } })
+                .then(response => {
+                    if (response.status === 200) {
+                        setValue(response.data.new_data);
+                        resolve();
+                        return;
+                    }
+                    reject();
+                })
+                .catch(reject);
+        });
     }
+
     return (
         <div className={Style.container}>
             <h3><IconUser width={26} height={26} style={{ marginRight: ".3rem", borderRadius: 0 }} />Настройки аккаунта</h3>
@@ -123,7 +133,7 @@ const UserSettings = ({ data }: { data: SettingsResponse }) => {
                 value={data.can_be_public ? value : false}
                 loadable={true}
                 strict={true}
-                onChange={change}
+                onChange={changePublic}
                 disabled={!data.can_be_public}
             />
         </div>
@@ -160,6 +170,36 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
         }
     }
 
+    const setValidAPI = (state: boolean): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            authApi.put('user/me/connections/minecraft/valid', {}, { params: { state } })
+                .then(response => {
+                    if (response.status === 200) {
+                        setValid(response.data.new_data);
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                })
+                .catch(reject)
+        });
+    }
+
+    const setAutoloadAPI = (state: boolean): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            authApi.put('user/me/connections/minecraft/autoload', {}, { params: { state } })
+                .then(response => {
+                    if (response.status === 200) {
+                        setAutoload(response.data.new_data);
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                })
+                .catch(reject)
+        })
+    }
+
     return (
         <div className={Style.container}>
             <h3><IconBrandDiscord width={32} height={32} style={{ marginRight: ".3rem", borderRadius: 0 }} />Discord аккаунт</h3>
@@ -187,29 +227,17 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
                 </div>
                 <div className={Style.checkboxes}>
                     <SlideButton
+                        label='Отображать ник в поиске'
                         value={valid}
                         strict={true}
                         loadable={true}
-                        onChange={(val, resolve) => {
-                            authApi.put('user/me/connections/minecraft/set_valid',
-                                {}, { params: { state: val } })
-                                .then((response) => {
-                                    if (response.status === 200) setValid((response.data as { new_data: boolean }).new_data);
-                                    resolve();
-                                })
-                        }} label='Отображать ник в поиске' />
+                        onChange={setValidAPI} />
                     <SlideButton
+                        label='Автоматически устанавливать скин в редакторе'
                         value={autoload}
                         strict={true}
                         loadable={true}
-                        onChange={(val, resolve) => {
-                            authApi.put('user/me/connections/minecraft/set_autoload',
-                                {}, { params: { state: val } })
-                                .then((response) => {
-                                    if (response.status === 200) setAutoload((response.data as { new_data: boolean }).new_data);
-                                    resolve();
-                                })
-                        }} label='Автоматически устанавливать скин в редакторе' />
+                        onChange={setAutoloadAPI} />
 
                 </div>
                 <div className={Style.checkboxes}>

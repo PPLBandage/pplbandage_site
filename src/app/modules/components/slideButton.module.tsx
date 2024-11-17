@@ -2,7 +2,7 @@ import StyleBtn from "@/app/styles/slidebtn.module.css";
 import { useEffect, useRef, useState } from "react";
 
 interface SlideButtonProps {
-    onChange: (val: boolean, resolve?: () => void) => void;
+    onChange: (val: boolean) => Promise<void> | void;
     value?: boolean;
     label?: string;
     defaultValue?: boolean;
@@ -22,15 +22,13 @@ export const SlideButton = ({
 }: SlideButtonProps) => {
     const [active, setActive] = useState<boolean>(value || defaultValue || false);
     const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<boolean>(false);
     const isInitialMount = useRef<boolean>(true);
 
     useEffect(() => {
         setActive(value || defaultValue || false);
     }, [value]);
 
-    const resolve = () => {
-        setLoading(false);
-    }
 
     const change = () => {
         loadable && setLoading(true);
@@ -39,10 +37,23 @@ export const SlideButton = ({
 
     useEffect(() => {
         if (active === undefined) return;
+        if (error) {
+            setError(false);
+            return;
+        }
         if (isInitialMount.current && strict) {
             isInitialMount.current = false;
         } else {
-            onChange(active, resolve);
+            const promise = onChange(active);
+
+            if (promise instanceof Promise) {
+                promise
+                    .catch(() => {
+                        setActive(prev => !prev);
+                        setError(true);
+                    })
+                    .finally(() => setLoading(false));
+            }
         }
     }, [active]);
 

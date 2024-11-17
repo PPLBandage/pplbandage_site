@@ -11,6 +11,7 @@ import AdaptiveGrid from "../modules/components/adaptiveGrid.module";
 import { Fira_Code } from "next/font/google";
 import Link from "next/link";
 import SlideButton from "../modules/components/slideButton.module";
+import { httpStatusCodes } from "../modules/utils/statusCodes.module";
 
 const fira = Fira_Code({ subsets: ["latin"] });
 
@@ -58,6 +59,22 @@ const Admin = () => {
         })
     }, [])
 
+    const changeBan = (user: UserAdmins, banned: boolean): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            try {
+                authApi.put(`/users/${user.username}`, { banned }).then(response => {
+                    if (response.status !== 200) {
+                        reject();
+                        alert(`${response?.data?.message || httpStatusCodes[response?.status] || 'Unknown Error'} ${response?.status}`);
+                    }
+                    resolve();
+                })
+            } catch {
+                reject();
+            }
+        });
+    }
+
     const usersEl = users.map((user) => {
         return (
             <div key={user.id} className={style_root.user_card}>
@@ -71,12 +88,9 @@ const Admin = () => {
                         label='Banned'
                         strict={true}
                         loadable={true}
-                        onChange={(value, resolve) => {
-                            authApi.put(`/users/${user.username}`, { banned: value }).then((response) => {
-                                resolve();
-                                if (response.status !== 200) alert(`${response.data.message} ${response.status}`);
-                            })
-                        }} defaultValue={user.banned} disabled={!user.permissions.every((perm) => perm === 'default')} />
+                        onChange={value => changeBan(user, value)}
+                        defaultValue={user.banned}
+                        disabled={!user.permissions.every((perm) => perm === 'default')} />
                 </div>
             </div>
         );

@@ -70,7 +70,7 @@ authApi.interceptors.response.use(response => {
     return response;
 }, async error => {
     tokenMutex.release();
-    if (error.message != "No cookie" && error.response.status == 401) {
+    if (error.message != "No cookie" && error.response?.status == 401) {
         deleteCookie('sessionId');
     }
     return Promise.reject(error);

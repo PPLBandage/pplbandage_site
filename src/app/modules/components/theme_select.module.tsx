@@ -30,7 +30,7 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
 
     useEffect(() => {
         onChange(theme);
-        firstLoad ? setFirstLoad(false) : authApi.put('user/me/profile_theme', { theme: theme });
+        firstLoad ? setFirstLoad(false) : authApi.put('user/me/theme', { theme: theme });
     }, [theme]);
 
 

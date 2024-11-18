@@ -27,7 +27,7 @@ function capitalize(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export const lstrip = (string: string) => string.replace(/^\s+/, '');
+const lstrip = (string: string) => string.replace(/^\s+/, '');
 
 export default function Home() {
     const [SKIN, setSKIN] = useState<string>("");

@@ -27,6 +27,8 @@ function capitalize(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+export const lstrip = (string: string) => string.replace(/^\s+/, '');
+
 export default function Home() {
     const [SKIN, setSKIN] = useState<string>("");
     const [slim, setSlim] = useState<boolean>(false);
@@ -273,8 +275,19 @@ const Editor = ({
                 </>
             }
             <p id="error" style={{ margin: 0, color: "#dc2626" }}></p>
-            <textarea maxLength={50} id="title" placeholder="Заголовок" className={style.textarea} onInput={(ev) => setTitle((ev.target as HTMLTextAreaElement).value)} value={title} />
-            <textarea maxLength={300} placeholder="Описание" className={style.textarea} onInput={(ev) => setDescription((ev.target as HTMLTextAreaElement).value)} value={description} />
+            <textarea
+                maxLength={50}
+                id="title"
+                placeholder="Заголовок"
+                className={style.textarea}
+                onInput={ev => setTitle(lstrip((ev.target as HTMLTextAreaElement).value))}
+                value={title} />
+            <textarea
+                maxLength={300}
+                placeholder="Описание"
+                className={style.textarea}
+                onInput={ev => setDescription(lstrip((ev.target as HTMLTextAreaElement).value))}
+                value={description} />
 
             {colorable &&
                 <InfoCard title='Повязка отмечена как окрашиваемая!'>

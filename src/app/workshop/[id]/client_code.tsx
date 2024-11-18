@@ -34,8 +34,8 @@ import SlideButton from '@/app/modules/components/slideButton.module';
 
 const body_part: readonly { value: number, label: String }[] = [
     { value: 0, label: "Левая рука" },
-    { value: 1, label: "Левая нога" },
     { value: 2, label: "Правая рука" },
+    { value: 1, label: "Левая нога" },
     { value: 3, label: "Правая нога" }
 ];
 
@@ -65,7 +65,6 @@ export const rgbToHex = (r: number, g: number, b: number) => {
 
 export default function Home({ data }: { data: Interfaces.Bandage }) {
     const [loaded, setLoaded] = useState<boolean>(false);
-    const categories = data.categories.map((category) => <CategoryEl key={category.id} category={category} />);
 
     const [pose, setPose] = useState<number>(1);
     const [skin, setSkin] = useState<string>("");
@@ -218,9 +217,6 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                                 client={client}
                                 bandage={slim ? data.base64_slim : data.base64} />
                         </div>
-                        <div className={style.categories}>
-                            {categories}
-                        </div>
                     </div>
                     <div style={{ width: "100%" }}>
                         {!edit ?
@@ -342,11 +338,18 @@ const RawBandageDownload = ({ client, bandage }: { client: React.MutableRefObjec
 }
 
 const Info = ({ el, onClick }: { el: Interfaces.Bandage, onClick(): void }) => {
+    const categories = el.categories.map((category) => <CategoryEl key={category.id} category={category} />);
+
     return <div className={style.info_container}>
-        <h2 className={`${style.title} ${el.permissions_level >= 1 && style.title_editable}`} onClick={() => { if (el.permissions_level >= 1) onClick() }}>
+        <h2
+            className={`${style.title} ${el.permissions_level >= 1 && style.title_editable}`}
+            onClick={() => { if (el.permissions_level >= 1) onClick() }}>
             {el.title}
             <IconEdit className={style.edit_icon} width={24} height={24} /></h2>
         {el.description && <p className={style.description}>{el.description}</p>}
+        <div className={style.categories}>
+            {categories}
+        </div>
         {el.author ?
             el.author.public ?
                 <Link className={style.author} href={`/users/${el.author.username}`}><IconUser width={24} height={24} />{el.author.name}</Link> :

@@ -4,6 +4,7 @@ import * as Interfaces from "@/app/interfaces";
 import { headers } from 'next/headers';
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { numbersTxt } from "@/app/modules/utils/time.module";
 
 
 export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
@@ -22,7 +23,7 @@ export const generateMetadata = async ({ params }: { params: { id: string } }): 
         description: data.description,
         openGraph: {
             title: `${data.title} · Повязки Pepeland`,
-            description: data.description,
+            description: `${data.description} – ${numbersTxt(data.stars_count, ['звезда', 'звезды', 'звёзд'])}`,
             url: `https://pplbandage.ru/workshop/${data.external_id}`,
             siteName: 'Повязки Pepeland',
             images: `https://pplbandage.ru/api/v1/workshop/${data.external_id}/og`

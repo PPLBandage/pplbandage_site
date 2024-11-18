@@ -75,8 +75,10 @@ const Header = (): JSX.Element => {
             <header className={Styles.header}>
                 <div className={Styles.header_child} style={{ padding: logged ? '.5rem' : '.9rem' }}>
                     <div style={{ display: "flex", alignItems: "center", flexWrap: "nowrap" }}>
-                        <Link href="/"><IconCropped style={{ width: "2.5rem" }} className={Styles.main_icon} /></Link>
-                        <h1 className={Styles.ppl_name}>Повязки Pepeland</h1>
+                        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+                            <IconCropped style={{ width: "2.5rem" }} className={Styles.main_icon} />
+                            <h1 className={Styles.ppl_name}>Повязки Pepeland</h1>
+                        </Link>
                     </div>
 
                     {logged ?

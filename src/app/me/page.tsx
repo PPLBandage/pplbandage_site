@@ -20,7 +20,7 @@ import { IconArrowBack, IconPlus } from '@tabler/icons-react';
 import IconSvgCropped from '@/app/resources/icon-cropped.svg';
 import IconSvg from '@/app/resources/icon.svg';
 import { httpStatusCodes } from '../modules/utils/statusCodes.module';
-import { render, renderSkin } from '../modules/utils/skinCardRender.module';
+import { renderSkin } from '../modules/utils/skinCardRender.module';
 
 const Main = () => {
     const router = useRouter();

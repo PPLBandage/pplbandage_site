@@ -29,9 +29,8 @@ export const SlideButton = ({
         setActive(value || defaultValue || false);
     }, [value]);
 
-
     const change = () => {
-        loadable && setLoading(true);
+        !disabled && loadable && setLoading(true);
         setActive(prev => !disabled && !loading ? !prev : prev);
     }
 
@@ -43,17 +42,16 @@ export const SlideButton = ({
         }
         if (isInitialMount.current && strict) {
             isInitialMount.current = false;
-        } else {
-            const promise = onChange(active);
+            return;
+        }
+        const promise = onChange(active);
 
-            if (promise instanceof Promise) {
-                promise
-                    .catch(() => {
-                        setActive(prev => !prev);
-                        setError(true);
-                    })
-                    .finally(() => setLoading(false));
-            }
+        if (promise instanceof Promise) {
+            promise.catch(() => {
+                setActive(prev => !prev);
+                setError(true);
+            })
+                .finally(() => setLoading(false));
         }
     }, [active]);
 

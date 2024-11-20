@@ -4,13 +4,19 @@
     background-color: var(--main-card-color);
     color: var(--main-text-color);
     border-radius: 5px;
-    padding: 0.5%;
+    padding: .5rem;
     z-index: 99999;
     cursor: pointer;
     border-top-left-radius: 0%;
     opacity: .9;
     box-sizing: border-box;
     box-shadow: rgba(0, 0, 0, .25) 0px 2px 4px 0px;
+    border: 1px var(--category-color) solid;
+}
+
+.globalTooltipStyle {
+    pointer-events: none;
+    opacity: 0;
 }
 
 @media(max-width: 425px) {

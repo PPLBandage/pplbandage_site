@@ -41,6 +41,7 @@ export const Tooltip = ({ body, children, timeout = 800, className, parent_id, o
         if (parent_id) {
             const el = document.getElementById(parent_id);
             const rect = el.getBoundingClientRect();
+            console.log(rect.x, rect.y)
             position_x -= rect.x;
             position_y -= rect.y
         }
@@ -72,3 +73,50 @@ export const Tooltip = ({ body, children, timeout = 800, className, parent_id, o
         </div>
     );
 };
+
+
+interface GlobalTooltipProps {
+    text: string,
+    children: JSX.Element,
+    className?: string,
+    opacity?: string
+}
+
+export const UseGlobalTooltip = ({ text, children, className, opacity = ".9" }: GlobalTooltipProps) => {
+    const handleMouseEnter = () => {
+        const element = document.createElement('span');
+        element.id = 'global_tooltip';
+        element.innerText = text;
+        element.className = `${Style.tooltipStyle} ${Style.globalTooltipStyle}`;
+        element.style.opacity = opacity;
+        document.body.insertBefore(element, document.body.firstChild);
+    };
+
+    const handleMouseLeave = () => {
+        const tooltip = document.getElementById('global_tooltip');
+        tooltip && document.body.removeChild(tooltip);
+    };
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const position_x = e.clientX + 10;
+        const position_y = e.clientY + 10;
+
+        const tooltip = document.getElementById('global_tooltip');
+        if (tooltip) {
+            tooltip.style.left = position_x.toString() + 'px';
+            tooltip.style.top = position_y.toString() + 'px';
+        }
+    };
+
+    return (
+
+        <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onMouseMove={handleMouseMove}
+            className={className}
+        >
+            {children}
+        </div>
+    );
+}

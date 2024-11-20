@@ -3,11 +3,14 @@
     display: flex;
     flex-direction: column;
 
-    background-color: var(--main-card-color);
     border-radius: 10px;
     border: 1px solid var(--main-element-color);
 
     position: relative;
+
+    background-color: var(--main-card-color) !important;
+    background-size: 50% !important;
+    background-repeat: repeat !important;
 }
 
 .skin {
@@ -15,6 +18,8 @@
     width: 100%;
     height: auto;
     box-shadow: var(--main-shadow-color) 0 0px 5px 0px;
+    border: 1px solid var(--main-element-color);
+    box-sizing: border-box;
     transition: box-shadow 200ms;
 }
 
@@ -55,9 +60,15 @@
 
 .categories {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     gap: 5px;
     margin-top: .5rem;
+
+    position: absolute;
+    bottom: 0;
+
+    padding: .5rem;
+    padding-bottom: .7rem;
 }
 
 .username {
@@ -108,4 +119,23 @@
 .star {
     width: 1.5rem;
     height: 1.5rem;
+}
+
+.category_shorten {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--main-element-color);
+    padding: .2rem;
+    border-radius: 5px;
+    border: 1px var(--category-color) solid;
+    cursor: pointer;
+}
+
+.tooltip_container {
+    display: inline;
+}
+
+.tooltip_body {
+    font-size: .9rem;
 }

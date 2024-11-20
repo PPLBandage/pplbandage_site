@@ -234,13 +234,13 @@ class Client {
 
         const height = bandage_canvas.height;
 
-        let pepe = crop_pepe(bandage_canvas, this.slim, height, this.body_part);
+        let pepe = crop_pepe(bandage_canvas, this.slim, height, this.body_part, this.split_types);
         let cropped_pepe = document.createElement("canvas");
         cropped_pepe.width = 16;
         cropped_pepe.height = height;
         const ctx_pepe = cropped_pepe.getContext("2d", { willReadFrequently: true });
 
-        let lining = crop_pepe(lining_canvas, this.slim, height, this.body_part);
+        let lining = crop_pepe(lining_canvas, this.slim, height, this.body_part, this.split_types);
         let cropped_lining = document.createElement("canvas") as HTMLCanvasElement;
         cropped_lining.width = 16;
         cropped_lining.height = height;
@@ -337,7 +337,8 @@ export const crop_pepe = (
     pepe_canvas: HTMLCanvasElement,
     slim: boolean,
     height: number,
-    body_part: number
+    body_part: number,
+    split_types: boolean
 ): HTMLCanvasElement => {
     const bandage_canvas = document.createElement("canvas") as HTMLCanvasElement;
     bandage_canvas.width = 16;
@@ -345,8 +346,12 @@ export const crop_pepe = (
     const context = bandage_canvas.getContext("2d", { willReadFrequently: true });
 
     if (slim && (body_part === 0 || body_part === 2)) {
-        context?.drawImage(pepe_canvas, 5, 0, 10, height, 5, 0, 10, height);
-        context?.drawImage(pepe_canvas, 0, 0, 4, height, 1, 0, 4, height);
+        if (split_types) {
+            context?.drawImage(pepe_canvas, 0, 0, 15, height, 0, 0, 15, height);
+        } else {
+            context?.drawImage(pepe_canvas, 5, 0, 10, height, 5, 0, 10, height);
+            context?.drawImage(pepe_canvas, 0, 0, 4, height, 1, 0, 4, height);
+        }
     } else {
         context?.drawImage(pepe_canvas, 0, 0);
     }

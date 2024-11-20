@@ -150,6 +150,7 @@ const Editor = ({
     const [colorable, setColorable] = useState<boolean>(false);
     const [splitTypes, setSplitTypes] = useState<boolean>(false);
     const [height, setHeight] = useState<number>(-1);
+    const [useOldMethod, setUseOldMethod] = useState<boolean>(false);
 
     useEffect(() => {
         authApi.get('categories?for_edit=true').then((response) => {
@@ -257,21 +258,34 @@ const Editor = ({
 
     return (
         <div className={style.editor_div}>
+            <h2 style={{ marginTop: 0, marginBottom: '.5rem' }}>Создать повязку</h2>
             <h3 style={{ margin: 0 }}>Перед началом создания повязки прочитайте <CustomLink href="/tutorials/bandage">туториал</CustomLink></h3>
-            <Selector onChange={setBase64}
+
+            <SlideButton
+                onChange={setUseOldMethod}
+                label='Использовать старый способ загрузки повязок' />
+
+            <SlideButton
+                onChange={setSplitTypes}
+                label='Использовать разные повязки для разных типов скинов' />
+
+            <Selector
+                onChange={setBase64}
                 onBandageChange={(ev) => {
                     onBandageChange(ev.img);
                     setHeight(ev.height)
                 }}
-                setTitle={(ev) => { if (!title) setTitle(ev) }} />
-            <SlideButton onChange={setSplitTypes} label='Использовать разные повязки для разных типов скинов' />
+                setTitle={(ev) => { if (!title) setTitle(ev) }}
+                useOld={useOldMethod} />
 
             {splitTypes &&
                 <>
                     <p style={{ margin: 0, fontWeight: 500 }}>Повязка для тонких рук</p>
-                    <Selector onChange={setBase64Slim}
+                    <Selector
+                        onChange={setBase64Slim}
                         onBandageChange={(ev) => onBandageChangeSlim && onBandageChangeSlim(ev.img)}
-                        heightVal={height} />
+                        heightVal={height}
+                        useOld={useOldMethod} />
                 </>
             }
             <p id="error" style={{ margin: 0, color: "#dc2626" }}></p>
@@ -290,7 +304,8 @@ const Editor = ({
                 value={description} />
 
             {colorable &&
-                <InfoCard title='Повязка отмечена как окрашиваемая!'>
+                <InfoCard
+                    title='Повязка отмечена как окрашиваемая!'>
                     <div>
                         <input type='color' id='color_select' onInput={debouncedHandleColorChange} />
                         <label htmlFor='color_select' style={{ marginLeft: '.5rem' }}>Предпросмотр цвета</label>
@@ -298,7 +313,8 @@ const Editor = ({
                 </InfoCard>
             }
 
-            <CategorySelector enabledCategories={enabledCategories}
+            <CategorySelector
+                enabledCategories={enabledCategories}
                 allCategories={allCategories}
                 onChange={setCategories} />
             <label id="create_error" style={{ margin: 0, color: "#dc2626" }}></label>
@@ -315,14 +331,15 @@ interface SelectorInterface {
     setTitle?(title: string): void
     onBandageChange?({ img, height }: OnBandageChange): void,
     onChange(b64: string): void,
-    heightVal?: number
+    heightVal?: number,
+    useOld?: boolean
 }
 
-const Selector = ({ setTitle, onBandageChange, onChange, heightVal }: SelectorInterface) => {
+const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: SelectorInterface) => {
     const errorRef = useRef<HTMLParagraphElement>();
     const containerRef = useRef<HTMLLabelElement>();
 
-    const getData = (file: File) => {
+    const getDataOld = (file: File) => {
         if (!file) return;
         if (setTitle) setTitle(file.name.split('.').slice(0, -1).join('.'));
 
@@ -366,8 +383,103 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal }: SelectorIn
         reader.readAsDataURL(file);
     }
 
+    const getData = (file: File) => {
+        if (!file) return;
+        if (setTitle) setTitle(file.name.split('.').slice(0, -1).join('.'));
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            asyncImage(reader.result as string).then(img => {
+                if (img.width !== 64 || img.height !== 64) {
+                    setError('Изображение скина должно иметь ширину и высоту в 64 пикселя');
+                    return;
+                }
+
+                const data = extractFromSkin(img, heightVal !== undefined);
+
+                if (heightVal != undefined && heightVal === -1) {
+                    setError('Вначале загрузите основную повязку!');
+                    return;
+                }
+
+                if (heightVal != undefined && data.height !== heightVal) {
+                    setError('Высоты повязок должны быть одинаковыми!');
+                    return;
+                }
+
+                clearError();
+
+                asyncImage(data.img).then(bandageImage => {
+                    if (onBandageChange) onBandageChange({ img: bandageImage, height: data.height });
+                    onChange(data.img);
+                })
+                //if (onBandageChange) onBandageChange({ img: img, height: img.height });
+                //onChange(reader.result as string);
+
+                if (containerRef.current) {
+                    containerRef.current.style.borderColor = "#576074";
+                    containerRef.current.style.borderStyle = "solid";
+                }
+            });
+        }
+        reader.readAsDataURL(file);
+    }
+
+    const extractFromSkin = (skin: HTMLImageElement, slim?: boolean): { img: string; height: number; } | null => {
+        let top = -1;  // Верхняя граница повязки
+        let bottom = -1;  // Нижняя граница повязки 
+
+        const skinCanvas = document.createElement('canvas');
+        const skinContext = skinCanvas.getContext('2d');
+
+        skinContext.drawImage(skin, 0, 0);
+
+        const data = skinContext.getImageData(32, 52, 32, 12).data;
+
+        for (let y = 0; y <= 12; y++) {
+            for (let x = 0; x < 32; x++) {
+                const index = (y * 32 + x) * 4;
+
+                const a = data[index + 3];
+                if (a > 0) {
+                    top = y + 52;
+                    break;
+                }
+            }
+            if (top !== -1) break;
+        }
+
+        for (let y = 12; y >= 0; y--) {
+            for (let x = 0; x < 32; x++) {
+                const index = (y * 32 + x) * 4;
+
+                const a = data[index + 3];
+                if (a > 0) {
+                    bottom = y + 52;
+                    break;
+                }
+            }
+            if (bottom !== -1) break;
+        }
+
+        if (bottom === -1 || top === -1) return null;
+
+        const height = bottom - top + 1;
+        const bandageCanvas = document.createElement('canvas');
+        bandageCanvas.width = 16;
+        bandageCanvas.height = height * 2;
+
+        const bandageContext = bandageCanvas.getContext('2d');
+        const bandageWidth = slim ? 14 : 16;
+        bandageContext.drawImage(skin, 32, top, bandageWidth, height, slim ? 1 : 0, height, bandageWidth, height);  // first layer
+        bandageContext.drawImage(skin, 48, top, bandageWidth, height, slim ? 1 : 0, 0, bandageWidth, height);  // second layer
+
+        return { img: bandageCanvas.toDataURL(), height: height * 2 };
+    }
+
     const onChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        getData(evt.target?.files[0]);
+        useOld ? getDataOld(evt.target?.files[0]) : getData(evt.target?.files[0])
         evt.target.files = null;
     }
 
@@ -403,14 +515,14 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal }: SelectorIn
         <>
             <label className={style.skin_drop}
                 ref={containerRef}
-                onDragOver={(evt) => ondragover(evt)}
-                onDragLeave={(_) => ondragleave()}
-                onDrop={(evt) => ondrop(evt)}>
+                onDragOver={ondragover}
+                onDragLeave={ondragleave}
+                onDrop={ondrop}>
                 <div className={style.hidable}>
                     <input type="file"
                         name="imageInput"
                         accept="image/png"
-                        onChange={(evt) => onChangeInput(evt)} />
+                        onChange={onChangeInput} />
                     <span id="select_file">Выберите файл<br />или<br />скиньте его сюда</span>
                 </div>
             </label>

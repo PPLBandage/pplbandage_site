@@ -10,6 +10,8 @@ import { CSSProperties, useEffect, useState } from "react";
 import { IconCircleHalf2, IconStar, IconStarFilled, IconUser } from '@tabler/icons-react';
 import { getIcon } from "../utils/categories.module";
 import { useRouter } from "next/navigation";
+import { Tooltip, UseGlobalTooltip } from "./tooltip";
+import useCookie from "../utils/useCookie.module";
 
 
 export const formatDate = (date: Date) => {
@@ -39,18 +41,62 @@ export const CategoryEl = ({ category, enabled, onClick, hoverable, style }: Cat
     );
 }
 
+const constrainedText = (string: string, max_length: number): string => {
+    const words = string.split(' ');
+    for (let x = 0; x < words.length; x++) {
+        if (words[0].length > max_length) {
+            return string.slice(0, max_length) + '...';
+        }
+        if (words.slice(0, x).join(' ').length > max_length) {
+            return words.slice(0, x - 1).join(' ') + '...';
+        }
+    }
+    return string;
+}
+
+interface CategoryShortenProps {
+    category: Category,
+    style?: CSSProperties,
+    parent_id: string
+}
+
+export const CategoryShorten = ({ category, style, parent_id }: CategoryShortenProps) => {
+    return (
+        <UseGlobalTooltip
+            key={category.id}
+            opacity="1"
+            text={category.name}
+        >
+            <div className={`${style_card.category_shorten}`} style={style}>
+                {getIcon(category.icon)}
+            </div>
+        </UseGlobalTooltip>
+    );
+}
+
 
 export const constrain = (val: number, min_val: number, max_val: number) => {
     return Math.min(max_val, Math.max(min_val, val))
 }
 
+const backgrounds: { [key: string]: string } = {
+    amoled: 'amoled',
+    default: 'default'
+}
+
 export const Card = ({ el, base64, className }: { el: Bandage, base64: string, className?: { readonly [key: string]: string; } }) => {
     const [starred, setStarred] = useState<boolean>(el.starred);
     const [last, setLast] = useState<boolean>(el.starred);
-    const logged = getCookie("sessionId");
+    const logged = getCookie('sessionId');
+    const theme = useCookie('theme_main');
     const router = useRouter();
+    const background = backgrounds[theme] ?? 'default';
 
-    const categories = el.categories.map(category => <CategoryEl key={category.id} category={category} />);
+    const categories = el.categories.map(category =>
+        <div id={`category_${category.id}_${el.id}`} key={category.id}>
+            <CategoryShorten category={category} parent_id={`category_${category.id}_${el.id}`} />
+        </div>
+    );
 
     useEffect(() => {
         if (logged && starred != last) {
@@ -69,8 +115,10 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
     const StarIcon = starred ? IconStarFilled : IconStar;
 
     return (
-        <article className={`${style_card.card}  ${className?.skin_description_props}`}>
-
+        <article
+            className={`${style_card.card}  ${className?.skin_description_props}`}
+            style={{ background: `url('/static/backgrounds/background_${background}.svg')` }}
+        >
             <div className={style_card.head_container}>
                 <div className={style_card.star_container}>
                     <StarIcon
@@ -93,22 +141,24 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
                     />
                 }
             </div>
-            <Link href={`/workshop/${el.external_id}`}>
-                <NextImage
-                    src={base64}
-                    className={style_card.skin}
-                    alt={el.external_id}
-                    width={300}
-                    height={300}
-                    draggable='false'
-                    style={{ '--shadow-color': el.accent_color } as React.CSSProperties}
-                />
-            </Link>
+            <div style={{ position: 'relative' }}>
+                <Link href={`/workshop/${el.external_id}`}>
+                    <NextImage
+                        src={base64}
+                        className={style_card.skin}
+                        alt={el.external_id}
+                        width={300}
+                        height={300}
+                        draggable='false'
+                        style={{ '--shadow-color': el.accent_color } as React.CSSProperties}
+                    />
+                </Link>
+                <div className={style_card.categories}>{categories}</div>
+            </div>
             <div className={style_card.about}>
                 <div>
                     <Link className={style_card.title} href={`/workshop/${el.external_id}`}>{el.title}</Link>
-                    <p className={style_card.description}>{el.description}</p>
-                    <div className={style_card.categories}>{categories}</div>
+                    <p className={style_card.description}>{constrainedText(el.description ?? '', 50)}</p>
                 </div>
 
                 <div>

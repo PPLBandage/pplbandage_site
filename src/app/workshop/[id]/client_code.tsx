@@ -7,15 +7,11 @@ import style from "@/app/styles/editor/page.module.css";
 import * as Interfaces from "@/app/interfaces";
 import { useRouter } from "next/navigation";
 
-import axios from "axios";
-
 import Client, { b64Prefix } from "./bandage_engine.module";
 import SkinView3D from "@/app/modules/components/skinView.module";
 
 import Header from "@/app/modules/components/header.module";
-import Searcher from "@/app/modules/components/nick_search.module";
 import { CategoryEl } from '@/app/modules/components/card.module';
-import NextImage from 'next/image';
 import Select from 'react-select';
 import debounce from 'lodash.debounce';
 import NavigatorEl from '@/app/modules/components/navigator.module';
@@ -30,6 +26,7 @@ import { CSSTransition } from 'react-transition-group';
 import { IconDownload, IconPlus, IconChevronDown, IconUser, IconEdit, IconX, IconCheck, IconArchive } from '@tabler/icons-react';
 import Slider from '@/app/modules/components/slider.module';
 import SlideButton from '@/app/modules/components/slideButton.module';
+import SkinLoad from './skinLoad.module';
 
 
 const body_part: readonly { value: number, label: String }[] = [
@@ -347,9 +344,11 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage, onClick(): void }) => {
             {el.title}
             <IconEdit className={style.edit_icon} width={24} height={24} /></h2>
         {el.description && <p className={style.description}>{el.description}</p>}
-        <div className={style.categories}>
-            {categories}
-        </div>
+        {categories.length > 0 &&
+            <div className={style.categories}>
+                {categories}
+            </div>
+        }
         {el.author ?
             el.author.public ?
                 <Link className={style.author} href={`/users/${el.author.username}`}><IconUser width={24} height={24} />{el.author.name}</Link> :
@@ -359,163 +358,15 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage, onClick(): void }) => {
     </div>
 }
 
-interface SkinLoadProps {
-    onChange(data: { data: string; slim: boolean; cape?: string } | null): void
-}
-
-interface SkinResponse {
-    data: {
-        skin: {
-            data: string,
-            slim: boolean
-        },
-        cape: string
-    }
-}
-
-const SkinLoad = ({ onChange }: SkinLoadProps) => {
-    const [data, setData] = useState<{ data: string; slim: boolean; cape?: string }>(null);
-    const [loaded, setLoaded] = useState<boolean>(false);
-
-    const isSlim = (img: HTMLImageElement): boolean => {
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        context?.clearRect(0, 0, 64, 64);
-        context?.drawImage(img, 0, 0, img.width, img.height);
-        const pixelData = context.getImageData(46, 52, 1, 1).data;
-        return pixelData[3] !== 255;
-    }
-
-    const loadSkin = (nickname: string) => {
-        if (!nickname) {
-            return;
-        }
-        axios.get(process.env.NEXT_PUBLIC_API_URL + `minecraft/skin/${nickname}?cape=true`, { validateStatus: () => true }).then((response) => {
-            if (response.status !== 200) {
-                switch (response.status) {
-                    case 404:
-                        setError("Игрок с таким никнеймом не найден!");
-                        break;
-                    case 429:
-                        setError("Сервера Mojang перегружены, пожалуйста, попробуйте через пару минут");
-                        break;
-                    default:
-                        setError(`Не удалось получить ник! (${response.status})`);
-                        break;
-                }
-                return;
-            }
-
-            const data = response.data as SkinResponse;
-            setData({
-                data: b64Prefix + data.data.skin.data,
-                slim: data.data.skin.slim,
-                cape: data.data.cape
-            });
-            setLoaded(true);
-        });
-    }
-
-    const setError = (err: string) => {
-        const error = document.getElementById("error");
-        if (error) {
-            error.innerText = err;
-        }
-    }
-
-    const clearError = () => {
-        const error = document.getElementById("error");
-        if (error) {
-            error.innerText = "";
-        }
-    }
-
-    const getData = (file: File) => {
-        if (!file) return;
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            asyncImage(reader.result as string).then(img => {
-                if (img.width != 64 || img.height != 64) {
-                    setError('Скин должен иметь размеры 64x64 пикселя');
-                    return;
-                }
-                clearError();
-                setData({
-                    data: reader.result as string,
-                    slim: isSlim(img)
-                });
-                setLoaded(true);
-            });
-        }
-        reader.readAsDataURL(file);
-    }
-
-    const ondragover = (evt: React.DragEvent<HTMLLabelElement>) => {
-        if (evt.dataTransfer?.items[0].type === "image/png") {
-            evt.preventDefault();
-            const drag_container = document.getElementById("drop_container") as HTMLDivElement;
-            drag_container.style.borderStyle = "solid";
-        }
-    }
-
-    const ondragleave = () => {
-        const drag_container = document.getElementById("drop_container") as HTMLDivElement;
-        drag_container.style.borderStyle = "dashed";
-    }
-
-    const ondrop = (evt: React.DragEvent<HTMLLabelElement>) => {
-        getData(evt.dataTransfer?.files[0]);
-
-        evt.preventDefault();
-        const drag_container = document.getElementById("drop_container") as HTMLDivElement;
-        drag_container.style.borderStyle = "dashed";
-    }
-
-    const onChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        getData(evt.target?.files[0]);
-        evt.target.files = null;
-    }
-
-    return <div className={style.skin_load_base}>
-        <div className={style.skin_load_container}>
-            <Searcher onChange={(evt) => loadSkin(evt)} />
-            <label className={style.skin_drop}
-                id="drop_container"
-                onDragOver={(evt) => ondragover(evt)}
-                onDragLeave={(_) => ondragleave()}
-                onDrop={(evt) => ondrop(evt)}>
-                <div className={style.hidable}>
-                    <input type="file"
-                        name="imageInput"
-                        id="imageInput"
-                        accept="image/png"
-                        onChange={(evt) => onChangeInput(evt)} />
-                    <span id="select_file">Выберите файл<br />или<br />скиньте его сюда</span>
-                </div>
-            </label>
-            <span id="error"></span>
-            {data && <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <NextImage src={data.data} width={64} height={64} alt='' />
-            </div>
-            }
-            <div style={{ display: 'flex', width: '100%', gap: '.5rem' }}>
-                <button className={style.skin_load} onClick={() => onChange(null)} style={{ width: '2.7rem' }}>
-                    <IconX width={24} height={24} style={{ margin: 0 }} />
-                </button>
-                <button className={`${style.skin_load} ${!loaded && style.disabled_load}`} onClick={() => { loaded && onChange(data) }} style={{ width: '100%' }}>
-                    <IconCheck width={24} height={24} style={{ marginRight: '.2rem' }} />Готово
-                </button>
-            </div>
-        </div>
-    </div>
-}
 
 const access_level: readonly { value: number, label: String }[] = [
     { value: 0, label: "Ограниченный доступ" },
     { value: 1, label: "Доступ только по ссылке" },
     { value: 2, label: "Открытый доступ" }
 ];
+
+
+const lstrip = (string: string) => string.replace(/^\s+/, '');
 
 const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClose(): void }) => {
     const router = useRouter();
@@ -559,8 +410,18 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
     }
     return <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>
         {bandage.permissions_level >= 2 ? <>
-            <textarea maxLength={50} placeholder="Заголовок" className={style.textarea} onInput={(ev) => setTitle((ev.target as HTMLTextAreaElement).value)} value={title} />
-            <textarea maxLength={300} placeholder="Описание" className={style.textarea} onInput={(ev) => setDescription((ev.target as HTMLTextAreaElement).value)} value={description} />
+            <textarea
+                maxLength={50}
+                placeholder="Заголовок"
+                className={style.textarea}
+                onInput={(ev) => setTitle(lstrip((ev.target as HTMLTextAreaElement).value))}
+                value={title} />
+            <textarea
+                maxLength={300}
+                placeholder="Описание"
+                className={style.textarea}
+                onInput={(ev) => setDescription(lstrip((ev.target as HTMLTextAreaElement).value))}
+                value={description} />
         </> :
             <>
                 <h2 className={style.title}>{bandage.title}</h2>

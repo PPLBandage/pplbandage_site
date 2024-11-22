@@ -90,6 +90,8 @@
 
     transition: background-color 150ms, border 150ms;
     font-weight: 500;
+
+    font-family: inherit;
 }
 
 .code_send:hover {

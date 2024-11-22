@@ -21,6 +21,7 @@ import IconSvgCropped from '@/app/resources/icon-cropped.svg';
 import IconSvg from '@/app/resources/icon.svg';
 import { httpStatusCodes } from '../modules/utils/statusCodes.module';
 import { renderSkin } from '../modules/utils/skinCardRender.module';
+import ApiManager from '../modules/utils/apiManager';
 
 const Main = () => {
     const router = useRouter();
@@ -48,7 +49,10 @@ const Main = () => {
         if (code) {
             authApi.post(`auth/discord/${code}`).then(response => {
                 if (response.status !== 200) {
-                    setLoadingStatus(`${response.status}: ${response.data.message_ru || response.data.message || httpStatusCodes[response.status]}`);
+                    setLoadingStatus(`${response.status}: ${response.data.message_ru ||
+                        response.data.message ||
+                        httpStatusCodes[response.status]}`
+                    );
                     return;
                 }
                 setIsLogged(true);
@@ -59,14 +63,8 @@ const Main = () => {
     }, []);
 
     useEffect(() => {
-        if (isLogged) {
-            authApi.get('user/me/works').then(response => {
-                if (response.status === 200) {
-                    setData(response.data);
-                }
-            });
-        }
-    }, [isLogged])
+        isLogged && ApiManager.getMeWorks().then(setData);
+    }, [isLogged]);
 
     return (
         <body>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import Styles from '@/app/styles/theme_selector.module.css';
 import { IconBucketDroplet, IconPalette, IconPhoto } from '@tabler/icons-react'
-import { authApi } from '../utils/api.module';
+import ApiManager from '../utils/apiManager';
 
 interface MenuProps {
     initialValue?: number;
@@ -30,7 +30,7 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
 
     useEffect(() => {
         onChange(theme);
-        firstLoad ? setFirstLoad(false) : authApi.put('user/me/theme', { theme: theme });
+        firstLoad ? setFirstLoad(false) : ApiManager.setTheme({ theme });
     }, [theme]);
 
 

@@ -1,4 +1,3 @@
-import { authApi } from "@/app/modules/utils/api.module";
 import { Bandage, Category } from "@/app/interfaces";
 import Style from "@/app/styles/workshop/page.module.css";
 import style_card from "@/app/styles/workshop/card.module.css";
@@ -12,6 +11,7 @@ import { getIcon } from "../utils/categories.module";
 import { useRouter } from "next/navigation";
 import { Tooltip, UseGlobalTooltip } from "./tooltip";
 import useCookie from "../utils/useCookie.module";
+import ApiManager from "../utils/apiManager";
 
 
 export const formatDate = (date: Date) => {
@@ -87,6 +87,7 @@ const backgrounds: { [key: string]: string } = {
 export const Card = ({ el, base64, className }: { el: Bandage, base64: string, className?: { readonly [key: string]: string; } }) => {
     const [starred, setStarred] = useState<boolean>(el.starred);
     const [last, setLast] = useState<boolean>(el.starred);
+    const [starsCount, setStarsCount] = useState<number>(el.stars_count);
     const logged = getCookie('sessionId');
     const theme = useCookie('theme_main');
     const router = useRouter();
@@ -100,15 +101,9 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
 
     useEffect(() => {
         if (logged && starred != last) {
-            authApi.put(`/star/${el.external_id}`, {}, { params: { set: starred } }).then((response) => {
-                if (response.status == 200) {
-                    const response_data: { new_count: number, action_set: boolean } = response.data;
-                    (document.getElementById(el.external_id + "_text") as HTMLSpanElement)
-                        .textContent = response_data.new_count.toString();
-                }
-            }).finally(() => {
-                setLast(starred);
-            });
+            ApiManager.setStar(el.external_id, { set: starred })
+                .then(data => setStarsCount(data.new_count))
+                .finally(() => setLast(starred));
         }
     }, [starred]);
 
@@ -130,7 +125,7 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
                         style={{ cursor: "pointer" }}
                         onClick={() => { logged ? setStarred(prev => !prev) : router.push('/me') }}
                     />
-                    <span className={style_card.star_count} id={el.external_id + "_text"}>{el.stars_count}</span>
+                    <span className={style_card.star_count} id={el.external_id + "_text"}>{starsCount}</span>
                 </div>
 
                 {

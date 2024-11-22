@@ -128,27 +128,30 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
 
     return <div className={style.skin_load_base}>
         <div className={style.skin_load_container}>
-            <Searcher
-                onChange={evt => loadSkin(evt)} />
+            <Searcher onChange={loadSkin} />
             <label className={style.skin_drop}
                 id="drop_container"
-                onDragOver={(evt) => ondragover(evt)}
-                onDragLeave={(_) => ondragleave()}
-                onDrop={(evt) => ondrop(evt)}>
+                onDragOver={ondragover}
+                onDragLeave={ondragleave}
+                onDrop={ondrop}>
                 <div className={style.hidable}>
                     <input type="file"
                         name="imageInput"
                         id="imageInput"
                         accept="image/png"
-                        onChange={(evt) => onChangeInput(evt)} />
+                        onChange={onChangeInput} />
                     <span id="select_file">Выберите файл<br />или<br />скиньте его сюда</span>
                 </div>
             </label>
+
             <span id="error"></span>
-            {data && <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <NextImage src={data.data} width={64} height={64} alt='' />
-            </div>
+
+            {data &&
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <NextImage src={data.data} width={64} height={64} alt='' />
+                </div>
             }
+
             <div style={{ display: 'flex', width: '100%', gap: '.5rem' }}>
                 <button className={style.skin_load} onClick={() => onChange(null)} style={{ width: '2.7rem' }}>
                     <IconX width={24} height={24} style={{ margin: 0 }} />
@@ -162,7 +165,3 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
 }
 
 export default SkinLoad;
-
-function asyncImage(arg0: string) {
-    throw new Error("Function not implemented.");
-}

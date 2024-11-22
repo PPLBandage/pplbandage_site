@@ -54,3 +54,34 @@ export interface Role {
     title: string,
     color: number
 }
+
+export interface UserAdmins {
+    id: number,
+    username: string,
+    name: string,
+    joined_at: Date,
+    discord_id: number,
+    banned: boolean,
+    permissions: string[]
+}
+
+
+export interface NotificationsInterface {
+    data: {
+        id: number,
+        content: string,
+        author: string,
+        type: number,
+        creation_date: Date
+    }[],
+    total_count: number
+}
+
+export interface Session {
+    id: number,
+    last_accessed: Date,
+    is_self: boolean,
+    is_mobile: boolean,
+    browser: string,
+    browser_version: string
+}

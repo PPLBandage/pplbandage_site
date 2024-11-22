@@ -1,6 +1,5 @@
 "use client";
 
-import { authApi } from "@/app/modules/utils/api.module";
 import { useEffect, useState } from "react";
 import Styles from "@/app/styles/header.module.css";
 import { CSSTransition } from 'react-transition-group';
@@ -24,6 +23,7 @@ import {
     IconBooks
 } from '@tabler/icons-react';
 import IconCropped from '@/app/resources/icon-cropped.svg';
+import ApiManager from "../utils/apiManager";
 
 export interface Query {
     username: string;
@@ -46,13 +46,12 @@ const Header = (): JSX.Element => {
     const [expanded, setExpanded] = useState<boolean>(false);
 
     const { data } = useQuery({
-        queryKey: ["userProfile"],
+        queryKey: ['userProfile'],
         retry: 5,
         refetchOnWindowFocus: false,
         queryFn: async () => {
             try {
-                const res = await authApi.get("/user/me");
-                return res.data as Query;
+                return await ApiManager.getMe();
             } catch (e) {
                 setLogged(false);
                 throw e;
@@ -108,8 +107,8 @@ const Header = (): JSX.Element => {
 };
 
 const logout = () => {
-    authApi.delete("user/me").then(() => {
-        deleteCookie("sessionId");
+    ApiManager.logout().then(() => {
+        deleteCookie('sessionId');
         window.location.assign('/');
     });
 }

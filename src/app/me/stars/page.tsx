@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
-import { authApi } from "@/app/modules/utils/api.module";
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import Header from "@/app/modules/components/header.module";
 import useCookie from '@/app/modules/utils/useCookie.module';
@@ -14,6 +13,7 @@ import { Me } from '@/app/modules/components/me.module';
 import { redirect } from 'next/navigation'
 import { SimpleGrid } from '@/app/modules/components/adaptiveGrid.module';
 import { renderSkin } from '@/app/modules/utils/skinCardRender.module';
+import ApiManager from '@/app/modules/utils/apiManager';
 
 const Main = () => {
     const cookies = useRef<Cookies>(useCookies());
@@ -28,11 +28,7 @@ const Main = () => {
     }
 
     useEffect(() => {
-        authApi.get("user/me/stars").then((response) => {
-            if (response.status === 200) {
-                setData((response.data as Bandage[]).reverse());
-            }
-        })
+        ApiManager.getMeStars().then(data => setData(data.reverse()));
     }, []);
 
 

@@ -15,7 +15,6 @@ import { CategoryEl } from '@/app/modules/components/card.module';
 import Select from 'react-select';
 import debounce from 'lodash.debounce';
 import NavigatorEl from '@/app/modules/components/navigator.module';
-import { authApi } from '@/app/modules/utils/api.module';
 import CategorySelector from '@/app/modules/components/category_selector.module';
 import Footer from '@/app/modules/components/footer.module';
 import { anims } from '@/app/workshop/poses';
@@ -23,10 +22,11 @@ import asyncImage from '@/app/modules/components/asyncImage.module';
 import Link from 'next/link';
 import { CSSTransition } from 'react-transition-group';
 
-import { IconDownload, IconPlus, IconChevronDown, IconUser, IconEdit, IconX, IconCheck, IconArchive } from '@tabler/icons-react';
+import { IconDownload, IconPlus, IconChevronDown, IconUser, IconEdit, IconArchive } from '@tabler/icons-react';
 import Slider from '@/app/modules/components/slider.module';
 import SlideButton from '@/app/modules/components/slideButton.module';
 import SkinLoad from './skinLoad.module';
+import ApiManager from '@/app/modules/utils/apiManager';
 
 
 const body_part: readonly { value: number, label: String }[] = [
@@ -377,11 +377,7 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
     const [accessLevel, setAccessLevel] = useState<number>(undefined);
 
     useEffect(() => {
-        authApi.get('categories?for_edit=true').then((response) => {
-            if (response.status === 200) {
-                setAllCategories(response.data as Interfaces.Category[]);
-            }
-        })
+        ApiManager.getCategories(true).then(setAllCategories);
     }, []);
 
     function capitalize(string: string) {
@@ -389,25 +385,43 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
     }
 
     const save = () => {
-        authApi.put(`workshop/${bandage.external_id}`, {
-            title: title,
-            description: description || null,
-            categories: categories,
-            access_level: accessLevel
-        }).then((response) => {
-            if (response.status === 200) {
-                onClose();
-                return;
+        ApiManager.updateBandage(
+            bandage.external_id,
+            {
+                title: title,
+                description: description || null,
+                categories: categories,
+                access_level: accessLevel
             }
-            if (response.status === 400) {
+        )
+            .then(onClose)
+            .catch(response => {
                 if (typeof response.data.message === 'object') {
-                    alert(response.data.message.map((str: string) => capitalize(str)).join('\n') || `Unhandled error: ${response.status}`);
+                    alert(response.data.message.map((str: string) => capitalize(str)).join('\n') ||
+                        `Unhandled error: ${response.status}`);
                 } else {
                     alert(response.data.message_ru || response.data.message);
                 }
-            }
-        })
+            });
     }
+
+    const deleteBandage = () => {
+        const first = confirm(`Вы собираетесь удалить повязку ${bandage.title}! Это действе необратимо! Подтверждаете?`);
+        if (!first) return;
+        const second = confirm('Последний шанс! Удалить?');
+        if (!second) return;
+        ApiManager.deleteBandage(bandage.external_id)
+            .then(() => router.replace('/workshop'))
+            .catch(err => alert(err.data.message_ru || err.data.message));
+    }
+
+    const archiveBandage = () => {
+        if (!confirm('Заархивировать повязку? После архивации её будет невозможно изменить!')) return;
+        ApiManager.archiveBandage(bandage.external_id)
+            .then(() => window.location.reload())
+            .catch(err => alert(err.data.message));
+    }
+
     return <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>
         {bandage.permissions_level >= 2 ? <>
             <textarea
@@ -454,17 +468,7 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
                 marginTop: '1rem',
                 marginBottom: '.4rem'
             }}>
-                <div className={style.deleteButton} onClick={() => {
-                    const first = confirm(`Вы собираетесь удалить повязку ${bandage.title}! Это действе необратимо! Подтверждаете?`);
-                    if (!first) return;
-                    const second = confirm('Последний шанс! Удалить?');
-                    if (!second) return;
-                    authApi.delete(`workshop/${bandage.external_id}`).then(res => {
-                        if (res.status === 200) {
-                            router.replace('/workshop');
-                        }
-                    })
-                }}>
+                <div className={style.deleteButton} onClick={deleteBandage}>
                     <img className={style.binUp} alt="" src="/static/icons/bin_up.png"></img>
                     <img className={style.binDown} alt="" src="/static/icons/bin_down.png"></img>
                 </div>
@@ -475,16 +479,7 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
                 alignItems: 'center',
                 gap: '.4rem'
             }}>
-                <button className={style.archiveButton} onClick={_ => {
-                    if (!confirm('Заархивировать повязку? После архивации её будет невозможно изменить!')) return;
-                    authApi.put(`workshop/${bandage.external_id}/archive`).then(res => {
-                        if (res.status !== 200) {
-                            alert(res.data.message);
-                            return
-                        }
-                        window.location.reload();
-                    })
-                }}><IconArchive /></button>
+                <button className={style.archiveButton} onClick={archiveBandage}><IconArchive /></button>
                 <p style={{ margin: 0 }}>Архивировать</p>
             </div>
         </div>

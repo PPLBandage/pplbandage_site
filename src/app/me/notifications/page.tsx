@@ -6,23 +6,14 @@ import Style from "@/app/styles/me/notifications.module.css";
 import Header from "@/app/modules/components/header.module";
 import useCookie from '@/app/modules/utils/useCookie.module';
 import { Me } from '@/app/modules/components/me.module';
-import { authApi } from '@/app/modules/utils/api.module';
 import { formatDate } from '@/app/modules/components/card.module';
 import { Paginator } from '@/app/modules/components/paginator.module';
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import Image from "next/image";
 import { Cookies, useCookies } from 'next-client-cookies';
+import ApiManager from '@/app/modules/utils/apiManager';
+import { NotificationsInterface } from '@/app/interfaces';
 
-interface NotificationsInterface {
-    data: {
-        id: number,
-        content: string,
-        author: string,
-        type: number,
-        creation_date: Date
-    }[],
-    total_count: number
-}
 
 const Notifications = () => {
     const cookies = useRef<Cookies>(useCookies());
@@ -42,11 +33,7 @@ const Notifications = () => {
 
     useEffect(() => {
         if (page < 0) return;
-        authApi.get('user/me/notifications', { params: { page: page } }).then((response) => {
-            if (response.status === 200) {
-                setNotifications(response.data);
-            }
-        });
+        ApiManager.getMeNotifications({ page }).then(setNotifications);
     }, [page]);
 
     const notifications_el = notifications?.data.map((notification) => {

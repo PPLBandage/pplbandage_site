@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { authApi } from "../utils/api.module";
 import { Query } from "./header.module";
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import Image from 'next/image';
@@ -13,6 +12,7 @@ import { CategoryEl, formatDate } from "./card.module";
 
 import { IconSettings, IconBell, IconStar, IconList, IconStarFilled } from '@tabler/icons-react';
 import { TransitionLink } from "@/app/me/animatedLink.module";
+import ApiManager from "../utils/apiManager";
 
 const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, color?: string }) => {
     return (
@@ -76,15 +76,7 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
     const { data, isLoading, isError } = useQuery({
         queryKey: [!!user_data?.username ? `user_${user_data?.username}` : `userProfile`],
         retry: 5,
-        queryFn: async () => {
-            if (!user_data) {
-                const res = await authApi.get("/user/me", { withCredentials: true });
-                return res.data as Query;
-            } else {
-                return user_data;
-            }
-
-        },
+        queryFn: async () => !user_data ? ApiManager.getMe() : user_data,
     });
     if (!isLoading && !isError && !islogged && data) {
         setIsLogged(true);

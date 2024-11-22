@@ -10,7 +10,6 @@ import Select from 'react-select';
 import Client from '@/app/workshop/[id]/bandage_engine.module';
 import Footer from '@/app/modules/components/footer.module';
 import CategorySelector from '@/app/modules/components/category_selector.module';
-import { authApi } from '@/app/modules/utils/api.module';
 import * as Interfaces from "@/app/interfaces";
 import debounce from 'lodash.debounce';
 import InfoCard from '@/app/modules/components/info.module';
@@ -21,6 +20,7 @@ import { Fira_Code } from "next/font/google";
 import { CustomLink } from '@/app/modules/components/search.module';
 import asyncImage from '@/app/modules/components/asyncImage.module';
 import SlideButton from '@/app/modules/components/slideButton.module';
+import ApiManager from '@/app/modules/utils/apiManager';
 const fira = Fira_Code({ subsets: ["latin"] });
 
 function capitalize(string: string) {
@@ -153,18 +153,15 @@ const Editor = ({
     const [useOldMethod, setUseOldMethod] = useState<boolean>(false);
 
     useEffect(() => {
-        authApi.get('categories?for_edit=true').then((response) => {
-            if (response.status === 200) {
-                const categories = response.data as Interfaces.Category[]
-                setAllCategories(categories);
-                if (window.location.hash === '#colorable') {
-                    const colorable_category = categories.find(category => category.colorable);
-                    if (colorable_category) {
-                        setEnabledCategories([colorable_category]);
-                    }
+        ApiManager.getCategories(true).then(data => {
+            setAllCategories(data);
+            if (window.location.hash === '#colorable') {
+                const colorable_category = data.find(category => category.colorable);
+                if (colorable_category) {
+                    setEnabledCategories([colorable_category]);
                 }
             }
-        })
+        });
     }, []);
 
     const debouncedHandleColorChange = useCallback(
@@ -233,27 +230,28 @@ const Editor = ({
 
         if (mutex) return;
         setMutex(true);
-        authApi.post('/workshop', {
+
+        ApiManager.createBandage({
             title: title,
             description: description,
             categories: categories,
             base64: base64.replace('data:image/png;base64,', ''),
             base64_slim: base64Slim?.replace('data:image/png;base64,', ''),
             split_type: splitTypes
-        }).then((response) => {
-            if (response.status !== 201) {
+        })
+            .then(response => router.replace(`/workshop/${response.data.external_id}`))
+            .catch(err => {
                 const error_el = document.getElementById('create_error') as HTMLLabelElement;
                 if (error_el) {
-                    if (typeof response.data.message === 'object') {
-                        error_el.innerText = response.data.message.map((str: string) => capitalize(str)).join('\n') || `Unhandled error: ${response.status}`;
+                    if (typeof err.data.message === 'object') {
+                        error_el.innerText = err.data.message.map((str: string) => capitalize(str)).join('\n') ||
+                            `Unhandled error: ${err.status}`;
                     } else {
-                        error_el.innerText = response.data.message_ru || response.data.message;
+                        error_el.innerText = err.data.message_ru || err.data.message;
                     }
                 }
-            } else {
-                router.replace(`/workshop/${response.data.external_id}`);
-            }
-        }).finally(() => { setMutex(false) })
+            })
+            .finally(() => { setMutex(false) });
     }
 
     return (

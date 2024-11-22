@@ -3,7 +3,6 @@
 import React, { ChangeEvent, useEffect } from 'react';
 import { useState } from 'react';
 import { useQuery } from "@tanstack/react-query";
-import { authApi } from "@/app/modules/utils/api.module";
 import { redirect } from "next/navigation";
 import Style from "@/app/styles/me/connections.module.css";
 import Style_themes from "@/app/styles/me/themes.module.css";
@@ -31,10 +30,11 @@ import {
 import { timeStamp } from '@/app/modules/utils/time.module';
 import style_workshop from "@/app/styles/workshop/page.module.css";
 import SlideButton from '@/app/modules/components/slideButton.module';
-import { reject } from 'lodash';
+import ApiManager from '@/app/modules/utils/apiManager';
+import { Session } from '@/app/interfaces';
 const fira = Fira_Code({ subsets: ["latin"] });
 
-interface SettingsResponse {
+export interface SettingsResponse {
     statusCode: number,
     public_profile: boolean,
     can_be_public: boolean,
@@ -74,10 +74,9 @@ const Page = () => {
         queryKey: ["userConnections"],
         retry: false,
         queryFn: async () => {
-            const res = await authApi.get("user/me/settings");
-            const data = res.data as SettingsResponse;
+            const res = await ApiManager.getMeSettings();
             setLoaded(true);
-            return data;
+            return res;
         },
     });
 
@@ -110,17 +109,10 @@ const Page = () => {
 const UserSettings = ({ data }: { data: SettingsResponse }) => {
     const [value, setValue] = useState<boolean>(data?.public_profile);
 
-    const changePublic = (val: boolean): Promise<void> => {
+    const changePublic = (state: boolean): Promise<void> => {
         return new Promise((resolve, reject) => {
-            authApi.put('user/me/settings/public', {}, { params: { state: val } })
-                .then(response => {
-                    if (response.status === 200) {
-                        setValue(response.data.new_data);
-                        resolve();
-                        return;
-                    }
-                    reject();
-                })
+            ApiManager.setPublicProfile({ state })
+                .then(value => { setValue(value); resolve() })
                 .catch(reject);
         });
     }
@@ -147,57 +139,53 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
     const refresh = () => {
         const load_icon = document.getElementById('refresh');
         load_icon.style.animation = `${Style.loading} infinite 1s reverse ease-in-out`;
-        authApi.post("user/me/connections/minecraft/cache/purge").then((response) => {
-            if (response.status === 200) {
-                refetch();
-                return;
-            }
-            alert(response.data.message);
-        }).finally(() => {
-            load_icon.style.animation = null;
-        })
+
+        ApiManager.purgeSkinCache()
+            .then(refetch)
+            .catch(response => alert(response.data.message))
+            .finally(() => load_icon.style.animation = null);
     }
 
     const disconnect = () => {
         const confirmed = confirm("Отвязать учётную запись Minecraft? Вы сможете в любое время привязать ее обратно.");
-        if (confirmed) {
-            authApi.delete('user/me/connections/minecraft').then((response) => {
-                if (response.status === 200) {
-                    refetch();
-                    return;
-                }
-            })
-        }
+        if (!confirmed) return;
+
+        ApiManager.disconnectMinecraft().then(refetch);
     }
 
     const setValidAPI = (state: boolean): Promise<void> => {
         return new Promise((resolve, reject) => {
-            authApi.put('user/me/connections/minecraft/valid', {}, { params: { state } })
-                .then(response => {
-                    if (response.status === 200) {
-                        setValid(response.data.new_data);
-                        resolve();
-                    } else {
-                        reject();
-                    }
+            ApiManager.setMinecraftVisible({ state })
+                .then(new_val => {
+                    setValid(new_val);
+                    resolve();
                 })
-                .catch(reject)
+                .catch(reject);
         });
     }
 
     const setAutoloadAPI = (state: boolean): Promise<void> => {
         return new Promise((resolve, reject) => {
-            authApi.put('user/me/connections/minecraft/autoload', {}, { params: { state } })
-                .then(response => {
-                    if (response.status === 200) {
-                        setAutoload(response.data.new_data);
-                        resolve();
-                    } else {
-                        reject();
-                    }
+            ApiManager.setMinecraftAutoload({ state })
+                .then(new_val => {
+                    setAutoload(new_val);
+                    resolve();
                 })
-                .catch(reject)
+                .catch(reject);
         })
+    }
+
+    const connectMinecraft = () => {
+        const target = document.getElementById('code') as HTMLInputElement;
+        if (target.value.length != 6) return;
+
+        ApiManager.connectMinecraft(target.value)
+            .then(refetch)
+            .catch(response => {
+                const data = response.data as { message_ru: string };
+                const err = document.getElementById('error') as HTMLParagraphElement;
+                err.innerHTML = data.message_ru;
+            });
     }
 
     return (
@@ -242,11 +230,11 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
                 </div>
                 <div className={Style.checkboxes}>
                     <span>Последний раз кэшировано {formatDate(new Date(data.connections?.minecraft?.last_cached))}</span>
-                    <button className={Style.unlink} onClick={() => refresh()}>
+                    <button className={Style.unlink} onClick={refresh}>
                         <IconRefresh style={{ width: "1.8rem" }} id="refresh" />Обновить кэш
                     </button>
 
-                    <button className={Style.unlink} onClick={() => disconnect()}>
+                    <button className={Style.unlink} onClick={disconnect}>
                         <IconX style={{ width: "1.8rem" }} />Отвязать
                     </button>
                 </div>
@@ -264,22 +252,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
                             const target = document.getElementById('code') as HTMLInputElement;
                             if (target.value.length > 6) target.value = target.value.slice(0, 6)
                         }} />
-                        <button className={Style.code_send} onClick={_ => {
-                            const target = document.getElementById('code') as HTMLInputElement;
-                            if (target.value.length != 6) return;
-
-                            authApi.post(`user/me/connections/minecraft/connect/${target.value}`).then((response) => {
-                                if (response.status === 200) {
-                                    refetch();
-                                    return;
-                                }
-
-                                const data = response.data as { message_ru: string };
-                                const err = document.getElementById('error') as HTMLParagraphElement;
-                                err.innerHTML = data.message_ru;
-                            })
-                        }
-                        }>Отправить</button>
+                        <button className={Style.code_send} onClick={connectMinecraft}>Отправить</button>
                     </div>
                     <p style={{ margin: 0, color: "#dd0f0f", marginTop: "5px" }} id="error"></p>
                 </div>
@@ -362,15 +335,6 @@ const Theme = ({ data, theme, onChange }: { data: ThemeProps, theme: string, onC
     )
 }
 
-interface Session {
-    id: number,
-    last_accessed: Date,
-    is_self: boolean,
-    is_mobile: boolean,
-    browser: string,
-    browser_version: string
-}
-
 const moveToStart = (arr: Session[]) => {
     const filteredArray = arr.filter(el => !el.is_self);
     const element = arr.find(el => el.is_self);
@@ -384,19 +348,27 @@ const Safety = () => {
     const [sessions, setSessions] = useState<Session[]>([]);
 
     useEffect(() => {
-        authApi.get('user/me/sessions', { validateStatus: () => true })
-            .then(response => {
-                if (response.status === 200) {
-                    const _sessions = response.data as Session[];
-                    setSessions(
-                        moveToStart(
-                            _sessions.sort((session1, session2) => new Date(session2.last_accessed).getTime() - new Date(session1.last_accessed).getTime()
-                            )
-                        ));
-                    setLoading(false);
-                }
-            });
+        ApiManager.getSessions().then(data => {
+            setSessions(
+                moveToStart(data.sort((session1, session2) =>
+                    new Date(session2.last_accessed).getTime() - new Date(session1.last_accessed).getTime()
+                ))
+            );
+            setLoading(false);
+        })
     }, []);
+
+    const logoutSession = (session_id: number) => {
+        if (!confirm(`Выйти с этого устройства?`)) return;
+        ApiManager.logoutSession(session_id).then(() => setSessions(sessions.filter(session_ => session_.id !== session_id)))
+    }
+
+    const logoutSessionAll = () => {
+        if (!confirm('Выйти со всех устройств, кроме этого?')) return;
+        ApiManager.logoutAllSessions()
+            .then(() => setSessions(sessions.filter(session_ => session_.is_self)))
+            .catch(response => alert(response.data.message));
+    }
 
     const sessions_elements = sessions.map(session =>
         <div key={session.id} className={Style_safety.container}>
@@ -408,27 +380,12 @@ const Safety = () => {
                 <p className={Style_safety.last_accessed} title={formatDate(new Date(session.last_accessed))}>Последний доступ {timeStamp((new Date(session.last_accessed).getTime()) / 1000)}</p>
             </div>
             {!session.is_self &&
-                <button className={Style_safety.button} onClick={_ => {
-                    if (!confirm(`Выйти с этого устройства?`)) return;
-                    authApi.delete(`user/me/sessions/${session.id}`).then(response => {
-                        if (response.status === 200) {
-                            setSessions(sessions.filter(session_ => session_.id !== session.id));
-                        }
-                    })
-                }}>
+                <button className={Style_safety.button} onClick={_ => logoutSession(session.id)}>
                     <IconX />
                 </button>
             }
         </div>
     );
-
-    const logoutAll = () => {
-        if (!confirm('Выйти со всех устройств, кроме этого?')) return;
-        authApi.delete('/user/me/sessions/all').then(response => {
-            if (response.status !== 200) alert(response.data.message);
-            else setSessions(sessions.filter(session_ => session_.is_self));
-        })
-    }
 
     return (
         <div className={Style.container}>
@@ -439,7 +396,13 @@ const Safety = () => {
                     <IconSvg width={86} height={86} className={style_workshop.loading} /> :
                     <>
                         {sessions_elements}
-                        {sessions.length > 1 && <button className={Style.unlink} onClick={logoutAll} ><IconX style={{ width: "1.8rem" }} />Выйти со всех устройств</button>}
+                        {sessions.length > 1 &&
+                            <button
+                                className={Style.unlink}
+                                onClick={logoutSessionAll} >
+                                <IconX style={{ width: "1.8rem" }} />Выйти со всех устройств
+                            </button>
+                        }
                     </>
                 }
             </div>

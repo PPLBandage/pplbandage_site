@@ -22,7 +22,7 @@ import asyncImage from '@/app/modules/components/asyncImage.module';
 import Link from 'next/link';
 import { CSSTransition } from 'react-transition-group';
 
-import { IconDownload, IconPlus, IconChevronDown, IconUser, IconEdit, IconArchive } from '@tabler/icons-react';
+import { IconDownload, IconPlus, IconChevronDown, IconUser, IconEdit, IconArchive, IconX } from '@tabler/icons-react';
 import Slider from '@/app/modules/components/slider.module';
 import SlideButton from '@/app/modules/components/slideButton.module';
 import SkinLoad from './skinLoad.module';
@@ -192,7 +192,11 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                             background='/static/background_big.png'
                             id='canvas_container' />
                         <div className={style.render_footer}>
-                            <button className={style.skin_load} onClick={() => setLoadExpanded(true)}><IconPlus width={24} height={24} />Загрузить скин</button>
+                            <button
+                                className={style.skin_load}
+                                onClick={() => setLoadExpanded(true)}>
+                                <IconPlus width={24} height={24} />Загрузить скин
+                            </button>
                             <Select
                                 options={anims}
                                 defaultValue={anims[pose]}
@@ -223,10 +227,11 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                             /> :
                             <EditElement
                                 bandage={data}
-                                onClose={() => {
+                                onDone={() => {
                                     setEdit(false);
                                     window.location.reload();
                                 }}
+                                onClose={() => setEdit(false)}
                             />
                         }
                         <hr />
@@ -368,7 +373,15 @@ const access_level: readonly { value: number, label: String }[] = [
 
 const lstrip = (string: string) => string.replace(/^\s+/, '');
 
-const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClose(): void }) => {
+const EditElement = ({
+    bandage,
+    onDone,
+    onClose
+}: {
+    bandage: Interfaces.Bandage,
+    onDone(): void,
+    onClose(): void
+}) => {
     const router = useRouter();
     const [title, setTitle] = useState<string>(bandage.title);
     const [description, setDescription] = useState<string>(bandage.description);
@@ -394,7 +407,7 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
                 access_level: accessLevel
             }
         )
-            .then(onClose)
+            .then(onDone)
             .catch(response => {
                 if (typeof response.data.message === 'object') {
                     alert(response.data.message.map((str: string) => capitalize(str)).join('\n') ||
@@ -483,6 +496,18 @@ const EditElement = ({ bandage, onClose }: { bandage: Interfaces.Bandage, onClos
                 <p style={{ margin: 0 }}>Архивировать</p>
             </div>
         </div>
-        <button className={style.skin_load} onClick={() => save()} style={{ padding: ".4rem" }}>Сохранить</button>
+        <div style={{ display: 'flex', gap: '.5rem' }}>
+            <button
+                className={style.skin_load}
+                onClick={onClose}
+                style={{ padding: ".4rem", aspectRatio: 1 }}
+            >
+                <IconX />
+            </button>
+            <button
+                className={style.skin_load}
+                onClick={save}
+                style={{ padding: ".4rem", width: '100%' }}>Сохранить</button>
+        </div>
     </div>
 }

@@ -153,7 +153,7 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
             }
 
             <div style={{ display: 'flex', width: '100%', gap: '.5rem' }}>
-                <button className={style.skin_load} onClick={() => onChange(null)} style={{ width: '2.7rem' }}>
+                <button className={style.skin_load} onClick={() => onChange(null)} style={{ aspectRatio: 1 }}>
                     <IconX width={24} height={24} style={{ margin: 0 }} />
                 </button>
                 <button className={`${style.skin_load} ${!loaded && style.disabled_load}`} onClick={() => { loaded && onChange(data) }} style={{ width: '100%' }}>

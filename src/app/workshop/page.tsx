@@ -33,7 +33,7 @@ export default function Home() {
     const [categories, setCategories] = useState<Category[]>([]);
 
     const [filters, setFilters] = useState<Category[]>([]);
-    const [sort, setSort] = useState<string>('popular_up');
+    const [sort, setSort] = useState<string>('relevant_up');
     const [alertShown, setAlertShown] = useState<boolean>(false);
 
 

@@ -1,8 +1,9 @@
 import * as Interfaces from "@/app/interfaces";
 import { authApi } from "./api.module";
-import { AxiosResponse, Method } from "axios";
+import axios, { AxiosResponse, Method } from "axios";
 import { Query } from "../components/header.module";
 import { SettingsResponse } from "@/app/me/settings/page";
+import { SearchResponse } from "../components/nick_search.module";
 
 type RequestProps = {
     url: string,
@@ -30,9 +31,30 @@ class ApiManager {
         return response;
     }
 
+    /* Do HTTP simple */
+    private static async doRequestSimple({
+        url,
+        method,
+        data,
+        params
+    }: RequestProps): Promise<AxiosResponse<any, any>> {
+        const response = await axios.request({
+            url: process.env.NEXT_PUBLIC_API_URL.slice(0, -1) + url,
+            method,
+            data,
+            params,
+            withCredentials: true
+        });
+        if (response.status >= 400)
+            throw response;
+
+        return response;
+    }
+
+
     /* Get Categories */
     static async getCategories(forEdit?: boolean): Promise<Interfaces.Category[]> {
-        return (await this.doRequest({
+        return (await this.doRequestSimple({
             url: '/categories',
             method: 'GET',
             params: { for_edit: forEdit ?? false }
@@ -175,6 +197,22 @@ class ApiManager {
         });
     }
 
+    /* Search Minecraft nicks */
+    static async searchNicks(nickname: string): Promise<SearchResponse> {
+        return (await this.doRequestSimple({
+            url: `/minecraft/search/${nickname}`,
+            method: 'GET'
+        })).data;
+    }
+
+    /* Get Minecraft skin */
+    static async getSkin(nickname: string): Promise<AxiosResponse> {
+        return (await this.doRequestSimple({
+            url: `/minecraft/skin/${nickname}?cape=true`,
+            method: 'GET'
+        }));
+    }
+
     /* Get sessions */
     static async getSessions(): Promise<Interfaces.Session[]> {
         return (await this.doRequest({
@@ -250,6 +288,32 @@ class ApiManager {
             method: 'POST',
             data
         });
+    }
+
+
+    /* Get registration roles */
+    static async getRoles(): Promise<Interfaces.Role[]> {
+        return (await this.doRequestSimple({
+            url: `/auth/roles`,
+            method: 'GET'
+        })).data;
+    }
+
+    /* Get registration roles */
+    static async getWorkshop(
+        params: {
+            page: number,
+            take: number,
+            search: string,
+            filters: string,
+            sort: string
+        }
+    ): Promise<Interfaces.BandageResponse> {
+        return (await this.doRequestSimple({
+            url: `/workshop`,
+            method: 'GET',
+            params
+        })).data;
     }
 }
 

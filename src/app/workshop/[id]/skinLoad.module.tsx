@@ -1,10 +1,10 @@
 import { IconCheck, IconX } from "@tabler/icons-react";
-import axios from "axios";
 import { useState } from "react";
 import NextImage from 'next/image';
 import style from "@/app/styles/editor/page.module.css";
 import AsyncImage from "@/app/modules/components/asyncImage.module";
 import Searcher from "@/app/modules/components/nick_search.module";
+import ApiManager from "@/app/modules/utils/apiManager";
 
 const b64Prefix = "data:image/png;base64,";
 
@@ -39,7 +39,8 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
         if (!nickname) {
             return;
         }
-        axios.get(process.env.NEXT_PUBLIC_API_URL + `minecraft/skin/${nickname}?cape=true`, { validateStatus: () => true }).then((response) => {
+
+        ApiManager.getSkin(nickname).then(response => {
             if (response.status !== 200) {
                 switch (response.status) {
                     case 404:

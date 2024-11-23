@@ -6,28 +6,23 @@ import React, { useEffect, useState } from "react";
 import style from '@/app/styles/tutorials/common.module.css';
 import ASide from "./header.module";
 import InfoCard from "@/app/modules/components/info.module";
-import NextImage from "next/image";
 import { CategoryEl } from "@/app/modules/components/card.module";
 import { CustomLink } from "@/app/modules/components/search.module";
 import styles from "@/app/styles/me/me.module.css";
 import { Tooltip } from "@/app/modules/components/tooltip";
-import axios from "axios";
 import { Role } from "@/app/interfaces";
 import style_workshop from "@/app/styles/workshop/page.module.css";
 
 import { IconInfoCircle, IconAlertTriangle, IconBulb } from '@tabler/icons-react';
 import IconSvg from '@/app/resources/icon.svg';
 import Link from "next/link";
+import ApiManager from "../modules/utils/apiManager";
 
 export default function Home() {
     const [roles, setRoles] = useState<Role[]>([]);
 
     useEffect(() => {
-        axios.get(process.env.NEXT_PUBLIC_API_URL + `auth/roles`).then((response) => {
-            if (response.status === 200) {
-                setRoles(response.data);
-            }
-        })
+        ApiManager.getRoles().then(setRoles);
     }, [])
 
     const roles_data = roles.map((role) => {

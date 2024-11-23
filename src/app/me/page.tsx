@@ -12,7 +12,6 @@ import { Cookies, useCookies } from 'next-client-cookies';
 import { Bandage, Role } from '@/app/interfaces';
 import { Me } from '@/app/modules/components/me.module';
 import Link from 'next/link';
-import axios from 'axios';
 import { SimpleGrid } from '@/app/modules/components/adaptiveGrid.module';
 import style_workshop from "@/app/styles/workshop/page.module.css";
 
@@ -116,11 +115,7 @@ const Login = () => {
     })
 
     useEffect(() => {
-        axios.get(process.env.NEXT_PUBLIC_API_URL + `auth/roles`).then((response) => {
-            if (response.status === 200) {
-                setRoles(response.data);
-            }
-        })
+        ApiManager.getRoles().then(setRoles);
     }, [])
 
     return (

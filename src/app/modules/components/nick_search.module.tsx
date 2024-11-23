@@ -1,10 +1,10 @@
 import Select, { GroupBase } from 'react-select';
 import * as Interfaces from "@/app/interfaces";
 import { useState } from 'react';
-import axios from 'axios';
 import Style from "@/app/styles/nick_search.module.css";
+import ApiManager from '../utils/apiManager';
 
-interface SearchResponse {
+export interface SearchResponse {
     status: string;
     requestedFragment: string;
     data: {
@@ -46,9 +46,10 @@ const Searcher = ({ onChange }: SearchProps) => {
 
         if (nickname.length > 2) {
             setLoading(true);
-            axios.get(process.env.NEXT_PUBLIC_API_URL + "minecraft/search/" + nickname).then(response => {
-                if (response.status == 200) {
-                    const response_data = response.data as SearchResponse;
+            ApiManager.searchNicks(nickname)
+                .then(response_data => {
+                    if (!response_data.data) return;
+
                     const data = response_data.data.map(nick => {
                         const first_pos = nick.name.toLowerCase().indexOf(nickname.toLowerCase());
                         const first = nick.name.slice(0, first_pos);
@@ -67,16 +68,16 @@ const Searcher = ({ onChange }: SearchProps) => {
                     })
                     setNicknames([
                         {
-                            value: response.data.requestedFragment,
-                            label: <b>{response.data.requestedFragment}</b>
+                            value: response_data.requestedFragment,
+                            label: <b>{response_data.requestedFragment}</b>
                         },
                         {
                             label: <>Совпадения</>,
                             options: data
                         }
                     ]);
-                }
-            }).finally(() => setLoading(false))
+                })
+                .finally(() => setLoading(false));
         }
     }
 

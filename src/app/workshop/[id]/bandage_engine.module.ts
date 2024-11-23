@@ -1,4 +1,5 @@
 import asyncImage from '@/app/modules/components/asyncImage.module';
+import ApiManager from '@/app/modules/utils/apiManager';
 import axios from 'axios';
 
 interface SkinResponse {
@@ -82,13 +83,10 @@ class Client {
 
 
     async loadSkin(nickname: string): Promise<void> {
-        if (!nickname) {
-            return;
-        }
-        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `minecraft/skin/${nickname}?cape=true`, { validateStatus: () => true });
-        if (response.status !== 200) {
-            return;
-        }
+        if (!nickname) return;
+
+        const response = await ApiManager.getSkin(nickname);
+        if (response.status !== 200) return;
 
         const data = response.data as SkinResponse;
         this.slim = data.data.skin.slim;

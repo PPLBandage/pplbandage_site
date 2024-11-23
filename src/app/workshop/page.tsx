@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import Header from "@/app/modules/components/header.module";
 import Style from "@/app/styles/workshop/page.module.css";
 
-import axios, { AxiosRequestConfig } from "axios";
 import { Paginator } from "@/app/modules/components/paginator.module";
 import { Search } from "@/app/modules/components/search.module";
 import { BandageResponse, Category } from "@/app/interfaces";
@@ -30,11 +29,11 @@ export default function Home() {
     const [take, setTake] = useState<number>(12);
     const [search, setSearch] = useState<string>('');
 
-    const [lastConfig, setLastConfig] = useState<AxiosRequestConfig<any>>(null);
+    const [lastConfig, setLastConfig] = useState(null);
     const [categories, setCategories] = useState<Category[]>([]);
 
     const [filters, setFilters] = useState<Category[]>([]);
-    const [sort, setSort] = useState<String>('popular_up');
+    const [sort, setSort] = useState<string>('popular_up');
     const [alertShown, setAlertShown] = useState<boolean>(false);
 
 
@@ -45,26 +44,22 @@ export default function Home() {
 
     useEffect(() => {
         const filters_str = filters.filter(filter => filter.enabled).map(filter => filter.id).toString();
-        const config: AxiosRequestConfig<any> = {
-            params: {
-                page: constrain(page, 0, Math.ceil(totalCount / take)),
-                take: take,
-                search: search || undefined,
-                filters: filters_str || undefined,
-                sort: sort || undefined
-            }
+        const config = {
+            page: constrain(page, 0, Math.ceil(totalCount / take)),
+            take: take,
+            search: search || undefined,
+            filters: filters_str || undefined,
+            sort: sort || undefined
         }
         if (JSON.stringify(config) === JSON.stringify(lastConfig)) {
             return;
         }
 
-        axios.get(process.env.NEXT_PUBLIC_API_URL + 'workshop', { withCredentials: true, ...config }).then((response) => {
-            if (response.status == 200) {
-                const data = response.data as BandageResponse;
-                setData(data);
-                setTotalCount(data.totalCount);
-            }
+        ApiManager.getWorkshop(config).then(data => {
+            setData(data);
+            setTotalCount(data.totalCount);
         });
+
         setLastConfig(config);
     }, [page, search, take, filters, sort])
 

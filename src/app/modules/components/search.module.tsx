@@ -20,9 +20,10 @@ const options: readonly { value: number, label: String }[] = [
 ];
 
 const options_sortir: readonly { value: string, label: String }[] = [
-    { value: 'popular_up', label: "По популярности" },
-    { value: 'date_up', label: "По дате создания" },
-    { value: 'name_up', label: "По имени" }
+    { value: 'popular_up', label: 'По популярности' },
+    { value: 'relevant_up', label: 'По релевантности' },
+    { value: 'date_up', label: 'По дате создания' },
+    { value: 'name_up', label: 'По имени' }
 ];
 
 interface SearchProps {

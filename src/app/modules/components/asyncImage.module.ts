@@ -4,7 +4,7 @@ const AsyncImage = (src: string): Promise<HTMLImageElement> =>
         img.src = src;
 
         img.onload = () => resolve(img);
-        img.onerror = () => reject(new Error("Failed to load image"));
+        img.onerror = reject;
     });
 
 export const base64Encode = (img: HTMLImageElement) => {
@@ -12,7 +12,7 @@ export const base64Encode = (img: HTMLImageElement) => {
     const ctx = canvas.getContext('2d');
     canvas.height = img.naturalHeight;
     canvas.width = img.naturalWidth;
-    ctx.drawImage(this, 0, 0);
+    ctx.drawImage(img, 0, 0);
     return canvas.toDataURL();
 }
 

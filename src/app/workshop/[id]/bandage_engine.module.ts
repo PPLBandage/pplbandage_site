@@ -1,6 +1,5 @@
-import asyncImage from '@/app/modules/components/asyncImage.module';
+import asyncImage, { base64Encode } from '@/app/modules/components/asyncImage.module';
 import ApiManager from '@/app/modules/utils/apiManager';
-import axios from 'axios';
 
 interface SkinResponse {
     data: {
@@ -104,23 +103,19 @@ class Client {
     }
 
     loadSkinUrl(url: string) {
-        axios.get(url, { responseType: 'blob' }).then((result => {
-            if (result.status === 200) {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    this.setOriginalCanvas(reader.result as string);
+        asyncImage(url)
+            .then(img => {
+                const base64 = base64Encode(img);
+                this.setOriginalCanvas(base64);
 
-                    this.addEventListener("onload", () => {
-                        this.skin = reader.result as string;
-                        this.rerender();
-                        this.removeEventListener("onload");
-                    });
-                }
-                reader.readAsDataURL(result.data);
-            }
-        }))
+                this.addEventListener("onload", () => {
+                    this.skin = base64;
+                    this.rerender();
+                    this.removeEventListener("onload");
+                });
+            })
+            .catch(console.error);
     }
-
 
     triggerEvent(property: string) {
         if (property === 'rerender' || this.listeners[property]) {

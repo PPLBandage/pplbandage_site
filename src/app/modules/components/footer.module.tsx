@@ -11,7 +11,6 @@ const Footer = () => {
                         <Link href="/contacts">Контакты</Link>
 
                         <Link href="/tutorials">Туториалы</Link>
-                        <Link href="https://www.donationalerts.com/r/andcool_systems" target="_blank">Поддержать</Link>
                         <Link href="https://github.com/PPLBandage" target="_blank">GitHub</Link>
                     </div>
                 </div>

@@ -113,10 +113,6 @@
 
 .create {
     color: var(--main-text-color);
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    flex-wrap: nowrap;
     text-decoration: none;
     font-size: 1.2rem;
 

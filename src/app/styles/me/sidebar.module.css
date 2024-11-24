@@ -212,12 +212,6 @@
         min-width: 300px;
     }
 
-    .skins_container {
-        display: flex;
-        flex-direction: column;
-        min-width: 300px;
-    }
-
     .side {
         position: relative;
         top: 0;

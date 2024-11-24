@@ -46,7 +46,7 @@
     align-items: center;
     justify-content: center;
     background-color: var(--main-element-color);
-    padding: .1rem .2rem .1rem .2rem;
+    padding: .1rem .2rem;
     border-radius: 5px;
     border: 1px var(--category-color) solid;
     flex-grow: 0;

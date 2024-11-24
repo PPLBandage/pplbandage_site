@@ -18,13 +18,9 @@ body::-webkit-scrollbar-thumb {
 }
 
 .react-select-container .react-select__control {
-	border-radius: 8px;
-	background-color: #eeeeee;
-	color: #ffffff;
 	cursor: pointer;
-}
-
-.react-select-container .react-select__control {
+	color: #ffffff;
+	border-radius: 8px;
 	background-color: var(--main-card-color);
 	border: 1px solid var(--main-element-color);
 	transition-property: border-color, box-shadow, background-color, color;

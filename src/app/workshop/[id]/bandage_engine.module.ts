@@ -80,7 +80,6 @@ class Client {
         delete this.listeners[property];
     }
 
-
     async loadSkin(nickname: string): Promise<void> {
         if (!nickname) return;
 
@@ -106,13 +105,13 @@ class Client {
         asyncImage(url)
             .then(img => {
                 const base64 = base64Encode(img);
-                this.setOriginalCanvas(base64);
-
                 this.addEventListener("onload", () => {
                     this.skin = base64;
                     this.rerender();
                     this.removeEventListener("onload");
                 });
+
+                this.setOriginalCanvas(base64);
             })
             .catch(console.error);
     }
@@ -149,7 +148,6 @@ class Client {
         });
     }
 
-
     //---------------------bandage_manager-------------------
 
     loadFromImage(img: HTMLImageElement, slim?: boolean) {
@@ -180,17 +178,27 @@ class Client {
 
     changeSkin(skin: string, slim?: boolean, cape?: string) {
         if (slim != undefined) this.slim = slim;
-        this.setOriginalCanvas(skin);
         this.addEventListener("onload", () => {
             this.skin = skin;
             this.cape = cape;
 
             this.rerender();
             this.removeEventListener("onload");
-        })
+        });
+        this.setOriginalCanvas(skin);
     }
 
-    setParams({ body_part, position, clear_pix, first_layer, second_layer, layers, color, colorable, split_types }: Settings) {
+    setParams({
+        body_part,
+        position,
+        clear_pix,
+        first_layer,
+        second_layer,
+        layers,
+        color,
+        colorable,
+        split_types
+    }: Settings) {
         if (body_part != undefined) this.body_part = body_part;
         if (position != undefined) this.position = position;
         if (clear_pix != undefined) this.clear_pix = clear_pix;

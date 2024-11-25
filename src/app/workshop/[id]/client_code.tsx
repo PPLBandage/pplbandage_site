@@ -132,6 +132,12 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
 
     useEffect(() => {
         setNavPath(generatePath(data.external_id, referrer, data.author?.name));
+
+        if (referrer) {
+            const url = new URL(window.location.toString());
+            url.search = '';
+            window.history.replaceState({}, document.title, url);
+        }
         client.current = new Client();
         client.current.addEventListener('skin_changed', (event: { skin: string, cape: string }) => {
             setSkin(event.skin);

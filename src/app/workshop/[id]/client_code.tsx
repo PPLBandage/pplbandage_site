@@ -60,7 +60,11 @@ export const rgbToHex = (r: number, g: number, b: number) => {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-const generatePath = (external_id: string, referrer_str: string | null) => {
+const generatePath = (
+    external_id: string,
+    referrer_str: string | null,
+    author: string | undefined
+) => {
     const names: { [key: string]: { name: string, url: string } } = {
         workshop: { name: 'Мастерская', url: '/workshop' },
         me: { name: 'Личный кабинет', url: '/me' },
@@ -79,8 +83,15 @@ const generatePath = (external_id: string, referrer_str: string | null) => {
     if (!referrer || referrer === window.location.pathname) {
         return default_path;
     }
-    const result = referrer.split('/').slice(1).map(page => names[page]);
-    if (result.some(page => !page)) return default_path;
+
+    let result;
+    if (referrer.startsWith('/users') && !!author) {
+        const username = referrer.split('/').reverse()[0];
+        result = [{ name: author, url: `/users/${username}` }];
+    } else {
+        result = referrer.split('/').slice(1).map(page => names[page]);
+        if (result.some(page => !page)) return default_path;
+    }
 
     return [...result, { name: external_id, url: `/workshop/${external_id}` }];
 }
@@ -120,7 +131,7 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
     }
 
     useEffect(() => {
-        setNavPath(generatePath(data.external_id, referrer));
+        setNavPath(generatePath(data.external_id, referrer, data.author?.name));
         client.current = new Client();
         client.current.addEventListener('skin_changed', (event: { skin: string, cape: string }) => {
             setSkin(event.skin);

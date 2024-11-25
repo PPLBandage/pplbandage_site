@@ -2,10 +2,9 @@ import axios from "axios";
 import Home from "./client_code";
 import * as Interfaces from "@/app/interfaces";
 import { headers } from 'next/headers';
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
 import { numbersTxt } from "@/app/modules/utils/time.module";
-
 
 export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
     const meta = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${params.id}/info`, {
@@ -37,10 +36,11 @@ export const generateMetadata = async ({ params }: { params: { id: string } }): 
     }
 }
 
-const Main = async ({ params }: { params: { id: string } }) => {
+const Main = async ({ params, searchParams }: { params: { id: string }, searchParams: Record<string, string | string[]> }) => {
     const headersList = headers();
     const cookie = headersList.get('Cookie');
     const userAgent = headersList.get('User-Agent');
+    const referrer = searchParams['ref'];
 
     const initial_response = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${params.id}`, {
         validateStatus: () => true,
@@ -59,7 +59,8 @@ const Main = async ({ params }: { params: { id: string } }) => {
     if (initial_response.status !== 200 || !data) {
         notFound();
     }
-    return <Home data={data} />;
+
+    return <Home data={data} referrer={referrer as string} />;
 }
 
 export default Main;

@@ -3,13 +3,13 @@ import Style from "@/app/styles/workshop/page.module.css";
 import style_card from "@/app/styles/workshop/card.module.css";
 import NextImage from 'next/image';
 import { getCookie } from "cookies-next";
-import Link from "next/link";
-import { CSSProperties, useEffect, useState } from "react";
+import Link, { LinkProps } from "next/link";
+import { CSSProperties, ReactNode, useEffect, useState } from "react";
 
 import { IconCircleHalf2, IconStar, IconStarFilled, IconUser } from '@tabler/icons-react';
 import { getIcon } from "../utils/categories.module";
-import { useRouter } from "next/navigation";
-import { Tooltip, UseGlobalTooltip } from "./tooltip";
+import { usePathname, useRouter } from "next/navigation";
+import { UseGlobalTooltip } from "./tooltip";
 import useCookie from "../utils/useCookie.module";
 import ApiManager from "../utils/apiManager";
 
@@ -84,6 +84,30 @@ const backgrounds: { [key: string]: string } = {
     default: 'default'
 }
 
+interface AnimatedLinkProps
+    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">,
+    LinkProps {
+    children: ReactNode;
+    href: string;
+}
+
+export const ReferrerLink: React.FC<AnimatedLinkProps> = ({ children, href, ...props }) => {
+    const pathname = usePathname();
+    const router = useRouter();
+    const handleTransition = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        e.preventDefault();
+        if (pathname.endsWith(href)) return;
+        window.sessionStorage.setItem('referrer', pathname);
+        router.push(href);
+    };
+
+    return (
+        <Link {...props} href={href} onClick={handleTransition}>
+            {children}
+        </Link>
+    );
+};
+
 export const Card = ({ el, base64, className }: { el: Bandage, base64: string, className?: { readonly [key: string]: string; } }) => {
     const [starred, setStarred] = useState<boolean>(el.starred);
     const [last, setLast] = useState<boolean>(el.starred);
@@ -137,7 +161,7 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
                 }
             </div>
             <div style={{ position: 'relative' }}>
-                <Link href={`/workshop/${el.external_id}`}>
+                <ReferrerLink href={`/workshop/${el.external_id}`}>
                     <NextImage
                         src={base64}
                         className={style_card.skin}
@@ -147,12 +171,12 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
                         draggable='false'
                         style={{ '--shadow-color': el.accent_color } as React.CSSProperties}
                     />
-                </Link>
+                </ReferrerLink>
                 <div className={style_card.categories}>{categories}</div>
             </div>
             <div className={style_card.about}>
                 <div>
-                    <Link className={style_card.title} href={`/workshop/${el.external_id}`}>{el.title}</Link>
+                    <ReferrerLink className={style_card.title} href={`/workshop/${el.external_id}`}>{el.title}</ReferrerLink>
                     <p className={style_card.description}>{constrainedText(el.description ?? '', 50)}</p>
                 </div>
 

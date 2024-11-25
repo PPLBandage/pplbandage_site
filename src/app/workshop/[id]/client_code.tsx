@@ -60,8 +60,34 @@ export const rgbToHex = (r: number, g: number, b: number) => {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-export default function Home({ data }: { data: Interfaces.Bandage }) {
+const generatePath = (external_id: string, referrer_str: string | null) => {
+    const names: { [key: string]: { name: string, url: string } } = {
+        workshop: { name: 'Мастерская', url: '/workshop' },
+        me: { name: 'Личный кабинет', url: '/me' },
+        stars: { name: 'Избранное', url: '/me/stars' },
+        notifications: { name: 'Уведомления', url: '/me/notifications' }
+    };
+
+    const default_path = [
+        { name: 'Мастерская', url: '/workshop' },
+        { name: external_id, url: `/workshop/${external_id}` }
+    ];
+
+    const referrer = referrer_str ?? window.sessionStorage.getItem('referrer');
+    window.sessionStorage.removeItem('referrer');
+
+    if (!referrer || referrer === window.location.pathname) {
+        return default_path;
+    }
+    const result = referrer.split('/').slice(1).map(page => names[page]);
+    if (result.some(page => !page)) return default_path;
+
+    return [...result, { name: external_id, url: `/workshop/${external_id}` }];
+}
+
+export default function Home({ data, referrer }: { data: Interfaces.Bandage, referrer: string | null }) {
     const [loaded, setLoaded] = useState<boolean>(false);
+    const [navPath, setNavPath] = useState<{ name: string, url: string }[]>([]);
 
     const [pose, setPose] = useState<number>(1);
     const [skin, setSkin] = useState<string>("");
@@ -94,6 +120,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
     }
 
     useEffect(() => {
+        setNavPath(generatePath(data.external_id, referrer));
         client.current = new Client();
         client.current.addEventListener('skin_changed', (event: { skin: string, cape: string }) => {
             setSkin(event.skin);
@@ -163,10 +190,7 @@ export default function Home({ data }: { data: Interfaces.Bandage }) {
                 className={style.main}
                 style={loaded ? { opacity: '1', transform: 'translateY(0)' } : { opacity: '0', transform: 'translateY(50px)' }}
             >
-                <NavigatorEl path={[
-                    { name: 'Мастерская', url: '/workshop' },
-                    { name: data.external_id, url: `/workshop/${data.external_id}` }
-                ]}
+                <NavigatorEl path={navPath}
                     style={{ marginBottom: "1rem" }} />
                 {
                     data.check_state ?

@@ -12,7 +12,7 @@ interface PaginatorProps {
 }
 
 export const Paginator = ({ total_count, take, onChange, page }: PaginatorProps) => {
-    const [_page, _setPage] = useState<number>(0);
+    const [_page, _setPage] = useState<number>(page);
     const [_pages, _setPages] = useState<JSX.Element[]>([]);
 
     const [_totalCount, _setTotalCount] = useState<number>(total_count);

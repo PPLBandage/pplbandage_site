@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useCookies } from "next-client-cookies";
 import { Inter } from "next/font/google";
 import { CSSProperties } from "react";
+import WorkshopCacheListener from "./utils/workshopCacheListener.module";
 
 const queryClient = new QueryClient();
 const inter = Inter({ subsets: ["latin"] });
@@ -49,6 +50,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
     return (
         <QueryClientProvider client={queryClient}>
             <html lang="ru" className={inter.className} style={theme as CSSProperties}>
+                <WorkshopCacheListener />
                 {children}
             </html>
         </QueryClientProvider>

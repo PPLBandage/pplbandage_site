@@ -12,14 +12,14 @@ import style_workshop from "@/app/styles/workshop/page.module.css";
 import { IconSearch, IconFilter } from '@tabler/icons-react';
 import IconSvg from '@/app/resources/icon.svg';
 
-const options: readonly { value: number, label: String }[] = [
+const options_take: readonly { value: number, label: string }[] = [
     { value: 12, label: "12" },
     { value: 24, label: "24" },
     { value: 36, label: "36" },
     { value: 48, label: "48" },
 ];
 
-const options_sortir: readonly { value: string, label: String }[] = [
+const options_sortir: readonly { value: string, label: string }[] = [
     { value: 'relevant_up', label: 'По релевантности' },
     { value: 'popular_up', label: 'По популярности' },
     { value: 'date_up', label: 'По дате создания' },
@@ -27,23 +27,27 @@ const options_sortir: readonly { value: string, label: String }[] = [
 ];
 
 interface SearchProps {
-    search: string,
     onSearch(search: string): void,
     onChangeTake(take: number): void,
     onChangeSort(sort: string): void,
     onChangeFilters(categories: Category[]): void,
+    sort: string,
+    take: number,
+    search: string,
     categories: Category[]
 }
 
 export const Search = ({
-    search,
     onSearch,
     onChangeTake,
     onChangeFilters,
     onChangeSort,
-    categories
+    categories,
+    sort,
+    take,
+    search
 }: SearchProps) => {
-    const [_search, _setSearch] = useState<string>(search || "");
+    const [_search, _setSearch] = useState<string>(search ?? '');
     const [expanded, setExpanded] = useState<boolean>(false);
     const [_categories, _setCategories] = useState<Category[]>([]);
 
@@ -72,7 +76,6 @@ export const Search = ({
         />
     });
 
-
     return (
         <div className={Styles.parent}>
             <div>
@@ -100,8 +103,8 @@ export const Search = ({
                             options={options_sortir}
                             className={`react-select-container ${Styles.select_sortir}`}
                             classNamePrefix="react-select"
-                            defaultValue={options_sortir[0]}
                             onChange={(n, _) => onChangeSort(n.value)}
+                            value={options_sortir.find(i => i.value === sort)}
                             isSearchable={false}
                         />
                     </div>
@@ -109,12 +112,12 @@ export const Search = ({
                     <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
                         <p className={Styles.take}>Отображать на странице</p>
                         <Select
-                            options={options}
+                            options={options_take}
                             className={`react-select-container ${Styles.select_take}`}
                             classNamePrefix="react-select"
-                            defaultValue={options[0]}
                             isSearchable={false}
                             onChange={(n, _) => onChangeTake(n.value)}
+                            value={options_take.find(i => i.value === take)}
                         />
                     </div>
 

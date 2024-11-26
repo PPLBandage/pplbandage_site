@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { createContext, useContext } from "react";
 import { useEffect, useState } from "react";
 import Header from "@/app/modules/components/header.module";
 import Style from "@/app/styles/workshop/page.module.css";
@@ -18,7 +18,7 @@ import { useCookies } from "next-client-cookies";
 import { renderSkin } from "../modules/utils/skinCardRender.module";
 import { SimpleGrid } from "../modules/components/adaptiveGrid.module";
 import ApiManager from "../modules/utils/apiManager";
-
+import { ConfigContext, ConfigInterface } from "./ConfigContext";
 
 export default function Home() {
     const cookies = useCookies();
@@ -28,21 +28,59 @@ export default function Home() {
     const [page, setPage] = useState<number>(0);
     const [take, setTake] = useState<number>(12);
     const [search, setSearch] = useState<string>('');
+    const [firstLoaded, setFirstLoaded] = useState<boolean>(false);
 
     const [lastConfig, setLastConfig] = useState(null);
     const [categories, setCategories] = useState<Category[]>([]);
 
-    const [filters, setFilters] = useState<Category[]>([]);
+    const [filters, setFilters] = useState<Category[]>([]);  // Temp state for search callback
+    const [scroll, setScroll] = useState<number>(0);
+
     const [sort, setSort] = useState<string>('relevant_up');
     const [alertShown, setAlertShown] = useState<boolean>(false);
 
 
     useEffect(() => {
-        ApiManager.getCategories().then(setCategories);
+        const workshopState = window.sessionStorage.getItem('workshopState');
+        ApiManager.getCategories().then(categories => {
+            if (workshopState) {
+                window.sessionStorage.removeItem('workshopState');
+
+                const data = JSON.parse(workshopState) as ConfigInterface;
+                data.page && setPage(data.page);
+                data.totalCount && setTotalCount(data.totalCount);
+                data.take && setTake(data.take);
+                data.search && setSearch(data.search);
+                data.sort && setSort(data.sort);
+                data.scroll && setScroll(data.scroll);
+
+                let _categories = categories;
+                if (data.filters) {
+                    const initial_filters = data.filters.split(',').map(Number);
+                    _categories = categories.map(i => {
+                        if (initial_filters.includes(i.id)) i.enabled = true;
+                        return i;
+                    });
+                }
+                setFilters(_categories);
+                setCategories(_categories);
+            } else {
+                setCategories(categories);
+                setFilters(categories);
+            }
+
+            setFirstLoaded(true);
+        });
+
+        if (!workshopState) {
+            setFirstLoaded(true);
+        }
     }, [])
 
 
     useEffect(() => {
+        if (!firstLoaded) return;
+
         const filters_str = filters.filter(filter => filter.enabled).map(filter => filter.id).toString();
         const config = {
             page: constrain(page, 0, Math.ceil(totalCount / take)),
@@ -61,7 +99,7 @@ export default function Home() {
         });
 
         setLastConfig(config);
-    }, [page, search, take, filters, sort])
+    }, [page, search, take, filters, sort, firstLoaded])
 
 
     useEffect(() => {
@@ -76,40 +114,53 @@ export default function Home() {
             top: 0,
             behavior: "smooth"
         });
-    }, [page])
+    }, [page]);
+
+    useEffect(() => {
+        if (elements && elements.length > 0 && scroll > 0) {
+            setScroll(0);
+            window.scrollTo({
+                top: scroll,
+                behavior: "smooth"
+            });
+        }
+    }, [elements]);
 
     return (
-        <body>
-            <BrowserNotification
-                expanded={alertShown}
-                onClose={() => {
-                    cookies.set('warningAccepted', 'true');
-                    setAlertShown(false);
-                }}
-            />
-            <Header />
-            <main className={Style.main}>
-                <div className={Style.center}>
-                    <Search
-                        search={search}
-                        onSearch={setSearch}
-                        onChangeTake={setTake}
-                        categories={categories}
-                        onChangeSort={setSort}
-                        onChangeFilters={setFilters}
-                    />
-                    {elements && elements.length > 0 &&
-                        <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
-                    {elements && elements.length > 0 ?
-                        <SimpleGrid>{elements}</SimpleGrid> :
-                        <TheresNothingHere elements={elements} />
-                    }
-                    {elements && elements.length > 0 &&
-                        <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
-                </div>
-                <Footer />
-            </main>
-        </body>
+        <ConfigContext.Provider value={{ lastConfig: { ...lastConfig, totalCount } }}>
+            <body>
+                <BrowserNotification
+                    expanded={alertShown}
+                    onClose={() => {
+                        cookies.set('warningAccepted', 'true');
+                        setAlertShown(false);
+                    }}
+                />
+                <Header />
+                <main className={Style.main}>
+                    <div className={Style.center}>
+                        <Search
+                            sort={sort}
+                            take={take}
+                            search={search}
+                            categories={categories}
+                            onSearch={setSearch}
+                            onChangeTake={setTake}
+                            onChangeSort={setSort}
+                            onChangeFilters={setFilters} />
+                        {elements && elements.length > 0 &&
+                            <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
+                        {elements && elements.length > 0 ?
+                            <SimpleGrid>{elements}</SimpleGrid> :
+                            <TheresNothingHere elements={elements} />
+                        }
+                        {elements && elements.length > 0 &&
+                            <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
+                    </div>
+                    <Footer />
+                </main>
+            </body>
+        </ConfigContext.Provider>
     );
 }
 

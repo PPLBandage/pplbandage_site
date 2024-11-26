@@ -12,6 +12,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { UseGlobalTooltip } from "./tooltip";
 import useCookie from "../utils/useCookie.module";
 import ApiManager from "../utils/apiManager";
+import { useConfigContext } from "@/app/workshop/ConfigContext";
 
 
 export const formatDate = (date: Date) => {
@@ -84,20 +85,26 @@ const backgrounds: { [key: string]: string } = {
     default: 'default'
 }
 
-interface AnimatedLinkProps
+interface ReferrerLinkProps
     extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">,
     LinkProps {
     children: ReactNode;
     href: string;
 }
 
-export const ReferrerLink: React.FC<AnimatedLinkProps> = ({ children, href, ...props }) => {
+export const ReferrerLink: React.FC<ReferrerLinkProps> = ({ children, href, ...props }) => {
     const pathname = usePathname();
     const router = useRouter();
+    const context = useConfigContext();
+
     const handleTransition = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
         if (pathname.endsWith(href)) return;
         window.sessionStorage.setItem('referrer', pathname);
+        if (context && context.lastConfig) {
+            const scroll = window.scrollY || document.documentElement.scrollTop;
+            window.sessionStorage.setItem('workshopState', JSON.stringify({ ...context.lastConfig, scroll }));
+        }
         router.push(href);
     };
 

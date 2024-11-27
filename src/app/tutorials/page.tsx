@@ -72,8 +72,8 @@ export default function Home() {
                         </InfoCard>
 
                         <h2>Интеграции</h2>
-                        <p>Сайт позволяет искать скины через встроенную базу Minecraft ников, которые постоянно пополняются автоматически при поиске нового никнейма. Вы можете привязать свой Minecraft аккаунт к учётной записи PPLBandage через сервис <CustomLink href="https://github.com/Andcool-Systems/MC-OAuth_server">mc-oauth</CustomLink>.
-                            Для привязки вам нужно зайти на Minecraft сервер <u>oauth.pplbandage.ru</u> для версии начиная с 1.8 и получить там 6-значный код, который нужно будет ввести на странице <CustomLink href='/me/settings'>/me/settings</CustomLink>.</p>
+                        <p>Сайт позволяет искать скины через встроенную базу Minecraft ников, которые постоянно пополняются автоматически при поиске нового никнейма. Вы можете привязать свой Minecraft аккаунт к учётной записи PPLBandage через сервис <CustomLink href="https://mc-oauth.andcool.ru">mc-oauth</CustomLink>.
+                            Для привязки вам нужно зайти на Minecraft сервер <u>oauth.pplbandage.ru</u> для версии начиная с 1.8 и получить там 6-значный код, который нужно будет ввести на странице <CustomLink href='/me/settings'>настроек</CustomLink>.</p>
                         <InfoCard color="#3FB950" title={
                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
                                 <IconBulb width={24} height={24} />

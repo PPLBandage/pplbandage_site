@@ -14,7 +14,7 @@ export const generateSkin = async (
     b64: string,
     base_skin: HTMLImageElement,
     colorable: boolean
-): Promise<string> => {
+): Promise<HTMLCanvasElement> => {
     const bandage = await asyncImage(b64Prefix + b64);
 
     const height = Math.floor(bandage.height / 2);
@@ -30,19 +30,19 @@ export const generateSkin = async (
     skin_context.drawImage(bandage_new, 0, 0, 16, height, 48, 52 + position, 16, height);
     skin_context.drawImage(bandage_new, 0, height, 16, height, 32, 52 + position, 16, height);
 
-    return skin_canvas.toDataURL();
+    return skin_canvas;
 };
 
 
 export const render = (
     skinViewer: SkinViewer,
     data: Bandage[],
-    styles: { readonly [key: string]: string; },
+    styles: { [key: string]: string; },
     base_skin: HTMLImageElement
 ): Promise<JSX.Element[]> => {
     return Promise.all(data.map(async el => {
         const result = await generateSkin(el.base64, base_skin, el.categories.some(val => val.colorable));
-        await skinViewer.loadSkin(result, { model: 'default' });
+        skinViewer.loadSkin(result, { model: 'default' });
         skinViewer.render();
         return (
             <Card
@@ -58,7 +58,7 @@ export const render = (
 
 export const renderSkin = async (
     data: Bandage[],
-    styles: { readonly [key: string]: string; }
+    styles: { [key: string]: string; }
 ): Promise<JSX.Element[]> => {
     const skinViewer = new SkinViewer({
         width: 300,
@@ -74,8 +74,7 @@ export const renderSkin = async (
     try {
         await skinViewer.loadBackground('/static/background.png');
         const base_skin = await asyncImage('/static/workshop_base.png');
-        const result = await render(skinViewer, data, styles, base_skin);
-        return result;
+        return await render(skinViewer, data, styles, base_skin);
     } finally {
         skinViewer.dispose();
     }

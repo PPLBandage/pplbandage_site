@@ -8,6 +8,7 @@
 <h2 style="color: #ED4245">Known Issues</h2>
 
 - In `FireFox <=130.0` browsers, coloring of bandages does not work correctly.
+  - Partial fix: Added a message about possible incorrect coloring of bandages 
 
 ## Contributors
 - [@Andcool-Systems](https://github.com/Andcool-Systems)

@@ -215,13 +215,13 @@
     }
 }
 
-@media (min-width: 1020px) {
+@media (min-width: 1001px) {
     .create {
         width: calc(600px + 1rem);
     }
 }
 
-@media (min-width: 1335px) {
+@media (min-width: 1313px) {
     .create {
         width: calc(900px + 2rem);
     }

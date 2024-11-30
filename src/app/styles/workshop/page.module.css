@@ -137,5 +137,6 @@
 @media (max-width: 730px) {
     .grid {
         grid-template-columns: auto;
+        justify-content: unset;
     }
 }

@@ -217,13 +217,13 @@
 
 @media (min-width: 1001px) {
     .create {
-        width: calc(600px + 1rem);
+        width: calc(600px + .75rem);
     }
 }
 
 @media (min-width: 1313px) {
     .create {
-        width: calc(900px + 2rem);
+        width: calc(900px + 1.5rem);
     }
 }
 

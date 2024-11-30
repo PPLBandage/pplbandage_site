@@ -11,6 +11,8 @@
     background-color: var(--main-card-color) !important;
     background-size: 50% !important;
     background-repeat: repeat !important;
+
+    box-sizing: border-box;
 }
 
 .skin {

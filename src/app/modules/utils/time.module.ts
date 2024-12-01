@@ -4,7 +4,7 @@ export const numbersTxt = (num: number, variations: [string, string, string]): s
     const first = Math.floor(num / 10) % 10;
 
     let text: string;
-    if (past === 1 && num !== 11) {
+    if (past === 1 && !num.toString().endsWith('11')) {
         text = variations[0];  // голос
     } else if (past >= 2 && past <= 4 && first !== 1) {
         text = variations[1];  // голоса

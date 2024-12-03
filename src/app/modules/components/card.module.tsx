@@ -12,7 +12,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { UseGlobalTooltip } from "./tooltip";
 import useCookie from "../utils/useCookie.module";
 import ApiManager from "../utils/apiManager";
-import { useConfigContext } from "@/app/workshop/ConfigContext";
+import { useConfigContext } from "@/app/modules/utils/ConfigContext";
 
 
 export const formatDate = (date: Date) => {

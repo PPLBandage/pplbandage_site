@@ -18,7 +18,8 @@ import { useCookies } from "next-client-cookies";
 import { renderSkin } from "../modules/utils/skinCardRender.module";
 import { SimpleGrid } from "../modules/components/adaptiveGrid.module";
 import ApiManager from "../modules/utils/apiManager";
-import { ConfigContext, ConfigInterface } from "./ConfigContext";
+import { ConfigContext, ConfigInterface } from "../modules/utils/ConfigContext";
+
 
 export default function Home() {
     const cookies = useCookies();

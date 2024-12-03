@@ -15,7 +15,6 @@ import debounce from 'lodash.debounce';
 import InfoCard from '@/app/modules/components/info.module';
 import useCookie from '@/app/modules/utils/useCookie.module';
 import { redirect } from 'next/navigation';
-import { Cookies, useCookies } from 'next-client-cookies';
 import { Fira_Code } from "next/font/google";
 import { CustomLink } from '@/app/modules/components/search.module';
 import asyncImage from '@/app/modules/components/asyncImage.module';
@@ -23,9 +22,7 @@ import SlideButton from '@/app/modules/components/slideButton.module';
 import ApiManager from '@/app/modules/utils/apiManager';
 const fira = Fira_Code({ subsets: ["latin"] });
 
-function capitalize(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
+const capitalize = (string: string) => string.charAt(0).toUpperCase() + string.slice(1);
 
 const lstrip = (string: string) => string.replace(/^\s+/, '');
 
@@ -35,9 +32,8 @@ export default function Home() {
     const [pose, setPose] = useState<number>(1);
     const [height, setHeight] = useState<number>(-1);
     const logged = useCookie('sessionId');
-    const cookies = useRef<Cookies>(useCookies());
 
-    if (!cookies.current.get('sessionId')) {
+    if (!logged) {
         redirect('/me');
     }
 

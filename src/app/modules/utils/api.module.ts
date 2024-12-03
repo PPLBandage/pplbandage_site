@@ -51,6 +51,14 @@ authApi.interceptors.request.use(async config => {
         const error = new Error('No cookie');
         return Promise.reject(error);
     }
+
+    let valid = false;
+    try {
+        valid = checkAccess(sessionId);
+    } catch {
+        deleteCookie('sessionId');
+    }
+
     if (checkAccess(sessionId)) {
         await tokenMutex.acquire();
     }

@@ -14,7 +14,8 @@ import {
     IconRosetteDiscountCheck,
     IconLeaf2,
     IconUserCheck,
-    IconUserEdit
+    IconUserEdit,
+    IconQuestionMark
 } from '@tabler/icons-react';
 
 const Icons: { [key: string]: JSX.Element } = {
@@ -36,4 +37,4 @@ const Icons: { [key: string]: JSX.Element } = {
     'IconUserEdit': <IconUserEdit width={15} height={15} />
 }
 
-export const getIcon = (icon: string) => Icons[icon] ?? <IconSeeding width={15} height={15} />;
+export const getIcon = (icon: string) => Icons[icon] ?? <IconQuestionMark width={15} height={15} />;

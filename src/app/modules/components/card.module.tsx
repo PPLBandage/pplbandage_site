@@ -167,8 +167,15 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
                     />
                 }
             </div>
-            <div style={{ position: 'relative' }}>
-                <ReferrerLink href={`/workshop/${el.external_id}`}>
+            <div
+                style={{ position: 'relative', '--shadow-color': el.accent_color } as React.CSSProperties}
+                className={style_card.gradient_background}
+            >
+                <ReferrerLink
+                    href={`/workshop/${el.external_id}`}
+                    style={{ display: 'flex' }}
+                >
+
                     <NextImage
                         src={base64}
                         className={style_card.skin}
@@ -176,7 +183,6 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
                         width={300}
                         height={300}
                         draggable='false'
-                        style={{ '--shadow-color': el.accent_color } as React.CSSProperties}
                     />
                 </ReferrerLink>
                 <div className={style_card.categories}>{categories}</div>

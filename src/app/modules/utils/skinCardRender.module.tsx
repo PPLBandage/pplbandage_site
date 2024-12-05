@@ -72,7 +72,7 @@ export const renderSkin = async (
     skinViewer.camera.position.y = 6.5;
     skinViewer.camera.position.z = 11;
     try {
-        await skinViewer.loadBackground('/static/background.png');
+        //await skinViewer.loadBackground('/static/background.png');
         const base_skin = await asyncImage('/static/workshop_base.png');
         return await render(skinViewer, data, styles, base_skin);
     } finally {

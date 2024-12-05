@@ -19,15 +19,23 @@
     border-radius: 10px;
     width: 100%;
     height: auto;
-    box-shadow: var(--main-shadow-color) 0 0px 5px 0px;
-    border: 1px solid var(--main-element-color);
     box-sizing: border-box;
-    transition: box-shadow 200ms;
 }
 
 
-.skin:hover {
-    box-shadow: var(--shadow-color) 0 0px 6px 0px;
+.gradient_background {
+    border: 1px solid var(--main-element-color);
+    box-shadow: var(--main-shadow-color) 0 0px 5px 0px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--shadow-color) 100%);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    transition: background-size 200ms ease-in-out;
+}
+
+.gradient_background:hover {
+    background-size: 100% 130%;
 }
 
 .about {
@@ -64,13 +72,11 @@
     display: flex;
     flex-wrap: wrap-reverse;
     gap: 5px;
-    margin-top: .5rem;
 
     position: absolute;
     bottom: 0;
 
     padding: .5rem;
-    padding-bottom: .7rem;
 }
 
 .username {

@@ -31,7 +31,7 @@ const HomeClient = ({ pong }: { pong: number }) => {
     return (
         <body style={{ overflow: "hidden", overflowY: "scroll" }}>
             <Header />
-            <div className={Style.test}>
+            <div className={Style.main_container}>
                 <svg width="958" height="318" className={Style.svg}>
                     <path className={Style.path} d="M 477 159 C -159 -391 -159 709 477 159 C 1113 -391 1113 709 477 159" strokeWidth="3" strokeDasharray="10,10" stroke="rgba(45, 212, 191, .5)" fill="none" />
                 </svg>
@@ -54,7 +54,7 @@ const HomeClient = ({ pong }: { pong: number }) => {
                 </div>
             </div>
             <footer className={Style.footer}>
-                {/*<p>Сайт pplbandage.ru не является официальной частью сети серверов PepeLand.</p>*/}
+                <p>Сайт pplbandage.ru не является официальной частью сети серверов <Link href='https://pepeland.net' style={{ color: 'gray' }} target="_blank">PepeLand</Link>.</p>
                 <div className={Style.collaborate}>
                     <Link
                         href='https://t.me/shapestd'

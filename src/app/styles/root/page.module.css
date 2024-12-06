@@ -1,6 +1,6 @@
-.test {
-    width: 100vw;
-    height: 100vh;
+.main_container {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -93,8 +93,6 @@
 
 
 .svg {
-    display: flex;
-    position: relative;
     overflow: visible;
 }
 
@@ -174,6 +172,8 @@
     align-items: flex-end;
     justify-content: space-between;
     box-sizing: border-box;
+
+    width: calc(100% - 2rem);
 }
 
 .footer p {

@@ -472,7 +472,7 @@ const EditElement = ({
     const archiveBandage = () => {
         if (!confirm('Заархивировать повязку? После архивации её будет невозможно изменить!')) return;
         ApiManager.archiveBandage(bandage.external_id)
-            .then(() => window.location.reload())
+            .then(window.location.reload)
             .catch(err => alert(err.data.message));
     }
 

@@ -63,7 +63,7 @@ const HomeClient = ({ pong }: { pong: number }) => {
                         className={Style.shape}
                     >
                         <div className={Style.shape_box}>
-                            <p className={Style.shape_name}>Shape std</p>
+                            <p className={Style.shape_name} style={{ whiteSpace: 'nowrap' }}>Shape std</p>
                         </div>
                         <NextImage src='/static/icons/shape.svg' alt='' width={24} height={24} />
                     </Link>

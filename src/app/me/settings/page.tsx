@@ -32,6 +32,7 @@ import style_workshop from "@/app/styles/workshop/page.module.css";
 import SlideButton from '@/app/modules/components/slideButton.module';
 import ApiManager from '@/app/modules/utils/apiManager';
 import { Session } from '@/app/interfaces';
+import { setTheme } from './setTheme';
 const fira = Fira_Code({ subsets: ["latin"] });
 
 export interface SettingsResponse {
@@ -269,12 +270,8 @@ const Themes = () => {
     const cookies = useCookies();
 
     const change_theme = (name: string) => {
-        const theme: { [key: string]: string } = getTheme(name);
-        cookies.set('theme_main', name, { expires: 365 * 10 });
         setThemeState(name);
-        for (let prop in theme) {
-            document.documentElement.style.setProperty(prop, theme[prop]);
-        }
+        setTheme(name, cookies);
     }
 
     return (

@@ -1,143 +1,139 @@
 name: Build and Deploy to Server
 
 on:
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - "README.md"
+    push:
+        branches:
+            - master
+        paths-ignore:
+            - 'README.md'
 
 jobs:
-  build-env:
-    runs-on: ubuntu-latest
+    build-env:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.12"
+            - name: Set up Python
+              uses: actions/setup-python@v4
+              with:
+                  python-version: '3.12'
 
-      - name: Construct .env
-        run: python production_build/construct_env.py
-        env:
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-          NEXT_PUBLIC_GLOBAL_API_URL: ${{ secrets.NEXT_PUBLIC_GLOBAL_API_URL }}
-          TOKEN: ${{ secrets.TOKEN }}
-          COMMIT_SHA: ${{ github.sha }}
+            - name: Construct .env
+              run: python production_build/construct_env.py
+              env:
+                  NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+                  NEXT_PUBLIC_GLOBAL_API_URL: ${{ secrets.NEXT_PUBLIC_GLOBAL_API_URL }}
+                  TOKEN: ${{ secrets.TOKEN }}
+                  COMMIT_SHA: ${{ github.sha }}
 
-      - name: Set up OpenSSL
-        run: sudo apt-get install -y openssl
+            - name: Set up OpenSSL
+              run: sudo apt-get install -y openssl
 
-      - name: Encrypt env file
-        run: |
-          openssl aes-256-cbc -salt -in ./production_build/env -out env.enc -k ${{ secrets.ENCRYPTION_KEY }}
+            - name: Encrypt env file
+              run: |
+                  openssl aes-256-cbc -salt -in ./production_build/env -out env.enc -k ${{ secrets.ENCRYPTION_KEY }}
 
-      - name: Upload env file
-        uses: actions/upload-artifact@v4
-        with:
-          name: encrypted-env
-          path: env.enc
+            - name: Upload env file
+              uses: actions/upload-artifact@v4
+              with:
+                  name: encrypted-env
+                  path: env.enc
 
-  check:
-    runs-on: ubuntu-latest
-    needs: build-env
+    check:
+        runs-on: ubuntu-latest
+        needs: build-env
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
 
-      - name: Cache Node.js modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.npm
-            .next/cache
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+            - name: Cache Node.js modules
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      ~/.npm
+                      .next/cache
+                  key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '20'
 
-      - name: Download env file
-        uses: actions/download-artifact@v4
-        with:
-          name: encrypted-env
-          path: .
+            - name: Download env file
+              uses: actions/download-artifact@v4
+              with:
+                  name: encrypted-env
+                  path: .
 
-      - name: Decrypt env file
-        run: |
-          openssl aes-256-cbc -d -in env.enc -out .env -k ${{ secrets.ENCRYPTION_KEY }}
+            - name: Decrypt env file
+              run: |
+                  openssl aes-256-cbc -d -in env.enc -out .env -k ${{ secrets.ENCRYPTION_KEY }}
 
-      - name: Install dependencies
-        run: npm install
+            - name: Install dependencies
+              run: npm install
 
-      - name: Run build
-        run: npm run build
-  eslint:
-    runs-on: ubuntu-latest
-    needs: build-env
+            - name: Run build
+              run: npm run build
+    eslint:
+        runs-on: ubuntu-latest
+        needs: build-env
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
 
-      - name: Cache Node.js modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.npm
-            .next/cache
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+            - name: Cache Node.js modules
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      ~/.npm
+                      .next/cache
+                  key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '20'
 
-      - name: Install dependencies
-        run: npm i
+            - name: Install dependencies
+              run: npm i
 
-      - name: Eslint check
-        run: npm run lint
+            - name: Eslint check
+              run: npm run lint
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [check, eslint]
+    deploy:
+        runs-on: ubuntu-latest
+        needs: [check, eslint]
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
 
-      - name: Install SSH and SCP
-        run: sudo apt-get update && sudo apt-get install -y openssh-client sshpass
+            - name: Install SSH and SCP
+              run: sudo apt-get update && sudo apt-get install -y openssh-client sshpass
 
-      - name: Download env file
-        uses: actions/download-artifact@v4
-        with:
-          name: encrypted-env
-          path: .
+            - name: Download env file
+              uses: actions/download-artifact@v4
+              with:
+                  name: encrypted-env
+                  path: .
 
-      - name: Upload sources
-        env:
-          SSHPASS: ${{ secrets.ROOT_SSH_PASSWORD }}
-        run: |
-          sshpass -e scp -o StrictHostKeyChecking=no -r ./* root@${{ secrets.SERVER_IP }}:/home/andcoolsystems/pplbandage_site
-
-      - name: Extract build artifacts on server
-        env:
-          SSHPASS: ${{ secrets.ROOT_SSH_PASSWORD }}
-        run: |
-          sshpass -e ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << 'EOF'
-            cd /home/andcoolsystems/pplbandage_site
-            openssl aes-256-cbc -d -in env.enc -out .env -k ${{ secrets.ENCRYPTION_KEY }}
-            docker compose build
-            docker compose up -d
-          EOF
+            - name: Deploy
+              env:
+                  SSHPASS: ${{ secrets.ROOT_SSH_PASSWORD }}
+              run: |
+                  sshpass -e ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << 'EOF'
+                    cd /home/andcoolsystems/pplbandage_site
+                    git fetch
+                    git stash
+                    git merge '@{u}'
+                    docker compose build
+                    docker compose up -d
+                  EOF

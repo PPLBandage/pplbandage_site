@@ -1,8 +1,8 @@
 import { Bandage } from "@/app/interfaces";
-import { Card } from "../components/card.module";
+import { Card } from "../components/Card";
 import { SkinViewer } from "skinview3d";
-import asyncImage from "@/app/modules/components/asyncImage.module";
-import { b64Prefix, fillPepe } from "@/app/workshop/[id]/bandage_engine.module";
+import asyncImage from "@/app/modules/utils/asyncImage";
+import { b64Prefix, fillPepe } from "@/app/workshop/[id]/bandage_engine";
 
 
 const randint = (min: number, max: number): number => {

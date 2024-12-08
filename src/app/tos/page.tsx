@@ -1,7 +1,7 @@
-import Footer from "@/app/modules/components/footer.module";
-import Header from "@/app/modules/components/header.module";
+import Footer from "@/app/modules/components/Footer";
+import Header from "@/app/modules/components/Header";
 import style from '@/app/styles/tutorials/common.module.css';
-import { CustomLink } from "../modules/components/search.module";
+import { CustomLink } from "../modules/components/Search";
 
 const Main = () => {
     return (

@@ -2,24 +2,24 @@
 
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
-import { authApi } from "@/app/modules/utils/api.module";
+import { authApi } from "@/app/modules/utils/api";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "@/app/styles/me/me.module.css";
-import { Tooltip } from '@/app/modules/components/tooltip';
-import Header from "@/app/modules/components/header.module";
-import useCookie from '@/app/modules/utils/useCookie.module';
+import { Tooltip } from '@/app/modules/components/Tooltip';
+import Header from "@/app/modules/components/Header";
+import useCookie from '@/app/modules/utils/useCookie';
 import { Cookies, useCookies } from 'next-client-cookies';
 import { Bandage, Role } from '@/app/interfaces';
-import { Me } from '@/app/modules/components/me.module';
+import { Me } from '@/app/modules/components/MeSidebar';
 import Link from 'next/link';
-import { SimpleGrid } from '@/app/modules/components/adaptiveGrid.module';
+import { SimpleGrid } from '@/app/modules/components/AdaptiveGrid';
 import style_workshop from "@/app/styles/workshop/page.module.css";
 
 import { IconArrowBack, IconPlus } from '@tabler/icons-react';
 import IconSvgCropped from '@/app/resources/icon-cropped.svg';
 import IconSvg from '@/app/resources/icon.svg';
-import { httpStatusCodes } from '../modules/utils/statusCodes.module';
-import { renderSkin } from '../modules/utils/skinCardRender.module';
+import { httpStatusCodes } from '../modules/utils/StatusCodes';
+import { renderSkin } from '../modules/utils/SkinCardRender';
 import ApiManager from '../modules/utils/apiManager';
 
 const Main = () => {

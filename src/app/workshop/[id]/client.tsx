@@ -5,28 +5,27 @@ import { useEffect, useState, useRef } from 'react';
 
 import style from "@/app/styles/editor/page.module.css";
 import * as Interfaces from "@/app/interfaces";
-import { useRouter } from "next/navigation";
 
-import Client, { b64Prefix } from "./bandage_engine.module";
-import SkinView3D from "@/app/modules/components/skinView.module";
+import Client, { b64Prefix } from "./bandage_engine";
+import SkinView3D from "@/app/modules/components/SkinView";
 
-import Header from "@/app/modules/components/header.module";
-import { CategoryEl } from '@/app/modules/components/card.module';
+import Header from "@/app/modules/components/Header";
 import Select from 'react-select';
 import debounce from 'lodash.debounce';
-import NavigatorEl from '@/app/modules/components/navigator.module';
-import CategorySelector from '@/app/modules/components/category_selector.module';
-import Footer from '@/app/modules/components/footer.module';
+import NavigatorEl from '@/app/modules/components/Navigator';
+import Footer from '@/app/modules/components/Footer';
 import { anims } from '@/app/workshop/poses';
-import asyncImage from '@/app/modules/components/asyncImage.module';
-import Link from 'next/link';
+import asyncImage from '@/app/modules/utils/asyncImage';
 import { CSSTransition } from 'react-transition-group';
 
-import { IconDownload, IconPlus, IconChevronDown, IconUser, IconEdit, IconArchive, IconX } from '@tabler/icons-react';
-import Slider from '@/app/modules/components/slider.module';
-import SlideButton from '@/app/modules/components/slideButton.module';
-import SkinLoad from './skinLoad.module';
-import ApiManager from '@/app/modules/utils/apiManager';
+import { IconDownload, IconPlus } from '@tabler/icons-react';
+import Slider from '@/app/modules/components/Slider';
+import SlideButton from '@/app/modules/components/SlideButton';
+import SkinLoad from './skinLoad';
+import EditElement from './components/edit';
+import Info from './components/info';
+import RawBandageDownload from './components/rawBandageDownload';
+import { StarElement } from '@/app/modules/components/Card';
 
 
 const body_part: readonly { value: number, label: String }[] = [
@@ -113,7 +112,7 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
 
 
     const debouncedHandleColorChange = useCallback(
-        // из за частого вызова oninput на слабых клиентах сильно лагает,
+        // из-за частого вызова oninput на слабых клиентах сильно лагает,
         // поэтому сделан дебаунс на 5мс
         debounce(event => {
             client.current.setParams({ color: event.target.value });
@@ -224,7 +223,16 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                         : null
                 }
                 <div className={style.main_container}>
-                    <div className={style.skin_parent}>
+                    <div className={style.skin_parent} style={{ position: 'relative' }}>
+                        <div style={{
+                            position: 'absolute',
+                            boxSizing: 'border-box',
+                            width: '100%',
+                            zIndex: 5,
+                            padding: '.3rem'
+                        }}>
+                            <StarElement el={data} />
+                        </div>
                         <SkinView3D SKIN={skin}
                             CAPE={cape}
                             slim={slim}
@@ -334,221 +342,4 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
             </main>
         </body>
     );
-}
-
-
-const RawBandageDownload = ({ client, bandage }: { client: React.MutableRefObject<Client>, bandage: string }) => {
-    const [expanded, setExpanded] = useState<boolean>(false);
-
-    return (
-        <div style={{ position: 'relative' }}>
-            <button className={style.skin_load}
-                onClick={() => setExpanded(prev => !prev)}
-                style={{ width: '100%' }}
-            >
-                Скачать повязку
-                <IconChevronDown
-                    width={24}
-                    height={24}
-                    style={{
-                        transform: `rotate(${expanded ? '180deg' : '0deg'})`,
-                        transition: 'transform 250ms',
-                        marginLeft: '.2rem'
-                    }}
-                />
-            </button>
-            <CSSTransition
-                in={expanded}
-                timeout={150}
-                classNames={{
-                    enter: style['menu-enter-bandage'],
-                    enterActive: style['menu-enter-bandage-active'],
-                    exit: style['menu-exit-bandage'],
-                    exitActive: style['menu-exit-bandage-active'],
-                }}
-                unmountOnExit>
-                <div className={style.bandage_raw_menu}>
-                    <button className={style.skin_load} style={{ width: '100%' }} onClick={() => client.current?.download(b64Prefix + bandage, 'bandage.png')}>
-                        Исходный файл
-                    </button>
-                    <button className={style.skin_load} style={{ width: '100%' }} onClick={() => client.current?.rerender(false, true)}>
-                        Обработанная
-                    </button>
-                </div>
-            </CSSTransition>
-        </div>
-    );
-}
-
-const Info = ({ el, onClick }: { el: Interfaces.Bandage, onClick(): void }) => {
-    const categories = el.categories.map((category) => <CategoryEl key={category.id} category={category} />);
-
-    return <div className={style.info_container}>
-        <h2
-            className={`${style.title} ${el.permissions_level >= 1 && style.title_editable}`}
-            onClick={() => { if (el.permissions_level >= 1) onClick() }}>
-            {el.title}
-            <IconEdit className={style.edit_icon} width={24} height={24} /></h2>
-        {el.description && <p className={style.description}>{el.description}</p>}
-        {categories.length > 0 &&
-            <div className={style.categories}>
-                {categories}
-            </div>
-        }
-        {el.author ?
-            el.author.public ?
-                <Link className={style.author} href={`/users/${el.author.username}`}><IconUser width={24} height={24} />{el.author.name}</Link> :
-                <a className={`${style.author} ${style.username_private}`}><IconUser width={24} height={24} />{el.author.name}</a> :
-            <a className={`${style.author} ${style.username_private}`}><IconUser width={24} height={24} />Unknown</a>
-        }
-    </div>
-}
-
-
-const access_level: readonly { value: number, label: String }[] = [
-    { value: 0, label: "Ограниченный доступ" },
-    { value: 1, label: "Доступ только по ссылке" },
-    { value: 2, label: "Открытый доступ" }
-];
-
-
-const lstrip = (string: string) => string.replace(/^\s+/, '');
-
-const EditElement = ({
-    bandage,
-    onDone,
-    onClose
-}: {
-    bandage: Interfaces.Bandage,
-    onDone(): void,
-    onClose(): void
-}) => {
-    const router = useRouter();
-    const [title, setTitle] = useState<string>(bandage.title);
-    const [description, setDescription] = useState<string>(bandage.description);
-    const [allCategories, setAllCategories] = useState<Interfaces.Category[]>([]);
-    const [categories, setCategories] = useState<number[]>(undefined);
-    const [accessLevel, setAccessLevel] = useState<number>(undefined);
-
-    useEffect(() => {
-        ApiManager.getCategories(true).then(setAllCategories);
-    }, []);
-
-    function capitalize(string: string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    const save = () => {
-        ApiManager.updateBandage(
-            bandage.external_id,
-            {
-                title: title,
-                description: description || null,
-                categories: categories,
-                access_level: accessLevel
-            }
-        )
-            .then(onDone)
-            .catch(response => {
-                if (typeof response.data.message === 'object') {
-                    alert(response.data.message.map((str: string) => capitalize(str)).join('\n') ||
-                        `Unhandled error: ${response.status}`);
-                } else {
-                    alert(response.data.message_ru || response.data.message);
-                }
-            });
-    }
-
-    const deleteBandage = () => {
-        const first = confirm(`Вы собираетесь удалить повязку ${bandage.title}! Это действе необратимо! Подтверждаете?`);
-        if (!first) return;
-        const second = confirm('Последний шанс! Удалить?');
-        if (!second) return;
-        ApiManager.deleteBandage(bandage.external_id)
-            .then(() => router.replace('/workshop'))
-            .catch(err => alert(err.data.message_ru || err.data.message));
-    }
-
-    const archiveBandage = () => {
-        if (!confirm('Заархивировать повязку? После архивации её будет невозможно изменить!')) return;
-        ApiManager.archiveBandage(bandage.external_id)
-            .then(window.location.reload)
-            .catch(err => alert(err.data.message));
-    }
-
-    return <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>
-        {bandage.permissions_level >= 2 ? <>
-            <textarea
-                maxLength={50}
-                placeholder="Заголовок"
-                className={style.textarea}
-                onInput={(ev) => setTitle(lstrip((ev.target as HTMLTextAreaElement).value))}
-                value={title} />
-            <textarea
-                maxLength={300}
-                placeholder="Описание"
-                className={style.textarea}
-                onInput={(ev) => setDescription(lstrip((ev.target as HTMLTextAreaElement).value))}
-                value={description} />
-        </> :
-            <>
-                <h2 className={style.title}>{bandage.title}</h2>
-                {bandage.description && <p className={style.description} style={{ margin: 0 }}>{bandage.description}</p>}
-            </>}
-        <CategorySelector enabledCategories={bandage.categories}
-            allCategories={allCategories}
-            onChange={setCategories} />
-        <Select
-            options={access_level}
-            defaultValue={access_level[bandage.access_level]}
-            className={`react-select-container`}
-            classNamePrefix="react-select"
-            isSearchable={false}
-            onChange={(n, _) => setAccessLevel(n.value)}
-        />
-        <div className={style.check_notification} style={{
-            borderColor: "red",
-            backgroundColor: "rgba(255, 0, 0, .13)",
-            margin: 0
-        }}>
-            <h3>Опасная зона</h3>
-            <p>Все действия в данной зоне имеют необратимый характер, делайте их с умом!</p>
-
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'row',
-                gap: '.4rem',
-                marginTop: '1rem',
-                marginBottom: '.4rem'
-            }}>
-                <div className={style.deleteButton} onClick={deleteBandage}>
-                    <img className={style.binUp} alt="" src="/static/icons/bin_up.png"></img>
-                    <img className={style.binDown} alt="" src="/static/icons/bin_down.png"></img>
-                </div>
-                <p style={{ margin: 0 }}>Удалить повязку</p>
-            </div>
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '.4rem'
-            }}>
-                <button className={style.archiveButton} onClick={archiveBandage}><IconArchive /></button>
-                <p style={{ margin: 0 }}>Архивировать</p>
-            </div>
-        </div>
-        <div style={{ display: 'flex', gap: '.5rem' }}>
-            <button
-                className={style.skin_load}
-                onClick={onClose}
-                style={{ padding: ".4rem", aspectRatio: 1 }}
-            >
-                <IconX />
-            </button>
-            <button
-                className={style.skin_load}
-                onClick={save}
-                style={{ padding: ".4rem", width: '100%' }}>Сохранить</button>
-        </div>
-    </div>
 }

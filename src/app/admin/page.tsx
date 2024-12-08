@@ -1,15 +1,15 @@
 "use client";
 
 import { Cookies, useCookies } from "next-client-cookies";
-import useCookie from "@/app/modules/utils/useCookie.module";
+import useCookie from "@/app/modules/utils/useCookie";
 import { useEffect, useRef, useState } from "react";
 import style_root from '@/app/styles/admin/page.module.css';
 import { redirect, useRouter } from "next/navigation";
-import Header from "@/app/modules/components/header.module";
-import AdaptiveGrid from "../modules/components/adaptiveGrid.module";
+import Header from "@/app/modules/components/Header";
+import AdaptiveGrid from "../modules/components/AdaptiveGrid";
 import { Fira_Code } from "next/font/google";
 import Link from "next/link";
-import SlideButton from "../modules/components/slideButton.module";
+import SlideButton from "../modules/components/SlideButton";
 import ApiManager from "../modules/utils/apiManager";
 import { UserAdmins } from "../interfaces";
 

@@ -17,7 +17,14 @@ const OpenableImage = ({ style, src, width, height, className, bigStyle }: opena
 
     return (
         <>
-            <NextImage src={src} width={width} height={height} alt="" style={style} onClick={() => setOpened(true)} className={`${className} ${Style.original_image}`} />
+            <NextImage
+                src={src}
+                width={width}
+                height={height}
+                alt=""
+                style={style}
+                onClick={() => setOpened(true)}
+                className={`${className} ${Style.original_image}`} />
             {opened &&
                 <div className={Style.div} onClick={() => setOpened(false)}>
                     <NextImage src={src} width={width} height={height} alt="" style={bigStyle} />

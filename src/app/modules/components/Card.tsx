@@ -6,11 +6,11 @@ import { getCookie } from "cookies-next";
 import Link, { LinkProps } from "next/link";
 import { CSSProperties, ReactNode, useEffect, useState } from "react";
 
-import { IconCircleHalf2, IconStar, IconStarFilled, IconUser } from '@tabler/icons-react';
-import { getIcon } from "../utils/categories.module";
+import { IconCircleHalf2, IconEyeOff, IconStar, IconStarFilled, IconUser } from '@tabler/icons-react';
+import { getIcon } from "../utils/Categories";
 import { usePathname, useRouter } from "next/navigation";
-import { UseGlobalTooltip } from "./tooltip";
-import useCookie from "../utils/useCookie.module";
+import { UseGlobalTooltip } from "./Tooltip";
+import useCookie from "../utils/useCookie";
 import ApiManager from "../utils/apiManager";
 import { useConfigContext } from "@/app/modules/utils/ConfigContext";
 
@@ -115,20 +115,12 @@ export const ReferrerLink: React.FC<ReferrerLinkProps> = ({ children, href, ...p
     );
 };
 
-export const Card = ({ el, base64, className }: { el: Bandage, base64: string, className?: { readonly [key: string]: string; } }) => {
+export const StarElement = ({ el }: { el: Bandage }) => {
+    const logged = getCookie('sessionId');
+    const router = useRouter();
     const [starred, setStarred] = useState<boolean>(el.starred);
     const [last, setLast] = useState<boolean>(el.starred);
     const [starsCount, setStarsCount] = useState<number>(el.stars_count);
-    const logged = getCookie('sessionId');
-    const theme = useCookie('theme_main');
-    const router = useRouter();
-    const background = backgrounds[theme] ?? 'default';
-
-    const categories = el.categories.map(category =>
-        <div id={`category_${category.id}_${el.id}`} key={category.id}>
-            <CategoryShorten category={category} parent_id={`category_${category.id}_${el.id}`} />
-        </div>
-    );
 
     useEffect(() => {
         if (logged && starred != last) {
@@ -141,31 +133,43 @@ export const Card = ({ el, base64, className }: { el: Bandage, base64: string, c
     const StarIcon = starred ? IconStarFilled : IconStar;
 
     return (
+        <div className={style_card.star_container}>
+            <StarIcon
+                className={style_card.star}
+                width={24}
+                height={24}
+                color="#ffb900"
+                id={el.external_id + "_star"}
+                style={{ cursor: "pointer" }}
+                onClick={() => { logged ? setStarred(prev => !prev) : router.push('/me') }}
+            />
+            <span className={style_card.star_count} id={el.external_id + "_text"}>{starsCount}</span>
+        </div>
+    )
+}
+
+export const Card = ({ el, base64, className }: { el: Bandage, base64: string, className?: { readonly [key: string]: string; } }) => {
+    const theme = useCookie('theme_main');
+    const background = backgrounds[theme] ?? 'default';
+
+    const categories = el.categories.map(category =>
+        <div id={`category_${category.id}_${el.id}`} key={category.id}>
+            <CategoryShorten category={category} parent_id={`category_${category.id}_${el.id}`} />
+        </div>
+    );
+
+    return (
         <article
             className={`${style_card.card}  ${className?.skin_description_props}`}
             style={{ background: `url('/static/backgrounds/background_${background}.svg')` }}
         >
             <div className={style_card.head_container}>
-                <div className={style_card.star_container}>
-                    <StarIcon
-                        className={style_card.star}
-                        width={24}
-                        height={24}
-                        color="#ffb900"
-                        id={el.external_id + "_star"}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => { logged ? setStarred(prev => !prev) : router.push('/me') }}
-                    />
-                    <span className={style_card.star_count} id={el.external_id + "_text"}>{starsCount}</span>
-                </div>
+                <StarElement el={el} />
 
-                {
-                    el.split_type &&
-                    <IconCircleHalf2
-                        width={24}
-                        height={24}
-                    />
-                }
+                <div style={{ display: 'flex', gap: '3px' }}>
+                    {el.access_level < 2 && <IconEyeOff width={24} height={24} />}
+                    {el.split_type && <IconCircleHalf2 width={24} height={24} />}
+                </div>
             </div>
             <div
                 style={{ position: 'relative', '--shadow-color': el.accent_color } as React.CSSProperties}

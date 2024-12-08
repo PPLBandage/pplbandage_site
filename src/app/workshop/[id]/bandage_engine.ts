@@ -1,4 +1,4 @@
-import asyncImage, { base64Encode } from '@/app/modules/components/asyncImage.module';
+import asyncImage, { base64Encode } from '@/app/modules/utils/asyncImage';
 import ApiManager from '@/app/modules/utils/apiManager';
 
 interface SkinResponse {

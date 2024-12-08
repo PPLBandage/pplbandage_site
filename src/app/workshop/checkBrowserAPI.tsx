@@ -1,4 +1,4 @@
-import AsyncImage from "../modules/components/asyncImage.module";
+import AsyncImage from "../modules/utils/asyncImage";
 import { sha256 } from 'js-sha256';
 import { CSSTransition } from 'react-transition-group';
 import style from '@/app/styles/browserAPINotification.module.css';

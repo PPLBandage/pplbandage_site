@@ -1,10 +1,10 @@
 import axios from "axios";
-import Home from "./client_code";
+import Home from "./client";
 import * as Interfaces from "@/app/interfaces";
 import { headers } from 'next/headers';
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { numbersTxt } from "@/app/modules/utils/time.module";
+import { numbersTxt } from "@/app/modules/utils/time";
 
 export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
     const meta = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${params.id}/info`, {

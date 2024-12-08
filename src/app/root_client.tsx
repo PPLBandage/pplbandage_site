@@ -1,10 +1,10 @@
 "use client";
 
-import Header from "./modules/components/header.module";
+import Header from "./modules/components/Header";
 import React, { useState } from "react";
 import Style from "./styles/root/page.module.css";
 import Link from "next/link";
-import { CustomLink } from "./modules/components/search.module";
+import { CustomLink } from "./modules/components/Search";
 import { IconInfinity, IconAlertTriangle, IconStack, IconX } from '@tabler/icons-react';
 import NextImage from 'next/image';
 

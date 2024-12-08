@@ -3,11 +3,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { redirect, } from "next/navigation";
 import Style from "@/app/styles/me/notifications.module.css";
-import Header from "@/app/modules/components/header.module";
-import useCookie from '@/app/modules/utils/useCookie.module';
-import { Me } from '@/app/modules/components/me.module';
-import { formatDate } from '@/app/modules/components/card.module';
-import { Paginator } from '@/app/modules/components/paginator.module';
+import Header from "@/app/modules/components/Header";
+import useCookie from '@/app/modules/utils/useCookie';
+import { Me } from '@/app/modules/components/MeSidebar';
+import { formatDate } from '@/app/modules/components/Card';
+import { Paginator } from '@/app/modules/components/Paginator';
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import Image from "next/image";
 import { Cookies, useCookies } from 'next-client-cookies';

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Providers from "@/app/modules/providers.module";
+import Providers from "@/app/modules/providers";
 import "./styles/layout.css";
 import { CookiesProvider } from 'next-client-cookies/server';
 import { headers } from 'next/headers';

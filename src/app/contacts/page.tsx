@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Header from "@/app/modules/components/header.module";
+import Header from "@/app/modules/components/Header";
 import style from '@/app/styles/contacts/contacts.module.css';
 
 

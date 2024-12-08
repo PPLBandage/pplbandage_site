@@ -5,7 +5,7 @@ import Select from 'react-select';
 import { CSSTransition } from 'react-transition-group';
 import Styles from "@/app/styles/search.module.css"
 import { Category } from '@/app/interfaces';
-import { CategoryEl } from './card.module';
+import { CategoryEl } from './Card';
 import styleLink from '@/app/styles/tutorials/common.module.css';
 import Link from 'next/link';
 import style_workshop from "@/app/styles/workshop/page.module.css";

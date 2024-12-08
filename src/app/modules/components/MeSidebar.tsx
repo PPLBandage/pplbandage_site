@@ -1,17 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { Query } from "./header.module";
+import { Query } from "./Header";
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { timeStamp } from "../utils/time.module";
-import Menu from "./theme_select.module";
+import { timeStamp } from "../utils/time";
+import Menu from "./ThemeSelect";
 import { Users } from "@/app/users/[name]/page";
-import { CategoryEl, formatDate } from "./card.module";
+import { CategoryEl, formatDate } from "./Card";
 
 import { IconSettings, IconBell, IconStar, IconList, IconStarFilled } from '@tabler/icons-react';
-import { TransitionLink } from "@/app/me/animatedLink.module";
+import { TransitionLink } from "@/app/me/AnimatedLink";
 import ApiManager from "../utils/apiManager";
 
 const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, color?: string }) => {

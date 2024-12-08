@@ -1,15 +1,15 @@
 "use client";
 
-import Footer from "@/app/modules/components/footer.module";
-import Header from "@/app/modules/components/header.module";
+import Footer from "@/app/modules/components/Footer";
+import Header from "@/app/modules/components/Header";
 import React, { useEffect, useState } from "react";
 import style from '@/app/styles/tutorials/common.module.css';
-import ASide from "./header.module";
-import InfoCard from "@/app/modules/components/info.module";
-import { CategoryEl } from "@/app/modules/components/card.module";
-import { CustomLink } from "@/app/modules/components/search.module";
+import ASide from "./header";
+import InfoCard from "@/app/modules/components/InfoCard";
+import { CategoryEl } from "@/app/modules/components/Card";
+import { CustomLink } from "@/app/modules/components/Search";
 import styles from "@/app/styles/me/me.module.css";
-import { Tooltip } from "@/app/modules/components/tooltip";
+import { Tooltip } from "@/app/modules/components/Tooltip";
 import { Role } from "@/app/interfaces";
 import style_workshop from "@/app/styles/workshop/page.module.css";
 

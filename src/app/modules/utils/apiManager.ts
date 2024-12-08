@@ -1,9 +1,9 @@
 import * as Interfaces from "@/app/interfaces";
-import { authApi } from "./api.module";
+import { authApi } from "./api";
 import axios, { AxiosResponse, Method } from "axios";
-import { Query } from "../components/header.module";
+import { Query } from "../components/Header";
 import { SettingsResponse } from "@/app/me/settings/page";
-import { SearchResponse } from "../components/nick_search.module";
+import { SearchResponse } from "../components/NickSearch";
 
 type RequestProps = {
     url: string,

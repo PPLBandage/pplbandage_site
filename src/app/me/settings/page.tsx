@@ -7,13 +7,13 @@ import { redirect } from "next/navigation";
 import Style from "@/app/styles/me/connections.module.css";
 import Style_themes from "@/app/styles/me/themes.module.css";
 import Style_safety from "@/app/styles/me/safety.module.css";
-import Header from "@/app/modules/components/header.module";
-import useCookie from '@/app/modules/utils/useCookie.module';
+import Header from "@/app/modules/components/Header";
+import useCookie from '@/app/modules/utils/useCookie';
 import Image from 'next/image';
-import { Me } from '@/app/modules/components/me.module';
+import { Me } from '@/app/modules/components/MeSidebar';
 import { Fira_Code } from "next/font/google";
-import { formatDate } from '@/app/modules/components/card.module';
-import { getTheme } from '@/app/modules/providers.module';
+import { formatDate } from '@/app/modules/components/Card';
+import { getTheme } from '@/app/modules/providers';
 import { useCookies } from 'next-client-cookies';
 import IconSvg from '@/app/resources/icon.svg';
 import {
@@ -27,9 +27,9 @@ import {
     IconDeviceMobile,
     IconDeviceDesktop
 } from '@tabler/icons-react';
-import { timeStamp } from '@/app/modules/utils/time.module';
+import { timeStamp } from '@/app/modules/utils/time';
 import style_workshop from "@/app/styles/workshop/page.module.css";
-import SlideButton from '@/app/modules/components/slideButton.module';
+import SlideButton from '@/app/modules/components/SlideButton';
 import ApiManager from '@/app/modules/utils/apiManager';
 import { Session } from '@/app/interfaces';
 import { setTheme } from './setTheme';

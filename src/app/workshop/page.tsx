@@ -2,21 +2,21 @@
 
 import React, { createContext, useContext } from "react";
 import { useEffect, useState } from "react";
-import Header from "@/app/modules/components/header.module";
+import Header from "@/app/modules/components/Header";
 import Style from "@/app/styles/workshop/page.module.css";
 
-import { Paginator } from "@/app/modules/components/paginator.module";
-import { Search } from "@/app/modules/components/search.module";
+import { Paginator } from "@/app/modules/components/Paginator";
+import { Search } from "@/app/modules/components/Search";
 import { BandageResponse, Category } from "@/app/interfaces";
-import { constrain } from "@/app/modules/components/card.module";
-import Footer from "@/app/modules/components/footer.module";
+import { constrain } from "@/app/modules/components/Card";
+import Footer from "@/app/modules/components/Footer";
 import Image from "next/image";
 import styles_card from "@/app/styles/me/me.module.css";
 import IconSvg from '@/app/resources/icon.svg';
-import { BrowserNotification, calcChecksum } from "./checkBrowserAPI.module";
+import { BrowserNotification, calcChecksum } from "./checkBrowserAPI";
 import { useCookies } from "next-client-cookies";
-import { renderSkin } from "../modules/utils/skinCardRender.module";
-import { SimpleGrid } from "../modules/components/adaptiveGrid.module";
+import { renderSkin } from "../modules/utils/SkinCardRender";
+import { SimpleGrid } from "../modules/components/AdaptiveGrid";
 import ApiManager from "../modules/utils/apiManager";
 import { ConfigContext, ConfigInterface } from "../modules/utils/ConfigContext";
 

@@ -3,16 +3,16 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
-import Header from "@/app/modules/components/header.module";
-import useCookie from '@/app/modules/utils/useCookie.module';
+import Header from "@/app/modules/components/Header";
+import useCookie from '@/app/modules/utils/useCookie';
 import { Cookies, useCookies } from 'next-client-cookies';
 import styles_me from "@/app/styles/me/me.module.css";
 import Image from 'next/image';
 import { Bandage } from '@/app/interfaces';
-import { Me } from '@/app/modules/components/me.module';
+import { Me } from '@/app/modules/components/MeSidebar';
 import { redirect } from 'next/navigation'
-import { SimpleGrid } from '@/app/modules/components/adaptiveGrid.module';
-import { renderSkin } from '@/app/modules/utils/skinCardRender.module';
+import { SimpleGrid } from '@/app/modules/components/AdaptiveGrid';
+import { renderSkin } from '@/app/modules/utils/SkinCardRender';
 import ApiManager from '@/app/modules/utils/apiManager';
 
 const Main = () => {

@@ -1,12 +1,12 @@
 "use client";
 
-import Footer from "@/app/modules/components/footer.module";
-import Header from "@/app/modules/components/header.module";
+import Footer from "@/app/modules/components/Footer";
+import Header from "@/app/modules/components/Header";
 import React from "react";
 import style from '@/app/styles/tutorials/common.module.css';
-import ASide from "@/app/tutorials/header.module";
-import { CustomLink } from "@/app/modules/components/search.module";
-import InfoCard from "@/app/modules/components/info.module";
+import ASide from "@/app/tutorials/header";
+import { CustomLink } from "@/app/modules/components/Search";
+import InfoCard from "@/app/modules/components/InfoCard";
 import styleLink from '@/app/styles/tutorials/common.module.css';
 import { IconAlertTriangle, IconBulb } from '@tabler/icons-react';
 

@@ -7,7 +7,7 @@ import { deleteCookie } from 'cookies-next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useQuery } from "@tanstack/react-query";
-import useCookie from "@/app/modules/utils/useCookie.module";
+import useCookie from "@/app/modules/utils/useCookie";
 import * as Interfaces from '@/app/interfaces';
 
 import {

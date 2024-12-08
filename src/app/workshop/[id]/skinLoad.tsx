@@ -2,8 +2,8 @@ import { IconCheck, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import NextImage from 'next/image';
 import style from "@/app/styles/editor/page.module.css";
-import AsyncImage from "@/app/modules/components/asyncImage.module";
-import Searcher from "@/app/modules/components/nick_search.module";
+import AsyncImage from "@/app/modules/utils/asyncImage";
+import Searcher from "@/app/modules/components/NickSearch";
 import ApiManager from "@/app/modules/utils/apiManager";
 
 const b64Prefix = "data:image/png;base64,";

@@ -1,24 +1,24 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Header from '@/app/modules/components/header.module';
+import Header from '@/app/modules/components/Header';
 import style from '@/app/styles/workshop/create/page.module.css';
-import SkinView3D from '@/app/modules/components/skinView.module';
+import SkinView3D from '@/app/modules/components/SkinView';
 import { anims } from '@/app/workshop/poses';
 import { useRouter } from "next/navigation";
 import Select from 'react-select';
-import Client from '@/app/workshop/[id]/bandage_engine.module';
-import Footer from '@/app/modules/components/footer.module';
-import CategorySelector from '@/app/modules/components/category_selector.module';
+import Client from '@/app/workshop/[id]/bandage_engine';
+import Footer from '@/app/modules/components/Footer';
+import CategorySelector from '@/app/modules/components/CategorySelector';
 import * as Interfaces from "@/app/interfaces";
 import debounce from 'lodash.debounce';
-import InfoCard from '@/app/modules/components/info.module';
-import useCookie from '@/app/modules/utils/useCookie.module';
+import InfoCard from '@/app/modules/components/InfoCard';
+import useCookie from '@/app/modules/utils/useCookie';
 import { redirect } from 'next/navigation';
 import { Fira_Code } from "next/font/google";
-import { CustomLink } from '@/app/modules/components/search.module';
-import asyncImage from '@/app/modules/components/asyncImage.module';
-import SlideButton from '@/app/modules/components/slideButton.module';
+import { CustomLink } from '@/app/modules/components/Search';
+import asyncImage from '@/app/modules/utils/asyncImage';
+import SlideButton from '@/app/modules/components/SlideButton';
 import ApiManager from '@/app/modules/utils/apiManager';
 const fira = Fira_Code({ subsets: ["latin"] });
 

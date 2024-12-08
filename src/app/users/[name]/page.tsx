@@ -3,8 +3,8 @@ import axios from "axios";
 import { redirect } from "next/navigation";
 import UsersClient from "./client_code";
 import { headers } from "next/headers";
-import { numbersTxt } from "@/app/modules/utils/time.module";
-import { Query } from "@/app/modules/components/header.module";
+import { numbersTxt } from "@/app/modules/utils/time";
+import { Query } from "@/app/modules/components/Header";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 

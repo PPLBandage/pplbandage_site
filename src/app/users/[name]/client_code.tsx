@@ -1,12 +1,12 @@
 "use client";
 
-import Header from "@/app/modules/components/header.module";
+import Header from "@/app/modules/components/Header";
 import { Users } from "./page";
 import { useEffect, useState } from "react";
 import styles from "@/app/styles/me/me.module.css";
-import { Me } from "@/app/modules/components/me.module";
-import { SimpleGrid } from "@/app/modules/components/adaptiveGrid.module";
-import { renderSkin } from "@/app/modules/utils/skinCardRender.module";
+import { Me } from "@/app/modules/components/MeSidebar";
+import { SimpleGrid } from "@/app/modules/components/AdaptiveGrid";
+import { renderSkin } from "@/app/modules/utils/SkinCardRender";
 
 const UsersClient = ({ user }: { user: Users }) => {
     const [elements, setElements] = useState<JSX.Element[]>(null);

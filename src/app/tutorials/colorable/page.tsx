@@ -1,12 +1,12 @@
 "use client";
 
-import Footer from "@/app/modules/components/footer.module";
-import Header from "@/app/modules/components/header.module";
+import Footer from "@/app/modules/components/Footer";
+import Header from "@/app/modules/components/Header";
 import React from "react";
 import style from '@/app/styles/tutorials/common.module.css';
-import ASide from "@/app/tutorials/header.module";
-import InfoCard from "@/app/modules/components/info.module";
-import { CategoryEl } from "@/app/modules/components/card.module";
+import ASide from "@/app/tutorials/header";
+import InfoCard from "@/app/modules/components/InfoCard";
+import { CategoryEl } from "@/app/modules/components/Card";
 import { IconInfoCircle, IconBulb } from '@tabler/icons-react';
 import Link from "next/link";
 

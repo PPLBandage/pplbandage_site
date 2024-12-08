@@ -138,7 +138,7 @@ jobs:
                   sshpass -e ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << 'EOF'
                     cd /home/andcoolsystems/pplbandage_site
                     openssl aes-256-cbc -d -in env.enc -out .env -k ${{ secrets.ENCRYPTION_KEY }}
-                    rm env.env
+                    rm env.enc
                     git fetch
                     git stash
                     git merge '@{u}'

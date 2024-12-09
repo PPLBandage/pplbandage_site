@@ -44,11 +44,11 @@ const Admin = () => {
         })
     }, [])
 
-    const changeBan = (user: UserAdmins, banned: boolean): Promise<void> => {
+    const updateUser = (user: UserAdmins, data: { banned?: boolean, skip_ppl_check?: boolean }): Promise<void> => {
         return new Promise((resolve, reject) => {
-            ApiManager.updateUser(user.username, { banned })
+            ApiManager.updateUser(user.username, data)
                 .then(resolve)
-                .catch(reject);
+                .catch((err) => { alert(err.data.message_ru || err.data.message); reject(); });
         });
     }
 
@@ -60,14 +60,21 @@ const Admin = () => {
                     <Link href={`https://discord.com/users/${user.discord_id}`} className={style_root.username}>{user.username}</Link>
                     <p className={`${style_root.did} ${fira.className}`}>{user.discord_id}</p>
                 </div>
-                <div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
                     <SlideButton
                         label='Banned'
                         strict={true}
                         loadable={true}
-                        onChange={value => changeBan(user, value)}
+                        onChange={value => updateUser(user, { banned: value })}
                         defaultValue={user.banned}
                         disabled={!user.permissions.every((perm) => perm === 'default')} />
+
+                    <SlideButton
+                        label='Skip PPL check'
+                        strict={true}
+                        loadable={true}
+                        onChange={value => updateUser(user, { skip_ppl_check: value })}
+                        defaultValue={user.skip_ppl_check} />
                 </div>
             </div>
         );

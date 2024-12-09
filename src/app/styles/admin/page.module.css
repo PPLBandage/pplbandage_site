@@ -20,8 +20,9 @@
     margin-bottom: 15px;
     box-sizing: border-box;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: .5rem;
 }
 
 .user_card h3 {
@@ -55,4 +56,14 @@
 
 .name:hover {
     text-decoration: underline;
+}
+
+@media(max-width: 803px) {
+    .user_card {
+        width: 100%;
+    }
+
+    .adaptive_grid_column {
+        width: 100% !important;
+    }
 }

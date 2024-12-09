@@ -62,7 +62,8 @@ export interface UserAdmins {
     joined_at: Date,
     discord_id: number,
     banned: boolean,
-    permissions: string[]
+    permissions: string[],
+    skip_ppl_check: boolean
 }
 
 

@@ -89,7 +89,7 @@ class ApiManager {
     static async updateUser(username: string, params: UpdateUsersProps): Promise<void> {
         await this.doRequest({
             url: `/users/${username}`,
-            method: 'PUT',
+            method: 'PATCH',
             data: params
         });
     }

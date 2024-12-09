@@ -23,7 +23,7 @@ export const SlideButton = ({
     const [active, setActive] = useState<boolean>(value || defaultValue || false);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
-    const isInitialMount = useRef<boolean>(true);
+    const [isInitialMount, setIsInitialMount] = useState<boolean>(true);
 
     useEffect(() => {
         setActive(value || defaultValue || false);
@@ -40,8 +40,8 @@ export const SlideButton = ({
             setError(false);
             return;
         }
-        if (isInitialMount.current && strict) {
-            isInitialMount.current = false;
+        if (isInitialMount && strict) {
+            setIsInitialMount(false);
             return;
         }
         const promise = onChange(active);

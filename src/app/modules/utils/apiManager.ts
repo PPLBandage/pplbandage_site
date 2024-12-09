@@ -140,18 +140,18 @@ class ApiManager {
     /* Set public profile */
     static async setPublicProfile(params: { state: boolean }): Promise<boolean> {
         return (await this.doRequest({
-            url: `/user/me/settings/public`,
-            method: 'PUT',
-            params
+            url: `/user/me`,
+            method: 'PATCH',
+            data: { public: params.state }
         })).data.new_data;
     }
 
     /* Set user profile theme */
     static async setTheme(params: { theme: number }): Promise<void> {
         await this.doRequest({
-            url: `/user/me/theme`,
-            method: 'PUT',
-            data: params
+            url: `/user/me`,
+            method: 'PATCH',
+            data: { theme: params.theme }
         });
     }
 
@@ -174,18 +174,18 @@ class ApiManager {
     /* Set minecraft profile visible */
     static async setMinecraftVisible(params: { state: boolean }): Promise<boolean> {
         return (await this.doRequest({
-            url: `/user/me/connections/minecraft/valid`,
-            method: 'PUT',
-            params
+            url: `/user/me`,
+            method: 'PATCH',
+            data: { nick_search: params.state }
         })).data.new_data;
     }
 
     /* Set minecraft skin autoload */
     static async setMinecraftAutoload(params: { state: boolean }): Promise<boolean> {
         return (await this.doRequest({
-            url: `/user/me/connections/minecraft/autoload`,
-            method: 'PUT',
-            params
+            url: `/user/me`,
+            method: 'PATCH',
+            data: { skin_autoload: params.state }
         })).data.new_data;
     }
 

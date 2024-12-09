@@ -137,6 +137,7 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
             url.search = '';
             window.history.replaceState({}, document.title, url);
         }
+
         client.current = new Client();
         client.current.addEventListener('skin_changed', (event: { skin: string, cape: string }) => {
             setSkin(event.skin);

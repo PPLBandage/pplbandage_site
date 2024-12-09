@@ -108,12 +108,10 @@ const Page = () => {
 }
 
 const UserSettings = ({ data }: { data: SettingsResponse }) => {
-    const [value, setValue] = useState<boolean>(data?.public_profile);
-
     const changePublic = (state: boolean): Promise<void> => {
         return new Promise((resolve, reject) => {
             ApiManager.setPublicProfile({ state })
-                .then(value => { setValue(value); resolve() })
+                .then(() => resolve())
                 .catch(reject);
         });
     }
@@ -123,7 +121,7 @@ const UserSettings = ({ data }: { data: SettingsResponse }) => {
             <h3><IconUser width={26} height={26} style={{ marginRight: ".3rem", borderRadius: 0 }} />Настройки аккаунта</h3>
             <SlideButton
                 label='Публичный профиль'
-                value={data.can_be_public ? value : false}
+                defaultValue={data.can_be_public ? data?.public_profile : false}
                 loadable={true}
                 strict={true}
                 onChange={changePublic}
@@ -134,9 +132,6 @@ const UserSettings = ({ data }: { data: SettingsResponse }) => {
 }
 
 const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): void }) => {
-    const [valid, setValid] = useState<boolean>(data.connections?.minecraft?.valid);
-    const [autoload, setAutoload] = useState<boolean>(data.connections?.minecraft?.autoload);
-
     const refresh = () => {
         const load_icon = document.getElementById('refresh');
         load_icon.style.animation = `${Style.loading} infinite 1s reverse ease-in-out`;
@@ -157,10 +152,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
     const setValidAPI = (state: boolean): Promise<void> => {
         return new Promise((resolve, reject) => {
             ApiManager.setMinecraftVisible({ state })
-                .then(new_val => {
-                    setValid(new_val);
-                    resolve();
-                })
+                .then(() => resolve())
                 .catch(reject);
         });
     }
@@ -168,10 +160,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
     const setAutoloadAPI = (state: boolean): Promise<void> => {
         return new Promise((resolve, reject) => {
             ApiManager.setMinecraftAutoload({ state })
-                .then(new_val => {
-                    setAutoload(new_val);
-                    resolve();
-                })
+                .then(() => resolve())
                 .catch(reject);
         })
     }
@@ -217,13 +206,13 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
                 <div className={Style.checkboxes}>
                     <SlideButton
                         label='Отображать ник в поиске'
-                        value={valid}
+                        defaultValue={data.connections?.minecraft?.valid}
                         strict={true}
                         loadable={true}
                         onChange={setValidAPI} />
                     <SlideButton
                         label='Автоматически устанавливать скин в редакторе'
-                        value={autoload}
+                        defaultValue={data.connections?.minecraft?.autoload}
                         strict={true}
                         loadable={true}
                         onChange={setAutoloadAPI} />

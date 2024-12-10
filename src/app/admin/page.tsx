@@ -61,7 +61,7 @@ const ForceRegister = () => {
                 onClick={() => register()}
                 style={{ width: 'auto', fontFamily: 'inherit' }}
             >
-                Зарегистрировать
+                Register
             </button>
         </div>
     )
@@ -116,7 +116,7 @@ const Users = () => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <h2 style={{ margin: 0 }}>Пользователи ({usersEl.length})</h2>
-            <div style={{ display: 'flex', gap: '.5rem' }}>
+            <div style={{ display: 'flex', gap: '.5rem', flexWrap: 'wrap' }}>
                 <Search onSearch={setQuery} />
                 <ForceRegister />
             </div>

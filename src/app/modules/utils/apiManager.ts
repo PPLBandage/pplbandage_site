@@ -78,9 +78,9 @@ class ApiManager {
     }
 
     /* Get users (admin) */
-    static async getUsers(): Promise<Interfaces.UserAdmins[]> {
+    static async getUsers(query?: string): Promise<Interfaces.UserAdmins[]> {
         return (await this.doRequest({
-            url: '/users',
+            url: query ? `/users?query=${query}` : '/users',
             method: 'GET'
         })).data;
     }
@@ -91,6 +91,15 @@ class ApiManager {
             url: `/users/${username}`,
             method: 'PATCH',
             data: params
+        });
+    }
+
+    /* Force register user (admin) */
+    static async forceRegister(discord_id: string): Promise<void> {
+        await this.doRequest({
+            url: `/users`,
+            method: 'POST',
+            data: { discord_id }
         });
     }
 

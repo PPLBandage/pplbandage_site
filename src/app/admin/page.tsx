@@ -5,44 +5,75 @@ import useCookie from "@/app/modules/utils/useCookie";
 import { useEffect, useRef, useState } from "react";
 import style_root from '@/app/styles/admin/page.module.css';
 import { redirect, useRouter } from "next/navigation";
-import Header from "@/app/modules/components/Header";
+import Header, { Query } from "@/app/modules/components/Header";
 import AdaptiveGrid from "../modules/components/AdaptiveGrid";
 import { Fira_Code } from "next/font/google";
 import Link from "next/link";
 import SlideButton from "../modules/components/SlideButton";
 import ApiManager from "../modules/utils/apiManager";
 import { UserAdmins } from "../interfaces";
+import { IconSearch } from "@tabler/icons-react";
 
 const fira = Fira_Code({ subsets: ["latin"] });
 
-const Admin = () => {
-    const logged = useCookie('sessionId');
-    const cookies = useRef<Cookies>(useCookies());
-    const [users, setUsers] = useState<UserAdmins[]>([]);
-    const router = useRouter();
+const Search = ({ onSearch }: { onSearch(val: string): void }) => {
+    const [search, setSearch] = useState<string>('');
 
-    if (!cookies.current.get('sessionId')) {
-        redirect('/');
+    return (
+        <div className={style_root.search_main}>
+            <input
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyUp={(e) => {
+                    if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+                        onSearch(search)
+                    }
+                }}
+                className={style_root.search_input}
+                placeholder="Name / ID"
+            />
+            <button className={style_root.search_button} onClick={() => onSearch(search)}>
+                <IconSearch width={20} height={20} />
+            </button>
+        </div>
+    )
+}
+
+const ForceRegister = () => {
+    const [id, setId] = useState<string>('');
+
+    const register = () => {
+        if (id === '') return;
+
+        ApiManager.forceRegister(id)
+            .then(() => window.location.reload())
+            .catch(e => alert(e.data.message_ru || e.data.message));
     }
 
-    useEffect(() => {
-        if (!logged) {
-            redirect('/');
-        }
-    }, [logged]);
+    return (
+        <div className={style_root.search_main}>
+            <input
+                onChange={(e) => setId(e.target.value)}
+                className={style_root.search_input}
+                placeholder="Discord ID"
+            />
+            <button
+                className={style_root.search_button}
+                onClick={() => register()}
+                style={{ width: 'auto', fontFamily: 'inherit' }}
+            >
+                Зарегистрировать
+            </button>
+        </div>
+    )
+}
+
+const Users = () => {
+    const [users, setUsers] = useState<UserAdmins[]>([]);
+    const [userQuery, setQuery] = useState<string>('');
 
     useEffect(() => {
-        ApiManager.getMe().then(data => {
-            if (data.permissions.every(perm => perm === 'default')) {
-                router.replace('/');
-                return;
-            }
-
-            if (data.permissions.includes('updateusers') || data.permissions.includes('superadmin')) {
-                ApiManager.getUsers().then(setUsers);
-            }
-        })
-    }, [])
+        ApiManager.getUsers(userQuery).then(setUsers);
+    }, [userQuery]);
 
     const updateUser = (user: UserAdmins, data: { banned?: boolean, skip_ppl_check?: boolean }): Promise<void> => {
         return new Promise((resolve, reject) => {
@@ -62,7 +93,7 @@ const Admin = () => {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
                     <SlideButton
-                        label='Banned'
+                        label='Заблокирован'
                         strict={true}
                         loadable={true}
                         onChange={value => updateUser(user, { banned: value })}
@@ -70,7 +101,7 @@ const Admin = () => {
                         disabled={!user.permissions.every((perm) => perm === 'default')} />
 
                     <SlideButton
-                        label='Skip PPL check'
+                        label='Пропустить проверку ролей'
                         strict={true}
                         loadable={true}
                         onChange={value => updateUser(user, { skip_ppl_check: value })}
@@ -80,18 +111,55 @@ const Admin = () => {
         );
     })
 
+    if (usersEl.length === 0) return null;
+
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <h2 style={{ margin: 0 }}>Пользователи ({usersEl.length})</h2>
+            <div style={{ display: 'flex', gap: '.5rem' }}>
+                <Search onSearch={setQuery} />
+                <ForceRegister />
+            </div>
+            <AdaptiveGrid child_width={350} className={style_root}>{usersEl}</AdaptiveGrid>
+        </div>
+    );
+}
+
+const Admin = () => {
+    const logged = useCookie('sessionId');
+    const cookies = useRef<Cookies>(useCookies());
+    const [user, setUser] = useState<Query>(null);
+    const router = useRouter();
+
+    if (!cookies.current.get('sessionId')) {
+        redirect('/');
+    }
+
+    useEffect(() => {
+        if (!logged) {
+            redirect('/');
+        }
+    }, [logged]);
+
+    useEffect(() => {
+        ApiManager.getMe().then(data => {
+            if (data.permissions.every(perm => perm === 'default')) {
+                router.replace('/');
+                return;
+            }
+
+            setUser(data);
+        })
+    }, [])
+
+    const updateUsers = user && (user.permissions.includes('updateusers') || user.permissions.includes('superadmin'));
+
     return (
         <body>
             <Header />
             <main className={style_root.main}>
                 <div className={style_root.main_container}>
-                    {
-                        usersEl.length !== 0 &&
-                        <>
-                            <h2>Пользователи ({usersEl.length})</h2>
-                            <AdaptiveGrid child_width={350} className={style_root}>{usersEl}</AdaptiveGrid>
-                        </>
-                    }
+                    {updateUsers && <Users />}
                 </div>
             </main>
         </body>

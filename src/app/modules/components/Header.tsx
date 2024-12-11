@@ -62,7 +62,7 @@ const Header = (): JSX.Element => {
     });
 
     const [loading, setLoading] = useState<boolean>(!!cookie && !data);
-    const admin = ['superadmin', 'updateusers'].some(perm => data?.permissions?.includes(perm));
+    const admin = !data?.permissions.every(perm => perm === 'default');
 
     useEffect(() => {
         setLogged(!!cookie);

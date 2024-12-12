@@ -489,7 +489,7 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
     };
 
     const ondrop = (evt: React.DragEvent<HTMLLabelElement>) => {
-        getData(evt.dataTransfer?.files[0])
+        useOld ? getDataOld(evt.dataTransfer?.files[0]) : getData(evt.dataTransfer?.files[0])
 
         evt.preventDefault();
         containerRef.current.style.borderStyle = "dashed";

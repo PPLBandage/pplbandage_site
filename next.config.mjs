@@ -20,9 +20,8 @@ const nextConfig = {
   webpack(config) {
     config.cache = false;
     config.module.rules.push({
-      test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
-      use: ["@svgr/webpack"],
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
     });
 
     return config;

@@ -1,0 +1,13 @@
+.main {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.cards_container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 1rem;
+}

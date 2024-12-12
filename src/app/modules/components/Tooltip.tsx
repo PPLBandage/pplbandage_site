@@ -88,7 +88,6 @@ export const UseGlobalTooltip = ({ text, children, className, opacity = ".9" }: 
         element.id = 'global_tooltip';
         element.innerText = text;
         element.className = `${Style.tooltipStyle} ${Style.globalTooltipStyle}`;
-        element.style.opacity = opacity;
         document.body.insertBefore(element, document.body.firstChild);
     };
 
@@ -105,6 +104,7 @@ export const UseGlobalTooltip = ({ text, children, className, opacity = ".9" }: 
         if (tooltip) {
             tooltip.style.left = position_x.toString() + 'px';
             tooltip.style.top = position_y.toString() + 'px';
+            tooltip.style.opacity = opacity;
         }
     };
 

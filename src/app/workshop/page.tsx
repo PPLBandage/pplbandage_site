@@ -149,8 +149,8 @@ export default function Home() {
                             onChangeTake={setTake}
                             onChangeSort={setSort}
                             onChangeFilters={setFilters} />
-                        {elements && elements.length > 0 &&
-                            <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
+
+                        <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />
                         {elements && elements.length > 0 ?
                             <SimpleGrid>{elements}</SimpleGrid> :
                             <TheresNothingHere elements={elements} />

@@ -17,7 +17,7 @@ export const Paginator = ({ total_count, take, onChange, page }: PaginatorProps)
 
     const [_totalCount, _setTotalCount] = useState<number>(total_count);
     const [_take, _setTake] = useState<number>(take);
-    const [_display, _setDisplay] = useState<boolean>(true);
+    const [_display, _setDisplay] = useState<boolean>(false);
 
 
     useEffect(() => {
@@ -43,7 +43,7 @@ export const Paginator = ({ total_count, take, onChange, page }: PaginatorProps)
         let itpage = _page > 2 && pages_count > 4 ? _page - 2 : 0;
         for (let x = itpage; x < 5 + itpage; x++) {
             data.push(
-                <p style={x == _page ? { backgroundColor: "var(--main-element-color)", padding: ".5rem" } : x < pages_count ? {} : { visibility: "hidden" }}
+                <p style={x == Math.max(0, _page) ? { backgroundColor: "var(--main-element-color)", padding: ".5rem" } : x < pages_count ? {} : { visibility: "hidden" }}
                     key={x}
                     className={Styles.page}
                     onClick={() => _setPage(x)}>
@@ -56,13 +56,21 @@ export const Paginator = ({ total_count, take, onChange, page }: PaginatorProps)
         onChange(page);
     }, [_page, _totalCount, _take]);
 
-    return _display ? <div className={Styles.container}>
-        {_pages.length > 0 && <>
+    const loadingPages = Array.from({ length: 5 }, (_, index) =>
+        <p
+            key={index}
+            className={`${Styles.page} ${Styles.page_loading}`} />
+    );
+
+    return <div className={Styles.container}>
+        <>
             <IconChevronLeft className={`${Styles.page} ${Styles.arrow}`} onClick={() => _setPage(last => Math.max(0, last - 1))} />
-            {_pages}
+            {_display ?
+                _pages : loadingPages
+            }
             <IconChevronRight className={`${Styles.page} ${Styles.arrow}`} onClick={() => _setPage(last => Math.min(last + 1, Math.ceil(_totalCount / _take) - 1))} />
         </>
-        }
-    </div> : null;
+
+    </div>;
 
 };

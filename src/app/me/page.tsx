@@ -6,7 +6,6 @@ import { authApi } from "@/app/modules/utils/api";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "@/app/styles/me/me.module.css";
 import { Tooltip } from '@/app/modules/components/Tooltip';
-import Header from "@/app/modules/components/Header";
 import useCookie from '@/app/modules/utils/useCookie';
 import { Cookies, useCookies } from 'next-client-cookies';
 import { Bandage, Role } from '@/app/interfaces';
@@ -66,8 +65,7 @@ const Main = () => {
     }, [isLogged]);
 
     return (
-        <body>
-            <Header />
+        <main>
             {!!code ?
                 <Loading loadingStatus={loadingStatus} /> :
                 !isLogged ?
@@ -84,9 +82,8 @@ const Main = () => {
                             <SimpleGrid>{elements}</SimpleGrid>
                         </div>
                     </Me>
-
             }
-        </body>
+        </main>
     );
 }
 

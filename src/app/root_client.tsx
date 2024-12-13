@@ -1,6 +1,5 @@
 "use client";
 
-import Header from "./modules/components/Header";
 import React, { useState } from "react";
 import Style from "./styles/root/page.module.css";
 import Link from "next/link";
@@ -29,8 +28,7 @@ const HomeClient = ({ pong }: { pong: number }) => {
         )
     }
     return (
-        <body style={{ overflow: "hidden", overflowY: "scroll" }}>
-            <Header />
+        <div>
             <div className={Style.main_container}>
                 <svg width="958" height="318" className={Style.svg}>
                     <path className={Style.path} d="M 477 159 C -159 -391 -159 709 477 159 C 1113 -391 1113 709 477 159" strokeWidth="3" strokeDasharray="10,10" stroke="rgba(45, 212, 191, .5)" fill="none" />
@@ -71,7 +69,7 @@ const HomeClient = ({ pong }: { pong: number }) => {
                     <NextImage src='/static/icons/icon-cropped.svg' alt='' width={24} height={24} />
                 </div>
             </footer>
-        </body>
+        </div>
     )
 }
 

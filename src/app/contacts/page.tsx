@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Header from "@/app/modules/components/Header";
 import style from './styles/page.module.css';
 import style_card from './styles/card.module.css';
 import Image from "next/image";
@@ -62,55 +61,52 @@ const Card = (props: CardProps) => {
 
 const Home = () => {
     return (
-        <body>
-            <Header />
-            <main className={style.main}>
-                <div className={style.main_container}>
-                    <h1 style={{ marginTop: 0, width: '100%', textAlign: 'center', fontSize: '2rem' }}>Контакты</h1>
-                    <div className={style.cards_container}>
-                        <Card
-                            name="AndcoolSystems"
-                            image="/static/contacts/dino.gif"
-                            description="Главный разработчик"
-                            color="#f8a824"
-                            site_name="andcoolsystems"
-                            links={[
-                                {
-                                    name: 'Telegram',
-                                    URL: 'https://t.me/andcool_systems',
-                                    type: 'telegram'
-                                },
-                                {
-                                    name: 'Сайт',
-                                    URL: 'https://andcool.ru',
-                                    type: 'URL'
-                                }
-                            ]}
-                        />
+        <main className={style.main}>
+            <div className={style.main_container}>
+                <h1 style={{ marginTop: 0, width: '100%', textAlign: 'center', fontSize: '2rem' }}>Контакты</h1>
+                <div className={style.cards_container}>
+                    <Card
+                        name="AndcoolSystems"
+                        image="/static/contacts/dino.gif"
+                        description="Главный разработчик"
+                        color="#f8a824"
+                        site_name="andcoolsystems"
+                        links={[
+                            {
+                                name: 'Telegram',
+                                URL: 'https://t.me/andcool_systems',
+                                type: 'telegram'
+                            },
+                            {
+                                name: 'Сайт',
+                                URL: 'https://andcool.ru',
+                                type: 'URL'
+                            }
+                        ]}
+                    />
 
-                        <Card
-                            name="Shape STD"
-                            image="/static/contacts/dino_like.gif"
-                            description="Продакшн, дизайн повязок"
-                            color="#689295"
-                            site_name="gamdav_"
-                            links={[
-                                {
-                                    name: 'Telegram',
-                                    URL: 'https://t.me/shapestd',
-                                    type: 'telegram'
-                                },
-                                {
-                                    name: 'ВК',
-                                    URL: 'https://vk.com/shapestd',
-                                    type: 'URL'
-                                }
-                            ]}
-                        />
-                    </div>
+                    <Card
+                        name="Shape STD"
+                        image="/static/contacts/dino_like.gif"
+                        description="Продакшн, дизайн повязок"
+                        color="#689295"
+                        site_name="gamdav_"
+                        links={[
+                            {
+                                name: 'Telegram',
+                                URL: 'https://t.me/shapestd',
+                                type: 'telegram'
+                            },
+                            {
+                                name: 'ВК',
+                                URL: 'https://vk.com/shapestd',
+                                type: 'URL'
+                            }
+                        ]}
+                    />
                 </div>
-            </main>
-        </body>
+            </div>
+        </main>
     );
 }
 

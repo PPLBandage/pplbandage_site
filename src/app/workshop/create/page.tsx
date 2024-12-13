@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Header from '@/app/modules/components/Header';
 import style from '@/app/styles/workshop/create/page.module.css';
 import SkinView3D from '@/app/modules/components/SkinView';
 import { anims } from '@/app/workshop/poses';
 import { useRouter } from "next/navigation";
 import Select from 'react-select';
 import Client from '@/app/workshop/[id]/bandage_engine';
-import Footer from '@/app/modules/components/Footer';
 import CategorySelector from '@/app/modules/components/CategorySelector';
 import * as Interfaces from "@/app/interfaces";
 import debounce from 'lodash.debounce';
@@ -69,51 +67,47 @@ export default function Home() {
 
 
     return (
-        <body>
-            <Header />
-            <main className={style.main}>
-                <div className={style.central_panel}>
-                    <aside className={style.skin_parent}>
-                        <SkinView3D SKIN={SKIN}
-                            CAPE={null}
-                            slim={slim}
-                            className={style.skinview}
-                            pose={pose}
-                            background='/static/background_big.png'
-                            id="canvas_container" />
+        <main className={style.main}>
+            <div className={style.central_panel}>
+                <aside className={style.skin_parent}>
+                    <SkinView3D SKIN={SKIN}
+                        CAPE={null}
+                        slim={slim}
+                        className={style.skinview}
+                        pose={pose}
+                        background='/static/background_big.png'
+                        id="canvas_container" />
 
-                        <div className={style.render_footer}>
-                            {height != -1 && <p style={{ margin: 0, display: 'flex', alignItems: 'baseline', gap: '.3rem' }}>Расчётная высота: <span className={fira.className} style={{
-                                padding: '5px',
-                                backgroundColor: 'var(--dark-hover)',
-                                borderRadius: '3px',
-                                fontSize: '.8rem'
-                            }}>{Math.floor(height / 2)}px</span></p>
-                            }
-                            <Select
-                                options={anims}
-                                defaultValue={anims[pose]}
-                                className={`react-select-container`}
-                                classNamePrefix="react-select"
-                                isSearchable={false}
-                                onChange={(n, _) => setPose(n.value)}
-                                formatOptionLabel={(nick_value) => nick_value.label}
-                            />
-                            <SlideButton onChange={v => { setSlim(v); client.current?.changeSlim(v) }} value={slim} label="Тонкие руки" />
-                        </div>
-                    </aside>
-                    <Editor
-                        onBandageChange={(b64) => { client.current?.loadFromImage(b64) }}
-                        onColorChange={(color) => { client.current?.setParams({ color: color }) }}
-                        onColorableChange={(colorable) => { client.current?.setParams({ colorable: colorable }) }}
-                        onBandageChangeSlim={(b64) => { client.current?.loadFromImage(b64, true) }}
-                        onChangeSplitTypes={(split) => { client.current?.setParams({ split_types: split }) }}
-                        onHeightChange={setHeight}
-                    />
-                </div>
-                <Footer />
-            </main>
-        </body>
+                    <div className={style.render_footer}>
+                        {height != -1 && <p style={{ margin: 0, display: 'flex', alignItems: 'baseline', gap: '.3rem' }}>Расчётная высота: <span className={fira.className} style={{
+                            padding: '5px',
+                            backgroundColor: 'var(--dark-hover)',
+                            borderRadius: '3px',
+                            fontSize: '.8rem'
+                        }}>{Math.floor(height / 2)}px</span></p>
+                        }
+                        <Select
+                            options={anims}
+                            defaultValue={anims[pose]}
+                            className={`react-select-container`}
+                            classNamePrefix="react-select"
+                            isSearchable={false}
+                            onChange={(n, _) => setPose(n.value)}
+                            formatOptionLabel={(nick_value) => nick_value.label}
+                        />
+                        <SlideButton onChange={v => { setSlim(v); client.current?.changeSlim(v) }} value={slim} label="Тонкие руки" />
+                    </div>
+                </aside>
+                <Editor
+                    onBandageChange={(b64) => { client.current?.loadFromImage(b64) }}
+                    onColorChange={(color) => { client.current?.setParams({ color: color }) }}
+                    onColorableChange={(colorable) => { client.current?.setParams({ colorable: colorable }) }}
+                    onBandageChangeSlim={(b64) => { client.current?.loadFromImage(b64, true) }}
+                    onChangeSplitTypes={(split) => { client.current?.setParams({ split_types: split }) }}
+                    onHeightChange={setHeight}
+                />
+            </div>
+        </main>
     );
 }
 

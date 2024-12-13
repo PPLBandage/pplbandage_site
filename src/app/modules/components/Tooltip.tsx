@@ -41,7 +41,6 @@ export const Tooltip = ({ body, children, timeout = 800, className, parent_id, o
         if (parent_id) {
             const el = document.getElementById(parent_id);
             const rect = el.getBoundingClientRect();
-            console.log(rect.x, rect.y)
             position_x -= rect.x;
             position_y -= rect.y
         }

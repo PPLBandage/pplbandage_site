@@ -4,10 +4,12 @@ import { setTheme } from "@/app/me/settings/setTheme";
 import style from "@/app/styles/footer.module.css";
 import { useCookies } from "next-client-cookies";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Footer = () => {
     const cookies = useCookies();
+    const path = usePathname();
     const themes = ['default', 'amoled'];
     const initialThemeIndex = themes.indexOf(cookies.get('theme_main') || 'default');
     const [theme, setTheme_] = useState<number>(initialThemeIndex !== -1 ? initialThemeIndex : 0);
@@ -21,8 +23,10 @@ const Footer = () => {
         setTheme(themes[theme], cookies);
     }, [theme]);
 
+    if (path === '/') return null;
+
     return (
-        <footer className={style.footer}>
+        <footer className={style.footer} style={{ marginLeft: '1rem', marginRight: '1rem' }}>
             <div className={style.container}>
                 <div className={style.links}>
                     <div className={style.links_cont}>

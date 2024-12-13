@@ -1,15 +1,13 @@
 "use client";
 
-import React, { createContext, useContext } from "react";
+import React from "react";
 import { useEffect, useState } from "react";
-import Header from "@/app/modules/components/Header";
 import Style from "@/app/styles/workshop/page.module.css";
 
 import { Paginator } from "@/app/modules/components/Paginator";
 import { Search } from "@/app/modules/components/Search";
 import { BandageResponse, Category } from "@/app/interfaces";
 import { constrain } from "@/app/modules/components/Card";
-import Footer from "@/app/modules/components/Footer";
 import Image from "next/image";
 import styles_card from "@/app/styles/me/me.module.css";
 import IconSvg from '@/app/resources/icon.svg';
@@ -129,38 +127,34 @@ export default function Home() {
 
     return (
         <ConfigContext.Provider value={{ lastConfig: { ...lastConfig, totalCount } }}>
-            <body>
-                <BrowserNotification
-                    expanded={alertShown}
-                    onClose={() => {
-                        cookies.set('warningAccepted', 'true');
-                        setAlertShown(false);
-                    }}
-                />
-                <Header />
-                <main className={Style.main}>
-                    <div className={Style.center}>
-                        <Search
-                            sort={sort}
-                            take={take}
-                            search={search}
-                            categories={categories}
-                            onSearch={setSearch}
-                            onChangeTake={setTake}
-                            onChangeSort={setSort}
-                            onChangeFilters={setFilters} />
+            <BrowserNotification
+                expanded={alertShown}
+                onClose={() => {
+                    cookies.set('warningAccepted', 'true');
+                    setAlertShown(false);
+                }}
+            />
+            <main className={Style.main}>
+                <div className={Style.center}>
+                    <Search
+                        sort={sort}
+                        take={take}
+                        search={search}
+                        categories={categories}
+                        onSearch={setSearch}
+                        onChangeTake={setTake}
+                        onChangeSort={setSort}
+                        onChangeFilters={setFilters} />
 
-                        <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />
-                        {elements && elements.length > 0 ?
-                            <SimpleGrid>{elements}</SimpleGrid> :
-                            <TheresNothingHere elements={elements} />
-                        }
-                        {elements && elements.length > 0 &&
-                            <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
-                    </div>
-                    <Footer />
-                </main>
-            </body>
+                    <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />
+                    {elements && elements.length > 0 ?
+                        <SimpleGrid>{elements}</SimpleGrid> :
+                        <TheresNothingHere elements={elements} />
+                    }
+                    {elements && elements.length > 0 &&
+                        <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
+                </div>
+            </main>
         </ConfigContext.Provider>
     );
 }

@@ -5,7 +5,7 @@ import useCookie from "@/app/modules/utils/useCookie";
 import { useEffect, useRef, useState } from "react";
 import style_root from '@/app/styles/admin/page.module.css';
 import { redirect, useRouter } from "next/navigation";
-import Header, { Query } from "@/app/modules/components/Header";
+import { Query } from "@/app/modules/components/Header";
 import AdaptiveGrid from "../modules/components/AdaptiveGrid";
 import { Fira_Code } from "next/font/google";
 import Link from "next/link";
@@ -155,14 +155,11 @@ const Admin = () => {
     const updateUsers = user && (user.permissions.includes('updateusers') || user.permissions.includes('superadmin'));
 
     return (
-        <body>
-            <Header />
-            <main className={style_root.main}>
-                <div className={style_root.main_container}>
-                    {updateUsers && <Users />}
-                </div>
-            </main>
-        </body>
+        <main className={style_root.main}>
+            <div className={style_root.main_container}>
+                {updateUsers && <Users />}
+            </div>
+        </main>
     );
 }
 

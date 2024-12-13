@@ -3,7 +3,6 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
-import Header from "@/app/modules/components/Header";
 import useCookie from '@/app/modules/utils/useCookie';
 import { Cookies, useCookies } from 'next-client-cookies';
 import styles_me from "@/app/styles/me/me.module.css";
@@ -44,8 +43,7 @@ const Main = () => {
     }, [logged])
 
     return (
-        <body>
-            <Header />
+        <main>
             {isLogged &&
                 <Me>
                     {data && data.length != 0 ?
@@ -58,7 +56,7 @@ const Main = () => {
                     }
                 </Me>
             }
-        </body>
+        </main>
     );
 }
 

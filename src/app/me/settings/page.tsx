@@ -7,7 +7,6 @@ import { redirect } from "next/navigation";
 import Style from "@/app/styles/me/connections.module.css";
 import Style_themes from "@/app/styles/me/themes.module.css";
 import Style_safety from "@/app/styles/me/safety.module.css";
-import Header from "@/app/modules/components/Header";
 import useCookie from '@/app/modules/utils/useCookie';
 import Image from 'next/image';
 import { Me } from '@/app/modules/components/MeSidebar';
@@ -83,8 +82,7 @@ const Page = () => {
 
 
     return (
-        <body>
-            <Header />
+        <main>
             {logged &&
                 <Me>
                     <div
@@ -103,7 +101,7 @@ const Page = () => {
                     </div>
                 </Me>
             }
-        </body >
+        </main>
     );
 }
 

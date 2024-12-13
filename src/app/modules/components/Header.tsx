@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
 import Styles from "@/app/styles/header.module.css";
 import { CSSTransition } from 'react-transition-group';
 import { deleteCookie } from 'cookies-next';
-import Link from 'next/link';
+import Link, { LinkProps } from 'next/link';
 import Image from 'next/image';
 import { useQuery } from "@tanstack/react-query";
 import useCookie from "@/app/modules/utils/useCookie";
@@ -24,6 +24,8 @@ import {
 } from '@tabler/icons-react';
 import IconCropped from '@/app/resources/icon-cropped.svg';
 import ApiManager from "../utils/apiManager";
+import { useRouter } from "next/navigation";
+import { createContext, useContext } from "react";
 
 export interface Query {
     username: string;
@@ -39,6 +41,34 @@ export interface Query {
     roles: Interfaces.Category[],
     last_accessed?: Date
 }
+
+const ExpandContext = createContext<{ setExpanded: Dispatch<SetStateAction<boolean>> }>(null);
+const useExpandContext = () => useContext(ExpandContext);
+
+interface HeaderLinkProps
+    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">,
+    LinkProps {
+    children: ReactNode;
+    href: string;
+}
+
+export const HeaderLink: React.FC<HeaderLinkProps> = ({ children, href, ...props }) => {
+    const router = useRouter();
+    const { setExpanded } = useExpandContext();
+
+    const handleTransition = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        e.preventDefault();
+        setExpanded(false);
+
+        router.push(href);
+    };
+
+    return (
+        <Link {...props} href={href} onClick={handleTransition}>
+            {children}
+        </Link>
+    );
+};
 
 const Header = (): JSX.Element => {
     const cookie = useCookie('sessionId');
@@ -69,7 +99,7 @@ const Header = (): JSX.Element => {
     }, [cookie])
 
     return (
-        <>
+        <ExpandContext.Provider value={{ setExpanded }}>
             {expanded && <div className={Styles.expanding_menu_parent} onClick={() => setExpanded(false)} />}
             <header className={Styles.header}>
                 <div className={Styles.header_child} style={{ padding: logged ? '.5rem' : '.9rem' }}>
@@ -102,7 +132,7 @@ const Header = (): JSX.Element => {
                     </CSSTransition>
                 </div>
             </header>
-        </>
+        </ExpandContext.Provider>
     );
 };
 
@@ -142,13 +172,13 @@ const AvatarMenu = ({ data, loading, expanded, expand }: AvatarMenuProps) => {
 const LoggedMenu = ({ admin }: { admin: boolean }) => {
     return (
         <>
-            <Link className={Styles.menu_element} href="/me"><IconUser /><span>Личный кабинет</span></Link>
-            <Link className={Styles.menu_element} href="/workshop/create"><IconPlus /><span>Создать</span></Link>
+            <HeaderLink className={Styles.menu_element} href="/me"><IconUser /><span>Личный кабинет</span></HeaderLink>
+            <HeaderLink className={Styles.menu_element} href="/workshop/create"><IconPlus /><span>Создать</span></HeaderLink>
             <hr style={{ border: "1px var(--hr-color) solid", margin: "2px" }}></hr>
-            <Link className={Styles.menu_element} href="/"><IconSmartHome /><span>Главная</span></Link>
-            <Link className={Styles.menu_element} href="/workshop"><IconStack /><span>Мастерская</span></Link>
-            <Link className={Styles.menu_element} href="/tutorials"><IconBooks /><span>Туториалы</span></Link>
-            {admin && <Link className={Styles.menu_element} href="/admin"><IconUserCog /><span>Админ панель</span></Link>}
+            <HeaderLink className={Styles.menu_element} href="/"><IconSmartHome /><span>Главная</span></HeaderLink>
+            <HeaderLink className={Styles.menu_element} href="/workshop"><IconStack /><span>Мастерская</span></HeaderLink>
+            <HeaderLink className={Styles.menu_element} href="/tutorials"><IconBooks /><span>Туториалы</span></HeaderLink>
+            {admin && <HeaderLink className={Styles.menu_element} href="/admin"><IconUserCog /><span>Админ панель</span></HeaderLink>}
             <a className={Styles.menu_element} onClick={() => logout()}><IconLogout /><span>Выйти</span></a>
         </>
     );
@@ -157,11 +187,11 @@ const LoggedMenu = ({ admin }: { admin: boolean }) => {
 const UnloggedMenu = () => {
     return (
         <>
-            <Link className={Styles.menu_element} href="/me"><IconLogin /><span>Войти</span></Link>
+            <HeaderLink className={Styles.menu_element} href="/me"><IconLogin /><span>Войти</span></HeaderLink>
             <hr style={{ border: "1px var(--hr-color) solid", margin: "2px" }}></hr>
-            <Link className={Styles.menu_element} href="/"><IconSmartHome /><span>Главная</span></Link>
-            <Link className={Styles.menu_element} href="/workshop"><IconStack /><span>Мастерская</span></Link>
-            <Link className={Styles.menu_element} href="/tutorials"><IconBooks /><span>Туториалы</span></Link >
+            <HeaderLink className={Styles.menu_element} href="/"><IconSmartHome /><span>Главная</span></HeaderLink>
+            <HeaderLink className={Styles.menu_element} href="/workshop"><IconStack /><span>Мастерская</span></HeaderLink>
+            <HeaderLink className={Styles.menu_element} href="/tutorials"><IconBooks /><span>Туториалы</span></HeaderLink >
         </>
     );
 }

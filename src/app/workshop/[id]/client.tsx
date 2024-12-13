@@ -9,11 +9,9 @@ import * as Interfaces from "@/app/interfaces";
 import Client, { b64Prefix } from "./bandage_engine";
 import SkinView3D from "@/app/modules/components/SkinView";
 
-import Header from "@/app/modules/components/Header";
 import Select from 'react-select';
 import debounce from 'lodash.debounce';
 import NavigatorEl from '@/app/modules/components/Navigator';
-import Footer from '@/app/modules/components/Footer';
 import { anims } from '@/app/workshop/poses';
 import asyncImage from '@/app/modules/utils/asyncImage';
 import { CSSTransition } from 'react-transition-group';
@@ -185,8 +183,7 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
     }, []);
 
     return (
-        <body>
-            <Header />
+        <>
             <CSSTransition
                 in={loadExpanded}
                 timeout={230}
@@ -339,8 +336,7 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                         </div>
                     </div>
                 </div>
-                <Footer />
             </main>
-        </body>
+        </>
     );
 }

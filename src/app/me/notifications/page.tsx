@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { redirect, } from "next/navigation";
 import Style from "@/app/styles/me/notifications.module.css";
-import Header from "@/app/modules/components/Header";
 import useCookie from '@/app/modules/utils/useCookie';
 import { Me } from '@/app/modules/components/MeSidebar';
 import { formatDate } from '@/app/modules/components/Card';
@@ -58,8 +57,7 @@ const Notifications = () => {
     })
 
     return (
-        <body>
-            <Header />
+        <main>
             <Me>
                 <div id="sidebar" className={Style.container} style={notifications != null ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
                     {notifications?.data.length > 0 ?
@@ -73,7 +71,7 @@ const Notifications = () => {
                     }
                 </div>
             </Me>
-        </body>
+        </main>
     );
 }
 

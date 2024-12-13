@@ -5,6 +5,8 @@ import { CookiesProvider } from 'next-client-cookies/server';
 import { headers } from 'next/headers';
 import meta from '@/app/meta.json';
 import { merge } from 'lodash';
+import Footer from "./modules/components/Footer";
+import Header from "./modules/components/Header";
 
 export const generateMetadata = async (): Promise<Metadata | undefined> => {
     const headersList = headers();
@@ -20,7 +22,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <CookiesProvider>
             <Providers>
-                {children}
+                <body>
+                    <div>
+                        <Header />
+                        {children}
+                    </div>
+                    <Footer />
+                </body>
             </Providers>
         </CookiesProvider>
     );

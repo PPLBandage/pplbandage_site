@@ -11,9 +11,9 @@ import Header from "./modules/components/Header";
 export const generateMetadata = async (): Promise<Metadata | undefined> => {
     const headersList = headers();
     const path = headersList.get('X-Forwarded-Path')?.split('?')[0];  // Working only with Nginx config!
-    if (!path) return;
     const object = (meta as { [key: string]: any });
     const base = meta.base;
+    if (!path) return base;
     const extend = object[path];
     return merge({}, base, extend) as Metadata;
 }

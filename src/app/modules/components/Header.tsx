@@ -45,6 +45,8 @@ export interface Query {
 const ExpandContext = createContext<{ setExpanded: Dispatch<SetStateAction<boolean>> }>(null);
 const useExpandContext = () => useContext(ExpandContext);
 
+export const adminRoles = ['managebandages', 'updateusers', 'superadmin']
+
 interface HeaderLinkProps
     extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">,
     LinkProps {
@@ -92,7 +94,7 @@ const Header = (): JSX.Element => {
     });
 
     const [loading, setLoading] = useState<boolean>(!!cookie && !data);
-    const admin = !data?.permissions.every(perm => perm === 'default');
+    const admin = data?.permissions.some(role => adminRoles.includes(role));
 
     useEffect(() => {
         setLogged(!!cookie);

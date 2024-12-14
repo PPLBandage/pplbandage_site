@@ -5,7 +5,7 @@ import useCookie from "@/app/modules/utils/useCookie";
 import { useEffect, useRef, useState } from "react";
 import style_root from '@/app/styles/admin/page.module.css';
 import { redirect, useRouter } from "next/navigation";
-import { Query } from "@/app/modules/components/Header";
+import { adminRoles, Query } from "@/app/modules/components/Header";
 import AdaptiveGrid from "../modules/components/AdaptiveGrid";
 import { Fira_Code } from "next/font/google";
 import Link from "next/link";
@@ -143,7 +143,7 @@ const Admin = () => {
 
     useEffect(() => {
         ApiManager.getMe().then(data => {
-            if (data.permissions.every(perm => perm === 'default')) {
+            if (!data?.permissions.some(role => adminRoles.includes(role))) {
                 router.replace('/');
                 return;
             }

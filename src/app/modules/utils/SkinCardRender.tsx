@@ -40,8 +40,8 @@ export const render = (
     data: Bandage[],
     styles: { [key: string]: string; },
     base_skin: HTMLImageElement
-): Promise<JSX.Element[]> => {
-    return Promise.all(data.map(async el => {
+): Promise<JSX.Element[]> =>
+    Promise.all(data.map(async el => {
         const colorable = el.categories.some(val => val.colorable);
         const random_color = [randint(0, 255), randint(0, 255), randint(0, 255)];
 
@@ -67,7 +67,6 @@ export const render = (
             />
         );
     }));
-}
 
 
 export const renderSkin = async (

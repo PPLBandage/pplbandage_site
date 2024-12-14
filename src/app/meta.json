@@ -109,5 +109,13 @@
             "title": "Контакты · Повязки Pepeland",
             "description": "Способы связи с администрацией"
         }
+    },
+    "/admin": {
+        "title": "Админ панель · Повязки Pepeland",
+        "description": "Админ панель",
+        "openGraph": {
+            "title": "Админ панель · Повязки Pepeland",
+            "description": "Админ панель"
+        }
     }
 }

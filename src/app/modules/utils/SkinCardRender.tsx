@@ -58,7 +58,6 @@ export const render = (
             el.accent_color = rgbToHex(~~random_color[0], ~~random_color[1], ~~random_color[2]);
         }
 
-        console.log(el.accent_color);
         return (
             <Card
                 el={el}

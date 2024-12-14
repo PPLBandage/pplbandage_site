@@ -40,30 +40,32 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
             return;
         }
 
-        ApiManager.getSkin(nickname).then(response => {
-            if (response.status !== 200) {
-                switch (response.status) {
-                    case 404:
-                        setError("Игрок с таким никнеймом не найден!");
-                        break;
-                    case 429:
-                        setError("Сервера Mojang перегружены, пожалуйста, попробуйте через пару минут");
-                        break;
-                    default:
-                        setError(`Не удалось получить ник! (${response.status})`);
-                        break;
+        ApiManager.getSkin(nickname)
+            .then(response => {
+                if (response.status !== 200) {
+                    switch (response.status) {
+                        case 404:
+                            setError("Игрок с таким никнеймом не найден!");
+                            break;
+                        case 429:
+                            setError("Сервера Mojang перегружены, пожалуйста, попробуйте через пару минут");
+                            break;
+                        default:
+                            setError(`Не удалось получить ник! (${response.status})`);
+                            break;
+                    }
+                    return;
                 }
-                return;
-            }
 
-            const data = response.data as SkinResponse;
-            setData({
-                data: b64Prefix + data.data.skin.data,
-                slim: data.data.skin.slim,
-                cape: data.data.cape
-            });
-            setLoaded(true);
-        });
+                const data = response.data as SkinResponse;
+                setData({
+                    data: b64Prefix + data.data.skin.data,
+                    slim: data.data.skin.slim,
+                    cape: data.data.cape
+                });
+                setLoaded(true);
+            })
+            .catch(console.error);
     }
 
     const setError = (err: string) => {

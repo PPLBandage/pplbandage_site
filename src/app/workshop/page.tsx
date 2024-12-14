@@ -69,7 +69,7 @@ export default function Home() {
             }
 
             setFirstLoaded(true);
-        });
+        }).catch(console.error);
 
         if (!workshopState) {
             setFirstLoaded(true);
@@ -92,10 +92,12 @@ export default function Home() {
             return;
         }
 
-        ApiManager.getWorkshop(config).then(data => {
-            setData(data);
-            setTotalCount(data.totalCount);
-        });
+        ApiManager.getWorkshop(config)
+            .then(data => {
+                setData(data);
+                setTotalCount(data.totalCount);
+            })
+            .catch(console.error);
 
         setLastConfig(config);
     }, [page, search, take, filters, sort, firstLoaded])

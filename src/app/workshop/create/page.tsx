@@ -143,15 +143,17 @@ const Editor = ({
     const [useOldMethod, setUseOldMethod] = useState<boolean>(false);
 
     useEffect(() => {
-        ApiManager.getCategories(true).then(data => {
-            setAllCategories(data);
-            if (window.location.hash === '#colorable') {
-                const colorable_category = data.find(category => category.colorable);
-                if (colorable_category) {
-                    setEnabledCategories([colorable_category]);
+        ApiManager.getCategories(true)
+            .then(data => {
+                setAllCategories(data);
+                if (window.location.hash === '#colorable') {
+                    const colorable_category = data.find(category => category.colorable);
+                    if (colorable_category) {
+                        setEnabledCategories([colorable_category]);
+                    }
                 }
-            }
-        });
+            })
+            .catch(console.error);
     }, []);
 
     const debouncedHandleColorChange = useCallback(

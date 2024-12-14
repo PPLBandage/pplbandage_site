@@ -34,7 +34,7 @@ const EditElement = ({
     const [accessLevel, setAccessLevel] = useState<number>(undefined);
 
     useEffect(() => {
-        ApiManager.getCategories(true).then(setAllCategories);
+        ApiManager.getCategories(true).then(setAllCategories).catch(console.error);
     }, []);
 
     function capitalize(string: string) {
@@ -76,7 +76,7 @@ const EditElement = ({
         if (!confirm('Заархивировать повязку? После архивации её будет невозможно изменить!')) return;
         ApiManager.archiveBandage(bandage.external_id)
             .then(window.location.reload)
-            .catch(err => alert(err.data.message));
+            .catch(err => alert(err.data.message_ru || err.data.message));
     }
 
     return <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>

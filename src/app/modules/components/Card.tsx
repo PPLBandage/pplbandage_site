@@ -126,6 +126,7 @@ export const StarElement = ({ el }: { el: Bandage }) => {
         if (logged && starred != last) {
             ApiManager.setStar(el.external_id, { set: starred })
                 .then(data => setStarsCount(data.new_count))
+                .catch(console.error)
                 .finally(() => setLast(starred));
         }
     }, [starred]);

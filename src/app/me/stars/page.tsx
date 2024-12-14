@@ -27,7 +27,7 @@ const Main = () => {
     }
 
     useEffect(() => {
-        ApiManager.getMeStars().then(data => setData(data.reverse()));
+        ApiManager.getMeStars().then(data => setData(data.reverse())).catch(console.error);
     }, []);
 
 

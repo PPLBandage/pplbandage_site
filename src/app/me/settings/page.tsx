@@ -74,7 +74,7 @@ const Page = () => {
         queryKey: ["userConnections"],
         retry: false,
         queryFn: async () => {
-            const res = await ApiManager.getMeSettings();
+            const res = await ApiManager.getMeSettings().catch(console.error);
             setLoaded(true);
             return res;
         },
@@ -144,7 +144,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
         const confirmed = confirm("Отвязать учётную запись Minecraft? Вы сможете в любое время привязать ее обратно.");
         if (!confirmed) return;
 
-        ApiManager.disconnectMinecraft().then(refetch);
+        ApiManager.disconnectMinecraft().then(refetch).catch(console.error);
     }
 
     const setValidAPI = (state: boolean): Promise<void> => {
@@ -339,19 +339,21 @@ const Safety = () => {
                 ))
             );
             setLoading(false);
-        })
+        }).catch(console.error);
     }, []);
 
     const logoutSession = (session_id: number) => {
         if (!confirm(`Выйти с этого устройства?`)) return;
-        ApiManager.logoutSession(session_id).then(() => setSessions(sessions.filter(session_ => session_.id !== session_id)))
+        ApiManager.logoutSession(session_id)
+            .then(() => setSessions(sessions.filter(session_ => session_.id !== session_id)))
+            .catch(response => alert(response.data.message_ru || response.data.message));
     }
 
     const logoutSessionAll = () => {
         if (!confirm('Выйти со всех устройств, кроме этого?')) return;
         ApiManager.logoutAllSessions()
             .then(() => setSessions(sessions.filter(session_ => session_.is_self)))
-            .catch(response => alert(response.data.message));
+            .catch(response => alert(response.data.message_ru || response.data.message));
     }
 
     const sessions_elements = sessions.map(session =>

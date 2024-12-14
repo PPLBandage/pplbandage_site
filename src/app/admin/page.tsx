@@ -72,7 +72,7 @@ const Users = () => {
     const [userQuery, setQuery] = useState<string>('');
 
     useEffect(() => {
-        ApiManager.getUsers(userQuery).then(setUsers);
+        ApiManager.getUsers(userQuery).then(setUsers).catch(console.error);
     }, [userQuery]);
 
     const updateUser = (user: UserAdmins, data: { banned?: boolean, skip_ppl_check?: boolean }): Promise<void> => {
@@ -147,9 +147,8 @@ const Admin = () => {
                 router.replace('/');
                 return;
             }
-
             setUser(data);
-        })
+        }).catch(console.error);
     }, [])
 
     const updateUsers = user && (user.permissions.includes('updateusers') || user.permissions.includes('superadmin'));

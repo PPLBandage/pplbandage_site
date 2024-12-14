@@ -20,7 +20,7 @@ export default function Home() {
     const [roles, setRoles] = useState<Role[]>([]);
 
     useEffect(() => {
-        ApiManager.getRoles().then(setRoles);
+        ApiManager.getRoles().then(setRoles).catch(console.error);
     }, [])
 
     const roles_data = roles.map((role) => {

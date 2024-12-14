@@ -32,7 +32,7 @@ const Notifications = () => {
 
     useEffect(() => {
         if (page < 0) return;
-        ApiManager.getMeNotifications({ page }).then(setNotifications);
+        ApiManager.getMeNotifications({ page }).then(setNotifications).catch(console.error);
     }, [page]);
 
     const notifications_el = notifications?.data.map((notification) => {

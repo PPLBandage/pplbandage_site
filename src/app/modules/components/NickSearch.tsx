@@ -77,6 +77,7 @@ const Searcher = ({ onChange }: SearchProps) => {
                         }
                     ]);
                 })
+                .catch(console.error)
                 .finally(() => setLoading(false));
         }
     }

@@ -61,7 +61,7 @@ const Main = () => {
     }, []);
 
     useEffect(() => {
-        isLogged && ApiManager.getMeWorks().then(setData);
+        isLogged && ApiManager.getMeWorks().then(setData).catch(console.error);
     }, [isLogged]);
 
     return (
@@ -112,7 +112,7 @@ const Login = () => {
     })
 
     useEffect(() => {
-        ApiManager.getRoles().then(setRoles);
+        ApiManager.getRoles().then(setRoles).catch(console.error);
     }, [])
 
     return (

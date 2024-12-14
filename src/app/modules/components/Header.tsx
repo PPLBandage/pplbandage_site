@@ -137,10 +137,12 @@ const Header = (): JSX.Element => {
 };
 
 const logout = () => {
-    ApiManager.logout().then(() => {
-        deleteCookie('sessionId');
-        window.location.assign('/');
-    });
+    ApiManager.logout()
+        .then(() => {
+            deleteCookie('sessionId');
+            window.location.assign('/');
+        })
+        .catch(console.error);
 }
 
 interface AvatarMenuProps {

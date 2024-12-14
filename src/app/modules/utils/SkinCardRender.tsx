@@ -3,6 +3,7 @@ import { Card } from "../components/Card";
 import { SkinViewer } from "skinview3d";
 import asyncImage from "@/app/modules/utils/asyncImage";
 import { b64Prefix, fillPepe } from "@/app/workshop/[id]/bandage_engine";
+import { rgbToHex } from "@/app/workshop/[id]/client";
 
 
 const randint = (min: number, max: number): number => {
@@ -13,7 +14,7 @@ const randint = (min: number, max: number): number => {
 export const generateSkin = async (
     b64: string,
     base_skin: HTMLImageElement,
-    colorable: boolean
+    color?: number[]
 ): Promise<HTMLCanvasElement> => {
     const bandage = await asyncImage(b64Prefix + b64);
 
@@ -25,7 +26,7 @@ export const generateSkin = async (
     skin_canvas.width = 64;
     skin_canvas.height = 64;
 
-    const bandage_new = colorable ? fillPepe(bandage, [randint(0, 255), randint(0, 255), randint(0, 255)]) : bandage;
+    const bandage_new = !!color ? fillPepe(bandage, color) : bandage;
     skin_context.drawImage(base_skin, 0, 0);
     skin_context.drawImage(bandage_new, 0, 0, 16, height, 48, 52 + position, 16, height);
     skin_context.drawImage(bandage_new, 0, height, 16, height, 32, 52 + position, 16, height);
@@ -41,9 +42,23 @@ export const render = (
     base_skin: HTMLImageElement
 ): Promise<JSX.Element[]> => {
     return Promise.all(data.map(async el => {
-        const result = await generateSkin(el.base64, base_skin, el.categories.some(val => val.colorable));
+        const colorable = el.categories.some(val => val.colorable);
+        const random_color = [randint(0, 255), randint(0, 255), randint(0, 255)];
+
+        const result = await generateSkin(
+            el.base64,
+            base_skin,
+            colorable ? random_color : undefined
+        );
+
         skinViewer.loadSkin(result, { model: 'default' });
         skinViewer.render();
+
+        if (colorable) {
+            el.accent_color = rgbToHex(~~random_color[0], ~~random_color[1], ~~random_color[2]);
+        }
+
+        console.log(el.accent_color);
         return (
             <Card
                 el={el}

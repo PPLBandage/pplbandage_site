@@ -149,12 +149,30 @@ export default function Home() {
                         onChangeFilters={setFilters} />
 
                     <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />
-                    {elements && elements.length > 0 ?
-                        <SimpleGrid>{elements}</SimpleGrid> :
-                        <TheresNothingHere elements={elements} />
+
+                    <div
+                        style={
+                            elements ?
+                                { opacity: "1", transform: "translateY(0)" }
+                                :
+                                { opacity: "0", transform: "translateY(50px)" }
+                        }
+                        className={Style.animated}>
+                        <SimpleGrid>{elements}</SimpleGrid>
+                    </div>
+
+                    {(!elements || elements.length === 0) &&
+                        <TheresNothingHere
+                            elements={elements} />
                     }
+
                     {elements && elements.length > 0 &&
-                        <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />}
+                        <Paginator
+                            total_count={totalCount}
+                            take={take}
+                            onChange={setPage}
+                            page={page} />
+                    }
                 </div>
             </main>
         </ConfigContext.Provider>

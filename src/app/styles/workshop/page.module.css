@@ -114,6 +114,10 @@
     width: 100%;
 }
 
+.animated {
+    transition: transform 300ms, opacity 300ms;
+}
+
 @keyframes loading {
 
     0%,

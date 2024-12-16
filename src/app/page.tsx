@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 import HomeClient from "./root_client";
 
-
 const Home = async () => {
     let pong = null;
     try {

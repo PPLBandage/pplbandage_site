@@ -1,5 +1,7 @@
 import style from '@/app/styles/tutorials/common.module.css';
 import { CustomLink } from "../modules/components/Search";
+import InfoCard from '../modules/components/InfoCard';
+import { IconAlertTriangle } from '@tabler/icons-react';
 
 const Main = () => {
     return (
@@ -32,8 +34,19 @@ const Main = () => {
                     </p>
 
                     <h3>4. Действия администрации и модерация</h3>
+                    <InfoCard
+                        color="#D29922"
+                        title={
+                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
+                                <IconAlertTriangle width={24} height={24} />
+                                <p style={{ margin: 0 }}>Внимание</p>
+                            </div>
+                        }
+                    >
+                        <p style={{ margin: 0 }}>Не обращайтесь к модераторам PepeLand с вопросами по данному сайту! Они не принимают непосредственного участия в модерации повязок.</p>
+                    </InfoCard>
                     <p style={{ marginLeft: '1rem' }}>
-                        <b>4.1</b> Окончательное решение всегда остаётся за Администрацией сайта.<br />
+                        <b>4.1</b> Окончательное решение всегда остаётся за <CustomLink href="/contacts">Администрацией сайта</CustomLink>.<br />
                         <b>4.2</b> Администрация сайта может в любой момент отправить повязку на повторную модерацию, отклонить после одобрения или полностью удалить.<br />
                         <b>4.3</b> При несоблюдении Пользователем настоящих Правил, Администрация в праве заблокировать учётную запись Пользователя без возможности разблокировки.<br />
                         <b>4.4</b> Если Пользователь был заблокирован в сети серверов ПепеЛэнд, он автоматически блокируется на сайте.<br />

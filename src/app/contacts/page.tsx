@@ -3,7 +3,8 @@ import style from './styles/page.module.css';
 import style_card from './styles/card.module.css';
 import Image from "next/image";
 import { CSSProperties } from "react";
-import { IconBrandTelegram, IconExternalLink } from "@tabler/icons-react";
+import { IconAlertTriangle, IconBrandTelegram, IconExternalLink } from "@tabler/icons-react";
+import InfoCard from "../modules/components/InfoCard";
 
 
 interface CardProps {
@@ -62,13 +63,40 @@ const Card = (props: CardProps) => {
 const Home = () => {
     return (
         <main className={style.main}>
-            <div className={style.main_container}>
-                <h1 style={{ marginTop: 0, width: '100%', textAlign: 'center', fontSize: '2rem' }}>Контакты</h1>
+            <div
+                className={style.main_container}
+                style={{
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '1rem'
+                }}
+            >
+                <h1
+                    style={{
+                        margin: 0,
+                        width: '100%',
+                        textAlign: 'center',
+                        fontSize: '2rem'
+                    }}>Контакты</h1>
+                <InfoCard
+                    color="#D29922"
+                    title={
+                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
+                            <IconAlertTriangle width={24} height={24} />
+                            <p style={{ margin: 0 }}>Внимание</p>
+                        </div>
+                    }
+                    style={{ maxWidth: '516px' }}
+                >
+                    <p style={{ margin: 0 }}>Не обращайтесь к модераторам PepeLand с вопросами по данному сайту! Они не принимают непосредственного участия в модерации повязок.</p>
+                </InfoCard>
                 <div className={style.cards_container}>
                     <Card
                         name="AndcoolSystems"
                         image="/static/contacts/dino.gif"
-                        description="Главный разработчик"
+                        description="Главный разработчик, модератор повязок"
                         color="#f8a824"
                         site_name="andcoolsystems"
                         links={[

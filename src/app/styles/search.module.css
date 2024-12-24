@@ -145,9 +145,9 @@
     box-shadow: 3px 3px 8px -3px rgba(0, 0, 0, 0.75);
     display: flex;
     gap: .5rem;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
-    max-width: 300px;
+    max-height: 300px;
 }
 
 .category {
@@ -188,7 +188,7 @@
     .category_menu {
         left: 2rem;
         right: 2rem;
-        max-width: none;
+        max-height: none;
     }
 
 }

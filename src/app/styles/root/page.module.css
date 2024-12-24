@@ -110,6 +110,9 @@
     align-items: center;
     gap: 1rem;
     animation: in_animation .5s ease-out;
+
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .container p {

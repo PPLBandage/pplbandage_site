@@ -6,6 +6,7 @@ import Link from "next/link";
 import { CustomLink } from "./modules/components/Search";
 import { IconInfinity, IconAlertTriangle, IconStack, IconX } from '@tabler/icons-react';
 import NextImage from 'next/image';
+import InfoCard from "./modules/components/InfoCard";
 
 const HomeClient = ({ pong }: { pong: number }) => {
     const [animationState, setAnimationState] = useState<boolean>(true);
@@ -41,13 +42,19 @@ const HomeClient = ({ pong }: { pong: number }) => {
                     <p className={Style.p} style={{ display: "flex", alignItems: "center" }}><IconInfinity width={40} height={40} className={Style.inf} color='rgba(45, 212, 191)' />Стилей</p>
                     <Link href="/workshop" className={Style.link}><IconStack />Открыть мастерскую</Link>
                     {pong !== 200 &&
-                        <div className={Style.api_unavailable}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-                                <IconAlertTriangle width={24} height={24} />
-                                <h3 style={{ margin: 0 }}>Service Unavailable</h3>
-                            </div>
-                            <p>Сервис в настоящий момент недоступен. Попробуйте позже или обратитесь в <CustomLink href="/contacts">администрацию</CustomLink></p>
-                        </div>
+                        <InfoCard
+                            color="#D29922"
+                            style={{ maxWidth: '500px' }}
+                            title={
+                                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
+                                    <IconAlertTriangle width={24} height={24} />
+                                    <p style={{ margin: 0 }}>Service Unavailable</p>
+                                </div>
+                            }
+                        >
+                            <span>Сервис в настоящий момент недоступен. Попробуйте позже или обратитесь в <CustomLink href="/contacts">администрацию</CustomLink></span>
+                        </InfoCard>
+
                     }
                 </div>
             </div>

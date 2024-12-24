@@ -86,6 +86,10 @@ export default function Home() {
                             fontSize: '.8rem'
                         }}>{Math.floor(height / 2)}px</span></p>
                         }
+                        <SlideButton
+                            onChange={v => { setSlim(v); client.current?.changeSlim(v) }}
+                            value={slim}
+                            label="Тонкие руки" />
                         <Select
                             options={anims}
                             defaultValue={anims[pose]}
@@ -95,7 +99,6 @@ export default function Home() {
                             onChange={(n, _) => setPose(n.value)}
                             formatOptionLabel={(nick_value) => nick_value.label}
                         />
-                        <SlideButton onChange={v => { setSlim(v); client.current?.changeSlim(v) }} value={slim} label="Тонкие руки" />
                     </div>
                 </aside>
                 <Editor

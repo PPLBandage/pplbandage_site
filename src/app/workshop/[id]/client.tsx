@@ -260,6 +260,9 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                                 onClick={() => setLoadExpanded(true)}>
                                 <IconPlus width={24} height={24} />Загрузить скин
                             </button>
+                            <SlideButton
+                                onChange={val => client.current?.changeSlim(val)}
+                                value={slim} label="Тонкие руки" />
                             <Select
                                 options={anims}
                                 defaultValue={anims[pose]}
@@ -268,9 +271,6 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                                 isSearchable={false}
                                 onChange={(n, _) => setPose(n.value)}
                                 formatOptionLabel={nick_value => nick_value.label} />
-                            <SlideButton
-                                onChange={val => client.current?.changeSlim(val)}
-                                value={slim} label="Тонкие руки" />
                             <button className={style.skin_load} onClick={() => client.current?.download()}>
                                 <IconDownload
                                     width={24}

@@ -7,7 +7,7 @@
     bottom: 0px;
     right: 0px;
     color: var(--main-text-color);
-    animation: Load 1s;
+    animation: Load .5s;
 }
 
 .main {
@@ -31,7 +31,7 @@
     border-radius: 50%;
     filter: blur(130px);
     top: 40%;
-    transition: top 3s ease-in-out;
+    transition: top 3s cubic-bezier(0.32, 0.01, 0.68, 1);
     left: 40%;
     transform-origin: center;
 }

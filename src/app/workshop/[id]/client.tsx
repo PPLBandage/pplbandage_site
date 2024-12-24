@@ -24,6 +24,8 @@ import EditElement from './components/edit';
 import Info from './components/info';
 import RawBandageDownload from './components/rawBandageDownload';
 import { StarElement } from '@/app/modules/components/Card';
+import { CustomLink } from '@/app/modules/components/Search';
+import InfoCard from '@/app/modules/components/InfoCard';
 
 
 const body_part: readonly { value: number, label: String }[] = [
@@ -182,6 +184,19 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
         scrollTo(0, 0);
     }, []);
 
+    const check_states = {
+        review: {
+            title: 'На проверке',
+            description: 'Ваша работа сейчас проходит модерацию, дождитесь ее завершения.',
+            color: '#D29922'
+        },
+        denied: {
+            title: 'Отклонено',
+            description: <span>Ваша работа была отклонена модерацией. Для получения информации обратитесь в <CustomLink href="/contacts">поддержку</CustomLink>.</span>,
+            color: '#ff0000'
+        }
+    }
+
     return (
         <>
             <CSSTransition
@@ -207,18 +222,19 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                 <NavigatorEl path={navPath}
                     style={{ marginBottom: "1rem" }} />
                 {
-                    data.check_state ?
-                        data.check_state === "under review" ?
-                            <div className={style.check_notification}>
-                                <h3>На проверке</h3>
-                                <p>Ваша работа сейчас проходит модерацию, дождитесь ее завершения</p>
-                            </div>
-                            :
-                            <div className={style.check_notification} style={{ borderColor: "red", backgroundColor: "rgba(255, 0, 0, .13)" }}>
-                                <h3>Отклонено</h3>
-                                <p>Ваша работа была отклонена модерацией. Для получения информации обратитесь в поддержку</p>
-                            </div>
-                        : null
+                    data.check_state &&
+                    <InfoCard
+                        color={check_states[data.check_state].color}
+                        title={check_states[data.check_state].title}
+                        style={{
+                            marginBottom: '1rem',
+                            maxWidth: '1280px',
+                            marginLeft: 'auto',
+                            marginRight: 'auto'
+                        }}
+                    >
+                        {check_states[data.check_state].description}
+                    </InfoCard>
                 }
                 <div className={style.main_container}>
                     <div className={style.skin_parent} style={{ position: 'relative' }}>

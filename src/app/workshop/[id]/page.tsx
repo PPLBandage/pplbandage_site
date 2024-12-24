@@ -7,10 +7,16 @@ import { Metadata } from "next";
 import { numbersTxt } from "@/app/modules/utils/time";
 
 export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
+    const headersList = headers();
+    const cookie = headersList.get('Cookie');
+    const userAgent = headersList.get('User-Agent');
+
     const meta = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${params.id}/info`, {
         validateStatus: () => true,
         withCredentials: true,
         headers: {
+            'Cookie': cookie,
+            'User-Agent': userAgent,
             'Unique-Access': process.env.TOKEN
         }
     });

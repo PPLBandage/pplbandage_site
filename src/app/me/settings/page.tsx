@@ -172,7 +172,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
             .catch(response => {
                 const data = response.data as { message_ru: string };
                 const err = document.getElementById('error') as HTMLParagraphElement;
-                err.innerHTML = data.message_ru;
+                err.innerText = data.message_ru;
             });
     }
 

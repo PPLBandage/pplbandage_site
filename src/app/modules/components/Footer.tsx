@@ -26,7 +26,12 @@ const Footer = () => {
     if (path === '/') return null;
 
     return (
-        <footer className={style.footer} style={{ marginLeft: '1rem', marginRight: '1rem' }}>
+        <footer className={style.footer} style={{
+            marginLeft: '1rem',
+            marginRight: '1rem',
+            position: 'relative',
+            zIndex: 1
+        }}>
             <div className={style.container}>
                 <div className={style.links}>
                     <div className={style.links_cont}>

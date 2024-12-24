@@ -12,6 +12,7 @@ import Image from "next/image";
 import { Cookies, useCookies } from 'next-client-cookies';
 import ApiManager from '@/app/modules/utils/apiManager';
 import { NotificationsInterface } from '@/app/interfaces';
+import sanitizeHtml from 'sanitize-html';
 
 
 const Notifications = () => {
@@ -45,13 +46,20 @@ const Notifications = () => {
                 classN = Style.denied;
                 break;
         }
+
+        const cleanString = sanitizeHtml(notification.content, {
+            allowedTags: ['p', 'b', 'i', 'em', 'strong', 'a'],
+            allowedAttributes: {
+                'a': ['href']
+            }
+        });
         return (
             <div key={notification.id} className={`${Style.notification_container} ${classN}`}>
                 <div className={Style.date_container}>
                     <h1>{notification.author}</h1>
                     <p>{formatDate(new Date(notification.creation_date))}</p>
                 </div>
-                <p dangerouslySetInnerHTML={{ __html: notification.content }} className={Style.content} />
+                <p dangerouslySetInnerHTML={{ __html: cleanString }} className={Style.content} />
             </div>
         );
     })

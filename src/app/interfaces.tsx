@@ -30,7 +30,7 @@ export interface Bandage {
         nickname: string
     },
     permissions_level: number,
-    check_state: string | null,
+    check_state: 'review' | 'denied' | null,
     access_level: number,
     accent_color: string
 }

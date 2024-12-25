@@ -88,7 +88,7 @@ const Home = () => {
                             <p style={{ margin: 0 }}>Внимание</p>
                         </div>
                     }
-                    style={{ maxWidth: '516px' }}
+                    style={{ maxWidth: 'calc(500px + 1rem)' }}
                 >
                     <p style={{ margin: 0 }}>Не обращайтесь к модераторам PepeLand с вопросами по данному сайту! Они не принимают непосредственного участия в модерации повязок.</p>
                 </InfoCard>

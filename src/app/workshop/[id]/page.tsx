@@ -48,6 +48,19 @@ const Main = async ({ params, searchParams }: { params: { id: string }, searchPa
     const userAgent = headersList.get('User-Agent');
     const referrer = searchParams['ref'];
 
+    const sessionId = cookie.split('; ').map(cookie => cookie.split('=')).find(cookie => cookie[0] === 'sessionId');
+
+    if (!!sessionId) {
+        try {
+            await axios.post(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${params.id}/view`, {}, {
+                validateStatus: () => true,
+                headers: {
+                    'Unique-Access': process.env.TOKEN
+                }
+            });
+        } catch (e) { console.log(e); }
+    }
+
     const initial_response = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${params.id}`, {
         validateStatus: () => true,
         withCredentials: true,

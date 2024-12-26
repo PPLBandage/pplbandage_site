@@ -177,75 +177,82 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
     }
 
     return (
-        <div className={Style.container}>
-            <h3><IconBrandDiscord width={32} height={32} style={{ marginRight: ".3rem", borderRadius: 0 }} />Discord аккаунт</h3>
-            <div className={Style.discord_container}>
-                {data.connections?.discord &&
-                    <Image src={data.connections?.discord.avatar} alt="" width={64} height={64} style={{ borderRadius: "50%" }} className={Style.discord_avatar} />
-                }
-                <div className={Style.discord_name_container}>
-                    <h1>{data.connections?.discord?.name}</h1>
-                    <p className={fira.className}>{data.connections?.discord?.username}</p>
+        <>
+            <div className={Style.container}>
+                <h3><IconBrandDiscord width={32} height={32} style={{ marginRight: ".3rem", borderRadius: 0 }} />Discord аккаунт</h3>
+                <div className={Style.discord_container}>
+                    {data.connections?.discord &&
+                        <Image
+                            src={data.connections?.discord.avatar}
+                            alt="avatar"
+                            width={64}
+                            height={64}
+                            style={{ borderRadius: "50%" }}
+                            className={Style.discord_avatar} />
+                    }
+                    <div className={Style.discord_name_container}>
+                        <h1>{data.connections?.discord?.name || data.connections?.discord?.username}</h1>
+                        <p>Подключено {data.connections?.discord && formatDate(new Date(data.connections?.discord?.connected_at))}</p>
+                    </div>
                 </div>
             </div>
-            <p style={{ margin: 0 }}>с {data.connections?.discord && formatDate(new Date(data.connections?.discord?.connected_at))}</p>
 
-            <hr style={{ border: '1px var(--hr-color) solid', width: '100%' }} />
-
-            <h3><IconCube width={32} height={32} style={{ marginRight: ".3rem" }} />Minecraft аккаунт</h3>
-            {!!data.connections?.minecraft ? <>
-                <div className={Style.head_container}>
-                    {data && <Image src={b64Prefix + data.connections?.minecraft.head} alt="" width={64} height={64} />}
-                    <div className={Style.name_container}>
-                        <p className={Style.name}>{data.connections?.minecraft.nickname}</p>
-                        <p className={`${Style.uuid} ${fira.className}`}>{data.connections?.minecraft.uuid}</p>
+            <div className={Style.container}>
+                <h3><IconCube width={32} height={32} style={{ marginRight: ".3rem" }} />Minecraft аккаунт</h3>
+                {!!data.connections?.minecraft ? <>
+                    <div className={Style.head_container}>
+                        {data && <Image src={b64Prefix + data.connections?.minecraft.head} alt="" width={64} height={64} />}
+                        <div className={Style.name_container}>
+                            <p className={Style.name}>{data.connections?.minecraft.nickname}</p>
+                            <p className={`${Style.uuid} ${fira.className}`}>{data.connections?.minecraft.uuid}</p>
+                        </div>
                     </div>
-                </div>
-                <div className={Style.checkboxes}>
-                    <SlideButton
-                        label='Отображать ник в поиске'
-                        defaultValue={data.connections?.minecraft?.valid}
-                        strict={true}
-                        loadable={true}
-                        onChange={setValidAPI} />
-                    <SlideButton
-                        label='Автоматически устанавливать скин в редакторе'
-                        defaultValue={data.connections?.minecraft?.autoload}
-                        strict={true}
-                        loadable={true}
-                        onChange={setAutoloadAPI} />
+                    <div className={Style.checkboxes}>
+                        <SlideButton
+                            label='Отображать ник в поиске'
+                            defaultValue={data.connections?.minecraft?.valid}
+                            strict={true}
+                            loadable={true}
+                            onChange={setValidAPI} />
+                        <SlideButton
+                            label='Автоматически устанавливать скин в редакторе'
+                            defaultValue={data.connections?.minecraft?.autoload}
+                            strict={true}
+                            loadable={true}
+                            onChange={setAutoloadAPI} />
 
-                </div>
-                <div className={Style.checkboxes}>
-                    <span>Последний раз кэшировано {formatDate(new Date(data.connections?.minecraft?.last_cached))}</span>
-                    <button className={Style.unlink} onClick={refresh}>
-                        <IconRefresh style={{ width: "1.8rem" }} id="refresh" />Обновить кэш
-                    </button>
-
-                    <button className={Style.unlink} onClick={disconnect}>
-                        <IconX style={{ width: "1.8rem" }} />Отвязать
-                    </button>
-                </div>
-            </> : <>
-                <p style={{ margin: 0 }}>Привяжите свою учётную запись Minecraft к учетной записи PPLBandage для управления кешем скинов и настройками видимости
-                    вашего никнейма в поиске.<br />Зайдите на Minecraft
-                    сервер <span style={{ textDecoration: "underline", cursor: "pointer", fontWeight: "600" }} onClick={() => {
-                        navigator.clipboard?.writeText("oauth.pplbandage.ru");
-                    }
-                    }>oauth.pplbandage.ru</span> (версия 1.8-текущая) и получите там 6-значный код.</p>
-
-                <div>
-                    <div className={Style.code_container}>
-                        <input placeholder="Введите 6-значный код" type='number' id='code' className={Style.code_input} onChange={e => {
-                            const target = document.getElementById('code') as HTMLInputElement;
-                            if (target.value.length > 6) target.value = target.value.slice(0, 6)
-                        }} />
-                        <button className={Style.code_send} onClick={connectMinecraft}>Отправить</button>
                     </div>
-                    <p style={{ margin: 0, color: "#dd0f0f", marginTop: "5px" }} id="error"></p>
-                </div>
-            </>}
-        </div>
+                    <div className={Style.checkboxes}>
+                        <span>Последний раз кэшировано {formatDate(new Date(data.connections?.minecraft?.last_cached))}</span>
+                        <button className={Style.unlink} onClick={refresh}>
+                            <IconRefresh style={{ width: "1.8rem" }} id="refresh" />Обновить кэш
+                        </button>
+
+                        <button className={Style.unlink} onClick={disconnect}>
+                            <IconX style={{ width: "1.8rem" }} />Отвязать
+                        </button>
+                    </div>
+                </> : <>
+                    <p style={{ margin: 0 }}>Привяжите свою учётную запись Minecraft к учетной записи PPLBandage для управления кешем скинов и настройками видимости
+                        вашего никнейма в поиске.<br />Зайдите на Minecraft
+                        сервер <span style={{ textDecoration: "underline", cursor: "pointer", fontWeight: "600" }} onClick={() => {
+                            navigator.clipboard?.writeText("oauth.pplbandage.ru");
+                        }
+                        }>oauth.pplbandage.ru</span> (версия 1.8-текущая) и получите там 6-значный код.</p>
+
+                    <div>
+                        <div className={Style.code_container}>
+                            <input placeholder="Введите 6-значный код" type='number' id='code' className={Style.code_input} onChange={e => {
+                                const target = document.getElementById('code') as HTMLInputElement;
+                                if (target.value.length > 6) target.value = target.value.slice(0, 6)
+                            }} />
+                            <button className={Style.code_send} onClick={connectMinecraft}>Отправить</button>
+                        </div>
+                        <p style={{ margin: 0, color: "#dd0f0f", marginTop: "5px" }} id="error"></p>
+                    </div>
+                </>}
+            </div>
+        </>
 
     );
 }

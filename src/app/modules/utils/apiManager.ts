@@ -55,7 +55,7 @@ class ApiManager {
     /* Get Categories */
     static async getCategories(forEdit?: boolean): Promise<Interfaces.Category[]> {
         return (await this.doRequestSimple({
-            url: '/categories',
+            url: '/workshop/categories',
             method: 'GET',
             params: { for_edit: forEdit ?? false }
         })).data;
@@ -123,7 +123,7 @@ class ApiManager {
     /* Set bandage star */
     static async setStar(id: string, params: { set: boolean }): Promise<{ new_count: number, action_set: boolean }> {
         return (await this.doRequest({
-            url: `/star/${id}`,
+            url: `/workshop/star/${id}`,
             method: 'PUT',
             params
         })).data;

@@ -242,7 +242,7 @@ const Editor = ({
                         error_el.innerText = err.data.message.map((str: string) => capitalize(str)).join('\n') ||
                             `Unhandled error: ${err.status}`;
                     } else {
-                        error_el.innerText = err.data.message_ru || err.data.message;
+                        error_el.innerText = err.data.message;
                     }
                 }
             })

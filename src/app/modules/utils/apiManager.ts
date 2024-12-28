@@ -24,7 +24,13 @@ class ApiManager {
         method,
         data,
         params }: RequestProps): Promise<AxiosResponse<any, any>> {
-        const response = await authApi.request({ url, method, data, params });
+        const response = await authApi.request({
+            url,
+            method,
+            data,
+            params,
+            headers: { 'accept-language': 'ru' }
+        });
         if (response.status >= 400)
             throw response;
 
@@ -43,6 +49,7 @@ class ApiManager {
             method,
             data,
             params,
+            headers: { 'accept-language': 'ru' },
             withCredentials: true
         });
         if (response.status >= 400)

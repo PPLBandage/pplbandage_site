@@ -45,17 +45,15 @@ const Main = () => {
 
     useEffect(() => {
         if (code) {
-            authApi.post(`auth/discord/${code}`).then(response => {
-                if (response.status !== 200) {
-                    setLoadingStatus(`${response.status}: ${response.data.message_ru ||
-                        response.data.message ||
-                        httpStatusCodes[response.status]}`
-                    );
-                    return;
-                }
-                setIsLogged(true);
-                router.replace('/me');
-            })
+            authApi.post(`auth/discord/${code}`)
+                .then(response => {
+                    if (response.status !== 201) {
+                        setLoadingStatus(`${response.status}: ${response.data.message || httpStatusCodes[response.status]}`);
+                        return;
+                    }
+                    setIsLogged(true);
+                    router.replace('/me');
+                })
         }
         return () => { }
     }, []);
@@ -124,7 +122,7 @@ const Login = () => {
                     Discord
                 </a>
 
-                <span className={styles.p} id="about_logging">Для регистрации вам нужно быть членом Discord сервера <a href='https://baad.pw/ds' className={styles.a}>Pwgood</a> и иметь одну из этих <Tooltip
+                <span className={styles.p} id="about_logging">Для регистрации вам нужно быть участником Discord сервера <a href='https://baad.pw/ds' className={styles.a}>Pwgood</a> и иметь одну из этих <Tooltip
                     parent_id="about_logging"
                     body={
                         <div className={styles.roles_container}>

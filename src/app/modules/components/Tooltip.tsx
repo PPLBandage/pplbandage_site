@@ -83,7 +83,7 @@ interface GlobalTooltipProps {
 
 export const UseGlobalTooltip = ({ text, children, className, opacity = ".9" }: GlobalTooltipProps) => {
     const handleMouseEnter = () => {
-        const element = document.createElement('span');
+        const element = document.getElementById('global_tooltip') ?? document.createElement('span');
         element.id = 'global_tooltip';
         element.innerText = text;
         element.className = `${Style.tooltipStyle} ${Style.globalTooltipStyle}`;

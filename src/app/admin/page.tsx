@@ -46,7 +46,7 @@ const ForceRegister = () => {
 
         ApiManager.forceRegister(id)
             .then(() => window.location.reload())
-            .catch(e => alert(e.data.message_ru || e.data.message));
+            .catch(e => alert(e.data.message));
     }
 
     return (
@@ -79,7 +79,7 @@ const Users = () => {
         return new Promise((resolve, reject) => {
             ApiManager.updateUser(user.username, data)
                 .then(resolve)
-                .catch((err) => { alert(err.data.message_ru || err.data.message); reject(); });
+                .catch((err) => { alert(err.data.message); reject(); });
         });
     }
 

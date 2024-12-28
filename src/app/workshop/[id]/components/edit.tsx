@@ -57,7 +57,7 @@ const EditElement = ({
                     alert(response.data.message.map((str: string) => capitalize(str)).join('\n') ||
                         `Unhandled error: ${response.status}`);
                 } else {
-                    alert(response.data.message_ru || response.data.message);
+                    alert(response.data.message);
                 }
             });
     }
@@ -69,14 +69,14 @@ const EditElement = ({
         if (!second) return;
         ApiManager.deleteBandage(bandage.external_id)
             .then(() => router.replace('/workshop'))
-            .catch(err => alert(err.data.message_ru || err.data.message));
+            .catch(err => alert(err.data.message));
     }
 
     const archiveBandage = () => {
         if (!confirm('Заархивировать повязку? После архивации её будет невозможно изменить!')) return;
         ApiManager.archiveBandage(bandage.external_id)
-            .then(window.location.reload)
-            .catch(err => alert(err.data.message_ru || err.data.message));
+            .then(() => window.location.reload())
+            .catch(err => alert(err.data?.message || err.message));
     }
 
     return <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>

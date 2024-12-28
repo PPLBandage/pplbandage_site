@@ -170,9 +170,9 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
         ApiManager.connectMinecraft(target.value)
             .then(refetch)
             .catch(response => {
-                const data = response.data as { message_ru: string };
+                const data = response.data as { message: string };
                 const err = document.getElementById('error') as HTMLParagraphElement;
-                err.innerText = data.message_ru;
+                err.innerText = data.message;
             });
     }
 
@@ -353,14 +353,14 @@ const Safety = () => {
         if (!confirm(`Выйти с этого устройства?`)) return;
         ApiManager.logoutSession(session_id)
             .then(() => setSessions(sessions.filter(session_ => session_.id !== session_id)))
-            .catch(response => alert(response.data.message_ru || response.data.message));
+            .catch(response => alert(response.data.message));
     }
 
     const logoutSessionAll = () => {
         if (!confirm('Выйти со всех устройств, кроме этого?')) return;
         ApiManager.logoutAllSessions()
             .then(() => setSessions(sessions.filter(session_ => session_.is_self)))
-            .catch(response => alert(response.data.message_ru || response.data.message));
+            .catch(response => alert(response.data.message));
     }
 
     const sessions_elements = sessions.map(session =>

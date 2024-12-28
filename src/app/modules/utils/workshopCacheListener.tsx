@@ -10,6 +10,8 @@ const WorkshopCacheListener = (): null => {
         if (!pathname.startsWith('/workshop')) {
             sessionStorage.removeItem('workshopState');
         }
+        const tooltip = document.getElementById('global_tooltip');
+        tooltip && document.body.removeChild(tooltip);
     }, [pathname]);
 
     return null;

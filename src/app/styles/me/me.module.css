@@ -87,23 +87,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: row;
+    gap: .5rem;
     color: var(--main-text-color);
     cursor: pointer;
     transform: scale(1);
 
     transition: border 150ms, transform 150ms;
     text-decoration: none;
-    margin-bottom: 1rem;
 }
 
 .login_button:hover {
-    border: 1px #5662f6 solid;
+    border: 1px var(--color) solid;
     transform: scale(1.01);
 }
 
 .login_button img {
     width: 1.5rem;
-    margin-right: .5rem;
 }
 
 .a {

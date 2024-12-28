@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { authApi } from "@/app/modules/utils/api";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -14,12 +14,13 @@ import Link from 'next/link';
 import { SimpleGrid } from '@/app/modules/components/AdaptiveGrid';
 import style_workshop from "@/app/styles/workshop/page.module.css";
 
-import { IconArrowBack, IconPlus } from '@tabler/icons-react';
+import { IconArrowBack, IconBrandMinecraft, IconPlus } from '@tabler/icons-react';
 import IconSvgCropped from '@/app/resources/icon-cropped.svg';
 import IconSvg from '@/app/resources/icon.svg';
 import { httpStatusCodes } from '../modules/utils/StatusCodes';
 import { renderSkin } from '../modules/utils/SkinCardRender';
 import ApiManager from '../modules/utils/apiManager';
+import MinecraftConnect from '../modules/components/MinecraftConnect';
 
 const Main = () => {
     const router = useRouter();
@@ -45,15 +46,14 @@ const Main = () => {
 
     useEffect(() => {
         if (code) {
-            authApi.post(`auth/discord/${code}`)
-                .then(response => {
-                    if (response.status !== 201) {
-                        setLoadingStatus(`${response.status}: ${response.data.message || httpStatusCodes[response.status]}`);
-                        return;
-                    }
+            ApiManager.loginDiscord(code)
+                .then(() => {
                     setIsLogged(true);
                     router.replace('/me');
                 })
+                .catch(response => {
+                    setLoadingStatus(`${response.status}: ${response.data.message || httpStatusCodes[response.status]}`)
+                });
         }
         return () => { }
     }, []);
@@ -69,7 +69,9 @@ const Main = () => {
                 !isLogged ?
                     <Login /> :
                     <Me>
-                        <div style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }} className={styles.cont} id="sidebar">
+                        <div
+                            style={elements ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}
+                            className={styles.cont} id="sidebar">
                             <Link
                                 className={styles.create}
                                 href='/workshop/create'
@@ -113,14 +115,46 @@ const Login = () => {
         ApiManager.getRoles().then(setRoles).catch(console.error);
     }, [])
 
+    const loginMinecraft = async (code: string): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            ApiManager.loginMinecraft(code)
+                .then(() => {
+                    window.location.reload();
+                    resolve();
+                })
+                .catch(reject);
+        });
+    }
+
     return (
         <main className={styles.login_main}>
             <div className={styles.login_container}>
                 <h1>Войти через</h1>
-                <a className={styles.login_button} href={'/me/login'}>
-                    <img alt="" src="/static/icons/discord.svg" />
-                    Discord
-                </a>
+
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    marginBottom: '1rem',
+                    gap: '.5rem'
+                }}>
+                    <a
+                        className={styles.login_button}
+                        href={'/me/login'}
+                        style={{ '--color': '#5662f6' } as CSSProperties}
+                    >
+                        <img alt="" src="/static/icons/discord.svg" />
+                        Discord
+                    </a>
+                    <MinecraftConnect onInput={loginMinecraft}>
+                        <div
+                            className={styles.login_button}
+                            style={{ '--color': '#56ff4b' } as CSSProperties}
+                        >
+                            <IconBrandMinecraft />
+                            Minecraft
+                        </div>
+                    </MinecraftConnect>
+                </div>
 
                 <span className={styles.p} id="about_logging">Для регистрации вам нужно быть участником Discord сервера <a href='https://baad.pw/ds' className={styles.a}>Pwgood</a> и иметь одну из этих <Tooltip
                     parent_id="about_logging"

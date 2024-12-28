@@ -53,6 +53,7 @@
     margin: 0;
     font-size: 1.2rem;
     font-weight: 500;
+    gap: .3rem;
 }
 
 .checkboxes {
@@ -72,7 +73,7 @@
     box-sizing: border-box;
     overflow: visible;
     outline: none;
-    width: 12.5rem;
+    width: 100%;
     transition: border 150ms;
 }
 

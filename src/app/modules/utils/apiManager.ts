@@ -58,6 +58,19 @@ class ApiManager {
         return response;
     }
 
+    static async loginDiscord(code: string) {
+        return (await this.doRequest({
+            url: `/auth/discord/${code}`,
+            method: 'POST'
+        })).data;
+    }
+
+    static async loginMinecraft(code: string) {
+        return (await this.doRequest({
+            url: `/auth/minecraft/${code}`,
+            method: 'POST'
+        })).data;
+    }
 
     /* Get Categories */
     static async getCategories(forEdit?: boolean): Promise<Interfaces.Category[]> {

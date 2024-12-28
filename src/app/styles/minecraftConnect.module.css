@@ -1,0 +1,146 @@
+.base {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.container {
+    background-color: var(--main-card-color);
+    border-radius: 10px;
+    width: 40%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border: 1px solid var(--main-element-color);
+    gap: .5rem;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close {
+    filter: brightness(.8);
+    cursor: pointer;
+    transition: filter 250ms;
+}
+
+.close:hover {
+    filter: brightness(1);
+}
+
+.menu-enter {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.menu-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 150ms, transform 150ms;
+}
+
+.menu-exit {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.menu-exit-active {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 150ms, transform 150ms;
+}
+
+.code_input {
+    background-color: var(--main-card-color);
+    border-radius: 10px 0 0 10px;
+    border: 1px var(--main-element-color) solid;
+    height: 2.4rem;
+    color: var(--main-text-color);
+    font-size: 1rem;
+    padding: .5rem;
+    box-sizing: border-box;
+    overflow: visible;
+    outline: none;
+    width: 100%;
+    transition: border 150ms;
+}
+
+.code_send {
+    color: var(--main-text-color);
+    background-color: var(--main-card-color);
+    border-radius: 0 10px 10px 0;
+    border: 1px var(--main-element-color) solid;
+    height: 2.4rem;
+
+    box-sizing: border-box;
+
+    border-left: none;
+    cursor: pointer;
+
+    transition: background-color 150ms, border 150ms;
+    font-weight: 500;
+
+    font-family: inherit;
+}
+
+.code_send:hover {
+    background-color: var(--main-element-color);
+}
+
+.code_input:focus {
+    border: 1px var(--focus-color) solid;
+}
+
+.code_input:focus+.code_send {
+    border: 1px var(--focus-color) solid;
+    border-left: none;
+}
+
+.code_container {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+.possibilities p {
+    margin: 0;
+    font-size: .8rem;
+    opacity: .6;
+
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+}
+
+.possibilities p svg {
+    flex-shrink: 0;
+}
+
+.possibilities div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .3rem;
+    margin-top: .3rem;
+}
+
+@media (max-width: 925px) {
+    .container {
+        width: 90%;
+    }
+}

@@ -18,13 +18,13 @@ import IconSvg from '@/app/resources/icon.svg';
 import {
     IconUser,
     IconBrandDiscord,
-    IconCube,
     IconPalette,
     IconX,
     IconRefresh,
     IconShield,
     IconDeviceMobile,
-    IconDeviceDesktop
+    IconDeviceDesktop,
+    IconBrandMinecraft
 } from '@tabler/icons-react';
 import { timeStamp } from '@/app/modules/utils/time';
 import style_workshop from "@/app/styles/workshop/page.module.css";
@@ -116,7 +116,7 @@ const UserSettings = ({ data }: { data: SettingsResponse }) => {
 
     return (
         <div className={Style.container}>
-            <h3><IconUser width={26} height={26} style={{ marginRight: ".3rem", borderRadius: 0 }} />Настройки аккаунта</h3>
+            <h3><IconUser width={26} height={26} />Настройки аккаунта</h3>
             <SlideButton
                 label='Публичный профиль'
                 defaultValue={data.can_be_public ? data?.public_profile : false}
@@ -179,7 +179,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
     return (
         <>
             <div className={Style.container}>
-                <h3><IconBrandDiscord width={32} height={32} style={{ marginRight: ".3rem", borderRadius: 0 }} />Discord аккаунт</h3>
+                <h3><IconBrandDiscord width={32} height={32} />Discord аккаунт</h3>
                 <div className={Style.discord_container}>
                     {data.connections?.discord &&
                         <Image
@@ -198,7 +198,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
             </div>
 
             <div className={Style.container}>
-                <h3><IconCube width={32} height={32} style={{ marginRight: ".3rem" }} />Minecraft аккаунт</h3>
+                <h3><IconBrandMinecraft width={32} height={32} />Minecraft аккаунт</h3>
                 {!!data.connections?.minecraft ? <>
                     <div className={Style.head_container}>
                         {data && <Image src={b64Prefix + data.connections?.minecraft.head} alt="" width={64} height={64} />}
@@ -233,12 +233,15 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
                         </button>
                     </div>
                 </> : <>
-                    <p style={{ margin: 0 }}>Привяжите свою учётную запись Minecraft к учетной записи PPLBandage для управления кешем скинов и настройками видимости
-                        вашего никнейма в поиске.<br />Зайдите на Minecraft
-                        сервер <span style={{ textDecoration: "underline", cursor: "pointer", fontWeight: "600" }} onClick={() => {
-                            navigator.clipboard?.writeText("oauth.pplbandage.ru");
-                        }
-                        }>oauth.pplbandage.ru</span> (версия 1.8-текущая) и получите там 6-значный код.</p>
+                    <p style={{ margin: 0 }}>Привяжите свою учётную запись Minecraft к учетной записи PPLBandage для управления кэшем скинов и настройками видимости
+                        вашего никнейма в поиске.</p>
+                    <p style={{ marginBottom: 0, marginTop: '.5rem' }}>
+                        Зайдите на Minecraft сервер&nbsp;
+                        <span
+                            style={{ textDecoration: "underline", cursor: "pointer", fontWeight: "600" }}
+                            onClick={() => { navigator.clipboard?.writeText("oauth.pplbandage.ru"); }}>
+                            oauth.pplbandage.ru
+                        </span>&nbsp;(версия 1.8-текущая) и получите там 6-значный код.</p>
 
                     <div>
                         <div className={Style.code_container}>
@@ -270,7 +273,7 @@ const Themes = () => {
 
     return (
         <div className={Style.container} style={{ paddingBottom: 'calc(1rem - 10px)' }}>
-            <h3><IconPalette width={24} height={24} style={{ marginRight: ".3rem", borderRadius: 0 }} />Внешний вид</h3>
+            <h3><IconPalette width={24} height={24} />Внешний вид</h3>
             <div className={Style_themes.parent}>
                 <Theme data={{
                     name: 'default',
@@ -382,7 +385,7 @@ const Safety = () => {
 
     return (
         <div className={Style.container}>
-            <h3><IconShield width={24} height={24} style={{ marginRight: ".3rem", borderRadius: 0 }} />Безопасность</h3>
+            <h3><IconShield width={24} height={24} />Безопасность</h3>
             <h4 style={{ margin: 0 }}>Все устройства</h4>
             <div className={Style_safety.parent}>
                 {loading ?

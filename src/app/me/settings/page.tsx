@@ -24,7 +24,8 @@ import {
     IconShield,
     IconDeviceMobile,
     IconDeviceDesktop,
-    IconBrandMinecraft
+    IconBrandMinecraft,
+    IconPlugConnected
 } from '@tabler/icons-react';
 import { timeStamp } from '@/app/modules/utils/time';
 import style_workshop from "@/app/styles/workshop/page.module.css";
@@ -32,6 +33,7 @@ import SlideButton from '@/app/modules/components/SlideButton';
 import ApiManager from '@/app/modules/utils/apiManager';
 import { Session } from '@/app/interfaces';
 import { setTheme } from './setTheme';
+import MinecraftConnect from '@/app/modules/components/MinecraftConnect';
 const fira = Fira_Code({ subsets: ["latin"] });
 
 export interface SettingsResponse {
@@ -88,7 +90,7 @@ const Page = () => {
                     <div
                         id="sidebar"
                         className={Style.main}
-                        style={loaded ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}
+                        style={loaded ? { opacity: "1", transform: "none" } : { opacity: "0", transform: "translateY(50px)" }}
                     >
                         {data &&
                             <>
@@ -106,31 +108,23 @@ const Page = () => {
 }
 
 const UserSettings = ({ data }: { data: SettingsResponse }) => {
-    const changePublic = (state: boolean): Promise<void> => {
-        return new Promise((resolve, reject) => {
-            ApiManager.setPublicProfile({ state })
-                .then(() => resolve())
-                .catch(reject);
-        });
-    }
-
     return (
         <div className={Style.container}>
             <h3><IconUser width={26} height={26} />Настройки аккаунта</h3>
             <SlideButton
                 label='Публичный профиль'
-                defaultValue={data.can_be_public ? data?.public_profile : false}
-                loadable={true}
-                strict={true}
-                onChange={changePublic}
+                defaultValue={data.can_be_public ? data.public_profile : false}
+                onChange={state => ApiManager.setPublicProfile({ state })}
                 disabled={!data.can_be_public}
+                loadable
+                strict
             />
         </div>
     );
 }
 
 const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): void }) => {
-    const refresh = () => {
+    const refreshMinecraft = () => {
         const load_icon = document.getElementById('refresh');
         load_icon.style.animation = `${Style.loading} infinite 1s reverse ease-in-out`;
 
@@ -163,18 +157,14 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
         })
     }
 
-    const connectMinecraft = () => {
-        const target = document.getElementById('code') as HTMLInputElement;
-        if (target.value.length != 6) return;
-
-        ApiManager.connectMinecraft(target.value)
-            .then(refetch)
-            .catch(response => {
-                const data = response.data as { message: string };
-                const err = document.getElementById('error') as HTMLParagraphElement;
-                err.innerText = data.message;
-            });
-    }
+    const connectMinecraft = async (code: string): Promise<void> => {
+        try {
+            await ApiManager.connectMinecraft(code);
+            setTimeout(refetch, 150);
+        } catch (error) {
+            throw error;
+        }
+    };
 
     return (
         <>
@@ -224,7 +214,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
                     </div>
                     <div className={Style.checkboxes}>
                         <span>Последний раз кэшировано {formatDate(new Date(data.connections?.minecraft?.last_cached))}</span>
-                        <button className={Style.unlink} onClick={refresh}>
+                        <button className={Style.unlink} onClick={refreshMinecraft}>
                             <IconRefresh style={{ width: "1.8rem" }} id="refresh" />Обновить кэш
                         </button>
 
@@ -233,26 +223,12 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
                         </button>
                     </div>
                 </> : <>
-                    <p style={{ margin: 0 }}>Привяжите свою учётную запись Minecraft к учетной записи PPLBandage для управления кэшем скинов и настройками видимости
-                        вашего никнейма в поиске.</p>
-                    <p style={{ marginBottom: 0, marginTop: '.5rem' }}>
-                        Зайдите на Minecraft сервер&nbsp;
-                        <span
-                            style={{ textDecoration: "underline", cursor: "pointer", fontWeight: "600" }}
-                            onClick={() => { navigator.clipboard?.writeText("oauth.pplbandage.ru"); }}>
-                            oauth.pplbandage.ru
-                        </span>&nbsp;(версия 1.8-текущая) и получите там 6-значный код.</p>
-
-                    <div>
-                        <div className={Style.code_container}>
-                            <input placeholder="Введите 6-значный код" type='number' id='code' className={Style.code_input} onChange={e => {
-                                const target = document.getElementById('code') as HTMLInputElement;
-                                if (target.value.length > 6) target.value = target.value.slice(0, 6)
-                            }} />
-                            <button className={Style.code_send} onClick={connectMinecraft}>Отправить</button>
-                        </div>
-                        <p style={{ margin: 0, color: "#dd0f0f", marginTop: "5px" }} id="error"></p>
-                    </div>
+                    <p style={{ margin: 0 }} >Подключите свой аккаунт Minecraft, чтобы управлять кэшем скинов и настройками видимости вашего никнейма в поиске.</p>
+                    <MinecraftConnect onInput={connectMinecraft}>
+                        <button className={Style.unlink} style={{ width: '100%' }}>
+                            <IconPlugConnected style={{ width: "1.8rem" }} />Подключить
+                        </button>
+                    </MinecraftConnect>
                 </>}
             </div>
         </>

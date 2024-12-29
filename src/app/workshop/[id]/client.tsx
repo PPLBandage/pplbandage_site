@@ -217,7 +217,7 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
 
             <main
                 className={style.main}
-                style={loaded ? { opacity: '1', transform: 'translateY(0)' } : { opacity: '0', transform: 'translateY(50px)' }}
+                style={loaded ? { opacity: '1', transform: 'none' } : { opacity: '0', transform: 'translateY(50px)' }}
             >
                 <NavigatorEl path={navPath}
                     style={{ marginBottom: "1rem" }} />

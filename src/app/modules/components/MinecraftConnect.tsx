@@ -2,14 +2,14 @@ import { useState } from "react";
 import { CSSTransition } from "react-transition-group"
 import style from '@/app/styles/minecraftConnect.module.css';
 import { IconBrandMinecraft, IconCheck, IconX } from "@tabler/icons-react";
-import ApiManager from "../utils/apiManager";
 
 interface MinecraftConnectProps {
     children: JSX.Element,
-    onInput(code: string): Promise<void>
+    onInput(code: string): Promise<void>,
+    login?: boolean
 }
 
-const MinecraftConnect = ({ children, onInput }: MinecraftConnectProps) => {
+const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) => {
     const [expanded, setExpanded] = useState<boolean>(false);
 
     const selectText = (nodeId: string) => {
@@ -22,6 +22,8 @@ const MinecraftConnect = ({ children, onInput }: MinecraftConnectProps) => {
             selection.addRange(range);
         }
     }
+
+    const title = login ? 'Войти через Minecraft' : 'Подключить аккаунт Minecraft';
 
     return (
         <>
@@ -54,10 +56,10 @@ const MinecraftConnect = ({ children, onInput }: MinecraftConnectProps) => {
                 <div className={style.base}>
                     <div className={style.container}>
                         <div className={style.header}>
-                            <h3 style={{ margin: 0, display: 'flex', gap: '.5rem', alignItems: 'center' }}><IconBrandMinecraft />Войти через Minecraft</h3>
+                            <h3 style={{ margin: 0, display: 'flex', gap: '.5rem', alignItems: 'center' }}><IconBrandMinecraft />{title}</h3>
                             <IconX className={style.close} onClick={() => setExpanded(false)} />
                         </div>
-                        <p style={{ margin: 0, fontSize: '.9rem', opacity: .6 }}>Этот способ будет работать, если вы привязали аккаунт Minecraft в личном кабинете.</p>
+                        {login && <p style={{ margin: 0, fontSize: '.9rem', opacity: .6 }}>Этот способ будет работать, если вы привязали аккаунт Minecraft в личном кабинете.</p>}
                         <p style={{ margin: 0, fontSize: '.95rem' }}>Зайдите на Minecraft сервер
                             `<span style={{ color: "rgba(12, 247, 215)" }} id="oauth_name" onClick={() => selectText('oauth_name')}>
                                 oauth.pplbandage.ru
@@ -80,6 +82,7 @@ const MinecraftConnect = ({ children, onInput }: MinecraftConnectProps) => {
                                     if (target.value.length != 6) return;
 
                                     onInput(target.value)
+                                        .then(() => setExpanded(false))
                                         .catch(response => {
                                             const data = response.data as { message: string };
                                             const err = document.getElementById('error') as HTMLParagraphElement;

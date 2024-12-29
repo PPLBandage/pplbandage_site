@@ -1,0 +1,25 @@
+.button {
+    color: var(--main-text-color);
+    background-color: var(--main-card-color);
+    border-radius: 10px;
+    border: 1px var(--main-element-color) solid;
+    height: 2.4rem;
+    box-sizing: border-box;
+    cursor: auto;
+    transition: background-color 250ms, border 150ms;
+    font-weight: 600;
+    font-family: inherit;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.available {
+    cursor: pointer;
+}
+
+.available:hover {
+    background-color: #ED4245;
+}

@@ -97,7 +97,7 @@ export const Me = ({ children, user_data }: { children: JSX.Element, user_data?:
 
     return (
         <div className={style_sidebar.main_container}>
-            <div style={islogged ? { opacity: "1", transform: "translateY(0)" } : {}} className={style_sidebar.hidable}>
+            <div style={islogged ? { opacity: "1", transform: "none" } : {}} className={style_sidebar.hidable}>
                 <div className={style_sidebar.main}>
                     <div className={style_sidebar.side}>
                         {!!data &&

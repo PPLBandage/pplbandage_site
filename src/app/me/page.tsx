@@ -145,7 +145,7 @@ const Login = () => {
                         <img alt="" src="/static/icons/discord.svg" />
                         Discord
                     </a>
-                    <MinecraftConnect onInput={loginMinecraft}>
+                    <MinecraftConnect onInput={loginMinecraft} login>
                         <div
                             className={styles.login_button}
                             style={{ '--color': '#56ff4b' } as CSSProperties}

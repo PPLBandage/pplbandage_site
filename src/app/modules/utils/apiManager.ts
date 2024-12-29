@@ -167,12 +167,12 @@ class ApiManager {
     }
 
     /* Set public profile */
-    static async setPublicProfile(params: { state: boolean }): Promise<boolean> {
-        return (await this.doRequest({
+    static async setPublicProfile(params: { state: boolean }): Promise<void> {
+        await this.doRequest({
             url: `/user/me`,
             method: 'PATCH',
             data: { public: params.state }
-        })).data.new_data;
+        });
     }
 
     /* Set user profile theme */

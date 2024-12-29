@@ -6,6 +6,7 @@ import style from "@/app/styles/editor/page.module.css";
 import * as Interfaces from "@/app/interfaces";
 import Select from 'react-select';
 import { IconArchive, IconX } from "@tabler/icons-react";
+import EditConfirmation from "@/app/modules/components/EditConfirmation";
 
 
 const lstrip = (string: string) => string.replace(/^\s+/, '');
@@ -62,21 +63,26 @@ const EditElement = ({
             });
     }
 
-    const deleteBandage = () => {
-        const first = confirm(`Вы собираетесь удалить повязку ${bandage.title}! Это действе необратимо! Подтверждаете?`);
-        if (!first) return;
-        const second = confirm('Последний шанс! Удалить?');
-        if (!second) return;
-        ApiManager.deleteBandage(bandage.external_id)
-            .then(() => router.replace('/workshop'))
-            .catch(err => alert(err.data.message));
+    const deleteBandage = async (): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            ApiManager.deleteBandage(bandage.external_id)
+                .then(() => {
+                    resolve();
+                    router.replace('/workshop');
+                })
+                .catch(err => reject(err.data.message))
+        });
     }
 
-    const archiveBandage = () => {
-        if (!confirm('Заархивировать повязку? После архивации её будет невозможно изменить!')) return;
-        ApiManager.archiveBandage(bandage.external_id)
-            .then(() => window.location.reload())
-            .catch(err => alert(err.data?.message || err.message));
+    const archiveBandage = (): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            ApiManager.archiveBandage(bandage.external_id)
+                .then(() => {
+                    resolve();
+                    window.location.reload();
+                })
+                .catch(err => reject(err.data.message))
+        });
     }
 
     return <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>
@@ -125,10 +131,16 @@ const EditElement = ({
                 marginTop: '1rem',
                 marginBottom: '.4rem'
             }}>
-                <div className={style.deleteButton} onClick={deleteBandage}>
-                    <img className={style.binUp} alt="" src="/static/icons/bin_up.png"></img>
-                    <img className={style.binDown} alt="" src="/static/icons/bin_down.png"></img>
-                </div>
+                <EditConfirmation
+                    action='delete'
+                    onInput={deleteBandage}
+                    confirm_code={bandage.external_id}
+                >
+                    <div className={style.deleteButton}>
+                        <img className={style.binUp} alt="" src="/static/icons/bin_up.png"></img>
+                        <img className={style.binDown} alt="" src="/static/icons/bin_down.png"></img>
+                    </div>
+                </EditConfirmation>
                 <p style={{ margin: 0 }}>Удалить повязку</p>
             </div>
             <div style={{
@@ -136,7 +148,13 @@ const EditElement = ({
                 alignItems: 'center',
                 gap: '.4rem'
             }}>
-                <button className={style.archiveButton} onClick={archiveBandage}><IconArchive /></button>
+                <EditConfirmation
+                    action='archive'
+                    onInput={archiveBandage}
+                    confirm_code={bandage.external_id}
+                >
+                    <button className={style.archiveButton}><IconArchive /></button>
+                </EditConfirmation>
                 <p style={{ margin: 0 }}>Архивировать</p>
             </div>
         </div>

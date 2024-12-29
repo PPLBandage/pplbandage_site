@@ -11,18 +11,11 @@
     color: white;
 }
 
-.beta {
-    display: flex;
-    align-items: flex-end;
+.project {
     margin: 0;
     color: gray;
     font-weight: 500;
     margin-top: 1rem;
-}
-
-.beta img {
-    width: 1rem;
-    filter: brightness(.5);
 }
 
 .links {

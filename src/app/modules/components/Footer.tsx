@@ -43,9 +43,9 @@ const Footer = () => {
                         <a style={{ cursor: 'pointer', userSelect: 'none' }} onClick={() => setTheme_(prev => prev + 1)}>Изменить тему</a>
                     </div>
                 </div>
-                <p className={style.beta}>PPLBandage project 2023–{new Date().getFullYear()}, master@<a className={style.git} href={`https://github.com/PPLBandage/pplbandage_site/commit/${process.env.NEXT_PUBLIC_COMMIT_SHA}`}>
+                <p className={style.project}>PPLBandage project 2023–{new Date().getFullYear()} by AndcoolSystems,&nbsp;<span>master@<a className={style.git} href={`https://github.com/PPLBandage/pplbandage_site/commit/${process.env.NEXT_PUBLIC_COMMIT_SHA}`}>
                     {process.env.NEXT_PUBLIC_COMMIT_SHA.slice(0, 7)}
-                </a></p>
+                </a></span></p>
                 <p style={{ fontSize: ".8rem", margin: 0, marginTop: ".5rem" }}>NOT AN OFFICIAL MINECRAFT SERVICE. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.</p>
             </div>
         </footer>

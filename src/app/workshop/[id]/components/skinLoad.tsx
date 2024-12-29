@@ -1,7 +1,8 @@
-import { IconCheck, IconX } from "@tabler/icons-react";
+import { IconCheck, IconShirt, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import NextImage from 'next/image';
 import style from "@/app/styles/editor/page.module.css";
+import style_base from '@/app/styles/minecraftConnect.module.css';
 import AsyncImage from "@/app/modules/utils/asyncImage";
 import Searcher from "@/app/modules/components/NickSearch";
 import ApiManager from "@/app/modules/utils/apiManager";
@@ -129,42 +130,45 @@ const SkinLoad = ({ onChange }: SkinLoadProps) => {
         evt.target.files = null;
     }
 
-    return <div className={style.skin_load_base}>
-        <div className={style.skin_load_container}>
-            <Searcher onChange={loadSkin} />
-            <label className={style.skin_drop}
-                id="drop_container"
-                onDragOver={ondragover}
-                onDragLeave={ondragleave}
-                onDrop={ondrop}>
-                <div className={style.hidable}>
-                    <input type="file"
-                        name="imageInput"
-                        id="imageInput"
-                        accept="image/png"
-                        onChange={onChangeInput} />
-                    <span id="select_file">Выберите файл<br />или<br />скиньте его сюда</span>
+    return (
+        <div className={style.skin_load_base}>
+            <div className={style.skin_load_container}>
+                <div className={style_base.header}>
+                    <h3 style={{ margin: 0, display: 'flex', gap: '.5rem', alignItems: 'center' }}><IconShirt />Загрузить скин</h3>
+                    <IconX className={style_base.close} onClick={() => onChange(null)} />
                 </div>
-            </label>
+                <Searcher onChange={loadSkin} />
+                <label className={style.skin_drop}
+                    id="drop_container"
+                    onDragOver={ondragover}
+                    onDragLeave={ondragleave}
+                    onDrop={ondrop}>
+                    <div className={style.hidable}>
+                        <input type="file"
+                            name="imageInput"
+                            id="imageInput"
+                            accept="image/png"
+                            onChange={onChangeInput} />
+                        <span id="select_file">Выберите файл<br />или<br />скиньте его сюда</span>
+                    </div>
+                </label>
 
-            <span id="error"></span>
+                <span id="error"></span>
 
-            {data &&
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <NextImage src={data.data} width={64} height={64} alt='' />
+                {data &&
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <NextImage src={data.data} width={64} height={64} alt='' />
+                    </div>
+                }
+
+                <div style={{ display: 'flex', width: '100%', gap: '.5rem' }}>
+                    <button className={`${style.skin_load} ${!loaded && style.disabled_load}`} onClick={() => { loaded && onChange(data) }} style={{ width: '100%' }}>
+                        <IconCheck width={24} height={24} style={{ marginRight: '.2rem' }} />Готово
+                    </button>
                 </div>
-            }
-
-            <div style={{ display: 'flex', width: '100%', gap: '.5rem' }}>
-                <button className={style.skin_load} onClick={() => onChange(null)} style={{ aspectRatio: 1 }}>
-                    <IconX width={24} height={24} style={{ margin: 0 }} />
-                </button>
-                <button className={`${style.skin_load} ${!loaded && style.disabled_load}`} onClick={() => { loaded && onChange(data) }} style={{ width: '100%' }}>
-                    <IconCheck width={24} height={24} style={{ marginRight: '.2rem' }} />Готово
-                </button>
             </div>
         </div>
-    </div>
+    );
 }
 
 export default SkinLoad;

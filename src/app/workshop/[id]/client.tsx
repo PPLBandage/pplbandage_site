@@ -19,7 +19,7 @@ import { CSSTransition } from 'react-transition-group';
 import { IconDownload, IconPlus } from '@tabler/icons-react';
 import Slider from '@/app/modules/components/Slider';
 import SlideButton from '@/app/modules/components/SlideButton';
-import SkinLoad from './skinLoad';
+import SkinLoad from './components/skinLoad';
 import EditElement from './components/edit';
 import Info from './components/info';
 import RawBandageDownload from './components/rawBandageDownload';

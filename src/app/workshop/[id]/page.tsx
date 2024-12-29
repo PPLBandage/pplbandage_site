@@ -42,24 +42,28 @@ export const generateMetadata = async ({ params }: { params: { id: string } }): 
     }
 }
 
+const addView = async (cookie: string | null, external_id: string) => {
+    try {
+        if (!cookie) return;
+        const sessionId = cookie.split('; ').map(cookie => cookie.split('=')).find(cookie => cookie[0] === 'sessionId');
+        if (!sessionId) return;
+
+        await axios.post(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${external_id}/view`, {}, {
+            validateStatus: () => true,
+            headers: {
+                'Unique-Access': process.env.TOKEN
+            }
+        });
+    } catch (e) { console.log(e); }
+}
+
 const Main = async ({ params, searchParams }: { params: { id: string }, searchParams: Record<string, string | string[]> }) => {
     const headersList = headers();
     const cookie = headersList.get('Cookie');
     const userAgent = headersList.get('User-Agent');
     const referrer = searchParams['ref'];
 
-    const sessionId = cookie.split('; ').map(cookie => cookie.split('=')).find(cookie => cookie[0] === 'sessionId');
-
-    if (!!sessionId) {
-        try {
-            await axios.post(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${params.id}/view`, {}, {
-                validateStatus: () => true,
-                headers: {
-                    'Unique-Access': process.env.TOKEN
-                }
-            });
-        } catch (e) { console.log(e); }
-    }
+    await addView(cookie, params.id);
 
     const initial_response = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${params.id}`, {
         validateStatus: () => true,

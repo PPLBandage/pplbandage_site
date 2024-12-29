@@ -1,14 +1,16 @@
 .base {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
+}
 
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
     background-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -62,6 +64,24 @@
     opacity: 0;
     transform: scale(0.9);
     transition: opacity 150ms, transform 150ms;
+}
+
+.background-enter {
+    opacity: 0;
+}
+
+.background-enter-active {
+    opacity: 1;
+    transition: opacity 150ms;
+}
+
+.background-exit {
+    opacity: 1;
+}
+
+.background-exit-active {
+    opacity: 0;
+    transition: opacity 150ms;
 }
 
 .code_input {

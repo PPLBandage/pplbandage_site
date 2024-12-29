@@ -30,7 +30,20 @@ const MinecraftConnect = ({ children, onInput }: MinecraftConnectProps) => {
             </div>
             <CSSTransition
                 in={expanded}
-                timeout={230}
+                timeout={150}
+                classNames={{
+                    enter: style['background-enter'],
+                    enterActive: style['background-enter-active'],
+                    exit: style['background-exit'],
+                    exitActive: style['background-exit-active'],
+                }}
+                unmountOnExit>
+                <div className={style.background} />
+            </CSSTransition>
+
+            <CSSTransition
+                in={expanded}
+                timeout={150}
                 classNames={{
                     enter: style['menu-enter'],
                     enterActive: style['menu-enter-active'],

@@ -50,7 +50,13 @@ const Slider = ({ initial, range, onChange }: { initial: number, range: number, 
         <>
             {isDragging &&
                 <div
-                    style={{ position: 'fixed', inset: 0, touchAction: 'none', cursor: 'pointer' }}
+                    style={{
+                        position: 'fixed',
+                        inset: 0,
+                        touchAction: 'none',
+                        cursor: 'grabbing',
+                        zIndex: 10
+                    }}
                     onMouseMove={mouseMove}
                     onMouseUp={mouseUp}
                     onTouchMove={mouseMove}

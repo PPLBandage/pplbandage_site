@@ -14,9 +14,8 @@ import debounce from 'lodash.debounce';
 import NavigatorEl from '@/app/modules/components/Navigator';
 import { anims } from '@/app/workshop/poses';
 import asyncImage from '@/app/modules/utils/asyncImage';
-import { CSSTransition } from 'react-transition-group';
 
-import { IconDownload, IconPlus } from '@tabler/icons-react';
+import { IconCaretDown, IconCaretUp, IconDownload, IconPlus } from '@tabler/icons-react';
 import Slider from '@/app/modules/components/Slider';
 import SlideButton from '@/app/modules/components/SlideButton';
 import SkinLoad from './components/skinLoad';
@@ -199,21 +198,13 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
 
     return (
         <>
-            <CSSTransition
-                in={loadExpanded}
-                timeout={230}
-                classNames={{
-                    enter: style['menu-enter'],
-                    enterActive: style['menu-enter-active'],
-                    exit: style['menu-exit'],
-                    exitActive: style['menu-exit-active'],
-                }}
-                unmountOnExit>
-                <SkinLoad onChange={evt => {
+            <SkinLoad
+                onChange={evt => {
                     evt && client.current?.changeSkin(evt.data, evt.slim, evt.cape ? 'data:image/png;base64,' + evt.cape : '');
                     setLoadExpanded(false);
-                }} />
-            </CSSTransition>
+                }}
+                expanded={loadExpanded}
+            />
 
             <main
                 className={style.main}

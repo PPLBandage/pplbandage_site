@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CSSTransition } from "react-transition-group"
+import { CSSTransition } from "react-transition-group";
 import style from '@/app/styles/minecraftConnect.module.css';
 import { IconBrandMinecraft, IconCheck, IconX } from "@tabler/icons-react";
 

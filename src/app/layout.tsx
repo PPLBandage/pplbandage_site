@@ -7,6 +7,7 @@ import meta from '@/app/meta.json';
 import { merge } from 'lodash';
 import Footer from "./modules/components/Footer";
 import Header from "./modules/components/Header";
+import type { Viewport } from 'next'
 
 export const generateMetadata = async (): Promise<Metadata | undefined> => {
     const headersList = headers();
@@ -16,6 +17,13 @@ export const generateMetadata = async (): Promise<Metadata | undefined> => {
     if (!path) return base;
     const extend = object[path];
     return merge({}, base, extend) as Metadata;
+}
+
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 0.9,
+    maximumScale: 0.9,
+    userScalable: false
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

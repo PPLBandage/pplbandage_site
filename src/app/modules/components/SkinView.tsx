@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { CSSProperties, useEffect, useRef } from 'react';
 import { PlayerAnimation, PlayerObject, SkinViewer, WalkingAnimation } from 'skinview3d';
 
 
@@ -6,6 +6,7 @@ interface SkinView3DOptions {
     SKIN: string,
     CAPE: string,
     className: string,
+    style?: CSSProperties,
     slim: boolean,
     id: string,
     width?: number,
@@ -28,7 +29,7 @@ export class TPose extends PlayerAnimation {
 }
 
 
-const SkinView3D = ({ SKIN, CAPE, className, slim, id, width, height, pose, background }: SkinView3DOptions): JSX.Element => {
+const SkinView3D = ({ SKIN, CAPE, className, slim, id, width, height, pose, background, style }: SkinView3DOptions): JSX.Element => {
     const canvasRef = useRef<HTMLCanvasElement>();
     const skinViewRef = useRef<SkinViewer>();
 
@@ -69,7 +70,7 @@ const SkinView3D = ({ SKIN, CAPE, className, slim, id, width, height, pose, back
         skinViewRef.current.camera.position.z = 15;
 
         skinViewRef.current.scene.position.y = -2.5;
-        skinViewRef.current.loadBackground(background || "/static/background.png");
+        background && skinViewRef.current.loadBackground(background);
 
         skinViewRef.current.loadSkin(SKIN ? SKIN : "/static/workshop_base.png", { model: slim ? "slim" : "default" });
         CAPE && skinViewRef.current.loadSkin(CAPE);
@@ -97,7 +98,7 @@ const SkinView3D = ({ SKIN, CAPE, className, slim, id, width, height, pose, back
     }, [pose]);
 
     return (
-        <div id={id} className={className}>
+        <div id={id} className={className} style={style}>
             <canvas ref={canvasRef} />
         </div>
     )

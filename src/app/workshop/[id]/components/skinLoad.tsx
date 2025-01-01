@@ -8,22 +8,13 @@ import Searcher from "@/app/modules/components/NickSearch";
 import ApiManager from "@/app/modules/utils/apiManager";
 import { CSSTransition } from "react-transition-group";
 import axios, { AxiosError } from "axios";
+import { SkinResponse } from "../bandage_engine";
 
 const b64Prefix = "data:image/png;base64,";
 
 interface SkinLoadProps {
     onChange(data: { data: string; slim: boolean; cape?: string } | null): void,
     expanded: boolean
-}
-
-interface SkinResponse {
-    data: {
-        skin: {
-            data: string,
-            slim: boolean
-        },
-        cape: string
-    }
 }
 
 const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
@@ -48,8 +39,7 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
         if (!nickname) return;
 
         ApiManager.getSkin(nickname)
-            .then(response => {
-                const data = response.data as SkinResponse;
+            .then(data => {
                 setData({
                     data: b64Prefix + data.data.skin.data,
                     slim: data.data.skin.slim,

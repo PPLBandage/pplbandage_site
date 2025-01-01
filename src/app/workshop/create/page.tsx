@@ -51,10 +51,10 @@ export default function Home() {
 
     useEffect(() => {
         client.current = new Client();
-        client.current.addEventListener('skin_changed', (event: { skin: string, cape: string }) => {
+        client.current.onRendered = (event) => {
             setSKIN(event.skin);
-            setSlim(client.current.slim);
-        });
+            setSlim(event.slim);
+        };
 
         client.current.loadSkinUrl("/static/workshop_base.png");
         window.addEventListener('beforeunload', beforeUnload);
@@ -70,7 +70,8 @@ export default function Home() {
         <main className={style.main}>
             <div className={style.central_panel}>
                 <aside className={style.skin_parent}>
-                    <SkinView3D SKIN={SKIN}
+                    <SkinView3D
+                        SKIN={SKIN}
                         CAPE={null}
                         slim={slim}
                         className={style.skinview}

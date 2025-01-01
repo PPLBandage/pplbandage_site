@@ -1,7 +1,7 @@
 import asyncImage, { base64Encode } from '@/app/modules/utils/asyncImage';
 import ApiManager from '@/app/modules/utils/apiManager';
 
-interface SkinResponse {
+export interface SkinResponse {
     data: {
         skin: {
             data: string,
@@ -32,7 +32,6 @@ interface Settings {
 class Client {
     skin: string = "";
     cape: string = "";
-    listeners: { [key: string]: Function } = {};
     original_canvas: HTMLCanvasElement = null;
 
     pepe_canvas: HTMLCanvasElement = null;
@@ -52,14 +51,18 @@ class Client {
     colorable: boolean = false;
     split_types: boolean = false;
 
+    onRendered: ({ skin, cape, slim }: { skin: string, cape: string, slim: boolean }) => void = undefined;
+    onInit: () => void = undefined;
+
     private main_bandage: HTMLCanvasElement = null;
 
     loadBase() {
-        asyncImage('/static/workshop_base.png').then(skin => {
-            const context = this.original_canvas.getContext("2d");
-            context?.drawImage(skin, 0, 0);
-            this.triggerEvent("init");
-        });
+        asyncImage('/static/workshop_base.png')
+            .then(skin => {
+                const context = this.original_canvas.getContext("2d");
+                context!.drawImage(skin, 0, 0);
+                !!this.onInit && this.onInit();
+            });
     }
 
     constructor() {
@@ -72,79 +75,45 @@ class Client {
         color_picker?.addEventListener("input", () => this.rerender());
     }
 
-    addEventListener(property: string, func: Function) {
-        this.listeners[property] = func;
-    }
-
-    removeEventListener(property: string) {
-        delete this.listeners[property];
-    }
-
     async loadSkin(nickname: string): Promise<void> {
         if (!nickname) return;
 
-        const response = await ApiManager.getSkin(nickname);
-
-        const data = response.data as SkinResponse;
+        const data = await ApiManager.getSkin(nickname);
         this.slim = data.data.skin.slim;
 
-        this.addEventListener("onload", () => {
-
+        this.setOriginalCanvas(b64Prefix + data.data.skin.data, () => {
             this.skin = b64Prefix + data.data.skin;
             this.cape = b64Prefix + data.data.cape;
 
             this.rerender();
-            this.removeEventListener("onload");
         });
-
-        this.setOriginalCanvas(b64Prefix + data.data.skin.data);
     }
 
     loadSkinUrl(url: string) {
         asyncImage(url)
             .then(img => {
                 const base64 = base64Encode(img);
-                this.addEventListener("onload", () => {
+                this.setOriginalCanvas(base64, () => {
                     this.skin = base64;
                     this.rerender();
-                    this.removeEventListener("onload");
                 });
-
-                this.setOriginalCanvas(base64);
             })
             .catch(console.error);
     }
 
-    triggerEvent(property: string) {
-        if (property === 'rerender' || this.listeners[property]) {
-            switch (property) {
-                case "skin_changed":
-                    this.listeners[property]({ skin: this.skin, cape: this.cape });
-                    break;
-                case "rerender":
-                    this.rerender();
-                    break;
-                default:
-                    this.listeners[property]();
-                    break;
-            }
-        }
-    }
-
-    private setOriginalCanvas(b64: string) {
+    private setOriginalCanvas(b64: string, callback: () => void) {
         const context = this.original_canvas.getContext('2d');
         if (!context) {
             return;
         }
 
-        asyncImage(b64).then((img) => {
-            if (img.width != 64 || img.height != 64) {
-                return;
-            }
-            context.clearRect(0, 0, 64, 64);
-            context.drawImage(img, 0, 0, img.width, img.height);
-            this.triggerEvent("onload");
-        });
+        asyncImage(b64)
+            .then(img => {
+                if (img.width != 64 || img.height != 64) return;
+                context.clearRect(0, 0, 64, 64);
+                context.drawImage(img, 0, 0, img.width, img.height);
+                callback();
+            });
     }
 
     //---------------------bandage_manager-------------------
@@ -163,8 +132,14 @@ class Client {
 
         context_pepe.drawImage(img, 0, 0, 16, height, 0, 0, 16, height);
         context_lining.drawImage(img, 0, height, 16, height, 0, 0, 16, height);
-        !slim ? this.pepe_canvas = pepe_canvas : this.pepe_canvas_slim = pepe_canvas;
-        !slim ? this.lining_canvas = lining_canvas : this.lining_canvas_slim = lining_canvas;
+
+        if (slim) {
+            this.pepe_canvas_slim = pepe_canvas;
+            this.lining_canvas_slim = lining_canvas;
+        } else {
+            this.pepe_canvas = pepe_canvas;
+            this.lining_canvas = lining_canvas;
+        }
         this.position = 6 - Math.floor(height / 2);
 
         this.rerender();
@@ -176,37 +151,25 @@ class Client {
     }
 
     changeSkin(skin: string, slim?: boolean, cape?: string) {
-        if (slim != undefined) this.slim = slim;
-        this.addEventListener("onload", () => {
+        if (slim !== undefined) this.slim = slim;
+        this.setOriginalCanvas(skin, () => {
             this.skin = skin;
             this.cape = cape;
 
             this.rerender();
-            this.removeEventListener("onload");
         });
-        this.setOriginalCanvas(skin);
     }
 
-    setParams({
-        body_part,
-        position,
-        clear_pix,
-        first_layer,
-        second_layer,
-        layers,
-        color,
-        colorable,
-        split_types
-    }: Settings) {
-        if (body_part != undefined) this.body_part = body_part;
-        if (position != undefined) this.position = position;
-        if (clear_pix != undefined) this.clear_pix = clear_pix;
-        if (first_layer != undefined) this.first_layer = first_layer;
-        if (second_layer != undefined) this.second_layer = second_layer;
-        if (layers != undefined) this.layers = layers;
-        if (color != undefined) this.color = color;
-        if (colorable != undefined) this.colorable = colorable;
-        if (split_types != undefined) this.split_types = split_types;
+    setParams(props: Settings) {
+        if (props.body_part != undefined) this.body_part = props.body_part;
+        if (props.position != undefined) this.position = props.position;
+        if (props.clear_pix != undefined) this.clear_pix = props.clear_pix;
+        if (props.first_layer != undefined) this.first_layer = props.first_layer;
+        if (props.second_layer != undefined) this.second_layer = props.second_layer;
+        if (props.layers != undefined) this.layers = props.layers;
+        if (props.color != undefined) this.color = props.color;
+        if (props.colorable != undefined) this.colorable = props.colorable;
+        if (props.split_types != undefined) this.split_types = props.split_types;
 
         this.rerender();
     }
@@ -282,7 +245,11 @@ class Client {
 
         if (!download) {
             this.skin = canvas.toDataURL();
-            this.triggerEvent("skin_changed");
+            !!this.onRendered && this.onRendered({
+                skin: this.skin,
+                cape: this.cape,
+                slim: this.slim
+            });
         } else {
             this.download(canvas.toDataURL());
         }

@@ -4,6 +4,7 @@ import axios, { AxiosResponse, Method } from "axios";
 import { Query } from "../components/Header";
 import { SettingsResponse } from "@/app/me/settings/page";
 import { SearchResponse } from "../components/NickSearch";
+import { SkinResponse } from "@/app/workshop/[id]/bandage_engine";
 
 type RequestProps = {
     url: string,
@@ -235,11 +236,11 @@ class ApiManager {
     }
 
     /* Get Minecraft skin */
-    static async getSkin(nickname: string): Promise<AxiosResponse> {
+    static async getSkin(nickname: string): Promise<SkinResponse> {
         return (await this.doRequestSimple({
-            url: `/minecraft/skin/${nickname}?cape=true`,
+            url: `/minecraft/skin/${nickname}`,
             method: 'GET'
-        }));
+        })).data;
     }
 
     /* Get sessions */

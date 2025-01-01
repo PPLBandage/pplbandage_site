@@ -125,7 +125,6 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
 
         selector.value = rgbToHex(~~color.r, ~~color.g, ~~color.b);
         client.current.setParams({ color: selector.value });
-        client.current.rerender();
     }
 
     useEffect(() => {
@@ -138,48 +137,38 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
         }
 
         client.current = new Client();
-        client.current.addEventListener('skin_changed', (event: { skin: string, cape: string }) => {
+        client.current.onRendered = (event) => {
             setSkin(event.skin);
             setCape(event.cape);
-            setSlim(client.current.slim);
-        });
+            setSlim(event.slim);
+        };
 
-        client.current.addEventListener('init', () => {
+        client.current.onInit = () => {
             if (data.me_profile) client.current.loadSkin(data.me_profile.uuid);
 
-            asyncImage(b64Prefix + data.base64).then(bandage => {
-                const height = bandage.height / 2;
-                const pepe_canvas = document.createElement('canvas') as HTMLCanvasElement;
-                const context_pepe = pepe_canvas.getContext('2d');
-                pepe_canvas.width = 16;
-                pepe_canvas.height = height;
+            asyncImage(b64Prefix + data.base64)
+                .then(bandage => {
+                    client.current.loadFromImage(bandage);
 
-                const lining_canvas = document.createElement('canvas') as HTMLCanvasElement;
-                const context_lining = lining_canvas.getContext('2d');
-                lining_canvas.width = 16;
-                lining_canvas.height = height;
+                    setRangeProps({
+                        value: client.current.position,
+                        max: (12 - client.current.pepe_canvas.height)
+                    });
 
-                context_pepe.drawImage(bandage, 0, 0, 16, height, 0, 0, 16, height);
-                context_lining.drawImage(bandage, 0, height, 16, height, 0, 0, 16, height);
-                client.current.pepe_canvas = pepe_canvas;
-                client.current.lining_canvas = lining_canvas;
-                client.current.position = 6 - Math.floor(height / 2);
-                setRangeProps({ value: client.current.position, max: (12 - client.current.pepe_canvas.height) });
-                client.current.colorable = data.categories.some(val => val.colorable);
-                const randomColor = getRandomColor();
-                setRandomColor(randomColor);
-                client.current.setParams({ color: randomColor });
-                client.current.rerender();
-                setLoaded(true);
-            });
+                    client.current.colorable = data.categories.some(val => val.colorable);
+                    if (client.current.colorable) {
+                        const randomColor = getRandomColor();
+                        setRandomColor(randomColor);
+                        client.current.setParams({ color: randomColor });
+                    }
+                    setLoaded(true);
+                });
 
             if (data.split_type) {
                 client.current.setParams({ split_types: true });
-                asyncImage(b64Prefix + data.base64_slim).then(img => {
-                    client.current.loadFromImage(img, true)
-                });
+                asyncImage(b64Prefix + data.base64_slim).then(img => client.current.loadFromImage(img, true));
             }
-        });
+        };
         scrollTo(0, 0);
     }, []);
 

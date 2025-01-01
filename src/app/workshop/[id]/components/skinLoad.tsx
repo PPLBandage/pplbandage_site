@@ -48,6 +48,9 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                 setLoaded(true);
             })
             .catch((err: Error | AxiosError) => {
+                setData(null);
+                setLoaded(false);
+
                 if (!axios.isAxiosError(err)) {
                     setError(`Не удалось получить скин, смотри консоль`);
                     console.error(err);

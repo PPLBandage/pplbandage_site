@@ -1,8 +1,9 @@
 import Select, { GroupBase } from 'react-select';
 import * as Interfaces from "@/app/interfaces";
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Style from "@/app/styles/nick_search.module.css";
 import ApiManager from '../utils/apiManager';
+import { debounce } from 'lodash';
 
 export interface SearchResponse {
     status: string;
@@ -30,7 +31,45 @@ const Searcher = ({ onChange }: SearchProps) => {
     }]);
     const [nickValue, setNickValue] = useState<Interfaces.Option>({ value: "no_data", label: <>Введите никнейм</> });
 
-    const fetch_nicknames = (nickname: string) => {
+    const fetchNicknames = (nickname: string) => {
+        setLoading(true);
+        ApiManager.searchNicks(nickname)
+            .then(response_data => {
+                if (!response_data.data) return;
+
+                const data = response_data.data.map(nick => {
+                    const first_pos = nick.name.toLowerCase().indexOf(nickname.toLowerCase());
+                    const first = nick.name.slice(0, first_pos);
+                    const middle = nick.name.slice(first_pos, first_pos + nickname.length);
+                    const last = nick.name.slice(first_pos + nickname.length, nick.name.length);
+                    const label = first_pos !== -1 ? <>{first}<b className={Style.color}>{middle}</b>{last}</> : <>{nick.name}</>;
+
+                    return {
+                        value: `${nick.name} – ${nick.uuid}`,
+                        label:
+                            <div style={{ display: "flex", flexWrap: "nowrap", alignItems: "center" }}>
+                                <img
+                                    src={"data:image/png;base64," + nick.head}
+                                    width={32}
+                                    style={{ marginRight: "3px", borderRadius: "10px" }}
+                                />
+                                {label}
+                            </div>
+                    }
+                })
+                setNicknames([
+                    { value: nickname, label: <b>{nickname}</b> },
+                    { label: <>Совпадения</>, options: data }
+                ]);
+            })
+            .catch(console.error)
+            .finally(() => setLoading(false));
+
+    }
+
+    const debouncedFetch = useCallback(debounce(fetchNicknames, 100), []);
+
+    const onInput = (nickname: string) => {
         nickname = nickname.replaceAll("-", "").replace(/[^a-z_0-9\s]/gi, '');
         if (nickname.length >= 32) {
             nickname = nickname.slice(0, 32);
@@ -44,42 +83,7 @@ const Searcher = ({ onChange }: SearchProps) => {
         setNicknames([{ value: nickname, label: <b>{nickname}</b> }]);
         if (nickname.length === 17) return;
 
-        if (nickname.length > 2) {
-            setLoading(true);
-            ApiManager.searchNicks(nickname)
-                .then(response_data => {
-                    if (!response_data.data) return;
-
-                    const data = response_data.data.map(nick => {
-                        const first_pos = nick.name.toLowerCase().indexOf(nickname.toLowerCase());
-                        const first = nick.name.slice(0, first_pos);
-                        const middle = nick.name.slice(first_pos, first_pos + nickname.length);
-                        const last = nick.name.slice(first_pos + nickname.length, nick.name.length);
-                        const label = first_pos != -1 ? <>{first}<b className={Style.color}>{middle}</b>{last}</> : <>{nick.name}</>;
-
-                        return {
-                            value: `${nick?.name} – ${nick?.uuid}`,
-                            label:
-                                <div style={{ display: "flex", flexWrap: "nowrap", alignItems: "center" }}>
-                                    <img alt="" src={"data:image/png;base64," + nick.head} width={32} style={{ marginRight: "3px", borderRadius: "10px" }} />
-                                    {label}
-                                </div>
-                        }
-                    })
-                    setNicknames([
-                        {
-                            value: response_data.requestedFragment,
-                            label: <b>{response_data.requestedFragment}</b>
-                        },
-                        {
-                            label: <>Совпадения</>,
-                            options: data
-                        }
-                    ]);
-                })
-                .catch(console.error)
-                .finally(() => setLoading(false));
-        }
+        if (nickname.length > 2) debouncedFetch(nickname);
     }
 
     return <Select
@@ -88,7 +92,7 @@ const Searcher = ({ onChange }: SearchProps) => {
         className={`react-select-container`}
         classNamePrefix="react-select"
         isSearchable={true}
-        onInputChange={(n, _) => fetch_nicknames(n)}
+        onInputChange={(n, _) => onInput(n)}
         inputValue={input}
         onChange={(n, _) => {
             if (n?.value) {

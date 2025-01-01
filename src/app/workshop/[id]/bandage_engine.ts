@@ -84,7 +84,6 @@ class Client {
         if (!nickname) return;
 
         const response = await ApiManager.getSkin(nickname);
-        if (response.status !== 200) return;
 
         const data = response.data as SkinResponse;
         this.slim = data.data.skin.slim;

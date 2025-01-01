@@ -1,5 +1,5 @@
 import { IconCheck, IconShirt, IconX } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NextImage from 'next/image';
 import style from "@/app/styles/editor/page.module.css";
 import style_base from '@/app/styles/minecraftConnect.module.css';
@@ -7,6 +7,7 @@ import AsyncImage from "@/app/modules/utils/asyncImage";
 import Searcher from "@/app/modules/components/NickSearch";
 import ApiManager from "@/app/modules/utils/apiManager";
 import { CSSTransition } from "react-transition-group";
+import axios, { AxiosError } from "axios";
 
 const b64Prefix = "data:image/png;base64,";
 
@@ -29,6 +30,11 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
     const [data, setData] = useState<{ data: string; slim: boolean; cape?: string }>(null);
     const [loaded, setLoaded] = useState<boolean>(false);
 
+    useEffect(() => {
+        setLoaded(false);
+        setData(null);
+    }, [expanded])
+
     const isSlim = (img: HTMLImageElement): boolean => {
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
@@ -39,27 +45,10 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
     }
 
     const loadSkin = (nickname: string) => {
-        if (!nickname) {
-            return;
-        }
+        if (!nickname) return;
 
         ApiManager.getSkin(nickname)
             .then(response => {
-                if (response.status !== 200) {
-                    switch (response.status) {
-                        case 404:
-                            setError("Игрок с таким никнеймом не найден!");
-                            break;
-                        case 429:
-                            setError("Сервера Mojang перегружены, пожалуйста, попробуйте через пару минут");
-                            break;
-                        default:
-                            setError(`Не удалось получить ник! (${response.status})`);
-                            break;
-                    }
-                    return;
-                }
-
                 const data = response.data as SkinResponse;
                 setData({
                     data: b64Prefix + data.data.skin.data,
@@ -68,21 +57,37 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                 });
                 setLoaded(true);
             })
-            .catch(console.error);
+            .catch((err: Error | AxiosError) => {
+                if (!axios.isAxiosError(err)) {
+                    setError(`Не удалось получить скин, смотри консоль`);
+                    console.error(err);
+                    return;
+                }
+
+                switch (err.status) {
+                    case 404:
+                        setError("Игрок с таким никнеймом не найден");
+                        break;
+                    case 429:
+                        setError("Сервера Mojang перегружены, пожалуйста, попробуйте через пару минут");
+                        break;
+                    default:
+                        setError(`Не удалось получить скин (${err.status})`);
+                        break;
+                }
+            });
     }
 
     const setError = (err: string) => {
         const error = document.getElementById("error");
-        if (error) {
+        if (error)
             error.innerText = err;
-        }
     }
 
     const clearError = () => {
         const error = document.getElementById("error");
-        if (error) {
+        if (error)
             error.innerText = "";
-        }
     }
 
     const getData = (file: File) => {
@@ -187,7 +192,10 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                         }
 
                         <div style={{ display: 'flex', width: '100%', gap: '.5rem' }}>
-                            <button className={`${style.skin_load} ${!loaded && style.disabled_load}`} onClick={() => { loaded && onChange(data) }} style={{ width: '100%' }}>
+                            <button
+                                className={`${style.skin_load} ${!loaded && style.disabled_load}`}
+                                onClick={() => { loaded && onChange(data) }} style={{ width: '100%' }}
+                            >
                                 <IconCheck width={24} height={24} style={{ marginRight: '.2rem' }} />Готово
                             </button>
                         </div>

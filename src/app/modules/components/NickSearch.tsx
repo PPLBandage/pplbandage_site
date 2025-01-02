@@ -4,6 +4,8 @@ import { useCallback, useState } from 'react';
 import Style from "@/app/styles/nick_search.module.css";
 import ApiManager from '../utils/apiManager';
 import { debounce } from 'lodash';
+import Image from 'next/image';
+import { b64Prefix } from '@/app/workshop/[id]/bandage_engine';
 
 export interface SearchResponse {
     status: string;
@@ -42,16 +44,22 @@ const Searcher = ({ onChange }: SearchProps) => {
                     const first = nick.name.slice(0, first_pos);
                     const middle = nick.name.slice(first_pos, first_pos + nickname.length);
                     const last = nick.name.slice(first_pos + nickname.length, nick.name.length);
-                    const label = first_pos !== -1 ? <>{first}<b className={Style.color}>{middle}</b>{last}</> : <>{nick.name}</>;
+                    const label = first_pos !== -1 ? <span>{first}<b className={Style.color}>{middle}</b>{last}</span> : <>{nick.name}</>;
 
                     return {
                         value: `${nick.name} – ${nick.uuid}`,
                         label:
-                            <div style={{ display: "flex", flexWrap: "nowrap", alignItems: "center" }}>
-                                <img
-                                    src={"data:image/png;base64," + nick.head}
+                            <div style={{
+                                display: "flex",
+                                flexWrap: "nowrap",
+                                alignItems: "center",
+                                gap: '.4rem'
+                            }}>
+                                <Image
+                                    src={b64Prefix + nick.head}
+                                    alt=''
                                     width={32}
-                                    style={{ marginRight: "3px", borderRadius: "10px" }}
+                                    height={32}
                                 />
                                 {label}
                             </div>
@@ -95,10 +103,11 @@ const Searcher = ({ onChange }: SearchProps) => {
         onInputChange={(n, _) => onInput(n)}
         inputValue={input}
         onChange={(n, _) => {
-            if (n?.value) {
+            if (n.value) {
                 setLoading(true);
-                const nickname = n?.value;
-                onChange(nickname.split(" – ").length > 1 ? nickname.split(" – ")[1] : nickname);
+                const nickname = n.value;
+                const parts = nickname.split(" – ");
+                onChange(parts.length > 1 ? parts[1] : nickname);
                 setNickValue({ value: n.value, label: <div className={Style.p_div}>{n.label}</div> });
             }
             setLoading(false);

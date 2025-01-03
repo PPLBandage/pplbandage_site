@@ -1,6 +1,6 @@
 "use client";
 
-import React, { LegacyRef, useEffect, useRef, useState } from 'react';
+import React, { JSX, LegacyRef, useEffect, useRef, useState } from 'react';
 import Style from "@/app/styles/tooltip.module.css";
 
 interface TooltipProps {
@@ -17,7 +17,7 @@ export const Tooltip = ({ body, children, timeout = 800, className, parent_id, o
     const [position, setPosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
     const [mf, setmf] = useState<boolean>(false);
     const [time, setTime] = useState<number>(0);
-    const bodyRef = useRef<HTMLDivElement>();
+    const bodyRef = useRef<HTMLDivElement>(null);
     const [bodyDimensions, setBodyDimensions] = useState<{ width: number, height: number }>({ width: 0, height: 0 });
 
 

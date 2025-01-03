@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import style from '@/app/styles/editor/page.module.css';
 import Style from "@/app/styles/workshop/page.module.css";
 

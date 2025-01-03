@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { CSSTransition } from "react-transition-group";
+import { JSX, useState } from "react";
 import style_base from '@/app/styles/minecraftConnect.module.css';
 import style from '@/app/styles/EditConfirmation.module.css';
 import { IconArchive, IconTrash, IconX } from "@tabler/icons-react";
+import ReactCSSTransition from "./CSSTransition";
 
 interface EditConfirmationProps {
     children: JSX.Element,
@@ -35,29 +35,24 @@ const EditConfirmation = ({ action, confirm_code, children, onInput }: EditConfi
             <div onClick={() => setExpanded(true)}>
                 {children}
             </div>
-            <CSSTransition
-                in={expanded}
+            <ReactCSSTransition
+                state={expanded}
                 timeout={150}
                 classNames={{
                     enter: style_base['background-enter'],
-                    enterActive: style_base['background-enter-active'],
-                    exit: style_base['background-exit'],
                     exitActive: style_base['background-exit-active'],
                 }}
-                unmountOnExit>
+            >
                 <div className={style_base.background} />
-            </CSSTransition>
+            </ReactCSSTransition>
 
-            <CSSTransition
-                in={expanded}
+            <ReactCSSTransition
+                state={expanded}
                 timeout={150}
                 classNames={{
                     enter: style_base['menu-enter'],
-                    enterActive: style_base['menu-enter-active'],
-                    exit: style_base['menu-exit'],
                     exitActive: style_base['menu-exit-active'],
-                }}
-                unmountOnExit>
+                }}>
                 <div className={style_base.base}>
                     <div className={style_base.container}>
                         <div className={style_base.header}>
@@ -93,7 +88,7 @@ const EditConfirmation = ({ action, confirm_code, children, onInput }: EditConfi
                         <p style={{ margin: 0, color: '#ED4245', display: 'none' }} id="error" />
                     </div>
                 </div>
-            </CSSTransition>
+            </ReactCSSTransition>
         </>
     );
 }

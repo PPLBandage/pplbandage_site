@@ -2,18 +2,8 @@
     transform: translateX(calc(100% + .7rem));
 }
 
-.menu_enter_active {
-    transform: translateX(0%);
-    transition: transform 400ms;
-}
-
-.menu_exit {
-    transform: translateX(0%);
-}
-
 .menu_exit_active {
     transform: translateX(calc(100% + .7rem));
-    transition: transform 400ms;
 }
 
 
@@ -27,9 +17,11 @@
     margin-bottom: 0;
     z-index: 999;
     right: 0;
+    top: 1rem;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    transition: transform 400ms;
 }
 
 .container p {

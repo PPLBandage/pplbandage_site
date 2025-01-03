@@ -1,5 +1,5 @@
 import Style from '@/app/styles/info.module.css';
-import { CSSProperties } from 'react';
+import { CSSProperties, JSX } from 'react';
 
 interface InfoCardProps {
     title: JSX.Element | string;

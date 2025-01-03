@@ -47,29 +47,18 @@
     user-select: none;
     margin-top: .5rem;
     box-shadow: 5px 5px 8px -3px rgba(0, 0, 0, 0.75);
-}
 
+    transition: opacity 150ms, transform 150ms;
+}
 
 .menu-enter {
     opacity: 0;
     transform: scaleY(0.5);
 }
 
-.menu-enter-active {
-    opacity: 1;
-    transform: scaleY(1);
-    transition: opacity 150ms, transform 150ms;
-}
-
-.menu-exit {
-    opacity: 1;
-    transform: scaleY(1);
-}
-
 .menu-exit-active {
     opacity: 0;
     transform: scaleY(0.5);
-    transition: opacity 150ms, transform 150ms;
 }
 
 .menu_element {

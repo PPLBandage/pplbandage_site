@@ -330,8 +330,8 @@ interface SelectorInterface {
 }
 
 const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: SelectorInterface) => {
-    const errorRef = useRef<HTMLParagraphElement>();
-    const containerRef = useRef<HTMLLabelElement>();
+    const errorRef = useRef<HTMLParagraphElement>(null);
+    const containerRef = useRef<HTMLLabelElement>(null);
 
     const getDataOld = (file: File) => {
         if (!file) return;

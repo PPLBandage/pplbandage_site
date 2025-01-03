@@ -1,6 +1,5 @@
 "use client";
 
-import { Cookies, useCookies } from "next-client-cookies";
 import useCookie from "@/app/modules/utils/useCookie";
 import { useEffect, useRef, useState } from "react";
 import style_root from '@/app/styles/admin/page.module.css';
@@ -13,6 +12,7 @@ import SlideButton from "../modules/components/SlideButton";
 import ApiManager from "../modules/utils/apiManager";
 import { UserAdmins } from "../interfaces";
 import { IconSearch } from "@tabler/icons-react";
+import { useCookiesServer } from "../modules/utils/CookiesProvider/CookieProvider";
 
 const fira = Fira_Code({ subsets: ["latin"] });
 
@@ -127,11 +127,11 @@ const Users = () => {
 
 const Admin = () => {
     const logged = useCookie('sessionId');
-    const cookies = useRef<Cookies>(useCookies());
+    const cookiesServer = useCookiesServer();
     const [user, setUser] = useState<Query>(null);
     const router = useRouter();
 
-    if (!cookies.current.get('sessionId')) {
+    if (!cookiesServer.get('sessionId')) {
         redirect('/');
     }
 

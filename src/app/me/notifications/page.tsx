@@ -9,21 +9,18 @@ import { formatDate } from '@/app/modules/components/Card';
 import { Paginator } from '@/app/modules/components/Paginator';
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import Image from "next/image";
-import { Cookies, useCookies } from 'next-client-cookies';
 import ApiManager from '@/app/modules/utils/apiManager';
 import { NotificationsInterface } from '@/app/interfaces';
 import sanitizeHtml from 'sanitize-html';
 
 
 const Notifications = () => {
-    const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');
     const [notifications, setNotifications] = useState<NotificationsInterface | null>(null);
     const [page, setPage] = useState<number>(0);
 
-    if (!cookies.current.get('sessionId')) {
+    if (!logged)
         redirect('/me');
-    }
 
     useEffect(() => {
         if (!logged) {

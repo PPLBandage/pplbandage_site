@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { CSSTransition } from "react-transition-group";
+import { JSX, useState } from "react";
 import style from '@/app/styles/minecraftConnect.module.css';
 import { IconBrandMinecraft, IconCheck, IconX } from "@tabler/icons-react";
+import ReactCSSTransition from "./CSSTransition";
 
 interface MinecraftConnectProps {
     children: JSX.Element,
@@ -30,29 +30,23 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
             <div onClick={() => setExpanded(true)}>
                 {children}
             </div>
-            <CSSTransition
-                in={expanded}
+            <ReactCSSTransition
+                state={expanded}
                 timeout={150}
                 classNames={{
                     enter: style['background-enter'],
-                    enterActive: style['background-enter-active'],
-                    exit: style['background-exit'],
                     exitActive: style['background-exit-active'],
-                }}
-                unmountOnExit>
+                }}>
                 <div className={style.background} />
-            </CSSTransition>
+            </ReactCSSTransition>
 
-            <CSSTransition
-                in={expanded}
+            <ReactCSSTransition
+                state={expanded}
                 timeout={150}
                 classNames={{
                     enter: style['menu-enter'],
-                    enterActive: style['menu-enter-active'],
-                    exit: style['menu-exit'],
                     exitActive: style['menu-exit-active'],
-                }}
-                unmountOnExit>
+                }}>
                 <div className={style.base}>
                     <div className={style.container}>
                         <div className={style.header}>
@@ -103,7 +97,7 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
                         </div>
                     </div>
                 </div>
-            </CSSTransition>
+            </ReactCSSTransition>
         </>
     );
 }

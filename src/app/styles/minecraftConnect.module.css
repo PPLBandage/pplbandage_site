@@ -5,6 +5,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: opacity 150ms, transform 150ms;
 }
 
 .background {
@@ -12,6 +13,7 @@
     inset: 0;
     z-index: 9000;
     background-color: rgba(0, 0, 0, 0.6);
+    transition: opacity 150ms, transform 150ms;
 }
 
 .container {
@@ -49,34 +51,13 @@
     transform: scale(0.9);
 }
 
-.menu-enter-active {
-    opacity: 1;
-    transform: scale(1);
-    transition: opacity 150ms, transform 150ms;
-}
-
-.menu-exit {
-    opacity: 1;
-    transform: scale(1);
-}
-
 .menu-exit-active {
     opacity: 0;
     transform: scale(0.9);
-    transition: opacity 150ms, transform 150ms;
 }
 
 .background-enter {
     opacity: 0;
-}
-
-.background-enter-active {
-    opacity: 1;
-    transition: opacity 150ms;
-}
-
-.background-exit {
-    opacity: 1;
 }
 
 .background-exit-active {

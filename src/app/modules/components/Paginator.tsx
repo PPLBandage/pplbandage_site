@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { JSX, useEffect, useState } from 'react';
 import Styles from "@/app/styles/paginator.module.css";
 import { IconChevronRight, IconChevronLeft } from '@tabler/icons-react'
 

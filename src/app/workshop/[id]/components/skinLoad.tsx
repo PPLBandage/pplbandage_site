@@ -6,9 +6,8 @@ import style_base from '@/app/styles/minecraftConnect.module.css';
 import AsyncImage from "@/app/modules/utils/asyncImage";
 import Searcher from "@/app/modules/components/NickSearch";
 import ApiManager from "@/app/modules/utils/apiManager";
-import { CSSTransition } from "react-transition-group";
 import axios, { AxiosError } from "axios";
-import { SkinResponse } from "../bandage_engine";
+import ReactCSSTransition from "@/app/modules/components/CSSTransition";
 
 const b64Prefix = "data:image/png;base64,";
 
@@ -132,29 +131,25 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
 
     return (
         <>
-            <CSSTransition
-                in={expanded}
+            <ReactCSSTransition
+                state={expanded}
                 timeout={150}
                 classNames={{
                     enter: style_base['background-enter'],
-                    enterActive: style_base['background-enter-active'],
-                    exit: style_base['background-exit'],
                     exitActive: style_base['background-exit-active'],
                 }}
-                unmountOnExit>
+            >
                 <div className={style_base.background} />
-            </CSSTransition>
+            </ReactCSSTransition>
 
-            <CSSTransition
-                in={expanded}
+            <ReactCSSTransition
+                state={expanded}
                 timeout={150}
                 classNames={{
                     enter: style_base['menu-enter'],
-                    enterActive: style_base['menu-enter-active'],
-                    exit: style_base['menu-exit'],
                     exitActive: style_base['menu-exit-active'],
                 }}
-                unmountOnExit>
+            >
                 <div className={style.skin_load_base}>
                     <div className={style.skin_load_container}>
                         <div className={style_base.header}>
@@ -194,7 +189,7 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                         </div>
                     </div>
                 </div>
-            </CSSTransition >
+            </ReactCSSTransition >
         </>
     );
 }

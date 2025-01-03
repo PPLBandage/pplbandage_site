@@ -11,9 +11,8 @@ import useCookie from '@/app/modules/utils/useCookie';
 import Image from 'next/image';
 import { Me } from '@/app/modules/components/MeSidebar';
 import { Fira_Code } from "next/font/google";
-import { formatDate, formatDateHuman } from '@/app/modules/components/Card';
+import { formatDateHuman } from '@/app/modules/components/Card';
 import { getTheme } from '@/app/modules/providers';
-import { useCookies } from 'next-client-cookies';
 import IconSvg from '@/app/resources/icon.svg';
 import {
     IconUser,
@@ -240,11 +239,10 @@ const Themes = () => {
     const theme_default = getTheme('default');
     const theme_amoled = getTheme('amoled');
     const [themeState, setThemeState] = useState<string>(useCookie('theme_main') || 'default');
-    const cookies = useCookies();
 
     const change_theme = (name: string) => {
         setThemeState(name);
-        setTheme(name, cookies);
+        setTheme(name);
     }
 
     return (

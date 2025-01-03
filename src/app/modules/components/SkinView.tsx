@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useRef } from 'react';
+import { CSSProperties, JSX, useEffect, useRef } from 'react';
 import { PlayerAnimation, PlayerObject, SkinViewer, WalkingAnimation } from 'skinview3d';
 
 
@@ -30,8 +30,8 @@ export class TPose extends PlayerAnimation {
 
 
 const SkinView3D = ({ SKIN, CAPE, className, slim, id, width, height, pose, background, style }: SkinView3DOptions): JSX.Element => {
-    const canvasRef = useRef<HTMLCanvasElement>();
-    const skinViewRef = useRef<SkinViewer>();
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const skinViewRef = useRef<SkinViewer>(null);
 
     const setPose = (pose: number) => {
         switch (pose) {

@@ -112,21 +112,9 @@
     transform: scaleY(0.5);
 }
 
-.menu-enter-active {
-    opacity: 1;
-    transform: scaleY(1);
-    transition: opacity 150ms, transform 150ms;
-}
-
-.menu-exit {
-    opacity: 1;
-    transform: scaleY(1);
-}
-
 .menu-exit-active {
     opacity: 0;
     transform: scaleY(0.5);
-    transition: opacity 150ms, transform 150ms;
 }
 
 .category_menu_parent {
@@ -136,6 +124,8 @@
 
 .category_menu {
     transform-origin: top;
+    transition: opacity 150ms, transform 150ms;
+
     position: absolute;
     background-color: var(--main-card-color);
     margin-top: 1rem;

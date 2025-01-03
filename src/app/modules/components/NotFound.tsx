@@ -2,6 +2,7 @@
 
 import style from "@/app/styles/404/page.module.css";
 import "@/app/styles/404/style.css";
+import Link from "next/link";
 import { useEffect } from 'react';
 
 const NotFoundElement = () => {
@@ -20,7 +21,7 @@ const NotFoundElement = () => {
             <h1>404</h1>
             <h2 style={{ margin: 0, marginBottom: "0.5%" }}>Страница не найдена</h2>
             <div>
-                <a href="/" className={style.home}>Вернуться домой</a>
+                <Link href="/" className={style.home}>Вернуться домой</Link>
             </div>
         </main>
     </div>

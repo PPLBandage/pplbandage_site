@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { JSX, useEffect, useState } from 'react';
 import Select from 'react-select';
-import { CSSTransition } from 'react-transition-group';
 import Styles from "@/app/styles/search.module.css"
 import { Category } from '@/app/interfaces';
 import { CategoryEl } from './Card';
@@ -11,6 +10,7 @@ import Link from 'next/link';
 import style_workshop from "@/app/styles/workshop/page.module.css";
 import { IconSearch, IconFilter } from '@tabler/icons-react';
 import IconSvg from '@/app/resources/icon.svg';
+import ReactCSSTransition from './CSSTransition';
 
 const options_take: readonly { value: number, label: string }[] = [
     { value: 12, label: "12" },
@@ -129,20 +129,18 @@ export const Search = ({
                     </div>
                 </div>
                 <div className={Styles.category_menu_parent}>
-                    <CSSTransition
-                        in={expanded}
+                    <ReactCSSTransition
+                        state={expanded}
                         timeout={150}
                         classNames={{
                             enter: Styles['menu-enter'],
-                            enterActive: Styles['menu-enter-active'],
-                            exit: Styles['menu-exit'],
                             exitActive: Styles['menu-exit-active'],
                         }}
-                        unmountOnExit>
+                    >
                         <div className={Styles.category_menu}>
                             {categories.length > 0 ? categories_el : <IconSvg width={86} height={86} className={style_workshop.loading} />}
                         </div>
-                    </CSSTransition>
+                    </ReactCSSTransition>
                 </div>
             </div>
         </div>

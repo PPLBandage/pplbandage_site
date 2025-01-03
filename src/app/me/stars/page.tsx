@@ -1,10 +1,9 @@
 "use client";
 
-import React from 'react';
+import React, { JSX } from 'react';
 import { useEffect, useState, useRef } from 'react';
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import useCookie from '@/app/modules/utils/useCookie';
-import { Cookies, useCookies } from 'next-client-cookies';
 import styles_me from "@/app/styles/me/me.module.css";
 import Image from 'next/image';
 import { Bandage } from '@/app/interfaces';
@@ -15,16 +14,14 @@ import { renderSkin } from '@/app/modules/utils/SkinCardRender';
 import ApiManager from '@/app/modules/utils/apiManager';
 
 const Main = () => {
-    const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');
-    const [isLogged, setIsLogged] = useState<boolean>(cookies.current.get('sessionId') != undefined);
+    const [isLogged, setIsLogged] = useState<boolean>(logged !== undefined);
 
     const [elements, setElements] = useState<JSX.Element[]>(null);
     const [data, setData] = useState<Bandage[]>(null);
 
-    if (!cookies.current.get('sessionId')) {
+    if (!logged)
         redirect('/me');
-    }
 
     useEffect(() => {
         ApiManager.getMeStars().then(data => setData(data.reverse())).catch(console.error);

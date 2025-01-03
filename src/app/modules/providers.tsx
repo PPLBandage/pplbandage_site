@@ -1,10 +1,10 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useCookies } from "next-client-cookies";
 import { Inter } from "next/font/google";
 import { CSSProperties } from "react";
 import WorkshopCacheListener from "./utils/workshopCacheListener";
+import { useCookiesServer } from "./utils/CookiesProvider/CookieProvider";
 
 const queryClient = new QueryClient();
 const inter = Inter({ subsets: ["latin"] });
@@ -43,10 +43,10 @@ export const getTheme = (theme: string) => {
 }
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
-    const cookies = useCookies();
-    const theme_cookie = cookies.get('theme_main') || 'default';
+    const cookie = useCookiesServer();
+    const theme_cookie = cookie.get('theme_main') || 'default';
 
-    const theme = getTheme(theme_cookie);
+    const theme = getTheme(theme_cookie as string);
     return (
         <QueryClientProvider client={queryClient}>
             <html lang="ru" className={inter.className} style={theme as CSSProperties}>

@@ -107,7 +107,7 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
     const [randomColor, setRandomColor] = useState<string>("");
     const [loadExpanded, setLoadExpanded] = useState<boolean>(false);
     const [rangeProps, setRangeProps] = useState<{ max: number, value: number }>({ max: 8, value: 4 });
-    const client = useRef<Client>();
+    const client = useRef<Client>(null);
 
 
     const debouncedHandleColorChange = useCallback(

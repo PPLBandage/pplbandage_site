@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { JSX } from "react";
 import { useEffect, useState } from "react";
 import Style from "@/app/styles/workshop/page.module.css";
 
@@ -12,15 +12,14 @@ import Image from "next/image";
 import styles_card from "@/app/styles/me/me.module.css";
 import IconSvg from '@/app/resources/icon.svg';
 import { BrowserNotification, calcChecksum } from "./checkBrowserAPI";
-import { useCookies } from "next-client-cookies";
 import { renderSkin } from "../modules/utils/SkinCardRender";
 import { SimpleGrid } from "../modules/components/AdaptiveGrid";
 import ApiManager from "../modules/utils/apiManager";
 import { ConfigContext, ConfigInterface } from "../modules/utils/ConfigContext";
+import { getCookie, setCookie } from "cookies-next";
 
 
 export default function Home() {
-    const cookies = useCookies();
     const [data, setData] = useState<BandageResponse>(null);
     const [elements, setElements] = useState<JSX.Element[]>(null);
     const [totalCount, setTotalCount] = useState<number>(0);
@@ -104,7 +103,7 @@ export default function Home() {
 
 
     useEffect(() => {
-        if (!cookies.get('warningAccepted')) {
+        if (!getCookie('warningAccepted')) {
             calcChecksum().then(result => !result && setAlertShown(true));
         }
         data && renderSkin(data.data, styles_card).then(results => setElements(results));
@@ -132,7 +131,7 @@ export default function Home() {
             <BrowserNotification
                 expanded={alertShown}
                 onClose={() => {
-                    cookies.set('warningAccepted', 'true');
+                    setCookie('warningAccepted', 'true', { maxAge: 60 * 24 * 14 });
                     setAlertShown(false);
                 }}
             />

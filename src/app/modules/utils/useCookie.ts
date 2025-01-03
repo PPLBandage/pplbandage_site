@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { getCookie } from 'cookies-next';
-import { useCookies } from 'next-client-cookies';
+import { getCookie } from 'cookies-next/client';
+import { useCookiesServer } from './CookiesProvider/CookieProvider';
 
 const useCookie = (cookieName: string) => {
-    const cookies = useCookies();
-    const [cookieValue, setCookieValue] = useState<string>(getCookie(cookieName) || cookies.get(cookieName));
+    const cookies = useCookiesServer();
+    const [cookieValue, setCookieValue] = useState<string>(cookies.get(cookieName) || getCookie(cookieName));
 
     useEffect(() => {
         const handleCookieChange = () => {

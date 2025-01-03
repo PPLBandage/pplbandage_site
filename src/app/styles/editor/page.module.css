@@ -144,6 +144,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    transition: opacity 150ms, transform 150ms;
 }
 
 
@@ -314,6 +316,7 @@
 .bandage_raw_menu {
     position: absolute;
     transform-origin: top;
+    transition: opacity 150ms, transform 150ms;
     width: 100%;
     background-color: var(--category-color);
     padding: .6rem;
@@ -325,45 +328,9 @@
     gap: .4rem;
 }
 
-.menu-enter {
-    opacity: 0;
-    transform: scaleY(0.5);
-}
-
-.menu-enter-active {
-    opacity: 1;
-    animation: exit_animation 250ms reverse;
-}
-
-@keyframes exit_animation {
-    0% {
-        opacity: 1;
-        transform: scale(1, 1);
-    }
-
-    50% {
-        transform: scale(1, .1);
-    }
-
-    100% {
-        opacity: 0.5;
-        transform: scale(0, .1);
-    }
-}
 
 .menu-exit {
     opacity: 1;
-}
-
-.menu-exit-active {
-    opacity: 0.5;
-    transition: opacity 250ms;
-    animation: exit_animation 250ms;
-}
-
-.menu-exit-bandage {
-    opacity: 1;
-    transform: scaleY(1);
 }
 
 .menu-exit-bandage-active {

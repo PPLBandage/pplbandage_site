@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { JSX, useState } from "react";
 import Style from "./styles/root/page.module.css";
 import Link from "next/link";
 import { CustomLink } from "./modules/components/Search";

@@ -26,14 +26,16 @@
         "./src/*"
       ]
     },
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts", 
-    "pages/404.js"],
+    ".next/types/**/*.ts",
+    "pages/404.js"
+  ],
   "exclude": [
     "node_modules"
   ]

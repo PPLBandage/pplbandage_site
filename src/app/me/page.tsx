@@ -1,13 +1,11 @@
 "use client";
 
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, JSX } from 'react';
 import { useEffect, useState, useRef } from 'react';
-import { authApi } from "@/app/modules/utils/api";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "@/app/styles/me/me.module.css";
 import { Tooltip } from '@/app/modules/components/Tooltip';
 import useCookie from '@/app/modules/utils/useCookie';
-import { Cookies, useCookies } from 'next-client-cookies';
 import { Bandage, Role } from '@/app/interfaces';
 import { Me } from '@/app/modules/components/MeSidebar';
 import Link from 'next/link';
@@ -28,9 +26,8 @@ const Main = () => {
     const searchParams = useSearchParams();
     const code = searchParams.get('code');
 
-    const cookies = useRef<Cookies>(useCookies());
     const logged = useCookie('sessionId');
-    const [isLogged, setIsLogged] = useState<boolean>(cookies.current.get('sessionId') != undefined);
+    const [isLogged, setIsLogged] = useState<boolean>(logged != undefined);
     const [loadingStatus, setLoadingStatus] = useState<string>('');
 
     const [elements, setElements] = useState<JSX.Element[]>(null);

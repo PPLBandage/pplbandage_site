@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { JSX, useState } from "react";
 import { Query } from "./Header";
 import style_sidebar from "@/app/styles/me/sidebar.module.css";
 import Image from 'next/image';

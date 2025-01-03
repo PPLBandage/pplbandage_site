@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { CSSTransition } from 'react-transition-group';
+import ReactCSSTransition from '@/app/modules/components/CSSTransition';
+
 import Styles from '@/app/styles/theme_selector.module.css';
 import { IconBucketDroplet, IconPalette, IconPhoto } from '@tabler/icons-react'
 import ApiManager from '../utils/apiManager';
@@ -38,22 +39,20 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
         <button className={Styles.style_change} onClick={() => setExpanded(_prev => !_prev)}>
             {getIcon(theme)}
         </button>
-        <CSSTransition
-            in={expanded}
+        <ReactCSSTransition
+            state={expanded}
             timeout={150}
             classNames={{
                 enter: Styles['menu-enter'],
-                enterActive: Styles['menu-enter-active'],
-                exit: Styles['menu-exit'],
                 exitActive: Styles['menu-exit-active'],
             }}
-            unmountOnExit>
+        >
             <div className={Styles.menu}>
                 <button className={theme === 0 && Styles.enabled} onClick={() => setTheme(0)}>{getIcon(0)}</button>
                 <button className={theme === 1 && Styles.enabled} onClick={() => setTheme(1)}>{getIcon(1)}</button>
                 {color_available && <button className={theme === 2 && Styles.enabled} onClick={() => setTheme(2)}>{getIcon(2)}</button>}
             </div>
-        </CSSTransition>
+        </ReactCSSTransition>
     </div>);
 }
 

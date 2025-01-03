@@ -17,6 +17,7 @@ import {
     IconUserEdit,
     IconQuestionMark
 } from '@tabler/icons-react';
+import { JSX } from 'react';
 
 const Icons: { [key: string]: JSX.Element } = {
     'IconBrush': <IconPuzzle width={15} height={15} />,

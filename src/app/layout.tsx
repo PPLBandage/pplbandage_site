@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import Providers from "@/app/modules/providers";
 import "./styles/layout.css";
-import { CookiesProvider } from 'next-client-cookies/server';
 import { headers } from 'next/headers';
 import meta from '@/app/meta.json';
 import { merge } from 'lodash';
 import Footer from "./modules/components/Footer";
 import Header from "./modules/components/Header";
 import type { Viewport } from 'next'
+import { CookieProvider } from "./modules/utils/CookiesProvider/CookiesComponent";
 
 export const generateMetadata = async (): Promise<Metadata | undefined> => {
-    const headersList = headers();
+    const headersList = await headers();
     const path = headersList.get('X-Forwarded-Path')?.split('?')[0];  // Working only with Nginx config!
     const object = (meta as { [key: string]: any });
     const base = meta.base;
@@ -28,7 +28,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <CookiesProvider>
+        <CookieProvider>
             <Providers>
                 <body>
                     <div>
@@ -38,6 +38,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                     <Footer />
                 </body>
             </Providers>
-        </CookiesProvider>
+        </CookieProvider>
     );
 }

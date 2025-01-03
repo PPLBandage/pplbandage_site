@@ -59,7 +59,7 @@ authApi.interceptors.request.use(async config => {
         deleteCookie('sessionId');
     }
 
-    if (checkAccess(sessionId)) {
+    if (valid) {
         await tokenMutex.acquire();
     }
     return config;

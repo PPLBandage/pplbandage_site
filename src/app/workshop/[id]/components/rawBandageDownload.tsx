@@ -1,8 +1,8 @@
 import { IconChevronDown } from "@tabler/icons-react";
 import { useState } from "react";
 import style from "@/app/styles/editor/page.module.css";
-import { CSSTransition } from 'react-transition-group';
 import Client, { b64Prefix } from "../bandage_engine";
+import ReactCSSTransition from "@/app/modules/components/CSSTransition";
 
 const RawBandageDownload = ({ client, bandage }: { client: React.MutableRefObject<Client>, bandage: string }) => {
     const [expanded, setExpanded] = useState<boolean>(false);
@@ -24,16 +24,14 @@ const RawBandageDownload = ({ client, bandage }: { client: React.MutableRefObjec
                     }}
                 />
             </button>
-            <CSSTransition
-                in={expanded}
+            <ReactCSSTransition
+                state={expanded}
                 timeout={150}
                 classNames={{
                     enter: style['menu-enter-bandage'],
-                    enterActive: style['menu-enter-bandage-active'],
-                    exit: style['menu-exit-bandage'],
                     exitActive: style['menu-exit-bandage-active'],
                 }}
-                unmountOnExit>
+            >
                 <div className={style.bandage_raw_menu}>
                     <button className={style.skin_load} style={{ width: '100%' }} onClick={() => client.current?.download(b64Prefix + bandage, 'bandage.png')}>
                         Исходный файл
@@ -42,7 +40,7 @@ const RawBandageDownload = ({ client, bandage }: { client: React.MutableRefObjec
                         Обработанная
                     </button>
                 </div>
-            </CSSTransition>
+            </ReactCSSTransition>
         </div>
     );
 }

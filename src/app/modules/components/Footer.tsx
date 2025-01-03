@@ -2,16 +2,16 @@
 
 import { setTheme } from "@/app/me/settings/setTheme";
 import style from "@/app/styles/footer.module.css";
-import { useCookies } from "next-client-cookies";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useCookiesServer } from "../utils/CookiesProvider/CookieProvider";
 
 const Footer = () => {
-    const cookies = useCookies();
     const path = usePathname();
+    const cookiesServer = useCookiesServer();
     const themes = ['default', 'amoled'];
-    const initialThemeIndex = themes.indexOf(cookies.get('theme_main') || 'default');
+    const initialThemeIndex = themes.indexOf(cookiesServer.get('theme_main') || 'default');
     const [theme, setTheme_] = useState<number>(initialThemeIndex !== -1 ? initialThemeIndex : 0);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ const Footer = () => {
             return;
         }
 
-        setTheme(themes[theme], cookies);
+        setTheme(themes[theme]);
     }, [theme]);
 
     if (path === '/') return null;

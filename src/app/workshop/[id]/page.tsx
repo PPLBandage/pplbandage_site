@@ -6,12 +6,14 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { numbersTxt } from "@/app/modules/utils/time";
 
-export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
-    const headersList = headers();
+export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> => {
+    const headersList = await headers();
     const cookie = headersList.get('Cookie');
     const userAgent = headersList.get('User-Agent');
 
-    const meta = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${params.id}/info`, {
+    const props = await params;
+
+    const meta = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${props.id}/info`, {
         validateStatus: () => true,
         withCredentials: true,
         headers: {
@@ -57,15 +59,17 @@ const addView = async (cookie: string | null, external_id: string) => {
     } catch (e) { console.log(e); }
 }
 
-const Main = async ({ params, searchParams }: { params: { id: string }, searchParams: Record<string, string | string[]> }) => {
-    const headersList = headers();
+const Main = async ({ params, searchParams }: { params: Promise<{ id: string }>, searchParams: Promise<Record<string, string | string[]>> }) => {
+    const headersList = await headers();
     const cookie = headersList.get('Cookie');
     const userAgent = headersList.get('User-Agent');
-    const referrer = searchParams['ref'];
+    const search = await searchParams;
+    const props = await params;
+    const referrer = search['ref'];
 
-    await addView(cookie, params.id);
+    await addView(cookie, props.id);
 
-    const initial_response = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${params.id}`, {
+    const initial_response = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${props.id}`, {
         validateStatus: () => true,
         withCredentials: true,
         headers: {

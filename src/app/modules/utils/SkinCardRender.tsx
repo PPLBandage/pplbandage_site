@@ -4,6 +4,7 @@ import { SkinViewer } from "skinview3d";
 import asyncImage from "@/app/modules/utils/asyncImage";
 import { b64Prefix, fillPepe } from "@/app/workshop/[id]/bandage_engine";
 import { rgbToHex } from "@/app/workshop/[id]/client";
+import { JSX } from "react";
 
 
 const randint = (min: number, max: number): number => {

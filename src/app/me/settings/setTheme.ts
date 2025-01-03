@@ -1,9 +1,9 @@
 import { getTheme } from "@/app/modules/providers";
-import { Cookies } from "next-client-cookies";
+import { setCookie } from "cookies-next";
 
-export const setTheme = (name: string, cookies: Cookies) => {
+export const setTheme = (name: string) => {
     const theme: { [key: string]: string } = getTheme(name);
-    cookies.set('theme_main', name, { expires: 365 * 10 });
+    setCookie('theme_main', name, { maxAge: 60 * 24 * 365 * 10 });
     for (let prop in theme) {
         document.documentElement.style.setProperty(prop, theme[prop]);
     }

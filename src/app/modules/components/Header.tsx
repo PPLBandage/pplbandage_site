@@ -1,8 +1,7 @@
 "use client";
 
-import { Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, JSX, ReactNode, SetStateAction, useEffect, useState } from "react";
 import Styles from "@/app/styles/header.module.css";
-import { CSSTransition } from 'react-transition-group';
 import { deleteCookie } from 'cookies-next';
 import Link, { LinkProps } from 'next/link';
 import Image from 'next/image';
@@ -26,6 +25,7 @@ import IconCropped from '@/app/resources/icon-cropped.svg';
 import ApiManager from "../utils/apiManager";
 import { useRouter } from "next/navigation";
 import { createContext, useContext } from "react";
+import ReactCSSTransition from "./CSSTransition";
 
 export interface Query {
     username: string;
@@ -118,20 +118,18 @@ const Header = (): JSX.Element => {
                     }
                 </div>
                 <div className={Styles.menu_container}>
-                    <CSSTransition
-                        in={expanded}
+                    <ReactCSSTransition
+                        state={expanded}
                         timeout={150}
                         classNames={{
                             enter: Styles['menu-enter'],
-                            enterActive: Styles['menu-enter-active'],
-                            exit: Styles['menu-exit'],
                             exitActive: Styles['menu-exit-active'],
                         }}
-                        unmountOnExit>
+                    >
                         <div className={Styles.menu}>
                             {logged ? <LoggedMenu admin={admin} /> : <UnloggedMenu />}
                         </div>
-                    </CSSTransition>
+                    </ReactCSSTransition>
                 </div>
             </header>
         </ExpandContext.Provider>

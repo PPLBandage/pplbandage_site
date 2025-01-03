@@ -16,8 +16,9 @@ export interface Users extends Query {
     profile_theme: number
 }
 
-export const generateMetadata = async ({ params }: { params: { name: string } }): Promise<Metadata> => {
-    const meta = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}users/${params.name}/og`, {
+export const generateMetadata = async ({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> => {
+    const props = await params;
+    const meta = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}users/${props.name}/og`, {
         validateStatus: () => true,
         withCredentials: true,
         headers: {
@@ -49,12 +50,13 @@ export const generateMetadata = async ({ params }: { params: { name: string } })
     }
 }
 
-const Users = async ({ params }: { params: { name: string } }) => {
-    const headersList = headers()
+const Users = async ({ params }: { params: Promise<{ name: string }> }) => {
+    const headersList = await headers()
     const cookie = headersList.get('Cookie');
     const userAgent = headersList.get('User-Agent');
+    const props = await params;
 
-    const data_request = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}users/${params.name}`, {
+    const data_request = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}users/${props.name}`, {
         withCredentials: true,
         validateStatus: () => true,
         headers: {

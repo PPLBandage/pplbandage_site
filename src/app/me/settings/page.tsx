@@ -11,7 +11,7 @@ import useCookie from '@/app/modules/utils/useCookie';
 import Image from 'next/image';
 import { Me } from '@/app/modules/components/MeSidebar';
 import { Fira_Code } from "next/font/google";
-import { formatDate } from '@/app/modules/components/Card';
+import { formatDate, formatDateHuman } from '@/app/modules/components/Card';
 import { getTheme } from '@/app/modules/providers';
 import { useCookies } from 'next-client-cookies';
 import IconSvg from '@/app/resources/icon.svg';
@@ -181,8 +181,8 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
                             className={Style.discord_avatar} />
                     }
                     <div className={Style.discord_name_container}>
-                        <h1>{data.connections?.discord?.name || data.connections?.discord?.username}</h1>
-                        <p>Подключено {data.connections?.discord && formatDate(new Date(data.connections?.discord?.connected_at))}</p>
+                        <h1>{data.connections?.discord?.name || data.connections.discord.username}</h1>
+                        <p>Подключено {data.connections?.discord && formatDateHuman(new Date(data.connections?.discord?.connected_at))}</p>
                     </div>
                 </div>
             </div>
@@ -213,7 +213,7 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
 
                     </div>
                     <div className={Style.checkboxes}>
-                        <span>Последний раз кэшировано {formatDate(new Date(data.connections?.minecraft?.last_cached))}</span>
+                        <span>Последний раз кэшировано <b>{formatDateHuman(new Date(data.connections.minecraft.last_cached), true)}</b></span>
                         <button className={Style.unlink} onClick={refreshMinecraft}>
                             <IconRefresh style={{ width: "1.8rem" }} id="refresh" />Обновить кэш
                         </button>
@@ -349,7 +349,7 @@ const Safety = () => {
                     {session.is_mobile ? <IconDeviceMobile /> : <IconDeviceDesktop />}
                     {session.browser} {session.browser_version} {session.is_self && <p>Это устройство</p>}
                 </h2>
-                <p className={Style_safety.last_accessed} title={formatDate(new Date(session.last_accessed))}>Последний доступ {timeStamp((new Date(session.last_accessed).getTime()) / 1000)}</p>
+                <p className={Style_safety.last_accessed} title={formatDateHuman(new Date(session.last_accessed))}>Последний доступ {timeStamp((new Date(session.last_accessed).getTime()) / 1000)}</p>
             </div>
             {!session.is_self &&
                 <button className={Style_safety.button} onClick={_ => logoutSession(session.id)}>

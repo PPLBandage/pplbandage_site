@@ -106,6 +106,7 @@ export const Search = ({
                             onChange={(n, _) => onChangeSort(n.value)}
                             value={options_sortir.find(i => i.value === sort)}
                             isSearchable={false}
+                            instanceId='select-ebal-1'
                         />
                     </div>
 
@@ -118,6 +119,7 @@ export const Search = ({
                             isSearchable={false}
                             onChange={(n, _) => onChangeTake(n.value)}
                             value={options_take.find(i => i.value === take)}
+                            instanceId='select-ebal-2'
                         />
                     </div>
 

@@ -250,6 +250,7 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                                 classNamePrefix='react-select'
                                 isSearchable={false}
                                 onChange={(n, _) => setPose(n.value)}
+                                instanceId='select-ebal-1'
                                 formatOptionLabel={nick_value => nick_value.label} />
                             <button className={style.skin_load} onClick={() => client.current?.download()}>
                                 <IconDownload
@@ -319,6 +320,7 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                                         className={`react-select-container`}
                                         classNamePrefix="react-select"
                                         isSearchable={false}
+                                        instanceId='select-ebal-2'
                                         onChange={(n, _) => client.current?.setParams({ body_part: n.value })} />
                                     <Select
                                         options={layers}
@@ -326,6 +328,7 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                                         className={`react-select-container`}
                                         classNamePrefix="react-select"
                                         isSearchable={false}
+                                        instanceId='select-ebal-3'
                                         onChange={(n, _) => client.current?.setParams({ layers: n.value })} />
                                 </div>
                             </div>

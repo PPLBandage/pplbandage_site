@@ -40,9 +40,9 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
         ApiManager.getSkin(nickname)
             .then(data => {
                 setData({
-                    data: b64Prefix + data.data.skin.data,
-                    slim: data.data.skin.slim,
-                    cape: data.data.cape
+                    data: b64Prefix + data.skin,
+                    slim: data.slim,
+                    cape: data.cape
                 });
                 setLoaded(true);
             })

@@ -2,13 +2,9 @@ import asyncImage, { base64Encode } from '@/app/modules/utils/asyncImage';
 import ApiManager from '@/app/modules/utils/apiManager';
 
 export interface SkinResponse {
-    data: {
-        skin: {
-            data: string,
-            slim: boolean
-        },
-        cape: string
-    }
+    skin: string,
+    cape: string,
+    slim: boolean
 }
 
 export const b64Prefix = "data:image/png;base64,";
@@ -79,11 +75,11 @@ class Client {
         if (!nickname) return;
 
         const data = await ApiManager.getSkin(nickname);
-        this.slim = data.data.skin.slim;
+        this.slim = data.slim;
 
-        this.setOriginalCanvas(b64Prefix + data.data.skin.data, () => {
-            this.skin = b64Prefix + data.data.skin;
-            this.cape = b64Prefix + data.data.cape;
+        this.setOriginalCanvas(b64Prefix + data.skin, () => {
+            this.skin = b64Prefix + data.skin;
+            this.cape = b64Prefix + data.cape;
 
             this.rerender();
         });

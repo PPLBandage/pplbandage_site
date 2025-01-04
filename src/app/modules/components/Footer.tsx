@@ -6,21 +6,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCookiesServer } from "../utils/CookiesProvider/CookieProvider";
+import themes from "@/app/themes";
 
 const Footer = () => {
     const path = usePathname();
     const cookiesServer = useCookiesServer();
-    const themes = ['default', 'amoled'];
-    const initialThemeIndex = themes.indexOf(cookiesServer.get('theme_main') || 'default');
+    const themesKeys = Object.keys(themes);
+    const initialThemeIndex = themesKeys.indexOf(cookiesServer.get('theme_main') || 'default');
     const [theme, setTheme_] = useState<number>(initialThemeIndex !== -1 ? initialThemeIndex : 0);
 
     useEffect(() => {
-        if (theme > themes.length - 1) {
+        if (theme > themesKeys.length - 1) {
             setTheme_(0);
             return;
         }
 
-        setTheme(themes[theme]);
+        setTheme(themesKeys[theme]);
     }, [theme]);
 
     if (path === '/') return null;

@@ -33,6 +33,7 @@ import ApiManager from '@/app/modules/utils/apiManager';
 import { Session } from '@/app/interfaces';
 import { setTheme } from './setTheme';
 import MinecraftConnect from '@/app/modules/components/MinecraftConnect';
+import themes from '@/app/themes';
 const fira = Fira_Code({ subsets: ["latin"] });
 
 export interface SettingsResponse {
@@ -236,35 +237,35 @@ const Connections = ({ data, refetch }: { data: SettingsResponse, refetch(): voi
 }
 
 const Themes = () => {
-    const theme_default = getTheme('default');
-    const theme_amoled = getTheme('amoled');
-    const [themeState, setThemeState] = useState<string>(useCookie('theme_main') || 'default');
+    const themeCookie = useCookie('theme_main');
+    const [themeState, setThemeState] = useState<string>(themeCookie || 'default');
+
+    useEffect(() => setThemeState(themeCookie), [themeCookie]);
 
     const change_theme = (name: string) => {
         setThemeState(name);
         setTheme(name);
     }
 
+    const themesEl = Object.entries(themes)
+        .map(entry =>
+            <Theme
+                key={entry[0]}
+                data={{
+                    name: entry[0],
+                    title: entry[1].title,
+                    ...entry[1].data
+                }}
+                theme={themeState}
+                onChange={change_theme}
+            />
+        );
+
     return (
         <div className={Style.container} style={{ paddingBottom: 'calc(1rem - 10px)' }}>
             <h3><IconPalette width={24} height={24} />Внешний вид</h3>
             <div className={Style_themes.parent}>
-                <Theme data={{
-                    name: 'default',
-                    title: 'Default',
-                    ...theme_default
-                }}
-                    theme={themeState}
-                    onChange={change_theme}
-                />
-                <Theme data={{
-                    name: 'amoled',
-                    title: 'Amoled',
-                    ...theme_amoled
-                }}
-                    theme={themeState}
-                    onChange={change_theme}
-                />
+                {themesEl}
             </div>
         </div>
     );

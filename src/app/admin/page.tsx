@@ -111,8 +111,6 @@ const Users = () => {
         );
     })
 
-    if (usersEl.length === 0) return null;
-
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <h2 style={{ margin: 0 }}>Пользователи ({usersEl.length})</h2>

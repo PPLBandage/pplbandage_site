@@ -17,7 +17,7 @@
     height: 60%;
     border-radius: 10px;
     display: flex;
-    gap: 5px;
+    gap: calc(32px - .8rem * 2);
     align-items: center;
     justify-content: center;
     padding: 10px;
@@ -32,12 +32,14 @@
 .icon {
     width: 2rem;
     height: 2rem !important;
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 
 .text_container {
     width: 80%;
     height: 2rem !important;
-    gap: 5px;
+    justify-content: space-between;
     display: flex;
     flex-direction: column;
 

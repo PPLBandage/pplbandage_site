@@ -1,0 +1,24 @@
+.link {
+    display: flex;
+    justify-content: center;
+    border: 2px solid rgb(38, 38, 38);
+    border-radius: 10px;
+    height: 2.3rem;
+    align-items: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+    transition-duration: .15s;
+    gap: .2rem;
+}
+
+.link:hover {
+    background-color: var(--accent);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: .4rem;
+}

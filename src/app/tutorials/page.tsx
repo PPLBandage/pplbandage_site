@@ -1,37 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import style from '@/app/styles/tutorials/common.module.css';
 import ASide from "./header";
 import InfoCard from "@/app/modules/components/InfoCard";
 import { CategoryEl } from "@/app/modules/components/Card";
 import { CustomLink } from "@/app/modules/components/Search";
 import styles from "@/app/styles/me/me.module.css";
-import { Tooltip } from "@/app/modules/components/Tooltip";
-import { Role } from "@/app/interfaces";
-import style_workshop from "@/app/styles/workshop/page.module.css";
 
 import { IconInfoCircle, IconAlertTriangle, IconBulb } from '@tabler/icons-react';
-import IconSvg from '@/app/resources/icon.svg';
 import Link from "next/link";
-import ApiManager from "../modules/utils/apiManager";
+import RolesDialog from "../modules/components/RolesDialog";
 
 export default function Home() {
-    const [roles, setRoles] = useState<Role[]>([]);
-
-    useEffect(() => {
-        ApiManager.getRoles().then(setRoles).catch(console.error);
-    }, [])
-
-    const roles_data = roles.map((role) => {
-        return (
-            <div key={role.id} className={styles.role_container}>
-                <span style={{ backgroundColor: "#" + role.color.toString(16) }} className={styles.role_dot}>
-                </span>
-                <span className={styles.role_title}>{role.title}</span>
-            </div>
-        )
-    })
     return (
         <main className={style.main}>
             <div className={style.main_container}>
@@ -46,17 +27,10 @@ export default function Home() {
 
                     <h2>Регистрация на сайте</h2>
                     <span style={{ display: 'block', marginBottom: '1rem' }}>Регистрация разрешена только пользователям, являющимися членами Discord сервера PWGood,
-                        а так же имеющие определенные <Tooltip
-                            body={
-                                <div className={styles.roles_container}>
-                                    {roles_data.length > 0 ? roles_data : <IconSvg width={86} height={86} className={style_workshop.loading} />}
-                                </div>
-                            }
-                            opacity="1"
-                            timeout={0}
-                            className={styles.roles_text_container}>
-                            <span className={styles.roles_text}> роли</span>
-                        </Tooltip>.
+                        а так же имеющие определенные&nbsp;
+                        <RolesDialog>
+                            <span className={styles.roles_text}>роли</span>
+                        </RolesDialog>.
                         При регистрации сайт сохраняет ваш никнейм с учётной записи Discord.
                         Дальнейшее его изменение возможно только через администрацию сайта.</span>
                     <InfoCard color="#4493F8" title={

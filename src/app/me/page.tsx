@@ -1,7 +1,7 @@
 "use client";
 
 import React, { CSSProperties, JSX } from 'react';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "@/app/styles/me/me.module.css";
 import { Tooltip } from '@/app/modules/components/Tooltip';
@@ -19,6 +19,7 @@ import { httpStatusCodes } from '../modules/utils/StatusCodes';
 import { renderSkin } from '../modules/utils/SkinCardRender';
 import ApiManager from '../modules/utils/apiManager';
 import MinecraftConnect from '../modules/components/MinecraftConnect';
+import RolesDialog from '../modules/components/RolesDialog';
 
 const Main = () => {
     const router = useRouter();
@@ -97,21 +98,6 @@ const Loading = ({ loadingStatus }: { loadingStatus: string }) => {
 }
 
 const Login = () => {
-    const [roles, setRoles] = useState<Role[]>([]);
-    const dat = roles.map((role) => {
-        return (
-            <div key={role.id} className={styles.role_container}>
-                <span style={{ backgroundColor: "#" + role.color.toString(16) }} className={styles.role_dot}>
-                </span>
-                <span className={styles.role_title}>{role.title}</span>
-            </div>
-        )
-    })
-
-    useEffect(() => {
-        ApiManager.getRoles().then(setRoles).catch(console.error);
-    }, [])
-
     const loginMinecraft = async (code: string): Promise<void> => {
         return new Promise((resolve, reject) => {
             ApiManager.loginMinecraft(code)
@@ -153,14 +139,8 @@ const Login = () => {
                     </MinecraftConnect>
                 </div>
 
-                <span className={styles.p} id="about_logging">Для регистрации вам нужно быть участником Discord сервера <a href='https://baad.pw/ds' className={styles.a}>Pwgood</a> и иметь одну из этих <Tooltip
-                    parent_id="about_logging"
-                    body={
-                        <div className={styles.roles_container}>
-                            {dat.length > 0 ? dat : <IconSvg width={86} height={86} className={style_workshop.loading} style={{ width: 'auto' }} />}
-                        </div>} timeout={0} className={styles.roles_text_container}>
-                    <span className={styles.roles_text}> ролей</span>
-                </Tooltip>
+                <span className={styles.p} id="about_logging">Для регистрации вам нужно быть участником Discord сервера <a href='https://baad.pw/ds' className={styles.a}>Pwgood</a> и иметь одну из этих&nbsp;
+                    <RolesDialog><span style={{ cursor: 'pointer', textDecoration: 'underline' }}>ролей</span></RolesDialog>.
                 </span>
                 <p style={{ color: "gray", marginBottom: 0 }}>Регистрируясь на сайте вы соглашаетесь с настоящими <a className={styles.a} href="/tos" style={{ color: "gray" }}>условиями пользования</a></p>
             </div>

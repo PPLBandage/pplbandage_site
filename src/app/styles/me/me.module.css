@@ -1,7 +1,6 @@
 .p {
     margin-top: .5rem;
     color: var(--main-text-color);
-    transform: translateY(0);
     transition: color 250ms;
     display: block;
 }

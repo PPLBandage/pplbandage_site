@@ -21,9 +21,7 @@ export const generateMetadata = async (): Promise<Metadata | undefined> => {
 
 export const viewport: Viewport = {
     width: 'device-width',
-    initialScale: 0.9,
-    maximumScale: 0.9,
-    userScalable: false
+    initialScale: 0.9
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -44,13 +44,6 @@ export default function Home() {
                     <h2>Интеграции</h2>
                     <p>Сайт позволяет искать скины через встроенную базу Minecraft ников, которые постоянно пополняются автоматически при поиске нового никнейма. Вы можете привязать свой Minecraft аккаунт к учётной записи PPLBandage через сервис <CustomLink href="https://mc-oauth.andcool.ru">mc-oauth</CustomLink>.
                         Для привязки вам нужно зайти на Minecraft сервер <u>oauth.pplbandage.ru</u> для версии начиная с 1.8 и получить там 6-значный код, который нужно будет ввести на странице <CustomLink href='/me/settings'>настроек</CustomLink>.</p>
-                    <InfoCard color="#3FB950" title={
-                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
-                            <IconBulb width={24} height={24} />
-                            <p style={{ margin: 0 }}>Заметка</p>
-                        </div>}>
-                        <p style={{ margin: 0 }}>Сервис <span style={{ color: "rgba(12, 247, 215)" }}>mc-oauth</span> был разработан специально для этого сайта. Он полностью повторяет систему авторизации оригинальных серверов Minecraft и получает доступ только к никнейму и UUID.</p>
-                    </InfoCard>
                     <p>После привязки Minecraft аккаунта к аккаунту PPLBandage, вы сможете обновлять кэш скинов когда угодно, включать/выключать отображение вашего ника в поиске скинов, а так же включить автоматическую загрузку скина в редакторе.</p>
 
                     <h2>Публикация повязок</h2>
@@ -59,7 +52,7 @@ export default function Home() {
                             <IconBulb width={24} height={24} />
                             <p style={{ margin: 0 }}>Заметка</p>
                         </div>}>
-                        <p style={{ margin: 0 }}>Подробнее о создании повязок читайте на странице <CustomLink href='/tutorials/bandage'>/tutorials/bandage</CustomLink>.</p>
+                        <p style={{ margin: 0 }}>Подробнее о создании повязок читайте на странице <CustomLink href='/tutorials/bandage'>туториала</CustomLink>.</p>
                     </InfoCard>
                     <p>Публикация повязок доступна только зарегистрированным пользователям.<br />
                         Все повязки имеют информацию, содержащую название, описание и категории.</p>
@@ -106,7 +99,7 @@ export default function Home() {
                         <p style={{ margin: 0 }}>Злоупотребление категориями может привести к блокировке повязки.</p>
                     </InfoCard>
 
-                    <span style={{ display: 'block', marginTop: '.5rem', marginBottom: '.5rem' }}>Некоторые категории несут больше чем информативный характер. Например, категория <Link href='/workshop/create#colorable'><CategoryEl style={{ display: 'inline-flex', height: '1rem', verticalAlign: 'top' }} category={{
+                    <span style={{ display: 'block', marginTop: '.5rem', marginBottom: '.5rem' }}>Некоторые категории несут больше, чем информативный характер. Например, категория <Link href='/workshop/create#colorable'><CategoryEl style={{ display: 'inline-flex', height: '1rem', verticalAlign: 'top' }} category={{
                         id: -1,
                         name: "Окрашиваемые",
                         icon: 'IconPalette'

@@ -1,6 +1,6 @@
 import Select, { GroupBase } from 'react-select';
 import * as Interfaces from "@/app/interfaces";
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import Style from "@/app/styles/nick_search.module.css";
 import ApiManager from '../utils/apiManager';
 import { debounce } from 'lodash';
@@ -32,10 +32,14 @@ const Searcher = ({ onChange }: SearchProps) => {
         isDisabled: true
     }]);
     const [nickValue, setNickValue] = useState<Interfaces.Option>({ value: "no_data", label: <>Введите никнейм</> });
+    const abortController = useRef<AbortController>(null);
 
     const fetchNicknames = (nickname: string) => {
         setLoading(true);
-        ApiManager.searchNicks(nickname)
+
+        abortController.current?.abort?.();
+        abortController.current = new AbortController();
+        ApiManager.searchNicks(nickname, abortController.current.signal)
             .then(response_data => {
                 if (!response_data.data) return;
 
@@ -89,8 +93,6 @@ const Searcher = ({ onChange }: SearchProps) => {
         }
 
         setNicknames([{ value: nickname, label: <b>{nickname}</b> }]);
-        if (nickname.length === 17) return;
-
         if (nickname.length > 2) debouncedFetch(nickname);
     }
 

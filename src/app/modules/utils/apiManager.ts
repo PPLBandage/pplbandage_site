@@ -1,6 +1,6 @@
 import * as Interfaces from "@/app/interfaces";
 import { authApi } from "./api";
-import axios, { AxiosResponse, Method } from "axios";
+import axios, { AxiosResponse, GenericAbortSignal, Method } from "axios";
 import { Query } from "../components/Header";
 import { SettingsResponse } from "@/app/me/settings/page";
 import { SearchResponse } from "../components/NickSearch";
@@ -10,7 +10,8 @@ type RequestProps = {
     url: string,
     method: Method,
     data?: any,
-    params?: any
+    params?: any,
+    signal?: GenericAbortSignal
 };
 
 type UpdateUsersProps = {
@@ -43,7 +44,8 @@ class ApiManager {
         url,
         method,
         data,
-        params
+        params,
+        signal
     }: RequestProps): Promise<AxiosResponse<any, any>> {
         const response = await axios.request({
             url: process.env.NEXT_PUBLIC_API_URL.slice(0, -1) + url,
@@ -51,7 +53,8 @@ class ApiManager {
             data,
             params,
             headers: { 'accept-language': 'ru' },
-            withCredentials: true
+            withCredentials: true,
+            signal
         });
         if (response.status >= 400)
             throw response;
@@ -228,10 +231,11 @@ class ApiManager {
     }
 
     /* Search Minecraft nicks */
-    static async searchNicks(nickname: string): Promise<SearchResponse> {
+    static async searchNicks(nickname: string, signal?: GenericAbortSignal): Promise<SearchResponse> {
         return (await this.doRequestSimple({
             url: `/minecraft/search/${nickname}`,
-            method: 'GET'
+            method: 'GET',
+            signal
         })).data;
     }
 

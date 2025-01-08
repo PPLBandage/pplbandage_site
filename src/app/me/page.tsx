@@ -4,17 +4,14 @@ import React, { CSSProperties, JSX } from 'react';
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "@/app/styles/me/me.module.css";
-import { Tooltip } from '@/app/modules/components/Tooltip';
 import useCookie from '@/app/modules/utils/useCookie';
-import { Bandage, Role } from '@/app/interfaces';
+import { Bandage } from '@/app/interfaces';
 import { Me } from '@/app/modules/components/MeSidebar';
 import Link from 'next/link';
 import { SimpleGrid } from '@/app/modules/components/AdaptiveGrid';
-import style_workshop from "@/app/styles/workshop/page.module.css";
 
 import { IconArrowBack, IconBrandMinecraft, IconPlus } from '@tabler/icons-react';
 import IconSvgCropped from '@/app/resources/icon-cropped.svg';
-import IconSvg from '@/app/resources/icon.svg';
 import { httpStatusCodes } from '../modules/utils/StatusCodes';
 import { renderSkin } from '../modules/utils/SkinCardRender';
 import ApiManager from '../modules/utils/apiManager';

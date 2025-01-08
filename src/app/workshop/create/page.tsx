@@ -98,7 +98,7 @@ export default function Home() {
                             classNamePrefix="react-select"
                             isSearchable={false}
                             onChange={(n, _) => setPose(n.value)}
-                            instanceId='select-ebal-1'
+                            instanceId='select-1'
                             formatOptionLabel={(nick_value) => nick_value.label}
                         />
                     </div>

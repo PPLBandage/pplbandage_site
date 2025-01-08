@@ -113,7 +113,7 @@ const EditElement = ({
             className={`react-select-container`}
             classNamePrefix="react-select"
             isSearchable={false}
-            instanceId='select-ebal-1'
+            instanceId='select-1'
             onChange={(n, _) => setAccessLevel(n.value)}
         />
         <div className={style.check_notification} style={{

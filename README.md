@@ -13,6 +13,5 @@
 ## Contributors
 - [@Andcool-Systems](https://github.com/Andcool-Systems)
 - [@Krimax0](https://github.com/Krimax0)
-
 - Sleepless nights
 - ChatGPT

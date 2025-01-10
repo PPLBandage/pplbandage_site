@@ -29,15 +29,26 @@
     width: 300px;
     align-items: flex-start;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
-.card img,
 .avatar_container {
-    border-radius: 50%;
     width: 7rem;
     height: 7rem;
+    position: relative;
 }
 
+.avatar_container img {
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+
+    position: absolute;
+}
+
+.blurred_avatar {
+    filter: blur(20px);
+}
 
 .card .username {
     margin: 0;

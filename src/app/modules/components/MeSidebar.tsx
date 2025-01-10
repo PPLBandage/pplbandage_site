@@ -18,7 +18,25 @@ const Default = ({ data, islogged, color }: { data: Query, islogged: boolean, co
     return (
         <div className={style_sidebar.card} style={{ backgroundColor: color || "var(--main-card-color)" }}>
             <div className={`${style_sidebar.avatar_container} ${!islogged && style_sidebar.placeholders}`}>
-                {islogged && data?.avatar && <Image src={data?.avatar} alt="" width={150} height={150} priority={true} draggable={false} />}
+                {islogged && data?.avatar && !color &&
+                    <Image
+                        src={data.avatar}
+                        className={style_sidebar.blurred_avatar}
+                        alt=""
+                        width={150}
+                        height={150}
+                        priority={true}
+                        draggable={false}
+                    />}
+                {islogged && data?.avatar &&
+                    <Image
+                        src={data.avatar}
+                        alt=""
+                        width={150}
+                        height={150}
+                        priority={true}
+                        draggable={false}
+                    />}
             </div>
             <h3>{data?.name}</h3>
             <p className={style_sidebar.username}>{data?.username} {!!data.last_accessed &&

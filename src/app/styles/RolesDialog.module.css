@@ -1,7 +1,7 @@
 .link {
     display: flex;
     justify-content: center;
-    border: 2px solid rgb(38, 38, 38);
+    border: 2px solid var(--hr-color);
     border-radius: 10px;
     height: 2.3rem;
     align-items: center;

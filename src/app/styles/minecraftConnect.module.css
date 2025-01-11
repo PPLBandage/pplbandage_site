@@ -14,6 +14,8 @@
     z-index: 9000;
     background-color: rgba(0, 0, 0, 0.6);
     transition: opacity 150ms, transform 150ms;
+
+    backdrop-filter: blur(2px);
 }
 
 .container {

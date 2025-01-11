@@ -43,7 +43,7 @@ const EditConfirmation = ({ action, confirm_code, children, onInput }: EditConfi
                     exitActive: style_base['background-exit-active'],
                 }}
             >
-                <div className={style_base.background} />
+                <div className={`${style_base.background} ${action === 'delete' && style.delete_background}`} />
             </ReactCSSTransition>
 
             <ReactCSSTransition

@@ -23,3 +23,7 @@
 .available:hover {
     background-color: #ED4245;
 }
+
+.delete_background {
+    background: linear-gradient(180deg, #fd2d3114 0%, #b51e20b3 100%);
+}

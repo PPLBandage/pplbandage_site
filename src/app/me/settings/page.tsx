@@ -12,7 +12,6 @@ import Image from 'next/image';
 import { Me } from '@/app/modules/components/MeSidebar';
 import { Fira_Code } from "next/font/google";
 import { formatDateHuman } from '@/app/modules/components/Card';
-import { getTheme } from '@/app/modules/providers';
 import IconSvg from '@/app/resources/icon.svg';
 import {
     IconUser,
@@ -286,7 +285,7 @@ const Theme = ({ data, theme, onChange }: { data: ThemeProps, theme: string, onC
     }
 
     return (
-        <div onClick={() => onChange(data.name)} style={{ cursor: 'pointer' }}>
+        <div onClick={() => onChange(data.name)} style={{ cursor: 'pointer' }} className={Style_themes.clickable}>
             <div style={{ backgroundColor: data['--main-bg-color'] }} className={Style_themes.background}>
                 <div style={{ backgroundColor: data['--main-card-color'] }} className={Style_themes.card}>
                     <div style={{ backgroundColor: data['--main-element-color'] }} className={Style_themes.icon} />

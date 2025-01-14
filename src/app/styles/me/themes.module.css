@@ -72,12 +72,19 @@
 .parent {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     gap: 1rem;
 }
 
-@media (max-width: 650px) {
+@media (max-width: 840px) {
     .parent {
+        flex-direction: column;
         justify-content: center;
+        gap: calc(1rem - 10px);
+    }
+
+    .clickable,
+    .footer,
+    .background {
+        width: 100%;
     }
 }

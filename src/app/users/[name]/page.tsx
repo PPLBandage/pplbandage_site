@@ -36,7 +36,7 @@ export const generateMetadata = async ({ params }: { params: Promise<{ name: str
         description: `Профиль пользователя ${data.name}`,
         openGraph: {
             title: `${data.name} · Автор`,
-            description: `${numbersTxt(data.works_count, ['работа', 'работы', 'работ'])}`,
+            description: `${numbersTxt(data.works_count, ['работа', 'работы', 'работ'])} – ${numbersTxt(data.stars_count, ['звезда', 'звезды', 'звёзд'])}`,
             url: `https://pplbandage.ru/users/${data.username}`,
             siteName: 'Повязки Pepeland',
             images: data.avatar

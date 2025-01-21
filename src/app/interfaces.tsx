@@ -32,7 +32,8 @@ export interface Bandage {
     permissions_level: number,
     check_state: 'review' | 'denied' | null,
     access_level: number,
-    accent_color: string
+    accent_color: string,
+    star_type: number
 }
 
 export interface Category {

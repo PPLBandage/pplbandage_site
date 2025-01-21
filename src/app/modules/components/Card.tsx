@@ -13,6 +13,8 @@ import { UseGlobalTooltip } from "./Tooltip";
 import useCookie from "../utils/useCookie";
 import ApiManager from "../utils/apiManager";
 import { useConfigContext } from "@/app/modules/utils/ConfigContext";
+import IconCandle from '@/app/resources/stars/candle.svg';
+import IconCandleOn from '@/app/resources/stars/candle_on.svg';
 
 
 const months = [
@@ -160,17 +162,26 @@ export const StarElement = ({ el }: { el: Bandage }) => {
         }
     }, [starred]);
 
-    const StarIcon = starred ? IconStarFilled : IconStar;
+    let StarIcon = undefined;
+
+    switch (el.star_type) {
+        case 1:
+            StarIcon = starred ? IconCandleOn : IconCandle;
+            break;
+        default:
+            StarIcon = starred ? IconStarFilled : IconStar;
+            break;
+    }
 
     return (
         <div className={style_card.star_container}>
             <StarIcon
                 className={style_card.star}
-                width={24}
+                width={el.star_type === 0 ? 24 : undefined}
                 height={24}
-                color="#ffb900"
+                color={el.star_type === 0 ? "#ffb900" : undefined}
                 id={el.external_id + "_star"}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", width: el.star_type === 0 ? 24 : 18 } as CSSProperties}
                 onClick={() => { logged ? setStarred(prev => !prev) : router.push('/me') }}
             />
             <span className={style_card.star_count} id={el.external_id + "_text"}>{starsCount}</span>

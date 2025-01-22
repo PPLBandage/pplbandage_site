@@ -124,6 +124,9 @@
     padding-right: 5px;
 
     cursor: pointer;
+
+    transform: scale(.9);
+    transform-origin: top left;
 }
 
 .star_count {
@@ -154,4 +157,10 @@
 
 .tooltip_body {
     font-size: .9rem;
+}
+
+@media (max-width: 730px) {
+    .star_container {
+        transform: none;
+    }
 }

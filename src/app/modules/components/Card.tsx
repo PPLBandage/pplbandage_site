@@ -174,15 +174,17 @@ export const StarElement = ({ el }: { el: Bandage }) => {
     }
 
     return (
-        <div className={style_card.star_container}>
+        <div
+            className={style_card.star_container}
+            onClick={() => { logged ? setStarred(prev => !prev) : router.push('/me') }}
+        >
             <StarIcon
                 className={style_card.star}
                 width={el.star_type === 0 ? 24 : undefined}
                 height={24}
                 color={el.star_type === 0 ? "#ffb900" : undefined}
                 id={el.external_id + "_star"}
-                style={{ cursor: "pointer", width: el.star_type === 0 ? 24 : 18 } as CSSProperties}
-                onClick={() => { logged ? setStarred(prev => !prev) : router.push('/me') }}
+                style={{ width: el.star_type === 0 ? 24 : 18 } as CSSProperties}
             />
             <span className={style_card.star_count} id={el.external_id + "_text"}>{starsCount}</span>
         </div>

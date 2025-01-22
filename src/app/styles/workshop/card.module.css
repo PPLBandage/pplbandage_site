@@ -117,11 +117,19 @@
     display: flex;
     align-items: center;
     gap: .3rem;
+
+    background-color: var(--main-element-color);
+    padding: 3px;
+    border-radius: calc(10px - .3rem);
+    padding-right: 5px;
+
+    cursor: pointer;
 }
 
 .star_count {
     font-weight: 700;
     color: var(--main-text-color);
+    user-select: none;
 }
 
 .star {

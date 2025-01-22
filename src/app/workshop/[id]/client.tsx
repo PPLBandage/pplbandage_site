@@ -223,7 +223,8 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                             boxSizing: 'border-box',
                             width: '100%',
                             zIndex: 5,
-                            padding: '.3rem'
+                            padding: '.3rem',
+                            display: 'flex'
                         }}>
                             <StarElement el={data} />
                         </div>

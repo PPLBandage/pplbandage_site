@@ -8,21 +8,34 @@ import { IconInfinity, IconAlertTriangle, IconStack, IconX } from '@tabler/icons
 import NextImage from 'next/image';
 import InfoCard from "./modules/components/InfoCard";
 
+// Import pepes images
+import Pepe0 from '@/app/resources/pepes_svg/0.svg';
+import Pepe1 from '@/app/resources/pepes_svg/1.svg';
+import Pepe2 from '@/app/resources/pepes_svg/2.svg';
+import Pepe3 from '@/app/resources/pepes_svg/3.svg';
+import Pepe4 from '@/app/resources/pepes_svg/4.svg';
+import Pepe5 from '@/app/resources/pepes_svg/5.svg';
+import Pepe6 from '@/app/resources/pepes_svg/6.svg';
+import Pepe7 from '@/app/resources/pepes_svg/7.svg';
+import Pepe8 from '@/app/resources/pepes_svg/8.svg';
+import Pepe9 from '@/app/resources/pepes_svg/9.svg';
+
+
 const HomeClient = ({ pong }: { pong: number }) => {
     const [animationState, setAnimationState] = useState<boolean>(true);
+    const pepes_svgs = [Pepe0, Pepe1, Pepe2, Pepe3, Pepe4, Pepe5, Pepe6, Pepe7, Pepe8, Pepe9];
     const pepes_links = ['ogukal', 'gauu3s', 'pe5s4d', 'x4rak9', '3t75jf', 'wrbs4h', 't6i5ld', 'gnikzr', 'by1lzs', '4psolk'];
 
     let pepes: JSX.Element[] = [];
     for (let i = 0; i < 10; i++) {
+        const PepeEl = pepes_svgs[i];
         pepes.push(
             <a key={i}
                 className={Style.img}
                 style={{ animationPlayState: animationState ? 'running' : 'paused' }}
                 href={`/workshop/${pepes_links[i]}`}>
-                <img alt=""
-                    src={`/static/pepes_main/${i}.png`}
-                    draggable={false}
-                    style={{ width: '60px' }}
+                <PepeEl
+                    style={{ width: '60px', height: 'auto' }}
                     onMouseEnter={() => setAnimationState(false)}
                     onMouseLeave={() => setAnimationState(true)} />
             </a>

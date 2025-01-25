@@ -9,14 +9,12 @@
 }
 
 .img {
-    width: 60px;
     position: absolute;
     offset-path: path('M 0 0 C -636 -550 -636 550 0 0 C 636 -550 636 550 0 0');
     animation: anim 40s infinite linear;
     offset-rotate: auto 90deg;
     offset-anchor: center center;
     filter: brightness(0.7);
-    image-rendering: pixelated;
     user-select: none;
 
     cursor: pointer;

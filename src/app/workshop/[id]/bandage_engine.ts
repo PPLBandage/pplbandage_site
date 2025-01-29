@@ -157,19 +157,11 @@ class Client {
     }
 
     setParams(props: Settings) {
-        if (props.body_part != undefined) this.body_part = props.body_part;
-        if (props.position != undefined) this.position = props.position;
-        if (props.clear_pix != undefined) this.clear_pix = props.clear_pix;
-        if (props.first_layer != undefined) this.first_layer = props.first_layer;
-        if (props.second_layer != undefined) this.second_layer = props.second_layer;
-        if (props.layers != undefined) this.layers = props.layers;
-        if (props.color != undefined) this.color = props.color;
-        if (props.colorable != undefined) this.colorable = props.colorable;
-        if (props.split_types != undefined) this.split_types = props.split_types;
-
+        Object.entries(props).forEach(([k, v]) => {
+            (this as any)[k] = v;
+        });
         this.rerender();
     }
-
 
     //-----------RENDER-------------
     rerender(render_original: boolean = true, download?: boolean) {

@@ -155,7 +155,7 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                         max: (12 - client.current.pepe_canvas.height)
                     });
 
-                    client.current.colorable = data.categories.some(val => val.colorable);
+                    client.current.setParams({ colorable: data.categories.some(val => val.colorable) });
                     if (client.current.colorable) {
                         const randomColor = getRandomColor();
                         setRandomColor(randomColor);

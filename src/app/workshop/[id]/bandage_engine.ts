@@ -157,11 +157,12 @@ class Client {
     }
 
     setParams(props: Settings) {
-        Object.entries(props).forEach(([k, v]) => {
-            (this as any)[k] = v;
+        Object.entries(props).forEach(([key, value]) => {
+            Object.defineProperty(this, key, { value });
         });
         this.rerender();
     }
+
 
     //-----------RENDER-------------
     rerender(render_original: boolean = true, download?: boolean) {

@@ -3,7 +3,7 @@ import style from './styles/page.module.css';
 import style_card from './styles/card.module.css';
 import Image from "next/image";
 import { CSSProperties } from "react";
-import { IconAlertTriangle, IconBrandTelegram, IconExternalLink } from "@tabler/icons-react";
+import { IconAlertTriangle, IconBrandTelegram, IconCoffee, IconExternalLink } from "@tabler/icons-react";
 import InfoCard from "../modules/components/InfoCard";
 
 
@@ -16,7 +16,7 @@ interface CardProps {
     links: {
         name: string,
         URL: string,
-        type: 'telegram' | 'URL'
+        type: 'telegram' | 'URL' | 'coffee'
     }[]
 }
 
@@ -26,6 +26,9 @@ const Card = (props: CardProps) => {
         switch (link.type) {
             case 'telegram':
                 icon = <IconBrandTelegram width={24} height={24} />
+                break;
+            case 'coffee':
+                icon = <IconCoffee width={24} height={24} />
                 break;
             default:
                 icon = <IconExternalLink width={24} height={24} />
@@ -106,9 +109,9 @@ const Home = () => {
                                 type: 'telegram'
                             },
                             {
-                                name: 'Сайт',
-                                URL: 'https://andcool.ru',
-                                type: 'URL'
+                                name: 'Поддержать',
+                                URL: 'https://www.donationalerts.com/r/andcool_systems',
+                                type: 'coffee'
                             }
                         ]}
                     />

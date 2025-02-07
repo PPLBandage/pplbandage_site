@@ -38,7 +38,6 @@
 }
 
 .title_editable {
-    cursor: pointer;
     display: flex;
     align-items: center;
     gap: .3rem;
@@ -46,9 +45,10 @@
 
 .title_editable .edit_icon {
     display: block;
+    cursor: pointer;
 }
 
-.title_editable:hover .edit_icon {
+.edit_icon:hover {
     transform: scale(1.1);
 }
 

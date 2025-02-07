@@ -11,7 +11,7 @@ import useCookie from '@/app/modules/utils/useCookie';
 import Image from 'next/image';
 import { Me } from '@/app/modules/components/MeSidebar';
 import { Fira_Code } from "next/font/google";
-import { formatDateHuman } from '@/app/modules/components/Card';
+import { formatDate, formatDateHuman } from '@/app/modules/components/Card';
 import IconSvg from '@/app/resources/icon.svg';
 import {
     IconUser,
@@ -347,7 +347,7 @@ const Safety = () => {
                     {session.is_mobile ? <IconDeviceMobile /> : <IconDeviceDesktop />}
                     {session.browser} {session.browser_version} {session.is_self && <p>Это устройство</p>}
                 </h2>
-                <p className={Style_safety.last_accessed} title={formatDateHuman(new Date(session.last_accessed))}>Последний доступ {timeStamp((new Date(session.last_accessed).getTime()) / 1000)}</p>
+                <p className={Style_safety.last_accessed} title={formatDate(new Date(session.last_accessed))}>Последний доступ {timeStamp((new Date(session.last_accessed).getTime()) / 1000)}</p>
             </div>
             {!session.is_self &&
                 <button className={Style_safety.button} onClick={_ => logoutSession(session.id)}>

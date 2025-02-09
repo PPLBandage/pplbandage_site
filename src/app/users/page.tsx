@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
 const Users = () => {
     redirect('/');
-}
+};
 
 export default Users;

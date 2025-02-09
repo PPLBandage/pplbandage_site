@@ -1,21 +1,21 @@
 'use client';
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Inter } from "next/font/google";
-import { CSSProperties } from "react";
-import WorkshopCacheListener from "./utils/workshopCacheListener";
-import { useCookiesServer } from "./utils/CookiesProvider/CookieProvider";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Inter } from 'next/font/google';
+import { CSSProperties } from 'react';
+import WorkshopCacheListener from './utils/workshopCacheListener';
+import { useCookiesServer } from './utils/CookiesProvider/CookieProvider';
 import themes from '@/app/themes';
 
 const queryClient = new QueryClient();
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const getTheme = (theme: string) => {
     const keys = Object.keys(themes);
     if (!keys.includes(theme)) return themes.default;
 
     return themes[theme];
-}
+};
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
     const cookie = useCookiesServer();
@@ -28,7 +28,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
                 {children}
             </html>
         </QueryClientProvider>
-    )
-}
+    );
+};
 
 export default Providers;

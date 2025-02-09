@@ -1,12 +1,11 @@
-import Link from "next/link";
-import styles from "@/app/styles/navigator.module.css";
+import Link from 'next/link';
+import styles from '@/app/styles/navigator.module.css';
 import { IconChevronRight } from '@tabler/icons-react';
-
 
 interface NavigatorProps {
     path: {
-        name: string,
-        url: string
+        name: string;
+        url: string;
     }[];
     style?: React.CSSProperties;
 }
@@ -17,9 +16,11 @@ const NavigatorEl = ({ path, style }: NavigatorProps) => {
             acc.push(<IconChevronRight key={`separator-${index}`} className={styles.arrow} />);
         }
         acc.push(
-            <Link href={element.url}
+            <Link
+                href={element.url}
                 key={element.url}
-                className={`${styles.link} ${index == path.length - 1 && styles.last_link}`}>
+                className={`${styles.link} ${index == path.length - 1 && styles.last_link}`}
+            >
                 {element.name}
             </Link>
         );
@@ -31,6 +32,6 @@ const NavigatorEl = ({ path, style }: NavigatorProps) => {
             {rendered_path}
         </div>
     );
-}
+};
 
 export default NavigatorEl;

@@ -1,18 +1,15 @@
-import { IconChevronDown } from "@tabler/icons-react";
-import { useState } from "react";
-import style from "@/app/styles/editor/page.module.css";
-import Client, { b64Prefix } from "../bandage_engine";
-import ReactCSSTransition from "@/app/modules/components/CSSTransition";
+import { IconChevronDown } from '@tabler/icons-react';
+import { useState } from 'react';
+import style from '@/app/styles/editor/page.module.css';
+import Client, { b64Prefix } from '../bandage_engine';
+import ReactCSSTransition from '@/app/modules/components/CSSTransition';
 
-const RawBandageDownload = ({ client, bandage }: { client: React.MutableRefObject<Client>, bandage: string }) => {
+const RawBandageDownload = ({ client, bandage }: { client: React.MutableRefObject<Client>; bandage: string }) => {
     const [expanded, setExpanded] = useState<boolean>(false);
 
     return (
         <div style={{ position: 'relative' }}>
-            <button className={style.skin_load}
-                onClick={() => setExpanded(prev => !prev)}
-                style={{ width: '100%' }}
-            >
+            <button className={style.skin_load} onClick={() => setExpanded((prev) => !prev)} style={{ width: '100%' }}>
                 Скачать повязку
                 <IconChevronDown
                     width={24}
@@ -29,7 +26,7 @@ const RawBandageDownload = ({ client, bandage }: { client: React.MutableRefObjec
                 timeout={150}
                 classNames={{
                     enter: style['menu-enter-bandage'],
-                    exitActive: style['menu-exit-bandage-active'],
+                    exitActive: style['menu-exit-bandage-active']
                 }}
             >
                 <div className={style.bandage_raw_menu}>
@@ -51,6 +48,6 @@ const RawBandageDownload = ({ client, bandage }: { client: React.MutableRefObjec
             </ReactCSSTransition>
         </div>
     );
-}
+};
 
 export default RawBandageDownload;

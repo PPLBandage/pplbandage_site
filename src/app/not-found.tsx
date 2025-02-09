@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import NotFoundElement from './modules/components/NotFound';
 

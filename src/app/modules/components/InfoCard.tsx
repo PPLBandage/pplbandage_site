@@ -4,10 +4,9 @@ import { CSSProperties, JSX } from 'react';
 interface InfoCardProps {
     title: JSX.Element | string;
     children: JSX.Element | string;
-    style?: CSSProperties,
-    color?: string
+    style?: CSSProperties;
+    color?: string;
 }
-
 
 const InfoCard = ({ title, children, color, style }: InfoCardProps) => {
     const _color = color || '#4493F8';
@@ -17,6 +16,6 @@ const InfoCard = ({ title, children, color, style }: InfoCardProps) => {
             {children}
         </div>
     );
-}
+};
 
 export default InfoCard;

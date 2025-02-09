@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
 import React, { useCallback } from 'react';
 import { useEffect, useState, useRef } from 'react';
 
-import style from "@/app/styles/editor/page.module.css";
-import * as Interfaces from "@/app/interfaces";
+import style from '@/app/styles/editor/page.module.css';
+import * as Interfaces from '@/app/interfaces';
 
-import Client, { b64Prefix } from "./bandage_engine";
-import SkinView3D from "@/app/modules/components/SkinView";
+import Client, { b64Prefix } from './bandage_engine';
+import SkinView3D from '@/app/modules/components/SkinView';
 
 import Select from 'react-select';
 import debounce from 'lodash.debounce';
@@ -26,18 +26,17 @@ import { StarElement } from '@/app/modules/components/Card';
 import { CustomLink } from '@/app/modules/components/Search';
 import InfoCard from '@/app/modules/components/InfoCard';
 
-
-const body_part: readonly { value: number, label: String }[] = [
-    { value: 0, label: "Левая рука" },
-    { value: 2, label: "Правая рука" },
-    { value: 1, label: "Левая нога" },
-    { value: 3, label: "Правая нога" }
+const body_part: readonly { value: number; label: String }[] = [
+    { value: 0, label: 'Левая рука' },
+    { value: 2, label: 'Правая рука' },
+    { value: 1, label: 'Левая нога' },
+    { value: 3, label: 'Правая нога' }
 ];
 
-const layers: readonly { value: string, label: String }[] = [
-    { value: "0", label: "На разных слоях" },
-    { value: "1", label: "Только на первом слое" },
-    { value: "2", label: "Только на втором слое" }
+const layers: readonly { value: string; label: String }[] = [
+    { value: '0', label: 'На разных слоях' },
+    { value: '1', label: 'Только на первом слое' },
+    { value: '2', label: 'Только на втором слое' }
 ];
 
 const getRandomColor = () => {
@@ -47,23 +46,19 @@ const getRandomColor = () => {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-}
+};
 
 const componentToHex = (c: number) => {
     const hex = c.toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
-}
+    return hex.length == 1 ? '0' + hex : hex;
+};
 
 export const rgbToHex = (r: number, g: number, b: number) => {
-    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
+    return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
+};
 
-const generatePath = (
-    external_id: string,
-    referrer_str: string | null,
-    author: string | undefined
-) => {
-    const names: { [key: string]: { name: string, url: string } } = {
+const generatePath = (external_id: string, referrer_str: string | null, author: string | undefined) => {
+    const names: { [key: string]: { name: string; url: string } } = {
         workshop: { name: 'Мастерская', url: '/workshop' },
         me: { name: 'Личный кабинет', url: '/me' },
         stars: { name: 'Избранное', url: '/me/stars' },
@@ -87,33 +82,35 @@ const generatePath = (
         const username = referrer.split('/').reverse()[0];
         result = [{ name: author, url: `/users/${username}` }];
     } else {
-        result = referrer.split('/').slice(1).map(page => names[page]);
-        if (result.some(page => !page)) return default_path;
+        result = referrer
+            .split('/')
+            .slice(1)
+            .map((page) => names[page]);
+        if (result.some((page) => !page)) return default_path;
     }
 
     return [...result, { name: external_id, url: `/workshop/${external_id}` }];
-}
+};
 
-export default function Home({ data, referrer }: { data: Interfaces.Bandage, referrer: string | null }) {
+export default function Home({ data, referrer }: { data: Interfaces.Bandage; referrer: string | null }) {
     const [loaded, setLoaded] = useState<boolean>(false);
-    const [navPath, setNavPath] = useState<{ name: string, url: string }[]>([]);
+    const [navPath, setNavPath] = useState<{ name: string; url: string }[]>([]);
 
     const [pose, setPose] = useState<number>(1);
-    const [skin, setSkin] = useState<string>("");
-    const [cape, setCape] = useState<string>("");
+    const [skin, setSkin] = useState<string>('');
+    const [cape, setCape] = useState<string>('');
     const [slim, setSlim] = useState<boolean>(false);
     const [edit, setEdit] = useState<boolean>(false);
 
-    const [randomColor, setRandomColor] = useState<string>("");
+    const [randomColor, setRandomColor] = useState<string>('');
     const [loadExpanded, setLoadExpanded] = useState<boolean>(false);
-    const [rangeProps, setRangeProps] = useState<{ max: number, value: number }>({ max: 8, value: 4 });
+    const [rangeProps, setRangeProps] = useState<{ max: number; value: number }>({ max: 8, value: 4 });
     const client = useRef<Client>(null);
-
 
     const debouncedHandleColorChange = useCallback(
         // из-за частого вызова oninput на слабых клиентах сильно лагает,
         // поэтому сделан дебаунс на 5мс
-        debounce(event => {
+        debounce((event) => {
             client.current.setParams({ color: event.target.value });
         }, 5),
         []
@@ -125,7 +122,7 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
 
         selector.value = rgbToHex(~~color.r, ~~color.g, ~~color.b);
         client.current.setParams({ color: selector.value });
-    }
+    };
 
     useEffect(() => {
         setNavPath(generatePath(data.external_id, referrer, data.author?.name));
@@ -146,27 +143,26 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
         client.current.onInit = () => {
             if (data.me_profile) client.current.loadSkin(data.me_profile.uuid);
 
-            asyncImage(b64Prefix + data.base64)
-                .then(bandage => {
-                    client.current.loadFromImage(bandage);
+            asyncImage(b64Prefix + data.base64).then((bandage) => {
+                client.current.loadFromImage(bandage);
 
-                    setRangeProps({
-                        value: client.current.position,
-                        max: (12 - client.current.pepe_canvas.height)
-                    });
-
-                    client.current.setParams({ colorable: data.categories.some(val => val.colorable) });
-                    if (client.current.colorable) {
-                        const randomColor = getRandomColor();
-                        setRandomColor(randomColor);
-                        client.current.setParams({ color: randomColor });
-                    }
-                    setLoaded(true);
+                setRangeProps({
+                    value: client.current.position,
+                    max: 12 - client.current.pepe_canvas.height
                 });
+
+                client.current.setParams({ colorable: data.categories.some((val) => val.colorable) });
+                if (client.current.colorable) {
+                    const randomColor = getRandomColor();
+                    setRandomColor(randomColor);
+                    client.current.setParams({ color: randomColor });
+                }
+                setLoaded(true);
+            });
 
             if (data.split_type) {
                 client.current.setParams({ split_types: true });
-                asyncImage(b64Prefix + data.base64_slim).then(img => client.current.loadFromImage(img, true));
+                asyncImage(b64Prefix + data.base64_slim).then((img) => client.current.loadFromImage(img, true));
             }
         };
         scrollTo(0, 0);
@@ -180,19 +176,20 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
         },
         denied: {
             title: 'Отклонено',
-            description: <span>
-                Ваша работа была отклонена модерацией.
-                Для получения информации обратитесь в
-                <CustomLink href="/contacts">поддержку</CustomLink>.
-            </span>,
+            description: (
+                <span>
+                    Ваша работа была отклонена модерацией. Для получения информации обратитесь в
+                    <CustomLink href="/contacts">поддержку</CustomLink>.
+                </span>
+            ),
             color: '#ff0000'
         }
-    }
+    };
 
     return (
         <>
             <SkinLoad
-                onChange={evt => {
+                onChange={(evt) => {
                     evt &&
                         client.current?.changeSkin(
                             evt.data,
@@ -208,10 +205,8 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                 className={style.main}
                 style={loaded ? { opacity: '1', transform: 'none' } : { opacity: '0', transform: 'translateY(50px)' }}
             >
-                <NavigatorEl path={navPath}
-                    style={{ marginBottom: "1rem" }} />
-                {
-                    data.check_state &&
+                <NavigatorEl path={navPath} style={{ marginBottom: '1rem' }} />
+                {data.check_state && (
                     <InfoCard
                         color={check_states[data.check_state].color}
                         title={check_states[data.check_state].title}
@@ -224,61 +219,61 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                     >
                         {check_states[data.check_state].description}
                     </InfoCard>
-                }
+                )}
                 <div className={style.main_container}>
                     <div className={style.skin_parent} style={{ position: 'relative' }}>
-                        <div style={{
-                            position: 'absolute',
-                            boxSizing: 'border-box',
-                            width: '100%',
-                            zIndex: 5,
-                            padding: '.3rem',
-                            display: 'flex'
-                        }}>
+                        <div
+                            style={{
+                                position: 'absolute',
+                                boxSizing: 'border-box',
+                                width: '100%',
+                                zIndex: 5,
+                                padding: '.3rem',
+                                display: 'flex'
+                            }}
+                        >
                             <StarElement el={data} />
                         </div>
-                        <SkinView3D SKIN={skin}
+                        <SkinView3D
+                            SKIN={skin}
                             CAPE={cape}
                             slim={slim}
                             className={style.render_canvas}
                             pose={pose}
-                            background='/static/background_big.png'
-                            id='canvas_container' />
+                            background="/static/background_big.png"
+                            id="canvas_container"
+                        />
                         <div className={style.render_footer}>
-                            <button
-                                className={style.skin_load}
-                                onClick={() => setLoadExpanded(true)}>
-                                <IconPlus width={24} height={24} />Загрузить скин
+                            <button className={style.skin_load} onClick={() => setLoadExpanded(true)}>
+                                <IconPlus width={24} height={24} />
+                                Загрузить скин
                             </button>
                             <SlideButton
-                                onChange={val => client.current?.changeSlim(val)}
-                                value={slim} label="Тонкие руки" />
+                                onChange={(val) => client.current?.changeSlim(val)}
+                                value={slim}
+                                label="Тонкие руки"
+                            />
                             <Select
                                 options={anims}
                                 defaultValue={anims[pose]}
                                 className={`react-select-container`}
-                                classNamePrefix='react-select'
+                                classNamePrefix="react-select"
                                 isSearchable={false}
                                 onChange={(n, _) => setPose(n.value)}
-                                instanceId='select-1'
-                                formatOptionLabel={nick_value => nick_value.label} />
+                                instanceId="select-1"
+                                formatOptionLabel={(nick_value) => nick_value.label}
+                            />
                             <button className={style.skin_load} onClick={() => client.current?.download()}>
-                                <IconDownload
-                                    width={24}
-                                    height={24} />
+                                <IconDownload width={24} height={24} />
                                 Скачать скин
                             </button>
-                            <RawBandageDownload
-                                client={client}
-                                bandage={slim ? data.base64_slim : data.base64} />
+                            <RawBandageDownload client={client} bandage={slim ? data.base64_slim : data.base64} />
                         </div>
                     </div>
-                    <div style={{ width: "100%" }}>
-                        {!edit ?
-                            <Info
-                                el={data}
-                                onClick={() => setEdit(true)}
-                            /> :
+                    <div style={{ width: '100%' }}>
+                        {!edit ? (
+                            <Info el={data} onClick={() => setEdit(true)} />
+                        ) : (
                             <EditElement
                                 bandage={data}
                                 onDone={() => {
@@ -287,16 +282,18 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                                 }}
                                 onClose={() => setEdit(false)}
                             />
-                        }
+                        )}
                         <hr />
-                        <div style={{ display: "flex", flexDirection: "column", gap: ".8rem" }}>
-                            {client.current?.colorable &&
-                                <div style={{ display: "flex", alignItems: "center", flexWrap: 'wrap', gap: '.5rem' }}>
-                                    <button onClick={adjustColor} className={style.adjust_color}>Подобрать цвет</button>
-                                    <div style={{ display: "flex", alignItems: "center" }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '.8rem' }}>
+                            {client.current?.colorable && (
+                                <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '.5rem' }}>
+                                    <button onClick={adjustColor} className={style.adjust_color}>
+                                        Подобрать цвет
+                                    </button>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <input
-                                            type='color'
-                                            id='color_select'
+                                            type="color"
+                                            id="color_select"
                                             defaultValue={randomColor}
                                             onInput={debouncedHandleColorChange}
                                             style={{ cursor: 'pointer' }}
@@ -304,25 +301,31 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                                         <p style={{ margin: 0, marginLeft: '.5rem' }}>Выберите цвет</p>
                                     </div>
                                 </div>
-                            }
+                            )}
                             <div className={style.settings_slider}>
                                 <Slider
                                     initial={rangeProps.value}
                                     range={rangeProps.max}
-                                    onChange={val => client.current?.setParams({ position: val })}
+                                    onChange={(val) => client.current?.setParams({ position: val })}
                                 />
                                 <div className={style.settings_slider_1}>
-                                    <SlideButton onChange={val => client.current?.setParams({ first_layer: val })}
+                                    <SlideButton
+                                        onChange={(val) => client.current?.setParams({ first_layer: val })}
                                         defaultValue={true}
-                                        label='Первый слой' />
+                                        label="Первый слой"
+                                    />
 
-                                    <SlideButton onChange={val => client.current?.setParams({ second_layer: val })}
+                                    <SlideButton
+                                        onChange={(val) => client.current?.setParams({ second_layer: val })}
                                         defaultValue={true}
-                                        label='Второй слой' />
+                                        label="Второй слой"
+                                    />
 
-                                    <SlideButton onChange={val => client.current?.setParams({ clear_pix: val })}
+                                    <SlideButton
+                                        onChange={(val) => client.current?.setParams({ clear_pix: val })}
                                         defaultValue={true}
-                                        label='Очищать пиксели на втором слое' />
+                                        label="Очищать пиксели на втором слое"
+                                    />
 
                                     <Select
                                         options={body_part}
@@ -330,16 +333,18 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
                                         className={`react-select-container`}
                                         classNamePrefix="react-select"
                                         isSearchable={false}
-                                        instanceId='select-2'
-                                        onChange={(n, _) => client.current?.setParams({ body_part: n.value })} />
+                                        instanceId="select-2"
+                                        onChange={(n, _) => client.current?.setParams({ body_part: n.value })}
+                                    />
                                     <Select
                                         options={layers}
                                         defaultValue={layers[0]}
                                         className={`react-select-container`}
                                         classNamePrefix="react-select"
                                         isSearchable={false}
-                                        instanceId='select-3'
-                                        onChange={(n, _) => client.current?.setParams({ layers: n.value })} />
+                                        instanceId="select-3"
+                                        onChange={(n, _) => client.current?.setParams({ layers: n.value })}
+                                    />
                                 </div>
                             </div>
                         </div>

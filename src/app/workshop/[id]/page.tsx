@@ -1,10 +1,10 @@
-import axios from "axios";
-import Home from "./client";
-import * as Interfaces from "@/app/interfaces";
+import axios from 'axios';
+import Home from './client';
+import * as Interfaces from '@/app/interfaces';
 import { headers } from 'next/headers';
-import { notFound } from "next/navigation";
-import { Metadata } from "next";
-import { numbersTxt } from "@/app/modules/utils/time";
+import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
+import { numbersTxt } from '@/app/modules/utils/time';
 
 export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> => {
     const headersList = await headers();
@@ -17,7 +17,7 @@ export const generateMetadata = async ({ params }: { params: Promise<{ id: strin
         validateStatus: () => true,
         withCredentials: true,
         headers: {
-            'Cookie': cookie,
+            Cookie: cookie,
             'User-Agent': userAgent,
             'Unique-Access': process.env.TOKEN
         }
@@ -41,39 +41,44 @@ export const generateMetadata = async ({ params }: { params: Promise<{ id: strin
         other: {
             'theme-color': data.average_og_color
         }
-    }
-}
+    };
+};
 
-const addView = async (
-    cookie: string | null,
-    userAgent: string,
-    external_id: string
-) => {
+const addView = async (cookie: string | null, userAgent: string, external_id: string) => {
     try {
         if (!cookie) return;
-        const sessionId = cookie.split('; ').map(cookie => cookie.split('=')).find(cookie => cookie[0] === 'sessionId');
+        const sessionId = cookie
+            .split('; ')
+            .map((cookie) => cookie.split('='))
+            .find((cookie) => cookie[0] === 'sessionId');
         if (!sessionId) return;
 
-        await axios.post(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${external_id}/view`, {}, {
-            validateStatus: () => true,
-            headers: {
-                'Cookie': cookie,
-                'User-Agent': userAgent,
-                'Unique-Access': process.env.TOKEN,
-                'Cache-Control': 'no-cache',
-                'Pragma': 'no-cache',
-                'Expires': '0'
+        await axios.post(
+            `${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${external_id}/view`,
+            {},
+            {
+                validateStatus: () => true,
+                headers: {
+                    Cookie: cookie,
+                    'User-Agent': userAgent,
+                    'Unique-Access': process.env.TOKEN,
+                    'Cache-Control': 'no-cache',
+                    Pragma: 'no-cache',
+                    Expires: '0'
+                }
             }
-        });
-    } catch (e) { console.log(e); }
-}
+        );
+    } catch (e) {
+        console.log(e);
+    }
+};
 
 const Main = async ({
     params,
     searchParams
 }: {
-    params: Promise<{ id: string }>,
-    searchParams: Promise<Record<string, string | string[]>>
+    params: Promise<{ id: string }>;
+    searchParams: Promise<Record<string, string | string[]>>;
 }) => {
     const headersList = await headers();
     const cookie = headersList.get('Cookie');
@@ -88,12 +93,12 @@ const Main = async ({
         validateStatus: () => true,
         withCredentials: true,
         headers: {
-            'Cookie': cookie,
+            Cookie: cookie,
             'User-Agent': userAgent,
             'Unique-Access': process.env.TOKEN,
             'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache',
-            'Expires': '0'
+            Pragma: 'no-cache',
+            Expires: '0'
         }
     });
     const data = initial_response.data.data as Interfaces.Bandage;
@@ -103,6 +108,6 @@ const Main = async ({
     }
 
     return <Home data={data} referrer={referrer as string} />;
-}
+};
 
 export default Main;

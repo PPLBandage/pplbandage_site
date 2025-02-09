@@ -1,19 +1,19 @@
-import { Bandage } from "@/app/interfaces";
-import axios from "axios";
-import { redirect } from "next/navigation";
-import UsersClient from "./client_code";
-import { headers } from "next/headers";
-import { numbersTxt } from "@/app/modules/utils/time";
-import { Query } from "@/app/modules/components/Header";
-import { notFound } from "next/navigation";
-import { Metadata } from "next";
+import { Bandage } from '@/app/interfaces';
+import axios from 'axios';
+import { redirect } from 'next/navigation';
+import UsersClient from './client_code';
+import { headers } from 'next/headers';
+import { numbersTxt } from '@/app/modules/utils/time';
+import { Query } from '@/app/modules/components/Header';
+import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 export interface Users extends Query {
-    userID: number,
-    works: Bandage[],
-    works_count: number,
-    is_self: boolean,
-    profile_theme: number
+    userID: number;
+    works: Bandage[];
+    works_count: number;
+    is_self: boolean;
+    profile_theme: number;
 }
 
 export const generateMetadata = async ({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> => {
@@ -24,8 +24,8 @@ export const generateMetadata = async ({ params }: { params: Promise<{ name: str
         headers: {
             'Unique-Access': process.env.TOKEN,
             'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache',
-            'Expires': '0'
+            Pragma: 'no-cache',
+            Expires: '0'
         }
     });
 
@@ -36,7 +36,10 @@ export const generateMetadata = async ({ params }: { params: Promise<{ name: str
         description: `Профиль пользователя ${data.name}`,
         openGraph: {
             title: `${data.name} · Автор`,
-            description: `${numbersTxt(data.works_count, ['работа', 'работы', 'работ'])} – ${numbersTxt(data.stars_count, ['звезда', 'звезды', 'звёзд'])}`,
+            description: `${numbersTxt(data.works_count, ['работа', 'работы', 'работ'])} – ${numbersTxt(
+                data.stars_count,
+                ['звезда', 'звезды', 'звёзд']
+            )}`,
             url: `https://pplbandage.ru/users/${data.username}`,
             siteName: 'Повязки Pepeland',
             images: data.avatar
@@ -47,11 +50,11 @@ export const generateMetadata = async ({ params }: { params: Promise<{ name: str
         other: {
             'theme-color': data.banner_color
         }
-    }
-}
+    };
+};
 
 const Users = async ({ params }: { params: Promise<{ name: string }> }) => {
-    const headersList = await headers()
+    const headersList = await headers();
     const cookie = headersList.get('Cookie');
     const userAgent = headersList.get('User-Agent');
     const props = await params;
@@ -60,12 +63,12 @@ const Users = async ({ params }: { params: Promise<{ name: string }> }) => {
         withCredentials: true,
         validateStatus: () => true,
         headers: {
-            'Cookie': cookie,
+            Cookie: cookie,
             'User-Agent': userAgent,
             'Unique-Access': process.env.TOKEN,
             'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache',
-            'Expires': '0'
+            Pragma: 'no-cache',
+            Expires: '0'
         }
     });
 
@@ -83,7 +86,6 @@ const Users = async ({ params }: { params: Promise<{ name: string }> }) => {
     }
 
     return <UsersClient user={data} />;
-
-}
+};
 
 export default Users;

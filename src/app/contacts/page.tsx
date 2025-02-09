@@ -1,40 +1,43 @@
-import Link from "next/link";
+import Link from 'next/link';
 import style from './styles/page.module.css';
 import style_card from './styles/card.module.css';
-import Image from "next/image";
-import { CSSProperties } from "react";
-import { IconAlertTriangle, IconBrandTelegram, IconCoffee, IconExternalLink } from "@tabler/icons-react";
-import InfoCard from "../modules/components/InfoCard";
-
+import Image from 'next/image';
+import { CSSProperties } from 'react';
+import { IconAlertTriangle, IconBrandTelegram, IconCoffee, IconExternalLink } from '@tabler/icons-react';
+import InfoCard from '../modules/components/InfoCard';
 
 interface CardProps {
-    name: string,
-    image: string,
-    description: string,
-    color: string,
-    site_name: string,
+    name: string;
+    image: string;
+    description: string;
+    color: string;
+    site_name: string;
     links: {
-        name: string,
-        URL: string,
-        type: 'telegram' | 'URL' | 'coffee'
-    }[]
+        name: string;
+        URL: string;
+        type: 'telegram' | 'URL' | 'coffee';
+    }[];
 }
 
 const Card = (props: CardProps) => {
-    const links = props.links.map(link => {
+    const links = props.links.map((link) => {
         let icon;
         switch (link.type) {
             case 'telegram':
-                icon = <IconBrandTelegram width={24} height={24} />
+                icon = <IconBrandTelegram width={24} height={24} />;
                 break;
             case 'coffee':
-                icon = <IconCoffee width={24} height={24} />
+                icon = <IconCoffee width={24} height={24} />;
                 break;
             default:
-                icon = <IconExternalLink width={24} height={24} />
+                icon = <IconExternalLink width={24} height={24} />;
                 break;
         }
-        return <Link href={link.URL} key={link.name} target="_blank" className={style_card.link}>{icon} {link.name}</Link>
+        return (
+            <Link href={link.URL} key={link.name} target="_blank" className={style_card.link}>
+                {icon} {link.name}
+            </Link>
+        );
     });
 
     return (
@@ -44,24 +47,22 @@ const Card = (props: CardProps) => {
                 height={250}
                 alt={props.name}
                 src={props.image}
-
                 className={style_card.img}
                 style={{ '--shadow-color': props.color } as CSSProperties}
                 unoptimized
             />
             <div className={style_card.info_container}>
                 <div className={style_card.names}>
-                    <Link href={`/users/${props.site_name}`} className={style_card.name}>{props.name}</Link>
+                    <Link href={`/users/${props.site_name}`} className={style_card.name}>
+                        {props.name}
+                    </Link>
                     <p>{props.description}</p>
                 </div>
-                <div className={style_card.links_container}>
-                    {links}
-                </div>
+                <div className={style_card.links_container}>{links}</div>
             </div>
         </article>
-    )
-}
-
+    );
+};
 
 const Home = () => {
     return (
@@ -82,7 +83,10 @@ const Home = () => {
                         width: '100%',
                         textAlign: 'center',
                         fontSize: '2rem'
-                    }}>Контакты</h1>
+                    }}
+                >
+                    Контакты
+                </h1>
                 <InfoCard
                     color="#D29922"
                     title={
@@ -93,7 +97,10 @@ const Home = () => {
                     }
                     style={{ maxWidth: 'calc(500px + 1rem)' }}
                 >
-                    <p style={{ margin: 0 }}>Не обращайтесь к модераторам PepeLand с вопросами по данному сайту! Они не принимают непосредственного участия в модерации повязок.</p>
+                    <p style={{ margin: 0 }}>
+                        Не обращайтесь к модераторам PepeLand с вопросами по данному сайту! Они не принимают
+                        непосредственного участия в модерации повязок.
+                    </p>
                 </InfoCard>
                 <div className={style.cards_container}>
                     <Card
@@ -139,6 +146,6 @@ const Home = () => {
             </div>
         </main>
     );
-}
+};
 
 export default Home;

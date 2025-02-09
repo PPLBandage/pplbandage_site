@@ -102,7 +102,13 @@ const EditElement = ({
         </> :
             <>
                 <h2 className={style.title}>{bandage.title}</h2>
-                {bandage.description && <p className={style.description} style={{ margin: 0 }}>{bandage.description}</p>}
+                {bandage.description &&
+                    <p
+                        className={style.description}
+                        style={{ margin: 0 }}>
+                        {bandage.description}
+                    </p>
+                }
             </>}
         <CategorySelector enabledCategories={bandage.categories}
             allCategories={allCategories}

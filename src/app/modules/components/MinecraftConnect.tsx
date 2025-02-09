@@ -1,12 +1,12 @@
-import { JSX, useState } from "react";
+import { JSX, useState } from 'react';
 import style from '@/app/styles/minecraftConnect.module.css';
-import { IconBrandMinecraft, IconCheck, IconX } from "@tabler/icons-react";
-import ReactCSSTransition from "./CSSTransition";
+import { IconBrandMinecraft, IconCheck, IconX } from '@tabler/icons-react';
+import ReactCSSTransition from './CSSTransition';
 
 interface MinecraftConnectProps {
-    children: JSX.Element,
-    onInput(code: string): Promise<void>,
-    login?: boolean
+    children: JSX.Element;
+    onInput(code: string): Promise<void>;
+    login?: boolean;
 }
 
 const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) => {
@@ -21,22 +21,21 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
             selection.removeAllRanges();
             selection.addRange(range);
         }
-    }
+    };
 
     const title = login ? 'Войти через Minecraft' : 'Подключить аккаунт Minecraft';
 
     return (
         <>
-            <div onClick={() => setExpanded(true)}>
-                {children}
-            </div>
+            <div onClick={() => setExpanded(true)}>{children}</div>
             <ReactCSSTransition
                 state={expanded}
                 timeout={150}
                 classNames={{
                     enter: style['background-enter'],
-                    exitActive: style['background-exit-active'],
-                }}>
+                    exitActive: style['background-exit-active']
+                }}
+            >
                 <div className={style.background} />
             </ReactCSSTransition>
 
@@ -45,30 +44,46 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
                 timeout={150}
                 classNames={{
                     enter: style['menu-enter'],
-                    exitActive: style['menu-exit-active'],
-                }}>
+                    exitActive: style['menu-exit-active']
+                }}
+            >
                 <div className={style.base}>
                     <div className={style.container}>
                         <div className={style.header}>
-                            <h3 style={{ margin: 0, display: 'flex', gap: '.5rem', alignItems: 'center' }}><IconBrandMinecraft />{title}</h3>
+                            <h3 style={{ margin: 0, display: 'flex', gap: '.5rem', alignItems: 'center' }}>
+                                <IconBrandMinecraft />
+                                {title}
+                            </h3>
                             <IconX className={style.close} onClick={() => setExpanded(false)} />
                         </div>
-                        {login && <p style={{ margin: 0, fontSize: '.9rem', opacity: .6 }}>Этот способ будет работать, если вы привязали аккаунт Minecraft в личном кабинете.</p>}
-                        <p style={{ margin: 0, fontSize: '.95rem' }}>Зайдите на Minecraft сервер
-                            `<span style={{ color: "rgba(12, 247, 215)" }} id="oauth_name" onClick={() => selectText('oauth_name')}>
+                        {login && (
+                            <p style={{ margin: 0, fontSize: '.9rem', opacity: 0.6 }}>
+                                Этот способ будет работать, если вы привязали аккаунт Minecraft в личном кабинете.
+                            </p>
+                        )}
+                        <p style={{ margin: 0, fontSize: '.95rem' }}>
+                            Зайдите на Minecraft сервер `
+                            <span
+                                style={{ color: 'rgba(12, 247, 215)' }}
+                                id="oauth_name"
+                                onClick={() => selectText('oauth_name')}
+                            >
                                 oauth.pplbandage.ru
-                            </span>` и получите там 6-значный код.</p>
+                            </span>
+                            ` и получите там 6-значный код.
+                        </p>
 
                         <div className={style.code_container}>
                             <input
-                                placeholder='Введите 6-значный код'
-                                type='number'
-                                id='code'
+                                placeholder="Введите 6-значный код"
+                                type="number"
+                                id="code"
                                 className={style.code_input}
                                 onChange={() => {
                                     const target = document.getElementById('code') as HTMLInputElement;
-                                    if (target.value.length > 6) target.value = target.value.slice(0, 6)
-                                }} />
+                                    if (target.value.length > 6) target.value = target.value.slice(0, 6);
+                                }}
+                            />
                             <button
                                 className={style.code_send}
                                 onClick={() => {
@@ -77,13 +92,14 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
 
                                     onInput(target.value)
                                         .then(() => setExpanded(false))
-                                        .catch(response => {
+                                        .catch((response) => {
                                             const data = response.data as { message: string };
                                             const err = document.getElementById('error') as HTMLParagraphElement;
                                             err.innerText = data.message;
                                             err.style.display = 'block';
-                                        })
-                                }}>
+                                        });
+                                }}
+                            >
                                 Отправить
                             </button>
                         </div>
@@ -91,8 +107,14 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
                         <div className={style.possibilities}>
                             <p style={{ margin: 0, fontSize: '1rem' }}>После ввода кода мы:</p>
                             <div>
-                                <p><IconCheck width={15} height={15} />Получим доступ к вашему никнейму и UUID</p>
-                                <p><IconX width={15} height={15} />Не сможем получить доступ к вашему аккаунту Mojang или Microsoft</p>
+                                <p>
+                                    <IconCheck width={15} height={15} />
+                                    Получим доступ к вашему никнейму и UUID
+                                </p>
+                                <p>
+                                    <IconX width={15} height={15} />
+                                    Не сможем получить доступ к вашему аккаунту Mojang или Microsoft
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -100,6 +122,6 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
             </ReactCSSTransition>
         </>
     );
-}
+};
 
 export default MinecraftConnect;

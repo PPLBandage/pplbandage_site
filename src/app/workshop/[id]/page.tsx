@@ -68,7 +68,13 @@ const addView = async (
     } catch (e) { console.log(e); }
 }
 
-const Main = async ({ params, searchParams }: { params: Promise<{ id: string }>, searchParams: Promise<Record<string, string | string[]>> }) => {
+const Main = async ({
+    params,
+    searchParams
+}: {
+    params: Promise<{ id: string }>,
+    searchParams: Promise<Record<string, string | string[]>>
+}) => {
     const headersList = await headers();
     const cookie = headersList.get('Cookie');
     const userAgent = headersList.get('User-Agent');

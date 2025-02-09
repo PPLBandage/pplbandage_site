@@ -33,10 +33,18 @@ const RawBandageDownload = ({ client, bandage }: { client: React.MutableRefObjec
                 }}
             >
                 <div className={style.bandage_raw_menu}>
-                    <button className={style.skin_load} style={{ width: '100%' }} onClick={() => client.current?.download(b64Prefix + bandage, 'bandage.png')}>
+                    <button
+                        className={style.skin_load}
+                        style={{ width: '100%' }}
+                        onClick={() => client.current?.download(b64Prefix + bandage, 'bandage.png')}
+                    >
                         Исходный файл
                     </button>
-                    <button className={style.skin_load} style={{ width: '100%' }} onClick={() => client.current?.rerender(false, true)}>
+                    <button
+                        className={style.skin_load}
+                        style={{ width: '100%' }}
+                        onClick={() => client.current?.rerender(false, true)}
+                    >
                         Обработанная
                     </button>
                 </div>

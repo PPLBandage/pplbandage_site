@@ -204,7 +204,12 @@ class Client {
             lining = fillPepe(lining, rgb);
         }
 
-        this.clear_pix && clearPepe(canvas, body_part_x_overlay[this.body_part], body_part_y_overlay[this.body_part] + this.position, height);
+        this.clear_pix &&
+            clearPepe(canvas,
+                body_part_x_overlay[this.body_part],
+                body_part_y_overlay[this.body_part] + this.position,
+                height
+            );
 
         const coef = this.slim && (this.body_part == 0 || this.body_part == 2) ? 1 : 0;
         ctx_pepe.drawImage(pepe, coef, 0, pepe.width - coef, height, 0, 0, pepe.width - coef, height);
@@ -248,10 +253,17 @@ class Client {
         const on_second_layer = this.layers === "2";  // Брать пиксели со второго слоя
 
         const pos_x = on_second_layer ? body_part_x_overlay[this.body_part] : body_part_x[this.body_part];
-        const pos_y = (on_second_layer ? body_part_y_overlay[this.body_part] : body_part_y[this.body_part]) + this.position;
+        const pos_y = (on_second_layer ?
+            body_part_y_overlay[this.body_part] :
+            body_part_y[this.body_part]) + this.position;
 
         const skin_context = this.original_canvas.getContext('2d', { willReadFrequently: true });
-        const bandage_data = skin_context.getImageData(pos_x, pos_y, this.main_bandage.width, this.main_bandage.height).data;
+        const bandage_data = skin_context.getImageData(
+            pos_x,
+            pos_y,
+            this.main_bandage.width,
+            this.main_bandage.height
+        ).data;
 
         let r_avg = 0;
         let g_avg = 0;
@@ -412,7 +424,15 @@ export const to64 = (skin: HTMLImageElement): HTMLCanvasElement => {
     ctx.drawImage(skin, 0, 0);
 
     // Mirroring functions for easier handling of symmetrical parts
-    const mirrorImage = (srcCanvas: HTMLCanvasElement, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number) => {
+    const mirrorImage = (
+        srcCanvas: HTMLCanvasElement,
+        sx: number,
+        sy: number,
+        sw: number,
+        sh: number,
+        dx: number,
+        dy: number
+    ) => {
         const tempCanvas = document.createElement('canvas');
         const tempCtx = tempCanvas.getContext('2d');
         if (!tempCtx) {

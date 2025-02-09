@@ -153,7 +153,16 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                 <div className={style.skin_load_base}>
                     <div className={style.skin_load_container}>
                         <div className={style_base.header}>
-                            <h3 style={{ margin: 0, display: 'flex', gap: '.5rem', alignItems: 'center' }}><IconShirt />Загрузить скин</h3>
+                            <h3
+                                style={{
+                                    margin: 0,
+                                    display: 'flex',
+                                    gap: '.5rem',
+                                    alignItems: 'center'
+                                }}>
+                                <IconShirt />
+                                Загрузить скин
+                            </h3>
                             <IconX className={style_base.close} onClick={() => onChange(null)} />
                         </div>
                         <Searcher onChange={loadSkin} />

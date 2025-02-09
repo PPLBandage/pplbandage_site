@@ -64,14 +64,49 @@ const Notifications = () => {
     return (
         <main>
             <Me>
-                <div id="sidebar" className={Style.container} style={notifications != null ? { opacity: "1", transform: "translateY(0)" } : { opacity: "0", transform: "translateY(50px)" }}>
+                <div
+                    id="sidebar"
+                    className={Style.container}
+                    style={notifications != null ?
+                        { opacity: "1", transform: "translateY(0)" } :
+                        { opacity: "0", transform: "translateY(50px)" }
+                    }
+                >
                     {notifications?.data.length > 0 ?
                         <>
-                            {notifications?.total_count > 5 && <Paginator total_count={notifications?.total_count} take={5} onChange={(page) => setPage(page || 0)} page={page} />}
+                            {notifications?.total_count > 5 &&
+                                <Paginator
+                                    total_count={notifications?.total_count}
+                                    take={5}
+                                    onChange={(page) => setPage(page || 0)}
+                                    page={page} />
+                            }
                             {notifications_el}
                         </> :
-                        <div className={style_sidebar.animated} style={notifications != null ? { opacity: "1", transform: "translateY(0)", width: "100%" } : { opacity: "0", transform: "translateY(50px)", width: "100%" }}>
-                            <p style={{ display: "flex", alignItems: "center", fontSize: "1.1rem", fontWeight: 500, width: "100%", justifyContent: "center", margin: 0 }}><Image style={{ marginRight: ".5rem" }} src="/static/theres_nothing_here.png" alt="" width={56} height={56} />Похоже, тут ничего нет</p>
+                        <div
+                            className={style_sidebar.animated}
+                            style={notifications != null ?
+                                { opacity: "1", transform: "translateY(0)", width: "100%" } :
+                                { opacity: "0", transform: "translateY(50px)", width: "100%" }
+                            }>
+                            <p
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    fontSize: "1.1rem",
+                                    fontWeight: 500,
+                                    width: "100%",
+                                    justifyContent: "center",
+                                    margin: 0
+                                }}>
+                                <Image
+                                    style={{ marginRight: ".5rem" }}
+                                    src="/static/theres_nothing_here.png"
+                                    alt=""
+                                    width={56}
+                                    height={56} />
+                                Похоже, тут ничего нет
+                            </p>
                         </div>
                     }
                 </div>

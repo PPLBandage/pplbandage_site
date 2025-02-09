@@ -1,18 +1,17 @@
 import { CSSProperties, JSX, useEffect, useRef } from 'react';
 import { PlayerAnimation, PlayerObject, SkinViewer, WalkingAnimation } from 'skinview3d';
 
-
 interface SkinView3DOptions {
-    SKIN: string,
-    CAPE: string,
-    className: string,
-    style?: CSSProperties,
-    slim: boolean,
-    id: string,
-    width?: number,
-    height?: number,
-    pose?: number,
-    background?: string
+    SKIN: string;
+    CAPE: string;
+    className: string;
+    style?: CSSProperties;
+    slim: boolean;
+    id: string;
+    width?: number;
+    height?: number;
+    pose?: number;
+    background?: string;
 }
 
 export class TPose extends PlayerAnimation {
@@ -28,8 +27,18 @@ export class TPose extends PlayerAnimation {
     }
 }
 
-
-const SkinView3D = ({ SKIN, CAPE, className, slim, id, width, height, pose, background, style }: SkinView3DOptions): JSX.Element => {
+const SkinView3D = ({
+    SKIN,
+    CAPE,
+    className,
+    slim,
+    id,
+    width,
+    height,
+    pose,
+    background,
+    style
+}: SkinView3DOptions): JSX.Element => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const skinViewRef = useRef<SkinViewer>(null);
 
@@ -46,7 +55,7 @@ const SkinView3D = ({ SKIN, CAPE, className, slim, id, width, height, pose, back
                 skinViewRef.current.animation = new TPose();
                 break;
         }
-    }
+    };
 
     useEffect(() => {
         const view = new SkinViewer({
@@ -72,10 +81,10 @@ const SkinView3D = ({ SKIN, CAPE, className, slim, id, width, height, pose, back
         skinViewRef.current.scene.position.y = -2.5;
         background && skinViewRef.current.loadBackground(background);
 
-        skinViewRef.current.loadSkin(SKIN ? SKIN : "/static/workshop_base.png", { model: slim ? "slim" : "default" });
+        skinViewRef.current.loadSkin(SKIN ? SKIN : '/static/workshop_base.png', { model: slim ? 'slim' : 'default' });
         CAPE && skinViewRef.current.loadSkin(CAPE);
 
-        const resizeObserver = new ResizeObserver(entries => {
+        const resizeObserver = new ResizeObserver((entries) => {
             const { width, height } = entries[0].contentRect;
             if (!skinViewRef.current) return;
             skinViewRef.current.width = width;
@@ -83,10 +92,10 @@ const SkinView3D = ({ SKIN, CAPE, className, slim, id, width, height, pose, back
         });
 
         resizeObserver.observe(document.getElementById(id) as HTMLDivElement);
-    }, [])
+    }, []);
 
     useEffect(() => {
-        skinViewRef.current?.loadSkin(SKIN ? SKIN : "/static/workshop_base.png", { model: slim ? "slim" : "default" });
+        skinViewRef.current?.loadSkin(SKIN ? SKIN : '/static/workshop_base.png', { model: slim ? 'slim' : 'default' });
     }, [SKIN, slim]);
 
     useEffect(() => {
@@ -101,8 +110,7 @@ const SkinView3D = ({ SKIN, CAPE, className, slim, id, width, height, pose, back
         <div id={id} className={className} style={style}>
             <canvas ref={canvasRef} />
         </div>
-    )
-
-}
+    );
+};
 
 export default SkinView3D;

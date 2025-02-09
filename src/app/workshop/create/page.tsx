@@ -1,31 +1,31 @@
-"use client";
+'use client';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import style from '@/app/styles/workshop/create/page.module.css';
 import SkinView3D from '@/app/modules/components/SkinView';
 import { anims } from '@/app/workshop/poses';
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 import Select from 'react-select';
 import Client from '@/app/workshop/[id]/bandage_engine';
 import CategorySelector from '@/app/modules/components/CategorySelector';
-import * as Interfaces from "@/app/interfaces";
+import * as Interfaces from '@/app/interfaces';
 import debounce from 'lodash.debounce';
 import InfoCard from '@/app/modules/components/InfoCard';
 import useCookie from '@/app/modules/utils/useCookie';
 import { redirect } from 'next/navigation';
-import { Fira_Code } from "next/font/google";
+import { Fira_Code } from 'next/font/google';
 import { CustomLink } from '@/app/modules/components/Search';
 import asyncImage from '@/app/modules/utils/asyncImage';
 import SlideButton from '@/app/modules/components/SlideButton';
 import ApiManager from '@/app/modules/utils/apiManager';
-const fira = Fira_Code({ subsets: ["latin"] });
+const fira = Fira_Code({ subsets: ['latin'] });
 
 const capitalize = (string: string) => string.charAt(0).toUpperCase() + string.slice(1);
 
 const lstrip = (string: string) => string.replace(/^\s+/, '');
 
 export default function Home() {
-    const [SKIN, setSKIN] = useState<string>("");
+    const [SKIN, setSKIN] = useState<string>('');
     const [slim, setSlim] = useState<boolean>(false);
     const [pose, setPose] = useState<number>(1);
     const [height, setHeight] = useState<number>(-1);
@@ -39,7 +39,7 @@ export default function Home() {
         if (!logged) {
             redirect('/me');
         }
-    }, [logged])
+    }, [logged]);
 
     const client = useRef<Client>(null);
 
@@ -47,7 +47,7 @@ export default function Home() {
         const confirmationMessage = 'У вас есть несохраненные изменения. Вы уверены, что хотите покинуть страницу?';
         e.returnValue = confirmationMessage;
         return confirmationMessage;
-    }
+    };
 
     useEffect(() => {
         client.current = new Client();
@@ -56,15 +56,13 @@ export default function Home() {
             setSlim(event.slim);
         };
 
-        client.current.loadSkinUrl("/static/workshop_base.png");
+        client.current.loadSkinUrl('/static/workshop_base.png');
         window.addEventListener('beforeunload', beforeUnload);
 
         return () => {
             window.removeEventListener('beforeunload', beforeUnload);
-        }
-
+        };
     }, []);
-
 
     return (
         <main className={style.main}>
@@ -76,21 +74,35 @@ export default function Home() {
                         slim={slim}
                         className={style.skinview}
                         pose={pose}
-                        background='/static/background_big.png'
-                        id="canvas_container" />
+                        background="/static/background_big.png"
+                        id="canvas_container"
+                    />
 
                     <div className={style.render_footer}>
-                        {height != -1 && <p style={{ margin: 0, display: 'flex', alignItems: 'baseline', gap: '.3rem' }}>Расчётная высота: <span className={fira.className} style={{
-                            padding: '5px',
-                            backgroundColor: 'var(--dark-hover)',
-                            borderRadius: '3px',
-                            fontSize: '.8rem'
-                        }}>{Math.floor(height / 2)}px</span></p>
-                        }
+                        {height != -1 && (
+                            <p style={{ margin: 0, display: 'flex', alignItems: 'baseline', gap: '.3rem' }}>
+                                Расчётная высота:{' '}
+                                <span
+                                    className={fira.className}
+                                    style={{
+                                        padding: '5px',
+                                        backgroundColor: 'var(--dark-hover)',
+                                        borderRadius: '3px',
+                                        fontSize: '.8rem'
+                                    }}
+                                >
+                                    {Math.floor(height / 2)}px
+                                </span>
+                            </p>
+                        )}
                         <SlideButton
-                            onChange={v => { setSlim(v); client.current?.changeSlim(v) }}
+                            onChange={(v) => {
+                                setSlim(v);
+                                client.current?.changeSlim(v);
+                            }}
                             value={slim}
-                            label="Тонкие руки" />
+                            label="Тонкие руки"
+                        />
                         <Select
                             options={anims}
                             defaultValue={anims[pose]}
@@ -98,17 +110,27 @@ export default function Home() {
                             classNamePrefix="react-select"
                             isSearchable={false}
                             onChange={(n, _) => setPose(n.value)}
-                            instanceId='select-1'
+                            instanceId="select-1"
                             formatOptionLabel={(nick_value) => nick_value.label}
                         />
                     </div>
                 </aside>
                 <Editor
-                    onBandageChange={(b64) => { client.current?.loadFromImage(b64) }}
-                    onColorChange={(color) => { client.current?.setParams({ color: color }) }}
-                    onColorableChange={(colorable) => { client.current?.setParams({ colorable: colorable }) }}
-                    onBandageChangeSlim={(b64) => { client.current?.loadFromImage(b64, true) }}
-                    onChangeSplitTypes={(split) => { client.current?.setParams({ split_types: split }) }}
+                    onBandageChange={(b64) => {
+                        client.current?.loadFromImage(b64);
+                    }}
+                    onColorChange={(color) => {
+                        client.current?.setParams({ color: color });
+                    }}
+                    onColorableChange={(colorable) => {
+                        client.current?.setParams({ colorable: colorable });
+                    }}
+                    onBandageChangeSlim={(b64) => {
+                        client.current?.loadFromImage(b64, true);
+                    }}
+                    onChangeSplitTypes={(split) => {
+                        client.current?.setParams({ split_types: split });
+                    }}
                     onHeightChange={setHeight}
                 />
             </div>
@@ -134,8 +156,8 @@ const Editor = ({
     onHeightChange
 }: EditorProps) => {
     const router = useRouter();
-    const [title, setTitle] = useState<string>("");
-    const [description, setDescription] = useState<string>("");
+    const [title, setTitle] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
     const [enabledCategories, setEnabledCategories] = useState<Interfaces.Category[]>([]);
     const [allCategories, setAllCategories] = useState<Interfaces.Category[]>([]);
     const [categories, setCategories] = useState<number[]>([]);
@@ -149,10 +171,10 @@ const Editor = ({
 
     useEffect(() => {
         ApiManager.getCategories(true)
-            .then(data => {
+            .then((data) => {
                 setAllCategories(data);
                 if (window.location.hash === '#colorable') {
-                    const colorable_category = data.find(category => category.colorable);
+                    const colorable_category = data.find((category) => category.colorable);
                     if (colorable_category) {
                         setEnabledCategories([colorable_category]);
                     }
@@ -170,14 +192,13 @@ const Editor = ({
         []
     );
 
-
     useEffect(() => {
         if (!categories || categories.length === 0) {
             setColorable(false);
             onColorableChange(false);
             return;
         }
-        const _colorable = categories.some(category => allCategories.find(cat => cat.id === category).colorable);
+        const _colorable = categories.some((category) => allCategories.find((cat) => cat.id === category).colorable);
         setColorable(_colorable);
         onColorableChange(_colorable);
     }, [categories]);
@@ -192,37 +213,37 @@ const Editor = ({
 
     useEffect(() => {
         onChangeSplitTypes(splitTypes);
-    }, [splitTypes])
+    }, [splitTypes]);
 
     useEffect(() => {
         onHeightChange(height);
-    }, [height])
+    }, [height]);
 
     const create = () => {
         const error = document.getElementById('error') as HTMLLabelElement;
         if (!base64) {
             if (error) {
-                error.textContent = "Выберите изображение повязки";
+                error.textContent = 'Выберите изображение повязки';
             }
             return;
         }
 
         if (!base64Slim && splitTypes) {
             if (error) {
-                error.textContent = "Выберите изображение повязки для тонких рук";
+                error.textContent = 'Выберите изображение повязки для тонких рук';
             }
             return;
         }
 
         if (!title) {
             if (error) {
-                error.textContent = "Введите заголовок";
+                error.textContent = 'Введите заголовок';
             }
             return;
         }
 
         if (error) {
-            error.textContent = "";
+            error.textContent = '';
         }
 
         if (mutex) return;
@@ -236,98 +257,109 @@ const Editor = ({
             base64_slim: base64Slim?.replace('data:image/png;base64,', ''),
             split_type: splitTypes
         })
-            .then(response => router.replace(`/workshop/${response.data.external_id}`))
-            .catch(err => {
+            .then((response) => router.replace(`/workshop/${response.data.external_id}`))
+            .catch((err) => {
                 const error_el = document.getElementById('create_error') as HTMLLabelElement;
                 if (error_el) {
                     if (typeof err.data.message === 'object') {
-                        error_el.innerText = err.data.message.map((str: string) => capitalize(str)).join('\n') ||
+                        error_el.innerText =
+                            err.data.message.map((str: string) => capitalize(str)).join('\n') ||
                             `Unhandled error: ${err.status}`;
                     } else {
                         error_el.innerText = err.data.message;
                     }
                 }
             })
-            .finally(() => { setMutex(false) });
-    }
+            .finally(() => {
+                setMutex(false);
+            });
+    };
 
     return (
         <div className={style.editor_div}>
             <h2 style={{ marginTop: 0, marginBottom: '.5rem' }}>Создать повязку</h2>
-            <h3 style={{ margin: 0 }}>Перед началом создания повязки прочитайте <CustomLink href="/tutorials/bandage">туториал</CustomLink></h3>
+            <h3 style={{ margin: 0 }}>
+                Перед началом создания повязки прочитайте <CustomLink href="/tutorials/bandage">туториал</CustomLink>
+            </h3>
 
-            <SlideButton
-                onChange={setUseOldMethod}
-                label='Использовать старый способ загрузки повязок' />
+            <SlideButton onChange={setUseOldMethod} label="Использовать старый способ загрузки повязок" />
 
-            <SlideButton
-                onChange={setSplitTypes}
-                label='Использовать разные повязки для разных типов скинов' />
+            <SlideButton onChange={setSplitTypes} label="Использовать разные повязки для разных типов скинов" />
 
             <Selector
                 onChange={setBase64}
                 onBandageChange={(ev) => {
                     onBandageChange(ev.img);
-                    setHeight(ev.height)
+                    setHeight(ev.height);
                 }}
-                setTitle={(ev) => { if (!title) setTitle(ev) }}
-                useOld={useOldMethod} />
+                setTitle={(ev) => {
+                    if (!title) setTitle(ev);
+                }}
+                useOld={useOldMethod}
+            />
 
-            {splitTypes &&
+            {splitTypes && (
                 <>
                     <p style={{ margin: 0, fontWeight: 500 }}>Повязка для тонких рук</p>
                     <Selector
                         onChange={setBase64Slim}
                         onBandageChange={(ev) => onBandageChangeSlim && onBandageChangeSlim(ev.img)}
                         heightVal={height}
-                        useOld={useOldMethod} />
+                        useOld={useOldMethod}
+                    />
                 </>
-            }
-            <p id="error" style={{ margin: 0, color: "#dc2626" }}></p>
+            )}
+            <p id="error" style={{ margin: 0, color: '#dc2626' }}></p>
             <textarea
                 maxLength={50}
                 id="title"
                 placeholder="Заголовок"
                 className={style.textarea}
-                onInput={ev => setTitle(lstrip((ev.target as HTMLTextAreaElement).value))}
-                value={title} />
+                onInput={(ev) => setTitle(lstrip((ev.target as HTMLTextAreaElement).value))}
+                value={title}
+            />
             <textarea
                 maxLength={300}
                 placeholder="Описание"
                 className={style.textarea}
-                onInput={ev => setDescription(lstrip((ev.target as HTMLTextAreaElement).value))}
-                value={description} />
+                onInput={(ev) => setDescription(lstrip((ev.target as HTMLTextAreaElement).value))}
+                value={description}
+            />
 
-            {colorable &&
-                <InfoCard
-                    title='Повязка отмечена как окрашиваемая!'>
+            {colorable && (
+                <InfoCard title="Повязка отмечена как окрашиваемая!">
                     <div>
-                        <input type='color' id='color_select' onInput={debouncedHandleColorChange} />
-                        <label htmlFor='color_select' style={{ marginLeft: '.5rem' }}>Предпросмотр цвета</label>
+                        <input type="color" id="color_select" onInput={debouncedHandleColorChange} />
+                        <label htmlFor="color_select" style={{ marginLeft: '.5rem' }}>
+                            Предпросмотр цвета
+                        </label>
                     </div>
                 </InfoCard>
-            }
+            )}
 
             <CategorySelector
                 enabledCategories={enabledCategories}
                 allCategories={allCategories}
-                onChange={setCategories} />
-            <label id="create_error" style={{ margin: 0, color: "#dc2626" }}></label>
-            <button onClick={() => create()} className={style.skin_load}>Создать</button>
+                onChange={setCategories}
+            />
+            <label id="create_error" style={{ margin: 0, color: '#dc2626' }}></label>
+            <button onClick={() => create()} className={style.skin_load}>
+                Создать
+            </button>
         </div>
     );
-}
+};
 
 interface OnBandageChange {
-    img: HTMLImageElement,
-    height: number
+    img: HTMLImageElement;
+    height: number;
 }
 interface SelectorInterface {
-    setTitle?(title: string): void
-    onBandageChange?({ img, height }: OnBandageChange): void,
-    onChange(b64: string): void,
-    heightVal?: number,
-    useOld?: boolean
+    setTitle?(title: string): void;
+    onBandageChange?({ img, height }: OnBandageChange): void;
+    onChange(b64: string): void;
+    heightVal?: number;
+    useOld?: boolean;
 }
 
 const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: SelectorInterface) => {
@@ -370,13 +402,13 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
                 onChange(reader.result as string);
 
                 if (containerRef.current) {
-                    containerRef.current.style.borderColor = "#576074";
-                    containerRef.current.style.borderStyle = "solid";
+                    containerRef.current.style.borderColor = '#576074';
+                    containerRef.current.style.borderStyle = 'solid';
                 }
             });
-        }
+        };
         reader.readAsDataURL(file);
-    }
+    };
 
     const getData = (file: File) => {
         if (!file) return;
@@ -385,7 +417,7 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
         const reader = new FileReader();
 
         reader.onload = () => {
-            asyncImage(reader.result as string).then(img => {
+            asyncImage(reader.result as string).then((img) => {
                 if (img.width !== 64 || img.height !== 64) {
                     setError('Изображение скина должно иметь ширину и высоту в 64 пикселя');
                     return;
@@ -405,25 +437,25 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
 
                 clearError();
 
-                asyncImage(data.img).then(bandageImage => {
+                asyncImage(data.img).then((bandageImage) => {
                     if (onBandageChange) onBandageChange({ img: bandageImage, height: data.height });
                     onChange(data.img);
-                })
+                });
                 //if (onBandageChange) onBandageChange({ img: img, height: img.height });
                 //onChange(reader.result as string);
 
                 if (containerRef.current) {
-                    containerRef.current.style.borderColor = "#576074";
-                    containerRef.current.style.borderStyle = "solid";
+                    containerRef.current.style.borderColor = '#576074';
+                    containerRef.current.style.borderStyle = 'solid';
                 }
             });
-        }
+        };
         reader.readAsDataURL(file);
-    }
+    };
 
-    const extractFromSkin = (skin: HTMLImageElement, slim?: boolean): { img: string; height: number; } | null => {
-        let top = -1;  // Верхняя граница повязки
-        let bottom = -1;  // Нижняя граница повязки 
+    const extractFromSkin = (skin: HTMLImageElement, slim?: boolean): { img: string; height: number } | null => {
+        let top = -1; // Верхняя граница повязки
+        let bottom = -1; // Нижняя граница повязки
 
         const skinCanvas = document.createElement('canvas');
         const skinContext = skinCanvas.getContext('2d');
@@ -467,61 +499,66 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
 
         const bandageContext = bandageCanvas.getContext('2d');
         const bandageWidth = slim ? 14 : 16;
-        bandageContext.drawImage(skin, 32, top, bandageWidth, height, slim ? 1 : 0, height, bandageWidth, height);  // first layer
-        bandageContext.drawImage(skin, 48, top, bandageWidth, height, slim ? 1 : 0, 0, bandageWidth, height);  // second layer
+        bandageContext.drawImage(skin, 32, top, bandageWidth, height, slim ? 1 : 0, height, bandageWidth, height); // eslint-disable-line
+        bandageContext.drawImage(skin, 48, top, bandageWidth, height, slim ? 1 : 0, 0, bandageWidth, height); // eslint-disable-line
 
         return { img: bandageCanvas.toDataURL(), height: height * 2 };
-    }
+    };
 
     const onChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        useOld ? getDataOld(evt.target?.files[0]) : getData(evt.target?.files[0])
+        useOld ? getDataOld(evt.target?.files[0]) : getData(evt.target?.files[0]);
         evt.target.files = null;
-    }
+    };
 
     const ondragover = (evt: React.DragEvent<HTMLLabelElement>) => {
-        if (evt.dataTransfer?.items[0].type === "image/png") {
+        if (evt.dataTransfer?.items[0].type === 'image/png') {
             evt.preventDefault();
-            containerRef.current.style.borderStyle = "solid";
+            containerRef.current.style.borderStyle = 'solid';
         }
     };
 
     const ondragleave = () => {
-        containerRef.current.style.borderStyle = "dashed";
+        containerRef.current.style.borderStyle = 'dashed';
     };
 
     const ondrop = (evt: React.DragEvent<HTMLLabelElement>) => {
-        useOld ? getDataOld(evt.dataTransfer?.files[0]) : getData(evt.dataTransfer?.files[0])
+        useOld ? getDataOld(evt.dataTransfer?.files[0]) : getData(evt.dataTransfer?.files[0]);
 
         evt.preventDefault();
-        containerRef.current.style.borderStyle = "dashed";
+        containerRef.current.style.borderStyle = 'dashed';
     };
 
     const setError = (err: string) => {
         errorRef.current.innerText = err;
         errorRef.current.style.display = 'block';
-    }
+    };
 
     const clearError = () => {
-        errorRef.current.innerText = "";
+        errorRef.current.innerText = '';
         errorRef.current.style.display = 'none';
-    }
+    };
 
     return (
         <>
-            <label className={style.skin_drop}
+            <label
+                className={style.skin_drop}
                 ref={containerRef}
                 onDragOver={ondragover}
                 onDragLeave={ondragleave}
-                onDrop={ondrop}>
+                onDrop={ondrop}
+            >
                 <div className={style.hidable}>
-                    <input type="file"
-                        name="imageInput"
-                        accept="image/png"
-                        onChange={onChangeInput} />
-                    <span id="select_file">Выберите файл<br />или<br />скиньте его сюда</span>
+                    <input type="file" name="imageInput" accept="image/png" onChange={onChangeInput} />
+                    <span id="select_file">
+                        Выберите файл
+                        <br />
+                        или
+                        <br />
+                        скиньте его сюда
+                    </span>
                 </div>
             </label>
             <p ref={errorRef} style={{ margin: 0, marginBottom: '1rem', display: 'none' }} />
         </>
     );
-}
+};

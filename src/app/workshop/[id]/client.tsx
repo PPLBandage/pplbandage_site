@@ -180,7 +180,11 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
         },
         denied: {
             title: 'Отклонено',
-            description: <span>Ваша работа была отклонена модерацией. Для получения информации обратитесь в <CustomLink href="/contacts">поддержку</CustomLink>.</span>,
+            description: <span>
+                Ваша работа была отклонена модерацией.
+                Для получения информации обратитесь в
+                <CustomLink href="/contacts">поддержку</CustomLink>.
+            </span>,
             color: '#ff0000'
         }
     }
@@ -189,7 +193,12 @@ export default function Home({ data, referrer }: { data: Interfaces.Bandage, ref
         <>
             <SkinLoad
                 onChange={evt => {
-                    evt && client.current?.changeSkin(evt.data, evt.slim, evt.cape ? 'data:image/png;base64,' + evt.cape : '');
+                    evt &&
+                        client.current?.changeSkin(
+                            evt.data,
+                            evt.slim,
+                            evt.cape ? 'data:image/png;base64,' + evt.cape : ''
+                        );
                     setLoadExpanded(false);
                 }}
                 expanded={loadExpanded}

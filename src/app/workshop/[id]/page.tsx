@@ -44,7 +44,11 @@ export const generateMetadata = async ({ params }: { params: Promise<{ id: strin
     }
 }
 
-const addView = async (cookie: string | null, external_id: string) => {
+const addView = async (
+    cookie: string | null,
+    userAgent: string,
+    external_id: string
+) => {
     try {
         if (!cookie) return;
         const sessionId = cookie.split('; ').map(cookie => cookie.split('=')).find(cookie => cookie[0] === 'sessionId');
@@ -53,7 +57,12 @@ const addView = async (cookie: string | null, external_id: string) => {
         await axios.post(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${external_id}/view`, {}, {
             validateStatus: () => true,
             headers: {
-                'Unique-Access': process.env.TOKEN
+                'Cookie': cookie,
+                'User-Agent': userAgent,
+                'Unique-Access': process.env.TOKEN,
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Expires': '0'
             }
         });
     } catch (e) { console.log(e); }
@@ -67,7 +76,7 @@ const Main = async ({ params, searchParams }: { params: Promise<{ id: string }>,
     const props = await params;
     const referrer = search['ref'];
 
-    await addView(cookie, props.id);
+    await addView(cookie, userAgent, props.id);
 
     const initial_response = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}workshop/${props.id}`, {
         validateStatus: () => true,

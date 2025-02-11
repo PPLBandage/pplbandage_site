@@ -14,8 +14,8 @@
     },
     "dependencies": {
         "@svgr/webpack": "^8.1.0",
-        "@tabler/icons-react": "^3.29.0",
-        "@tanstack/react-query": "5.64.2",
+        "@tabler/icons-react": "^3.30.0",
+        "@tanstack/react-query": "5.66.0",
         "@types/lodash.debounce": "^4.0.9",
         "async-mutex": "^0.5.0",
         "axios": "^1.7.9",
@@ -24,12 +24,12 @@
         "jwt-decode": "^4.0.0",
         "lodash": "^4.17.21",
         "lodash.debounce": "^4.0.8",
-        "next": "^15.1.6",
+        "next": "^15.1.7",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "react-jsx-html-comments": "^1.0.1",
-        "react-select": "^5.9.0",
-        "react-transition-state": "^2.2.0",
+        "react-select": "^5.10.0",
+        "react-transition-state": "^2.3.0",
         "sanitize-html": "^2.14.0",
         "sharp": "^0.33.5",
         "skinview3d": "^3.1.0"
@@ -38,8 +38,8 @@
         "@types/node": "^22",
         "@types/react": "^19",
         "@types/sanitize-html": "^2.13.0",
-        "eslint": "^9.18.0",
-        "eslint-config-next": "^15.1.6",
+        "eslint": "^9.20.1",
+        "eslint-config-next": "^15.1.7",
         "typescript": "^5"
     }
 }

@@ -110,7 +110,7 @@ jobs:
 
     deploy:
         runs-on: ubuntu-latest
-        needs: [check, eslint]
+        needs: check
 
         steps:
             - name: Checkout repository

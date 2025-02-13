@@ -48,7 +48,7 @@ const Footer = () => {
                         </Link>
                         <a
                             style={{ cursor: 'pointer', userSelect: 'none' }}
-                            onClick={() => setTheme_((prev) => prev + 1)}
+                            onClick={() => setTheme_(prev => prev + 1)}
                         >
                             Изменить тему
                         </a>
@@ -67,7 +67,8 @@ const Footer = () => {
                     </span>
                 </p>
                 <p style={{ fontSize: '.8rem', margin: 0, marginTop: '.5rem' }}>
-                    NOT AN OFFICIAL MINECRAFT SERVICE. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
+                    NOT AN OFFICIAL MINECRAFT SERVICE. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR
+                    MICROSOFT.
                 </p>
             </div>
         </footer>

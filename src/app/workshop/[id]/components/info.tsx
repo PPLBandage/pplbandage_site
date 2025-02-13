@@ -5,11 +5,17 @@ import * as Interfaces from '@/app/interfaces';
 import { CategoryEl } from '@/app/modules/components/Card';
 
 const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
-    const categories = el.categories.map((category) => <CategoryEl key={category.id} category={category} />);
+    const categories = el.categories.map(category => (
+        <CategoryEl key={category.id} category={category} />
+    ));
 
     return (
         <div className={style.info_container}>
-            <h2 className={`${style.title} ${el.permissions_level >= 1 && style.title_editable}`}>
+            <h2
+                className={`${style.title} ${
+                    el.permissions_level >= 1 && style.title_editable
+                }`}
+            >
                 {el.title}
                 <IconEdit
                     className={style.edit_icon}
@@ -20,11 +26,18 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
                     }}
                 />
             </h2>
-            {el.description && <p className={style.description}>{el.description}</p>}
-            {categories.length > 0 && <div className={style.categories}>{categories}</div>}
+            {el.description && (
+                <p className={style.description}>{el.description}</p>
+            )}
+            {categories.length > 0 && (
+                <div className={style.categories}>{categories}</div>
+            )}
             {el.author ? (
                 el.author.public ? (
-                    <Link className={style.author} href={`/users/${el.author.username}`}>
+                    <Link
+                        className={style.author}
+                        href={`/users/${el.author.username}`}
+                    >
                         <IconUser width={24} height={24} />
                         {el.author.name}
                     </Link>

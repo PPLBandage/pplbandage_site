@@ -11,7 +11,12 @@ interface PaginatorProps {
     page: number;
 }
 
-export const Paginator = ({ total_count, take, onChange, page }: PaginatorProps) => {
+export const Paginator = ({
+    total_count,
+    take,
+    onChange,
+    page
+}: PaginatorProps) => {
     const [_page, _setPage] = useState<number>(page);
     const [_pages, _setPages] = useState<JSX.Element[]>([]);
 
@@ -45,7 +50,10 @@ export const Paginator = ({ total_count, take, onChange, page }: PaginatorProps)
                 <p
                     style={
                         x == Math.max(0, _page)
-                            ? { backgroundColor: 'var(--main-element-color)', padding: '.5rem' }
+                            ? {
+                                  backgroundColor: 'var(--main-element-color)',
+                                  padding: '.5rem'
+                              }
                             : x < pages_count
                             ? {}
                             : { visibility: 'hidden' }
@@ -72,12 +80,19 @@ export const Paginator = ({ total_count, take, onChange, page }: PaginatorProps)
             <>
                 <IconChevronLeft
                     className={`${Styles.page} ${Styles.arrow}`}
-                    onClick={() => _setPage((last) => Math.max(0, last - 1))}
+                    onClick={() => _setPage(last => Math.max(0, last - 1))}
                 />
                 {_display ? _pages : loadingPages}
                 <IconChevronRight
                     className={`${Styles.page} ${Styles.arrow}`}
-                    onClick={() => _setPage((last) => Math.min(last + 1, Math.ceil(_totalCount / _take) - 1))}
+                    onClick={() =>
+                        _setPage(last =>
+                            Math.min(
+                                last + 1,
+                                Math.ceil(_totalCount / _take) - 1
+                            )
+                        )
+                    }
                 />
             </>
         </div>

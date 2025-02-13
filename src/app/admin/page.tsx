@@ -1,7 +1,7 @@
 'use client';
 
 import useCookie from '@/app/modules/utils/useCookie';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import style_root from '@/app/styles/admin/page.module.css';
 import { redirect, useRouter } from 'next/navigation';
 import { adminRoles, Query } from '@/app/modules/components/Header';
@@ -22,8 +22,8 @@ const Search = ({ onSearch }: { onSearch(val: string): void }) => {
     return (
         <div className={style_root.search_main}>
             <input
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyUp={(e) => {
+                onChange={e => setSearch(e.target.value)}
+                onKeyUp={e => {
                     if (e.code === 'Enter' || e.code === 'NumpadEnter') {
                         onSearch(search);
                     }
@@ -46,13 +46,13 @@ const ForceRegister = () => {
 
         ApiManager.forceRegister(id)
             .then(() => window.location.reload())
-            .catch((e) => alert(e.data.message));
+            .catch(e => alert(e.data.message));
     };
 
     return (
         <div className={style_root.search_main}>
             <input
-                onChange={(e) => setId(e.target.value)}
+                onChange={e => setId(e.target.value)}
                 className={style_root.search_input}
                 placeholder="Discord ID"
             />
@@ -75,25 +75,31 @@ const Users = () => {
         ApiManager.getUsers(userQuery).then(setUsers).catch(console.error);
     }, [userQuery]);
 
-    const updateUser = (user: UserAdmins, data: { banned?: boolean; skip_ppl_check?: boolean }): Promise<void> => {
+    const updateUser = (
+        user: UserAdmins,
+        data: { banned?: boolean; skip_ppl_check?: boolean }
+    ): Promise<void> => {
         return new Promise((resolve, reject) => {
             ApiManager.updateUser(user.username, data)
                 .then(resolve)
-                .catch((err) => {
+                .catch(err => {
                     alert(err.data.message);
                     reject();
                 });
         });
     };
 
-    const usersEl = users.map((user) => {
+    const usersEl = users.map(user => {
         return (
             <div key={user.id} className={style_root.user_card}>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <Link href={`/users/${user.username}`} className={style_root.name}>
                         {user.name}
                     </Link>
-                    <Link href={`https://discord.com/users/${user.discord_id}`} className={style_root.username}>
+                    <Link
+                        href={`https://discord.com/users/${user.discord_id}`}
+                        className={style_root.username}
+                    >
                         {user.username}
                     </Link>
                     <p className={`${style_root.did} ${fira.className}`}>{user.discord_id}</p>
@@ -103,16 +109,16 @@ const Users = () => {
                         label="Заблокирован"
                         strict={true}
                         loadable={true}
-                        onChange={(value) => updateUser(user, { banned: value })}
+                        onChange={value => updateUser(user, { banned: value })}
                         defaultValue={user.banned}
-                        disabled={!user.permissions.every((perm) => perm === 'default')}
+                        disabled={!user.permissions.every(perm => perm === 'default')}
                     />
 
                     <SlideButton
                         label="Пропустить проверку ролей"
                         strict={true}
                         loadable={true}
-                        onChange={(value) => updateUser(user, { skip_ppl_check: value })}
+                        onChange={value => updateUser(user, { skip_ppl_check: value })}
                         defaultValue={user.skip_ppl_check}
                     />
                 </div>
@@ -152,8 +158,8 @@ const Admin = () => {
 
     useEffect(() => {
         ApiManager.getMe()
-            .then((data) => {
-                if (!data?.permissions.some((role) => adminRoles.includes(role))) {
+            .then(data => {
+                if (!data?.permissions.some(role => adminRoles.includes(role))) {
                     router.replace('/');
                     return;
                 }
@@ -162,7 +168,9 @@ const Admin = () => {
             .catch(console.error);
     }, []);
 
-    const updateUsers = user && (user.permissions.includes('updateusers') || user.permissions.includes('superadmin'));
+    const updateUsers =
+        user &&
+        (user.permissions.includes('updateusers') || user.permissions.includes('superadmin'));
 
     return (
         <main className={style_root.main}>

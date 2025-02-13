@@ -24,12 +24,12 @@ const Main = () => {
 
     useEffect(() => {
         ApiManager.getMeStars()
-            .then((data) => setData(data.reverse()))
+            .then(data => setData(data.reverse()))
             .catch(console.error);
     }, []);
 
     useEffect(() => {
-        data && renderSkin(data, styles_me).then((results) => setElements(results));
+        data && renderSkin(data, styles_me).then(results => setElements(results));
     }, [data]);
 
     useEffect(() => {

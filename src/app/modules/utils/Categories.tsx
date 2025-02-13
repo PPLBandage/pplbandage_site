@@ -32,10 +32,13 @@ const Icons: { [key: string]: JSX.Element } = {
     IconSun: <IconSun width={15} height={15} />,
     IconTree: <IconTree width={15} height={15} />,
     IconSeeding: <IconSeeding width={15} height={15} />,
-    IconRosetteDiscountCheck: <IconRosetteDiscountCheck width={15} height={15} />,
+    IconRosetteDiscountCheck: (
+        <IconRosetteDiscountCheck width={15} height={15} />
+    ),
     IconLeaf2: <IconLeaf2 width={15} height={15} />,
     IconUserCheck: <IconUserCheck width={15} height={15} />,
     IconUserEdit: <IconUserEdit width={15} height={15} />
 };
 
-export const getIcon = (icon: string) => Icons[icon] ?? <IconQuestionMark width={15} height={15} />;
+export const getIcon = (icon: string) =>
+    Icons[icon] ?? <IconQuestionMark width={15} height={15} />;

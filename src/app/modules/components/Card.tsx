@@ -6,7 +6,13 @@ import { getCookie } from 'cookies-next';
 import Link, { LinkProps } from 'next/link';
 import { CSSProperties, ReactNode, useEffect, useState } from 'react';
 
-import { IconCircleHalf2, IconEyeOff, IconStar, IconStarFilled, IconUser } from '@tabler/icons-react';
+import {
+    IconCircleHalf2,
+    IconEyeOff,
+    IconStar,
+    IconStarFilled,
+    IconUser
+} from '@tabler/icons-react';
 import { getIcon } from '../utils/Categories';
 import { usePathname, useRouter } from 'next/navigation';
 import { UseGlobalTooltip } from './Tooltip';
@@ -67,7 +73,9 @@ export const CategoryEl = ({ category, enabled, onClick, hoverable, style }: Cat
     return (
         <div
             key={category.id}
-            className={`${Style.category} ${enabled && Style.enabled_category} ${hoverable && Style.hoverable}`}
+            className={`${Style.category} ${enabled && Style.enabled_category} ${
+                hoverable && Style.hoverable
+            }`}
             onClick={() => onClick && onClick()}
             style={style}
         >
@@ -115,7 +123,9 @@ const backgrounds: { [key: string]: string } = {
     default: 'default'
 };
 
-interface ReferrerLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>, LinkProps {
+interface ReferrerLinkProps
+    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>,
+        LinkProps {
     children: ReactNode;
     href: string;
 }
@@ -131,7 +141,10 @@ export const ReferrerLink: React.FC<ReferrerLinkProps> = ({ children, href, ...p
         window.sessionStorage.setItem('referrer', pathname);
         if (context && context.lastConfig) {
             const scroll = window.scrollY || document.documentElement.scrollTop;
-            window.sessionStorage.setItem('workshopState', JSON.stringify({ ...context.lastConfig, scroll }));
+            window.sessionStorage.setItem(
+                'workshopState',
+                JSON.stringify({ ...context.lastConfig, scroll })
+            );
         }
         router.push(href);
     };
@@ -153,7 +166,7 @@ export const StarElement = ({ el }: { el: Bandage }) => {
     useEffect(() => {
         if (logged && starred != last) {
             ApiManager.setStar(el.external_id, { set: starred })
-                .then((data) => setStarsCount(data.new_count))
+                .then(data => setStarsCount(data.new_count))
                 .catch(console.error)
                 .finally(() => setLast(starred));
         }
@@ -174,7 +187,7 @@ export const StarElement = ({ el }: { el: Bandage }) => {
         <div
             className={style_card.star_container}
             onClick={() => {
-                logged ? setStarred((prev) => !prev) : router.push('/me');
+                logged ? setStarred(prev => !prev) : router.push('/me');
             }}
         >
             <StarIcon
@@ -204,7 +217,7 @@ export const Card = ({
     const theme = useCookie('theme_main');
     const background = backgrounds[theme] ?? 'default';
 
-    const categories = el.categories.map((category) => (
+    const categories = el.categories.map(category => (
         <div id={`category_${category.id}_${el.id}`} key={category.id}>
             <CategoryShorten category={category} parent_id={`category_${category.id}_${el.id}`} />
         </div>
@@ -224,7 +237,12 @@ export const Card = ({
                 </div>
             </div>
             <div
-                style={{ position: 'relative', '--shadow-color': el.accent_color } as React.CSSProperties}
+                style={
+                    {
+                        position: 'relative',
+                        '--shadow-color': el.accent_color
+                    } as React.CSSProperties
+                }
                 className={style_card.gradient_background}
             >
                 <ReferrerLink href={`/workshop/${el.external_id}`} style={{ display: 'flex' }}>
@@ -244,13 +262,18 @@ export const Card = ({
                     <ReferrerLink className={style_card.title} href={`/workshop/${el.external_id}`}>
                         {el.title}
                     </ReferrerLink>
-                    <p className={style_card.description}>{constrainedText(el.description ?? '', 50)}</p>
+                    <p className={style_card.description}>
+                        {constrainedText(el.description ?? '', 50)}
+                    </p>
                 </div>
 
                 <div>
                     {el.author ? (
                         el.author.public ? (
-                            <Link className={style_card.username} href={`/users/${el.author.username}`}>
+                            <Link
+                                className={style_card.username}
+                                href={`/users/${el.author.username}`}
+                            >
                                 <IconUser style={{ width: '1.5rem' }} />
                                 {el.author.name}
                             </Link>
@@ -266,7 +289,9 @@ export const Card = ({
                             Unknown
                         </a>
                     )}
-                    <p className={style_card.creation_date}>{formatDate(new Date(el.creation_date))}</p>
+                    <p className={style_card.creation_date}>
+                        {formatDate(new Date(el.creation_date))}
+                    </p>
                 </div>
             </div>
         </article>

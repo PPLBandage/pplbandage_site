@@ -11,34 +11,40 @@ interface CategorySelectorProps {
     onChange(selected: number[]): void;
 }
 
-const CategorySelector = ({ enabledCategories, allCategories, onChange }: CategorySelectorProps) => {
+const CategorySelector = ({
+    enabledCategories,
+    allCategories,
+    onChange
+}: CategorySelectorProps) => {
     const [categories, setCategories] = useState<Category[]>(allCategories);
 
     const updateCategory = (id: number, enabled: boolean) => {
-        setCategories((prevCategories) =>
-            prevCategories.map((category) => (category.id === id ? { ...category, enabled: enabled } : category))
+        setCategories(prevCategories =>
+            prevCategories.map(category =>
+                category.id === id ? { ...category, enabled: enabled } : category
+            )
         );
     };
 
     useEffect(() => {
-        const categories_sorted = allCategories.map((cat) => {
+        const categories_sorted = allCategories.map(cat => {
             if (!enabledCategories) {
                 cat.enabled = false;
                 return cat;
             }
-            cat.enabled = enabledCategories.some((category) => category.id === cat.id);
+            cat.enabled = enabledCategories.some(category => category.id === cat.id);
             return cat;
         });
         setCategories(categories_sorted);
     }, [enabledCategories, allCategories]);
 
     useEffect(() => {
-        onChange(categories.filter((el) => el.enabled).map((i) => i.id));
+        onChange(categories.filter(el => el.enabled).map(i => i.id));
     }, [categories]);
 
     const categoriesEnabled = categories
-        .filter((el) => el.enabled)
-        .map((el) => (
+        .filter(el => el.enabled)
+        .map(el => (
             <CategoryEl
                 key={el.id}
                 enabled={true}
@@ -48,9 +54,14 @@ const CategorySelector = ({ enabledCategories, allCategories, onChange }: Catego
             />
         ));
     const categoriesAvailable = categories
-        .filter((el) => !el.enabled)
-        .map((el) => (
-            <CategoryEl key={el.id} category={el} onClick={() => updateCategory(el.id, true)} hoverable={true} />
+        .filter(el => !el.enabled)
+        .map(el => (
+            <CategoryEl
+                key={el.id}
+                category={el}
+                onClick={() => updateCategory(el.id, true)}
+                hoverable={true}
+            />
         ));
 
     return (
@@ -60,7 +71,14 @@ const CategorySelector = ({ enabledCategories, allCategories, onChange }: Catego
                 {categoriesEnabled.length > 0 ? (
                     categoriesEnabled
                 ) : (
-                    <p style={{ margin: 0, color: 'gray', marginTop: '2.5px', marginBottom: '2.5px' }}>
+                    <p
+                        style={{
+                            margin: 0,
+                            color: 'gray',
+                            marginTop: '2.5px',
+                            marginBottom: '2.5px'
+                        }}
+                    >
                         Категории не выбраны
                     </p>
                 )}

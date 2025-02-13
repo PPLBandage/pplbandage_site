@@ -41,7 +41,11 @@ const EditConfirmation = ({ action, confirm_code, children, onInput }: EditConfi
                     exitActive: style_base['background-exit-active']
                 }}
             >
-                <div className={`${style_base.background} ${action === 'delete' && style.delete_background}`} />
+                <div
+                    className={`${style_base.background} ${
+                        action === 'delete' && style.delete_background
+                    }`}
+                />
             </ReactCSSTransition>
 
             <ReactCSSTransition
@@ -55,11 +59,21 @@ const EditConfirmation = ({ action, confirm_code, children, onInput }: EditConfi
                 <div className={style_base.base}>
                     <div className={style_base.container}>
                         <div className={style_base.header}>
-                            <h3 style={{ margin: 0, display: 'flex', gap: '.5rem', alignItems: 'center' }}>
+                            <h3
+                                style={{
+                                    margin: 0,
+                                    display: 'flex',
+                                    gap: '.5rem',
+                                    alignItems: 'center'
+                                }}
+                            >
                                 {icons[action]}
                                 {titles[action]}
                             </h3>
-                            <IconX className={style_base.close} onClick={() => setExpanded(false)} />
+                            <IconX
+                                className={style_base.close}
+                                onClick={() => setExpanded(false)}
+                            />
                         </div>
                         <p style={{ margin: 0, fontSize: '.9rem', fontWeight: 'bold' }}>
                             Это действие имеет необратимый характер!
@@ -73,7 +87,7 @@ const EditConfirmation = ({ action, confirm_code, children, onInput }: EditConfi
                             placeholder="Введите идентификатор повязки"
                             id="id"
                             className={style_base.code_input}
-                            onChange={(e) => setAvailable(e.target.value === confirm_code)}
+                            onChange={e => setAvailable(e.target.value === confirm_code)}
                         />
 
                         <button
@@ -83,8 +97,10 @@ const EditConfirmation = ({ action, confirm_code, children, onInput }: EditConfi
                                 if (!available) return;
                                 onInput()
                                     .then(() => setExpanded(false))
-                                    .catch((response) => {
-                                        const err = document.getElementById('error') as HTMLParagraphElement;
+                                    .catch(response => {
+                                        const err = document.getElementById(
+                                            'error'
+                                        ) as HTMLParagraphElement;
                                         err.innerText = response;
                                         err.style.display = 'block';
                                     });

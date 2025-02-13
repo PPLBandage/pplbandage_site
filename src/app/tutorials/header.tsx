@@ -9,23 +9,34 @@ const ASide = () => {
     return (
         <div
             className={`${style_sidebar.card} ${style_add.side_card}`}
-            style={{ alignItems: 'stretch', gap: '.5rem', flexGrow: 0, flexShrink: 0 }}
+            style={{
+                alignItems: 'stretch',
+                gap: '.5rem',
+                flexGrow: 0,
+                flexShrink: 0
+            }}
         >
             <TransitionLink
                 href="/tutorials"
-                className={`${style_sidebar.side_butt} ${path == 'tutorials' && style_sidebar.active}`}
+                className={`${style_sidebar.side_butt} ${
+                    path == 'tutorials' && style_sidebar.active
+                }`}
             >
                 Главная
             </TransitionLink>
             <TransitionLink
                 href="/tutorials/bandage"
-                className={`${style_sidebar.side_butt} ${path == 'bandage' && style_sidebar.active}`}
+                className={`${style_sidebar.side_butt} ${
+                    path == 'bandage' && style_sidebar.active
+                }`}
             >
                 Создание повязки
             </TransitionLink>
             <TransitionLink
                 href="/tutorials/colorable"
-                className={`${style_sidebar.side_butt} ${path == 'colorable' && style_sidebar.active}`}
+                className={`${style_sidebar.side_butt} ${
+                    path == 'colorable' && style_sidebar.active
+                }`}
             >
                 Окрашиваемая повязка
             </TransitionLink>

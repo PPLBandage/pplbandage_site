@@ -17,7 +17,11 @@ interface SkinLoadProps {
 }
 
 const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
-    const [data, setData] = useState<{ data: string; slim: boolean; cape?: string }>(null);
+    const [data, setData] = useState<{
+        data: string;
+        slim: boolean;
+        cape?: string;
+    }>(null);
     const [loaded, setLoaded] = useState<boolean>(false);
 
     useEffect(() => {
@@ -38,7 +42,7 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
         if (!nickname) return;
 
         ApiManager.getSkin(nickname)
-            .then((data) => {
+            .then(data => {
                 setData({
                     data: b64Prefix + data.skin,
                     slim: data.slim,
@@ -61,7 +65,9 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                         setError('Игрок с таким никнеймом не найден');
                         break;
                     case 429:
-                        setError('Сервера Mojang перегружены, пожалуйста, попробуйте через пару минут');
+                        setError(
+                            'Сервера Mojang перегружены, пожалуйста, попробуйте через пару минут'
+                        );
                         break;
                     default:
                         setError(`Не удалось получить скин (${err.status})`);
@@ -85,7 +91,7 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
         const reader = new FileReader();
 
         reader.onload = () => {
-            AsyncImage(reader.result as string).then((img) => {
+            AsyncImage(reader.result as string).then(img => {
                 if (img.width != 64 || img.height != 64) {
                     setError('Скин должен иметь размеры 64x64 пикселя');
                     return;
@@ -104,13 +110,17 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
     const ondragover = (evt: React.DragEvent<HTMLLabelElement>) => {
         if (evt.dataTransfer?.items[0].type === 'image/png') {
             evt.preventDefault();
-            const drag_container = document.getElementById('drop_container') as HTMLDivElement;
+            const drag_container = document.getElementById(
+                'drop_container'
+            ) as HTMLDivElement;
             drag_container.style.borderStyle = 'solid';
         }
     };
 
     const ondragleave = () => {
-        const drag_container = document.getElementById('drop_container') as HTMLDivElement;
+        const drag_container = document.getElementById(
+            'drop_container'
+        ) as HTMLDivElement;
         drag_container.style.borderStyle = 'dashed';
     };
 
@@ -118,7 +128,9 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
         getData(evt.dataTransfer?.files[0]);
 
         evt.preventDefault();
-        const drag_container = document.getElementById('drop_container') as HTMLDivElement;
+        const drag_container = document.getElementById(
+            'drop_container'
+        ) as HTMLDivElement;
         drag_container.style.borderStyle = 'dashed';
     };
 
@@ -162,7 +174,10 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                                 <IconShirt />
                                 Загрузить скин
                             </h3>
-                            <IconX className={style_base.close} onClick={() => onChange(null)} />
+                            <IconX
+                                className={style_base.close}
+                                onClick={() => onChange(null)}
+                            />
                         </div>
                         <Searcher onChange={loadSkin} />
                         <label
@@ -192,20 +207,42 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
 
                         <span id="error" />
                         {data && (
-                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                <NextImage src={data.data} width={64} height={64} alt="" />
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <NextImage
+                                    src={data.data}
+                                    width={64}
+                                    height={64}
+                                    alt=""
+                                />
                             </div>
                         )}
 
-                        <div style={{ display: 'flex', width: '100%', gap: '.5rem' }}>
+                        <div
+                            style={{
+                                display: 'flex',
+                                width: '100%',
+                                gap: '.5rem'
+                            }}
+                        >
                             <button
-                                className={`${style.skin_load} ${!loaded && style.disabled_load}`}
+                                className={`${style.skin_load} ${
+                                    !loaded && style.disabled_load
+                                }`}
                                 onClick={() => {
                                     loaded && onChange(data);
                                 }}
                                 style={{ width: '100%' }}
                             >
-                                <IconCheck width={24} height={24} style={{ marginRight: '.2rem' }} />
+                                <IconCheck
+                                    width={24}
+                                    height={24}
+                                    style={{ marginRight: '.2rem' }}
+                                />
                                 Готово
                             </button>
                         </div>

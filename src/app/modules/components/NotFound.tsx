@@ -24,7 +24,9 @@ const NotFoundElement = () => {
             ></div>
             <main className={style.main}>
                 <h1>404</h1>
-                <h2 style={{ margin: 0, marginBottom: '0.5%' }}>Страница не найдена</h2>
+                <h2 style={{ margin: 0, marginBottom: '0.5%' }}>
+                    Страница не найдена
+                </h2>
                 <div>
                     <Link href="/" className={style.home}>
                         Вернуться домой

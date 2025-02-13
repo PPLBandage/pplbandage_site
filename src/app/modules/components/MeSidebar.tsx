@@ -16,8 +16,15 @@ import ApiManager from '../utils/apiManager';
 
 const Default = ({ data, islogged, color }: { data: Query; islogged: boolean; color?: string }) => {
     return (
-        <div className={style_sidebar.card} style={{ backgroundColor: color || 'var(--main-card-color)' }}>
-            <div className={`${style_sidebar.avatar_container} ${!islogged && style_sidebar.placeholders}`}>
+        <div
+            className={style_sidebar.card}
+            style={{ backgroundColor: color || 'var(--main-card-color)' }}
+        >
+            <div
+                className={`${style_sidebar.avatar_container} ${
+                    !islogged && style_sidebar.placeholders
+                }`}
+            >
                 {islogged && data?.avatar && !color && (
                     <Image
                         src={data.avatar}
@@ -30,7 +37,14 @@ const Default = ({ data, islogged, color }: { data: Query; islogged: boolean; co
                     />
                 )}
                 {islogged && data?.avatar && (
-                    <Image src={data.avatar} alt="" width={150} height={150} priority={true} draggable={false} />
+                    <Image
+                        src={data.avatar}
+                        alt=""
+                        width={150}
+                        height={150}
+                        priority={true}
+                        draggable={false}
+                    />
                 )}
             </div>
             <h3>{data?.name}</h3>
@@ -68,11 +82,25 @@ const Default = ({ data, islogged, color }: { data: Query; islogged: boolean; co
 
 const ImprovedTheme = ({ data, islogged }: { data: Query; islogged: boolean }) => {
     return (
-        <div className={style_sidebar.background_image_container} style={{ backgroundImage: `url("${data?.avatar}")` }}>
+        <div
+            className={style_sidebar.background_image_container}
+            style={{ backgroundImage: `url("${data?.avatar}")` }}
+        >
             <div className={`${style_sidebar.card} ${style_sidebar.card_improved}`}>
-                <div className={`${style_sidebar.avatar_container} ${!islogged && style_sidebar.placeholders}`}>
+                <div
+                    className={`${style_sidebar.avatar_container} ${
+                        !islogged && style_sidebar.placeholders
+                    }`}
+                >
                     {islogged && data?.avatar && (
-                        <Image src={data?.avatar} alt="" width={150} height={150} priority={true} draggable={false} />
+                        <Image
+                            src={data?.avatar}
+                            alt=""
+                            width={150}
+                            height={150}
+                            priority={true}
+                            draggable={false}
+                        />
                     )}
                 </div>
                 <h3>{data?.name}</h3>
@@ -110,7 +138,7 @@ const ImprovedTheme = ({ data, islogged }: { data: Query; islogged: boolean }) =
 };
 
 const Roles = ({ user }: { user: Query }) => {
-    const roles = user.roles.map((role) => <CategoryEl category={role} key={role.id} />);
+    const roles = user.roles.map(role => <CategoryEl category={role} key={role.id} />);
     return (
         <div className={style_sidebar.card} style={{ gap: '.5rem', alignItems: 'stretch' }}>
             {roles}
@@ -139,7 +167,9 @@ export const Me = ({ children, user_data }: { children: JSX.Element; user_data?:
             background = <ImprovedTheme data={data as Query} islogged={islogged} />;
             break;
         case 2:
-            background = <Default data={data as Query} islogged={islogged} color={data?.banner_color} />;
+            background = (
+                <Default data={data as Query} islogged={islogged} color={data?.banner_color} />
+            );
             break;
         default:
             background = <Default data={data as Query} islogged={islogged} />;
@@ -148,7 +178,10 @@ export const Me = ({ children, user_data }: { children: JSX.Element; user_data?:
 
     return (
         <div className={style_sidebar.main_container}>
-            <div style={islogged ? { opacity: '1', transform: 'none' } : {}} className={style_sidebar.hidable}>
+            <div
+                style={islogged ? { opacity: '1', transform: 'none' } : {}}
+                className={style_sidebar.hidable}
+            >
                 <div className={style_sidebar.main}>
                     <div className={style_sidebar.side}>
                         {!!data && (
@@ -165,7 +198,10 @@ export const Me = ({ children, user_data }: { children: JSX.Element; user_data?:
                                 </div>
                                 {data.roles?.length > 0 && <Roles user={data} />}
                                 {!user_data && (
-                                    <div className={style_sidebar.card} style={{ alignItems: 'stretch', gap: '.5rem' }}>
+                                    <div
+                                        className={style_sidebar.card}
+                                        style={{ alignItems: 'stretch', gap: '.5rem' }}
+                                    >
                                         <TransitionLink
                                             href="/me"
                                             className={`${style_sidebar.side_butt} ${

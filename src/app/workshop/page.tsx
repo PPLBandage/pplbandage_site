@@ -39,7 +39,7 @@ export default function Home() {
     useEffect(() => {
         const workshopState = window.sessionStorage.getItem('workshopState');
         ApiManager.getCategories()
-            .then((categories) => {
+            .then(categories => {
                 if (workshopState) {
                     window.sessionStorage.removeItem('workshopState');
 
@@ -53,9 +53,12 @@ export default function Home() {
 
                     let _categories = categories;
                     if (data.filters) {
-                        const initial_filters = data.filters.split(',').map(Number);
-                        _categories = categories.map((i) => {
-                            if (initial_filters.includes(i.id)) i.enabled = true;
+                        const initial_filters = data.filters
+                            .split(',')
+                            .map(Number);
+                        _categories = categories.map(i => {
+                            if (initial_filters.includes(i.id))
+                                i.enabled = true;
                             return i;
                         });
                     }
@@ -79,8 +82,8 @@ export default function Home() {
         if (!firstLoaded) return;
 
         const filters_str = filters
-            .filter((filter) => filter.enabled)
-            .map((filter) => filter.id)
+            .filter(filter => filter.enabled)
+            .map(filter => filter.id)
             .toString();
         const config = {
             page: constrain(page, 0, Math.ceil(totalCount / take)),
@@ -94,7 +97,7 @@ export default function Home() {
         }
 
         ApiManager.getWorkshop(config)
-            .then((data) => {
+            .then(data => {
                 setData(data);
                 setTotalCount(data.totalCount);
             })
@@ -105,9 +108,12 @@ export default function Home() {
 
     useEffect(() => {
         if (!getCookie('warningAccepted')) {
-            calcChecksum().then((result) => !result && setAlertShown(true));
+            calcChecksum().then(result => !result && setAlertShown(true));
         }
-        data && renderSkin(data.data, styles_card).then((results) => setElements(results));
+        data &&
+            renderSkin(data.data, styles_card).then(results =>
+                setElements(results)
+            );
     }, [data]);
 
     useEffect(() => {
@@ -128,11 +134,15 @@ export default function Home() {
     }, [elements]);
 
     return (
-        <ConfigContext.Provider value={{ lastConfig: { ...lastConfig, totalCount } }}>
+        <ConfigContext.Provider
+            value={{ lastConfig: { ...lastConfig, totalCount } }}
+        >
             <BrowserNotification
                 expanded={alertShown}
                 onClose={() => {
-                    setCookie('warningAccepted', 'true', { maxAge: 60 * 24 * 14 });
+                    setCookie('warningAccepted', 'true', {
+                        maxAge: 60 * 24 * 14
+                    });
                     setAlertShown(false);
                 }}
             />
@@ -149,23 +159,38 @@ export default function Home() {
                         onChangeFilters={setFilters}
                     />
 
-                    <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />
+                    <Paginator
+                        total_count={totalCount}
+                        take={take}
+                        onChange={setPage}
+                        page={page}
+                    />
 
                     <div
                         style={
                             elements
                                 ? { opacity: '1', transform: 'translateY(0)' }
-                                : { opacity: '0', transform: 'translateY(50px)' }
+                                : {
+                                      opacity: '0',
+                                      transform: 'translateY(50px)'
+                                  }
                         }
                         className={Style.animated}
                     >
                         <SimpleGrid>{elements}</SimpleGrid>
                     </div>
 
-                    {(!elements || elements.length === 0) && <TheresNothingHere elements={elements} />}
+                    {(!elements || elements.length === 0) && (
+                        <TheresNothingHere elements={elements} />
+                    )}
 
                     {elements && elements.length > 0 && (
-                        <Paginator total_count={totalCount} take={take} onChange={setPage} page={page} />
+                        <Paginator
+                            total_count={totalCount}
+                            take={take}
+                            onChange={setPage}
+                            page={page}
+                        />
                     )}
                 </div>
             </main>

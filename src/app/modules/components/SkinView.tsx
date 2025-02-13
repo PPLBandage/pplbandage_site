@@ -1,5 +1,10 @@
 import { CSSProperties, JSX, useEffect, useRef } from 'react';
-import { PlayerAnimation, PlayerObject, SkinViewer, WalkingAnimation } from 'skinview3d';
+import {
+    PlayerAnimation,
+    PlayerObject,
+    SkinViewer,
+    WalkingAnimation
+} from 'skinview3d';
 
 interface SkinView3DOptions {
     SKIN: string;
@@ -20,7 +25,8 @@ export class TPose extends PlayerAnimation {
         const PI = Math.PI;
         const default_arm_rot = (PI / 180) * -89;
         player.skin.rightArm.rotation.z = Math.cos(t) * 0.02 + default_arm_rot;
-        player.skin.leftArm.rotation.z = Math.cos(t - PI) * 0.02 - default_arm_rot;
+        player.skin.leftArm.rotation.z =
+            Math.cos(t - PI) * 0.02 - default_arm_rot;
 
         player.skin.leftLeg.rotation.z = (PI / 180) * 25;
         player.skin.rightLeg.rotation.z = (PI / 180) * -25;
@@ -81,10 +87,13 @@ const SkinView3D = ({
         skinViewRef.current.scene.position.y = -2.5;
         background && skinViewRef.current.loadBackground(background);
 
-        skinViewRef.current.loadSkin(SKIN ? SKIN : '/static/workshop_base.png', { model: slim ? 'slim' : 'default' });
+        skinViewRef.current.loadSkin(
+            SKIN ? SKIN : '/static/workshop_base.png',
+            { model: slim ? 'slim' : 'default' }
+        );
         CAPE && skinViewRef.current.loadSkin(CAPE);
 
-        const resizeObserver = new ResizeObserver((entries) => {
+        const resizeObserver = new ResizeObserver(entries => {
             const { width, height } = entries[0].contentRect;
             if (!skinViewRef.current) return;
             skinViewRef.current.width = width;
@@ -95,11 +104,16 @@ const SkinView3D = ({
     }, []);
 
     useEffect(() => {
-        skinViewRef.current?.loadSkin(SKIN ? SKIN : '/static/workshop_base.png', { model: slim ? 'slim' : 'default' });
+        skinViewRef.current?.loadSkin(
+            SKIN ? SKIN : '/static/workshop_base.png',
+            { model: slim ? 'slim' : 'default' }
+        );
     }, [SKIN, slim]);
 
     useEffect(() => {
-        CAPE ? skinViewRef.current?.loadCape(CAPE) : skinViewRef.current?.resetCape();
+        CAPE
+            ? skinViewRef.current?.loadCape(CAPE)
+            : skinViewRef.current?.resetCape();
     }, [CAPE]);
 
     useEffect(() => {

@@ -47,7 +47,9 @@ const useExpandContext = () => useContext(ExpandContext);
 
 export const adminRoles = ['managebandages', 'updateusers', 'superadmin'];
 
-interface HeaderLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>, LinkProps {
+interface HeaderLinkProps
+    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>,
+        LinkProps {
     children: ReactNode;
     href: string;
 }
@@ -92,7 +94,7 @@ const Header = (): JSX.Element => {
     });
 
     const [loading, setLoading] = useState<boolean>(!!cookie && !data);
-    const admin = data?.permissions.some((role) => adminRoles.includes(role));
+    const admin = data?.permissions.some(role => adminRoles.includes(role));
 
     useEffect(() => {
         setLogged(!!cookie);
@@ -100,20 +102,40 @@ const Header = (): JSX.Element => {
 
     return (
         <ExpandContext.Provider value={{ setExpanded }}>
-            {expanded && <div className={Styles.expanding_menu_parent} onClick={() => setExpanded(false)} />}
+            {expanded && (
+                <div className={Styles.expanding_menu_parent} onClick={() => setExpanded(false)} />
+            )}
             <header className={Styles.header}>
-                <div className={Styles.header_child} style={{ padding: logged ? '.5rem' : '.9rem' }}>
+                <div
+                    className={Styles.header_child}
+                    style={{ padding: logged ? '.5rem' : '.9rem' }}
+                >
                     <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
-                        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+                        <Link
+                            href="/"
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                textDecoration: 'none'
+                            }}
+                        >
                             <IconCropped style={{ width: '2.5rem' }} className={Styles.main_icon} />
                             <h1 className={Styles.ppl_name}>Повязки Pepeland</h1>
                         </Link>
                     </div>
 
                     {logged ? (
-                        <AvatarMenu data={data} loading={loading} expanded={expanded} expand={setExpanded} />
+                        <AvatarMenu
+                            data={data}
+                            loading={loading}
+                            expanded={expanded}
+                            expand={setExpanded}
+                        />
                     ) : (
-                        <IconMenu2 onClick={() => setExpanded(!expanded)} className={Styles.login_button} />
+                        <IconMenu2
+                            onClick={() => setExpanded(!expanded)}
+                            className={Styles.login_button}
+                        />
                     )}
                 </div>
                 <div className={Styles.menu_container}>
@@ -125,7 +147,9 @@ const Header = (): JSX.Element => {
                             exitActive: Styles['menu-exit-active']
                         }}
                     >
-                        <div className={Styles.menu}>{logged ? <LoggedMenu admin={admin} /> : <UnloggedMenu />}</div>
+                        <div className={Styles.menu}>
+                            {logged ? <LoggedMenu admin={admin} /> : <UnloggedMenu />}
+                        </div>
                     </ReactCSSTransition>
                 </div>
             </header>
@@ -159,7 +183,14 @@ const AvatarMenu = ({ data, loading, expanded, expand }: AvatarMenuProps) => {
                 onClick={() => expand(!expanded)}
             >
                 {data?.avatar && (
-                    <Image className={Styles.avatar} src={data?.avatar} alt="" width={80} height={80} priority={true} />
+                    <Image
+                        className={Styles.avatar}
+                        src={data?.avatar}
+                        alt=""
+                        width={80}
+                        height={80}
+                        priority={true}
+                    />
                 )}
             </div>
             <IconChevronDown

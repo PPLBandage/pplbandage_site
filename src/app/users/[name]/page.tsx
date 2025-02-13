@@ -16,18 +16,25 @@ export interface Users extends Query {
     profile_theme: number;
 }
 
-export const generateMetadata = async ({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> => {
+export const generateMetadata = async ({
+    params
+}: {
+    params: Promise<{ name: string }>;
+}): Promise<Metadata> => {
     const props = await params;
-    const meta = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}users/${props.name}/og`, {
-        validateStatus: () => true,
-        withCredentials: true,
-        headers: {
-            'Unique-Access': process.env.TOKEN,
-            'Cache-Control': 'no-cache',
-            Pragma: 'no-cache',
-            Expires: '0'
+    const meta = await axios.get(
+        `${process.env.NEXT_PUBLIC_GLOBAL_API_URL}users/${props.name}/og`,
+        {
+            validateStatus: () => true,
+            withCredentials: true,
+            headers: {
+                'Unique-Access': process.env.TOKEN,
+                'Cache-Control': 'no-cache',
+                Pragma: 'no-cache',
+                Expires: '0'
+            }
         }
-    });
+    );
 
     const data = meta.data as Users;
     if (!data) return null;
@@ -36,10 +43,15 @@ export const generateMetadata = async ({ params }: { params: Promise<{ name: str
         description: `Профиль пользователя ${data.name}`,
         openGraph: {
             title: `${data.name} · Автор`,
-            description: `${numbersTxt(data.works_count, ['работа', 'работы', 'работ'])} – ${numbersTxt(
-                data.stars_count,
-                ['звезда', 'звезды', 'звёзд']
-            )}`,
+            description: `${numbersTxt(data.works_count, [
+                'работа',
+                'работы',
+                'работ'
+            ])} – ${numbersTxt(data.stars_count, [
+                'звезда',
+                'звезды',
+                'звёзд'
+            ])}`,
             url: `https://pplbandage.ru/users/${data.username}`,
             siteName: 'Повязки Pepeland',
             images: data.avatar
@@ -59,18 +71,21 @@ const Users = async ({ params }: { params: Promise<{ name: string }> }) => {
     const userAgent = headersList.get('User-Agent');
     const props = await params;
 
-    const data_request = await axios.get(`${process.env.NEXT_PUBLIC_GLOBAL_API_URL}users/${props.name}`, {
-        withCredentials: true,
-        validateStatus: () => true,
-        headers: {
-            Cookie: cookie,
-            'User-Agent': userAgent,
-            'Unique-Access': process.env.TOKEN,
-            'Cache-Control': 'no-cache',
-            Pragma: 'no-cache',
-            Expires: '0'
+    const data_request = await axios.get(
+        `${process.env.NEXT_PUBLIC_GLOBAL_API_URL}users/${props.name}`,
+        {
+            withCredentials: true,
+            validateStatus: () => true,
+            headers: {
+                Cookie: cookie,
+                'User-Agent': userAgent,
+                'Unique-Access': process.env.TOKEN,
+                'Cache-Control': 'no-cache',
+                Pragma: 'no-cache',
+                Expires: '0'
+            }
         }
-    });
+    );
 
     if (data_request.status !== 200) {
         notFound();

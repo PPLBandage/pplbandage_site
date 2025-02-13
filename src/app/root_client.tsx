@@ -4,7 +4,12 @@ import React, { JSX, useState } from 'react';
 import Style from './styles/root/page.module.css';
 import Link from 'next/link';
 import { CustomLink } from './modules/components/Search';
-import { IconInfinity, IconAlertTriangle, IconStack, IconX } from '@tabler/icons-react';
+import {
+    IconInfinity,
+    IconAlertTriangle,
+    IconStack,
+    IconX
+} from '@tabler/icons-react';
 import NextImage from 'next/image';
 import InfoCard from './modules/components/InfoCard';
 
@@ -22,7 +27,18 @@ import Pepe9 from '@/app/resources/pepes_svg/9.svg';
 
 const HomeClient = ({ pong }: { pong: number }) => {
     const [animationState, setAnimationState] = useState<boolean>(true);
-    const pepes_svgs = [Pepe0, Pepe1, Pepe2, Pepe3, Pepe4, Pepe5, Pepe6, Pepe7, Pepe8, Pepe9];
+    const pepes_svgs = [
+        Pepe0,
+        Pepe1,
+        Pepe2,
+        Pepe3,
+        Pepe4,
+        Pepe5,
+        Pepe6,
+        Pepe7,
+        Pepe8,
+        Pepe9
+    ];
     const pepes_links = [
         'ogukal',
         'gauu3s',
@@ -43,7 +59,9 @@ const HomeClient = ({ pong }: { pong: number }) => {
             <a
                 key={i}
                 className={Style.img}
-                style={{ animationPlayState: animationState ? 'running' : 'paused' }}
+                style={{
+                    animationPlayState: animationState ? 'running' : 'paused'
+                }}
                 href={`/workshop/${pepes_links[i]}`}
             >
                 <PepeEl
@@ -72,8 +90,16 @@ const HomeClient = ({ pong }: { pong: number }) => {
                     <p className={Style.p}>
                         <span className={Style.one}>1</span> Сайт
                     </p>
-                    <p className={Style.p} style={{ display: 'flex', alignItems: 'center' }}>
-                        <IconInfinity width={40} height={40} className={Style.inf} color="rgba(45, 212, 191)" />
+                    <p
+                        className={Style.p}
+                        style={{ display: 'flex', alignItems: 'center' }}
+                    >
+                        <IconInfinity
+                            width={40}
+                            height={40}
+                            className={Style.inf}
+                            color="rgba(45, 212, 191)"
+                        />
                         Стилей
                     </p>
                     <Link href="/workshop" className={Style.link}>
@@ -94,13 +120,18 @@ const HomeClient = ({ pong }: { pong: number }) => {
                                     }}
                                 >
                                     <IconAlertTriangle width={24} height={24} />
-                                    <p style={{ margin: 0 }}>Service Unavailable</p>
+                                    <p style={{ margin: 0 }}>
+                                        Service Unavailable
+                                    </p>
                                 </div>
                             }
                         >
                             <span>
-                                Сервис в настоящий момент недоступен. Попробуйте позже или обратитесь в{' '}
-                                <CustomLink href="/contacts">администрацию</CustomLink>
+                                Сервис в настоящий момент недоступен. Попробуйте
+                                позже или обратитесь в{' '}
+                                <CustomLink href="/contacts">
+                                    администрацию
+                                </CustomLink>
                             </span>
                         </InfoCard>
                     )}
@@ -108,8 +139,13 @@ const HomeClient = ({ pong }: { pong: number }) => {
             </div>
             <footer className={Style.footer}>
                 <p>
-                    Сайт pplbandage.ru не является официальной частью сети серверов{' '}
-                    <Link href="https://pepeland.net" style={{ color: 'gray' }} target="_blank">
+                    Сайт pplbandage.ru не является официальной частью сети
+                    серверов{' '}
+                    <Link
+                        href="https://pepeland.net"
+                        style={{ color: 'gray' }}
+                        target="_blank"
+                    >
                         PepeLand
                     </Link>
                     .
@@ -122,14 +158,27 @@ const HomeClient = ({ pong }: { pong: number }) => {
                         className={Style.shape}
                     >
                         <div className={Style.shape_box}>
-                            <p className={Style.shape_name} style={{ whiteSpace: 'nowrap' }}>
+                            <p
+                                className={Style.shape_name}
+                                style={{ whiteSpace: 'nowrap' }}
+                            >
                                 Shape std
                             </p>
                         </div>
-                        <NextImage src="/static/icons/shape.svg" alt="" width={24} height={24} />
+                        <NextImage
+                            src="/static/icons/shape.svg"
+                            alt=""
+                            width={24}
+                            height={24}
+                        />
                     </Link>
                     <IconX width={16} height={16} strokeWidth={3} />
-                    <NextImage src="/static/icons/icon-cropped.svg" alt="" width={24} height={24} />
+                    <NextImage
+                        src="/static/icons/icon-cropped.svg"
+                        alt=""
+                        width={24}
+                        height={24}
+                    />
                 </div>
             </footer>
         </div>

@@ -3,7 +3,12 @@ import style from './styles/page.module.css';
 import style_card from './styles/card.module.css';
 import Image from 'next/image';
 import { CSSProperties } from 'react';
-import { IconAlertTriangle, IconBrandTelegram, IconCoffee, IconExternalLink } from '@tabler/icons-react';
+import {
+    IconAlertTriangle,
+    IconBrandTelegram,
+    IconCoffee,
+    IconExternalLink
+} from '@tabler/icons-react';
 import InfoCard from '../modules/components/InfoCard';
 
 interface CardProps {
@@ -20,7 +25,7 @@ interface CardProps {
 }
 
 const Card = (props: CardProps) => {
-    const links = props.links.map((link) => {
+    const links = props.links.map(link => {
         let icon;
         switch (link.type) {
             case 'telegram':
@@ -90,7 +95,14 @@ const Home = () => {
                 <InfoCard
                     color="#D29922"
                     title={
-                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '.5rem' }}>
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                gap: '.5rem'
+                            }}
+                        >
                             <IconAlertTriangle width={24} height={24} />
                             <p style={{ margin: 0 }}>Внимание</p>
                         </div>
@@ -98,8 +110,8 @@ const Home = () => {
                     style={{ maxWidth: 'calc(500px + 1rem)' }}
                 >
                     <p style={{ margin: 0 }}>
-                        Не обращайтесь к модераторам PepeLand с вопросами по данному сайту! Они не принимают
-                        непосредственного участия в модерации повязок.
+                        Не обращайтесь к модераторам PepeLand с вопросами по данному сайту! Они не
+                        принимают непосредственного участия в модерации повязок.
                     </p>
                 </InfoCard>
                 <div className={style.cards_container}>

@@ -16,7 +16,7 @@ const AdaptiveGrid = ({ child_width, children, header, className }: AdaptiveGrid
     const [columnCount, setColumnCount] = useState<number>(0);
 
     useEffect(() => {
-        const resizeObserver = new ResizeObserver((entries) => {
+        const resizeObserver = new ResizeObserver(entries => {
             const { width } = entries[0].contentRect;
             setColumnCount(Math.max(1, Math.floor(width / (child_width + 15))));
         });
@@ -29,7 +29,11 @@ const AdaptiveGrid = ({ child_width, children, header, className }: AdaptiveGrid
         for (let i = 1; i < columnCount + 1; i++) {
             const _children = children.filter((_, index) => (index + 1 - i) % columnCount === 0);
             const column = (
-                <div key={i} style={{ width: child_width }} className={className?.adaptive_grid_column}>
+                <div
+                    key={i}
+                    style={{ width: child_width }}
+                    className={className?.adaptive_grid_column}
+                >
                     {_children}
                 </div>
             );

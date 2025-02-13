@@ -11,8 +11,18 @@ interface SlideButtonProps {
     loadable?: boolean;
 }
 
-export const SlideButton = ({ onChange, value, label, defaultValue, strict, disabled, loadable }: SlideButtonProps) => {
-    const [active, setActive] = useState<boolean>(value || defaultValue || false);
+export const SlideButton = ({
+    onChange,
+    value,
+    label,
+    defaultValue,
+    strict,
+    disabled,
+    loadable
+}: SlideButtonProps) => {
+    const [active, setActive] = useState<boolean>(
+        value || defaultValue || false
+    );
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [isInitialMount, setIsInitialMount] = useState<boolean>(true);
@@ -23,7 +33,7 @@ export const SlideButton = ({ onChange, value, label, defaultValue, strict, disa
 
     const change = () => {
         !disabled && loadable && setLoading(true);
-        setActive((prev) => (!disabled && !loading ? !prev : prev));
+        setActive(prev => (!disabled && !loading ? !prev : prev));
     };
 
     useEffect(() => {
@@ -41,20 +51,37 @@ export const SlideButton = ({ onChange, value, label, defaultValue, strict, disa
         if (promise instanceof Promise) {
             promise
                 .catch(() => {
-                    setActive((prev) => !prev);
+                    setActive(prev => !prev);
                     setError(true);
                 })
                 .finally(() => setLoading(false));
         }
     }, [active]);
 
-    const position = loading ? 'calc((2.6rem + 1px) / 2 - 1.3rem / 2)' : active ? '1.3rem' : '0';
-    const color = loading ? 'rgb(77 83 99)' : disabled ? 'var(--category-color)' : active ? undefined : 'rgb(77 83 99)'; // eslint-disable-line
+    const position = loading
+        ? 'calc((2.6rem + 1px) / 2 - 1.3rem / 2)'
+        : active
+        ? '1.3rem'
+        : '0';
+    const color = loading
+        ? 'rgb(77 83 99)'
+        : disabled
+        ? 'var(--category-color)'
+        : active
+        ? undefined
+        : 'rgb(77 83 99)'; // eslint-disable-line
 
     return (
         <div className={StyleBtn.container}>
-            <div className={StyleBtn.main} onClick={change} style={{ cursor: disabled ? 'auto' : 'pointer' }}>
-                <div className={StyleBtn.child} style={{ left: position, backgroundColor: color }} />
+            <div
+                className={StyleBtn.main}
+                onClick={change}
+                style={{ cursor: disabled ? 'auto' : 'pointer' }}
+            >
+                <div
+                    className={StyleBtn.child}
+                    style={{ left: position, backgroundColor: color }}
+                />
             </div>
             {label && (
                 <label className={StyleBtn.label} onClick={change}>

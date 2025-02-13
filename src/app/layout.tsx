@@ -24,7 +24,9 @@ export const viewport: Viewport = {
     initialScale: 0.9
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+    children
+}: Readonly<{ children: React.ReactNode }>) {
     return (
         <CookieProvider>
             <Providers>

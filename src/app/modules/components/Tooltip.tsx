@@ -12,13 +12,26 @@ interface TooltipProps {
     opacity?: string;
 }
 
-export const Tooltip = ({ body, children, timeout = 800, className, parent_id, opacity = '.9' }: TooltipProps) => {
+export const Tooltip = ({
+    body,
+    children,
+    timeout = 800,
+    className,
+    parent_id,
+    opacity = '.9'
+}: TooltipProps) => {
     const [showTooltip, setShowTooltip] = useState<boolean>(false);
-    const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+    const [position, setPosition] = useState<{ x: number; y: number }>({
+        x: 0,
+        y: 0
+    });
     const [mf, setmf] = useState<boolean>(false);
     const [time, setTime] = useState<number>(0);
     const bodyRef = useRef<HTMLDivElement>(null);
-    const [bodyDimensions, setBodyDimensions] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
+    const [bodyDimensions, setBodyDimensions] = useState<{
+        width: number;
+        height: number;
+    }>({ width: 0, height: 0 });
 
     const handleMouseEnter = () => {
         setmf(true);
@@ -68,7 +81,11 @@ export const Tooltip = ({ body, children, timeout = 800, className, parent_id, o
                 <div
                     className={Style.tooltipStyle}
                     id="tooltip"
-                    style={{ left: position.x + 10 + 'px', top: position.y + 10 + 'px', opacity: opacity }}
+                    style={{
+                        left: position.x + 10 + 'px',
+                        top: position.y + 10 + 'px',
+                        opacity: opacity
+                    }}
                     ref={bodyRef as LegacyRef<HTMLDivElement>}
                 >
                     {body}
@@ -85,9 +102,16 @@ interface GlobalTooltipProps {
     opacity?: string;
 }
 
-export const UseGlobalTooltip = ({ text, children, className, opacity = '.9' }: GlobalTooltipProps) => {
+export const UseGlobalTooltip = ({
+    text,
+    children,
+    className,
+    opacity = '.9'
+}: GlobalTooltipProps) => {
     const handleMouseEnter = () => {
-        const element = document.getElementById('global_tooltip') ?? document.createElement('span');
+        const element =
+            document.getElementById('global_tooltip') ??
+            document.createElement('span');
         element.id = 'global_tooltip';
         element.innerText = text;
         element.className = `${Style.tooltipStyle} ${Style.globalTooltipStyle}`;

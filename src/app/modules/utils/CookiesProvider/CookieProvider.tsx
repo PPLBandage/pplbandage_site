@@ -6,7 +6,9 @@ interface CookiesContextProps {
     get: (name: string) => string | undefined;
 }
 
-const CookiesContext = createContext<CookiesContextProps | undefined>(undefined);
+const CookiesContext = createContext<CookiesContextProps | undefined>(
+    undefined
+);
 
 export const useCookiesServer = (): CookiesContextProps => {
     const context = useContext(CookiesContext);
@@ -21,7 +23,12 @@ export const CookiesContextProvider = ({
     children: ReactNode;
     value: { name: string; value: string }[];
 }) => {
-    const get = (name: string) => value.find((cookie) => cookie.name === name)?.value;
+    const get = (name: string) =>
+        value.find(cookie => cookie.name === name)?.value;
 
-    return <CookiesContext.Provider value={{ get }}>{children}</CookiesContext.Provider>;
+    return (
+        <CookiesContext.Provider value={{ get }}>
+            {children}
+        </CookiesContext.Provider>
+    );
 };

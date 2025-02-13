@@ -119,7 +119,7 @@ const UserSettings = ({ data }: { data: SettingsResponse }) => {
             <SlideButton
                 label="Публичный профиль"
                 defaultValue={data.can_be_public ? data.public_profile : false}
-                onChange={(state) => ApiManager.setPublicProfile({ state })}
+                onChange={state => ApiManager.setPublicProfile({ state })}
                 disabled={!data.can_be_public}
                 loadable
                 strict
@@ -135,12 +135,14 @@ const Connections = ({ data, refetch }: { data: SettingsResponse; refetch(): voi
 
         ApiManager.purgeSkinCache()
             .then(refetch)
-            .catch((response) => alert(response.data.message))
+            .catch(response => alert(response.data.message))
             .finally(() => (load_icon.style.animation = null));
     };
 
     const disconnect = () => {
-        const confirmed = confirm('Отвязать учётную запись Minecraft? Вы сможете в любое время привязать ее обратно.');
+        const confirmed = confirm(
+            'Отвязать учётную запись Minecraft? Вы сможете в любое время привязать ее обратно.'
+        );
         if (!confirmed) return;
 
         ApiManager.disconnectMinecraft().then(refetch).catch(console.error);
@@ -190,7 +192,9 @@ const Connections = ({ data, refetch }: { data: SettingsResponse; refetch(): voi
                         />
                     )}
                     <div className={Style.discord_name_container}>
-                        <h1>{data.connections?.discord?.name || data.connections.discord.username}</h1>
+                        <h1>
+                            {data.connections?.discord?.name || data.connections.discord.username}
+                        </h1>
                         <p>
                             Подключено{' '}
                             {data.connections?.discord &&
@@ -218,7 +222,9 @@ const Connections = ({ data, refetch }: { data: SettingsResponse; refetch(): voi
                             )}
                             <div className={Style.name_container}>
                                 <p className={Style.name}>{data.connections?.minecraft.nickname}</p>
-                                <p className={`${Style.uuid} ${fira.className}`}>{data.connections?.minecraft.uuid}</p>
+                                <p className={`${Style.uuid} ${fira.className}`}>
+                                    {data.connections?.minecraft.uuid}
+                                </p>
                             </div>
                         </div>
                         <div className={Style.checkboxes}>
@@ -240,7 +246,12 @@ const Connections = ({ data, refetch }: { data: SettingsResponse; refetch(): voi
                         <div className={Style.checkboxes}>
                             <span>
                                 Последний раз кэшировано{' '}
-                                <b>{formatDateHuman(new Date(data.connections.minecraft.last_cached), true)}</b>
+                                <b>
+                                    {formatDateHuman(
+                                        new Date(data.connections.minecraft.last_cached),
+                                        true
+                                    )}
+                                </b>
                             </span>
                             <button className={Style.unlink} onClick={refreshMinecraft}>
                                 <IconRefresh style={{ width: '1.8rem' }} id="refresh" />
@@ -256,8 +267,8 @@ const Connections = ({ data, refetch }: { data: SettingsResponse; refetch(): voi
                 ) : (
                     <>
                         <p style={{ margin: 0 }}>
-                            Подключите свой аккаунт Minecraft, чтобы управлять кэшем скинов и настройками видимости
-                            вашего никнейма в поиске.
+                            Подключите свой аккаунт Minecraft, чтобы управлять кэшем скинов и
+                            настройками видимости вашего никнейма в поиске.
                         </p>
                         <MinecraftConnect onInput={connectMinecraft}>
                             <button className={Style.unlink} style={{ width: '100%' }}>
@@ -283,7 +294,7 @@ const Themes = () => {
         setTheme(name);
     };
 
-    const themesEl = Object.entries(themes).map((entry) => (
+    const themesEl = Object.entries(themes).map(entry => (
         <Theme
             key={entry[0]}
             data={{
@@ -315,25 +326,54 @@ interface ThemeProps {
     '--main-element-color': string;
 }
 
-const Theme = ({ data, theme, onChange }: { data: ThemeProps; theme: string; onChange(val: string): void }) => {
+const Theme = ({
+    data,
+    theme,
+    onChange
+}: {
+    data: ThemeProps;
+    theme: string;
+    onChange(val: string): void;
+}) => {
     const change = (evt: ChangeEvent) => {
         const target = evt.target as HTMLInputElement;
         target.checked && onChange(data.name);
     };
 
     return (
-        <div onClick={() => onChange(data.name)} style={{ cursor: 'pointer' }} className={Style_themes.clickable}>
-            <div style={{ backgroundColor: data['--main-bg-color'] }} className={Style_themes.background}>
-                <div style={{ backgroundColor: data['--main-card-color'] }} className={Style_themes.card}>
-                    <div style={{ backgroundColor: data['--main-element-color'] }} className={Style_themes.icon} />
+        <div
+            onClick={() => onChange(data.name)}
+            style={{ cursor: 'pointer' }}
+            className={Style_themes.clickable}
+        >
+            <div
+                style={{ backgroundColor: data['--main-bg-color'] }}
+                className={Style_themes.background}
+            >
+                <div
+                    style={{ backgroundColor: data['--main-card-color'] }}
+                    className={Style_themes.card}
+                >
+                    <div
+                        style={{ backgroundColor: data['--main-element-color'] }}
+                        className={Style_themes.icon}
+                    />
                     <div className={Style_themes.text_container}>
-                        <div style={{ backgroundColor: data['--main-element-color'], width: '80%' }} />
+                        <div
+                            style={{ backgroundColor: data['--main-element-color'], width: '80%' }}
+                        />
                         <div style={{ backgroundColor: data['--main-element-color'] }} />
                     </div>
                 </div>
             </div>
             <div className={Style_themes.footer}>
-                <input type="radio" name="theme" id={data.name} checked={theme === data.name} onChange={change} />
+                <input
+                    type="radio"
+                    name="theme"
+                    id={data.name}
+                    checked={theme === data.name}
+                    onChange={change}
+                />
                 <label htmlFor={data.name}>{data.title}</label>
             </div>
         </div>
@@ -341,8 +381,8 @@ const Theme = ({ data, theme, onChange }: { data: ThemeProps; theme: string; onC
 };
 
 const moveToStart = (arr: Session[]) => {
-    const filteredArray = arr.filter((el) => !el.is_self);
-    const element = arr.find((el) => el.is_self);
+    const filteredArray = arr.filter(el => !el.is_self);
+    const element = arr.find(el => el.is_self);
     if (!element) return arr;
     filteredArray.unshift(element);
     return filteredArray;
@@ -354,12 +394,13 @@ const Safety = () => {
 
     useEffect(() => {
         ApiManager.getSessions()
-            .then((data) => {
+            .then(data => {
                 setSessions(
                     moveToStart(
                         data.sort(
                             (session1, session2) =>
-                                new Date(session2.last_accessed).getTime() - new Date(session1.last_accessed).getTime()
+                                new Date(session2.last_accessed).getTime() -
+                                new Date(session1.last_accessed).getTime()
                         )
                     )
                 );
@@ -371,30 +412,34 @@ const Safety = () => {
     const logoutSession = (session_id: number) => {
         if (!confirm(`Выйти с этого устройства?`)) return;
         ApiManager.logoutSession(session_id)
-            .then(() => setSessions(sessions.filter((session_) => session_.id !== session_id)))
-            .catch((response) => alert(response.data.message));
+            .then(() => setSessions(sessions.filter(session_ => session_.id !== session_id)))
+            .catch(response => alert(response.data.message));
     };
 
     const logoutSessionAll = () => {
         if (!confirm('Выйти со всех устройств, кроме этого?')) return;
         ApiManager.logoutAllSessions()
-            .then(() => setSessions(sessions.filter((session_) => session_.is_self)))
-            .catch((response) => alert(response.data.message));
+            .then(() => setSessions(sessions.filter(session_ => session_.is_self)))
+            .catch(response => alert(response.data.message));
     };
 
-    const sessions_elements = sessions.map((session) => (
+    const sessions_elements = sessions.map(session => (
         <div key={session.id} className={Style_safety.container}>
             <div className={Style_safety.session}>
                 <h2 className={Style_safety.header}>
                     {session.is_mobile ? <IconDeviceMobile /> : <IconDeviceDesktop />}
-                    {session.browser} {session.browser_version} {session.is_self && <p>Это устройство</p>}
+                    {session.browser} {session.browser_version}{' '}
+                    {session.is_self && <p>Это устройство</p>}
                 </h2>
-                <p className={Style_safety.last_accessed} title={formatDate(new Date(session.last_accessed))}>
+                <p
+                    className={Style_safety.last_accessed}
+                    title={formatDate(new Date(session.last_accessed))}
+                >
                     Последний доступ {timeStamp(new Date(session.last_accessed).getTime() / 1000)}
                 </p>
             </div>
             {!session.is_self && (
-                <button className={Style_safety.button} onClick={(_) => logoutSession(session.id)}>
+                <button className={Style_safety.button} onClick={_ => logoutSession(session.id)}>
                     <IconX />
                 </button>
             )}

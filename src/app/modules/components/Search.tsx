@@ -52,8 +52,12 @@ export const Search = ({
     const [_categories, _setCategories] = useState<Category[]>([]);
 
     const updateCategory = (id: number, enabled: boolean) => {
-        _setCategories((prevCategories) =>
-            prevCategories.map((category) => (category.id === id ? { ...category, enabled: enabled } : category))
+        _setCategories(prevCategories =>
+            prevCategories.map(category =>
+                category.id === id
+                    ? { ...category, enabled: enabled }
+                    : category
+            )
         );
     };
 
@@ -65,7 +69,7 @@ export const Search = ({
         onChangeFilters(_categories);
     }, [_categories]);
 
-    const categories_el = _categories.map((category) => {
+    const categories_el = _categories.map(category => {
         return (
             <CategoryEl
                 key={category.id}
@@ -85,9 +89,12 @@ export const Search = ({
                 <div className={Styles.container}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <input
-                            onChange={(event) => _setSearch(event.target.value)}
-                            onKeyUp={(e) => {
-                                if (e.code == 'Enter' || e.code == 'NumpadEnter') {
+                            onChange={event => _setSearch(event.target.value)}
+                            onKeyUp={e => {
+                                if (
+                                    e.code == 'Enter' ||
+                                    e.code == 'NumpadEnter'
+                                ) {
                                     onSearch(_search);
                                 }
                             }}
@@ -95,25 +102,44 @@ export const Search = ({
                             placeholder="Введите название/автора/id"
                             defaultValue={search}
                         />
-                        <div className={Styles.search_loop} onClick={() => onSearch(_search)}>
-                            <IconSearch className={Styles.search_loop_icon} width={25} height={25} />
+                        <div
+                            className={Styles.search_loop}
+                            onClick={() => onSearch(_search)}
+                        >
+                            <IconSearch
+                                className={Styles.search_loop_icon}
+                                width={25}
+                                height={25}
+                            />
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexWrap: 'wrap'
+                        }}
+                    >
                         <p className={Styles.take}>Сортировать</p>
                         <Select
                             options={options_sortir}
                             className={`react-select-container ${Styles.select_sortir}`}
                             classNamePrefix="react-select"
                             onChange={(n, _) => onChangeSort(n.value)}
-                            value={options_sortir.find((i) => i.value === sort)}
+                            value={options_sortir.find(i => i.value === sort)}
                             isSearchable={false}
                             instanceId="select-1"
                         />
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexWrap: 'wrap'
+                        }}
+                    >
                         <p className={Styles.take}>Отображать на странице</p>
                         <Select
                             options={options_take}
@@ -121,15 +147,19 @@ export const Search = ({
                             classNamePrefix="react-select"
                             isSearchable={false}
                             onChange={(n, _) => onChangeTake(n.value)}
-                            value={options_take.find((i) => i.value === take)}
+                            value={options_take.find(i => i.value === take)}
                             instanceId="select-2"
                         />
                     </div>
 
                     <div
-                        style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexWrap: 'wrap'
+                        }}
                         className={Styles.filter_div}
-                        onClick={() => setExpanded((prev) => !prev)}
+                        onClick={() => setExpanded(prev => !prev)}
                     >
                         <IconFilter width={24} height={24} />
                         <p className={Styles.filter}>Фильтры</p>
@@ -148,7 +178,11 @@ export const Search = ({
                             {categories.length > 0 ? (
                                 categories_el
                             ) : (
-                                <IconSvg width={86} height={86} className={style_workshop.loading} />
+                                <IconSvg
+                                    width={86}
+                                    height={86}
+                                    className={style_workshop.loading}
+                                />
                             )}
                         </div>
                     </ReactCSSTransition>
@@ -158,7 +192,13 @@ export const Search = ({
     );
 };
 
-export const CustomLink = ({ children, href }: { children: JSX.Element | string; href: string }) => {
+export const CustomLink = ({
+    children,
+    href
+}: {
+    children: JSX.Element | string;
+    href: string;
+}) => {
     return (
         <Link className={styleLink.CustomLink} href={href}>
             {children}

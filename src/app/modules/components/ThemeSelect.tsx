@@ -31,12 +31,17 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
 
     useEffect(() => {
         onChange(theme);
-        firstLoad ? setFirstLoad(false) : ApiManager.setTheme({ theme }).catch(console.error);
+        firstLoad
+            ? setFirstLoad(false)
+            : ApiManager.setTheme({ theme }).catch(console.error);
     }, [theme]);
 
     return (
         <div className={Styles.main}>
-            <button className={Styles.style_change} onClick={() => setExpanded((_prev) => !_prev)}>
+            <button
+                className={Styles.style_change}
+                onClick={() => setExpanded(_prev => !_prev)}
+            >
                 {getIcon(theme)}
             </button>
             <ReactCSSTransition
@@ -48,14 +53,23 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
                 }}
             >
                 <div className={Styles.menu}>
-                    <button className={theme === 0 && Styles.enabled} onClick={() => setTheme(0)}>
+                    <button
+                        className={theme === 0 && Styles.enabled}
+                        onClick={() => setTheme(0)}
+                    >
                         {getIcon(0)}
                     </button>
-                    <button className={theme === 1 && Styles.enabled} onClick={() => setTheme(1)}>
+                    <button
+                        className={theme === 1 && Styles.enabled}
+                        onClick={() => setTheme(1)}
+                    >
                         {getIcon(1)}
                     </button>
                     {color_available && (
-                        <button className={theme === 2 && Styles.enabled} onClick={() => setTheme(2)}>
+                        <button
+                            className={theme === 2 && Styles.enabled}
+                            onClick={() => setTheme(2)}
+                        >
                             {getIcon(2)}
                         </button>
                     )}

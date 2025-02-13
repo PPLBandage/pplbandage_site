@@ -39,7 +39,10 @@ const ReactCSSTransition = (props: ReactCSSTransitionProps) => {
     if (!isMounted) return null;
 
     return cloneElement(props.children, {
-        className: `${props.children.props.className || ''} ${getClassName(status, props.classNames)}`
+        className: `${props.children.props.className || ''} ${getClassName(
+            status,
+            props.classNames
+        )}`
     });
 };
 export default ReactCSSTransition;

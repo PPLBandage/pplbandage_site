@@ -28,12 +28,16 @@ const EditElement = ({
     const router = useRouter();
     const [title, setTitle] = useState<string>(bandage.title);
     const [description, setDescription] = useState<string>(bandage.description);
-    const [allCategories, setAllCategories] = useState<Interfaces.Category[]>([]);
+    const [allCategories, setAllCategories] = useState<Interfaces.Category[]>(
+        []
+    );
     const [categories, setCategories] = useState<number[]>(undefined);
     const [accessLevel, setAccessLevel] = useState<number>(undefined);
 
     useEffect(() => {
-        ApiManager.getCategories(true).then(setAllCategories).catch(console.error);
+        ApiManager.getCategories(true)
+            .then(setAllCategories)
+            .catch(console.error);
     }, []);
 
     function capitalize(string: string) {
@@ -48,11 +52,12 @@ const EditElement = ({
             access_level: accessLevel
         })
             .then(onDone)
-            .catch((response) => {
+            .catch(response => {
                 if (typeof response.data.message === 'object') {
                     alert(
-                        response.data.message.map((str: string) => capitalize(str)).join('\n') ||
-                            `Unhandled error: ${response.status}`
+                        response.data.message
+                            .map((str: string) => capitalize(str))
+                            .join('\n') || `Unhandled error: ${response.status}`
                     );
                 } else {
                     alert(response.data.message);
@@ -67,7 +72,7 @@ const EditElement = ({
                     resolve();
                     router.replace('/workshop');
                 })
-                .catch((err) => reject(err.data.message));
+                .catch(err => reject(err.data.message));
         });
     };
 
@@ -78,7 +83,7 @@ const EditElement = ({
                     resolve();
                     window.location.reload();
                 })
-                .catch((err) => reject(err.data.message));
+                .catch(err => reject(err.data.message));
         });
     };
 
@@ -90,14 +95,22 @@ const EditElement = ({
                         maxLength={50}
                         placeholder="Заголовок"
                         className={style.textarea}
-                        onInput={(ev) => setTitle(lstrip((ev.target as HTMLTextAreaElement).value))}
+                        onInput={ev =>
+                            setTitle(
+                                lstrip((ev.target as HTMLTextAreaElement).value)
+                            )
+                        }
                         value={title}
                     />
                     <textarea
                         maxLength={300}
                         placeholder="Описание"
                         className={style.textarea}
-                        onInput={(ev) => setDescription(lstrip((ev.target as HTMLTextAreaElement).value))}
+                        onInput={ev =>
+                            setDescription(
+                                lstrip((ev.target as HTMLTextAreaElement).value)
+                            )
+                        }
                         value={description}
                     />
                 </>
@@ -134,7 +147,10 @@ const EditElement = ({
                 }}
             >
                 <h3>Опасная зона</h3>
-                <p>Все действия в данной зоне имеют необратимый характер, делайте их с умом!</p>
+                <p>
+                    Все действия в данной зоне имеют необратимый характер,
+                    делайте их с умом!
+                </p>
 
                 <div
                     style={{
@@ -146,10 +162,22 @@ const EditElement = ({
                         marginBottom: '.4rem'
                     }}
                 >
-                    <EditConfirmation action="delete" onInput={deleteBandage} confirm_code={bandage.external_id}>
+                    <EditConfirmation
+                        action="delete"
+                        onInput={deleteBandage}
+                        confirm_code={bandage.external_id}
+                    >
                         <div className={style.deleteButton}>
-                            <img className={style.binUp} alt="" src="/static/icons/bin_up.png"></img>
-                            <img className={style.binDown} alt="" src="/static/icons/bin_down.png"></img>
+                            <img
+                                className={style.binUp}
+                                alt=""
+                                src="/static/icons/bin_up.png"
+                            ></img>
+                            <img
+                                className={style.binDown}
+                                alt=""
+                                src="/static/icons/bin_down.png"
+                            ></img>
                         </div>
                     </EditConfirmation>
                     <p style={{ margin: 0 }}>Удалить повязку</p>
@@ -161,7 +189,11 @@ const EditElement = ({
                         gap: '.4rem'
                     }}
                 >
-                    <EditConfirmation action="archive" onInput={archiveBandage} confirm_code={bandage.external_id}>
+                    <EditConfirmation
+                        action="archive"
+                        onInput={archiveBandage}
+                        confirm_code={bandage.external_id}
+                    >
                         <button className={style.archiveButton}>
                             <IconArchive />
                         </button>
@@ -170,10 +202,18 @@ const EditElement = ({
                 </div>
             </div>
             <div style={{ display: 'flex', gap: '.5rem' }}>
-                <button className={style.skin_load} onClick={onClose} style={{ padding: '.4rem', aspectRatio: 1 }}>
+                <button
+                    className={style.skin_load}
+                    onClick={onClose}
+                    style={{ padding: '.4rem', aspectRatio: 1 }}
+                >
                     <IconX />
                 </button>
-                <button className={style.skin_load} onClick={save} style={{ padding: '.4rem', width: '100%' }}>
+                <button
+                    className={style.skin_load}
+                    onClick={save}
+                    style={{ padding: '.4rem', width: '100%' }}
+                >
                     Сохранить
                 </button>
             </div>

@@ -20,7 +20,8 @@ import SlideButton from '@/app/modules/components/SlideButton';
 import ApiManager from '@/app/modules/utils/apiManager';
 const fira = Fira_Code({ subsets: ['latin'] });
 
-const capitalize = (string: string) => string.charAt(0).toUpperCase() + string.slice(1);
+const capitalize = (string: string) =>
+    string.charAt(0).toUpperCase() + string.slice(1);
 
 const lstrip = (string: string) => string.replace(/^\s+/, '');
 
@@ -44,14 +45,15 @@ export default function Home() {
     const client = useRef<Client>(null);
 
     const beforeUnload = (e: BeforeUnloadEvent) => {
-        const confirmationMessage = 'У вас есть несохраненные изменения. Вы уверены, что хотите покинуть страницу?';
+        const confirmationMessage =
+            'У вас есть несохраненные изменения. Вы уверены, что хотите покинуть страницу?';
         e.returnValue = confirmationMessage;
         return confirmationMessage;
     };
 
     useEffect(() => {
         client.current = new Client();
-        client.current.onRendered = (event) => {
+        client.current.onRendered = event => {
             setSKIN(event.skin);
             setSlim(event.slim);
         };
@@ -80,7 +82,14 @@ export default function Home() {
 
                     <div className={style.render_footer}>
                         {height != -1 && (
-                            <p style={{ margin: 0, display: 'flex', alignItems: 'baseline', gap: '.3rem' }}>
+                            <p
+                                style={{
+                                    margin: 0,
+                                    display: 'flex',
+                                    alignItems: 'baseline',
+                                    gap: '.3rem'
+                                }}
+                            >
                                 Расчётная высота:{' '}
                                 <span
                                     className={fira.className}
@@ -96,7 +105,7 @@ export default function Home() {
                             </p>
                         )}
                         <SlideButton
-                            onChange={(v) => {
+                            onChange={v => {
                                 setSlim(v);
                                 client.current?.changeSlim(v);
                             }}
@@ -111,24 +120,24 @@ export default function Home() {
                             isSearchable={false}
                             onChange={(n, _) => setPose(n.value)}
                             instanceId="select-1"
-                            formatOptionLabel={(nick_value) => nick_value.label}
+                            formatOptionLabel={nick_value => nick_value.label}
                         />
                     </div>
                 </aside>
                 <Editor
-                    onBandageChange={(b64) => {
+                    onBandageChange={b64 => {
                         client.current?.loadFromImage(b64);
                     }}
-                    onColorChange={(color) => {
+                    onColorChange={color => {
                         client.current?.setParams({ color: color });
                     }}
-                    onColorableChange={(colorable) => {
+                    onColorableChange={colorable => {
                         client.current?.setParams({ colorable: colorable });
                     }}
-                    onBandageChangeSlim={(b64) => {
+                    onBandageChangeSlim={b64 => {
                         client.current?.loadFromImage(b64, true);
                     }}
-                    onChangeSplitTypes={(split) => {
+                    onChangeSplitTypes={split => {
                         client.current?.setParams({ split_types: split });
                     }}
                     onHeightChange={setHeight}
@@ -158,8 +167,12 @@ const Editor = ({
     const router = useRouter();
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
-    const [enabledCategories, setEnabledCategories] = useState<Interfaces.Category[]>([]);
-    const [allCategories, setAllCategories] = useState<Interfaces.Category[]>([]);
+    const [enabledCategories, setEnabledCategories] = useState<
+        Interfaces.Category[]
+    >([]);
+    const [allCategories, setAllCategories] = useState<Interfaces.Category[]>(
+        []
+    );
     const [categories, setCategories] = useState<number[]>([]);
     const [base64, setBase64] = useState<string>(null);
     const [base64Slim, setBase64Slim] = useState<string>(null);
@@ -171,10 +184,12 @@ const Editor = ({
 
     useEffect(() => {
         ApiManager.getCategories(true)
-            .then((data) => {
+            .then(data => {
                 setAllCategories(data);
                 if (window.location.hash === '#colorable') {
-                    const colorable_category = data.find((category) => category.colorable);
+                    const colorable_category = data.find(
+                        category => category.colorable
+                    );
                     if (colorable_category) {
                         setEnabledCategories([colorable_category]);
                     }
@@ -186,7 +201,7 @@ const Editor = ({
     const debouncedHandleColorChange = useCallback(
         // из за частого вызова oninput на слабых клиентах сильно лагает,
         // поэтому сделан дебаунс на 5мс
-        debounce((event) => {
+        debounce(event => {
             onColorChange(event.target.value);
         }, 5),
         []
@@ -198,7 +213,9 @@ const Editor = ({
             onColorableChange(false);
             return;
         }
-        const _colorable = categories.some((category) => allCategories.find((cat) => cat.id === category).colorable);
+        const _colorable = categories.some(
+            category => allCategories.find(cat => cat.id === category).colorable
+        );
         setColorable(_colorable);
         onColorableChange(_colorable);
     }, [categories]);
@@ -230,7 +247,8 @@ const Editor = ({
 
         if (!base64Slim && splitTypes) {
             if (error) {
-                error.textContent = 'Выберите изображение повязки для тонких рук';
+                error.textContent =
+                    'Выберите изображение повязки для тонких рук';
             }
             return;
         }
@@ -257,14 +275,19 @@ const Editor = ({
             base64_slim: base64Slim?.replace('data:image/png;base64,', ''),
             split_type: splitTypes
         })
-            .then((response) => router.replace(`/workshop/${response.data.external_id}`))
-            .catch((err) => {
-                const error_el = document.getElementById('create_error') as HTMLLabelElement;
+            .then(response =>
+                router.replace(`/workshop/${response.data.external_id}`)
+            )
+            .catch(err => {
+                const error_el = document.getElementById(
+                    'create_error'
+                ) as HTMLLabelElement;
                 if (error_el) {
                     if (typeof err.data.message === 'object') {
                         error_el.innerText =
-                            err.data.message.map((str: string) => capitalize(str)).join('\n') ||
-                            `Unhandled error: ${err.status}`;
+                            err.data.message
+                                .map((str: string) => capitalize(str))
+                                .join('\n') || `Unhandled error: ${err.status}`;
                     } else {
                         error_el.innerText = err.data.message;
                     }
@@ -277,22 +300,31 @@ const Editor = ({
 
     return (
         <div className={style.editor_div}>
-            <h2 style={{ marginTop: 0, marginBottom: '.5rem' }}>Создать повязку</h2>
+            <h2 style={{ marginTop: 0, marginBottom: '.5rem' }}>
+                Создать повязку
+            </h2>
             <h3 style={{ margin: 0 }}>
-                Перед началом создания повязки прочитайте <CustomLink href="/tutorials/bandage">туториал</CustomLink>
+                Перед началом создания повязки прочитайте{' '}
+                <CustomLink href="/tutorials/bandage">туториал</CustomLink>
             </h3>
 
-            <SlideButton onChange={setUseOldMethod} label="Использовать старый способ загрузки повязок" />
+            <SlideButton
+                onChange={setUseOldMethod}
+                label="Использовать старый способ загрузки повязок"
+            />
 
-            <SlideButton onChange={setSplitTypes} label="Использовать разные повязки для разных типов скинов" />
+            <SlideButton
+                onChange={setSplitTypes}
+                label="Использовать разные повязки для разных типов скинов"
+            />
 
             <Selector
                 onChange={setBase64}
-                onBandageChange={(ev) => {
+                onBandageChange={ev => {
                     onBandageChange(ev.img);
                     setHeight(ev.height);
                 }}
-                setTitle={(ev) => {
+                setTitle={ev => {
                     if (!title) setTitle(ev);
                 }}
                 useOld={useOldMethod}
@@ -300,10 +332,14 @@ const Editor = ({
 
             {splitTypes && (
                 <>
-                    <p style={{ margin: 0, fontWeight: 500 }}>Повязка для тонких рук</p>
+                    <p style={{ margin: 0, fontWeight: 500 }}>
+                        Повязка для тонких рук
+                    </p>
                     <Selector
                         onChange={setBase64Slim}
-                        onBandageChange={(ev) => onBandageChangeSlim && onBandageChangeSlim(ev.img)}
+                        onBandageChange={ev =>
+                            onBandageChangeSlim && onBandageChangeSlim(ev.img)
+                        }
                         heightVal={height}
                         useOld={useOldMethod}
                     />
@@ -315,22 +351,35 @@ const Editor = ({
                 id="title"
                 placeholder="Заголовок"
                 className={style.textarea}
-                onInput={(ev) => setTitle(lstrip((ev.target as HTMLTextAreaElement).value))}
+                onInput={ev =>
+                    setTitle(lstrip((ev.target as HTMLTextAreaElement).value))
+                }
                 value={title}
             />
             <textarea
                 maxLength={300}
                 placeholder="Описание"
                 className={style.textarea}
-                onInput={(ev) => setDescription(lstrip((ev.target as HTMLTextAreaElement).value))}
+                onInput={ev =>
+                    setDescription(
+                        lstrip((ev.target as HTMLTextAreaElement).value)
+                    )
+                }
                 value={description}
             />
 
             {colorable && (
                 <InfoCard title="Повязка отмечена как окрашиваемая!">
                     <div>
-                        <input type="color" id="color_select" onInput={debouncedHandleColorChange} />
-                        <label htmlFor="color_select" style={{ marginLeft: '.5rem' }}>
+                        <input
+                            type="color"
+                            id="color_select"
+                            onInput={debouncedHandleColorChange}
+                        />
+                        <label
+                            htmlFor="color_select"
+                            style={{ marginLeft: '.5rem' }}
+                        >
                             Предпросмотр цвета
                         </label>
                     </div>
@@ -342,7 +391,10 @@ const Editor = ({
                 allCategories={allCategories}
                 onChange={setCategories}
             />
-            <label id="create_error" style={{ margin: 0, color: '#dc2626' }}></label>
+            <label
+                id="create_error"
+                style={{ margin: 0, color: '#dc2626' }}
+            ></label>
             <button onClick={() => create()} className={style.skin_load}>
                 Создать
             </button>
@@ -362,7 +414,13 @@ interface SelectorInterface {
     useOld?: boolean;
 }
 
-const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: SelectorInterface) => {
+const Selector = ({
+    setTitle,
+    onBandageChange,
+    onChange,
+    heightVal,
+    useOld
+}: SelectorInterface) => {
     const errorRef = useRef<HTMLParagraphElement>(null);
     const containerRef = useRef<HTMLLabelElement>(null);
 
@@ -373,13 +431,17 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
         const reader = new FileReader();
 
         reader.onload = () => {
-            asyncImage(reader.result as string).then((img) => {
+            asyncImage(reader.result as string).then(img => {
                 if (img.width !== 16) {
-                    setError('Развертка повязки должна иметь ширину 16 пикселей');
+                    setError(
+                        'Развертка повязки должна иметь ширину 16 пикселей'
+                    );
                     return;
                 }
                 if (img.height < 2 || img.height > 24) {
-                    setError('Развертка повязки должна иметь высоту от 2 до 24 пикселей');
+                    setError(
+                        'Развертка повязки должна иметь высоту от 2 до 24 пикселей'
+                    );
                     return;
                 }
 
@@ -398,7 +460,8 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
                     return;
                 }
                 clearError();
-                if (onBandageChange) onBandageChange({ img: img, height: img.height });
+                if (onBandageChange)
+                    onBandageChange({ img: img, height: img.height });
                 onChange(reader.result as string);
 
                 if (containerRef.current) {
@@ -417,9 +480,11 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
         const reader = new FileReader();
 
         reader.onload = () => {
-            asyncImage(reader.result as string).then((img) => {
+            asyncImage(reader.result as string).then(img => {
                 if (img.width !== 64 || img.height !== 64) {
-                    setError('Изображение скина должно иметь ширину и высоту в 64 пикселя');
+                    setError(
+                        'Изображение скина должно иметь ширину и высоту в 64 пикселя'
+                    );
                     return;
                 }
 
@@ -437,8 +502,12 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
 
                 clearError();
 
-                asyncImage(data.img).then((bandageImage) => {
-                    if (onBandageChange) onBandageChange({ img: bandageImage, height: data.height });
+                asyncImage(data.img).then(bandageImage => {
+                    if (onBandageChange)
+                        onBandageChange({
+                            img: bandageImage,
+                            height: data.height
+                        });
                     onChange(data.img);
                 });
                 //if (onBandageChange) onBandageChange({ img: img, height: img.height });
@@ -453,7 +522,10 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
         reader.readAsDataURL(file);
     };
 
-    const extractFromSkin = (skin: HTMLImageElement, slim?: boolean): { img: string; height: number } | null => {
+    const extractFromSkin = (
+        skin: HTMLImageElement,
+        slim?: boolean
+    ): { img: string; height: number } | null => {
         let top = -1; // Верхняя граница повязки
         let bottom = -1; // Нижняя граница повязки
 
@@ -499,14 +571,36 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
 
         const bandageContext = bandageCanvas.getContext('2d');
         const bandageWidth = slim ? 14 : 16;
-        bandageContext.drawImage(skin, 32, top, bandageWidth, height, slim ? 1 : 0, height, bandageWidth, height); // eslint-disable-line
-        bandageContext.drawImage(skin, 48, top, bandageWidth, height, slim ? 1 : 0, 0, bandageWidth, height); // eslint-disable-line
+        bandageContext.drawImage(
+            skin,
+            32,
+            top,
+            bandageWidth,
+            height,
+            slim ? 1 : 0,
+            height,
+            bandageWidth,
+            height
+        ); // eslint-disable-line
+        bandageContext.drawImage(
+            skin,
+            48,
+            top,
+            bandageWidth,
+            height,
+            slim ? 1 : 0,
+            0,
+            bandageWidth,
+            height
+        ); // eslint-disable-line
 
         return { img: bandageCanvas.toDataURL(), height: height * 2 };
     };
 
     const onChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        useOld ? getDataOld(evt.target?.files[0]) : getData(evt.target?.files[0]);
+        useOld
+            ? getDataOld(evt.target?.files[0])
+            : getData(evt.target?.files[0]);
         evt.target.files = null;
     };
 
@@ -522,7 +616,9 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
     };
 
     const ondrop = (evt: React.DragEvent<HTMLLabelElement>) => {
-        useOld ? getDataOld(evt.dataTransfer?.files[0]) : getData(evt.dataTransfer?.files[0]);
+        useOld
+            ? getDataOld(evt.dataTransfer?.files[0])
+            : getData(evt.dataTransfer?.files[0]);
 
         evt.preventDefault();
         containerRef.current.style.borderStyle = 'dashed';
@@ -548,7 +644,12 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
                 onDrop={ondrop}
             >
                 <div className={style.hidable}>
-                    <input type="file" name="imageInput" accept="image/png" onChange={onChangeInput} />
+                    <input
+                        type="file"
+                        name="imageInput"
+                        accept="image/png"
+                        onChange={onChangeInput}
+                    />
                     <span id="select_file">
                         Выберите файл
                         <br />
@@ -558,7 +659,10 @@ const Selector = ({ setTitle, onBandageChange, onChange, heightVal, useOld }: Se
                     </span>
                 </div>
             </label>
-            <p ref={errorRef} style={{ margin: 0, marginBottom: '1rem', display: 'none' }} />
+            <p
+                ref={errorRef}
+                style={{ margin: 0, marginBottom: '1rem', display: 'none' }}
+            />
         </>
     );
 };

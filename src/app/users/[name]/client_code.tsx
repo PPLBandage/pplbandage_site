@@ -11,7 +11,10 @@ const UsersClient = ({ user }: { user: Users }) => {
     const [elements, setElements] = useState<JSX.Element[]>(null);
 
     useEffect(() => {
-        user.works && renderSkin(user.works, styles).then((results) => setElements(results));
+        user.works &&
+            renderSkin(user.works, styles).then(results =>
+                setElements(results)
+            );
     }, []);
 
     return (
@@ -24,7 +27,13 @@ const UsersClient = ({ user }: { user: Users }) => {
                 }
                 className={styles.cont}
             >
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
+                    }}
+                >
                     <SimpleGrid>{elements}</SimpleGrid>
                 </div>
             </div>

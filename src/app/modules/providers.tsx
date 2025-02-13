@@ -23,7 +23,11 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <html lang="ru" className={inter.className} style={theme.data as CSSProperties}>
+            <html
+                lang="ru"
+                className={inter.className}
+                style={theme.data as CSSProperties}
+            >
                 <WorkshopCacheListener />
                 {children}
             </html>

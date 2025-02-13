@@ -9,7 +9,11 @@ interface MinecraftConnectProps {
     login?: boolean;
 }
 
-const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) => {
+const MinecraftConnect = ({
+    login,
+    children,
+    onInput
+}: MinecraftConnectProps) => {
     const [expanded, setExpanded] = useState<boolean>(false);
 
     const selectText = (nodeId: string) => {
@@ -23,7 +27,9 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
         }
     };
 
-    const title = login ? 'Войти через Minecraft' : 'Подключить аккаунт Minecraft';
+    const title = login
+        ? 'Войти через Minecraft'
+        : 'Подключить аккаунт Minecraft';
 
     return (
         <>
@@ -50,15 +56,32 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
                 <div className={style.base}>
                     <div className={style.container}>
                         <div className={style.header}>
-                            <h3 style={{ margin: 0, display: 'flex', gap: '.5rem', alignItems: 'center' }}>
+                            <h3
+                                style={{
+                                    margin: 0,
+                                    display: 'flex',
+                                    gap: '.5rem',
+                                    alignItems: 'center'
+                                }}
+                            >
                                 <IconBrandMinecraft />
                                 {title}
                             </h3>
-                            <IconX className={style.close} onClick={() => setExpanded(false)} />
+                            <IconX
+                                className={style.close}
+                                onClick={() => setExpanded(false)}
+                            />
                         </div>
                         {login && (
-                            <p style={{ margin: 0, fontSize: '.9rem', opacity: 0.6 }}>
-                                Этот способ будет работать, если вы привязали аккаунт Minecraft в личном кабинете.
+                            <p
+                                style={{
+                                    margin: 0,
+                                    fontSize: '.9rem',
+                                    opacity: 0.6
+                                }}
+                            >
+                                Этот способ будет работать, если вы привязали
+                                аккаунт Minecraft в личном кабинете.
                             </p>
                         )}
                         <p style={{ margin: 0, fontSize: '.95rem' }}>
@@ -80,21 +103,30 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
                                 id="code"
                                 className={style.code_input}
                                 onChange={() => {
-                                    const target = document.getElementById('code') as HTMLInputElement;
-                                    if (target.value.length > 6) target.value = target.value.slice(0, 6);
+                                    const target = document.getElementById(
+                                        'code'
+                                    ) as HTMLInputElement;
+                                    if (target.value.length > 6)
+                                        target.value = target.value.slice(0, 6);
                                 }}
                             />
                             <button
                                 className={style.code_send}
                                 onClick={() => {
-                                    const target = document.getElementById('code') as HTMLInputElement;
+                                    const target = document.getElementById(
+                                        'code'
+                                    ) as HTMLInputElement;
                                     if (target.value.length != 6) return;
 
                                     onInput(target.value)
                                         .then(() => setExpanded(false))
-                                        .catch((response) => {
-                                            const data = response.data as { message: string };
-                                            const err = document.getElementById('error') as HTMLParagraphElement;
+                                        .catch(response => {
+                                            const data = response.data as {
+                                                message: string;
+                                            };
+                                            const err = document.getElementById(
+                                                'error'
+                                            ) as HTMLParagraphElement;
                                             err.innerText = data.message;
                                             err.style.display = 'block';
                                         });
@@ -103,9 +135,18 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
                                 Отправить
                             </button>
                         </div>
-                        <p style={{ margin: 0, color: '#ED4245', display: 'none' }} id="error" />
+                        <p
+                            style={{
+                                margin: 0,
+                                color: '#ED4245',
+                                display: 'none'
+                            }}
+                            id="error"
+                        />
                         <div className={style.possibilities}>
-                            <p style={{ margin: 0, fontSize: '1rem' }}>После ввода кода мы:</p>
+                            <p style={{ margin: 0, fontSize: '1rem' }}>
+                                После ввода кода мы:
+                            </p>
                             <div>
                                 <p>
                                     <IconCheck width={15} height={15} />
@@ -113,7 +154,8 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
                                 </p>
                                 <p>
                                     <IconX width={15} height={15} />
-                                    Не сможем получить доступ к вашему аккаунту Mojang или Microsoft
+                                    Не сможем получить доступ к вашему аккаунту
+                                    Mojang или Microsoft
                                 </p>
                             </div>
                         </div>

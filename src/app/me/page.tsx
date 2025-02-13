@@ -32,7 +32,7 @@ const Main = () => {
     const [data, setData] = useState<Bandage[]>(null);
 
     useEffect(() => {
-        data && renderSkin(data, styles).then((results) => setElements(results));
+        data && renderSkin(data, styles).then(results => setElements(results));
     }, [data]);
 
     useEffect(() => {
@@ -46,9 +46,11 @@ const Main = () => {
                     setIsLogged(true);
                     router.replace('/me');
                 })
-                .catch((response) => {
+                .catch(response => {
                     setLoadingStatus(
-                        `${response.status}: ${response.data.message || httpStatusCodes[response.status]}`
+                        `${response.status}: ${
+                            response.data.message || httpStatusCodes[response.status]
+                        }`
                     );
                 });
         }
@@ -95,9 +97,17 @@ const Main = () => {
 const Loading = ({ loadingStatus }: { loadingStatus: string }) => {
     return (
         <div className={styles.loading_container}>
-            <IconSvgCropped width={58} height={58} className={`${!loadingStatus && styles.loading}`} />
+            <IconSvgCropped
+                width={58}
+                height={58}
+                className={`${!loadingStatus && styles.loading}`}
+            />
             <h3>{loadingStatus || 'Загрузка'}</h3>
-            <Link className={styles.link} style={{ visibility: !!loadingStatus ? 'visible' : 'hidden' }} href="/me">
+            <Link
+                className={styles.link}
+                style={{ visibility: !!loadingStatus ? 'visible' : 'hidden' }}
+                href="/me"
+            >
                 <IconArrowBack />
                 Назад
             </Link>
@@ -139,7 +149,10 @@ const Login = () => {
                         Discord
                     </a>
                     <MinecraftConnect onInput={loginMinecraft} login>
-                        <div className={styles.login_button} style={{ '--color': '#56ff4b' } as CSSProperties}>
+                        <div
+                            className={styles.login_button}
+                            style={{ '--color': '#56ff4b' } as CSSProperties}
+                        >
                             <IconBrandMinecraft />
                             Minecraft
                         </div>
@@ -153,7 +166,9 @@ const Login = () => {
                     </a>{' '}
                     и иметь одну из этих&nbsp;
                     <RolesDialog>
-                        <span style={{ cursor: 'pointer', textDecoration: 'underline' }}>ролей</span>
+                        <span style={{ cursor: 'pointer', textDecoration: 'underline' }}>
+                            ролей
+                        </span>
                     </RolesDialog>
                     .
                 </span>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
 import Style from '@/app/styles/me/notifications.module.css';
 import useCookie from '@/app/modules/utils/useCookie';
@@ -31,7 +31,7 @@ const Notifications = () => {
         ApiManager.getMeNotifications({ page }).then(setNotifications).catch(console.error);
     }, [page]);
 
-    const notifications_el = notifications?.data.map((notification) => {
+    const notifications_el = notifications?.data.map(notification => {
         let classN = Style.default;
         switch (notification.type) {
             case 1:
@@ -77,7 +77,7 @@ const Notifications = () => {
                                 <Paginator
                                     total_count={notifications?.total_count}
                                     take={5}
-                                    onChange={(page) => setPage(page || 0)}
+                                    onChange={page => setPage(page || 0)}
                                     page={page}
                                 />
                             )}

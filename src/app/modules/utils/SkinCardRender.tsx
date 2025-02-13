@@ -27,8 +27,28 @@ export const generateSkin = async (
 
     const bandage_new = !!color ? fillPepe(bandage, color) : bandage;
     skin_context.drawImage(base_skin, 0, 0);
-    skin_context.drawImage(bandage_new, 0, 0, 16, height, 48, 52 + position, 16, height);
-    skin_context.drawImage(bandage_new, 0, height, 16, height, 32, 52 + position, 16, height);
+    skin_context.drawImage(
+        bandage_new,
+        0,
+        0,
+        16,
+        height,
+        48,
+        52 + position,
+        16,
+        height
+    );
+    skin_context.drawImage(
+        bandage_new,
+        0,
+        height,
+        16,
+        height,
+        32,
+        52 + position,
+        16,
+        height
+    );
 
     return skin_canvas;
 };
@@ -40,24 +60,46 @@ export const render = (
     base_skin: HTMLImageElement
 ): Promise<JSX.Element[]> =>
     Promise.all(
-        data.map(async (el) => {
-            const colorable = el.categories.some((val) => val.colorable);
-            const random_color = [randint(0, 255), randint(0, 255), randint(0, 255)];
+        data.map(async el => {
+            const colorable = el.categories.some(val => val.colorable);
+            const random_color = [
+                randint(0, 255),
+                randint(0, 255),
+                randint(0, 255)
+            ];
 
-            const result = await generateSkin(el.base64, base_skin, colorable ? random_color : undefined);
+            const result = await generateSkin(
+                el.base64,
+                base_skin,
+                colorable ? random_color : undefined
+            );
 
             skinViewer.loadSkin(result, { model: 'default' });
             skinViewer.render();
 
             if (colorable) {
-                el.accent_color = rgbToHex(~~random_color[0], ~~random_color[1], ~~random_color[2]);
+                el.accent_color = rgbToHex(
+                    ~~random_color[0],
+                    ~~random_color[1],
+                    ~~random_color[2]
+                );
             }
 
-            return <Card el={el} base64={skinViewer.canvas.toDataURL()} key={el.id} className={styles} />;
+            return (
+                <Card
+                    el={el}
+                    base64={skinViewer.canvas.toDataURL()}
+                    key={el.id}
+                    className={styles}
+                />
+            );
         })
     );
 
-export const renderSkin = async (data: Bandage[], styles: { [key: string]: string }): Promise<JSX.Element[]> => {
+export const renderSkin = async (
+    data: Bandage[],
+    styles: { [key: string]: string }
+): Promise<JSX.Element[]> => {
     const skinViewer = new SkinViewer({
         width: 300,
         height: 300,
@@ -70,7 +112,6 @@ export const renderSkin = async (data: Bandage[], styles: { [key: string]: strin
     skinViewer.camera.position.y = 6.5;
     skinViewer.camera.position.z = 11;
     try {
-        //await skinViewer.loadBackground('/static/background.png');
         const base_skin = await asyncImage('/static/workshop_base.png');
         return await render(skinViewer, data, styles, base_skin);
     } finally {

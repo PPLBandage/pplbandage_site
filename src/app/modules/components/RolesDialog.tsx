@@ -1,6 +1,11 @@
 import { CSSProperties, JSX, useEffect, useState } from 'react';
 import style_base from '@/app/styles/minecraftConnect.module.css';
-import { IconBrandDiscord, IconBrandTwitch, IconFlag, IconX } from '@tabler/icons-react';
+import {
+    IconBrandDiscord,
+    IconBrandTwitch,
+    IconFlag,
+    IconX
+} from '@tabler/icons-react';
 import styles from '@/app/styles/me/me.module.css';
 import style_main from '@/app/styles/RolesDialog.module.css';
 import ReactCSSTransition from './CSSTransition';
@@ -19,10 +24,13 @@ const RolesDialog = ({ children }: { children: JSX.Element }) => {
         ApiManager.getRoles().then(setRoles).catch(console.error);
     }, []);
 
-    const roles_el = roles.map((role) => {
+    const roles_el = roles.map(role => {
         return (
             <div key={role.id} className={styles.role_container}>
-                <span style={{ backgroundColor: '#' + role.color.toString(16) }} className={styles.role_dot}></span>
+                <span
+                    style={{ backgroundColor: '#' + role.color.toString(16) }}
+                    className={styles.role_dot}
+                ></span>
                 <span className={styles.role_title}>{role.title}</span>
             </div>
         );
@@ -53,28 +61,55 @@ const RolesDialog = ({ children }: { children: JSX.Element }) => {
                 <div className={style_base.base}>
                     <div className={style_base.container}>
                         <div className={style_base.header}>
-                            <h3 style={{ margin: 0, display: 'flex', gap: '.5rem', alignItems: 'center' }}>
+                            <h3
+                                style={{
+                                    margin: 0,
+                                    display: 'flex',
+                                    gap: '.5rem',
+                                    alignItems: 'center'
+                                }}
+                            >
                                 <IconFlag />
                                 Роли для регистрации
                             </h3>
-                            <IconX className={style_base.close} onClick={() => setExpanded(false)} />
+                            <IconX
+                                className={style_base.close}
+                                onClick={() => setExpanded(false)}
+                            />
                         </div>
-                        <p style={{ margin: 0, fontSize: '.9rem', opacity: 0.6 }}>
-                            Для регистрации Вы должны иметь одну из этих ролей на Discord сервере PWGood.
+                        <p
+                            style={{
+                                margin: 0,
+                                fontSize: '.9rem',
+                                opacity: 0.6
+                            }}
+                        >
+                            Для регистрации Вы должны иметь одну из этих ролей
+                            на Discord сервере PWGood.
                         </p>
 
                         {roles_el.length !== 0 ? (
-                            <div style={{ display: 'flex', flexWrap: 'wrap' }}>{roles_el}</div>
+                            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                                {roles_el}
+                            </div>
                         ) : (
-                            <IconSvg width={64} height={64} className={style_workshop.loading} />
+                            <IconSvg
+                                width={64}
+                                height={64}
+                                className={style_workshop.loading}
+                            />
                         )}
 
-                        <h4 style={{ margin: 0, marginTop: '.5rem' }}>Ссылки на соцсети Пугода:</h4>
+                        <h4 style={{ margin: 0, marginTop: '.5rem' }}>
+                            Ссылки на соцсети Пугода:
+                        </h4>
                         <div className={style_main.container}>
                             <a
                                 className={style_main.link}
                                 href="https://baad.pw/twitch"
-                                style={{ '--accent': '#772ce8' } as CSSProperties}
+                                style={
+                                    { '--accent': '#772ce8' } as CSSProperties
+                                }
                             >
                                 <IconBrandTwitch />
                                 Twitch
@@ -82,7 +117,9 @@ const RolesDialog = ({ children }: { children: JSX.Element }) => {
                             <a
                                 className={style_main.link}
                                 href="https://baad.pw/ds"
-                                style={{ '--accent': '#4752c4' } as CSSProperties}
+                                style={
+                                    { '--accent': '#4752c4' } as CSSProperties
+                                }
                             >
                                 <IconBrandDiscord />
                                 Discord
@@ -108,7 +145,9 @@ const RolesDialog = ({ children }: { children: JSX.Element }) => {
                                     } as CSSProperties
                                 }
                             >
-                                <IconPPL style={{ width: '24px', height: '24px' }} />
+                                <IconPPL
+                                    style={{ width: '24px', height: '24px' }}
+                                />
                                 Сайт Пепеленда
                             </a>
                         </div>

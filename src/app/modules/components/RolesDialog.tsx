@@ -1,3 +1,5 @@
+'use client';
+
 import { CSSProperties, JSX, useEffect, useState } from 'react';
 import style_base from '@/app/styles/minecraftConnect.module.css';
 import {

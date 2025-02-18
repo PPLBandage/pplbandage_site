@@ -8,4 +8,7 @@ export type LayoutContent = {
     slug: string;
     name: string;
     url: string;
+    description: string;
+    thumbnail: string;
+    tag: string;
 };

@@ -3,7 +3,7 @@ import { LayoutContent } from './types';
 import sanitizeHtml from 'sanitize-html';
 
 export const REPO_OWNER = 'PPLBandage';
-export const REPO_NAME = 'pages';
+export const REPO_NAME = 'blog';
 
 export const getLayoutContents = async (): Promise<LayoutContent[]> => {
     const res = await fetch(
@@ -15,7 +15,7 @@ export const getLayoutContents = async (): Promise<LayoutContent[]> => {
         }
     );
 
-    if (!res.ok) throw new Error('Cannot fetch tutorials layout from GitHub!');
+    if (!res.ok) throw new Error('Cannot fetch blog layout from GitHub!');
 
     const files = await res.json();
     const layout = files.find((file: any) => file.name === 'layout.json');
@@ -23,7 +23,7 @@ export const getLayoutContents = async (): Promise<LayoutContent[]> => {
     if (!layout) throw new Error('Cannot find pages layout');
 
     const layout_response = await fetch(layout.download_url, {
-        cache: 'force-cache',
+        cache: 'no-cache',
         next: { revalidate: 300 },
         headers: { authorization: `Bearer ${process.env.GITHUB_TOKEN}` }
     });
@@ -39,7 +39,7 @@ export const getMdContents = async (path: string): Promise<string> => {
     const page_response = await fetch(
         `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main${path}`,
         {
-            cache: 'no-cache',
+            cache: 'force-cache',
             next: { revalidate: 300 },
             headers: { authorization: `Bearer ${process.env.GITHUB_TOKEN}` }
         }
@@ -48,7 +48,7 @@ export const getMdContents = async (path: string): Promise<string> => {
     if (!page_response.ok) throw new Error('Cannot fetch page contents!');
     const markdown = (await page_response.text()).replace(
         '/images',
-        'https://raw.githubusercontent.com/PPLBandage/pages/main/images'
+        `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/images`
     );
 
     const cleanString = sanitizeHtml(markdown, {

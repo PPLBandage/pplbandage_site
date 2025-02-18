@@ -16,14 +16,16 @@ const Post = async ({ params }: { params: Promise<{ slug: string }> }) => {
     return (
         <main className={style.main}>
             <div className={style.main_container}>
-                <Link href="/blog" className={style.back_to_blog}>
-                    <IconArrowNarrowRight
-                        width={20}
-                        height={20}
-                        strokeWidth={1.5}
-                    />
-                    Вернуться в назад
-                </Link>
+                <div className={style.back_to_blog_container}>
+                    <Link href="/blog" className={style.back_to_blog}>
+                        <IconArrowNarrowRight
+                            width={20}
+                            height={20}
+                            strokeWidth={1.5}
+                        />
+                        Вернуться в назад
+                    </Link>
+                </div>
                 <MDXRemote
                     source={contents}
                     components={{ Note, Warn, Tip, Accent }}

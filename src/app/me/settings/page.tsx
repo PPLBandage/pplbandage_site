@@ -10,7 +10,6 @@ import Style_safety from '@/app/styles/me/safety.module.css';
 import useCookie from '@/app/modules/utils/useCookie';
 import Image from 'next/image';
 import { Me } from '@/app/modules/components/MeSidebar';
-import { Fira_Code } from 'next/font/google';
 import { formatDate, formatDateHuman } from '@/app/modules/components/Card';
 import IconSvg from '@/app/resources/icon.svg';
 import {
@@ -33,7 +32,7 @@ import { Session } from '@/app/interfaces';
 import { setTheme } from './setTheme';
 import MinecraftConnect from '@/app/modules/components/MinecraftConnect';
 import themes from '@/app/themes';
-const fira = Fira_Code({ subsets: ['latin'] });
+import { minecraftMono } from '@/app/modules/fonts/Minecraft';
 
 export interface SettingsResponse {
     statusCode: number;
@@ -91,7 +90,10 @@ const Page = () => {
                         style={
                             loaded
                                 ? { opacity: '1', transform: 'none' }
-                                : { opacity: '0', transform: 'translateY(50px)' }
+                                : {
+                                      opacity: '0',
+                                      transform: 'translateY(50px)'
+                                  }
                         }
                     >
                         {data && (
@@ -128,7 +130,13 @@ const UserSettings = ({ data }: { data: SettingsResponse }) => {
     );
 };
 
-const Connections = ({ data, refetch }: { data: SettingsResponse; refetch(): void }) => {
+const Connections = ({
+    data,
+    refetch
+}: {
+    data: SettingsResponse;
+    refetch(): void;
+}) => {
     const refreshMinecraft = () => {
         const load_icon = document.getElementById('refresh');
         load_icon.style.animation = `${Style.loading} infinite 1s reverse ease-in-out`;
@@ -193,12 +201,17 @@ const Connections = ({ data, refetch }: { data: SettingsResponse; refetch(): voi
                     )}
                     <div className={Style.discord_name_container}>
                         <h1>
-                            {data.connections?.discord?.name || data.connections.discord.username}
+                            {data.connections?.discord?.name ||
+                                data.connections.discord.username}
                         </h1>
                         <p>
                             Подключено{' '}
                             {data.connections?.discord &&
-                                formatDateHuman(new Date(data.connections?.discord?.connected_at))}
+                                formatDateHuman(
+                                    new Date(
+                                        data.connections?.discord?.connected_at
+                                    )
+                                )}
                         </p>
                     </div>
                 </div>
@@ -214,15 +227,24 @@ const Connections = ({ data, refetch }: { data: SettingsResponse; refetch(): voi
                         <div className={Style.head_container}>
                             {data && (
                                 <Image
-                                    src={b64Prefix + data.connections?.minecraft.head}
+                                    src={
+                                        b64Prefix +
+                                        data.connections?.minecraft.head
+                                    }
                                     alt=""
                                     width={64}
                                     height={64}
                                 />
                             )}
                             <div className={Style.name_container}>
-                                <p className={Style.name}>{data.connections?.minecraft.nickname}</p>
-                                <p className={`${Style.uuid} ${fira.className}`}>
+                                <p
+                                    className={`${Style.name} ${minecraftMono.className}`}
+                                >
+                                    {data.connections?.minecraft.nickname}
+                                </p>
+                                <p
+                                    className={`${Style.uuid} ${minecraftMono.className}`}
+                                >
                                     {data.connections?.minecraft.uuid}
                                 </p>
                             </div>
@@ -230,14 +252,18 @@ const Connections = ({ data, refetch }: { data: SettingsResponse; refetch(): voi
                         <div className={Style.checkboxes}>
                             <SlideButton
                                 label="Отображать ник в поиске"
-                                defaultValue={data.connections?.minecraft?.valid}
+                                defaultValue={
+                                    data.connections?.minecraft?.valid
+                                }
                                 strict={true}
                                 loadable={true}
                                 onChange={setValidAPI}
                             />
                             <SlideButton
                                 label="Автоматически устанавливать скин в редакторе"
-                                defaultValue={data.connections?.minecraft?.autoload}
+                                defaultValue={
+                                    data.connections?.minecraft?.autoload
+                                }
                                 strict={true}
                                 loadable={true}
                                 onChange={setAutoloadAPI}
@@ -248,17 +274,28 @@ const Connections = ({ data, refetch }: { data: SettingsResponse; refetch(): voi
                                 Последний раз кэшировано{' '}
                                 <b>
                                     {formatDateHuman(
-                                        new Date(data.connections.minecraft.last_cached),
+                                        new Date(
+                                            data.connections.minecraft.last_cached
+                                        ),
                                         true
                                     )}
                                 </b>
                             </span>
-                            <button className={Style.unlink} onClick={refreshMinecraft}>
-                                <IconRefresh style={{ width: '1.8rem' }} id="refresh" />
+                            <button
+                                className={Style.unlink}
+                                onClick={refreshMinecraft}
+                            >
+                                <IconRefresh
+                                    style={{ width: '1.8rem' }}
+                                    id="refresh"
+                                />
                                 Обновить кэш
                             </button>
 
-                            <button className={Style.unlink} onClick={disconnect}>
+                            <button
+                                className={Style.unlink}
+                                onClick={disconnect}
+                            >
                                 <IconX style={{ width: '1.8rem' }} />
                                 Отвязать
                             </button>
@@ -267,12 +304,18 @@ const Connections = ({ data, refetch }: { data: SettingsResponse; refetch(): voi
                 ) : (
                     <>
                         <p style={{ margin: 0 }}>
-                            Подключите свой аккаунт Minecraft, чтобы управлять кэшем скинов и
-                            настройками видимости вашего никнейма в поиске.
+                            Подключите свой аккаунт Minecraft, чтобы управлять
+                            кэшем скинов и настройками видимости вашего никнейма
+                            в поиске.
                         </p>
                         <MinecraftConnect onInput={connectMinecraft}>
-                            <button className={Style.unlink} style={{ width: '100%' }}>
-                                <IconPlugConnected style={{ width: '1.8rem' }} />
+                            <button
+                                className={Style.unlink}
+                                style={{ width: '100%' }}
+                            >
+                                <IconPlugConnected
+                                    style={{ width: '1.8rem' }}
+                                />
                                 Подключить
                             </button>
                         </MinecraftConnect>
@@ -285,7 +328,9 @@ const Connections = ({ data, refetch }: { data: SettingsResponse; refetch(): voi
 
 const Themes = () => {
     const themeCookie = useCookie('theme_main');
-    const [themeState, setThemeState] = useState<string>(themeCookie || 'default');
+    const [themeState, setThemeState] = useState<string>(
+        themeCookie || 'default'
+    );
 
     useEffect(() => setThemeState(themeCookie), [themeCookie]);
 
@@ -308,7 +353,10 @@ const Themes = () => {
     ));
 
     return (
-        <div className={Style.container} style={{ paddingBottom: 'calc(1rem - 10px)' }}>
+        <div
+            className={Style.container}
+            style={{ paddingBottom: 'calc(1rem - 10px)' }}
+        >
             <h3>
                 <IconPalette width={24} height={24} />
                 Внешний вид
@@ -355,14 +403,23 @@ const Theme = ({
                     className={Style_themes.card}
                 >
                     <div
-                        style={{ backgroundColor: data['--main-element-color'] }}
+                        style={{
+                            backgroundColor: data['--main-element-color']
+                        }}
                         className={Style_themes.icon}
                     />
                     <div className={Style_themes.text_container}>
                         <div
-                            style={{ backgroundColor: data['--main-element-color'], width: '80%' }}
+                            style={{
+                                backgroundColor: data['--main-element-color'],
+                                width: '80%'
+                            }}
                         />
-                        <div style={{ backgroundColor: data['--main-element-color'] }} />
+                        <div
+                            style={{
+                                backgroundColor: data['--main-element-color']
+                            }}
+                        />
                     </div>
                 </div>
             </div>
@@ -412,14 +469,20 @@ const Safety = () => {
     const logoutSession = (session_id: number) => {
         if (!confirm(`Выйти с этого устройства?`)) return;
         ApiManager.logoutSession(session_id)
-            .then(() => setSessions(sessions.filter(session_ => session_.id !== session_id)))
+            .then(() =>
+                setSessions(
+                    sessions.filter(session_ => session_.id !== session_id)
+                )
+            )
             .catch(response => alert(response.data.message));
     };
 
     const logoutSessionAll = () => {
         if (!confirm('Выйти со всех устройств, кроме этого?')) return;
         ApiManager.logoutAllSessions()
-            .then(() => setSessions(sessions.filter(session_ => session_.is_self)))
+            .then(() =>
+                setSessions(sessions.filter(session_ => session_.is_self))
+            )
             .catch(response => alert(response.data.message));
     };
 
@@ -427,7 +490,11 @@ const Safety = () => {
         <div key={session.id} className={Style_safety.container}>
             <div className={Style_safety.session}>
                 <h2 className={Style_safety.header}>
-                    {session.is_mobile ? <IconDeviceMobile /> : <IconDeviceDesktop />}
+                    {session.is_mobile ? (
+                        <IconDeviceMobile />
+                    ) : (
+                        <IconDeviceDesktop />
+                    )}
                     {session.browser} {session.browser_version}{' '}
                     {session.is_self && <p>Это устройство</p>}
                 </h2>
@@ -435,11 +502,17 @@ const Safety = () => {
                     className={Style_safety.last_accessed}
                     title={formatDate(new Date(session.last_accessed))}
                 >
-                    Последний доступ {timeStamp(new Date(session.last_accessed).getTime() / 1000)}
+                    Последний доступ{' '}
+                    {timeStamp(
+                        new Date(session.last_accessed).getTime() / 1000
+                    )}
                 </p>
             </div>
             {!session.is_self && (
-                <button className={Style_safety.button} onClick={_ => logoutSession(session.id)}>
+                <button
+                    className={Style_safety.button}
+                    onClick={_ => logoutSession(session.id)}
+                >
                     <IconX />
                 </button>
             )}
@@ -455,12 +528,19 @@ const Safety = () => {
             <h4 style={{ margin: 0 }}>Все устройства</h4>
             <div className={Style_safety.parent}>
                 {loading ? (
-                    <IconSvg width={86} height={86} className={style_workshop.loading} />
+                    <IconSvg
+                        width={86}
+                        height={86}
+                        className={style_workshop.loading}
+                    />
                 ) : (
                     <>
                         {sessions_elements}
                         {sessions.length > 1 && (
-                            <button className={Style.unlink} onClick={logoutSessionAll}>
+                            <button
+                                className={Style.unlink}
+                                onClick={logoutSessionAll}
+                            >
                                 <IconX style={{ width: '1.8rem' }} />
                                 Выйти со всех устройств
                             </button>

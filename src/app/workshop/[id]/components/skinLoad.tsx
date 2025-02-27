@@ -234,7 +234,7 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                                     !loaded && style.disabled_load
                                 }`}
                                 onClick={() => {
-                                    loaded && onChange(data);
+                                    if (loaded) onChange(data);
                                 }}
                                 style={{ width: '100%' }}
                             >

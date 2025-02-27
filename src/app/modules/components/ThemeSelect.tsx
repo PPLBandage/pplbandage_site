@@ -31,9 +31,11 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
 
     useEffect(() => {
         onChange(theme);
-        firstLoad
-            ? setFirstLoad(false)
-            : ApiManager.setTheme({ theme }).catch(console.error);
+        if (firstLoad) {
+            setFirstLoad(false);
+        } else {
+            ApiManager.setTheme({ theme }).catch(console.error);
+        }
     }, [theme]);
 
     return (

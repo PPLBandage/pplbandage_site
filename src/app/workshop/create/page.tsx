@@ -118,7 +118,7 @@ export default function Home() {
                             className={`react-select-container`}
                             classNamePrefix="react-select"
                             isSearchable={false}
-                            onChange={(n, _) => setPose(n.value)}
+                            onChange={n => setPose(n.value)}
                             instanceId="select-1"
                             formatOptionLabel={nick_value => nick_value.label}
                         />
@@ -581,7 +581,7 @@ const Selector = ({
             height,
             bandageWidth,
             height
-        ); // eslint-disable-line
+        );
         bandageContext.drawImage(
             skin,
             48,
@@ -592,12 +592,13 @@ const Selector = ({
             0,
             bandageWidth,
             height
-        ); // eslint-disable-line
+        );
 
         return { img: bandageCanvas.toDataURL(), height: height * 2 };
     };
 
     const onChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         useOld
             ? getDataOld(evt.target?.files[0])
             : getData(evt.target?.files[0]);
@@ -616,6 +617,7 @@ const Selector = ({
     };
 
     const ondrop = (evt: React.DragEvent<HTMLLabelElement>) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         useOld
             ? getDataOld(evt.dataTransfer?.files[0])
             : getData(evt.dataTransfer?.files[0]);

@@ -135,9 +135,9 @@ const Searcher = ({ onChange }: SearchProps) => {
             className={`react-select-container`}
             classNamePrefix="react-select"
             isSearchable={true}
-            onInputChange={(n, _) => onInput(n)}
+            onInputChange={n => onInput(n)}
             inputValue={input}
-            onChange={(n, _) => {
+            onChange={n => {
                 if (n.value) {
                     setLoading(true);
                     const nickname = n.value;

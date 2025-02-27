@@ -15,12 +15,7 @@ import NavigatorEl from '@/app/modules/components/Navigator';
 import { anims } from '@/app/workshop/poses';
 import asyncImage from '@/app/modules/utils/asyncImage';
 
-import {
-    IconCaretDown,
-    IconCaretUp,
-    IconDownload,
-    IconPlus
-} from '@tabler/icons-react';
+import { IconDownload, IconPlus } from '@tabler/icons-react';
 import Slider from '@/app/modules/components/Slider';
 import SlideButton from '@/app/modules/components/SlideButton';
 import SkinLoad from './components/skinLoad';
@@ -31,14 +26,14 @@ import { StarElement } from '@/app/modules/components/Card';
 import { CustomLink } from '@/app/modules/components/Search';
 import InfoCard from '@/app/modules/components/InfoCard';
 
-const body_part: readonly { value: number; label: String }[] = [
+const body_part: readonly { value: number; label: string }[] = [
     { value: 0, label: 'Левая рука' },
     { value: 2, label: 'Правая рука' },
     { value: 1, label: 'Левая нога' },
     { value: 3, label: 'Правая нога' }
 ];
 
-const layers: readonly { value: string; label: String }[] = [
+const layers: readonly { value: string; label: string }[] = [
     { value: '0', label: 'На разных слоях' },
     { value: '1', label: 'Только на первом слое' },
     { value: '2', label: 'Только на втором слое' }
@@ -47,7 +42,7 @@ const layers: readonly { value: string; label: String }[] = [
 const getRandomColor = () => {
     const letters = '0123456789ABCDEF';
     let color = '#';
-    for (var i = 0; i < 6; i++) {
+    for (let i = 0; i < 6; i++) {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
@@ -216,6 +211,7 @@ export default function Home({
         <>
             <SkinLoad
                 onChange={evt => {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                     evt &&
                         client.current?.changeSkin(
                             evt.data,
@@ -297,7 +293,7 @@ export default function Home({
                                 className={`react-select-container`}
                                 classNamePrefix="react-select"
                                 isSearchable={false}
-                                onChange={(n, _) => setPose(n.value)}
+                                onChange={n => setPose(n.value)}
                                 instanceId="select-1"
                                 formatOptionLabel={nick_value =>
                                     nick_value.label
@@ -424,7 +420,7 @@ export default function Home({
                                         classNamePrefix="react-select"
                                         isSearchable={false}
                                         instanceId="select-2"
-                                        onChange={(n, _) =>
+                                        onChange={n =>
                                             client.current?.setParams({
                                                 body_part: n.value
                                             })
@@ -437,7 +433,7 @@ export default function Home({
                                         classNamePrefix="react-select"
                                         isSearchable={false}
                                         instanceId="select-3"
-                                        onChange={(n, _) =>
+                                        onChange={n =>
                                             client.current?.setParams({
                                                 layers: n.value
                                             })

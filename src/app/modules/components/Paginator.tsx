@@ -43,9 +43,9 @@ export const Paginator = ({
     useEffect(() => {
         const pages_count = Math.ceil(_totalCount / _take);
         _setDisplay(pages_count != 0);
-        let data: JSX.Element[] = [];
-        let itpage = _page > 2 && pages_count > 4 ? _page - 2 : 0;
-        for (let x = itpage; x < 5 + itpage; x++) {
+        const data: JSX.Element[] = [];
+        const iterable_page = _page > 2 && pages_count > 4 ? _page - 2 : 0;
+        for (let x = iterable_page; x < 5 + iterable_page; x++) {
             data.push(
                 <p
                     style={

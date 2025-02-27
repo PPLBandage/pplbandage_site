@@ -69,13 +69,19 @@ interface CategoryProps {
     style?: CSSProperties;
 }
 
-export const CategoryEl = ({ category, enabled, onClick, hoverable, style }: CategoryProps) => {
+export const CategoryEl = ({
+    category,
+    enabled,
+    onClick,
+    hoverable,
+    style
+}: CategoryProps) => {
     return (
         <div
             key={category.id}
-            className={`${Style.category} ${enabled && Style.enabled_category} ${
-                hoverable && Style.hoverable
-            }`}
+            className={`${Style.category} ${
+                enabled && Style.enabled_category
+            } ${hoverable && Style.hoverable}`}
             onClick={() => onClick && onClick()}
             style={style}
         >
@@ -104,7 +110,7 @@ interface CategoryShortenProps {
     parent_id: string;
 }
 
-export const CategoryShorten = ({ category, style, parent_id }: CategoryShortenProps) => {
+export const CategoryShorten = ({ category, style }: CategoryShortenProps) => {
     return (
         <UseGlobalTooltip key={category.id} opacity="1" text={category.name}>
             <div className={`${style_card.category_shorten}`} style={style}>
@@ -130,12 +136,18 @@ interface ReferrerLinkProps
     href: string;
 }
 
-export const ReferrerLink: React.FC<ReferrerLinkProps> = ({ children, href, ...props }) => {
+export const ReferrerLink: React.FC<ReferrerLinkProps> = ({
+    children,
+    href,
+    ...props
+}) => {
     const pathname = usePathname();
     const router = useRouter();
     const context = useConfigContext();
 
-    const handleTransition = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const handleTransition = async (
+        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+    ) => {
         e.preventDefault();
         if (pathname.endsWith(href)) return;
         window.sessionStorage.setItem('referrer', pathname);
@@ -187,6 +199,7 @@ export const StarElement = ({ el }: { el: Bandage }) => {
         <div
             className={style_card.star_container}
             onClick={() => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                 logged ? setStarred(prev => !prev) : router.push('/me');
             }}
         >
@@ -198,7 +211,10 @@ export const StarElement = ({ el }: { el: Bandage }) => {
                 id={el.external_id + '_star'}
                 style={{ width: el.star_type === 0 ? 24 : 18 } as CSSProperties}
             />
-            <span className={style_card.star_count} id={el.external_id + '_text'}>
+            <span
+                className={style_card.star_count}
+                id={el.external_id + '_text'}
+            >
                 {starsCount}
             </span>
         </div>
@@ -219,21 +235,30 @@ export const Card = ({
 
     const categories = el.categories.map(category => (
         <div id={`category_${category.id}_${el.id}`} key={category.id}>
-            <CategoryShorten category={category} parent_id={`category_${category.id}_${el.id}`} />
+            <CategoryShorten
+                category={category}
+                parent_id={`category_${category.id}_${el.id}`}
+            />
         </div>
     ));
 
     return (
         <article
             className={`${style_card.card}  ${className?.skin_description_props}`}
-            style={{ background: `url('/static/backgrounds/background_${background}.svg')` }}
+            style={{
+                background: `url('/static/backgrounds/background_${background}.svg')`
+            }}
         >
             <div className={style_card.head_container}>
                 <StarElement el={el} />
 
                 <div style={{ display: 'flex', gap: '3px' }}>
-                    {el.access_level < 2 && <IconEyeOff width={24} height={24} />}
-                    {el.split_type && <IconCircleHalf2 width={24} height={24} />}
+                    {el.access_level < 2 && (
+                        <IconEyeOff width={24} height={24} />
+                    )}
+                    {el.split_type && (
+                        <IconCircleHalf2 width={24} height={24} />
+                    )}
                 </div>
             </div>
             <div
@@ -245,7 +270,10 @@ export const Card = ({
                 }
                 className={style_card.gradient_background}
             >
-                <ReferrerLink href={`/workshop/${el.external_id}`} style={{ display: 'flex' }}>
+                <ReferrerLink
+                    href={`/workshop/${el.external_id}`}
+                    style={{ display: 'flex' }}
+                >
                     <NextImage
                         src={base64}
                         className={style_card.skin}
@@ -259,7 +287,10 @@ export const Card = ({
             </div>
             <div className={style_card.about}>
                 <div>
-                    <ReferrerLink className={style_card.title} href={`/workshop/${el.external_id}`}>
+                    <ReferrerLink
+                        className={style_card.title}
+                        href={`/workshop/${el.external_id}`}
+                    >
                         {el.title}
                     </ReferrerLink>
                     <p className={style_card.description}>
@@ -278,13 +309,17 @@ export const Card = ({
                                 {el.author.name}
                             </Link>
                         ) : (
-                            <a className={`${style_card.username} ${style_card.username_private}`}>
+                            <a
+                                className={`${style_card.username} ${style_card.username_private}`}
+                            >
                                 <IconUser style={{ width: '1.5rem' }} />
                                 {el.author.name}
                             </a>
                         )
                     ) : (
-                        <a className={`${style_card.username} ${style_card.username_private}`}>
+                        <a
+                            className={`${style_card.username} ${style_card.username_private}`}
+                        >
                             <IconUser style={{ width: '1.5rem' }} />
                             Unknown
                         </a>

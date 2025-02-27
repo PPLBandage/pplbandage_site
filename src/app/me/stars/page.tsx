@@ -1,7 +1,7 @@
 'use client';
 
 import React, { JSX } from 'react';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import style_sidebar from '@/app/styles/me/sidebar.module.css';
 import useCookie from '@/app/modules/utils/useCookie';
 import styles_me from '@/app/styles/me/me.module.css';
@@ -29,7 +29,7 @@ const Main = () => {
     }, []);
 
     useEffect(() => {
-        data && renderSkin(data, styles_me).then(results => setElements(results));
+        if (data) renderSkin(data, styles_me).then(setElements);
     }, [data]);
 
     useEffect(() => {
@@ -49,8 +49,14 @@ const Main = () => {
                             className={style_sidebar.skins_container_2}
                             style={
                                 elements
-                                    ? { opacity: '1', transform: 'translateY(0)' }
-                                    : { opacity: '0', transform: 'translateY(50px)' }
+                                    ? {
+                                          opacity: '1',
+                                          transform: 'translateY(0)'
+                                      }
+                                    : {
+                                          opacity: '0',
+                                          transform: 'translateY(50px)'
+                                      }
                             }
                         >
                             <SimpleGrid>{elements}</SimpleGrid>
@@ -60,8 +66,16 @@ const Main = () => {
                             className={style_sidebar.animated}
                             style={
                                 elements
-                                    ? { opacity: '1', transform: 'translateY(0)', width: '100%' }
-                                    : { opacity: '0', transform: 'translateY(50px)', width: '100%' }
+                                    ? {
+                                          opacity: '1',
+                                          transform: 'translateY(0)',
+                                          width: '100%'
+                                      }
+                                    : {
+                                          opacity: '0',
+                                          transform: 'translateY(50px)',
+                                          width: '100%'
+                                      }
                             }
                         >
                             <p

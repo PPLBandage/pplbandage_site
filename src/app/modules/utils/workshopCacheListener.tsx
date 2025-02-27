@@ -11,7 +11,7 @@ const WorkshopCacheListener = (): null => {
             sessionStorage.removeItem('workshopState');
         }
         const tooltip = document.getElementById('global_tooltip');
-        tooltip && document.body.removeChild(tooltip);
+        if (tooltip) document.body.removeChild(tooltip);
     }, [pathname]);
 
     return null;

@@ -120,7 +120,7 @@ export const UseGlobalTooltip = ({
 
     const handleMouseLeave = () => {
         const tooltip = document.getElementById('global_tooltip');
-        tooltip && document.body.removeChild(tooltip);
+        if (tooltip) document.body.removeChild(tooltip);
     };
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {

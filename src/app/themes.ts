@@ -1,4 +1,18 @@
-type ThemeType = { [key: string]: { title: string, data: any } };
+type SingleThemeType = {
+    '--main-bg-color': string;
+    '--main-card-color': string;
+    '--main-element-color': string;
+    '--main-action-color': string;
+    '--main-menu-color': string;
+    '--dark-hover': string;
+    '--hr-color': string;
+    '--focus-color': string;
+    '--category-color': string;
+    '--main-text-color': string;
+    '--main-shadow-color': string;
+};
+
+type ThemeType = { [key: string]: { title: string; data: SingleThemeType } };
 
 const themes: ThemeType = {
     default: {
@@ -33,6 +47,6 @@ const themes: ThemeType = {
             '--main-shadow-color': '#121212'
         }
     }
-}
+};
 
 export default themes;

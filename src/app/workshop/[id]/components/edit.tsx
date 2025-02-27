@@ -10,7 +10,7 @@ import EditConfirmation from '@/app/modules/components/EditConfirmation';
 
 const lstrip = (string: string) => string.replace(/^\s+/, '');
 
-export const access_level: { value: number; label: String }[] = [
+export const access_level: { value: number; label: string }[] = [
     { value: 0, label: 'Ограниченный доступ' },
     { value: 1, label: 'Доступ только по ссылке' },
     { value: 2, label: 'Открытый доступ' }
@@ -136,7 +136,7 @@ const EditElement = ({
                 classNamePrefix="react-select"
                 isSearchable={false}
                 instanceId="select-1"
-                onChange={(n, _) => setAccessLevel(n.value)}
+                onChange={n => setAccessLevel(n.value)}
             />
             <div
                 className={style.check_notification}

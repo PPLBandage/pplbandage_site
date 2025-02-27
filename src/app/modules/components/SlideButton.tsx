@@ -1,5 +1,5 @@
 import StyleBtn from '@/app/styles/slidebtn.module.css';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface SlideButtonProps {
     onChange: (val: boolean) => Promise<void> | void;
@@ -32,7 +32,7 @@ export const SlideButton = ({
     }, [value]);
 
     const change = () => {
-        !disabled && loadable && setLoading(true);
+        if (!disabled && loadable) setLoading(true);
         setActive(prev => (!disabled && !loading ? !prev : prev));
     };
 
@@ -69,7 +69,7 @@ export const SlideButton = ({
         ? 'var(--category-color)'
         : active
         ? undefined
-        : 'rgb(77 83 99)'; // eslint-disable-line
+        : 'rgb(77 83 99)';
 
     return (
         <div className={StyleBtn.container}>

@@ -9,7 +9,7 @@ const Home = async () => {
             process.env.NEXT_PUBLIC_GLOBAL_API_URL + 'ping',
             { validateStatus: () => true }
         );
-    } catch (e) {}
+    } catch {}
     return <HomeClient pong={pong?.status} />;
 };
 

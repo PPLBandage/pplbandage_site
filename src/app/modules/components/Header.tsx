@@ -1,6 +1,13 @@
 'use client';
 
-import { Dispatch, JSX, ReactNode, SetStateAction, useEffect, useState } from 'react';
+import {
+    Dispatch,
+    JSX,
+    ReactNode,
+    SetStateAction,
+    useEffect,
+    useState
+} from 'react';
 import Styles from '@/app/styles/header.module.css';
 import { deleteCookie } from 'cookies-next';
 import Link, { LinkProps } from 'next/link';
@@ -34,7 +41,7 @@ export interface Query {
     discordID: number;
     joined_at: Date;
     banner_color: string;
-    has_unreaded_notifications: Boolean;
+    has_unreaded_notifications: boolean;
     permissions: string[];
     profile_theme: number;
     stars_count: number;
@@ -42,7 +49,9 @@ export interface Query {
     last_accessed?: Date;
 }
 
-const ExpandContext = createContext<{ setExpanded: Dispatch<SetStateAction<boolean>> }>(null);
+const ExpandContext = createContext<{
+    setExpanded: Dispatch<SetStateAction<boolean>>;
+}>(null);
 const useExpandContext = () => useContext(ExpandContext);
 
 export const adminRoles = ['managebandages', 'updateusers', 'superadmin'];
@@ -54,11 +63,17 @@ interface HeaderLinkProps
     href: string;
 }
 
-export const HeaderLink: React.FC<HeaderLinkProps> = ({ children, href, ...props }) => {
+export const HeaderLink: React.FC<HeaderLinkProps> = ({
+    children,
+    href,
+    ...props
+}) => {
     const router = useRouter();
     const { setExpanded } = useExpandContext();
 
-    const handleTransition = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const handleTransition = async (
+        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+    ) => {
         e.preventDefault();
         setExpanded(false);
 
@@ -103,14 +118,23 @@ const Header = (): JSX.Element => {
     return (
         <ExpandContext.Provider value={{ setExpanded }}>
             {expanded && (
-                <div className={Styles.expanding_menu_parent} onClick={() => setExpanded(false)} />
+                <div
+                    className={Styles.expanding_menu_parent}
+                    onClick={() => setExpanded(false)}
+                />
             )}
             <header className={Styles.header}>
                 <div
                     className={Styles.header_child}
                     style={{ padding: logged ? '.5rem' : '.9rem' }}
                 >
-                    <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexWrap: 'nowrap'
+                        }}
+                    >
                         <Link
                             href="/"
                             style={{
@@ -119,8 +143,13 @@ const Header = (): JSX.Element => {
                                 textDecoration: 'none'
                             }}
                         >
-                            <IconCropped style={{ width: '2.5rem' }} className={Styles.main_icon} />
-                            <h1 className={Styles.ppl_name}>Повязки Pepeland</h1>
+                            <IconCropped
+                                style={{ width: '2.5rem' }}
+                                className={Styles.main_icon}
+                            />
+                            <h1 className={Styles.ppl_name}>
+                                Повязки Pepeland
+                            </h1>
                         </Link>
                     </div>
 
@@ -148,7 +177,11 @@ const Header = (): JSX.Element => {
                         }}
                     >
                         <div className={Styles.menu}>
-                            {logged ? <LoggedMenu admin={admin} /> : <UnloggedMenu />}
+                            {logged ? (
+                                <LoggedMenu admin={admin} />
+                            ) : (
+                                <UnloggedMenu />
+                            )}
                         </div>
                     </ReactCSSTransition>
                 </div>
@@ -175,11 +208,17 @@ interface AvatarMenuProps {
 
 const AvatarMenu = ({ data, loading, expanded, expand }: AvatarMenuProps) => {
     return (
-        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
+        <div
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'nowrap'
+            }}
+        >
             <div
-                className={`${Styles.avatar_container} ${loading && Styles.placeholders} ${
-                    data?.has_unreaded_notifications && Styles.unreaded
-                }`}
+                className={`${Styles.avatar_container} ${
+                    loading && Styles.placeholders
+                } ${data?.has_unreaded_notifications && Styles.unreaded}`}
                 onClick={() => expand(!expanded)}
             >
                 {data?.avatar && (
@@ -194,7 +233,9 @@ const AvatarMenu = ({ data, loading, expanded, expand }: AvatarMenuProps) => {
                 )}
             </div>
             <IconChevronDown
-                className={`${Styles.expand_arrow} ${expanded && Styles.expand_arrow_rotated}`}
+                className={`${Styles.expand_arrow} ${
+                    expanded && Styles.expand_arrow_rotated
+                }`}
                 onClick={() => expand(!expanded)}
             />
         </div>
@@ -212,7 +253,9 @@ const LoggedMenu = ({ admin }: { admin: boolean }) => {
                 <IconPlus />
                 <span>Создать</span>
             </HeaderLink>
-            <hr style={{ border: '1px var(--hr-color) solid', margin: '2px' }}></hr>
+            <hr
+                style={{ border: '1px var(--hr-color) solid', margin: '2px' }}
+            ></hr>
             <HeaderLink className={Styles.menu_element} href="/">
                 <IconSmartHome />
                 <span>Главная</span>
@@ -246,7 +289,9 @@ const UnloggedMenu = () => {
                 <IconLogin />
                 <span>Войти</span>
             </HeaderLink>
-            <hr style={{ border: '1px var(--hr-color) solid', margin: '2px' }}></hr>
+            <hr
+                style={{ border: '1px var(--hr-color) solid', margin: '2px' }}
+            ></hr>
             <HeaderLink className={Styles.menu_element} href="/">
                 <IconSmartHome />
                 <span>Главная</span>

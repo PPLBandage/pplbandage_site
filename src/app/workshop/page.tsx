@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 'use client';
 
 import React, { JSX } from 'react';
@@ -110,10 +111,7 @@ export default function Home() {
         if (!getCookie('warningAccepted')) {
             calcChecksum().then(result => !result && setAlertShown(true));
         }
-        data &&
-            renderSkin(data.data, styles_card).then(results =>
-                setElements(results)
-            );
+        data && renderSkin(data.data, styles_card).then(setElements);
     }, [data]);
 
     useEffect(() => {

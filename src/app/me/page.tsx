@@ -10,7 +10,11 @@ import { Me } from '@/app/modules/components/MeSidebar';
 import Link from 'next/link';
 import { SimpleGrid } from '@/app/modules/components/AdaptiveGrid';
 
-import { IconArrowBack, IconBrandMinecraft, IconPlus } from '@tabler/icons-react';
+import {
+    IconArrowBack,
+    IconBrandMinecraft,
+    IconPlus
+} from '@tabler/icons-react';
 import IconSvgCropped from '@/app/resources/icon-cropped.svg';
 import { httpStatusCodes } from '../modules/utils/StatusCodes';
 import { renderSkin } from '../modules/utils/SkinCardRender';
@@ -32,7 +36,9 @@ const Main = () => {
     const [data, setData] = useState<Bandage[]>(null);
 
     useEffect(() => {
-        data && renderSkin(data, styles).then(results => setElements(results));
+        if (data) {
+            renderSkin(data, styles).then(results => setElements(results));
+        }
     }, [data]);
 
     useEffect(() => {
@@ -49,7 +55,8 @@ const Main = () => {
                 .catch(response => {
                     setLoadingStatus(
                         `${response.status}: ${
-                            response.data.message || httpStatusCodes[response.status]
+                            response.data.message ||
+                            httpStatusCodes[response.status]
                         }`
                     );
                 });
@@ -58,7 +65,9 @@ const Main = () => {
     }, []);
 
     useEffect(() => {
-        isLogged && ApiManager.getMeWorks().then(setData).catch(console.error);
+        if (isLogged) {
+            ApiManager.getMeWorks().then(setData).catch(console.error);
+        }
     }, [isLogged]);
 
     return (
@@ -73,7 +82,10 @@ const Main = () => {
                         style={
                             elements
                                 ? { opacity: '1', transform: 'translateY(0)' }
-                                : { opacity: '0', transform: 'translateY(50px)' }
+                                : {
+                                      opacity: '0',
+                                      transform: 'translateY(50px)'
+                                  }
                         }
                         className={styles.cont}
                         id="sidebar"
@@ -166,7 +178,12 @@ const Login = () => {
                     </a>{' '}
                     и иметь одну из этих&nbsp;
                     <RolesDialog>
-                        <span style={{ cursor: 'pointer', textDecoration: 'underline' }}>
+                        <span
+                            style={{
+                                cursor: 'pointer',
+                                textDecoration: 'underline'
+                            }}
+                        >
                             ролей
                         </span>
                     </RolesDialog>
@@ -174,7 +191,11 @@ const Login = () => {
                 </span>
                 <p style={{ color: 'gray', marginBottom: 0 }}>
                     Регистрируясь на сайте вы соглашаетесь с настоящими{' '}
-                    <a className={styles.a} href="/tos" style={{ color: 'gray' }}>
+                    <a
+                        className={styles.a}
+                        href="/tos"
+                        style={{ color: 'gray' }}
+                    >
                         условиями пользования
                     </a>
                 </p>

@@ -12,7 +12,7 @@ import { CookieProvider } from './modules/utils/CookiesProvider/CookiesComponent
 export const generateMetadata = async (): Promise<Metadata | undefined> => {
     const headersList = await headers();
     const path = headersList.get('X-Forwarded-Path')?.split('?')[0]; // Working only with Nginx config!
-    const object = meta as { [key: string]: any };
+    const object = meta as { [key: string]: unknown };
     const base = meta.base;
     if (!path) return base;
     const extend = object[path];

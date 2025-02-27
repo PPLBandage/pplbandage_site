@@ -52,7 +52,7 @@ const HomeClient = ({ pong }: { pong: number }) => {
         '4psolk'
     ];
 
-    let pepes: JSX.Element[] = [];
+    const pepes: JSX.Element[] = [];
     for (let i = 0; i < 10; i++) {
         const PepeEl = pepes_svgs[i];
         pepes.push(

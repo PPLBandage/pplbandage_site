@@ -126,7 +126,7 @@ export const Search = ({
                             options={options_sortir}
                             className={`react-select-container ${Styles.select_sortir}`}
                             classNamePrefix="react-select"
-                            onChange={(n, _) => onChangeSort(n.value)}
+                            onChange={n => onChangeSort(n.value)}
                             value={options_sortir.find(i => i.value === sort)}
                             isSearchable={false}
                             instanceId="select-1"
@@ -146,7 +146,7 @@ export const Search = ({
                             className={`react-select-container ${Styles.select_take}`}
                             classNamePrefix="react-select"
                             isSearchable={false}
-                            onChange={(n, _) => onChangeTake(n.value)}
+                            onChange={n => onChangeTake(n.value)}
                             value={options_take.find(i => i.value === take)}
                             instanceId="select-2"
                         />

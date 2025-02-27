@@ -9,8 +9,7 @@
         "build": "next build",
         "start": "next start",
         "prod": "next build && next start",
-        "lint": "next lint",
-        "lint:fix": "next lint --fix"
+        "lint": "next lint"
     },
     "dependencies": {
         "@svgr/webpack": "^8.1.0",

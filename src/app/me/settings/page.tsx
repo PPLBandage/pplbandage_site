@@ -366,13 +366,13 @@ const Themes = () => {
     );
 };
 
-interface ThemeProps {
+type ThemeProps = {
     name: string;
     title: string;
     '--main-bg-color': string;
     '--main-card-color': string;
     '--main-element-color': string;
-}
+};
 
 const Theme = ({
     data,
@@ -385,7 +385,7 @@ const Theme = ({
 }) => {
     const change = (evt: ChangeEvent) => {
         const target = evt.target as HTMLInputElement;
-        target.checked && onChange(data.name);
+        if (target.checked) onChange(data.name);
     };
 
     return (
@@ -511,7 +511,7 @@ const Safety = () => {
             {!session.is_self && (
                 <button
                     className={Style_safety.button}
-                    onClick={_ => logoutSession(session.id)}
+                    onClick={() => logoutSession(session.id)}
                 >
                     <IconX />
                 </button>

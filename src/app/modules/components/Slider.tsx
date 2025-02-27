@@ -30,6 +30,7 @@ const Slider = ({
         };
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mouseDown = (event: any) => {
         setIsDragging(true);
         document.body.style.userSelect = 'none';
@@ -43,6 +44,7 @@ const Slider = ({
         }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mouseMove = (event: any) => {
         const clientY =
             'touches' in event ? event.touches[0].clientY : event.clientY;

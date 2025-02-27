@@ -85,13 +85,13 @@ const SkinView3D = ({
         skinViewRef.current.camera.position.z = 15;
 
         skinViewRef.current.scene.position.y = -2.5;
-        background && skinViewRef.current.loadBackground(background);
+        if (background) skinViewRef.current.loadBackground(background);
 
         skinViewRef.current.loadSkin(
             SKIN ? SKIN : '/static/workshop_base.png',
             { model: slim ? 'slim' : 'default' }
         );
-        CAPE && skinViewRef.current.loadSkin(CAPE);
+        if (CAPE) skinViewRef.current.loadSkin(CAPE);
 
         const resizeObserver = new ResizeObserver(entries => {
             const { width, height } = entries[0].contentRect;
@@ -111,6 +111,7 @@ const SkinView3D = ({
     }, [SKIN, slim]);
 
     useEffect(() => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         CAPE
             ? skinViewRef.current?.loadCape(CAPE)
             : skinViewRef.current?.resetCape();

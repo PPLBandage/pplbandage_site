@@ -1,6 +1,6 @@
 'use client';
 
-import React, { JSX, useState } from 'react';
+import React, { useState } from 'react';
 import Style from './styles/root/page.module.css';
 import Link from 'next/link';
 import { CustomLink } from './modules/components/Search';
@@ -25,53 +25,39 @@ import Pepe7 from '@/app/resources/pepes_svg/7.svg';
 import Pepe8 from '@/app/resources/pepes_svg/8.svg';
 import Pepe9 from '@/app/resources/pepes_svg/9.svg';
 
+const pepesObj = {
+    ogukal: Pepe0,
+    gauu3s: Pepe1,
+    pe5s4d: Pepe2,
+    x4rak9: Pepe3,
+    '3t75jf': Pepe4,
+    wrbs4h: Pepe5,
+    t6i5ld: Pepe6,
+    gnikzr: Pepe7,
+    by1lzs: Pepe8,
+    '4psolk': Pepe9
+};
+
 const HomeClient = ({ pong }: { pong: number }) => {
     const [animationState, setAnimationState] = useState<boolean>(true);
-    const pepes_svgs = [
-        Pepe0,
-        Pepe1,
-        Pepe2,
-        Pepe3,
-        Pepe4,
-        Pepe5,
-        Pepe6,
-        Pepe7,
-        Pepe8,
-        Pepe9
-    ];
-    const pepes_links = [
-        'ogukal',
-        'gauu3s',
-        'pe5s4d',
-        'x4rak9',
-        '3t75jf',
-        'wrbs4h',
-        't6i5ld',
-        'gnikzr',
-        'by1lzs',
-        '4psolk'
-    ];
 
-    const pepes: JSX.Element[] = [];
-    for (let i = 0; i < 10; i++) {
-        const PepeEl = pepes_svgs[i];
-        pepes.push(
-            <a
-                key={i}
-                className={Style.img}
-                style={{
-                    animationPlayState: animationState ? 'running' : 'paused'
-                }}
-                href={`/workshop/${pepes_links[i]}`}
-            >
-                <PepeEl
-                    style={{ width: '60px', height: 'auto' }}
-                    onMouseEnter={() => setAnimationState(false)}
-                    onMouseLeave={() => setAnimationState(true)}
-                />
-            </a>
-        );
-    }
+    const pepes = Object.entries(pepesObj).map(([path, Pepe], index) => (
+        <Link
+            key={index}
+            className={Style.img}
+            style={{
+                animationPlayState: animationState ? 'running' : 'paused'
+            }}
+            href={`/workshop/${path}`}
+        >
+            <Pepe
+                style={{ width: '60px', height: 'auto' }}
+                onMouseEnter={() => setAnimationState(false)}
+                onMouseLeave={() => setAnimationState(true)}
+            />
+        </Link>
+    ));
+
     return (
         <div>
             <div className={Style.main_container}>

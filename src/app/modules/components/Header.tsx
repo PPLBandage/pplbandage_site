@@ -102,13 +102,10 @@ const Header = (): JSX.Element => {
             } catch (e) {
                 setLogged(false);
                 throw e;
-            } finally {
-                setLoading(false);
             }
         }
     });
 
-    const [loading, setLoading] = useState<boolean>(!!cookie && !data);
     const admin = data?.permissions.some(role => adminRoles.includes(role));
 
     useEffect(() => {
@@ -156,7 +153,6 @@ const Header = (): JSX.Element => {
                     {logged ? (
                         <AvatarMenu
                             data={data}
-                            loading={loading}
                             expanded={expanded}
                             expand={setExpanded}
                         />
@@ -201,12 +197,13 @@ const logout = () => {
 
 interface AvatarMenuProps {
     data: Query;
-    loading: boolean;
     expanded: boolean;
     expand(state: boolean): void;
 }
 
-const AvatarMenu = ({ data, loading, expanded, expand }: AvatarMenuProps) => {
+const AvatarMenu = ({ data, expanded, expand }: AvatarMenuProps) => {
+    const [loading, setLoading] = useState<boolean>(true);
+
     return (
         <div
             style={{
@@ -216,9 +213,12 @@ const AvatarMenu = ({ data, loading, expanded, expand }: AvatarMenuProps) => {
             }}
         >
             <div
-                className={`${Styles.avatar_container} ${
-                    loading && Styles.placeholders
-                } ${data?.has_unreaded_notifications && Styles.unreaded}`}
+                className={
+                    `${Styles.avatar_container} ` +
+                    `${Styles.placeholders} ` +
+                    `${!loading && Styles.placeholders_out} ` +
+                    `${data?.has_unreaded_notifications && Styles.unreaded}`
+                }
                 onClick={() => expand(!expanded)}
             >
                 {data?.avatar && (
@@ -229,6 +229,7 @@ const AvatarMenu = ({ data, loading, expanded, expand }: AvatarMenuProps) => {
                         width={80}
                         height={80}
                         priority={true}
+                        onLoad={() => setLoading(false)}
                     />
                 )}
             </div>

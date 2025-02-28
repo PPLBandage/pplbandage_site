@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
 import Style from '@/app/styles/me/notifications.module.css';
-import useCookie from '@/app/modules/utils/useCookie';
 import { Me } from '@/app/modules/components/MeSidebar';
 import { formatDate } from '@/app/modules/components/Card';
 import { Paginator } from '@/app/modules/components/Paginator';
@@ -12,10 +11,12 @@ import Image from 'next/image';
 import ApiManager from '@/app/modules/utils/apiManager';
 import { NotificationsInterface } from '@/app/interfaces';
 import sanitizeHtml from 'sanitize-html';
+import { useNextCookie } from 'use-next-cookie';
 
 const Notifications = () => {
-    const logged = useCookie('sessionId');
-    const [notifications, setNotifications] = useState<NotificationsInterface | null>(null);
+    const logged = useNextCookie('sessionId', 1000);
+    const [notifications, setNotifications] =
+        useState<NotificationsInterface | null>(null);
     const [page, setPage] = useState<number>(0);
 
     if (!logged) redirect('/me');
@@ -28,7 +29,9 @@ const Notifications = () => {
 
     useEffect(() => {
         if (page < 0) return;
-        ApiManager.getMeNotifications({ page }).then(setNotifications).catch(console.error);
+        ApiManager.getMeNotifications({ page })
+            .then(setNotifications)
+            .catch(console.error);
     }, [page]);
 
     const notifications_el = notifications?.data.map(notification => {
@@ -49,12 +52,18 @@ const Notifications = () => {
             }
         });
         return (
-            <div key={notification.id} className={`${Style.notification_container} ${classN}`}>
+            <div
+                key={notification.id}
+                className={`${Style.notification_container} ${classN}`}
+            >
                 <div className={Style.date_container}>
                     <h1>{notification.author}</h1>
                     <p>{formatDate(new Date(notification.creation_date))}</p>
                 </div>
-                <p dangerouslySetInnerHTML={{ __html: cleanString }} className={Style.content} />
+                <p
+                    dangerouslySetInnerHTML={{ __html: cleanString }}
+                    className={Style.content}
+                />
             </div>
         );
     });
@@ -88,8 +97,16 @@ const Notifications = () => {
                             className={style_sidebar.animated}
                             style={
                                 notifications != null
-                                    ? { opacity: '1', transform: 'translateY(0)', width: '100%' }
-                                    : { opacity: '0', transform: 'translateY(50px)', width: '100%' }
+                                    ? {
+                                          opacity: '1',
+                                          transform: 'translateY(0)',
+                                          width: '100%'
+                                      }
+                                    : {
+                                          opacity: '0',
+                                          transform: 'translateY(50px)',
+                                          width: '100%'
+                                      }
                             }
                         >
                             <p

@@ -7,7 +7,6 @@ import { redirect } from 'next/navigation';
 import Style from '@/app/styles/me/connections.module.css';
 import Style_themes from '@/app/styles/me/themes.module.css';
 import Style_safety from '@/app/styles/me/safety.module.css';
-import useCookie from '@/app/modules/utils/useCookie';
 import Image from 'next/image';
 import { Me } from '@/app/modules/components/MeSidebar';
 import { formatDate, formatDateHuman } from '@/app/modules/components/Card';
@@ -33,6 +32,7 @@ import { setTheme } from './setTheme';
 import MinecraftConnect from '@/app/modules/components/MinecraftConnect';
 import themes from '@/app/themes';
 import { minecraftMono } from '@/app/modules/fonts/Minecraft';
+import { useNextCookie } from 'use-next-cookie';
 
 export interface SettingsResponse {
     statusCode: number;
@@ -61,7 +61,7 @@ const b64Prefix = 'data:image/png;base64,';
 
 const Page = () => {
     const [loaded, setLoaded] = useState<boolean>(false);
-    const logged = useCookie('sessionId');
+    const logged = useNextCookie('sessionId', 1000);
     if (!logged) redirect('/me');
 
     useEffect(() => {
@@ -327,7 +327,7 @@ const Connections = ({
 };
 
 const Themes = () => {
-    const themeCookie = useCookie('theme_main');
+    const themeCookie = useNextCookie('theme_main', 1000);
     const [themeState, setThemeState] = useState<string>(
         themeCookie || 'default'
     );

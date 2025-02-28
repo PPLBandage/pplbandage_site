@@ -11,13 +11,13 @@ import CategorySelector from '@/app/modules/components/CategorySelector';
 import * as Interfaces from '@/app/interfaces';
 import debounce from 'lodash.debounce';
 import InfoCard from '@/app/modules/components/InfoCard';
-import useCookie from '@/app/modules/utils/useCookie';
 import { redirect } from 'next/navigation';
 import { Fira_Code } from 'next/font/google';
 import { CustomLink } from '@/app/modules/components/Search';
 import asyncImage from '@/app/modules/utils/asyncImage';
 import SlideButton from '@/app/modules/components/SlideButton';
 import ApiManager from '@/app/modules/utils/apiManager';
+import { useNextCookie } from 'use-next-cookie';
 const fira = Fira_Code({ subsets: ['latin'] });
 
 const capitalize = (string: string) =>
@@ -30,7 +30,7 @@ export default function Home() {
     const [slim, setSlim] = useState<boolean>(false);
     const [pose, setPose] = useState<number>(1);
     const [height, setHeight] = useState<number>(-1);
-    const logged = useCookie('sessionId');
+    const logged = useNextCookie('sessionId', 1000);
 
     if (!logged) {
         redirect('/me');

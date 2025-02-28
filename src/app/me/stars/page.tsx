@@ -3,7 +3,6 @@
 import React, { JSX } from 'react';
 import { useEffect, useState } from 'react';
 import style_sidebar from '@/app/styles/me/sidebar.module.css';
-import useCookie from '@/app/modules/utils/useCookie';
 import styles_me from '@/app/styles/me/me.module.css';
 import Image from 'next/image';
 import { Bandage } from '@/app/interfaces';
@@ -12,9 +11,10 @@ import { redirect } from 'next/navigation';
 import { SimpleGrid } from '@/app/modules/components/AdaptiveGrid';
 import { renderSkin } from '@/app/modules/utils/SkinCardRender';
 import ApiManager from '@/app/modules/utils/apiManager';
+import { useNextCookie } from 'use-next-cookie';
 
 const Main = () => {
-    const logged = useCookie('sessionId');
+    const logged = useNextCookie('sessionId', 1000);
     const [isLogged, setIsLogged] = useState<boolean>(logged !== undefined);
 
     const [elements, setElements] = useState<JSX.Element[]>(null);

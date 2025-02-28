@@ -4,8 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Inter } from 'next/font/google';
 import { CSSProperties } from 'react';
 import WorkshopCacheListener from './utils/workshopCacheListener';
-import { useCookiesServer } from './utils/CookiesProvider/CookieProvider';
 import themes from '@/app/themes';
+import { useCookiesServer } from 'use-next-cookie';
 
 const queryClient = new QueryClient();
 const inter = Inter({ subsets: ['latin'] });

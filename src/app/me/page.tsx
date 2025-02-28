@@ -4,7 +4,6 @@ import React, { CSSProperties, JSX } from 'react';
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from '@/app/styles/me/me.module.css';
-import useCookie from '@/app/modules/utils/useCookie';
 import { Bandage } from '@/app/interfaces';
 import { Me } from '@/app/modules/components/MeSidebar';
 import Link from 'next/link';
@@ -21,6 +20,7 @@ import { renderSkin } from '../modules/utils/SkinCardRender';
 import ApiManager from '../modules/utils/apiManager';
 import MinecraftConnect from '../modules/components/MinecraftConnect';
 import RolesDialog from '../modules/components/RolesDialog';
+import { useNextCookie } from 'use-next-cookie';
 
 const Main = () => {
     const router = useRouter();
@@ -28,7 +28,7 @@ const Main = () => {
     const searchParams = useSearchParams();
     const code = searchParams.get('code');
 
-    const logged = useCookie('sessionId');
+    const logged = useNextCookie('sessionId', 1000);
     const [isLogged, setIsLogged] = useState<boolean>(logged != undefined);
     const [loadingStatus, setLoadingStatus] = useState<string>('');
 

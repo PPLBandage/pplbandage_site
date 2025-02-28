@@ -16,11 +16,11 @@ import {
 import { getIcon } from '../utils/Categories';
 import { usePathname, useRouter } from 'next/navigation';
 import { UseGlobalTooltip } from './Tooltip';
-import useCookie from '../utils/useCookie';
 import ApiManager from '../utils/apiManager';
 import { useConfigContext } from '@/app/modules/utils/ConfigContext';
 import IconCandle from '@/app/resources/stars/candle.svg';
 import IconCandleOn from '@/app/resources/stars/candle_on.svg';
+import { useNextCookie } from 'use-next-cookie';
 
 const months = [
     'января',
@@ -230,7 +230,7 @@ export const Card = ({
     base64: string;
     className?: { readonly [key: string]: string };
 }) => {
-    const theme = useCookie('theme_main');
+    const theme = useNextCookie('theme_main', 1000);
     const background = backgrounds[theme] ?? 'default';
 
     const categories = el.categories.map(category => (

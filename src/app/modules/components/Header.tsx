@@ -13,7 +13,6 @@ import { deleteCookie } from 'cookies-next';
 import Link, { LinkProps } from 'next/link';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
-import useCookie from '@/app/modules/utils/useCookie';
 import * as Interfaces from '@/app/interfaces';
 
 import {
@@ -33,6 +32,7 @@ import ApiManager from '../utils/apiManager';
 import { useRouter } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import ReactCSSTransition from './CSSTransition';
+import { useNextCookie } from 'use-next-cookie';
 
 export interface Query {
     username: string;
@@ -88,7 +88,7 @@ export const HeaderLink: React.FC<HeaderLinkProps> = ({
 };
 
 const Header = (): JSX.Element => {
-    const cookie = useCookie('sessionId');
+    const cookie = useNextCookie('sessionId', 1000);
     const [logged, setLogged] = useState<boolean>(!!cookie);
     const [expanded, setExpanded] = useState<boolean>(false);
 
@@ -234,9 +234,10 @@ const AvatarMenu = ({ data, expanded, expand }: AvatarMenuProps) => {
                 )}
             </div>
             <IconChevronDown
-                className={`${Styles.expand_arrow} ${
-                    expanded && Styles.expand_arrow_rotated
-                }`}
+                className={
+                    `${Styles.expand_arrow} ` +
+                    `${expanded && Styles.expand_arrow_rotated}`
+                }
                 onClick={() => expand(!expanded)}
             />
         </div>

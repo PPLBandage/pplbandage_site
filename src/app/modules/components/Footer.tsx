@@ -5,15 +5,19 @@ import style from '@/app/styles/footer.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useCookiesServer } from '../utils/CookiesProvider/CookieProvider';
 import themes from '@/app/themes';
+import { useCookiesServer } from 'use-next-cookie';
 
 const Footer = () => {
     const path = usePathname();
     const cookiesServer = useCookiesServer();
     const themesKeys = Object.keys(themes);
-    const initialThemeIndex = themesKeys.indexOf(cookiesServer.get('theme_main') || 'default');
-    const [theme, setTheme_] = useState<number>(initialThemeIndex !== -1 ? initialThemeIndex : 0);
+    const initialThemeIndex = themesKeys.indexOf(
+        cookiesServer.get('theme_main') || 'default'
+    );
+    const [theme, setTheme_] = useState<number>(
+        initialThemeIndex !== -1 ? initialThemeIndex : 0
+    );
 
     useEffect(() => {
         if (theme > themesKeys.length - 1) {
@@ -43,7 +47,10 @@ const Footer = () => {
                         <Link href="/contacts">Контакты</Link>
 
                         <Link href="/tutorials">Туториалы</Link>
-                        <Link href="https://github.com/PPLBandage" target="_blank">
+                        <Link
+                            href="https://github.com/PPLBandage"
+                            target="_blank"
+                        >
                             GitHub
                         </Link>
                         <a
@@ -55,7 +62,8 @@ const Footer = () => {
                     </div>
                 </div>
                 <p className={style.project}>
-                    PPLBandage project 2023–{new Date().getFullYear()} by AndcoolSystems,&nbsp;
+                    PPLBandage project 2023–{new Date().getFullYear()} by
+                    AndcoolSystems,&nbsp;
                     <span>
                         master@
                         <a
@@ -67,8 +75,8 @@ const Footer = () => {
                     </span>
                 </p>
                 <p style={{ fontSize: '.8rem', margin: 0, marginTop: '.5rem' }}>
-                    NOT AN OFFICIAL MINECRAFT SERVICE. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR
-                    MICROSOFT.
+                    NOT AN OFFICIAL MINECRAFT SERVICE. NOT APPROVED BY OR
+                    ASSOCIATED WITH MOJANG OR MICROSOFT.
                 </p>
             </div>
         </footer>

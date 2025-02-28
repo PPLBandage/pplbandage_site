@@ -7,7 +7,7 @@ import { merge } from 'lodash';
 import Footer from './modules/components/Footer';
 import Header from './modules/components/Header';
 import type { Viewport } from 'next';
-import { CookieProvider } from './modules/utils/CookiesProvider/CookiesComponent';
+import { CookieProvider } from 'use-next-cookie';
 
 export const generateMetadata = async (): Promise<Metadata | undefined> => {
     const headersList = await headers();

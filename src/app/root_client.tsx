@@ -10,7 +10,6 @@ import {
     IconStack,
     IconX
 } from '@tabler/icons-react';
-import NextImage from 'next/image';
 import InfoCard from './modules/components/InfoCard';
 
 // Import pepes images
@@ -24,6 +23,9 @@ import Pepe6 from '@/app/resources/pepes_svg/6.svg';
 import Pepe7 from '@/app/resources/pepes_svg/7.svg';
 import Pepe8 from '@/app/resources/pepes_svg/8.svg';
 import Pepe9 from '@/app/resources/pepes_svg/9.svg';
+
+import IconCropped from '@/app/resources/icon-cropped.svg';
+import IconShape from '@/app/resources/shape.svg';
 
 const pepesObj = {
     ogukal: Pepe0,
@@ -46,6 +48,7 @@ const HomeClient = ({ pong }: { pong: number }) => {
             key={index}
             className={Style.img}
             style={{
+                animationDelay: `-${4 * index}s`,
                 animationPlayState: animationState ? 'running' : 'paused'
             }}
             href={`/workshop/${path}`}
@@ -151,20 +154,10 @@ const HomeClient = ({ pong }: { pong: number }) => {
                                 Shape std
                             </p>
                         </div>
-                        <NextImage
-                            src="/static/icons/shape.svg"
-                            alt=""
-                            width={24}
-                            height={24}
-                        />
+                        <IconShape alt="" width={24} height={24} />
                     </Link>
                     <IconX width={16} height={16} strokeWidth={3} />
-                    <NextImage
-                        src="/static/icons/icon-cropped.svg"
-                        alt=""
-                        width={24}
-                        height={24}
-                    />
+                    <IconCropped alt="" width={24} height={24} />
                 </div>
             </footer>
         </div>

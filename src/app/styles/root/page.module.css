@@ -20,46 +20,6 @@
     cursor: pointer;
 }
 
-.img:nth-child(1) {
-    animation-delay: 0s;
-}
-
-.img:nth-child(2) {
-    animation-delay: -4s;
-}
-
-.img:nth-child(3) {
-    animation-delay: -8s;
-}
-
-.img:nth-child(4) {
-    animation-delay: -12s;
-}
-
-.img:nth-child(5) {
-    animation-delay: -16s;
-}
-
-.img:nth-child(6) {
-    animation-delay: -20s;
-}
-
-.img:nth-child(7) {
-    animation-delay: -24s;
-}
-
-.img:nth-child(8) {
-    animation-delay: -28s;
-}
-
-.img:nth-child(9) {
-    animation-delay: -32s;
-}
-
-.img:nth-child(10) {
-    animation-delay: -36s;
-}
-
 @keyframes anim {
     0% {
         offset-distance: 0%;

@@ -11,7 +11,7 @@ import { CookieProvider } from 'use-next-cookie';
 
 export const generateMetadata = async (): Promise<Metadata | undefined> => {
     const headersList = await headers();
-    const path = headersList.get('X-Forwarded-Path')?.split('?')[0]; // Working only with Nginx config!
+    const path = headersList.get('X-Path')?.split('?')[0];
     const object = meta as { [key: string]: unknown };
     const base = meta.base;
     if (!path) return base;

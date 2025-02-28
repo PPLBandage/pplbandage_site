@@ -55,6 +55,11 @@
     text-decoration: underline;
 }
 
+.theme_switcher {
+    cursor: pointer;
+    user-select: none;
+}
+
 @media(max-width: 450px) {
     .beta {
         font-size: .8rem;

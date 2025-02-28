@@ -8,6 +8,13 @@ import { useEffect, useState } from 'react';
 import themes from '@/app/themes';
 import { useCookiesServer } from 'use-next-cookie';
 
+const getYearByTimeZone = (timeZone: string) => {
+    return new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        timeZone
+    }).format(new Date());
+};
+
 const Footer = () => {
     const path = usePathname();
     const cookiesServer = useCookiesServer();
@@ -54,7 +61,7 @@ const Footer = () => {
                             GitHub
                         </Link>
                         <a
-                            style={{ cursor: 'pointer', userSelect: 'none' }}
+                            className={style.theme_switcher}
                             onClick={() => setTheme_(prev => prev + 1)}
                         >
                             Изменить тему
@@ -62,13 +69,14 @@ const Footer = () => {
                     </div>
                 </div>
                 <p className={style.project}>
-                    PPLBandage project 2023–{new Date().getFullYear()} by
+                    PPLBandage project 2023–{getYearByTimeZone('Etc/GMT-3')} by
                     AndcoolSystems,&nbsp;
                     <span>
                         master@
                         <a
                             className={style.git}
-                            href={`https://github.com/PPLBandage/pplbandage_site/commit/${process.env.NEXT_PUBLIC_COMMIT_SHA}`} // eslint-disable-line
+                            // eslint-disable-next-line max-len
+                            href={`https://github.com/PPLBandage/pplbandage_site/commit/${process.env.NEXT_PUBLIC_COMMIT_SHA}`}
                         >
                             {process.env.NEXT_PUBLIC_COMMIT_SHA.slice(0, 7)}
                         </a>

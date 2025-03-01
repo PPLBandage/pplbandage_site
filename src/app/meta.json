@@ -62,7 +62,7 @@
             "description": "Ваши избранные работы"
         }
     },
-    "/tos": {
+    "/tutorials/rules": {
         "title": "Правила · Повязки Pepeland",
         "description": "Правила использования сайта",
         "openGraph": {

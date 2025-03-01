@@ -1,4 +1,5 @@
 'use client';
+
 import Link, { LinkProps } from 'next/link';
 import React, { ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';

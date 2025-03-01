@@ -1,7 +1,8 @@
-import { redirect } from 'next/navigation';
+import { permanentRedirect } from 'next/navigation';
 
 const Connections = () => {
-    redirect('/me/settings');
+    // for backwards compatibility :)
+    permanentRedirect('/me/settings');
 };
 
 export default Connections;

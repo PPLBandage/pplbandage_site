@@ -193,7 +193,7 @@ const Login = () => {
                     Регистрируясь на сайте вы соглашаетесь с настоящими{' '}
                     <a
                         className={styles.a}
-                        href="/tos"
+                        href="/tutorials/rules"
                         style={{ color: 'gray' }}
                     >
                         условиями пользования

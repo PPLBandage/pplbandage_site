@@ -1,3 +1,5 @@
+'use client';
+
 import style_sidebar from '@/app/styles/me/sidebar.module.css';
 import style_add from '@/app/styles/tutorials/common.module.css';
 import { usePathname } from 'next/navigation';
@@ -39,6 +41,14 @@ const ASide = () => {
                 }`}
             >
                 Окрашиваемая повязка
+            </TransitionLink>
+            <TransitionLink
+                href="/tutorials/rules"
+                className={`${style_sidebar.side_butt} ${
+                    path == 'rules' && style_sidebar.active
+                }`}
+            >
+                Правила сайта
             </TransitionLink>
         </div>
     );

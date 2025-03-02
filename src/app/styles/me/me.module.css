@@ -31,19 +31,10 @@
     border: 1px solid #5c6579
 }
 
-.roles_container {
-    display: inline-flex;
-    flex-direction: column;
-}
-
 .roles_text {
     text-decoration: underline;
     user-select: none;
     cursor: pointer;
-}
-
-.roles_text_container {
-    display: inline-block;
 }
 
 .login_main {
@@ -234,12 +225,6 @@
         min-width: 300px !important;
     }
 
-    .skin_props {
-        height: auto !important;
-        image-rendering: pixelated !important;
-    }
-
-    .skin_props,
     .skin_description_props {
         width: 100% !important;
         min-width: 300px !important;

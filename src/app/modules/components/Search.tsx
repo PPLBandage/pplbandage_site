@@ -170,8 +170,8 @@ export const Search = ({
                         state={expanded}
                         timeout={150}
                         classNames={{
-                            enter: Styles['menu-enter'],
-                            exitActive: Styles['menu-exit-active']
+                            enter: Styles.menu_enter,
+                            exitActive: Styles.menu_exit_active
                         }}
                     >
                         <div className={Styles.category_menu}>

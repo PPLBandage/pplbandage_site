@@ -48,21 +48,21 @@
     filter: brightness(1);
 }
 
-.menu-enter {
+.menu_enter {
     opacity: 0;
     transform: scale(0.9);
 }
 
-.menu-exit-active {
+.menu_exit_active {
     opacity: 0;
     transform: scale(0.9);
 }
 
-.background-enter {
+.background_enter {
     opacity: 0;
 }
 
-.background-exit-active {
+.background_exit_active {
     opacity: 0;
     transition: opacity 150ms;
 }

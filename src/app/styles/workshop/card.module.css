@@ -151,14 +151,6 @@
     cursor: pointer;
 }
 
-.tooltip_container {
-    display: inline;
-}
-
-.tooltip_body {
-    font-size: .9rem;
-}
-
 @media (max-width: 730px) {
     .star_container {
         transform: none;

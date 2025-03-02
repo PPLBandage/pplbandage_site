@@ -51,12 +51,12 @@
     transition: opacity 150ms, transform 150ms;
 }
 
-.menu-enter {
+.menu_enter {
     opacity: 0;
     transform: scaleY(0.5);
 }
 
-.menu-exit-active {
+.menu_exit_active {
     opacity: 0;
     transform: scaleY(0.5);
 }
@@ -174,10 +174,6 @@
     font-size: 1.3rem;
     margin: 0;
     margin-left: .5rem;
-}
-
-.auth_cont {
-    display: flex;
 }
 
 .unreaded {

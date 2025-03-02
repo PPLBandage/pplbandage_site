@@ -136,16 +136,6 @@
     top: 1rem;
 }
 
-.skins_container {
-    transition: opacity 200ms, transform 200ms;
-    display: grid;
-    gap: 1rem;
-    justify-content: center;
-    grid-template-columns: repeat(auto-fill, 300px);
-    grid-auto-rows: max-content;
-    width: 100%;
-}
-
 .skins_container_2 {
     transition: opacity 200ms, transform 200ms;
     width: 100%;
@@ -157,13 +147,6 @@
 
 .animated {
     transition: opacity 200ms, transform 200ms;
-}
-
-.background_image {
-    position: absolute;
-    z-index: -1;
-    width: 100%;
-    height: auto;
 }
 
 .card_improved {
@@ -214,12 +197,6 @@
 
     .card {
         width: auto;
-        min-width: 300px;
-    }
-
-    .skins_container {
-        display: flex;
-        flex-direction: column;
         min-width: 300px;
     }
 

@@ -7,11 +7,21 @@
     padding: .5rem;
     z-index: 99999;
     cursor: pointer;
-    border-top-left-radius: 0%;
+    border-top-left-radius: 0;
     opacity: .9;
     box-sizing: border-box;
     box-shadow: rgba(0, 0, 0, .25) 0px 2px 4px 0px;
     border: 1px var(--category-color) solid;
+}
+
+.upperTooltipStyle {
+    border-radius: 5px;
+    border-bottom-left-radius: 0;
+}
+
+.leftTooltipStyle {
+    border-radius: 5px;
+    border-bottom-right-radius: 0;
 }
 
 .globalTooltipStyle {
@@ -23,17 +33,5 @@
     .tooltipStyle {
         max-width: 80%;
         padding: 2%
-    }
-
-    .video {
-        width: 150px;
-    }
-
-    .h3 {
-        font-size: 90%;
-    }
-
-    .p {
-        font-size: 80%;
     }
 }

@@ -328,26 +328,15 @@
     gap: .4rem;
 }
 
-
-.menu-exit {
-    opacity: 1;
-}
-
-.menu-exit-bandage-active {
+.menu_exit_bandage_active {
     opacity: 0;
     transform: scaleY(0.5);
     transition: opacity 150ms, transform 150ms;
 }
 
-.menu-enter-bandage {
+.menu_enter_bandage {
     opacity: 0;
     transform: scaleY(0.5);
-}
-
-.menu-enter-bandage-active {
-    opacity: 1;
-    transform: scaleY(1);
-    transition: opacity 150ms, transform 150ms;
 }
 
 .adjust_color {

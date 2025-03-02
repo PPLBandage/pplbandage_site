@@ -43,8 +43,8 @@ const RolesDialog = ({ children }: { children: JSX.Element }) => {
                 state={expanded}
                 timeout={150}
                 classNames={{
-                    enter: style_base['background-enter'],
-                    exitActive: style_base['background-exit-active']
+                    enter: style_base.background_enter,
+                    exitActive: style_base.background_exit_active
                 }}
             >
                 <div className={style_base.background} />
@@ -54,8 +54,8 @@ const RolesDialog = ({ children }: { children: JSX.Element }) => {
                 state={expanded}
                 timeout={150}
                 classNames={{
-                    enter: style_base['menu-enter'],
-                    exitActive: style_base['menu-exit-active']
+                    enter: style_base.menu_enter,
+                    exitActive: style_base.menu_exit_active
                 }}
             >
                 <div className={style_base.base}>

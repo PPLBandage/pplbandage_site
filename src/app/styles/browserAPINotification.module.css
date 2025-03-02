@@ -6,7 +6,6 @@
     transform: translateX(calc(100% + .7rem));
 }
 
-
 .container {
     max-width: 400px;
     background-color: var(--main-action-color);

@@ -38,8 +38,8 @@ const MinecraftConnect = ({
                 state={expanded}
                 timeout={150}
                 classNames={{
-                    enter: style['background-enter'],
-                    exitActive: style['background-exit-active']
+                    enter: style.background_enter,
+                    exitActive: style.background_exit_active
                 }}
             >
                 <div className={style.background} />
@@ -49,8 +49,8 @@ const MinecraftConnect = ({
                 state={expanded}
                 timeout={150}
                 classNames={{
-                    enter: style['menu-enter'],
-                    exitActive: style['menu-exit-active']
+                    enter: style.menu_enter,
+                    exitActive: style.menu_exit_active
                 }}
             >
                 <div className={style.base}>

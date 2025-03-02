@@ -1,9 +1,9 @@
-.menu-enter {
+.menu_enter {
     opacity: 0;
     transform: scaleY(0.5);
 }
 
-.menu-exit-active {
+.menu_exit_active {
     opacity: 0;
     transform: scaleY(0.5);
 }

@@ -124,15 +124,33 @@ export const UseGlobalTooltip = ({
     };
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        const position_x = e.clientX + 10;
-        const position_y = e.clientY + 10;
-
+        let position_x = e.clientX + 10;
+        let position_y = e.clientY + 10;
+        const client_width = document.documentElement.clientWidth;
+        const client_height = document.documentElement.clientHeight;
         const tooltip = document.getElementById('global_tooltip');
-        if (tooltip) {
-            tooltip.style.left = position_x.toString() + 'px';
-            tooltip.style.top = position_y.toString() + 'px';
-            tooltip.style.opacity = opacity;
+
+        if (!tooltip) {
+            return;
         }
+
+        const tooltip_rect = tooltip.getBoundingClientRect();
+        tooltip.className = `${Style.tooltipStyle} ${Style.globalTooltipStyle}`;
+
+        if (position_y > client_height - tooltip_rect.height) {
+            position_x = e.clientX + 5;
+            position_y = e.clientY - tooltip_rect.height - 5;
+            tooltip.className = `${tooltip.className} ${Style.upperTooltipStyle}`;
+        }
+
+        if (position_x > client_width - (tooltip_rect.width + 20)) {
+            position_x = e.clientX - tooltip_rect.width;
+            tooltip.className = `${tooltip.className} ${Style.leftTooltipStyle}`;
+        }
+
+        tooltip.style.left = position_x.toString() + 'px';
+        tooltip.style.top = position_y.toString() + 'px';
+        tooltip.style.opacity = opacity;
     };
 
     return (

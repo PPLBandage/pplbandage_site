@@ -244,7 +244,7 @@ export const Card = ({
 
     return (
         <article
-            className={`${style_card.card}  ${className?.skin_description_props}`}
+            className={`${style_card.card} ${className?.skin_description_props}`}
             style={{
                 background: `url('/static/backgrounds/background_${background}.svg')`
             }}

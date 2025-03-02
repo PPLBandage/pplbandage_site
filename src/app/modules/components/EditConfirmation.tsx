@@ -11,7 +11,12 @@ interface EditConfirmationProps {
     action: 'delete' | 'archive';
 }
 
-const EditConfirmation = ({ action, confirm_code, children, onInput }: EditConfirmationProps) => {
+const EditConfirmation = ({
+    action,
+    confirm_code,
+    children,
+    onInput
+}: EditConfirmationProps) => {
     const [expanded, setExpanded] = useState<boolean>(false);
     const [available, setAvailable] = useState<boolean>(false);
 
@@ -37,8 +42,8 @@ const EditConfirmation = ({ action, confirm_code, children, onInput }: EditConfi
                 state={expanded}
                 timeout={150}
                 classNames={{
-                    enter: style_base['background-enter'],
-                    exitActive: style_base['background-exit-active']
+                    enter: style_base.background_enter,
+                    exitActive: style_base.background_exit_active
                 }}
             >
                 <div
@@ -52,8 +57,8 @@ const EditConfirmation = ({ action, confirm_code, children, onInput }: EditConfi
                 state={expanded}
                 timeout={150}
                 classNames={{
-                    enter: style_base['menu-enter'],
-                    exitActive: style_base['menu-exit-active']
+                    enter: style_base.menu_enter,
+                    exitActive: style_base.menu_exit_active
                 }}
             >
                 <div className={style_base.base}>
@@ -75,10 +80,22 @@ const EditConfirmation = ({ action, confirm_code, children, onInput }: EditConfi
                                 onClick={() => setExpanded(false)}
                             />
                         </div>
-                        <p style={{ margin: 0, fontSize: '.9rem', fontWeight: 'bold' }}>
+                        <p
+                            style={{
+                                margin: 0,
+                                fontSize: '.9rem',
+                                fontWeight: 'bold'
+                            }}
+                        >
                             Это действие имеет необратимый характер!
                         </p>
-                        <p style={{ margin: 0, userSelect: 'none', marginTop: '.5rem' }}>
+                        <p
+                            style={{
+                                margin: 0,
+                                userSelect: 'none',
+                                marginTop: '.5rem'
+                            }}
+                        >
                             Для продолжения введите `<b>{confirm_code}</b>` ниже
                         </p>
 
@@ -87,11 +104,15 @@ const EditConfirmation = ({ action, confirm_code, children, onInput }: EditConfi
                             placeholder="Введите идентификатор повязки"
                             id="id"
                             className={style_base.code_input}
-                            onChange={e => setAvailable(e.target.value === confirm_code)}
+                            onChange={e =>
+                                setAvailable(e.target.value === confirm_code)
+                            }
                         />
 
                         <button
-                            className={`${style.button} ${available && style.available}`}
+                            className={`${style.button} ${
+                                available && style.available
+                            }`}
                             disabled={!available}
                             onClick={() => {
                                 if (!available) return;
@@ -109,7 +130,14 @@ const EditConfirmation = ({ action, confirm_code, children, onInput }: EditConfi
                             {action_confirm[action]}
                         </button>
 
-                        <p style={{ margin: 0, color: '#ED4245', display: 'none' }} id="error" />
+                        <p
+                            style={{
+                                margin: 0,
+                                color: '#ED4245',
+                                display: 'none'
+                            }}
+                            id="error"
+                        />
                     </div>
                 </div>
             </ReactCSSTransition>

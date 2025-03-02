@@ -35,8 +35,8 @@ const RawBandageDownload = ({
                 state={expanded}
                 timeout={150}
                 classNames={{
-                    enter: style['menu-enter-bandage'],
-                    exitActive: style['menu-exit-bandage-active']
+                    enter: style.menu_enter_bandage,
+                    exitActive: style.menu_exit_bandage_active
                 }}
             >
                 <div className={style.bandage_raw_menu}>

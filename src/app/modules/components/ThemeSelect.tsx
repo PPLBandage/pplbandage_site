@@ -50,8 +50,8 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
                 state={expanded}
                 timeout={150}
                 classNames={{
-                    enter: Styles['menu-enter'],
-                    exitActive: Styles['menu-exit-active']
+                    enter: Styles.menu_enter,
+                    exitActive: Styles.menu_exit_active
                 }}
             >
                 <div className={Styles.menu}>

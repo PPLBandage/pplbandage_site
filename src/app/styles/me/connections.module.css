@@ -62,59 +62,6 @@
     gap: .5rem;
 }
 
-.code_input {
-    background-color: var(--main-card-color);
-    border-radius: 10px 0 0 10px;
-    border: 1px var(--main-element-color) solid;
-    height: 2.4rem;
-    color: var(--main-text-color);
-    font-size: 1rem;
-    padding: .5rem;
-    box-sizing: border-box;
-    overflow: visible;
-    outline: none;
-    width: 100%;
-    transition: border 150ms;
-}
-
-.code_send {
-    color: var(--main-text-color);
-    background-color: var(--main-card-color);
-    border-radius: 0 10px 10px 0;
-    border: 1px var(--main-element-color) solid;
-    height: 2.4rem;
-
-    box-sizing: border-box;
-
-    border-left: none;
-    cursor: pointer;
-
-    transition: background-color 150ms, border 150ms;
-    font-weight: 500;
-
-    font-family: inherit;
-}
-
-.code_send:hover {
-    background-color: var(--main-element-color);
-}
-
-.code_input:focus {
-    border: 1px var(--focus-color) solid;
-}
-
-.code_input:focus+.code_send {
-    border: 1px var(--focus-color) solid;
-    border-left: none;
-}
-
-.code_container {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
-}
-
 .unlink {
     color: var(--main-text-color);
     background-color: var(--main-card-color);

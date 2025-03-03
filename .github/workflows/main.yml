@@ -79,7 +79,7 @@ jobs:
 
             - name: Run build
               run: npm run build
-    eslint:
+    lint:
         runs-on: ubuntu-latest
         needs: build-env
 
@@ -108,9 +108,12 @@ jobs:
             - name: Eslint check
               run: npm run lint
 
+            - name: CSS lint check
+              run: npm run lint:css
+
     deploy:
         runs-on: ubuntu-latest
-        needs: check
+        needs: [check, lint]
 
         steps:
             - name: Checkout repository

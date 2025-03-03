@@ -4,7 +4,6 @@ import React from 'react';
 import style from '@/app/styles/tutorials/common.module.css';
 import { CustomLink } from '@/app/modules/components/Search';
 import InfoCard from '@/app/modules/components/InfoCard';
-import styleLink from '@/app/styles/tutorials/common.module.css';
 import { IconAlertTriangle, IconBulb } from '@tabler/icons-react';
 
 export default function Home() {
@@ -289,21 +288,21 @@ export default function Home() {
                 }}
             >
                 <a
-                    className={styleLink.CustomLink}
+                    className={style.CustomLink}
                     href="/static/tutorials/examples/ex_1.png"
                     download={'ex_1.png'}
                 >
                     Пример №1
                 </a>
                 <a
-                    className={styleLink.CustomLink}
+                    className={style.CustomLink}
                     href="/static/tutorials/examples/ex_2.png"
                     download={'ex_2.png'}
                 >
                     Пример №2
                 </a>
                 <a
-                    className={styleLink.CustomLink}
+                    className={style.CustomLink}
                     style={{ marginBottom: '1rem' }}
                     href="/static/tutorials/examples/ex_3.png"
                     download={'ex_3.png'}

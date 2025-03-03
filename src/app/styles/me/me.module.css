@@ -225,11 +225,13 @@
         min-width: 300px !important;
     }
 
+    /* css-lint-disable-rule unused-class*/
     .skin_description_props {
         width: 100% !important;
         min-width: 300px !important;
     }
 
+    /* css-lint-disable-rule unused-class*/
     .adaptive_grid_column {
         width: 100% !important;
     }

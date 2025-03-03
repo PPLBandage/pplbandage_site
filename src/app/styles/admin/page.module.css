@@ -29,6 +29,7 @@
     margin: 0;
 }
 
+/* css-lint-disable-rule unused-class*/
 .adaptive_grid_parent {
     justify-content: flex-start !important;
 }
@@ -110,6 +111,7 @@
         width: 100%;
     }
 
+    /* css-lint-disable-rule unused-class*/
     .adaptive_grid_column {
         width: 100% !important;
     }

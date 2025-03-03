@@ -6,9 +6,9 @@
     "author": "AndcoolSystems",
     "scripts": {
         "dev": "next dev",
-        "build": "npm run lint:css && next build",
+        "build": "next build",
         "start": "next start",
-        "prod": "npm run build && npm run start",
+        "prod": "npm run lint:css && npm run build && npm run start",
         "lint": "next lint",
         "lint:css": "css-linter ."
     },
@@ -25,7 +25,6 @@
         "lodash": "^4.17.21",
         "lodash.debounce": "^4.0.8",
         "next": "^15.2.0",
-        "next-css-linter": "^1.0.2",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "react-jsx-html-comments": "^1.0.1",
@@ -42,6 +41,7 @@
         "@types/sanitize-html": "^2.13.0",
         "eslint": "^9.21.0",
         "eslint-config-next": "^15.2.0",
+        "next-css-linter": "^1.0.2",
         "typescript": "^5"
     }
 }

@@ -133,11 +133,11 @@
     padding: .6rem;
     border-radius: 10px;
     box-shadow: 3px 3px 8px -3px rgba(0, 0, 0, 0.75);
-    display: flex;
+
+    display: grid;
     gap: .5rem;
-    flex-direction: column;
-    flex-wrap: wrap;
-    max-height: 300px;
+    grid-template-rows: repeat(6, auto);
+    grid-auto-flow: column;
 }
 
 

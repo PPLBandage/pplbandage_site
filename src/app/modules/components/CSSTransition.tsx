@@ -1,5 +1,4 @@
-import { cloneElement, JSX, useEffect } from 'react';
-import { useTransitionState } from 'react-transition-state';
+import { cloneElement, JSX, useEffect, useState } from 'react';
 
 interface ReactCSSTransitionProps {
     timeout: number;
@@ -11,38 +10,40 @@ interface ReactCSSTransitionProps {
     };
 }
 
-const getClassName = (state: string, classNames: ReactCSSTransitionProps['classNames']) => {
-    switch (state) {
-        case 'preEnter':
-        case 'exiting':
-            return classNames.enter;
-
-        case 'exited':
-        case 'unmounted':
-            return classNames.exitActive;
-    }
-};
-
 const ReactCSSTransition = (props: ReactCSSTransitionProps) => {
-    const [{ status, isMounted }, toggle] = useTransitionState({
-        timeout: props.timeout,
-        preEnter: true,
-        unmountOnExit: true,
-        mountOnEnter: true,
-        initialEntered: props.state
-    });
+    const [state, setState] = useState<boolean>(props.state);
+    const [animationClass, setAnimationClass] = useState<string>('');
+    const [mounted, setMounted] = useState<boolean>(props.state);
 
     useEffect(() => {
-        toggle(props.state);
+        setState(props.state);
     }, [props.state]);
 
-    if (!isMounted) return null;
+    useEffect(() => {
+        let anim_request: number;
+        if (state) {
+            setMounted(true);
+            setAnimationClass(props.classNames.enter);
+            anim_request = requestAnimationFrame(() => {
+                anim_request = requestAnimationFrame(() => {
+                    setAnimationClass('');
+                });
+            });
+        } else {
+            setAnimationClass(props.classNames.exitActive);
+            setTimeout(() => {
+                setMounted(false);
+            }, props.timeout);
+        }
 
+        return () => {
+            cancelAnimationFrame(anim_request);
+        };
+    }, [state]);
+
+    if (!mounted) return null;
     return cloneElement(props.children, {
-        className: `${props.children.props.className || ''} ${getClassName(
-            status,
-            props.classNames
-        )}`
+        className: `${props.children.props.className || ''} ${animationClass}`
     });
 };
 export default ReactCSSTransition;

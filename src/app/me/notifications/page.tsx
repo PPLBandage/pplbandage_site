@@ -35,7 +35,7 @@ const Notifications = () => {
     }, [page]);
 
     const notifications_el = notifications?.data.map(notification => {
-        let classN = Style.default;
+        let classN = undefined;
         switch (notification.type) {
             case 1:
                 classN = Style.pass;

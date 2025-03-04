@@ -118,6 +118,10 @@
     font-size: .8rem;
 }
 
+.loading_class {
+    animation: loading infinite 1s reverse ease-in-out;
+}
+
 @keyframes loading {
     0% {
         transform: rotate(0deg);

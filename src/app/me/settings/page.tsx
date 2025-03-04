@@ -139,12 +139,12 @@ const Connections = ({
 }) => {
     const refreshMinecraft = () => {
         const load_icon = document.getElementById('refresh');
-        load_icon.style.animation = `${Style.loading} infinite 1s reverse ease-in-out`;
+        load_icon.setAttribute('class', Style.loading_class);
 
         ApiManager.purgeSkinCache()
             .then(refetch)
             .catch(response => alert(response.data.message))
-            .finally(() => (load_icon.style.animation = null));
+            .finally(() => load_icon.removeAttribute('class'));
     };
 
     const disconnect = () => {

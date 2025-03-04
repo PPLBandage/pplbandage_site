@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import style from './styles/page.module.css';
-import style_card from './styles/card.module.css';
+import style from '@/app/styles/contacts/page.module.css';
+import style_card from '@/app/styles/contacts/card.module.css';
 import Image from 'next/image';
 import { CSSProperties } from 'react';
 import {
@@ -39,7 +39,12 @@ const Card = (props: CardProps) => {
                 break;
         }
         return (
-            <Link href={link.URL} key={link.name} target="_blank" className={style_card.link}>
+            <Link
+                href={link.URL}
+                key={link.name}
+                target="_blank"
+                className={style_card.link}
+            >
                 {icon} {link.name}
             </Link>
         );
@@ -58,7 +63,10 @@ const Card = (props: CardProps) => {
             />
             <div className={style_card.info_container}>
                 <div className={style_card.names}>
-                    <Link href={`/users/${props.site_name}`} className={style_card.name}>
+                    <Link
+                        href={`/users/${props.site_name}`}
+                        className={style_card.name}
+                    >
                         {props.name}
                     </Link>
                     <p>{props.description}</p>
@@ -73,7 +81,6 @@ const Home = () => {
     return (
         <main className={style.main}>
             <div
-                className={style.main_container}
                 style={{
                     width: '100%',
                     display: 'flex',
@@ -110,8 +117,9 @@ const Home = () => {
                     style={{ maxWidth: 'calc(500px + 1rem)' }}
                 >
                     <p style={{ margin: 0 }}>
-                        Не обращайтесь к модераторам PepeLand с вопросами по данному сайту! Они не
-                        принимают непосредственного участия в модерации повязок.
+                        Не обращайтесь к модераторам PepeLand с вопросами по
+                        данному сайту! Они не принимают непосредственного
+                        участия в модерации повязок.
                     </p>
                 </InfoCard>
                 <div className={style.cards_container}>

@@ -47,7 +47,6 @@ const Footer = () => {
 
     return (
         <footer
-            className={style.footer}
             style={{
                 marginLeft: '1rem',
                 marginRight: '1rem',

@@ -100,25 +100,35 @@ interface GlobalTooltipProps {
     children: JSX.Element;
     className?: string;
     opacity?: string;
+    timeout?: number;
 }
 
 export const UseGlobalTooltip = ({
     text,
     children,
     className,
-    opacity = '.9'
+    opacity = '.9',
+    timeout
 }: GlobalTooltipProps) => {
-    const handleMouseEnter = () => {
-        const element =
-            document.getElementById('global_tooltip') ??
-            document.createElement('span');
-        element.id = 'global_tooltip';
-        element.innerText = text;
-        element.className = `${Style.tooltipStyle} ${Style.globalTooltipStyle}`;
-        document.body.insertBefore(element, document.body.firstChild);
+    const timeoutId = useRef<NodeJS.Timeout>(null);
+
+    const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (timeoutId.current) return;
+        timeoutId.current = setTimeout(() => {
+            const element =
+                document.getElementById('global_tooltip') ??
+                document.createElement('span');
+            element.id = 'global_tooltip';
+            element.innerText = text;
+            element.className = `${Style.tooltipStyle} ${Style.globalTooltipStyle}`;
+            document.body.insertBefore(element, document.body.firstChild);
+            handleMouseMove(e);
+        }, timeout);
     };
 
     const handleMouseLeave = () => {
+        clearTimeout(timeoutId.current);
+        timeoutId.current = null;
         const tooltip = document.getElementById('global_tooltip');
         if (tooltip) document.body.removeChild(tooltip);
     };

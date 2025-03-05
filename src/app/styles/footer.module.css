@@ -59,6 +59,16 @@
     user-select: none;
 }
 
+.pepe_icon {
+    transform: rotateY(0deg);
+    display: flex;
+}
+
+.icon_container:hover .pepe_icon {
+    transform: rotateY(360deg);
+    transition: transform 1s;
+}
+
 @media(max-width: 700px) {
     .container {
         grid-template-columns: auto;

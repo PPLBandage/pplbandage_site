@@ -56,7 +56,16 @@ const Footer = () => {
         >
             <div className={style.container}>
                 <div className={style.project_name}>
-                    <IconPepe width={32} height={32} />
+                    <Link
+                        className={style.icon_container}
+                        href="https://pepeland.net"
+                    >
+                        <IconPepe
+                            width={32}
+                            height={32}
+                            className={style.pepe_icon}
+                        />
+                    </Link>
                     <p className={style.project}>PPLBandage project</p>
                 </div>
                 <p className={style.project}>

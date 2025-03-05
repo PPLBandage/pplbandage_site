@@ -136,8 +136,8 @@
 
     display: grid;
     gap: .5rem;
-    grid-template-rows: repeat(6, auto);
-    grid-auto-flow: column;
+    grid-template-columns: repeat(2, auto);
+    grid-auto-flow: row;
 }
 
 
@@ -153,7 +153,11 @@
     .category_menu {
         left: 2rem;
         right: 2rem;
-        max-height: none;
     }
+}
 
+@media(max-width: 390px) {
+    .category_menu {
+        grid-template-columns: auto;
+    }
 }

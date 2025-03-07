@@ -61,10 +61,10 @@
 .side_card {
     position: sticky;
     top: 1rem;
-    align-items: stretch;
     gap: .5rem;
     flex-grow: 0;
     flex-shrink: 0;
+    align-items: stretch !important;
 }
 
 .video {

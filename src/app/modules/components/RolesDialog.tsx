@@ -61,14 +61,7 @@ const RolesDialog = ({ children }: { children: JSX.Element }) => {
                 <div className={style_base.base}>
                     <div className={style_base.container}>
                         <div className={style_base.header}>
-                            <h3
-                                style={{
-                                    margin: 0,
-                                    display: 'flex',
-                                    gap: '.5rem',
-                                    alignItems: 'center'
-                                }}
-                            >
+                            <h3 className={style_base.header_title}>
                                 <IconFlag />
                                 Роли для регистрации
                             </h3>
@@ -77,19 +70,13 @@ const RolesDialog = ({ children }: { children: JSX.Element }) => {
                                 onClick={() => setExpanded(false)}
                             />
                         </div>
-                        <p
-                            style={{
-                                margin: 0,
-                                fontSize: '.9rem',
-                                opacity: 0.6
-                            }}
-                        >
+                        <p className={style_base.instruct_connect}>
                             Для регистрации Вы должны иметь одну из этих ролей
                             на Discord сервере PWGood.
                         </p>
 
                         {roles_el.length !== 0 ? (
-                            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                            <div className={style_main.roles_container}>
                                 {roles_el}
                             </div>
                         ) : (

@@ -24,15 +24,7 @@ const UsersClient = ({ user }: { user: Users }) => {
                 }
                 className={styles.cont}
             >
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center'
-                    }}
-                >
-                    <SimpleGrid>{elements}</SimpleGrid>
-                </div>
+                <SimpleGrid>{elements}</SimpleGrid>
             </div>
         </Me>
     );

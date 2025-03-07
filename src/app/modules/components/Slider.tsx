@@ -69,13 +69,7 @@ const Slider = ({
         <>
             {isDragging && (
                 <div
-                    style={{
-                        position: 'fixed',
-                        inset: 0,
-                        touchAction: 'none',
-                        cursor: 'grabbing',
-                        zIndex: 10
-                    }}
+                    className={Style.slider_block}
                     onMouseMove={mouseMove}
                     onMouseUp={mouseUp}
                     onTouchMove={mouseMove}

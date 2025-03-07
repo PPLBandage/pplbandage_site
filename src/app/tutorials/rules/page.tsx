@@ -73,14 +73,7 @@ export default function Home() {
             <InfoCard
                 color="#D29922"
                 title={
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            gap: '.5rem'
-                        }}
-                    >
+                    <div className={style.cards_header}>
                         <IconAlertTriangle width={24} height={24} />
                         <p style={{ margin: 0 }}>Внимание</p>
                     </div>

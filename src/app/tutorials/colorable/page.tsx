@@ -35,14 +35,7 @@ export default function Home() {
             <InfoCard
                 color="#4493F8"
                 title={
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            gap: '.5rem'
-                        }}
-                    >
+                    <div className={style.cards_header}>
                         <IconInfoCircle width={24} height={24} />
                         <p style={{ margin: 0 }}>Примечание</p>
                     </div>
@@ -69,14 +62,7 @@ export default function Home() {
             <InfoCard
                 color="#3FB950"
                 title={
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            gap: '.5rem'
-                        }}
-                    >
+                    <div className={style.cards_header}>
                         <IconBulb width={24} height={24} />
                         <p style={{ margin: 0 }}>Заметка</p>
                     </div>

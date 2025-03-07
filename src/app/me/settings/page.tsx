@@ -541,7 +541,7 @@ const Safety = () => {
                                 className={Style.unlink}
                                 onClick={logoutSessionAll}
                             >
-                                <IconX style={{ width: '1.8rem' }} />
+                                <IconX width={29} />
                                 Выйти со всех устройств
                             </button>
                         )}

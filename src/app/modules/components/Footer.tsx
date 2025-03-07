@@ -46,14 +46,7 @@ const Footer = () => {
     if (path === '/') return null;
 
     return (
-        <footer
-            style={{
-                marginLeft: '1rem',
-                marginRight: '1rem',
-                position: 'relative',
-                zIndex: 1
-            }}
-        >
+        <footer className={style.footer}>
             <div className={style.container}>
                 <div className={style.project_name}>
                     <Link

@@ -80,36 +80,12 @@ const Card = (props: CardProps) => {
 const Home = () => {
     return (
         <main className={style.main}>
-            <div
-                style={{
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '1rem'
-                }}
-            >
-                <h1
-                    style={{
-                        margin: 0,
-                        width: '100%',
-                        textAlign: 'center',
-                        fontSize: '2rem'
-                    }}
-                >
-                    Контакты
-                </h1>
+            <div className={style.header}>
+                <h1>Контакты</h1>
                 <InfoCard
                     color="#D29922"
                     title={
-                        <div
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                gap: '.5rem'
-                            }}
-                        >
+                        <div className={style_card.moderation_warn}>
                             <IconAlertTriangle width={24} height={24} />
                             <p style={{ margin: 0 }}>Внимание</p>
                         </div>

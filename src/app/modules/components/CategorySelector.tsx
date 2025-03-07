@@ -21,7 +21,9 @@ const CategorySelector = ({
     const updateCategory = (id: number, enabled: boolean) => {
         setCategories(prevCategories =>
             prevCategories.map(category =>
-                category.id === id ? { ...category, enabled: enabled } : category
+                category.id === id
+                    ? { ...category, enabled: enabled }
+                    : category
             )
         );
     };
@@ -32,7 +34,9 @@ const CategorySelector = ({
                 cat.enabled = false;
                 return cat;
             }
-            cat.enabled = enabledCategories.some(category => category.id === cat.id);
+            cat.enabled = enabledCategories.some(
+                category => category.id === cat.id
+            );
             return cat;
         });
         setCategories(categories_sorted);
@@ -66,21 +70,14 @@ const CategorySelector = ({
 
     return (
         <div>
-            <h4 style={{ margin: 0, marginBottom: '.9rem' }}>Выбранные категории:</h4>
+            <h4 style={{ margin: 0, marginBottom: '.9rem' }}>
+                Выбранные категории:
+            </h4>
             <div className={style.container}>
                 {categoriesEnabled.length > 0 ? (
                     categoriesEnabled
                 ) : (
-                    <p
-                        style={{
-                            margin: 0,
-                            color: 'gray',
-                            marginTop: '2.5px',
-                            marginBottom: '2.5px'
-                        }}
-                    >
-                        Категории не выбраны
-                    </p>
+                    <p className={style.no_categories}>Категории не выбраны</p>
                 )}
             </div>
             <hr />
@@ -88,7 +85,11 @@ const CategorySelector = ({
                 {allCategories.length > 0 ? (
                     categoriesAvailable
                 ) : (
-                    <IconSvg width={48} height={48} className={style_workshop.loading} />
+                    <IconSvg
+                        width={48}
+                        height={48}
+                        className={style_workshop.loading}
+                    />
                 )}
             </div>
         </div>

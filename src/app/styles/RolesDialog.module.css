@@ -1,3 +1,8 @@
+.roles_container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .link {
     display: flex;
     justify-content: center;

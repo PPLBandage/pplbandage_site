@@ -1,3 +1,11 @@
+.slider_block {
+    position: fixed;
+    inset: 0;
+    touch-action: none;
+    cursor: grabbing;
+    z-index: 10;
+}
+
 .track {
     width: 0.5rem;
     border-radius: 5px;

@@ -18,9 +18,8 @@ const NotFoundElement = () => {
         <div className={style.body}>
             <div className={style.circle} id="circle-1"></div>
             <div
-                className={style.circle}
+                className={`${style.circle} ${style.circle_2}`}
                 id="circle-2"
-                style={{ left: '60%', top: '60%', backgroundColor: '#00ADB5' }}
             ></div>
             <main className={style.main}>
                 <h1>404</h1>

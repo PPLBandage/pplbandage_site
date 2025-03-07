@@ -15,12 +15,32 @@
     padding: .9rem;
 }
 
+.site_name_container {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.root_anchor {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.menu_avatar_parent {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.menu_hr {
+    border: 1px var(--hr-color) solid;
+    margin: 2px;
+}
+
 .expanding_menu_parent {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     z-index: 1;
 }
 
@@ -188,7 +208,6 @@
 .main_icon:active {
     transform: scale(.9);
 }
-
 
 @media(max-width: 767px) {
     .ppl_name {

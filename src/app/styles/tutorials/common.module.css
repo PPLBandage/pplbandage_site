@@ -1,3 +1,10 @@
+.cards_header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .5rem;
+}
+
 .main {
     margin-left: 2rem;
     margin-right: 2rem;
@@ -54,6 +61,10 @@
 .side_card {
     position: sticky;
     top: 1rem;
+    align-items: stretch;
+    gap: .5rem;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 
 .video {

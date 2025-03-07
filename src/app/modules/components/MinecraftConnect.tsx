@@ -56,14 +56,7 @@ const MinecraftConnect = ({
                 <div className={style.base}>
                     <div className={style.container}>
                         <div className={style.header}>
-                            <h3
-                                style={{
-                                    margin: 0,
-                                    display: 'flex',
-                                    gap: '.5rem',
-                                    alignItems: 'center'
-                                }}
-                            >
+                            <h3 className={style.header_title}>
                                 <IconBrandMinecraft />
                                 {title}
                             </h3>
@@ -73,21 +66,15 @@ const MinecraftConnect = ({
                             />
                         </div>
                         {login && (
-                            <p
-                                style={{
-                                    margin: 0,
-                                    fontSize: '.9rem',
-                                    opacity: 0.6
-                                }}
-                            >
+                            <p className={style.login_warn}>
                                 Этот способ будет работать, если вы привязали
                                 аккаунт Minecraft в личном кабинете.
                             </p>
                         )}
-                        <p style={{ margin: 0, fontSize: '.95rem' }}>
+                        <p className={style.instruct_connect}>
                             Зайдите на Minecraft сервер `
                             <span
-                                style={{ color: 'rgba(12, 247, 215)' }}
+                                className={style.oauth_name}
                                 id="oauth_name"
                                 onClick={() => selectText('oauth_name')}
                             >
@@ -135,18 +122,9 @@ const MinecraftConnect = ({
                                 Отправить
                             </button>
                         </div>
-                        <p
-                            style={{
-                                margin: 0,
-                                color: '#ED4245',
-                                display: 'none'
-                            }}
-                            id="error"
-                        />
+                        <p className={style.error_label} id="error" />
                         <div className={style.possibilities}>
-                            <p style={{ margin: 0, fontSize: '1rem' }}>
-                                После ввода кода мы:
-                            </p>
+                            <p>После ввода кода мы:</p>
                             <div>
                                 <p>
                                     <IconCheck width={15} height={15} />

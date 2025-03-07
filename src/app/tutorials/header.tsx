@@ -9,15 +9,7 @@ const ASide = () => {
     const pathname = usePathname();
     const path = pathname.split('/')[pathname.split('/').length - 1];
     return (
-        <div
-            className={`${style_sidebar.card} ${style_add.side_card}`}
-            style={{
-                alignItems: 'stretch',
-                gap: '.5rem',
-                flexGrow: 0,
-                flexShrink: 0
-            }}
-        >
+        <div className={`${style_sidebar.card} ${style_add.side_card}`}>
             <TransitionLink
                 href="/tutorials"
                 className={`${style_sidebar.side_butt} ${

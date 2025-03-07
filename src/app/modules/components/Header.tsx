@@ -1,16 +1,9 @@
 'use client';
 
-import {
-    Dispatch,
-    JSX,
-    ReactNode,
-    SetStateAction,
-    useEffect,
-    useState
-} from 'react';
-import Styles from '@/app/styles/header.module.css';
+import { Dispatch, JSX, SetStateAction, useEffect, useState } from 'react';
+import styles from '@/app/styles/header.module.css';
 import { deleteCookie } from 'cookies-next';
-import Link, { LinkProps } from 'next/link';
+import Link from 'next/link';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import * as Interfaces from '@/app/interfaces';
@@ -29,10 +22,9 @@ import {
 } from '@tabler/icons-react';
 import IconCropped from '@/app/resources/icon-cropped.svg';
 import ApiManager from '../utils/apiManager';
-import { useRouter } from 'next/navigation';
-import { createContext, useContext } from 'react';
 import ReactCSSTransition from './CSSTransition';
 import { useNextCookie } from 'use-next-cookie';
+import { usePathname } from 'next/navigation';
 
 export interface Query {
     username: string;
@@ -49,46 +41,10 @@ export interface Query {
     last_accessed?: Date;
 }
 
-const ExpandContext = createContext<{
-    setExpanded: Dispatch<SetStateAction<boolean>>;
-}>(null);
-const useExpandContext = () => useContext(ExpandContext);
-
 export const adminRoles = ['managebandages', 'updateusers', 'superadmin'];
-
-interface HeaderLinkProps
-    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>,
-        LinkProps {
-    children: ReactNode;
-    href: string;
-}
-
-export const HeaderLink: React.FC<HeaderLinkProps> = ({
-    children,
-    href,
-    ...props
-}) => {
-    const router = useRouter();
-    const { setExpanded } = useExpandContext();
-
-    const handleTransition = async (
-        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-    ) => {
-        e.preventDefault();
-        setExpanded(false);
-
-        router.push(href);
-    };
-
-    return (
-        <Link {...props} href={href} onClick={handleTransition}>
-            {children}
-        </Link>
-    );
-};
-
 const Header = (): JSX.Element => {
     const cookie = useNextCookie('sessionId', 1000);
+    const path = usePathname();
     const [logged, setLogged] = useState<boolean>(!!cookie);
     const [expanded, setExpanded] = useState<boolean>(false);
 
@@ -105,46 +61,36 @@ const Header = (): JSX.Element => {
             }
         }
     });
-
     const admin = data?.permissions.some(role => adminRoles.includes(role));
 
     useEffect(() => {
         setLogged(!!cookie);
     }, [cookie]);
 
+    useEffect(() => {
+        if (expanded) setExpanded(false);
+    }, [path]);
+
     return (
-        <ExpandContext.Provider value={{ setExpanded }}>
+        <>
             {expanded && (
                 <div
-                    className={Styles.expanding_menu_parent}
+                    className={styles.expanding_menu_parent}
                     onClick={() => setExpanded(false)}
                 />
             )}
-            <header className={Styles.header}>
+            <header className={styles.header}>
                 <div
-                    className={Styles.header_child}
+                    className={styles.header_child}
                     style={{ padding: logged ? '.5rem' : '.9rem' }}
                 >
-                    <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexWrap: 'nowrap'
-                        }}
-                    >
-                        <Link
-                            href="/"
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                textDecoration: 'none'
-                            }}
-                        >
+                    <div className={styles.site_name_container}>
+                        <Link href={'/'} className={styles.root_anchor}>
                             <IconCropped
-                                style={{ width: '2.5rem' }}
-                                className={Styles.main_icon}
+                                width={40}
+                                className={styles.main_icon}
                             />
-                            <h1 className={Styles.ppl_name}>
+                            <h1 className={styles.ppl_name}>
                                 Повязки Pepeland
                             </h1>
                         </Link>
@@ -158,21 +104,21 @@ const Header = (): JSX.Element => {
                         />
                     ) : (
                         <IconMenu2
-                            onClick={() => setExpanded(!expanded)}
-                            className={Styles.login_button}
+                            onClick={() => setExpanded(prev => !prev)}
+                            className={styles.login_button}
                         />
                     )}
                 </div>
-                <div className={Styles.menu_container}>
+                <div className={styles.menu_container}>
                     <ReactCSSTransition
                         state={expanded}
                         timeout={150}
                         classNames={{
-                            enter: Styles.menu_enter,
-                            exitActive: Styles.menu_exit_active
+                            enter: styles.menu_enter,
+                            exitActive: styles.menu_exit_active
                         }}
                     >
-                        <div className={Styles.menu}>
+                        <div className={styles.menu}>
                             {logged ? (
                                 <LoggedMenu admin={admin} />
                             ) : (
@@ -182,48 +128,35 @@ const Header = (): JSX.Element => {
                     </ReactCSSTransition>
                 </div>
             </header>
-        </ExpandContext.Provider>
+        </>
     );
 };
 
-const logout = () => {
-    ApiManager.logout()
-        .then(() => {
-            deleteCookie('sessionId');
-            window.location.assign('/');
-        })
-        .catch(console.error);
-};
-
-interface AvatarMenuProps {
+const AvatarMenu = ({
+    data,
+    expanded,
+    expand
+}: {
     data: Query;
     expanded: boolean;
-    expand(state: boolean): void;
-}
-
-const AvatarMenu = ({ data, expanded, expand }: AvatarMenuProps) => {
+    expand: Dispatch<SetStateAction<boolean>>;
+}) => {
     const [loading, setLoading] = useState<boolean>(true);
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                flexWrap: 'nowrap'
-            }}
-        >
+        <div className={styles.menu_avatar_parent}>
             <div
                 className={
-                    `${Styles.avatar_container} ` +
-                    `${Styles.placeholders} ` +
-                    `${!loading && Styles.placeholders_out} ` +
-                    `${data?.has_unreaded_notifications && Styles.unreaded}`
+                    `${styles.avatar_container} ` +
+                    `${styles.placeholders} ` +
+                    `${!loading && styles.placeholders_out} ` +
+                    `${data?.has_unreaded_notifications && styles.unreaded}`
                 }
-                onClick={() => expand(!expanded)}
+                onClick={() => expand(prev => !prev)}
             >
                 {data?.avatar && (
                     <Image
-                        className={Styles.avatar}
+                        className={styles.avatar}
                         src={data?.avatar}
                         alt=""
                         width={80}
@@ -235,48 +168,55 @@ const AvatarMenu = ({ data, expanded, expand }: AvatarMenuProps) => {
             </div>
             <IconChevronDown
                 className={
-                    `${Styles.expand_arrow} ` +
-                    `${expanded && Styles.expand_arrow_rotated}`
+                    `${styles.expand_arrow} ` +
+                    `${expanded && styles.expand_arrow_rotated}`
                 }
-                onClick={() => expand(!expanded)}
+                onClick={() => expand(prev => !prev)}
             />
         </div>
     );
 };
 
 const LoggedMenu = ({ admin }: { admin: boolean }) => {
+    const logout = () => {
+        ApiManager.logout()
+            .then(() => {
+                deleteCookie('sessionId');
+                window.location.assign('/');
+            })
+            .catch(console.error);
+    };
+
     return (
         <>
-            <HeaderLink className={Styles.menu_element} href="/me">
+            <Link className={styles.menu_element} href="/me">
                 <IconUser />
                 <span>Личный кабинет</span>
-            </HeaderLink>
-            <HeaderLink className={Styles.menu_element} href="/workshop/create">
+            </Link>
+            <Link className={styles.menu_element} href="/workshop/create">
                 <IconPlus />
                 <span>Создать</span>
-            </HeaderLink>
-            <hr
-                style={{ border: '1px var(--hr-color) solid', margin: '2px' }}
-            ></hr>
-            <HeaderLink className={Styles.menu_element} href="/">
+            </Link>
+            <hr className={styles.menu_hr} />
+            <Link className={styles.menu_element} href="/">
                 <IconSmartHome />
                 <span>Главная</span>
-            </HeaderLink>
-            <HeaderLink className={Styles.menu_element} href="/workshop">
+            </Link>
+            <Link className={styles.menu_element} href="/workshop">
                 <IconStack />
                 <span>Мастерская</span>
-            </HeaderLink>
-            <HeaderLink className={Styles.menu_element} href="/tutorials">
+            </Link>
+            <Link className={styles.menu_element} href="/tutorials">
                 <IconBooks />
                 <span>Туториалы</span>
-            </HeaderLink>
+            </Link>
             {admin && (
-                <HeaderLink className={Styles.menu_element} href="/admin">
+                <Link className={styles.menu_element} href="/admin">
                     <IconUserCog />
                     <span>Админ панель</span>
-                </HeaderLink>
+                </Link>
             )}
-            <a className={Styles.menu_element} onClick={() => logout()}>
+            <a className={styles.menu_element} onClick={logout}>
                 <IconLogout />
                 <span>Выйти</span>
             </a>
@@ -287,25 +227,23 @@ const LoggedMenu = ({ admin }: { admin: boolean }) => {
 const UnloggedMenu = () => {
     return (
         <>
-            <HeaderLink className={Styles.menu_element} href="/me">
+            <Link className={styles.menu_element} href="/me">
                 <IconLogin />
                 <span>Войти</span>
-            </HeaderLink>
-            <hr
-                style={{ border: '1px var(--hr-color) solid', margin: '2px' }}
-            ></hr>
-            <HeaderLink className={Styles.menu_element} href="/">
+            </Link>
+            <hr className={styles.menu_hr} />
+            <Link className={styles.menu_element} href="/">
                 <IconSmartHome />
                 <span>Главная</span>
-            </HeaderLink>
-            <HeaderLink className={Styles.menu_element} href="/workshop">
+            </Link>
+            <Link className={styles.menu_element} href="/workshop">
                 <IconStack />
                 <span>Мастерская</span>
-            </HeaderLink>
-            <HeaderLink className={Styles.menu_element} href="/tutorials">
+            </Link>
+            <Link className={styles.menu_element} href="/tutorials">
                 <IconBooks />
                 <span>Туториалы</span>
-            </HeaderLink>
+            </Link>
         </>
     );
 };

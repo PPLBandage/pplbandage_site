@@ -144,14 +144,7 @@ const Login = () => {
             <div className={styles.login_container}>
                 <h1>Войти через</h1>
 
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        marginBottom: '1rem',
-                        gap: '.5rem'
-                    }}
-                >
+                <div className={styles.login_through}>
                     <a
                         className={styles.login_button}
                         href={'/me/login'}

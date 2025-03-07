@@ -1,3 +1,14 @@
+.search_parent {
+    display: flex;
+    align-items: center;
+}
+
+.components_container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
 .parent {
     display: flex;
     align-items: center;
@@ -101,6 +112,10 @@
     border-radius: 10px;
     transition: background-color 150ms;
     border: 1px var(--main-element-color) solid;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .filter_div:hover {

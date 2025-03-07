@@ -36,6 +36,12 @@
     transform-origin: center;
 }
 
+.circle_2 {
+    left: 60%;
+    top: 60%;
+    background-color: #00ADB5;
+}
+
 .home {
     color: #a7a7a7;
 }

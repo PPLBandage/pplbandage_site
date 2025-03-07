@@ -64,14 +64,7 @@ const EditConfirmation = ({
                 <div className={style_base.base}>
                     <div className={style_base.container}>
                         <div className={style_base.header}>
-                            <h3
-                                style={{
-                                    margin: 0,
-                                    display: 'flex',
-                                    gap: '.5rem',
-                                    alignItems: 'center'
-                                }}
-                            >
+                            <h3 className={style_base.header_title}>
                                 {icons[action]}
                                 {titles[action]}
                             </h3>
@@ -80,22 +73,10 @@ const EditConfirmation = ({
                                 onClick={() => setExpanded(false)}
                             />
                         </div>
-                        <p
-                            style={{
-                                margin: 0,
-                                fontSize: '.9rem',
-                                fontWeight: 'bold'
-                            }}
-                        >
+                        <p className={style_base.instruct_connect}>
                             Это действие имеет необратимый характер!
                         </p>
-                        <p
-                            style={{
-                                margin: 0,
-                                userSelect: 'none',
-                                marginTop: '.5rem'
-                            }}
-                        >
+                        <p className={style.code_container}>
                             Для продолжения введите `<b>{confirm_code}</b>` ниже
                         </p>
 
@@ -130,14 +111,7 @@ const EditConfirmation = ({
                             {action_confirm[action]}
                         </button>
 
-                        <p
-                            style={{
-                                margin: 0,
-                                color: '#ED4245',
-                                display: 'none'
-                            }}
-                            id="error"
-                        />
+                        <p className={style_base.error_label} id="error" />
                     </div>
                 </div>
             </ReactCSSTransition>

@@ -2,7 +2,7 @@
 
 import { JSX, useEffect, useState } from 'react';
 import style from '@/app/styles/editor/page.module.css';
-import Style from '@/app/styles/workshop/page.module.css';
+import style_workshop from '@/app/styles/workshop/page.module.css';
 
 interface AdaptiveGridProps {
     child_width: number;
@@ -11,7 +11,12 @@ interface AdaptiveGridProps {
     className?: { readonly [key: string]: string };
 }
 
-const AdaptiveGrid = ({ child_width, children, header, className }: AdaptiveGridProps) => {
+const AdaptiveGrid = ({
+    child_width,
+    children,
+    header,
+    className
+}: AdaptiveGridProps) => {
     const [columns, setColumns] = useState<JSX.Element[]>([]);
     const [columnCount, setColumnCount] = useState<number>(0);
 
@@ -20,14 +25,18 @@ const AdaptiveGrid = ({ child_width, children, header, className }: AdaptiveGrid
             const { width } = entries[0].contentRect;
             setColumnCount(Math.max(1, Math.floor(width / (child_width + 15))));
         });
-        resizeObserver.observe(document.getElementById('layout_parent') as HTMLDivElement);
+        resizeObserver.observe(
+            document.getElementById('layout_parent') as HTMLDivElement
+        );
     }, []);
 
     useEffect(() => {
         if (!children) return;
         let result_arr = [];
         for (let i = 1; i < columnCount + 1; i++) {
-            const _children = children.filter((_, index) => (index + 1 - i) % columnCount === 0);
+            const _children = children.filter(
+                (_, index) => (index + 1 - i) % columnCount === 0
+            );
             const column = (
                 <div
                     key={i}
@@ -39,7 +48,9 @@ const AdaptiveGrid = ({ child_width, children, header, className }: AdaptiveGrid
             );
             result_arr.push(column);
         }
-        result_arr = result_arr.concat(new Array(columnCount - result_arr.length).fill(0));
+        result_arr = result_arr.concat(
+            new Array(columnCount - result_arr.length).fill(0)
+        );
         setColumns(result_arr);
     }, [children, columnCount]);
 
@@ -50,7 +61,10 @@ const AdaptiveGrid = ({ child_width, children, header, className }: AdaptiveGrid
                     style={{
                         width: '100%',
                         display: 'flex',
-                        justifyContent: children?.length >= columnCount ? 'center' : 'flex-start'
+                        justifyContent:
+                            children?.length >= columnCount
+                                ? 'center'
+                                : 'flex-start'
                     }}
                 >
                     {header}
@@ -75,10 +89,14 @@ const AdaptiveGrid = ({ child_width, children, header, className }: AdaptiveGrid
 
 export default AdaptiveGrid;
 
-export const SimpleGrid = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
+export const SimpleGrid = ({
+    children
+}: {
+    children: JSX.Element | JSX.Element[];
+}) => {
     return (
-        <div className={Style.grid_container}>
-            <div className={Style.grid}>{children}</div>
+        <div className={style_workshop.grid_container}>
+            <div className={style_workshop.grid}>{children}</div>
         </div>
     );
 };

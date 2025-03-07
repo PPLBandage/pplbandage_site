@@ -94,7 +94,7 @@ const Users = () => {
     const usersEl = users.map(user => {
         return (
             <div key={user.id} className={style_root.user_card}>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div className={style_root.name_container}>
                     <Link
                         href={`/users/${user.username}`}
                         className={style_root.name}
@@ -111,13 +111,7 @@ const Users = () => {
                         {user.discord_id}
                     </p>
                 </div>
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '.5rem'
-                    }}
-                >
+                <div className={style_root.buttons_container}>
                     <SlideButton
                         label="Заблокирован"
                         strict={true}
@@ -144,9 +138,9 @@ const Users = () => {
     });
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div className={style_root.users_container}>
             <h2 style={{ margin: 0 }}>Пользователи ({usersEl.length})</h2>
-            <div style={{ display: 'flex', gap: '.5rem', flexWrap: 'wrap' }}>
+            <div className={style_root.register_container}>
                 <Search onSearch={setQuery} />
                 <ForceRegister />
             </div>

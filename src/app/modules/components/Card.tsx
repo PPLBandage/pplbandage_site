@@ -252,7 +252,7 @@ export const Card = ({
             <div className={style_card.head_container}>
                 <StarElement el={el} />
 
-                <div style={{ display: 'flex', gap: '3px' }}>
+                <div className={style_card.extra_params}>
                     {el.access_level < 2 && (
                         <IconEyeOff width={24} height={24} />
                     )}

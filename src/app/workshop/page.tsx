@@ -200,17 +200,7 @@ const TheresNothingHere = ({ elements }: { elements: JSX.Element[] }) => {
     return (
         <>
             {elements && elements.length === 0 ? (
-                <p
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        fontSize: '1.1rem',
-                        fontWeight: 500,
-                        width: '100%',
-                        justifyContent: 'center',
-                        margin: 0
-                    }}
-                >
+                <p className={Style.theres_nothing_p}>
                     <Image
                         style={{ marginRight: '.5rem' }}
                         src="/static/theres_nothing_here.png"

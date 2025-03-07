@@ -87,7 +87,7 @@ export const Search = ({
         <div className={Styles.parent}>
             <div>
                 <div className={Styles.container}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div className={Styles.search_parent}>
                         <input
                             onChange={event => _setSearch(event.target.value)}
                             onKeyUp={e => {
@@ -114,13 +114,7 @@ export const Search = ({
                         </div>
                     </div>
 
-                    <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexWrap: 'wrap'
-                        }}
-                    >
+                    <div className={Styles.components_container}>
                         <p className={Styles.take}>Сортировать</p>
                         <Select
                             options={options_sortir}
@@ -133,13 +127,7 @@ export const Search = ({
                         />
                     </div>
 
-                    <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexWrap: 'wrap'
-                        }}
-                    >
+                    <div className={Styles.components_container}>
                         <p className={Styles.take}>Отображать на странице</p>
                         <Select
                             options={options_take}
@@ -153,11 +141,6 @@ export const Search = ({
                     </div>
 
                     <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexWrap: 'wrap'
-                        }}
                         className={Styles.filter_div}
                         onClick={() => setExpanded(prev => !prev)}
                     >

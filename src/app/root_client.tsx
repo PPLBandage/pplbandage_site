@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Style from './styles/root/page.module.css';
+import styles from './styles/root/page.module.css';
 import Link from 'next/link';
 import { CustomLink } from './modules/components/Search';
 import {
@@ -46,7 +46,7 @@ const HomeClient = ({ pong }: { pong: number }) => {
     const pepes = Object.entries(pepesObj).map(([path, Pepe], index) => (
         <Link
             key={index}
-            className={Style.img}
+            className={styles.img}
             style={{
                 animationDelay: `-${4 * index}s`,
                 animationPlayState: animationState ? 'running' : 'paused'
@@ -54,7 +54,6 @@ const HomeClient = ({ pong }: { pong: number }) => {
             href={`/workshop/${path}`}
         >
             <Pepe
-                style={{ width: '60px', height: 'auto' }}
                 onMouseEnter={() => setAnimationState(false)}
                 onMouseLeave={() => setAnimationState(true)}
             />
@@ -63,10 +62,10 @@ const HomeClient = ({ pong }: { pong: number }) => {
 
     return (
         <div>
-            <div className={Style.main_container}>
-                <svg width="958" height="318" className={Style.svg}>
+            <div className={styles.main_container}>
+                <svg width="958" height="318" className={styles.svg}>
                     <path
-                        className={Style.path}
+                        className={styles.path}
                         d="M 477 159 C -159 -391 -159 709 477 159 C 1113 -391 1113 709 477 159"
                         strokeWidth="3"
                         strokeDasharray="10,10"
@@ -74,24 +73,21 @@ const HomeClient = ({ pong }: { pong: number }) => {
                         fill="none"
                     />
                 </svg>
-                <div className={Style.bandages}>{pepes}</div>
-                <div className={Style.container}>
-                    <p className={Style.p}>
-                        <span className={Style.one}>1</span> Сайт
+                <div className={styles.bandages}>{pepes}</div>
+                <div className={styles.container}>
+                    <p className={styles.p}>
+                        <span className={styles.one}>1</span> Сайт
                     </p>
-                    <p
-                        className={Style.p}
-                        style={{ display: 'flex', alignItems: 'center' }}
-                    >
+                    <p className={styles.p}>
                         <IconInfinity
                             width={40}
                             height={40}
-                            className={Style.inf}
+                            className={styles.inf}
                             color="rgba(45, 212, 191)"
                         />
                         Стилей
                     </p>
-                    <Link href="/workshop" className={Style.link}>
+                    <Link href="/workshop" className={styles.link}>
                         <IconStack />
                         Открыть мастерскую
                     </Link>
@@ -100,18 +96,9 @@ const HomeClient = ({ pong }: { pong: number }) => {
                             color="#D29922"
                             style={{ maxWidth: '500px' }}
                             title={
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        gap: '.5rem'
-                                    }}
-                                >
+                                <div className={styles.service_unavailable}>
                                     <IconAlertTriangle width={24} height={24} />
-                                    <p style={{ margin: 0 }}>
-                                        Service Unavailable
-                                    </p>
+                                    <p>Service Unavailable</p>
                                 </div>
                             }
                         >
@@ -126,38 +113,28 @@ const HomeClient = ({ pong }: { pong: number }) => {
                     )}
                 </div>
             </div>
-            <footer className={Style.footer}>
+            <footer className={styles.footer}>
                 <p>
                     Сайт pplbandage.ru не является официальной частью сети
                     серверов{' '}
-                    <Link
-                        href="https://pepeland.net"
-                        style={{ color: 'gray' }}
-                        target="_blank"
-                    >
+                    <Link href="https://pepeland.net" target="_blank">
                         PepeLand
                     </Link>
                     .
                 </p>
-                <div className={Style.collaborate}>
+                <div className={styles.collaborate}>
                     <Link
                         href="https://t.me/shapestd"
-                        style={{ display: 'contents' }}
                         target="_blank"
-                        className={Style.shape}
+                        className={styles.shape}
                     >
-                        <div className={Style.shape_box}>
-                            <p
-                                className={Style.shape_name}
-                                style={{ whiteSpace: 'nowrap' }}
-                            >
-                                Shape std
-                            </p>
+                        <div className={styles.shape_box}>
+                            <p className={styles.shape_name}>Shape std</p>
                         </div>
-                        <IconShape alt="" width={24} height={24} />
+                        <IconShape width={24} height={24} />
                     </Link>
                     <IconX width={16} height={16} strokeWidth={3} />
-                    <IconCropped alt="" width={24} height={24} />
+                    <IconCropped width={24} height={24} />
                 </div>
             </footer>
         </div>

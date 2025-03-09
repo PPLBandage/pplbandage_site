@@ -11,7 +11,8 @@ const UsersClient = ({ user }: { user: Users }) => {
     const [elements, setElements] = useState<JSX.Element[]>(null);
 
     useEffect(() => {
-        if (user.works) renderSkin(user.works, styles).then(setElements);
+        if (user.works)
+            renderSkin(user.works.reverse(), styles).then(setElements);
     }, []);
 
     return (

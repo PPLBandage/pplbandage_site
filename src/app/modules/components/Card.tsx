@@ -9,6 +9,7 @@ import { CSSProperties, ReactNode, useEffect, useState } from 'react';
 import {
     IconCircleHalf2,
     IconEyeOff,
+    IconPlus,
     IconStar,
     IconStarFilled,
     IconUser
@@ -330,5 +331,41 @@ export const Card = ({
                 </div>
             </div>
         </article>
+    );
+};
+
+export const CreateCard = ({
+    className
+}: {
+    className: { readonly [key: string]: string };
+}) => {
+    const theme = useNextCookie('theme_main', 1000);
+    const background = backgrounds[theme] ?? 'default';
+    return (
+        <Link
+            className={`${style_card.card} ${className?.skin_description_props} ${style_card.create_card}`}
+            href="/workshop/create"
+            style={{
+                background: `url('/static/backgrounds/background_${background}.svg')`
+            }}
+        >
+            <NextImage
+                src={'/static/peepo.png'}
+                alt="peeepo"
+                width={123}
+                height={128}
+                className={style_card.peepo}
+            />
+            <IconPlus
+                width={50}
+                height={50}
+                style={{
+                    backgroundColor: `var(--main-element-color)`,
+                    borderRadius: `50%`,
+                    padding: `1rem`
+                }}
+            />
+            <h2>Создать новую повязку</h2>
+        </Link>
     );
 };

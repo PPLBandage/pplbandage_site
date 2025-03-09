@@ -5,7 +5,6 @@ import styles from '@/app/styles/header.module.css';
 import { deleteCookie } from 'cookies-next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
 import * as Interfaces from '@/app/interfaces';
 
 import {
@@ -47,21 +46,17 @@ const Header = (): JSX.Element => {
     const path = usePathname();
     const [logged, setLogged] = useState<boolean>(!!cookie);
     const [expanded, setExpanded] = useState<boolean>(false);
-
-    const { data } = useQuery({
-        queryKey: ['userProfile'],
-        retry: 5,
-        refetchOnWindowFocus: false,
-        queryFn: async () => {
-            try {
-                return await ApiManager.getMe();
-            } catch (e) {
-                setLogged(false);
-                throw e;
-            }
-        }
-    });
+    const [data, set_data] = useState<Query>(null);
     const admin = data?.permissions.some(role => adminRoles.includes(role));
+
+    useEffect(() => {
+        ApiManager.getMe()
+            .then(data => {
+                set_data(data);
+                setLogged(true);
+            })
+            .catch(() => setLogged(false));
+    }, []);
 
     useEffect(() => {
         setLogged(!!cookie);

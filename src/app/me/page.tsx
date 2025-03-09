@@ -9,11 +9,7 @@ import { Me } from '@/app/modules/components/MeSidebar';
 import Link from 'next/link';
 import { SimpleGrid } from '@/app/modules/components/AdaptiveGrid';
 
-import {
-    IconArrowBack,
-    IconBrandMinecraft,
-    IconPlus
-} from '@tabler/icons-react';
+import { IconArrowBack, IconBrandMinecraft } from '@tabler/icons-react';
 import IconSvgCropped from '@/app/resources/icon-cropped.svg';
 import { httpStatusCodes } from '../modules/utils/StatusCodes';
 import { renderSkin } from '../modules/utils/SkinCardRender';
@@ -21,6 +17,7 @@ import ApiManager from '../modules/utils/apiManager';
 import MinecraftConnect from '../modules/components/MinecraftConnect';
 import RolesDialog from '../modules/components/RolesDialog';
 import { useNextCookie } from 'use-next-cookie';
+import { CreateCard } from '../modules/components/Card';
 
 const Main = () => {
     const router = useRouter();
@@ -37,7 +34,12 @@ const Main = () => {
 
     useEffect(() => {
         if (data) {
-            renderSkin(data, styles).then(results => setElements(results));
+            renderSkin(data, styles).then(results => {
+                results
+                    .reverse()
+                    .unshift(<CreateCard key={-1} className={styles} />);
+                setElements(results);
+            });
         }
     }, [data]);
 
@@ -79,25 +81,15 @@ const Main = () => {
             ) : (
                 <Me>
                     <div
-                        style={
-                            elements
-                                ? { opacity: '1', transform: 'translateY(0)' }
-                                : {
-                                      opacity: '0',
-                                      transform: 'translateY(50px)'
-                                  }
-                        }
+                        style={{
+                            opacity: elements ? '1' : '0',
+                            transform: elements
+                                ? 'translateY(0)'
+                                : 'translateY(50px)'
+                        }}
                         className={styles.cont}
                         id="sidebar"
                     >
-                        <Link
-                            className={styles.create}
-                            href="/workshop/create"
-                            style={{ marginLeft: 'auto', marginRight: 'auto' }}
-                        >
-                            <IconPlus />
-                            Создать
-                        </Link>
                         <SimpleGrid>{elements}</SimpleGrid>
                     </div>
                 </Me>
@@ -117,7 +109,7 @@ const Loading = ({ loadingStatus }: { loadingStatus: string }) => {
             <h3>{loadingStatus || 'Загрузка'}</h3>
             <Link
                 className={styles.link}
-                style={{ visibility: !!loadingStatus ? 'visible' : 'hidden' }}
+                style={{ visibility: loadingStatus ? 'visible' : 'hidden' }}
                 href="/me"
             >
                 <IconArrowBack />

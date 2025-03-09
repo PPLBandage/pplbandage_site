@@ -115,7 +115,7 @@ const UserSettings = ({ data }: { data: SettingsResponse }) => {
     return (
         <div className={Style.container}>
             <h3>
-                <IconUser width={26} height={26} />
+                <IconUser />
                 Настройки аккаунта
             </h3>
             <SlideButton
@@ -185,7 +185,7 @@ const Connections = ({
         <>
             <div className={Style.container}>
                 <h3>
-                    <IconBrandDiscord width={32} height={32} />
+                    <IconBrandDiscord />
                     Discord аккаунт
                 </h3>
                 <div className={Style.discord_container}>
@@ -196,7 +196,6 @@ const Connections = ({
                             width={64}
                             height={64}
                             style={{ borderRadius: '50%' }}
-                            className={Style.discord_avatar}
                         />
                     )}
                     <div className={Style.discord_name_container}>
@@ -219,7 +218,7 @@ const Connections = ({
 
             <div className={Style.container}>
                 <h3>
-                    <IconBrandMinecraft width={32} height={32} />
+                    <IconBrandMinecraft />
                     Minecraft аккаунт
                 </h3>
                 {!!data.connections?.minecraft ? (
@@ -285,10 +284,7 @@ const Connections = ({
                                 className={Style.unlink}
                                 onClick={refreshMinecraft}
                             >
-                                <IconRefresh
-                                    style={{ width: '1.8rem' }}
-                                    id="refresh"
-                                />
+                                <IconRefresh id="refresh" />
                                 Обновить кэш
                             </button>
 
@@ -296,7 +292,7 @@ const Connections = ({
                                 className={Style.unlink}
                                 onClick={disconnect}
                             >
-                                <IconX style={{ width: '1.8rem' }} />
+                                <IconX />
                                 Отвязать
                             </button>
                         </div>
@@ -313,9 +309,7 @@ const Connections = ({
                                 className={Style.unlink}
                                 style={{ width: '100%' }}
                             >
-                                <IconPlugConnected
-                                    style={{ width: '1.8rem' }}
-                                />
+                                <IconPlugConnected />
                                 Подключить
                             </button>
                         </MinecraftConnect>
@@ -358,7 +352,7 @@ const Themes = () => {
             style={{ paddingBottom: 'calc(1rem - 10px)' }}
         >
             <h3>
-                <IconPalette width={24} height={24} />
+                <IconPalette />
                 Внешний вид
             </h3>
             <div className={Style_themes.parent}>{themesEl}</div>
@@ -522,7 +516,7 @@ const Safety = () => {
     return (
         <div className={Style.container}>
             <h3>
-                <IconShield width={24} height={24} />
+                <IconShield />
                 Безопасность
             </h3>
             <h4 style={{ margin: 0 }}>Все устройства</h4>
@@ -541,7 +535,7 @@ const Safety = () => {
                                 className={Style.unlink}
                                 onClick={logoutSessionAll}
                             >
-                                <IconX width={29} />
+                                <IconX />
                                 Выйти со всех устройств
                             </button>
                         )}

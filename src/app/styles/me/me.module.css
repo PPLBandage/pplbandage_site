@@ -109,37 +109,6 @@
     color: inherit;
 }
 
-.create {
-    color: var(--main-text-color);
-    text-decoration: none;
-    font-size: 1.2rem;
-
-    padding: .4rem;
-    background-color: var(--main-card-color);
-    margin-bottom: 1rem;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    border: 2px transparent solid;
-    transition: border 150ms;
-    box-sizing: border-box;
-
-    width: 300px;
-}
-
-.create:hover {
-    border: 2px var(--main-element-color) solid;
-}
-
-.create svg {
-    margin-right: .1rem;
-    width: 1.9rem;
-    height: auto;
-}
-
 .cont {
     transition: opacity 200ms, transform 200ms;
     width: 100%;
@@ -213,23 +182,7 @@
     }
 }
 
-@media (min-width: 1001px) {
-    .create {
-        width: calc(600px + .75rem);
-    }
-}
-
-@media (min-width: 1313px) {
-    .create {
-        width: calc(900px + 1.5rem);
-    }
-}
-
 @media(max-width: 730px) {
-    .create {
-        width: 100% !important;
-        min-width: 300px !important;
-    }
 
     /* css-lint-disable-rule unused-class*/
     .skin_description_props {

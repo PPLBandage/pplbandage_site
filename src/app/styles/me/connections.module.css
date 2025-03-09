@@ -81,16 +81,13 @@
     align-items: center;
     flex-direction: row;
     justify-content: center;
+    gap: .3rem;
 }
 
 .unlink:hover {
     background-color: var(--main-element-color);
 }
 
-.discord_avatar {
-    width: 64px;
-    height: 64px;
-}
 
 .discord_container {
     display: flex;

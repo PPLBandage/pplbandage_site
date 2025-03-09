@@ -170,6 +170,8 @@ const ImprovedTheme = ({
 };
 
 const Roles = ({ user }: { user: Query }) => {
+    if (!user || !user.roles) return null;
+
     const roles = user.roles.map(role => (
         <CategoryEl category={role} key={role.id} />
     ));
@@ -191,8 +193,6 @@ export const Me = ({
     user_data?: Users;
 }) => {
     const [islogged, setIsLogged] = useState<boolean>(false);
-    const pathname = usePathname();
-    const path = pathname.split('/')[pathname.split('/').length - 1];
     const [theme, setTheme] = useState<number>(null);
 
     const { data, isLoading, isError } = useQuery({
@@ -243,98 +243,86 @@ export const Me = ({
                                     {background}
                                     {!user_data && (
                                         <Menu
-                                            initialValue={data?.profile_theme}
+                                            initialValue={data.profile_theme}
                                             color_available={
-                                                !!data?.banner_color
+                                                !!data.banner_color
                                             }
                                             onChange={setTheme}
                                         />
                                     )}
                                 </div>
-                                {data.roles?.length > 0 && (
-                                    <Roles user={data} />
-                                )}
-                                {!user_data && (
-                                    <div
-                                        className={style_sidebar.card}
-                                        style={{
-                                            alignItems: 'stretch',
-                                            gap: '.5rem'
-                                        }}
-                                    >
-                                        <TransitionLink
-                                            href="/me"
-                                            className={`${
-                                                style_sidebar.side_butt
-                                            } ${
-                                                path == 'me' &&
-                                                style_sidebar.active
-                                            }`}
-                                        >
-                                            <IconList width={24} height={24} />
-                                            Мои работы
-                                        </TransitionLink>
-                                        <TransitionLink
-                                            href="/me/stars"
-                                            className={`${
-                                                style_sidebar.side_butt
-                                            } ${
-                                                path == 'stars' &&
-                                                style_sidebar.active
-                                            }`}
-                                        >
-                                            <IconStar width={24} height={24} />
-                                            Избранное
-                                        </TransitionLink>
-                                        <TransitionLink
-                                            href="/me/notifications"
-                                            className={`${
-                                                style_sidebar.side_butt
-                                            } ${
-                                                path == 'notifications' &&
-                                                style_sidebar.active
-                                            }`}
-                                        >
-                                            <IconBell width={24} height={24} />
-                                            Уведомления
-                                            {(data as Query)
-                                                ?.has_unreaded_notifications && (
-                                                <span
-                                                    style={{
-                                                        backgroundColor:
-                                                            '#1bd96a',
-                                                        width: '8px',
-                                                        height: '8px',
-                                                        marginLeft: '5px',
-                                                        marginTop: '2px',
-                                                        borderRadius: '50%'
-                                                    }}
-                                                />
-                                            )}
-                                        </TransitionLink>
-                                        <TransitionLink
-                                            href="/me/settings"
-                                            className={`${
-                                                style_sidebar.side_butt
-                                            } ${
-                                                path == 'settings' &&
-                                                style_sidebar.active
-                                            }`}
-                                        >
-                                            <IconSettings
-                                                width={24}
-                                                height={24}
-                                            />
-                                            Настройки
-                                        </TransitionLink>
-                                    </div>
-                                )}
+                                {data.roles.length > 0 && <Roles user={data} />}
+                                {!user_data && <Pages data={data} />}
                             </>
                         )}
                     </div>
                     {children}
                 </div>
             </div>
+        </div>
+    );
+};
+
+const Pages = ({ data }: { data: Query }) => {
+    const pathname = usePathname();
+    const path = pathname.split('/')[pathname.split('/').length - 1];
+
+    return (
+        <div
+            className={style_sidebar.card}
+            style={{
+                alignItems: 'stretch',
+                gap: '.5rem'
+            }}
+        >
+            <TransitionLink
+                href="/me"
+                className={`${style_sidebar.side_butt} ${
+                    path === 'me' && style_sidebar.active
+                }`}
+            >
+                <IconList />
+                Мои работы
+            </TransitionLink>
+            <TransitionLink
+                href="/me/stars"
+                className={`${style_sidebar.side_butt} ${
+                    path === 'stars' && style_sidebar.active
+                }`}
+            >
+                <IconStar />
+                Избранное
+            </TransitionLink>
+            <TransitionLink
+                href="/me/notifications"
+                className={`${style_sidebar.side_butt} ${
+                    path === 'notifications' && style_sidebar.active
+                }`}
+            >
+                <IconBell />
+                Уведомления
+                {data?.has_unreaded_notifications && (
+                    <span
+                        style={{
+                            backgroundColor: '#1bd96a',
+                            width: '8px',
+                            height: '8px',
+                            marginLeft: '5px',
+                            marginTop: '2px',
+                            borderRadius: '50%'
+                        }}
+                    />
+                )}
+            </TransitionLink>
+            <TransitionLink
+                href="/me/settings"
+                className={`${style_sidebar.side_butt} ${
+                    path === 'settings' && style_sidebar.active
+                }`}
+            >
+                <IconSettings />
+                Настройки
+            </TransitionLink>
         </div>
     );
 };

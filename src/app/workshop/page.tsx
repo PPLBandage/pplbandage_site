@@ -165,15 +165,13 @@ export default function Home() {
                     />
 
                     <div
-                        style={
-                            elements
-                                ? { opacity: '1', transform: 'translateY(0)' }
-                                : {
-                                      opacity: '0',
-                                      transform: 'translateY(50px)'
-                                  }
-                        }
                         className={Style.animated}
+                        style={{
+                            opacity: elements ? '1' : '0',
+                            transform: elements
+                                ? 'translateY(0)'
+                                : 'translateY(50px)'
+                        }}
                     >
                         <SimpleGrid>{elements}</SimpleGrid>
                     </div>

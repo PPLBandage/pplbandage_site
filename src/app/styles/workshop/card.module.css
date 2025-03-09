@@ -156,6 +156,42 @@
     cursor: pointer;
 }
 
+.create_card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--main-element-color);
+    text-decoration: none;
+    padding: 1rem;
+    min-height: 250px;
+    margin-top: 96px;
+}
+
+.create_card h2 {
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.create_card svg {
+    transition: transform 250ms;
+    border: 2px solid var(--category-color);
+}
+
+.create_card:hover svg {
+    transform: scale(.95);
+}
+
+.peepo {
+    position: absolute;
+    cursor: grab;
+    left: 0;
+    top: -96px;
+}
+
+.peepo:active {
+    cursor: grabbing;
+}
+
 @media (max-width: 730px) {
     .star_container {
         transform: none;

@@ -54,7 +54,6 @@
     filter: drop-shadow(0px 0px 8px rgba(12, 247, 215));
 }
 
-
 .svg {
     overflow: visible;
 }
@@ -66,6 +65,7 @@
     font-size: 3rem;
     margin: 0;
     font-weight: 500;
+    gap: .5rem;
 }
 
 .container {
@@ -92,7 +92,6 @@
     width: 4rem;
     height: 4rem;
     filter: drop-shadow(0px 0px 8px rgba(12, 247, 215));
-    margin-right: .5rem;
 }
 
 .one {

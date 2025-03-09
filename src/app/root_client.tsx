@@ -76,7 +76,7 @@ const HomeClient = ({ pong }: { pong: number }) => {
                 <div className={styles.bandages}>{pepes}</div>
                 <div className={styles.container}>
                     <p className={styles.p}>
-                        <span className={styles.one}>1</span> Сайт
+                        <span className={styles.one}>1</span>Сайт
                     </p>
                     <p className={styles.p}>
                         <IconInfinity

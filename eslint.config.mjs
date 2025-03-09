@@ -12,10 +12,10 @@ const compat = new FlatCompat({
 const eslintConfig = [
     ...compat.extends("next/core-web-vitals", "next/typescript"),
     {
+        ignores: ['.next/', 'out/'],
         rules: {
             "react-hooks/exhaustive-deps": "off",
             "@next/next/no-img-element": "off",
-            "max-len": ["error", { code: 120 }],
         },
     },
 ];

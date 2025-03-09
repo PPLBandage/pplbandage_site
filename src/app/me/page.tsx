@@ -74,7 +74,7 @@ const Main = () => {
 
     return (
         <main>
-            {!!code ? (
+            {code ? (
                 <Loading loadingStatus={loadingStatus} />
             ) : !isLogged ? (
                 <Login />

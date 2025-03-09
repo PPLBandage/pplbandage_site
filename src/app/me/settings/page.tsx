@@ -173,12 +173,8 @@ const Connections = ({
     };
 
     const connectMinecraft = async (code: string): Promise<void> => {
-        try {
-            await ApiManager.connectMinecraft(code);
-            setTimeout(refetch, 150);
-        } catch (error) {
-            throw error;
-        }
+        await ApiManager.connectMinecraft(code);
+        setTimeout(refetch, 150);
     };
 
     return (
@@ -221,7 +217,7 @@ const Connections = ({
                     <IconBrandMinecraft />
                     Minecraft аккаунт
                 </h3>
-                {!!data.connections?.minecraft ? (
+                {data.connections?.minecraft ? (
                     <>
                         <div className={Style.head_container}>
                             {data && (

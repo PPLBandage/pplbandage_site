@@ -4,15 +4,14 @@ import {
     IconShield,
     IconX
 } from '@tabler/icons-react';
-import style_workshop from '@/app/styles/workshop/page.module.css';
 import Style_safety from '@/app/styles/me/safety.module.css';
 import Style from '@/app/styles/me/connections.module.css';
 import { formatDate } from '@/app/modules/components/Card';
 import ApiManager from '@/app/modules/utils/apiManager';
 import { timeStamp } from '@/app/modules/utils/time';
-import IconSvg from '@/app/resources/icon.svg';
 import { Session } from '@/app/interfaces';
 import useSWR, { mutate } from 'swr';
+import { Loading } from './Loading';
 
 const moveToStart = (arr: Session[]) => {
     const filteredArray = arr.filter(el => !el.is_self);
@@ -79,12 +78,6 @@ const Sessions = () => {
                 </button>
             )}
         </>
-    );
-};
-
-const Loading = () => {
-    return (
-        <IconSvg width={86} height={86} className={style_workshop.loading} />
     );
 };
 

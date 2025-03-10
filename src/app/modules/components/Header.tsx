@@ -24,6 +24,7 @@ import ApiManager from '../utils/apiManager';
 import ReactCSSTransition from './CSSTransition';
 import { useNextCookie } from 'use-next-cookie';
 import { usePathname } from 'next/navigation';
+import useSWR from 'swr';
 
 export interface Query {
     username: string;
@@ -46,19 +47,9 @@ const Header = (): JSX.Element => {
     const path = usePathname();
     const [logged, setLogged] = useState<boolean>(!!cookie);
     const [expanded, setExpanded] = useState<boolean>(false);
-    const [data, set_data] = useState<Query>(null);
-    const admin = data?.permissions.some(role => adminRoles.includes(role));
 
     useEffect(() => {
         setLogged(!!cookie);
-        if (!!cookie) {
-            ApiManager.getMe()
-                .then(data => {
-                    set_data(data);
-                    setLogged(true);
-                })
-                .catch(() => setLogged(false));
-        }
     }, [cookie]);
 
     useEffect(() => {
@@ -91,11 +82,7 @@ const Header = (): JSX.Element => {
                     </div>
 
                     {logged ? (
-                        <AvatarMenu
-                            data={data}
-                            expanded={expanded}
-                            expand={setExpanded}
-                        />
+                        <AvatarMenu expanded={expanded} expand={setExpanded} />
                     ) : (
                         <IconMenu2
                             onClick={() => setExpanded(prev => !prev)}
@@ -113,11 +100,7 @@ const Header = (): JSX.Element => {
                         }}
                     >
                         <div className={styles.menu}>
-                            {logged ? (
-                                <LoggedMenu admin={admin} />
-                            ) : (
-                                <UnloggedMenu />
-                            )}
+                            {logged ? <LoggedMenu /> : <UnloggedMenu />}
                         </div>
                     </ReactCSSTransition>
                 </div>
@@ -127,14 +110,13 @@ const Header = (): JSX.Element => {
 };
 
 const AvatarMenu = ({
-    data,
     expanded,
     expand
 }: {
-    data: Query;
     expanded: boolean;
     expand: Dispatch<SetStateAction<boolean>>;
 }) => {
+    const { data } = useSWR('me', () => ApiManager.getMe());
     const [loading, setLoading] = useState<boolean>(true);
 
     return (
@@ -171,7 +153,10 @@ const AvatarMenu = ({
     );
 };
 
-const LoggedMenu = ({ admin }: { admin: boolean }) => {
+const LoggedMenu = () => {
+    const { data } = useSWR('me', () => ApiManager.getMe());
+    const admin = data?.permissions.some(role => adminRoles.includes(role));
+
     const logout = () => {
         ApiManager.logout()
             .then(() => {

@@ -22,6 +22,7 @@ import { useConfigContext } from '@/app/modules/utils/ConfigContext';
 import IconCandle from '@/app/resources/stars/candle.svg';
 import IconCandleOn from '@/app/resources/stars/candle_on.svg';
 import { useNextCookie } from 'use-next-cookie';
+import { CustomLink } from './Search';
 
 const months = [
     'января',
@@ -300,30 +301,28 @@ export const Card = ({
                 </div>
 
                 <div>
-                    {el.author ? (
-                        el.author.public ? (
-                            <Link
-                                className={style_card.username}
-                                href={`/users/${el.author.username}`}
-                            >
-                                <IconUser style={{ width: '1.5rem' }} />
-                                {el.author.name}
-                            </Link>
-                        ) : (
-                            <a
-                                className={`${style_card.username} ${style_card.username_private}`}
-                            >
-                                <IconUser style={{ width: '1.5rem' }} />
-                                {el.author.name}
-                            </a>
-                        )
-                    ) : (
-                        <a
-                            className={`${style_card.username} ${style_card.username_private}`}
+                    {el.author.public ? (
+                        <Link
+                            className={style_card.username}
+                            href={`/users/${el.author.username}`}
                         >
                             <IconUser style={{ width: '1.5rem' }} />
-                            Unknown
-                        </a>
+                            {el.author.name}
+                        </Link>
+                    ) : (
+                        <Link
+                            href={
+                                el.author.public
+                                    ? `/users/${el.author.username}`
+                                    : ''
+                            }
+                            className={`${style_card.username} ${
+                                !el.author.public && style_card.username_private
+                            }`}
+                        >
+                            <IconUser style={{ width: '1.5rem' }} />
+                            {el.author.name}
+                        </Link>
                     )}
                     <p className={style_card.creation_date}>
                         {formatDate(new Date(el.creation_date))}
@@ -334,34 +333,40 @@ export const Card = ({
     );
 };
 
-export const CreateCard = () => {
+export const CreateCard = ({ first }: { first?: boolean }) => {
     const theme = useNextCookie('theme_main', 1000);
     const background = backgrounds[theme] ?? 'default';
     return (
-        <Link
+        <article
             className={`${style_card.card} ${style_card.create_card}`}
-            href="/workshop/create"
             style={{
                 background: `url('/static/backgrounds/background_${background}.svg')`
             }}
         >
             <NextImage
                 src={'/static/peepo.png'}
-                alt="peeepo"
+                alt="peepo"
                 width={123}
                 height={128}
                 className={style_card.peepo}
+                priority
             />
-            <IconPlus
-                width={50}
-                height={50}
-                style={{
-                    backgroundColor: `var(--main-element-color)`,
-                    borderRadius: `50%`,
-                    padding: `1rem`
-                }}
-            />
-            <h2>Создать новую повязку</h2>
-        </Link>
+            <Link href="/workshop/create">
+                <IconPlus width={50} height={50} />
+            </Link>
+            <div>
+                <h2>
+                    {first
+                        ? 'Создайте свою первую повязку'
+                        : 'Создать новую повязку'}
+                </h2>
+                <p>
+                    Не знаете как? Прочитайте{' '}
+                    <CustomLink href="/tutorials/bandage">
+                        наш туториал
+                    </CustomLink>
+                </p>
+            </div>
+        </article>
     );
 };

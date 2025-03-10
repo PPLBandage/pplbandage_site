@@ -171,15 +171,25 @@
 .create_card h2 {
     text-align: center;
     font-size: 1.2rem;
+    margin-bottom: .4rem;
 }
 
 .create_card svg {
-    transition: transform 250ms;
+    transition: transform 350ms;
     border: 2px solid var(--category-color);
+    background-color: var(--main-element-color);
+    border-radius: 10px;
+    padding: 1rem;
 }
 
-.create_card:hover svg {
+.create_card svg:hover {
     transform: scale(.95);
+}
+
+.create_card p {
+    opacity: .7;
+    margin: 0;
+    text-align: center;
 }
 
 .peepo {

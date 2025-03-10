@@ -1,7 +1,6 @@
 'use client';
 
 import React, { CSSProperties, JSX, useEffect, useState } from 'react';
-import { Query } from '../modules/components/Header';
 import ApiManager from '../modules/utils/apiManager';
 import { Me } from '../modules/components/MeSidebar';
 import {
@@ -18,6 +17,7 @@ import Link from 'next/link';
 import { IconArrowBack, IconBrandMinecraft } from '@tabler/icons-react';
 import IconSvgCropped from '@/app/resources/icon-cropped.svg';
 import { useNextCookie } from 'use-next-cookie';
+import useSWR from 'swr';
 
 const Wrapper = ({ children }: { children: JSX.Element }) => {
     const searchParams = useSearchParams();
@@ -39,15 +39,11 @@ const Wrapper = ({ children }: { children: JSX.Element }) => {
 };
 
 const MeLoader = ({ children }: { children: JSX.Element }) => {
-    const [userData, setUserData] = useState<Query>(null);
+    const { data } = useSWR('me', () => ApiManager.getMe());
 
-    useEffect(() => {
-        ApiManager.getMe().then(setUserData).catch(console.log);
-    }, []);
-
-    if (!userData) return null;
+    if (!data) return null;
     return (
-        <Me data={userData} self>
+        <Me data={data} self>
             {children}
         </Me>
     );

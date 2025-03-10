@@ -20,7 +20,7 @@ type UpdateUsersProps = {
 type SetStarResponse = { new_count: number; action_set: boolean };
 
 class ApiManager {
-    /* Do HTTP request */
+    /** Do HTTP request */
     private static async doRequest({
         url,
         method,
@@ -40,7 +40,7 @@ class ApiManager {
         return response;
     }
 
-    /* Do HTTP simple */
+    /** Do HTTP simple */
     private static async doRequestSimple({
         url,
         method,
@@ -81,7 +81,7 @@ class ApiManager {
         ).data;
     }
 
-    /* Get Categories */
+    /** Get Categories */
     static async getCategories(
         forEdit?: boolean
     ): Promise<Interfaces.Category[]> {
@@ -94,7 +94,7 @@ class ApiManager {
         ).data as Interfaces.Category[];
     }
 
-    /* Get me profile */
+    /** Get me profile */
     static async getMe(): Promise<Query> {
         return (
             await this.doRequest({
@@ -104,7 +104,7 @@ class ApiManager {
         ).data as Query;
     }
 
-    /* Log out */
+    /** Log out */
     static async logout(): Promise<void> {
         await this.doRequest({
             url: '/user/me',
@@ -112,7 +112,7 @@ class ApiManager {
         });
     }
 
-    /* Get users (admin) */
+    /** Get users (admin) */
     static async getUsers(query?: string): Promise<Interfaces.UserAdmins[]> {
         return (
             await this.doRequest({
@@ -122,7 +122,7 @@ class ApiManager {
         ).data as Interfaces.UserAdmins[];
     }
 
-    /* Update user */
+    /** Update user */
     static async updateUser(
         username: string,
         params: UpdateUsersProps
@@ -134,7 +134,7 @@ class ApiManager {
         });
     }
 
-    /* Force register user (admin) */
+    /** Force register user (admin) */
     static async forceRegister(discord_id: string): Promise<void> {
         await this.doRequest({
             url: `/users`,
@@ -143,7 +143,7 @@ class ApiManager {
         });
     }
 
-    /* Get me works */
+    /** Get me works */
     static async getMeWorks(): Promise<Interfaces.Bandage[]> {
         return (
             await this.doRequest({
@@ -153,7 +153,7 @@ class ApiManager {
         ).data as Interfaces.Bandage[];
     }
 
-    /* Get me stars */
+    /** Get me stars */
     static async getMeStars(): Promise<Interfaces.Bandage[]> {
         return (
             await this.doRequest({
@@ -163,7 +163,7 @@ class ApiManager {
         ).data as Interfaces.Bandage[];
     }
 
-    /* Set bandage star */
+    /** Set bandage star */
     static async setStar(
         id: string,
         params: { set: boolean }
@@ -177,7 +177,7 @@ class ApiManager {
         ).data as SetStarResponse;
     }
 
-    /* Get me notifications */
+    /** Get me notifications */
     static async getMeNotifications(params: {
         page: number;
     }): Promise<Interfaces.NotificationsInterface> {
@@ -190,7 +190,7 @@ class ApiManager {
         ).data as Interfaces.NotificationsInterface;
     }
 
-    /* Get me settings */
+    /** Get me settings */
     static async getMeSettings(): Promise<SettingsResponse> {
         return (
             await this.doRequest({
@@ -200,7 +200,7 @@ class ApiManager {
         ).data as SettingsResponse;
     }
 
-    /* Set public profile */
+    /** Set public profile */
     static async setPublicProfile(params: { state: boolean }): Promise<void> {
         await this.doRequest({
             url: `/user/me`,
@@ -209,7 +209,7 @@ class ApiManager {
         });
     }
 
-    /* Set user profile theme */
+    /** Set user profile theme */
     static async setTheme(params: { theme: number }): Promise<void> {
         await this.doRequest({
             url: `/user/me`,
@@ -218,7 +218,7 @@ class ApiManager {
         });
     }
 
-    /* Purge skin cache */
+    /** Purge skin cache */
     static async purgeSkinCache(): Promise<AxiosResponse> {
         return await this.doRequest({
             url: `/user/me/connections/minecraft/cache/purge`,
@@ -226,7 +226,7 @@ class ApiManager {
         });
     }
 
-    /* Disconnect minecraft profile */
+    /** Disconnect minecraft profile */
     static async disconnectMinecraft(): Promise<void> {
         await this.doRequest({
             url: `/user/me/connections/minecraft`,
@@ -234,7 +234,7 @@ class ApiManager {
         });
     }
 
-    /* Set minecraft profile visible */
+    /** Set minecraft profile visible */
     static async setMinecraftVisible(params: {
         state: boolean;
     }): Promise<boolean> {
@@ -247,7 +247,7 @@ class ApiManager {
         ).data.new_data;
     }
 
-    /* Set minecraft skin autoload */
+    /** Set minecraft skin autoload */
     static async setMinecraftAutoload(params: {
         state: boolean;
     }): Promise<boolean> {
@@ -260,7 +260,7 @@ class ApiManager {
         ).data.new_data;
     }
 
-    /* Connect Minecraft Profile */
+    /** Connect Minecraft Profile */
     static async connectMinecraft(code: string): Promise<void> {
         await this.doRequest({
             url: `/user/me/connections/minecraft/connect/${code}`,
@@ -268,7 +268,7 @@ class ApiManager {
         });
     }
 
-    /* Search Minecraft nicks */
+    /** Search Minecraft nicks */
     static async searchNicks(
         nickname: string,
         signal?: GenericAbortSignal
@@ -282,7 +282,7 @@ class ApiManager {
         ).data;
     }
 
-    /* Get Minecraft skin */
+    /** Get Minecraft skin */
     static async getSkin(nickname: string): Promise<SkinResponse> {
         return (
             await this.doRequestSimple({
@@ -292,7 +292,7 @@ class ApiManager {
         ).data;
     }
 
-    /* Get sessions */
+    /** Get sessions */
     static async getSessions(): Promise<Interfaces.Session[]> {
         return (
             await this.doRequest({
@@ -302,7 +302,7 @@ class ApiManager {
         ).data;
     }
 
-    /* Logout from session */
+    /** Logout from session */
     static async logoutSession(session: number): Promise<void> {
         await this.doRequest({
             url: `/user/me/sessions/${session}`,
@@ -310,7 +310,7 @@ class ApiManager {
         });
     }
 
-    /* Logout from all sessions */
+    /** Logout from all sessions */
     static async logoutAllSessions(): Promise<void> {
         await this.doRequest({
             url: `/user/me/sessions/all`,
@@ -318,7 +318,7 @@ class ApiManager {
         });
     }
 
-    /* Update bandage */
+    /** Update bandage */
     static async updateBandage(
         id: string,
         data: {
@@ -335,7 +335,7 @@ class ApiManager {
         });
     }
 
-    /* Delete bandage */
+    /** Delete bandage */
     static async deleteBandage(id: string): Promise<void> {
         await this.doRequest({
             url: `/workshop/${id}`,
@@ -343,7 +343,7 @@ class ApiManager {
         });
     }
 
-    /* Archive bandage */
+    /** Archive bandage */
     static async archiveBandage(id: string): Promise<void> {
         await this.doRequest({
             url: `/workshop/${id}/archive`,
@@ -351,7 +351,7 @@ class ApiManager {
         });
     }
 
-    /* Create bandage */
+    /** Create bandage */
     static async createBandage(data: {
         title: string;
         description: string;
@@ -367,7 +367,7 @@ class ApiManager {
         });
     }
 
-    /* Get registration roles */
+    /** Get registration roles */
     static async getRoles(): Promise<Interfaces.Role[]> {
         return (
             await this.doRequestSimple({
@@ -377,7 +377,7 @@ class ApiManager {
         ).data;
     }
 
-    /* Get registration roles */
+    /** Get registration roles */
     static async getWorkshop(params: {
         page: number;
         take: number;

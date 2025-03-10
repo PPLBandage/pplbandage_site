@@ -24,7 +24,6 @@ const Notifications = () => {
 
     if (notifications === null) return null;
     if (notifications.data.length === 0) return <Placeholder />;
-
     return (
         <div
             id="sidebar"

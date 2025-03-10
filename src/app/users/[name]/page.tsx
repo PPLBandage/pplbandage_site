@@ -7,6 +7,7 @@ import { numbersTxt } from '@/app/modules/utils/time';
 import { Query } from '@/app/modules/components/Header';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import { Me } from '@/app/modules/components/MeSidebar';
 
 export interface Users extends Query {
     userID: number;
@@ -87,20 +88,16 @@ const Users = async ({ params }: { params: Promise<{ name: string }> }) => {
         }
     );
 
-    if (data_request.status !== 200) {
-        notFound();
-    }
-
     const data = data_request.data as Users;
-    if (!data) {
-        notFound();
-    }
+    if (data_request.status !== 200) notFound();
+    if (!data) notFound();
+    if (data.is_self) redirect('/me');
 
-    if (data.is_self) {
-        redirect('/me');
-    }
-
-    return <UsersClient user={data} />;
+    return (
+        <Me data={data}>
+            <UsersClient user={data} />
+        </Me>
+    );
 };
 
 export default Users;

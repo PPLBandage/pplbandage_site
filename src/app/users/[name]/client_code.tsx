@@ -3,7 +3,7 @@
 import { Users } from './page';
 import { JSX, useEffect, useState } from 'react';
 import styles from '@/app/styles/me/me.module.css';
-import { Me } from '@/app/modules/components/MeSidebar';
+import style_sidebar from '@/app/styles/me/sidebar.module.css';
 import { SimpleGrid } from '@/app/modules/components/AdaptiveGrid';
 import { renderSkin } from '@/app/modules/utils/SkinCardRender';
 
@@ -15,19 +15,11 @@ const UsersClient = ({ user }: { user: Users }) => {
             renderSkin(user.works.reverse(), styles).then(setElements);
     }, []);
 
+    if (!elements || elements.length === 0) return null;
     return (
-        <Me user_data={user}>
-            <div
-                style={
-                    elements
-                        ? { opacity: '1', transform: 'translateY(0)' }
-                        : { opacity: '0', transform: 'translateY(50px)' }
-                }
-                className={styles.cont}
-            >
-                <SimpleGrid>{elements}</SimpleGrid>
-            </div>
-        </Me>
+        <div className={`${styles.cont} ${style_sidebar.hidable}`}>
+            <SimpleGrid>{elements}</SimpleGrid>
+        </div>
     );
 };
 

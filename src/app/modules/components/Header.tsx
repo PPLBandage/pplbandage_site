@@ -50,16 +50,15 @@ const Header = (): JSX.Element => {
     const admin = data?.permissions.some(role => adminRoles.includes(role));
 
     useEffect(() => {
-        ApiManager.getMe()
-            .then(data => {
-                set_data(data);
-                setLogged(true);
-            })
-            .catch(() => setLogged(false));
-    }, []);
-
-    useEffect(() => {
         setLogged(!!cookie);
+        if (!!cookie) {
+            ApiManager.getMe()
+                .then(data => {
+                    set_data(data);
+                    setLogged(true);
+                })
+                .catch(() => setLogged(false));
+        }
     }, [cookie]);
 
     useEffect(() => {

@@ -14,7 +14,7 @@
     position: relative;
 
     background-color: var(--main-card-color) !important;
-    background-size: 50% !important;
+    background-size: 150px !important;
     background-repeat: repeat !important;
 
     box-sizing: border-box;
@@ -163,6 +163,7 @@
     border: 2px dashed var(--main-element-color);
     text-decoration: none;
     padding: 1rem;
+    width: 100%;
     min-height: 250px;
     margin-top: 96px;
 }

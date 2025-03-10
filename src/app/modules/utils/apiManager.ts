@@ -2,7 +2,6 @@ import * as Interfaces from '@/app/interfaces';
 import { authApi } from './api';
 import axios, { AxiosResponse, GenericAbortSignal, Method } from 'axios';
 import { Query } from '../components/Header';
-import { SettingsResponse } from '@/app/me/settings/page';
 import { SearchResponse } from '../components/NickSearch';
 import { SkinResponse } from '@/app/workshop/[id]/bandage_engine';
 

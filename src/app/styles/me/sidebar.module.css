@@ -14,9 +14,19 @@
 }
 
 .hidable {
-    transition: opacity 200ms, transform 200ms;
-    opacity: 0;
-    transform: translateY(50px);
+    animation: show 200ms;
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 .card {
@@ -72,24 +82,6 @@
     background-color: var(--main-element-color);
     padding: .3rem;
     border-radius: 5px;
-}
-
-@keyframes plshdrs {
-
-    0%,
-    50%,
-    100% {
-        background-color: var(--main-element-color);
-    }
-
-    25%,
-    75% {
-        background-color: var(--main-card-color);
-    }
-}
-
-.placeholders {
-    animation: plshdrs 2s ease-in-out infinite;
 }
 
 .joined {
@@ -165,6 +157,10 @@
     justify-content: center;
     background-position: center;
     background-size: cover;
+}
+
+.not_a_background_image_container {
+    display: contents;
 }
 
 .discord_id {

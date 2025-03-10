@@ -56,20 +56,20 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
             >
                 <div className={Styles.menu}>
                     <button
-                        className={theme === 0 && Styles.enabled}
+                        className={`${theme === 0 && Styles.enabled}`}
                         onClick={() => setTheme(0)}
                     >
                         {getIcon(0)}
                     </button>
                     <button
-                        className={theme === 1 && Styles.enabled}
+                        className={`${theme === 1 && Styles.enabled}`}
                         onClick={() => setTheme(1)}
                     >
                         {getIcon(1)}
                     </button>
                     {color_available && (
                         <button
-                            className={theme === 2 && Styles.enabled}
+                            className={`${theme === 2 && Styles.enabled}`}
                             onClick={() => setTheme(2)}
                         >
                             {getIcon(2)}

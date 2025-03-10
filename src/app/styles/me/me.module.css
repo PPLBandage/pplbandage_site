@@ -110,8 +110,21 @@
 }
 
 .cont {
+    animation: container_show 200ms;
     transition: opacity 200ms, transform 200ms;
     width: 100%;
+}
+
+@keyframes container_show {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
 
 .loading {
@@ -152,6 +165,17 @@
 
 .link:hover {
     border: 2px rgba(12, 247, 215) dashed;
+}
+
+.theres_nothing_p {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    width: 100%;
+    justify-content: center;
+    margin: 0;
 }
 
 @keyframes loading {

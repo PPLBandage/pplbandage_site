@@ -14,7 +14,6 @@
     "dependencies": {
         "@svgr/webpack": "^8.1.0",
         "@tabler/icons-react": "^3.31.0",
-        "@tanstack/react-query": "5.67.2",
         "@types/lodash.debounce": "^4.0.9",
         "async-mutex": "^0.5.0",
         "axios": "^1.8.2",
@@ -30,6 +29,7 @@
         "sanitize-html": "^2.14.0",
         "sharp": "^0.33.5",
         "skinview3d": "^3.1.0",
+        "swr": "^2.3.3",
         "use-next-cookie": "^0.1.5"
     },
     "devDependencies": {

@@ -334,16 +334,12 @@ export const Card = ({
     );
 };
 
-export const CreateCard = ({
-    className
-}: {
-    className: { readonly [key: string]: string };
-}) => {
+export const CreateCard = () => {
     const theme = useNextCookie('theme_main', 1000);
     const background = backgrounds[theme] ?? 'default';
     return (
         <Link
-            className={`${style_card.card} ${className?.skin_description_props} ${style_card.create_card}`}
+            className={`${style_card.card} ${style_card.create_card}`}
             href="/workshop/create"
             style={{
                 background: `url('/static/backgrounds/background_${background}.svg')`

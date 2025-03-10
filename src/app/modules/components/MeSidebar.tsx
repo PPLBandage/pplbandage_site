@@ -1,4 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
+'use client';
+
 import { JSX, useState } from 'react';
 import { Query } from './Header';
 import style_sidebar from '@/app/styles/me/sidebar.module.css';
@@ -7,7 +8,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { timeStamp } from '../utils/time';
 import Menu from './ThemeSelect';
-import { Users } from '@/app/users/[name]/page';
 import { CategoryEl, formatDate } from './Card';
 
 import {
@@ -18,156 +18,6 @@ import {
     IconStarFilled
 } from '@tabler/icons-react';
 import { TransitionLink } from '@/app/me/AnimatedLink';
-import ApiManager from '../utils/apiManager';
-
-const Default = ({
-    data,
-    islogged,
-    color
-}: {
-    data: Query;
-    islogged: boolean;
-    color?: string;
-}) => {
-    return (
-        <div
-            className={style_sidebar.card}
-            style={{ backgroundColor: color || 'var(--main-card-color)' }}
-        >
-            <div
-                className={`${style_sidebar.avatar_container} ${
-                    !islogged && style_sidebar.placeholders
-                }`}
-            >
-                {islogged && data?.avatar && !color && (
-                    <Image
-                        src={data.avatar}
-                        className={style_sidebar.blurred_avatar}
-                        alt=""
-                        width={150}
-                        height={150}
-                        priority={true}
-                        draggable={false}
-                    />
-                )}
-                {islogged && data?.avatar && (
-                    <Image
-                        src={data.avatar}
-                        alt=""
-                        width={150}
-                        height={150}
-                        priority={true}
-                        draggable={false}
-                    />
-                )}
-            </div>
-            <h3>{data?.name}</h3>
-            <p className={style_sidebar.username}>
-                {data?.username}{' '}
-                {!!data.last_accessed && (
-                    <span title={formatDate(new Date(data?.last_accessed))}>
-                        (
-                        {timeStamp(
-                            new Date(data?.last_accessed).getTime() / 1000
-                        )}
-                        )
-                    </span>
-                )}
-            </p>
-
-            <p className={style_sidebar.total_stars}>
-                Звёзд: {data?.stars_count}
-                <IconStarFilled width={16} height={16} />
-            </p>
-            <div className={style_sidebar.joined}>
-                <p title={formatDate(new Date(data?.joined_at))}>
-                    Аккаунт создан{' '}
-                    {timeStamp(new Date(data?.joined_at).getTime() / 1000)}
-                </p>
-            </div>
-            <p className={style_sidebar.uid}>
-                Discord id:{' '}
-                <Link
-                    href={`https://discord.com/users/${data?.discordID}`}
-                    className={style_sidebar.discord_id}
-                    target="_blank"
-                >
-                    {data?.discordID}
-                </Link>
-            </p>
-        </div>
-    );
-};
-
-const ImprovedTheme = ({
-    data,
-    islogged
-}: {
-    data: Query;
-    islogged: boolean;
-}) => {
-    return (
-        <div
-            className={style_sidebar.background_image_container}
-            style={{ backgroundImage: `url("${data?.avatar}")` }}
-        >
-            <div
-                className={`${style_sidebar.card} ${style_sidebar.card_improved}`}
-            >
-                <div
-                    className={`${style_sidebar.avatar_container} ${
-                        !islogged && style_sidebar.placeholders
-                    }`}
-                >
-                    {islogged && data?.avatar && (
-                        <Image
-                            src={data?.avatar}
-                            alt=""
-                            width={150}
-                            height={150}
-                            priority={true}
-                            draggable={false}
-                        />
-                    )}
-                </div>
-                <h3>{data?.name}</h3>
-                <p className={style_sidebar.username}>
-                    {data?.username}{' '}
-                    {!!data.last_accessed && (
-                        <span title={formatDate(new Date(data?.last_accessed))}>
-                            (
-                            {timeStamp(
-                                new Date(data?.last_accessed).getTime() / 1000
-                            )}
-                            )
-                        </span>
-                    )}
-                </p>
-
-                <p className={style_sidebar.total_stars}>
-                    Звёзд: {data?.stars_count}
-                    <IconStarFilled width={16} height={16} />
-                </p>
-                <div className={style_sidebar.joined}>
-                    <p title={formatDate(new Date(data?.joined_at))}>
-                        Аккаунт создан{' '}
-                        {timeStamp(new Date(data?.joined_at).getTime() / 1000)}
-                    </p>
-                </div>
-                <p className={style_sidebar.uid}>
-                    Discord id:{' '}
-                    <Link
-                        href={`https://discord.com/users/${data?.discordID}`}
-                        className={style_sidebar.discord_id}
-                        target="_blank"
-                    >
-                        {data?.discordID}
-                    </Link>
-                </p>
-            </div>
-        </div>
-    );
-};
 
 const Roles = ({ user }: { user: Query }) => {
     if (!user || !user.roles) return null;
@@ -187,77 +37,133 @@ const Roles = ({ user }: { user: Query }) => {
 
 export const Me = ({
     children,
-    user_data
+    data,
+    self
 }: {
     children: JSX.Element;
-    user_data?: Users;
+    data: Query;
+    self?: boolean;
 }) => {
-    const [islogged, setIsLogged] = useState<boolean>(false);
-    const [theme, setTheme] = useState<number>(null);
+    const [theme, setTheme] = useState<number>(data.profile_theme);
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: [
-            !!user_data?.username
-                ? `user_${user_data?.username}`
-                : `userProfile`
-        ],
-        retry: 5,
-        queryFn: async () => (!user_data ? ApiManager.getMe() : user_data)
-    });
-    if (!isLoading && !isError && !islogged && data) {
-        setIsLogged(true);
-    }
-
-    let background;
-    switch (theme ?? user_data?.profile_theme ?? data?.profile_theme) {
-        case 1:
-            background = (
-                <ImprovedTheme data={data as Query} islogged={islogged} />
-            );
-            break;
-        case 2:
-            background = (
-                <Default
-                    data={data as Query}
-                    islogged={islogged}
-                    color={data?.banner_color}
-                />
-            );
-            break;
-        default:
-            background = <Default data={data as Query} islogged={islogged} />;
-            break;
-    }
+    if (!data) return null;
 
     return (
         <div className={style_sidebar.main_container}>
-            <div
-                style={islogged ? { opacity: '1', transform: 'none' } : {}}
-                className={style_sidebar.hidable}
-            >
+            <div className={style_sidebar.hidable}>
                 <div className={style_sidebar.main}>
                     <div className={style_sidebar.side}>
-                        {!!data && (
-                            <>
-                                <div style={{ position: 'relative' }}>
-                                    {background}
-                                    {!user_data && (
-                                        <Menu
-                                            initialValue={data.profile_theme}
-                                            color_available={
-                                                !!data.banner_color
-                                            }
-                                            onChange={setTheme}
-                                        />
-                                    )}
-                                </div>
-                                {data.roles.length > 0 && <Roles user={data} />}
-                                {!user_data && <Pages data={data} />}
-                            </>
-                        )}
+                        <div style={{ position: 'relative' }}>
+                            <AvatarHead
+                                data={data}
+                                color={data.banner_color}
+                                theme={theme}
+                            />
+                            {self && (
+                                <Menu
+                                    initialValue={data.profile_theme}
+                                    color_available={!!data.banner_color}
+                                    onChange={setTheme}
+                                />
+                            )}
+                        </div>
+                        {data.roles.length > 0 && <Roles user={data} />}
+                        {self && <Pages data={data} />}
                     </div>
                     {children}
                 </div>
+            </div>
+        </div>
+    );
+};
+
+const AvatarHead = ({
+    data,
+    theme,
+    color
+}: {
+    data: Query;
+    theme: number;
+    color?: string;
+}) => {
+    let used_color = undefined;
+    let image = undefined;
+    if (theme === 1) {
+        image = { backgroundImage: `url("${data.avatar}")` };
+    } else {
+        used_color = {
+            backgroundColor: theme === 2 ? color : 'var(--main-card-color)'
+        };
+    }
+    const last_accessed = new Date(data?.last_accessed);
+
+    return (
+        <div
+            className={
+                theme === 1
+                    ? style_sidebar.background_image_container
+                    : style_sidebar.not_a_background_image_container
+            }
+            style={image}
+        >
+            <div
+                className={
+                    `${style_sidebar.card} ` +
+                    `${theme === 1 && style_sidebar.card_improved}`
+                }
+                style={used_color}
+            >
+                <div className={style_sidebar.avatar_container}>
+                    {theme === 0 && (
+                        <Image
+                            src={data.avatar}
+                            className={style_sidebar.blurred_avatar}
+                            alt=""
+                            width={150}
+                            height={150}
+                            priority={true}
+                            draggable={false}
+                        />
+                    )}
+                    <Image
+                        src={data.avatar}
+                        alt=""
+                        width={150}
+                        height={150}
+                        priority={true}
+                        draggable={false}
+                    />
+                </div>
+                <h3>{data.name}</h3>
+                <p className={style_sidebar.username}>
+                    {data.username}{' '}
+                    {!!data.last_accessed && (
+                        <span title={formatDate(last_accessed)}>
+                            ({timeStamp(last_accessed.getTime() / 1000)})
+                        </span>
+                    )}
+                </p>
+
+                <p className={style_sidebar.total_stars}>
+                    Звёзд: {data.stars_count}
+                    <IconStarFilled width={16} height={16} />
+                </p>
+                <div className={style_sidebar.joined}>
+                    <p title={formatDate(new Date(data.joined_at))}>
+                        Аккаунт создан{' '}
+                        {timeStamp(new Date(data.joined_at).getTime() / 1000)}
+                    </p>
+                </div>
+                <p className={style_sidebar.uid}>
+                    Discord id:{' '}
+                    <Link
+                        href={`https://discord.com/users/${data.discordID}`}
+                        className={style_sidebar.discord_id}
+                        target="_blank"
+                    >
+                        {data.discordID}
+                    </Link>
+                </p>
             </div>
         </div>
     );

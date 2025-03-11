@@ -180,14 +180,14 @@ class ApiManager {
     /** Get me notifications */
     static async getMeNotifications(params: {
         page: number;
-    }): Promise<Interfaces.NotificationsInterface> {
+    }): Promise<Interfaces.INotifications> {
         return (
             await this.doRequest({
                 url: `/user/me/notifications`,
                 method: 'GET',
                 params
             })
-        ).data as Interfaces.NotificationsInterface;
+        ).data as Interfaces.INotifications;
     }
 
     /** Get me settings */

@@ -6,13 +6,12 @@ import { formatDate } from '@/app/modules/components/Card';
 import { Paginator } from '@/app/modules/components/Paginator';
 import style_sidebar from '@/app/styles/me/sidebar.module.css';
 import ApiManager from '@/app/modules/utils/apiManager';
-import { NotificationsInterface } from '@/app/interfaces';
+import { INotifications } from '@/app/interfaces';
 import sanitizeHtml from 'sanitize-html';
 import { Placeholder } from '../Placeholder';
 
 const Notifications = () => {
-    const [notifications, setNotifications] =
-        useState<NotificationsInterface | null>(null);
+    const [notifications, setNotifications] = useState<INotifications>(null);
     const [page, setPage] = useState<number>(0);
 
     useEffect(() => {
@@ -42,7 +41,7 @@ const Notifications = () => {
     );
 };
 
-const generateNotifications = (notifications: NotificationsInterface) => {
+const generateNotifications = (notifications: INotifications) => {
     return notifications?.data.map(notification => {
         let classN = undefined;
         switch (notification.type) {

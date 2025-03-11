@@ -67,7 +67,7 @@ export interface UserAdmins {
     skip_ppl_check: boolean;
 }
 
-export interface NotificationsInterface {
+export interface INotifications {
     data: {
         id: number;
         content: string;

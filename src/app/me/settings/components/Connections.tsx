@@ -141,7 +141,11 @@ const Minecraft = () => {
 
 const UnloggedMinecraft = () => {
     return (
-        <>
+        <div className={Style.container}>
+            <h3>
+                <IconBrandMinecraft />
+                Minecraft аккаунт
+            </h3>
             <p style={{ margin: 0 }}>
                 Подключите свой аккаунт Minecraft, чтобы управлять кэшем скинов
                 и настройками видимости вашего никнейма в поиске.
@@ -152,7 +156,7 @@ const UnloggedMinecraft = () => {
                     Подключить
                 </button>
             </MinecraftConnect>
-        </>
+        </div>
     );
 };
 

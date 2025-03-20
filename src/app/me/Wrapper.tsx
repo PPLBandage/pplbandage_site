@@ -14,7 +14,12 @@ import RolesDialog from '../modules/components/RolesDialog';
 import MinecraftConnect from '../modules/components/MinecraftConnect';
 import styles from '@/app/styles/me/me.module.css';
 import Link from 'next/link';
-import { IconArrowBack, IconBrandMinecraft } from '@tabler/icons-react';
+import {
+    IconArrowBack,
+    IconBrandDiscord,
+    IconBrandMinecraft,
+    IconLogin
+} from '@tabler/icons-react';
 import IconSvgCropped from '@/app/resources/icon-cropped.svg';
 import { useNextCookie } from 'use-next-cookie';
 import useSWR from 'swr';
@@ -110,7 +115,16 @@ const Login = () => {
     return (
         <main className={styles.login_main}>
             <div className={styles.login_container}>
-                <h1>Войти через</h1>
+                <h1
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '.5rem'
+                    }}
+                >
+                    <IconLogin />
+                    Войти через
+                </h1>
 
                 <div className={styles.login_through}>
                     <a
@@ -118,7 +132,7 @@ const Login = () => {
                         href={'/me/login'}
                         style={{ '--color': '#5662f6' } as CSSProperties}
                     >
-                        <img alt="" src="/static/icons/discord.svg" />
+                        <IconBrandDiscord />
                         Discord
                     </a>
                     <MinecraftConnect onInput={loginMinecraft} login>

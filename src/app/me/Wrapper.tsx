@@ -135,7 +135,7 @@ const Login = () => {
                 <span className={styles.p} id="about_logging">
                     Для регистрации вам нужно быть участником Discord сервера{' '}
                     <a href="https://baad.pw/ds" className={styles.a}>
-                        Pwgood
+                        PWGood
                     </a>{' '}
                     и иметь одну из этих&nbsp;
                     <RolesDialog>

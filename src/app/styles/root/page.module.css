@@ -51,7 +51,7 @@
 }
 
 .path {
-    filter: drop-shadow(0px 0px 8px rgba(12, 247, 215));
+    filter: drop-shadow(0px 0px 20px rgba(12, 247, 215));
 }
 
 .svg {

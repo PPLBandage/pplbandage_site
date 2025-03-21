@@ -7,8 +7,7 @@ import { CustomLink } from './modules/components/Search';
 import {
     IconInfinity,
     IconAlertTriangle,
-    IconStack,
-    IconX
+    IconStack
 } from '@tabler/icons-react';
 import InfoCard from './modules/components/InfoCard';
 
@@ -25,7 +24,6 @@ import Pepe8 from '@/app/resources/pepes_svg/8.svg';
 import Pepe9 from '@/app/resources/pepes_svg/9.svg';
 
 import IconCropped from '@/app/resources/icon-cropped.svg';
-import IconShape from '@/app/resources/shape.svg';
 
 const pepesObj = {
     ogukal: Pepe0,
@@ -122,20 +120,7 @@ const HomeClient = ({ pong }: { pong: number }) => {
                     </Link>
                     .
                 </p>
-                <div className={styles.collaborate}>
-                    <Link
-                        href="https://t.me/shapestd"
-                        target="_blank"
-                        className={styles.shape}
-                    >
-                        <div className={styles.shape_box}>
-                            <p className={styles.shape_name}>Shape std</p>
-                        </div>
-                        <IconShape width={24} height={24} />
-                    </Link>
-                    <IconX width={16} height={16} strokeWidth={3} />
-                    <IconCropped width={24} height={24} />
-                </div>
+                <IconCropped width={24} height={24} className={styles.logo} />
             </footer>
         </div>
     );

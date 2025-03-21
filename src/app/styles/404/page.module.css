@@ -30,20 +30,50 @@
     position: absolute;
     border-radius: 50%;
     filter: blur(130px);
-    top: 40%;
     transition: top 3s cubic-bezier(0.32, 0.01, 0.68, 1);
     left: 40%;
+    top: 40%;
     transform-origin: center;
+
+    animation: move_circle 3s forwards ease-in-out;
 }
 
 .circle_2 {
     left: 60%;
     top: 60%;
     background-color: #00ADB5;
+
+    animation: move_circle 3s reverse forwards ease-in-out;
 }
 
-.home {
-    color: #a7a7a7;
+@keyframes move_circle {
+    0% {
+        top: 40%;
+    }
+
+    100% {
+        top: 60%
+    }
+}
+
+.link {
+    color: var(--main-text-color);
+    text-decoration: none;
+    padding: .6rem;
+    border: 2px var(--main-element-color) dashed;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: var(--main-card-color);
+    transition: border 150ms;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .4rem;
+}
+
+.link:hover {
+    border: 2px rgba(12, 247, 215) dashed;
 }
 
 @keyframes Load {

@@ -23,6 +23,11 @@
 .img svg {
     width: 60px;
     height: auto;
+    transition: transform .2s;
+}
+
+.img svg:hover {
+    transform: scale(1.05);
 }
 
 @keyframes anim {
@@ -142,35 +147,8 @@
     font-size: .8rem;
 }
 
-.collaborate {
-    display: flex;
-    align-items: center;
-    gap: .3rem;
-}
-
-.shape_name {
-    transform: translateX(100%);
-    transition: transform 250ms;
-    pointer-events: none;
-    white-space: nowrap;
-    color: white !important;
-}
-
-.shape_box {
-    overflow: hidden;
-    pointer-events: none;
-}
-
-.shape {
-    display: contents;
-}
-
-.shape svg {
-    color: var(--main-text-color);
-}
-
-.shape:hover .shape_name {
-    transform: translateX(0%);
+.logo {
+    filter: brightness(.5);
 }
 
 .service_unavailable {

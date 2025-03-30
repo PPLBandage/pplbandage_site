@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import style_root from '@/app/styles/admin/page.module.css';
-import { redirect, useRouter } from 'next/navigation';
+import { notFound, redirect, useRouter } from 'next/navigation';
 import { adminRoles, Query } from '@/app/modules/components/Header';
 import AdaptiveGrid from '../modules/components/AdaptiveGrid';
 import { Fira_Code } from 'next/font/google';
@@ -158,7 +158,7 @@ const Admin = () => {
     const router = useRouter();
 
     if (!cookiesServer.get('sessionId')) {
-        redirect('/');
+        notFound();
     }
 
     useEffect(() => {

@@ -21,6 +21,7 @@ const ReactCSSTransition = (props: ReactCSSTransitionProps) => {
 
     useEffect(() => {
         let anim_request: number;
+        let timeout: NodeJS.Timeout;
         if (state) {
             setMounted(true);
             setAnimationClass(props.classNames.enter);
@@ -31,13 +32,14 @@ const ReactCSSTransition = (props: ReactCSSTransitionProps) => {
             });
         } else {
             setAnimationClass(props.classNames.exitActive);
-            setTimeout(() => {
+            timeout = setTimeout(() => {
                 setMounted(false);
             }, props.timeout);
         }
 
         return () => {
             cancelAnimationFrame(anim_request);
+            clearTimeout(timeout);
         };
     }, [state]);
 

@@ -19,7 +19,7 @@
 }
 
 .info_container {
-    padding: .7rem 1rem 1rem;
+    padding: .7rem .5rem .5rem;
 
     display: flex;
     flex-direction: column;
@@ -32,6 +32,8 @@
     display: flex;
     flex-direction: column;
     gap: .3rem;
+    padding: .5rem;
+    padding-top: 0;
 }
 
 .name {
@@ -74,7 +76,7 @@
 
     padding: .5rem;
     background-color: var(--main-element-color);
-    border-radius: 10px;
+    border-radius: 5px;
     text-decoration: none;
     font-weight: 500;
 

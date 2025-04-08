@@ -10,6 +10,7 @@ import {
     IconExternalLink
 } from '@tabler/icons-react';
 import InfoCard from '../modules/components/InfoCard';
+import Feedback from './Feedback.server';
 
 interface CardProps {
     name: string;
@@ -139,6 +140,7 @@ const Home = () => {
                         ]}
                     />
                 </div>
+                <Feedback />
             </div>
         </main>
     );

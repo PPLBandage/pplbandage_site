@@ -5,7 +5,7 @@ import { IconSend } from '@tabler/icons-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useNextCookie } from 'use-next-cookie';
-import { numbersTxt } from '../modules/utils/time';
+import { stringTimeDelta } from '../modules/utils/time';
 import { deleteCookie, setCookie } from 'cookies-next';
 import axios from 'axios';
 
@@ -113,11 +113,7 @@ const Unavailable = () => {
             <h3 className={style.thanks}>Спасибо за обратную связь!</h3>
             <p className={style.retry_after}>
                 Отправить снова можно будет через{' '}
-                {numbersTxt(Math.round(retry) - 4, [
-                    'секунду',
-                    'секунды',
-                    'секунд'
-                ])}
+                {stringTimeDelta(Math.round(retry) - 4)}
             </p>
         </div>
     );

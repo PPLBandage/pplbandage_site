@@ -180,7 +180,7 @@ export default function Home() {
                         <TheresNothingHere elements={elements} />
                     )}
 
-                    {elements && elements.length > 0 && (
+                    {elements && elements.length > 0 && totalCount > take && (
                         <Paginator
                             total_count={totalCount}
                             take={take}

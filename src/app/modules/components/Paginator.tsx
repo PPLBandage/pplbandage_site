@@ -67,7 +67,8 @@ export const Paginator = ({
             );
         }
         _setPages(data);
-        const page = Math.min(Math.max(0, _page), pages_count - 1);
+        const page = Math.min(Math.max(0, _page), Math.max(0, pages_count - 1));
+        console.log(page);
         onChange(page);
     }, [_page, _totalCount, _take]);
 

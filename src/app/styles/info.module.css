@@ -1,8 +1,8 @@
 .container {
     width: 100%;
     padding: 1rem;
-    border-radius: 10px;
-    border-left: 3px transparent solid;
+    border-radius: 3px;
+    border-left: 4px transparent solid;
     box-sizing: border-box;
     max-width: 1280px;
     display: flex;

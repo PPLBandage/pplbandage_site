@@ -17,7 +17,8 @@ import {
     IconChevronDown,
     IconMenu2,
     IconUserCog,
-    IconBooks
+    IconBooks,
+    IconAddressBook
 } from '@tabler/icons-react';
 import IconCropped from '@/app/resources/icon-cropped.svg';
 import ApiManager from '../utils/apiManager';
@@ -189,6 +190,10 @@ const LoggedMenu = () => {
                 <IconBooks />
                 <span>Туториалы</span>
             </Link>
+            <Link className={styles.menu_element} href="/contacts">
+                <IconAddressBook />
+                <span>Контакты</span>
+            </Link>
             {admin && (
                 <Link className={styles.menu_element} href="/admin">
                     <IconUserCog />
@@ -222,6 +227,10 @@ const UnloggedMenu = () => {
             <Link className={styles.menu_element} href="/tutorials">
                 <IconBooks />
                 <span>Туториалы</span>
+            </Link>
+            <Link className={styles.menu_element} href="/contacts">
+                <IconAddressBook />
+                <span>Контакты</span>
             </Link>
         </>
     );

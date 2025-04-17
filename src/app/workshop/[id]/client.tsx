@@ -199,7 +199,7 @@ export default function Home({
             description: (
                 <span>
                     Ваша работа была отклонена модерацией. Для получения
-                    информации обратитесь в
+                    информации обратитесь в{' '}
                     <CustomLink href="/contacts">поддержку</CustomLink>.
                 </span>
             ),

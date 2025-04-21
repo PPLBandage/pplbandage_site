@@ -85,3 +85,7 @@
 .menu button:hover {
     border: 1px var(--category-color) solid;
 }
+
+.icon_container {
+    transition: opacity 300ms;
+}

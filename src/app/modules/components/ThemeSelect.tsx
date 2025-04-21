@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import ReactCSSTransition from '@/app/modules/components/CSSTransition';
 
 import Styles from '@/app/styles/theme_selector.module.css';
@@ -26,17 +26,25 @@ const getIcon = (theme: number) => {
 
 const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
     const [expanded, setExpanded] = useState<boolean>(false);
-    const [firstLoad, setFirstLoad] = useState<boolean>(true);
-    const [theme, setTheme] = useState<number>(initialValue);
 
-    useEffect(() => {
-        onChange(theme);
-        if (firstLoad) {
-            setFirstLoad(false);
-        } else {
-            ApiManager.setTheme({ theme }).catch(console.error);
-        }
-    }, [theme]);
+    const [theme, setTheme] = useState<number>(initialValue);
+    const [displayTheme, setDisplayTheme] = useState<number>(initialValue);
+    const [opacity, setOpacity] = useState<number>(1);
+    const timeoutRef = useRef<NodeJS.Timeout>(null);
+
+    const themeChanged = (_theme: number) => {
+        if (_theme === theme) return;
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        setOpacity(0);
+
+        onChange(_theme);
+        setTheme(_theme);
+        ApiManager.setTheme({ theme: _theme }).catch(console.error);
+        timeoutRef.current = setTimeout(() => {
+            setDisplayTheme(_theme);
+            setOpacity(1);
+        }, 200);
+    };
 
     return (
         <div className={Styles.main}>
@@ -44,7 +52,9 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
                 className={Styles.style_change}
                 onClick={() => setExpanded(_prev => !_prev)}
             >
-                {getIcon(theme)}
+                <div className={Styles.icon_container} style={{ opacity }}>
+                    {getIcon(displayTheme)}
+                </div>
             </button>
             <ReactCSSTransition
                 state={expanded}
@@ -57,20 +67,20 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
                 <div className={Styles.menu}>
                     <button
                         className={`${theme === 0 && Styles.enabled}`}
-                        onClick={() => setTheme(0)}
+                        onClick={() => themeChanged(0)}
                     >
                         {getIcon(0)}
                     </button>
                     <button
                         className={`${theme === 1 && Styles.enabled}`}
-                        onClick={() => setTheme(1)}
+                        onClick={() => themeChanged(1)}
                     >
                         {getIcon(1)}
                     </button>
                     {color_available && (
                         <button
                             className={`${theme === 2 && Styles.enabled}`}
-                            onClick={() => setTheme(2)}
+                            onClick={() => themeChanged(2)}
                         >
                             {getIcon(2)}
                         </button>

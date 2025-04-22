@@ -88,4 +88,7 @@
 
 .icon_container {
     transition: opacity 300ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

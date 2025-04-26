@@ -197,7 +197,7 @@
 }
 
 .unreaded {
-    border-color: #1bd96a;
+    border-color: var(--main-action-color);
 }
 
 .main_icon {

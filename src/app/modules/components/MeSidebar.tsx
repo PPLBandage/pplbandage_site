@@ -28,7 +28,12 @@ const Roles = ({ user }: { user: Query }) => {
     return (
         <div
             className={style_sidebar.card}
-            style={{ gap: '.5rem', alignItems: 'stretch' }}
+            style={{
+                gap: '.5rem',
+                alignItems: 'stretch',
+                background:
+                    'color-mix(in srgb, var(--main-card-color) 80%, black 20%)'
+            }}
         >
             {roles}
         </div>
@@ -53,21 +58,23 @@ export const Me = ({
             <div className={style_sidebar.hidable}>
                 <div className={style_sidebar.main}>
                     <div className={style_sidebar.side}>
-                        <div style={{ position: 'relative' }}>
-                            <AvatarHead
-                                data={data}
-                                color={data.banner_color}
-                                theme={theme}
-                            />
-                            {self && (
-                                <Menu
-                                    initialValue={data.profile_theme}
-                                    color_available={!!data.banner_color}
-                                    onChange={setTheme}
+                        <div className={style_sidebar.round_container}>
+                            <div style={{ position: 'relative' }}>
+                                <AvatarHead
+                                    data={data}
+                                    color={data.banner_color}
+                                    theme={theme}
                                 />
-                            )}
+                                {self && (
+                                    <Menu
+                                        initialValue={data.profile_theme}
+                                        color_available={!!data.banner_color}
+                                        onChange={setTheme}
+                                    />
+                                )}
+                            </div>
+                            {data.roles.length > 0 && <Roles user={data} />}
                         </div>
-                        {data.roles.length > 0 && <Roles user={data} />}
                         {self && <Pages data={data} />}
                     </div>
                     {children}
@@ -178,7 +185,8 @@ const Pages = ({ data }: { data: Query }) => {
             className={style_sidebar.card}
             style={{
                 alignItems: 'stretch',
-                gap: '.5rem'
+                gap: '.5rem',
+                borderRadius: '10px'
             }}
         >
             <TransitionLink
@@ -205,20 +213,14 @@ const Pages = ({ data }: { data: Query }) => {
                     path === 'notifications' && style_sidebar.active
                 }`}
             >
-                <IconBell />
+                <IconBell
+                    fill={
+                        data?.has_unreaded_notifications
+                            ? 'var(--main-action-color)'
+                            : 'none'
+                    }
+                />
                 Уведомления
-                {data?.has_unreaded_notifications && (
-                    <span
-                        style={{
-                            backgroundColor: '#1bd96a',
-                            width: '8px',
-                            height: '8px',
-                            marginLeft: '5px',
-                            marginTop: '2px',
-                            borderRadius: '50%'
-                        }}
-                    />
-                )}
             </TransitionLink>
             <TransitionLink
                 href="/me/settings"

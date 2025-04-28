@@ -9,7 +9,10 @@ const ASide = () => {
     const pathname = usePathname();
     const path = pathname.split('/')[pathname.split('/').length - 1];
     return (
-        <div className={`${style_sidebar.card} ${style_add.side_card}`}>
+        <div
+            className={`${style_sidebar.card} ${style_add.side_card}`}
+            style={{ borderRadius: '10px' }}
+        >
             <TransitionLink
                 href="/tutorials"
                 className={`${style_sidebar.side_butt} ${

@@ -14,7 +14,7 @@
     position: relative;
 
     background-color: var(--main-card-color) !important;
-    background-size: 150px !important;
+    background-size: 40% !important;
     background-repeat: repeat !important;
 
     box-sizing: border-box;

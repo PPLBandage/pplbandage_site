@@ -69,7 +69,7 @@
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 300px);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: .75rem;
     justify-content: center;
     width: 100%;
@@ -95,12 +95,5 @@
     25%,
     75% {
         opacity: .3;
-    }
-}
-
-@media (max-width: 730px) {
-    .grid {
-        grid-template-columns: auto;
-        justify-content: unset;
     }
 }

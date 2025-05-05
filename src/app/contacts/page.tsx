@@ -2,11 +2,10 @@ import Link from 'next/link';
 import style from '@/app/styles/contacts/page.module.css';
 import style_card from '@/app/styles/contacts/card.module.css';
 import Image from 'next/image';
-import { CSSProperties } from 'react';
+import { CSSProperties, JSX } from 'react';
 import {
     IconAlertTriangle,
     IconBrandTelegram,
-    IconCoffee,
     IconExternalLink
 } from '@tabler/icons-react';
 import InfoCard from '../modules/components/InfoCard';
@@ -21,24 +20,12 @@ interface CardProps {
     links: {
         name: string;
         URL: string;
-        type: 'telegram' | 'URL' | 'coffee';
+        icon: JSX.Element;
     }[];
 }
 
 const Card = (props: CardProps) => {
     const links = props.links.map(link => {
-        let icon;
-        switch (link.type) {
-            case 'telegram':
-                icon = <IconBrandTelegram width={24} height={24} />;
-                break;
-            case 'coffee':
-                icon = <IconCoffee width={24} height={24} />;
-                break;
-            default:
-                icon = <IconExternalLink width={24} height={24} />;
-                break;
-        }
         return (
             <Link
                 href={link.URL}
@@ -46,7 +33,7 @@ const Card = (props: CardProps) => {
                 target="_blank"
                 className={style_card.link}
             >
-                {icon} {link.name}
+                {link.icon} {link.name}
             </Link>
         );
     });
@@ -110,12 +97,16 @@ const Home = () => {
                             {
                                 name: 'Telegram',
                                 URL: 'https://t.me/andcool_systems',
-                                type: 'telegram'
+                                icon: (
+                                    <IconBrandTelegram width={24} height={24} />
+                                )
                             },
                             {
-                                name: 'Поддержать',
-                                URL: 'https://www.donationalerts.com/r/andcool_systems',
-                                type: 'coffee'
+                                name: 'Telegram канал',
+                                URL: 'https://tg.andcool.ru',
+                                icon: (
+                                    <IconBrandTelegram width={24} height={24} />
+                                )
                             }
                         ]}
                     />
@@ -130,12 +121,16 @@ const Home = () => {
                             {
                                 name: 'Telegram',
                                 URL: 'https://t.me/shapestd',
-                                type: 'telegram'
+                                icon: (
+                                    <IconBrandTelegram width={24} height={24} />
+                                )
                             },
                             {
                                 name: 'ВК',
                                 URL: 'https://vk.com/shapestd',
-                                type: 'URL'
+                                icon: (
+                                    <IconExternalLink width={24} height={24} />
+                                )
                             }
                         ]}
                     />

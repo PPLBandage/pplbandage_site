@@ -6,9 +6,9 @@ import style_sidebar from '@/styles/me/sidebar.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { timeStamp } from '@/lib/time';
+import { formatDate, timeStamp } from '@/lib/time';
 import Menu from './ThemeSelect';
-import { CategoryEl, formatDate } from './Card';
+import { CategoryEl } from './Card';
 
 import {
     IconSettings,

@@ -6,9 +6,8 @@ import {
 } from '@tabler/icons-react';
 import Style_safety from '@/styles/me/safety.module.css';
 import Style from '@/styles/me/connections.module.css';
-import { formatDate } from '@/components/Card';
 import ApiManager from '@/lib/apiManager';
-import { timeStamp } from '@/lib/time';
+import { formatDate, timeStamp } from '@/lib/time';
 import { Session } from '@/types/global.d';
 import useSWR, { mutate } from 'swr';
 import { Loading } from './Loading';

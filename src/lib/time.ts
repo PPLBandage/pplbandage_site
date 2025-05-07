@@ -52,3 +52,42 @@ export const timeStamp = (timestamp: number): string => {
         return `${stringTimeDelta(delta)} назад`;
     }
 };
+
+const months = [
+    'января',
+    'февраля',
+    'марта',
+    'апреля',
+    'мая',
+    'июня',
+    'июля',
+    'августа',
+    'сентября',
+    'октября',
+    'ноября',
+    'декабря'
+];
+
+export const formatDateHuman = (date: Date, include_time?: boolean) => {
+    if (isNaN(date.getDay())) return '';
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const day = date.getDate().toString();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear().toString();
+
+    if (include_time) {
+        return `${day} ${month} ${year} г. в ${hours}:${minutes}`;
+    }
+    return `${day} ${month} ${year} г.`;
+};
+
+export const formatDate = (date: Date) => {
+    if (isNaN(date.getDay())) return '';
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    return `${hours}:${minutes} ${day}.${month}.${year}`;
+};

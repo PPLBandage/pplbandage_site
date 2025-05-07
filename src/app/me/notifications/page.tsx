@@ -2,13 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import Style from '@/styles/me/notifications.module.css';
-import { formatDate } from '@/components/Card';
 import { Paginator } from '@/components/Paginator';
 import style_sidebar from '@/styles/me/sidebar.module.css';
 import ApiManager from '@/lib/apiManager';
 import { INotifications } from '@/types/global.d';
 import sanitizeHtml from 'sanitize-html';
 import { Placeholder } from '@/app/me/Placeholder';
+import { formatDate } from '@/lib/time';
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState<INotifications>(null);

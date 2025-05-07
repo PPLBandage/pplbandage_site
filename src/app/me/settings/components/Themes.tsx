@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNextCookie } from 'use-next-cookie';
-import { setTheme } from '../setTheme';
+import { setTheme } from '@/app/me/settings/setTheme';
 import Style from '@/styles/me/connections.module.css';
 import themes from '@/app/themes';
 import { IconPalette } from '@tabler/icons-react';

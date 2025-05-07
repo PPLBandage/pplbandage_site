@@ -13,7 +13,7 @@ import {
     IconBulb
 } from '@tabler/icons-react';
 import Link from 'next/link';
-import RolesDialog from '../../components/RolesDialog';
+import RolesDialog from '@/components/RolesDialog';
 
 export default function Home() {
     return (

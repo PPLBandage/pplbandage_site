@@ -9,7 +9,7 @@ import { Fira_Code } from 'next/font/google';
 import Link from 'next/link';
 import SlideButton from '@/components/SlideButton';
 import ApiManager from '@/lib/apiManager';
-import { UserAdmins } from '../../types/global.d';
+import { UserAdmins } from '@/types/global.d';
 import { IconSearch } from '@tabler/icons-react';
 import { useCookiesServer, useNextCookie } from 'use-next-cookie';
 

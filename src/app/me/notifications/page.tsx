@@ -8,7 +8,7 @@ import style_sidebar from '@/styles/me/sidebar.module.css';
 import ApiManager from '@/lib/apiManager';
 import { INotifications } from '@/types/global.d';
 import sanitizeHtml from 'sanitize-html';
-import { Placeholder } from '../Placeholder';
+import { Placeholder } from '@/app/me/Placeholder';
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState<INotifications>(null);

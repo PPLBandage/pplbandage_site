@@ -14,7 +14,7 @@ import styles_card from '@/styles/me/me.module.css';
 import IconSvg from '@/resources/icon.svg';
 import { BrowserNotification, calcChecksum } from './checkBrowserAPI';
 import { renderSkin } from '@/lib/SkinCardRender';
-import { SimpleGrid } from '../../components/AdaptiveGrid';
+import { SimpleGrid } from '@/components/AdaptiveGrid';
 import ApiManager from '@/lib/apiManager';
 import { ConfigContext, ConfigInterface } from '@/lib/ConfigContext';
 import { getCookie, setCookie } from 'cookies-next';

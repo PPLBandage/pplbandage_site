@@ -5,7 +5,7 @@ import styles from '@/styles/me/me.module.css';
 import { SimpleGrid } from '@/components/AdaptiveGrid';
 import { renderSkin } from '@/lib/SkinCardRender';
 import ApiManager from '@/lib/apiManager';
-import { CreateCard } from '../../components/Card';
+import { CreateCard } from '@/components/Card';
 
 const Main = () => {
     const [cards, setCards] = useState<JSX.Element[]>(null);

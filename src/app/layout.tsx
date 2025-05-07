@@ -4,8 +4,8 @@ import '@/styles/layout.css';
 import { headers } from 'next/headers';
 import meta from '@/app/meta.json';
 import { merge } from 'lodash';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
 import type { Viewport } from 'next';
 import { CookieProvider } from 'use-next-cookie';
 

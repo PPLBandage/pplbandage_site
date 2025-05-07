@@ -8,7 +8,7 @@ import {
     IconBrandTelegram,
     IconExternalLink
 } from '@tabler/icons-react';
-import InfoCard from '../../components/InfoCard';
+import InfoCard from '@/components/InfoCard';
 import Feedback from './Feedback.server';
 
 interface CardProps {

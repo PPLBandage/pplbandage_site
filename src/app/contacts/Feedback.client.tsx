@@ -31,7 +31,7 @@ const Available = () => {
         if (content.length === 0) return;
 
         const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}user/feedback`,
+            `${process.env.NEXT_PUBLIC_API_URL}feedback`,
             {
                 content
             },

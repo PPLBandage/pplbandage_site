@@ -98,7 +98,7 @@ class ApiManager {
     static async getMe(): Promise<Query> {
         return (
             await this.doRequest({
-                url: '/user/me',
+                url: '/users/@me',
                 method: 'GET'
             })
         ).data as Query;
@@ -107,7 +107,7 @@ class ApiManager {
     /** Log out */
     static async logout(): Promise<void> {
         await this.doRequest({
-            url: '/user/me',
+            url: '/users/@me',
             method: 'DELETE'
         });
     }
@@ -147,7 +147,7 @@ class ApiManager {
     static async getMeWorks(): Promise<Interfaces.Bandage[]> {
         return (
             await this.doRequest({
-                url: `/user/me/works`,
+                url: `/users/@me/works`,
                 method: 'GET'
             })
         ).data as Interfaces.Bandage[];
@@ -157,7 +157,7 @@ class ApiManager {
     static async getMeStars(): Promise<Interfaces.Bandage[]> {
         return (
             await this.doRequest({
-                url: `/user/me/stars`,
+                url: `/users/@me/stars`,
                 method: 'GET'
             })
         ).data as Interfaces.Bandage[];
@@ -183,7 +183,7 @@ class ApiManager {
     }): Promise<Interfaces.INotifications> {
         return (
             await this.doRequest({
-                url: `/user/me/notifications`,
+                url: `/users/@me/notifications`,
                 method: 'GET',
                 params
             })
@@ -194,7 +194,7 @@ class ApiManager {
     static async getMeSettings(): Promise<SettingsResponse> {
         return (
             await this.doRequest({
-                url: `/user/me/settings`,
+                url: `/users/@me/settings`,
                 method: 'GET'
             })
         ).data as SettingsResponse;
@@ -203,7 +203,7 @@ class ApiManager {
     /** Set public profile */
     static async setPublicProfile(params: { state: boolean }): Promise<void> {
         await this.doRequest({
-            url: `/user/me`,
+            url: `/users/@me`,
             method: 'PATCH',
             data: { public: params.state }
         });
@@ -212,7 +212,7 @@ class ApiManager {
     /** Set user profile theme */
     static async setTheme(params: { theme: number }): Promise<void> {
         await this.doRequest({
-            url: `/user/me`,
+            url: `/users/@me`,
             method: 'PATCH',
             data: { theme: params.theme }
         });
@@ -221,7 +221,7 @@ class ApiManager {
     /** Purge skin cache */
     static async purgeSkinCache(): Promise<AxiosResponse> {
         return await this.doRequest({
-            url: `/user/me/connections/minecraft/cache/purge`,
+            url: `/users/@me/connections/minecraft/cache/purge`,
             method: 'POST'
         });
     }
@@ -229,7 +229,7 @@ class ApiManager {
     /** Disconnect minecraft profile */
     static async disconnectMinecraft(): Promise<void> {
         await this.doRequest({
-            url: `/user/me/connections/minecraft`,
+            url: `/users/@me/connections/minecraft`,
             method: 'DELETE'
         });
     }
@@ -240,7 +240,7 @@ class ApiManager {
     }): Promise<boolean> {
         return (
             await this.doRequest({
-                url: `/user/me`,
+                url: `/users/@me`,
                 method: 'PATCH',
                 data: { nick_search: params.state }
             })
@@ -253,7 +253,7 @@ class ApiManager {
     }): Promise<boolean> {
         return (
             await this.doRequest({
-                url: `/user/me`,
+                url: `/users/@me`,
                 method: 'PATCH',
                 data: { skin_autoload: params.state }
             })
@@ -263,7 +263,7 @@ class ApiManager {
     /** Connect Minecraft Profile */
     static async connectMinecraft(code: string): Promise<void> {
         await this.doRequest({
-            url: `/user/me/connections/minecraft/connect/${code}`,
+            url: `/users/@me/connections/minecraft/connect/${code}`,
             method: 'POST'
         });
     }
@@ -296,7 +296,7 @@ class ApiManager {
     static async getSessions(): Promise<Interfaces.Session[]> {
         return (
             await this.doRequest({
-                url: `/user/me/sessions`,
+                url: `/users/@me/sessions`,
                 method: 'GET'
             })
         ).data;
@@ -305,7 +305,7 @@ class ApiManager {
     /** Logout from session */
     static async logoutSession(session: number): Promise<void> {
         await this.doRequest({
-            url: `/user/me/sessions/${session}`,
+            url: `/users/@me/sessions/${session}`,
             method: 'DELETE'
         });
     }
@@ -313,7 +313,7 @@ class ApiManager {
     /** Logout from all sessions */
     static async logoutAllSessions(): Promise<void> {
         await this.doRequest({
-            url: `/user/me/sessions/all`,
+            url: `/users/@me/sessions/all`,
             method: 'DELETE'
         });
     }

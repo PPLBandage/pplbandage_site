@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import Providers from '@/app/modules/providers';
-import './styles/layout.css';
+import Providers from '@/app/providers';
+import '@/styles/layout.css';
 import { headers } from 'next/headers';
 import meta from '@/app/meta.json';
 import { merge } from 'lodash';
-import Footer from './modules/components/Footer';
-import Header from './modules/components/Header';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 import type { Viewport } from 'next';
 import { CookieProvider } from 'use-next-cookie';
 

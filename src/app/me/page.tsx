@@ -1,11 +1,11 @@
 'use client';
 
 import { JSX, useEffect, useState } from 'react';
-import styles from '@/app/styles/me/me.module.css';
-import { SimpleGrid } from '@/app/modules/components/AdaptiveGrid';
-import { renderSkin } from '../modules/utils/SkinCardRender';
-import ApiManager from '../modules/utils/apiManager';
-import { CreateCard } from '../modules/components/Card';
+import styles from '@/styles/me/me.module.css';
+import { SimpleGrid } from '@/components/AdaptiveGrid';
+import { renderSkin } from '@/lib/SkinCardRender';
+import ApiManager from '@/lib/apiManager';
+import { CreateCard } from '../../components/Card';
 
 const Main = () => {
     const [cards, setCards] = useState<JSX.Element[]>(null);

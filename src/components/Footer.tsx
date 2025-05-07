@@ -1,7 +1,7 @@
 'use client';
 
 import { setTheme } from '@/app/me/settings/setTheme';
-import style from '@/app/styles/footer.module.css';
+import style from '@/styles/footer.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ import {
     IconPalette
 } from '@tabler/icons-react';
 
-import IconPepe from '@/app/resources/icon.svg';
+import IconPepe from '@/resources/icon.svg';
 import { UseGlobalTooltip } from './Tooltip';
 
 const getYearByTimeZone = (timeZone: string) => {

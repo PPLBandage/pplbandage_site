@@ -4,12 +4,12 @@ import {
     IconShield,
     IconX
 } from '@tabler/icons-react';
-import Style_safety from '@/app/styles/me/safety.module.css';
-import Style from '@/app/styles/me/connections.module.css';
-import { formatDate } from '@/app/modules/components/Card';
-import ApiManager from '@/app/modules/utils/apiManager';
-import { timeStamp } from '@/app/modules/utils/time';
-import { Session } from '@/app/interfaces';
+import Style_safety from '@/styles/me/safety.module.css';
+import Style from '@/styles/me/connections.module.css';
+import { formatDate } from '@/components/Card';
+import ApiManager from '@/lib/apiManager';
+import { timeStamp } from '@/lib/time';
+import { Session } from '@/types/global.d';
 import useSWR, { mutate } from 'swr';
 import { Loading } from './Loading';
 

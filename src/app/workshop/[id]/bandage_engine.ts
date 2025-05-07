@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import asyncImage, { base64Encode } from '@/app/modules/utils/asyncImage';
-import ApiManager from '@/app/modules/utils/apiManager';
+import asyncImage, { base64Encode } from '@/lib/asyncImage';
+import ApiManager from '@/lib/apiManager';
 
 export interface SkinResponse {
     skin: string;

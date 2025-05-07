@@ -1,11 +1,11 @@
 'use client';
 
-import style from '@/app/styles/contacts/feedback.module.css';
+import style from '@/styles/contacts/feedback.module.css';
 import { IconSend } from '@tabler/icons-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useNextCookie } from 'use-next-cookie';
-import { stringTimeDelta } from '../modules/utils/time';
+import { stringTimeDelta } from '@/lib/time';
 import { deleteCookie, setCookie } from 'cookies-next';
 import axios from 'axios';
 

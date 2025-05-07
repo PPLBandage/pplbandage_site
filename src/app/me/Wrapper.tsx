@@ -1,18 +1,18 @@
 'use client';
 
 import React, { CSSProperties, JSX, useEffect, useState } from 'react';
-import ApiManager from '../modules/utils/apiManager';
-import { Me } from '../modules/components/MeSidebar';
+import ApiManager from '@/lib/apiManager';
+import { Me } from '../../components/MeSidebar';
 import {
     redirect,
     usePathname,
     useRouter,
     useSearchParams
 } from 'next/navigation';
-import { httpStatusCodes } from '../modules/utils/StatusCodes';
-import RolesDialog from '../modules/components/RolesDialog';
-import MinecraftConnect from '../modules/components/MinecraftConnect';
-import styles from '@/app/styles/me/me.module.css';
+import { httpStatusCodes } from '@/lib/StatusCodes';
+import RolesDialog from '../../components/RolesDialog';
+import MinecraftConnect from '../../components/MinecraftConnect';
+import styles from '@/styles/me/me.module.css';
 import Link from 'next/link';
 import {
     IconArrowBack,
@@ -20,7 +20,7 @@ import {
     IconBrandMinecraft,
     IconLogin
 } from '@tabler/icons-react';
-import IconSvgCropped from '@/app/resources/icon-cropped.svg';
+import IconSvgCropped from '@/resources/icon-cropped.svg';
 import { useNextCookie } from 'use-next-cookie';
 import useSWR from 'swr';
 

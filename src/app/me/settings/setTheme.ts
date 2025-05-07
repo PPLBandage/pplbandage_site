@@ -1,4 +1,4 @@
-import { getTheme } from '@/app/modules/providers';
+import { getTheme } from '@/app/providers';
 import { setCookie } from 'cookies-next';
 
 export const setTheme = (name: string) => {

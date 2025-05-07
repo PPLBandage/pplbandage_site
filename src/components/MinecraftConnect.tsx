@@ -1,5 +1,5 @@
 import { JSX, useState } from 'react';
-import style from '@/app/styles/minecraftConnect.module.css';
+import style from '@/styles/minecraftConnect.module.css';
 import { IconBrandMinecraft, IconCheck, IconX } from '@tabler/icons-react';
 import ReactCSSTransition from './CSSTransition';
 

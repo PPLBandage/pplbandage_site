@@ -1,13 +1,13 @@
 'use client';
 
-import Style from '@/app/styles/me/connections.module.css';
-import style_sidebar from '@/app/styles/me/sidebar.module.css';
+import Style from '@/styles/me/connections.module.css';
+import style_sidebar from '@/styles/me/sidebar.module.css';
 import { Connections } from './components/Connections';
 import { Themes } from './components/Themes';
 import { UserSettings } from './components/UserSettings';
 import { Safety } from './components/Safety';
 import useSWR from 'swr';
-import ApiManager from '@/app/modules/utils/apiManager';
+import ApiManager from '@/lib/apiManager';
 
 const Page = () => {
     const { data, isLoading } = useSWR(

@@ -3,28 +3,28 @@
 import React, { useCallback } from 'react';
 import { useEffect, useState, useRef } from 'react';
 
-import style from '@/app/styles/editor/page.module.css';
-import * as Interfaces from '@/app/interfaces';
+import style from '@/styles/editor/page.module.css';
+import * as Interfaces from '@/types/global.d';
 
 import Client, { b64Prefix } from './bandage_engine';
-import SkinView3D from '@/app/modules/components/SkinView';
+import SkinView3D from '@/components/SkinView';
 
 import Select from 'react-select';
 import debounce from 'lodash.debounce';
-import NavigatorEl from '@/app/modules/components/Navigator';
+import NavigatorEl from '@/components/Navigator';
 import { anims } from '@/app/workshop/poses';
-import asyncImage from '@/app/modules/utils/asyncImage';
+import asyncImage from '@/lib/asyncImage';
 
 import { IconDownload, IconPlus } from '@tabler/icons-react';
-import Slider from '@/app/modules/components/Slider';
-import SlideButton from '@/app/modules/components/SlideButton';
+import Slider from '@/components/Slider';
+import SlideButton from '@/components/SlideButton';
 import SkinLoad from './components/skinLoad';
 import EditElement from './components/edit';
 import Info from './components/info';
 import RawBandageDownload from './components/rawBandageDownload';
-import { StarElement } from '@/app/modules/components/Card';
-import { CustomLink } from '@/app/modules/components/Search';
-import InfoCard from '@/app/modules/components/InfoCard';
+import { StarElement } from '@/components/Card';
+import { CustomLink } from '@/components/Search';
+import InfoCard from '@/components/InfoCard';
 
 const body_part: readonly { value: number; label: string }[] = [
     { value: 0, label: 'Левая рука' },

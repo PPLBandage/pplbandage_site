@@ -1,10 +1,10 @@
 import axios from 'axios';
 import Home from './client';
-import * as Interfaces from '@/app/interfaces';
+import * as Interfaces from '@/types/global.d';
 import { cookies, headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { numbersTxt } from '@/app/modules/utils/time';
+import { numbersTxt } from '@/lib/time';
 
 export const generateMetadata = async ({
     params

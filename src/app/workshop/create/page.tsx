@@ -1,22 +1,22 @@
 'use client';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import style from '@/app/styles/workshop/create/page.module.css';
-import SkinView3D from '@/app/modules/components/SkinView';
+import style from '@/styles/workshop/create/page.module.css';
+import SkinView3D from '@/components/SkinView';
 import { anims } from '@/app/workshop/poses';
 import { useRouter } from 'next/navigation';
 import Select from 'react-select';
 import Client from '@/app/workshop/[id]/bandage_engine';
-import CategorySelector from '@/app/modules/components/CategorySelector';
-import * as Interfaces from '@/app/interfaces';
+import CategorySelector from '@/components/CategorySelector';
+import * as Interfaces from '@/types/global.d';
 import debounce from 'lodash.debounce';
-import InfoCard from '@/app/modules/components/InfoCard';
+import InfoCard from '@/components/InfoCard';
 import { redirect } from 'next/navigation';
 import { Fira_Code } from 'next/font/google';
-import { CustomLink } from '@/app/modules/components/Search';
-import asyncImage from '@/app/modules/utils/asyncImage';
-import SlideButton from '@/app/modules/components/SlideButton';
-import ApiManager from '@/app/modules/utils/apiManager';
+import { CustomLink } from '@/components/Search';
+import asyncImage from '@/lib/asyncImage';
+import SlideButton from '@/components/SlideButton';
+import ApiManager from '@/lib/apiManager';
 import { useNextCookie } from 'use-next-cookie';
 const fira = Fira_Code({ subsets: ['latin'] });
 

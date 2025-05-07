@@ -2,14 +2,14 @@
 
 import React, { JSX, useEffect, useState } from 'react';
 import Select from 'react-select';
-import Styles from '@/app/styles/search.module.css';
-import { Category } from '@/app/interfaces';
+import Styles from '@/styles/search.module.css';
+import { Category } from '@/types/global.d';
 import { CategoryEl } from './Card';
-import styleLink from '@/app/styles/tutorials/common.module.css';
+import styleLink from '@/styles/tutorials/common.module.css';
 import Link from 'next/link';
-import style_workshop from '@/app/styles/workshop/page.module.css';
+import style_workshop from '@/styles/workshop/page.module.css';
 import { IconSearch, IconFilter } from '@tabler/icons-react';
-import IconSvg from '@/app/resources/icon.svg';
+import IconSvg from '@/resources/icon.svg';
 import ReactCSSTransition from './CSSTransition';
 
 const options_take: readonly { value: number; label: string }[] = [

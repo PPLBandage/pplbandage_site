@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Category } from '@/app/interfaces';
-import { CategoryEl } from '@/app/modules/components/Card';
-import style from '@/app/styles/category_selector.module.css';
-import style_workshop from '@/app/styles/workshop/page.module.css';
-import IconSvg from '@/app/resources/icon.svg';
+import { Category } from '@/types/global.d';
+import { CategoryEl } from '@/components/Card';
+import style from '@/styles/category_selector.module.css';
+import style_workshop from '@/styles/workshop/page.module.css';
+import IconSvg from '@/resources/icon.svg';
 
 interface CategorySelectorProps {
     enabledCategories: Category[];

@@ -1,4 +1,4 @@
-import Style from '@/app/styles/slider.module.css';
+import Style from '@/styles/slider.module.css';
 import { useEffect, useState } from 'react';
 
 const Slider = ({

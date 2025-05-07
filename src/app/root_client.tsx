@@ -1,29 +1,29 @@
 'use client';
 
 import React, { useState } from 'react';
-import styles from './styles/root/page.module.css';
+import styles from '@/styles/root/page.module.css';
 import Link from 'next/link';
-import { CustomLink } from './modules/components/Search';
+import { CustomLink } from '@/components/Search';
 import {
     IconInfinity,
     IconAlertTriangle,
     IconStack
 } from '@tabler/icons-react';
-import InfoCard from './modules/components/InfoCard';
+import InfoCard from '@/components/InfoCard';
 
 // Import pepes images
-import Pepe0 from '@/app/resources/pepes_svg/0.svg';
-import Pepe1 from '@/app/resources/pepes_svg/1.svg';
-import Pepe2 from '@/app/resources/pepes_svg/2.svg';
-import Pepe3 from '@/app/resources/pepes_svg/3.svg';
-import Pepe4 from '@/app/resources/pepes_svg/4.svg';
-import Pepe5 from '@/app/resources/pepes_svg/5.svg';
-import Pepe6 from '@/app/resources/pepes_svg/6.svg';
-import Pepe7 from '@/app/resources/pepes_svg/7.svg';
-import Pepe8 from '@/app/resources/pepes_svg/8.svg';
-import Pepe9 from '@/app/resources/pepes_svg/9.svg';
+import Pepe0 from '@/resources/pepes_svg/0.svg';
+import Pepe1 from '@/resources/pepes_svg/1.svg';
+import Pepe2 from '@/resources/pepes_svg/2.svg';
+import Pepe3 from '@/resources/pepes_svg/3.svg';
+import Pepe4 from '@/resources/pepes_svg/4.svg';
+import Pepe5 from '@/resources/pepes_svg/5.svg';
+import Pepe6 from '@/resources/pepes_svg/6.svg';
+import Pepe7 from '@/resources/pepes_svg/7.svg';
+import Pepe8 from '@/resources/pepes_svg/8.svg';
+import Pepe9 from '@/resources/pepes_svg/9.svg';
 
-import IconCropped from '@/app/resources/icon-cropped.svg';
+import IconCropped from '@/resources/icon-cropped.svg';
 
 const pepesObj = {
     ogukal: Pepe0,

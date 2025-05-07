@@ -1,4 +1,4 @@
-import Style from '@/app/styles/info.module.css';
+import Style from '@/styles/info.module.css';
 import { CSSProperties, JSX } from 'react';
 
 interface InfoCardProps {

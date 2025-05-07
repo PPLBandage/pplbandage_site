@@ -3,20 +3,20 @@
 
 import React, { JSX } from 'react';
 import { useEffect, useState } from 'react';
-import Style from '@/app/styles/workshop/page.module.css';
+import Style from '@/styles/workshop/page.module.css';
 
-import { Paginator } from '@/app/modules/components/Paginator';
-import { Search } from '@/app/modules/components/Search';
-import { BandageResponse, Category } from '@/app/interfaces';
-import { constrain } from '@/app/modules/components/Card';
+import { Paginator } from '@/components/Paginator';
+import { Search } from '@/components/Search';
+import { BandageResponse, Category } from '@/types/global.d';
+import { constrain } from '@/components/Card';
 import Image from 'next/image';
-import styles_card from '@/app/styles/me/me.module.css';
-import IconSvg from '@/app/resources/icon.svg';
+import styles_card from '@/styles/me/me.module.css';
+import IconSvg from '@/resources/icon.svg';
 import { BrowserNotification, calcChecksum } from './checkBrowserAPI';
-import { renderSkin } from '../modules/utils/SkinCardRender';
-import { SimpleGrid } from '../modules/components/AdaptiveGrid';
-import ApiManager from '../modules/utils/apiManager';
-import { ConfigContext, ConfigInterface } from '../modules/utils/ConfigContext';
+import { renderSkin } from '@/lib/SkinCardRender';
+import { SimpleGrid } from '../../components/AdaptiveGrid';
+import ApiManager from '@/lib/apiManager';
+import { ConfigContext, ConfigInterface } from '@/lib/ConfigContext';
 import { getCookie, setCookie } from 'cookies-next';
 
 export default function Home() {

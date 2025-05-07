@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import style from '@/app/styles/tutorials/common.module.css';
-import { CustomLink } from '@/app/modules/components/Search';
-import InfoCard from '@/app/modules/components/InfoCard';
+import style from '@/styles/tutorials/common.module.css';
+import { CustomLink } from '@/components/Search';
+import InfoCard from '@/components/InfoCard';
 import { IconAlertTriangle, IconBulb } from '@tabler/icons-react';
 
 export default function Home() {

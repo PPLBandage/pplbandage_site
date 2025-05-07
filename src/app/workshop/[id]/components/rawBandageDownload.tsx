@@ -1,14 +1,14 @@
 import { IconChevronDown } from '@tabler/icons-react';
 import { useState } from 'react';
-import style from '@/app/styles/editor/page.module.css';
+import style from '@/styles/editor/page.module.css';
 import Client, { b64Prefix } from '../bandage_engine';
-import ReactCSSTransition from '@/app/modules/components/CSSTransition';
+import ReactCSSTransition from '@/components/CSSTransition';
 
 const RawBandageDownload = ({
     client,
     bandage
 }: {
-    client: React.MutableRefObject<Client>;
+    client: React.RefObject<Client>;
     bandage: string;
 }) => {
     const [expanded, setExpanded] = useState<boolean>(false);

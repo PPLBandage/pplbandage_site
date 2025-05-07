@@ -2,11 +2,11 @@
 
 import { JSX, useState } from 'react';
 import { Query } from './Header';
-import style_sidebar from '@/app/styles/me/sidebar.module.css';
+import style_sidebar from '@/styles/me/sidebar.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { timeStamp } from '../utils/time';
+import { timeStamp } from '@/lib/time';
 import Menu from './ThemeSelect';
 import { CategoryEl, formatDate } from './Card';
 

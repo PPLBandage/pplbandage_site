@@ -1,8 +1,8 @@
 import Select, { GroupBase } from 'react-select';
-import * as Interfaces from '@/app/interfaces';
+import * as Interfaces from '@/types/global.d';
 import { useCallback, useRef, useState } from 'react';
-import Style from '@/app/styles/nick_search.module.css';
-import ApiManager from '../utils/apiManager';
+import Style from '@/styles/nick_search.module.css';
+import ApiManager from '@/lib/apiManager';
 import { debounce } from 'lodash';
 import Image from 'next/image';
 import { b64Prefix } from '@/app/workshop/[id]/bandage_engine';
@@ -22,6 +22,42 @@ export interface SearchResponse {
 interface SearchProps {
     onChange(value: string): void;
 }
+
+const buildNicks = (data: SearchResponse, nickname: string) => {
+    return data.data.map(nick => {
+        const first_pos = nick.name
+            .toLowerCase()
+            .indexOf(nickname.toLowerCase());
+        const first = nick.name.slice(0, first_pos);
+        const middle = nick.name.slice(first_pos, first_pos + nickname.length);
+        const last = nick.name.slice(
+            first_pos + nickname.length,
+            nick.name.length
+        );
+        const label = (
+            <span>
+                {first}
+                <b className={Style.color}>{middle}</b>
+                {last}
+            </span>
+        );
+
+        return {
+            value: `${nick.name} – ${nick.uuid}`,
+            label: (
+                <div className={Style.search_result_container}>
+                    <Image
+                        src={b64Prefix + nick.head}
+                        alt=""
+                        width={32}
+                        height={32}
+                    />
+                    {label}
+                </div>
+            )
+        };
+    });
+};
 
 const Searcher = ({ onChange }: SearchProps) => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -50,55 +86,12 @@ const Searcher = ({ onChange }: SearchProps) => {
             .then(response_data => {
                 if (!response_data.data) return;
 
-                const data = response_data.data.map(nick => {
-                    const first_pos = nick.name
-                        .toLowerCase()
-                        .indexOf(nickname.toLowerCase());
-                    const first = nick.name.slice(0, first_pos);
-                    const middle = nick.name.slice(
-                        first_pos,
-                        first_pos + nickname.length
-                    );
-                    const last = nick.name.slice(
-                        first_pos + nickname.length,
-                        nick.name.length
-                    );
-                    const label =
-                        first_pos !== -1 ? (
-                            <span>
-                                {first}
-                                <b className={Style.color}>{middle}</b>
-                                {last}
-                            </span>
-                        ) : (
-                            <>{nick.name}</>
-                        );
-
-                    return {
-                        value: `${nick.name} – ${nick.uuid}`,
-                        label: (
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    flexWrap: 'nowrap',
-                                    alignItems: 'center',
-                                    gap: '.4rem'
-                                }}
-                            >
-                                <Image
-                                    src={b64Prefix + nick.head}
-                                    alt=""
-                                    width={32}
-                                    height={32}
-                                />
-                                {label}
-                            </div>
-                        )
-                    };
-                });
                 setNicknames([
                     { value: nickname, label: <b>{nickname}</b> },
-                    { label: <>Совпадения</>, options: data }
+                    {
+                        label: <>Совпадения</>,
+                        options: buildNicks(response_data, nickname)
+                    }
                 ]);
             })
             .catch(console.error)
@@ -112,6 +105,7 @@ const Searcher = ({ onChange }: SearchProps) => {
         if (nickname.length >= 32) {
             nickname = nickname.slice(0, 32);
         }
+
         setInput(nickname);
         if (nickname.length === 0) {
             setNicknames([

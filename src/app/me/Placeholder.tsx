@@ -1,5 +1,5 @@
-import style_sidebar from '@/app/styles/me/sidebar.module.css';
-import styles_me from '@/app/styles/me/me.module.css';
+import style_sidebar from '@/styles/me/sidebar.module.css';
+import styles_me from '@/styles/me/me.module.css';
 import Image from 'next/image';
 
 export const Placeholder = () => {

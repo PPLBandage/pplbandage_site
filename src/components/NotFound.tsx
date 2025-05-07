@@ -1,7 +1,7 @@
 'use client';
 
-import style from '@/app/styles/404/page.module.css';
-import '@/app/styles/404/style.css';
+import style from '@/styles/404/page.module.css';
+import '@/styles/404/style.css';
 import { IconArrowBack } from '@tabler/icons-react';
 import Link from 'next/link';
 

@@ -2,12 +2,12 @@
 
 import React, { JSX } from 'react';
 import { useEffect, useState } from 'react';
-import style_sidebar from '@/app/styles/me/sidebar.module.css';
-import styles_me from '@/app/styles/me/me.module.css';
-import { Bandage } from '@/app/interfaces';
-import { SimpleGrid } from '@/app/modules/components/AdaptiveGrid';
-import { renderSkin } from '@/app/modules/utils/SkinCardRender';
-import ApiManager from '@/app/modules/utils/apiManager';
+import style_sidebar from '@/styles/me/sidebar.module.css';
+import styles_me from '@/styles/me/me.module.css';
+import { Bandage } from '@/types/global.d';
+import { SimpleGrid } from '@/components/AdaptiveGrid';
+import { renderSkin } from '@/lib/SkinCardRender';
+import ApiManager from '@/lib/apiManager';
 import { Placeholder } from '../Placeholder';
 
 const Main = () => {

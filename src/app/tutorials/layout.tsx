@@ -1,5 +1,5 @@
 import ASide from './header';
-import style from '@/app/styles/tutorials/common.module.css';
+import style from '@/styles/tutorials/common.module.css';
 
 const TutorialsLayout = ({ children }: { children: React.ReactNode }) => {
     return (

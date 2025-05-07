@@ -1,11 +1,11 @@
 'use client';
 
 import { Dispatch, JSX, SetStateAction, useEffect, useState } from 'react';
-import styles from '@/app/styles/header.module.css';
+import styles from '@/styles/header.module.css';
 import { deleteCookie } from 'cookies-next';
 import Link from 'next/link';
 import Image from 'next/image';
-import * as Interfaces from '@/app/interfaces';
+import * as Interfaces from '@/types/global.d';
 
 import {
     IconUser,
@@ -20,8 +20,8 @@ import {
     IconBooks,
     IconAddressBook
 } from '@tabler/icons-react';
-import IconCropped from '@/app/resources/icon-cropped.svg';
-import ApiManager from '../utils/apiManager';
+import IconCropped from '@/resources/icon-cropped.svg';
+import ApiManager from '@/lib/apiManager';
 import ReactCSSTransition from './CSSTransition';
 import { useNextCookie } from 'use-next-cookie';
 import { usePathname } from 'next/navigation';

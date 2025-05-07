@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import style from '@/app/styles/contacts/page.module.css';
-import style_card from '@/app/styles/contacts/card.module.css';
+import style from '@/styles/contacts/page.module.css';
+import style_card from '@/styles/contacts/card.module.css';
 import Image from 'next/image';
 import { CSSProperties, JSX } from 'react';
 import {
@@ -8,7 +8,7 @@ import {
     IconBrandTelegram,
     IconExternalLink
 } from '@tabler/icons-react';
-import InfoCard from '../modules/components/InfoCard';
+import InfoCard from '../../components/InfoCard';
 import Feedback from './Feedback.server';
 
 interface CardProps {

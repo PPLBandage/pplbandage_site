@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Style from '@/app/styles/me/notifications.module.css';
-import { formatDate } from '@/app/modules/components/Card';
-import { Paginator } from '@/app/modules/components/Paginator';
-import style_sidebar from '@/app/styles/me/sidebar.module.css';
-import ApiManager from '@/app/modules/utils/apiManager';
-import { INotifications } from '@/app/interfaces';
+import Style from '@/styles/me/notifications.module.css';
+import { formatDate } from '@/components/Card';
+import { Paginator } from '@/components/Paginator';
+import style_sidebar from '@/styles/me/sidebar.module.css';
+import ApiManager from '@/lib/apiManager';
+import { INotifications } from '@/types/global.d';
 import sanitizeHtml from 'sanitize-html';
 import { Placeholder } from '../Placeholder';
 

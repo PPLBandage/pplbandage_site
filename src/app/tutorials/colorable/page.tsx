@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import style from '@/app/styles/tutorials/common.module.css';
-import InfoCard from '@/app/modules/components/InfoCard';
-import { CategoryEl } from '@/app/modules/components/Card';
+import style from '@/styles/tutorials/common.module.css';
+import InfoCard from '@/components/InfoCard';
+import { CategoryEl } from '@/components/Card';
 import { IconInfoCircle, IconBulb } from '@tabler/icons-react';
 import Link from 'next/link';
 

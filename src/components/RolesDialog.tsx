@@ -1,20 +1,20 @@
 import { CSSProperties, JSX, useEffect, useState } from 'react';
-import style_base from '@/app/styles/minecraftConnect.module.css';
+import style_base from '@/styles/minecraftConnect.module.css';
 import {
     IconBrandDiscord,
     IconBrandTwitch,
     IconFlag,
     IconX
 } from '@tabler/icons-react';
-import styles from '@/app/styles/me/me.module.css';
-import style_main from '@/app/styles/RolesDialog.module.css';
+import styles from '@/styles/me/me.module.css';
+import style_main from '@/styles/RolesDialog.module.css';
 import ReactCSSTransition from './CSSTransition';
-import { Role } from '@/app/interfaces';
-import ApiManager from '../utils/apiManager';
-import IconBoosty from '@/app/resources/boosty.svg';
-import IconPPL from '@/app/resources/icon.svg';
-import style_workshop from '@/app/styles/workshop/page.module.css';
-import IconSvg from '@/app/resources/icon.svg';
+import { Role } from '@/types/global.d';
+import ApiManager from '@/lib/apiManager';
+import IconBoosty from '@/resources/boosty.svg';
+import IconPPL from '@/resources/icon.svg';
+import style_workshop from '@/styles/workshop/page.module.css';
+import IconSvg from '@/resources/icon.svg';
 
 const RolesDialog = ({ children }: { children: JSX.Element }) => {
     const [expanded, setExpanded] = useState<boolean>(false);

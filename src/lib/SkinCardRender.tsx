@@ -1,7 +1,7 @@
-import { Bandage } from '@/app/interfaces';
-import { Card } from '../components/Card';
+import { Bandage } from '@/types/global.d';
+import { Card } from '@/components/Card';
 import { SkinViewer } from 'skinview3d';
-import asyncImage from '@/app/modules/utils/asyncImage';
+import asyncImage from '@/lib/asyncImage';
 import { b64Prefix, fillPepe } from '@/app/workshop/[id]/bandage_engine';
 import { rgbToHex } from '@/app/workshop/[id]/client';
 import { JSX } from 'react';

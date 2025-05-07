@@ -1,8 +1,8 @@
-import * as Interfaces from '@/app/interfaces';
+import * as Interfaces from '@/types/global.d';
 import { authApi } from './api';
 import axios, { AxiosResponse, GenericAbortSignal, Method } from 'axios';
-import { Query } from '../components/Header';
-import { SearchResponse } from '../components/NickSearch';
+import { Query } from '@/components/Header';
+import { SearchResponse } from '@/components/NickSearch';
 import { SkinResponse } from '@/app/workshop/[id]/bandage_engine';
 
 type RequestProps = {

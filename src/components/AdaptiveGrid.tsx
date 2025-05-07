@@ -1,8 +1,8 @@
 'use client';
 
 import { JSX, useEffect, useState } from 'react';
-import style from '@/app/styles/editor/page.module.css';
-import style_workshop from '@/app/styles/workshop/page.module.css';
+import style from '@/styles/editor/page.module.css';
+import style_workshop from '@/styles/workshop/page.module.css';
 
 interface AdaptiveGridProps {
     child_width: number;

@@ -1,13 +1,13 @@
-import { Bandage } from '@/app/interfaces';
+import { Bandage } from '@/types/global.d';
 import axios from 'axios';
 import { redirect } from 'next/navigation';
 import UsersClient from './client_code';
 import { headers } from 'next/headers';
-import { numbersTxt } from '@/app/modules/utils/time';
-import { Query } from '@/app/modules/components/Header';
+import { numbersTxt } from '@/lib/time';
+import { Query } from '@/components/Header';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { Me } from '@/app/modules/components/MeSidebar';
+import { Me } from '@/components/MeSidebar';
 
 export interface Users extends Query {
     userID: number;

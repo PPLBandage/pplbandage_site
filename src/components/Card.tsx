@@ -1,6 +1,6 @@
-import { Bandage, Category } from '@/app/interfaces';
-import Style from '@/app/styles/workshop/page.module.css';
-import style_card from '@/app/styles/workshop/card.module.css';
+import { Bandage, Category } from '@/types/global.d';
+import Style from '@/styles/workshop/page.module.css';
+import style_card from '@/styles/workshop/card.module.css';
 import NextImage from 'next/image';
 import { getCookie } from 'cookies-next';
 import Link, { LinkProps } from 'next/link';
@@ -14,13 +14,13 @@ import {
     IconStarFilled,
     IconUser
 } from '@tabler/icons-react';
-import { getIcon } from '../utils/Categories';
+import { getIcon } from '@/lib/Categories';
 import { usePathname, useRouter } from 'next/navigation';
 import { UseGlobalTooltip } from './Tooltip';
-import ApiManager from '../utils/apiManager';
-import { useConfigContext } from '@/app/modules/utils/ConfigContext';
-import IconCandle from '@/app/resources/stars/candle.svg';
-import IconCandleOn from '@/app/resources/stars/candle_on.svg';
+import ApiManager from '@/lib/apiManager';
+import { useConfigContext } from '@/lib/ConfigContext';
+import IconCandle from '@/resources/stars/candle.svg';
+import IconCandleOn from '@/resources/stars/candle_on.svg';
 import { useNextCookie } from 'use-next-cookie';
 import { CustomLink } from './Search';
 

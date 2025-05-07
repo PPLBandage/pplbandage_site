@@ -1,5 +1,5 @@
-import ApiManager from '@/app/modules/utils/apiManager';
-import Style from '@/app/styles/me/connections.module.css';
+import ApiManager from '@/lib/apiManager';
+import Style from '@/styles/me/connections.module.css';
 import {
     IconBrandDiscord,
     IconBrandMinecraft,
@@ -9,11 +9,11 @@ import {
 } from '@tabler/icons-react';
 import useSWR, { mutate } from 'swr';
 import Image from 'next/image';
-import { formatDateHuman } from '@/app/modules/components/Card';
+import { formatDateHuman } from '@/components/Card';
 import { b64Prefix } from '@/app/workshop/[id]/bandage_engine';
-import { minecraftMono } from '@/app/modules/fonts/Minecraft';
-import SlideButton from '@/app/modules/components/SlideButton';
-import MinecraftConnect from '@/app/modules/components/MinecraftConnect';
+import { minecraftMono } from '@/fonts/Minecraft';
+import SlideButton from '@/components/SlideButton';
+import MinecraftConnect from '@/components/MinecraftConnect';
 
 export const Connections = () => {
     return (

@@ -1,4 +1,4 @@
-import StyleBtn from '@/app/styles/slidebtn.module.css';
+import StyleBtn from '@/styles/slidebtn.module.css';
 import { useEffect, useState } from 'react';
 
 interface SlideButtonProps {

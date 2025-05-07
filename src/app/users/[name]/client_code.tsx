@@ -2,10 +2,10 @@
 
 import { Users } from './page';
 import { JSX, useEffect, useState } from 'react';
-import styles from '@/app/styles/me/me.module.css';
-import style_sidebar from '@/app/styles/me/sidebar.module.css';
-import { SimpleGrid } from '@/app/modules/components/AdaptiveGrid';
-import { renderSkin } from '@/app/modules/utils/SkinCardRender';
+import styles from '@/styles/me/me.module.css';
+import style_sidebar from '@/styles/me/sidebar.module.css';
+import { SimpleGrid } from '@/components/AdaptiveGrid';
+import { renderSkin } from '@/lib/SkinCardRender';
 
 const UsersClient = ({ user }: { user: Users }) => {
     const [elements, setElements] = useState<JSX.Element[]>(null);

@@ -1,6 +1,6 @@
 import { JSX, useState } from 'react';
-import style_base from '@/app/styles/minecraftConnect.module.css';
-import style from '@/app/styles/EditConfirmation.module.css';
+import style_base from '@/styles/minecraftConnect.module.css';
+import style from '@/styles/EditConfirmation.module.css';
 import { IconArchive, IconTrash, IconX } from '@tabler/icons-react';
 import ReactCSSTransition from './CSSTransition';
 

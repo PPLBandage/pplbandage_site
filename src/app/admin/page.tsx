@@ -1,15 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import style_root from '@/app/styles/admin/page.module.css';
+import style_root from '@/styles/admin/page.module.css';
 import { notFound, redirect, useRouter } from 'next/navigation';
-import { adminRoles, Query } from '@/app/modules/components/Header';
-import AdaptiveGrid from '../modules/components/AdaptiveGrid';
+import { adminRoles, Query } from '@/components/Header';
+import AdaptiveGrid from '@/components/AdaptiveGrid';
 import { Fira_Code } from 'next/font/google';
 import Link from 'next/link';
-import SlideButton from '../modules/components/SlideButton';
-import ApiManager from '../modules/utils/apiManager';
-import { UserAdmins } from '../interfaces';
+import SlideButton from '@/components/SlideButton';
+import ApiManager from '@/lib/apiManager';
+import { UserAdmins } from '../../types/global.d';
 import { IconSearch } from '@tabler/icons-react';
 import { useCookiesServer, useNextCookie } from 'use-next-cookie';
 

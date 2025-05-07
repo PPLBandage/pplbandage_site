@@ -1,3 +1,10 @@
+.search_result_container {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: .4rem;
+}
+
 .color {
     color: var(--main-action-color);
 }

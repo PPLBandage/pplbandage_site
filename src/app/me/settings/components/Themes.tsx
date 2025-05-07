@@ -1,10 +1,10 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNextCookie } from 'use-next-cookie';
 import { setTheme } from '../setTheme';
-import Style from '@/app/styles/me/connections.module.css';
+import Style from '@/styles/me/connections.module.css';
 import themes from '@/app/themes';
 import { IconPalette } from '@tabler/icons-react';
-import Style_themes from '@/app/styles/me/themes.module.css';
+import Style_themes from '@/styles/me/themes.module.css';
 
 export const Themes = () => {
     const themeCookie = useNextCookie('theme_main', 1000);

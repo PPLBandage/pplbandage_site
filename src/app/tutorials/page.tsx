@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import style from '@/app/styles/tutorials/common.module.css';
-import InfoCard from '@/app/modules/components/InfoCard';
-import { CategoryEl } from '@/app/modules/components/Card';
-import { CustomLink } from '@/app/modules/components/Search';
-import styles from '@/app/styles/me/me.module.css';
+import style from '@/styles/tutorials/common.module.css';
+import InfoCard from '@/components/InfoCard';
+import { CategoryEl } from '@/components/Card';
+import { CustomLink } from '@/components/Search';
+import styles from '@/styles/me/me.module.css';
 
 import {
     IconInfoCircle,
@@ -13,7 +13,7 @@ import {
     IconBulb
 } from '@tabler/icons-react';
 import Link from 'next/link';
-import RolesDialog from '../modules/components/RolesDialog';
+import RolesDialog from '../../components/RolesDialog';
 
 export default function Home() {
     return (

@@ -1,8 +1,8 @@
-import SlideButton from '@/app/modules/components/SlideButton';
+import SlideButton from '@/components/SlideButton';
 import { IconUser } from '@tabler/icons-react';
-import Style from '@/app/styles/me/connections.module.css';
+import Style from '@/styles/me/connections.module.css';
 import useSWR from 'swr';
-import ApiManager from '@/app/modules/utils/apiManager';
+import ApiManager from '@/lib/apiManager';
 
 export const UserSettings = () => {
     const { data, isLoading } = useSWR(

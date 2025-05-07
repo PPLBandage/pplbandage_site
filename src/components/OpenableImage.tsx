@@ -2,7 +2,7 @@
 
 import { CSSProperties, useState } from 'react';
 import NextImage from 'next/image';
-import Style from '@/app/styles/openableImage.module.css';
+import Style from '@/styles/openableImage.module.css';
 
 interface openableImageProps {
     src: string;

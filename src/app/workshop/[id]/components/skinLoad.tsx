@@ -1,13 +1,13 @@
 import { IconCheck, IconShirt, IconX } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import NextImage from 'next/image';
-import style from '@/app/styles/editor/page.module.css';
-import style_base from '@/app/styles/minecraftConnect.module.css';
-import AsyncImage from '@/app/modules/utils/asyncImage';
-import Searcher from '@/app/modules/components/NickSearch';
-import ApiManager from '@/app/modules/utils/apiManager';
+import style from '@/styles/editor/page.module.css';
+import style_base from '@/styles/minecraftConnect.module.css';
+import AsyncImage from '@/lib/asyncImage';
+import Searcher from '@/components/NickSearch';
+import ApiManager from '@/lib/apiManager';
 import axios, { AxiosError } from 'axios';
-import ReactCSSTransition from '@/app/modules/components/CSSTransition';
+import ReactCSSTransition from '@/components/CSSTransition';
 
 const b64Prefix = 'data:image/png;base64,';
 

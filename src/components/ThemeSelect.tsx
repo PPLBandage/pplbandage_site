@@ -1,11 +1,11 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import ReactCSSTransition from '@/app/modules/components/CSSTransition';
+import ReactCSSTransition from '@/components/CSSTransition';
 
-import Styles from '@/app/styles/theme_selector.module.css';
+import Styles from '@/styles/theme_selector.module.css';
 import { IconBucketDroplet, IconPalette, IconPhoto } from '@tabler/icons-react';
-import ApiManager from '../utils/apiManager';
+import ApiManager from '@/lib/apiManager';
 
 interface MenuProps {
     initialValue?: number;

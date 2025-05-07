@@ -19,7 +19,7 @@
 }
 
 .thumb {
-    background-image: url('../workshop/[id]/pepe.png');
+    background-image: url('../resources/pepe.png');
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;

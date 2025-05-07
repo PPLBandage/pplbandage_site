@@ -1,12 +1,12 @@
-import CategorySelector from '@/app/modules/components/CategorySelector';
-import ApiManager from '@/app/modules/utils/apiManager';
+import CategorySelector from '@/components/CategorySelector';
+import ApiManager from '@/lib/apiManager';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import style from '@/app/styles/editor/page.module.css';
-import * as Interfaces from '@/app/interfaces';
+import style from '@/styles/editor/page.module.css';
+import * as Interfaces from '@/types/global.d';
 import Select from 'react-select';
 import { IconArchive, IconX } from '@tabler/icons-react';
-import EditConfirmation from '@/app/modules/components/EditConfirmation';
+import EditConfirmation from '@/components/EditConfirmation';
 
 const lstrip = (string: string) => string.replace(/^\s+/, '');
 

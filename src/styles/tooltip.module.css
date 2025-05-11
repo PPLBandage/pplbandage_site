@@ -29,6 +29,46 @@
     opacity: 0;
 }
 
+.staticTooltip {
+    position: absolute;
+    z-index: 50;
+    top: 0;
+    left: 50%;
+
+    background-color: var(--main-card-color);
+    border: 1px solid var(--main-element-color);
+    border-radius: 3px;
+    padding: .3rem .5rem;
+    box-sizing: border-box;
+
+    transform: translate(-50%, -130%);
+    opacity: 1;
+    transition: opacity 200ms, transform 200ms;
+
+    font-size: .8rem;
+    text-align: center;
+}
+
+.pointer {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 10px;
+    aspect-ratio: 1;
+
+    transform: translate(-50%, 50%) rotate(45deg);
+    background-color: var(--main-card-color);
+    border: 1px solid var(--main-element-color);
+    border-left: none;
+    border-top: none;
+    box-sizing: border-box;
+}
+
+.staticTooltipEnter {
+    transform: translate(-50%, -110%);
+    opacity: 0;
+}
+
 @media(max-width: 425px) {
     .tooltipStyle {
         max-width: 80%;

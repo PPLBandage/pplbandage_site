@@ -14,7 +14,7 @@ import {
 } from '@tabler/icons-react';
 
 import IconPepe from '@/resources/icon.svg';
-import { UseGlobalTooltip } from './Tooltip';
+import { StaticTooltip } from './Tooltip';
 
 const getYearByTimeZone = (timeZone: string) => {
     return new Intl.DateTimeFormat('en-US', {
@@ -66,24 +66,24 @@ const Footer = () => {
                 </p>
                 <div className={style.links_cont}>
                     <Link href="/contacts">
-                        <UseGlobalTooltip text="Контакты">
+                        <StaticTooltip title="Контакты">
                             <IconAddressBook />
-                        </UseGlobalTooltip>
+                        </StaticTooltip>
                     </Link>
                     <hr />
                     <Link href="https://github.com/PPLBandage" target="_blank">
-                        <UseGlobalTooltip text="GitHub">
+                        <StaticTooltip title="GitHub">
                             <IconBrandGithub />
-                        </UseGlobalTooltip>
+                        </StaticTooltip>
                     </Link>
                     <hr />
                     <button
                         className={style.theme_switcher}
                         onClick={() => setTheme_(prev => prev + 1)}
                     >
-                        <UseGlobalTooltip text="Сменить тему">
+                        <StaticTooltip title="Сменить тему">
                             <IconPalette />
-                        </UseGlobalTooltip>
+                        </StaticTooltip>
                     </button>
                 </div>
             </div>

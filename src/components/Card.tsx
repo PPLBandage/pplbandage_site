@@ -16,7 +16,7 @@ import {
 } from '@tabler/icons-react';
 import { getIcon } from '@/lib/Categories';
 import { usePathname, useRouter } from 'next/navigation';
-import { UseGlobalTooltip } from './Tooltip';
+import { StaticTooltip } from './Tooltip';
 import ApiManager from '@/lib/apiManager';
 import { useConfigContext } from '@/lib/ConfigContext';
 import IconCandle from '@/resources/stars/candle.svg';
@@ -76,11 +76,11 @@ interface CategoryShortenProps {
 
 export const CategoryShorten = ({ category, style }: CategoryShortenProps) => {
     return (
-        <UseGlobalTooltip key={category.id} opacity="1" text={category.name}>
+        <StaticTooltip key={category.id} title={category.name}>
             <div className={`${style_card.category_shorten}`} style={style}>
                 {getIcon(category.icon)}
             </div>
-        </UseGlobalTooltip>
+        </StaticTooltip>
     );
 };
 
@@ -218,10 +218,14 @@ export const Card = ({
 
                 <div className={style_card.extra_params}>
                     {el.access_level < 2 && (
-                        <IconEyeOff width={24} height={24} />
+                        <StaticTooltip title="Скрыта">
+                            <IconEyeOff width={24} height={24} />
+                        </StaticTooltip>
                     )}
                     {el.split_type && (
-                        <IconCircleHalf2 width={24} height={24} />
+                        <StaticTooltip title="Раздельные модельки">
+                            <IconCircleHalf2 width={24} height={24} />
+                        </StaticTooltip>
                     )}
                 </div>
             </div>

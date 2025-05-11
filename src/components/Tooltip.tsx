@@ -2,6 +2,7 @@
 
 import React, { JSX, LegacyRef, useEffect, useRef, useState } from 'react';
 import Style from '@/styles/tooltip.module.css';
+import ReactCSSTransition from './CSSTransition';
 
 interface TooltipProps {
     body: JSX.Element;
@@ -171,6 +172,37 @@ export const UseGlobalTooltip = ({
             className={className}
         >
             {children}
+        </div>
+    );
+};
+
+type StaticTooltipProps = {
+    children: JSX.Element;
+    title: string;
+};
+
+export const StaticTooltip = (props: StaticTooltipProps) => {
+    const [displayed, setDisplayed] = useState<boolean>(false);
+    return (
+        <div
+            onMouseEnter={() => setDisplayed(true)}
+            onMouseLeave={() => setDisplayed(false)}
+            style={{ position: 'relative' }}
+        >
+            <ReactCSSTransition
+                state={displayed}
+                timeout={200}
+                classNames={{
+                    enter: Style.staticTooltipEnter,
+                    exitActive: Style.staticTooltipEnter
+                }}
+            >
+                <span className={Style.staticTooltip}>
+                    {props.title}
+                    <span className={Style.pointer} />
+                </span>
+            </ReactCSSTransition>
+            {props.children}
         </div>
     );
 };

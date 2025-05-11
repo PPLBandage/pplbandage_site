@@ -47,6 +47,8 @@
 
     font-size: .8rem;
     text-align: center;
+
+    pointer-events: none;
 }
 
 .pointer {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { JSX, LegacyRef, useEffect, useRef, useState } from 'react';
+import React, { JSX, useEffect, useRef, useState } from 'react';
 import Style from '@/styles/tooltip.module.css';
 import ReactCSSTransition from './CSSTransition';
 
@@ -87,7 +87,7 @@ export const Tooltip = ({
                         top: position.y + 10 + 'px',
                         opacity: opacity
                     }}
-                    ref={bodyRef as LegacyRef<HTMLDivElement>}
+                    ref={bodyRef}
                 >
                     {body}
                 </div>

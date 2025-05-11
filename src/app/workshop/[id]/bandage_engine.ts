@@ -58,7 +58,6 @@ class Client {
         slim: boolean;
     }) => void = undefined;
     onInit: () => void = undefined;
-
     private main_bandage: HTMLCanvasElement = null;
 
     loadBase() {

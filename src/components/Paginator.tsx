@@ -44,22 +44,20 @@ export const Paginator = ({
         const pages_count = Math.ceil(_totalCount / _take);
         _setDisplay(pages_count != 0);
         const data: JSX.Element[] = [];
-        const iterable_page = _page > 2 && pages_count > 4 ? _page - 2 : 0;
+        const iterable_page =
+            _page > 2 && pages_count > 4
+                ? Math.min(_page - 2, pages_count - 5)
+                : 0;
+
         for (let x = iterable_page; x < 5 + iterable_page; x++) {
+            if (x >= pages_count && pages_count < 5) continue;
             data.push(
                 <p
-                    style={
-                        x == Math.max(0, _page)
-                            ? {
-                                  backgroundColor: 'var(--main-element-color)',
-                                  padding: '.5rem'
-                              }
-                            : x < pages_count
-                            ? {}
-                            : { visibility: 'hidden' }
-                    }
                     key={x}
-                    className={Styles.page}
+                    className={
+                        `${Styles.page} ` +
+                        `${x == Math.max(0, _page) && Styles.active}`
+                    }
                     onClick={() => _setPage(x)}
                 >
                     {x + 1}

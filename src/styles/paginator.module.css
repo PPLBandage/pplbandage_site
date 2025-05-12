@@ -29,6 +29,11 @@
     animation: loading 3s infinite ease-in-out;
 }
 
+.active {
+    background-color: var(--main-element-color);
+    padding: .5rem;
+}
+
 @keyframes loading {
 
     0%,

@@ -6,7 +6,7 @@ import SkinView3D from '@/components/SkinView';
 import { anims } from '@/app/workshop/poses';
 import { useRouter } from 'next/navigation';
 import Select from 'react-select';
-import Client from '@/app/workshop/[id]/bandage_engine';
+import Client from '@/lib/bandage_engine';
 import CategorySelector from '@/components/CategorySelector';
 import * as Interfaces from '@/types/global.d';
 import debounce from 'lodash.debounce';

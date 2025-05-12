@@ -6,7 +6,7 @@ import { useEffect, useState, useRef } from 'react';
 import style from '@/styles/editor/page.module.css';
 import * as Interfaces from '@/types/global.d';
 
-import Client, { b64Prefix } from './bandage_engine';
+import Client, { b64Prefix } from '@/lib/bandage_engine';
 import SkinView3D from '@/components/SkinView';
 
 import Select from 'react-select';

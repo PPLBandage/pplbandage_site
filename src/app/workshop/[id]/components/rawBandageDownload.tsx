@@ -1,7 +1,7 @@
 import { IconChevronDown } from '@tabler/icons-react';
 import { useState } from 'react';
 import style from '@/styles/editor/page.module.css';
-import Client, { b64Prefix } from '@/app/workshop/[id]/bandage_engine';
+import Client, { b64Prefix } from '@/lib/bandage_engine';
 import ReactCSSTransition from '@/components/CSSTransition';
 
 const RawBandageDownload = ({

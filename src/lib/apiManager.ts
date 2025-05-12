@@ -3,7 +3,7 @@ import { authApi } from './api';
 import axios, { AxiosResponse, GenericAbortSignal, Method } from 'axios';
 import { Query } from '@/components/Header';
 import { SearchResponse } from '@/components/NickSearch';
-import { SkinResponse } from '@/app/workshop/[id]/bandage_engine';
+import { SkinResponse } from '@/lib/bandage_engine';
 
 type RequestProps = {
     url: string;

@@ -9,7 +9,7 @@ import {
 } from '@tabler/icons-react';
 import useSWR, { mutate } from 'swr';
 import Image from 'next/image';
-import { b64Prefix } from '@/app/workshop/[id]/bandage_engine';
+import { b64Prefix } from '@/lib/bandage_engine';
 import { minecraftMono } from '@/fonts/Minecraft';
 import SlideButton from '@/components/SlideButton';
 import MinecraftConnect from '@/components/MinecraftConnect';

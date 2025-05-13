@@ -6,7 +6,7 @@ import SkinView3D from '@/components/SkinView';
 import { anims } from '@/app/workshop/poses';
 import { useRouter } from 'next/navigation';
 import Select from 'react-select';
-import Client from '@/lib/bandage_engine';
+import Client, { b64Prefix } from '@/lib/bandage_engine';
 import CategorySelector from '@/components/CategorySelector';
 import * as Interfaces from '@/types/global.d';
 import debounce from 'lodash.debounce';
@@ -82,23 +82,13 @@ export default function Home() {
 
                     <div className={style.render_footer}>
                         {height != -1 && (
-                            <p
-                                style={{
-                                    margin: 0,
-                                    display: 'flex',
-                                    alignItems: 'baseline',
-                                    gap: '.3rem'
-                                }}
-                            >
+                            <p className={style.calculated_height_p}>
                                 Расчётная высота:{' '}
                                 <span
-                                    className={fira.className}
-                                    style={{
-                                        padding: '5px',
-                                        backgroundColor: 'var(--dark-hover)',
-                                        borderRadius: '3px',
-                                        fontSize: '.8rem'
-                                    }}
+                                    className={
+                                        `${fira.className} ` +
+                                        `${style.calculated_height_val}`
+                                    }
                                 >
                                     {Math.floor(height / 2)}px
                                 </span>
@@ -181,6 +171,8 @@ const Editor = ({
     const [splitTypes, setSplitTypes] = useState<boolean>(false);
     const [height, setHeight] = useState<number>(-1);
     const [useOldMethod, setUseOldMethod] = useState<boolean>(false);
+    const [error, setError] = useState<string>('');
+    const [createError, setCreateError] = useState<string>('');
 
     useEffect(() => {
         ApiManager.getCategories(true)
@@ -237,33 +229,22 @@ const Editor = ({
     }, [height]);
 
     const create = () => {
-        const error = document.getElementById('error') as HTMLLabelElement;
         if (!base64) {
-            if (error) {
-                error.textContent = 'Выберите изображение повязки';
-            }
+            setError('Выберите изображение повязки');
             return;
         }
 
         if (!base64Slim && splitTypes) {
-            if (error) {
-                error.textContent =
-                    'Выберите изображение повязки для тонких рук';
-            }
+            setError('Выберите изображение повязки для тонких рук');
             return;
         }
 
         if (!title) {
-            if (error) {
-                error.textContent = 'Введите заголовок';
-            }
+            setError('Введите заголовок');
             return;
         }
 
-        if (error) {
-            error.textContent = '';
-        }
-
+        setError('');
         if (mutex) return;
         setMutex(true);
 
@@ -271,26 +252,22 @@ const Editor = ({
             title: title,
             description: description,
             categories: categories,
-            base64: base64.replace('data:image/png;base64,', ''),
-            base64_slim: base64Slim?.replace('data:image/png;base64,', ''),
+            base64: base64.replace(b64Prefix, ''),
+            base64_slim: base64Slim?.replace(b64Prefix, ''),
             split_type: splitTypes
         })
             .then(response =>
                 router.replace(`/workshop/${response.data.external_id}`)
             )
             .catch(err => {
-                const error_el = document.getElementById(
-                    'create_error'
-                ) as HTMLLabelElement;
-                if (error_el) {
-                    if (typeof err.data.message === 'object') {
-                        error_el.innerText =
-                            err.data.message
-                                .map((str: string) => capitalize(str))
-                                .join('\n') || `Unhandled error: ${err.status}`;
-                    } else {
-                        error_el.innerText = err.data.message;
-                    }
+                if (typeof err.data.message === 'object') {
+                    setCreateError(
+                        err.data.message
+                            .map((str: string) => capitalize(str))
+                            .join('\n') || `Unhandled error: ${err.status}`
+                    );
+                } else {
+                    setCreateError(err.data.message);
                 }
             })
             .finally(() => {
@@ -345,7 +322,7 @@ const Editor = ({
                     />
                 </>
             )}
-            <p id="error" style={{ margin: 0, color: '#dc2626' }}></p>
+            <p style={{ margin: 0, color: '#dc2626' }}>{error}</p>
             <textarea
                 maxLength={50}
                 id="title"
@@ -391,10 +368,7 @@ const Editor = ({
                 allCategories={allCategories}
                 onChange={setCategories}
             />
-            <label
-                id="create_error"
-                style={{ margin: 0, color: '#dc2626' }}
-            ></label>
+            <label style={{ margin: 0, color: '#dc2626' }}>{createError}</label>
             <button onClick={() => create()} className={style.skin_load}>
                 Создать
             </button>

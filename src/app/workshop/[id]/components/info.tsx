@@ -12,18 +12,17 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
     return (
         <div className={style.info_container}>
             <h2
-                className={`${style.title} ${
-                    el.permissions_level >= 1 && style.title_editable
-                }`}
+                className={
+                    `${style.title} ` +
+                    `${el.permissions_level >= 1 && style.title_editable}`
+                }
             >
                 {el.title}
                 <IconEdit
                     className={style.edit_icon}
                     width={24}
                     height={24}
-                    onClick={() => {
-                        if (el.permissions_level >= 1) onClick();
-                    }}
+                    onClick={() => el.permissions_level >= 1 && onClick()}
                 />
             </h2>
             {el.description && (
@@ -42,10 +41,7 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
                         {el.author.name}
                     </Link>
                 ) : (
-                    <a
-                        className={`${style.author}
-                ${style.username_private}`}
-                    >
+                    <a className={`${style.author} ${style.username_private}`}>
                         <IconUser width={24} height={24} />
                         {el.author.name}
                     </a>

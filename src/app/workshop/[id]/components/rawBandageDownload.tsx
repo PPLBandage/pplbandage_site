@@ -42,7 +42,6 @@ const RawBandageDownload = ({
                 <div className={style.bandage_raw_menu}>
                     <button
                         className={style.skin_load}
-                        style={{ width: '100%' }}
                         onClick={() =>
                             client.current?.download(
                                 b64Prefix + bandage,
@@ -54,7 +53,6 @@ const RawBandageDownload = ({
                     </button>
                     <button
                         className={style.skin_load}
-                        style={{ width: '100%' }}
                         onClick={() => client.current?.rerender(false, true)}
                     >
                         Обработанная

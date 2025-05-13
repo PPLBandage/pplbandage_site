@@ -211,13 +211,13 @@ export default function Home({
         <>
             <SkinLoad
                 onChange={evt => {
-                    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                    evt &&
+                    if (evt) {
                         client.current?.changeSkin(
                             evt.data,
                             evt.slim,
-                            evt.cape ? 'data:image/png;base64,' + evt.cape : ''
+                            evt.cape ? b64Prefix + evt.cape : ''
                         );
+                    }
                     setLoadExpanded(false);
                 }}
                 expanded={loadExpanded}
@@ -251,16 +251,7 @@ export default function Home({
                         className={style.skin_parent}
                         style={{ position: 'relative' }}
                     >
-                        <div
-                            style={{
-                                position: 'absolute',
-                                boxSizing: 'border-box',
-                                width: '100%',
-                                zIndex: 5,
-                                padding: '.3rem',
-                                display: 'flex'
-                            }}
-                        >
+                        <div className={style.star_container}>
                             <StarElement el={data} />
                         </div>
                         <SkinView3D
@@ -301,7 +292,7 @@ export default function Home({
                             />
                             <button
                                 className={style.skin_load}
-                                onClick={() => client.current?.download()}
+                                onClick={() => client.current?.download?.()}
                             >
                                 <IconDownload width={24} height={24} />
                                 Скачать скин
@@ -326,22 +317,9 @@ export default function Home({
                             />
                         )}
                         <hr />
-                        <div
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '.8rem'
-                            }}
-                        >
+                        <div className={style.parameters_cont}>
                             {client.current?.colorable && (
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        flexWrap: 'wrap',
-                                        gap: '.5rem'
-                                    }}
-                                >
+                                <div className={style.colorable_cont}>
                                     <button
                                         onClick={adjustColor}
                                         className={style.adjust_color}
@@ -349,10 +327,9 @@ export default function Home({
                                         Подобрать цвет
                                     </button>
                                     <div
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center'
-                                        }}
+                                        className={
+                                            style.colorable_selector_cont
+                                        }
                                     >
                                         <input
                                             type="color"
@@ -361,12 +338,7 @@ export default function Home({
                                             onInput={debouncedHandleColorChange}
                                             style={{ cursor: 'pointer' }}
                                         />
-                                        <p
-                                            style={{
-                                                margin: 0,
-                                                marginLeft: '.5rem'
-                                            }}
-                                        >
+                                        <p className={style.colorable_p}>
                                             Выберите цвет
                                         </p>
                                     </div>

@@ -8,25 +8,29 @@ import Searcher from '@/components/NickSearch';
 import ApiManager from '@/lib/apiManager';
 import axios, { AxiosError } from 'axios';
 import ReactCSSTransition from '@/components/CSSTransition';
+import { b64Prefix } from '@/lib/bandage_engine';
 
-const b64Prefix = 'data:image/png;base64,';
-
-interface SkinLoadProps {
+type SkinLoadProps = {
     onChange(data: { data: string; slim: boolean; cape?: string } | null): void;
     expanded: boolean;
-}
+};
+
+type DataType = {
+    data: string;
+    slim: boolean;
+    cape?: string;
+};
 
 const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
-    const [data, setData] = useState<{
-        data: string;
-        slim: boolean;
-        cape?: string;
-    }>(null);
+    const [data, setData] = useState<DataType>(null);
     const [loaded, setLoaded] = useState<boolean>(false);
+    const [error, setError] = useState<string>('');
+    const [dropActive, setDropActive] = useState<boolean>(false);
 
     useEffect(() => {
         setLoaded(false);
         setData(null);
+        setDropActive(false);
     }, [expanded]);
 
     const isSlim = (img: HTMLImageElement): boolean => {
@@ -49,6 +53,7 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                     cape: data.cape
                 });
                 setLoaded(true);
+                setDropActive(false);
             })
             .catch((err: Error | AxiosError) => {
                 setData(null);
@@ -70,20 +75,13 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                         );
                         break;
                     default:
-                        setError(`Не удалось получить скин (${err.status})`);
+                        setError(
+                            err.response?.data?.message ??
+                                `Не удалось получить скин (${err.code})`
+                        );
                         break;
                 }
             });
-    };
-
-    const setError = (err: string) => {
-        const error = document.getElementById('error');
-        if (error) error.innerText = err;
-    };
-
-    const clearError = () => {
-        const error = document.getElementById('error');
-        if (error) error.innerText = '';
     };
 
     const getData = (file: File) => {
@@ -92,11 +90,11 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
 
         reader.onload = () => {
             AsyncImage(reader.result as string).then(img => {
-                if (img.width != 64 || img.height != 64) {
+                if (img.width !== 64 || img.height !== 64) {
                     setError('Скин должен иметь размеры 64x64 пикселя');
                     return;
                 }
-                clearError();
+                setError('');
                 setData({
                     data: reader.result as string,
                     slim: isSlim(img)
@@ -110,28 +108,14 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
     const ondragover = (evt: React.DragEvent<HTMLLabelElement>) => {
         if (evt.dataTransfer?.items[0].type === 'image/png') {
             evt.preventDefault();
-            const drag_container = document.getElementById(
-                'drop_container'
-            ) as HTMLDivElement;
-            drag_container.style.borderStyle = 'solid';
+            setDropActive(true);
         }
-    };
-
-    const ondragleave = () => {
-        const drag_container = document.getElementById(
-            'drop_container'
-        ) as HTMLDivElement;
-        drag_container.style.borderStyle = 'dashed';
     };
 
     const ondrop = (evt: React.DragEvent<HTMLLabelElement>) => {
         getData(evt.dataTransfer?.files[0]);
-
+        setDropActive(true);
         evt.preventDefault();
-        const drag_container = document.getElementById(
-            'drop_container'
-        ) as HTMLDivElement;
-        drag_container.style.borderStyle = 'dashed';
     };
 
     const onChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -163,14 +147,7 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                 <div className={style.skin_load_base}>
                     <div className={style.skin_load_container}>
                         <div className={style_base.header}>
-                            <h3
-                                style={{
-                                    margin: 0,
-                                    display: 'flex',
-                                    gap: '.5rem',
-                                    alignItems: 'center'
-                                }}
-                            >
+                            <h3 className={style.skin_load_header}>
                                 <IconShirt />
                                 Загрузить скин
                             </h3>
@@ -182,10 +159,12 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                         <Searcher onChange={loadSkin} />
                         <label
                             className={style.skin_drop}
-                            id="drop_container"
                             onDragOver={ondragover}
-                            onDragLeave={ondragleave}
+                            onDragLeave={() => setDropActive(false)}
                             onDrop={ondrop}
+                            style={{
+                                borderStyle: dropActive ? 'solid' : 'dashed'
+                            }}
                         >
                             <div className={style.hidable}>
                                 <input
@@ -205,14 +184,9 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                             </div>
                         </label>
 
-                        <span id="error" />
+                        <span>{error}</span>
                         {data && (
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center'
-                                }}
-                            >
+                            <div className={style.skin_load_result_container}>
                                 <NextImage
                                     src={data.data}
                                     width={64}
@@ -222,30 +196,21 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                             </div>
                         )}
 
-                        <div
-                            style={{
-                                display: 'flex',
-                                width: '100%',
-                                gap: '.5rem'
-                            }}
+                        <button
+                            className={
+                                `${style.skin_load} ` +
+                                `${!loaded && style.disabled_load}`
+                            }
+                            onClick={() => loaded && onChange(data)}
+                            style={{ width: '100%' }}
                         >
-                            <button
-                                className={`${style.skin_load} ${
-                                    !loaded && style.disabled_load
-                                }`}
-                                onClick={() => {
-                                    if (loaded) onChange(data);
-                                }}
-                                style={{ width: '100%' }}
-                            >
-                                <IconCheck
-                                    width={24}
-                                    height={24}
-                                    style={{ marginRight: '.2rem' }}
-                                />
-                                Готово
-                            </button>
-                        </div>
+                            <IconCheck
+                                width={24}
+                                height={24}
+                                style={{ marginRight: '.2rem' }}
+                            />
+                            Готово
+                        </button>
                     </div>
                 </div>
             </ReactCSSTransition>

@@ -7,6 +7,7 @@ import * as Interfaces from '@/types/global.d';
 import Select from 'react-select';
 import { IconArchive, IconX } from '@tabler/icons-react';
 import EditConfirmation from '@/components/EditConfirmation';
+import Image from 'next/image';
 
 const lstrip = (string: string) => string.replace(/^\s+/, '');
 
@@ -138,57 +139,39 @@ const EditElement = ({
                 instanceId="select-1"
                 onChange={n => setAccessLevel(n.value)}
             />
-            <div
-                className={style.check_notification}
-                style={{
-                    borderColor: 'red',
-                    backgroundColor: 'rgba(255, 0, 0, .13)',
-                    margin: 0
-                }}
-            >
+            <div className={style.check_notification}>
                 <h3>Опасная зона</h3>
                 <p>
                     Все действия в данной зоне имеют необратимый характер,
                     делайте их с умом!
                 </p>
 
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                        gap: '.4rem',
-                        marginTop: '1rem',
-                        marginBottom: '.4rem'
-                    }}
-                >
+                <div className={style.delete_cont}>
                     <EditConfirmation
                         action="delete"
                         onInput={deleteBandage}
                         confirm_code={bandage.external_id}
                     >
                         <div className={style.deleteButton}>
-                            <img
+                            <Image
                                 className={style.binUp}
                                 alt=""
                                 src="/static/icons/bin_up.png"
-                            ></img>
-                            <img
+                                width={24}
+                                height={7}
+                            />
+                            <Image
                                 className={style.binDown}
                                 alt=""
                                 src="/static/icons/bin_down.png"
-                            ></img>
+                                width={24}
+                                height={17}
+                            />
                         </div>
                     </EditConfirmation>
                     <p style={{ margin: 0 }}>Удалить повязку</p>
                 </div>
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '.4rem'
-                    }}
-                >
+                <div className={style.archive_cont}>
                     <EditConfirmation
                         action="archive"
                         onInput={archiveBandage}

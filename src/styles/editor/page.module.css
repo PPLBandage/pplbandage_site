@@ -168,8 +168,6 @@
     flex-direction: row;
     cursor: pointer;
     transition: background-color 250ms;
-
-    width: 100%;
     height: 2.5rem;
 }
 
@@ -259,7 +257,6 @@
 
 .check_notification {
     width: 100%;
-    background-color: rgba(255, 255, 0, 0.13);
     padding: 1rem;
     border-radius: 10px;
     border: 1px yellow solid;
@@ -271,7 +268,6 @@
 
     border-color: red;
     background-color: rgba(255, 0, 0, .13);
-    margin: 0;
 }
 
 .check_notification h3 {

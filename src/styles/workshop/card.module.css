@@ -109,7 +109,7 @@
 .head_container {
     position: absolute;
     display: flex;
-    z-index: 99;
+    z-index: 2;
     padding: .3rem;
     width: 100%;
     box-sizing: border-box;

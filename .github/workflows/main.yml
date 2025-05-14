@@ -86,6 +86,6 @@ jobs:
                     git merge '@{u}'
                     chmod +x production_build/update_hash.sh
                     ./production_build/update_hash.sh NEXT_PUBLIC_COMMIT_SHA ${{ github.sha }}
-                    docker compose build
-                    docker compose up -d
+                    docker-compose build
+                    docker-compose up -d
                   EOF

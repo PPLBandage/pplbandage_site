@@ -42,6 +42,10 @@ export const SlideButton = ({
             setError(false);
             return;
         }
+
+        /*
+            Строгий режим нужен, чтобы компонента не вызывала колбек при первом маунте.
+        */
         if (isInitialMount && strict) {
             setIsInitialMount(false);
             return;
@@ -58,6 +62,7 @@ export const SlideButton = ({
         }
     }, [active]);
 
+    // Говнокод, забейте
     const position = loading
         ? 'calc((2.6rem + 1px) / 2 - 1.3rem / 2)'
         : active

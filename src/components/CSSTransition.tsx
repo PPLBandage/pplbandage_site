@@ -25,6 +25,12 @@ const ReactCSSTransition = (props: ReactCSSTransitionProps) => {
         if (state) {
             setMounted(true);
             setAnimationClass(props.classNames.enter);
+
+            /*
+                Код ниже — костыль для правильной работы анимации в браузерах FireFox.
+                По какой-то причине, времени requestAnimationFrame недостаточно для полного маунта компоненты
+                Поэтому приходится пропускать два фрейма, чтобы дать компоненту смонтироваться.
+            */
             anim_request = requestAnimationFrame(() => {
                 anim_request = requestAnimationFrame(() => {
                     setAnimationClass('');

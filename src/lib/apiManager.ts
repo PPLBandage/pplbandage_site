@@ -19,6 +19,10 @@ type UpdateUsersProps = {
 
 type SetStarResponse = { new_count: number; action_set: boolean };
 
+/*
+    Этот класс следует переделать, так как он подгружается целиком в бандл,
+    что увеличивает его размер.
+*/
 class ApiManager {
     /** Do HTTP request */
     private static async doRequest({

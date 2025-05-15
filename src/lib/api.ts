@@ -48,6 +48,10 @@ const checkAccess = (token: string): boolean => {
 
 const tokenMutex = new Mutex();
 
+/*
+    Мьютекс нужен, чтобы блокировать параллельное выполнение нескольких запросов,
+    которые подразумевают обновление токена. Это нужно, чтобы не потерять токен.
+*/
 authApi.interceptors.request.use(async config => {
     const sessionId = getCookie('sessionId') as string;
     if (

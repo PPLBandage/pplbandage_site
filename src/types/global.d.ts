@@ -57,14 +57,17 @@ export interface Role {
 }
 
 export interface UserAdmins {
-    id: number;
-    username: string;
-    name: string;
-    joined_at: Date;
-    discord_id: number;
-    banned: boolean;
-    permissions: string[];
-    skip_ppl_check: boolean;
+    data: {
+        id: number;
+        username: string;
+        name: string;
+        joined_at: Date;
+        discord_id: number;
+        banned: boolean;
+        permissions: string[];
+        skip_ppl_check: boolean;
+    }[];
+    totalCount: number;
 }
 
 export interface INotifications {

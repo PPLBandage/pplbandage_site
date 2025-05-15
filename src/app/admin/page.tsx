@@ -12,6 +12,7 @@ import ApiManager from '@/lib/apiManager';
 import { UserAdmins } from '@/types/global.d';
 import { IconSearch } from '@tabler/icons-react';
 import { useCookiesServer, useNextCookie } from 'use-next-cookie';
+import { Paginator } from '@/components/Paginator';
 
 const fira = Fira_Code({ subsets: ['latin'] });
 
@@ -70,15 +71,26 @@ const ForceRegister = () => {
 };
 
 const Users = () => {
-    const [users, setUsers] = useState<UserAdmins[]>([]);
+    const [users, setUsers] = useState<UserAdmins['data']>([]);
     const [userQuery, setQuery] = useState<string>('');
+    const [page, setPage] = useState<number>(0);
+    const [totalCount, setTotalCount] = useState<number>(0);
 
     useEffect(() => {
-        ApiManager.getUsers(userQuery).then(setUsers).catch(console.error);
-    }, [userQuery]);
+        ApiManager.getUsers(page, 48, userQuery)
+            .then(u => {
+                setUsers(u.data);
+                setTotalCount(u.totalCount);
+            })
+            .catch(console.error);
+    }, [userQuery, page]);
+
+    useEffect(() => {
+        scrollTo({ top: 0, behavior: 'smooth' });
+    }, [page]);
 
     const updateUser = (
-        user: UserAdmins,
+        user: UserAdmins['data'][number],
         data: { banned?: boolean; skip_ppl_check?: boolean }
     ): Promise<void> => {
         return new Promise((resolve, reject) => {
@@ -139,14 +151,26 @@ const Users = () => {
 
     return (
         <div className={style_root.users_container}>
-            <h2 style={{ margin: 0 }}>Пользователи ({usersEl.length})</h2>
+            <h2 style={{ margin: 0 }}>Пользователи ({totalCount})</h2>
             <div className={style_root.register_container}>
                 <Search onSearch={setQuery} />
                 <ForceRegister />
             </div>
+            <Paginator
+                total_count={totalCount}
+                take={48}
+                page={page}
+                onChange={setPage}
+            />
             <AdaptiveGrid child_width={350} className={style_root}>
                 {usersEl}
             </AdaptiveGrid>
+            <Paginator
+                total_count={totalCount}
+                take={48}
+                page={page}
+                onChange={setPage}
+            />
         </div>
     );
 };

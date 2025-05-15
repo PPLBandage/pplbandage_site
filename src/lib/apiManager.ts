@@ -113,13 +113,22 @@ class ApiManager {
     }
 
     /** Get users (admin) */
-    static async getUsers(query?: string): Promise<Interfaces.UserAdmins[]> {
+    static async getUsers(
+        page: number,
+        take: number,
+        query?: string
+    ): Promise<Interfaces.UserAdmins> {
         return (
             await this.doRequest({
-                url: query ? `/users?query=${query}` : '/users',
+                url: `/users`,
+                params: {
+                    query,
+                    page,
+                    take
+                },
                 method: 'GET'
             })
-        ).data as Interfaces.UserAdmins[];
+        ).data as Interfaces.UserAdmins;
     }
 
     /** Update user */

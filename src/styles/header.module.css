@@ -2,7 +2,6 @@
     margin-left: 1.5rem;
     margin-right: 1.5rem;
     position: relative;
-    /*z-index: 99;*/
 }
 
 .header_child {
@@ -13,6 +12,8 @@
     justify-content: space-between;
     align-items: center;
     padding: .9rem;
+    position: relative;
+    z-index: 2;
 }
 
 .site_name_container {

@@ -124,9 +124,9 @@
     gap: .3rem;
 
     background-color: var(--main-element-color);
-    padding: 3px;
+    border: 1px color-mix(in srgb, var(--main-element-color), white 15%) solid;
+    padding: 3px 5px;
     border-radius: calc(10px - .3rem);
-    padding-right: 5px;
 
     cursor: pointer;
 

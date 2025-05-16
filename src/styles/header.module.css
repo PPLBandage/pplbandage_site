@@ -2,7 +2,7 @@
     margin-left: 1.5rem;
     margin-right: 1.5rem;
     position: relative;
-    z-index: 99;
+    /*z-index: 99;*/
 }
 
 .header_child {

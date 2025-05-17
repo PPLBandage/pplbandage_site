@@ -166,6 +166,7 @@
     width: 100%;
     min-height: 250px;
     margin-top: 96px;
+    background-size: var(--background-size) !important;
 }
 
 .create_card h2 {

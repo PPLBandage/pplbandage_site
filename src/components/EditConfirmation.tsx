@@ -35,6 +35,11 @@ const EditConfirmation = ({
         archive: 'Архивировать'
     };
 
+    const background_style = {
+        delete: style.delete_background,
+        archive: style.archive_background
+    };
+
     return (
         <>
             <div onClick={() => setExpanded(true)}>{children}</div>
@@ -47,9 +52,7 @@ const EditConfirmation = ({
                 }}
             >
                 <div
-                    className={`${style_base.background} ${
-                        action === 'delete' && style.delete_background
-                    }`}
+                    className={`${style_base.background} ${background_style[action]}`}
                 />
             </ReactCSSTransition>
 

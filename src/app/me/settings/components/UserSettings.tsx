@@ -22,6 +22,10 @@ export const UserSettings = () => {
                 defaultValue={data.can_be_public ? data.public_profile : false}
                 onChange={state => ApiManager.setPublicProfile({ state })}
                 disabled={!data.can_be_public}
+                tooltip={{
+                    title: 'У вас еще нет повязок',
+                    disabled: data.can_be_public
+                }}
                 loadable
                 strict
             />

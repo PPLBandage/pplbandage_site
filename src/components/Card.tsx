@@ -305,9 +305,12 @@ export const CreateCard = ({ first }: { first?: boolean }) => {
     return (
         <article
             className={`${style_card.card} ${style_card.create_card}`}
-            style={{
-                background: `url('/static/backgrounds/background_${background}.svg')`
-            }}
+            style={
+                {
+                    background: `url('/static/backgrounds/background_${background}.svg')`,
+                    '--background-size': first ? '200px' : '40%'
+                } as CSSProperties
+            }
         >
             <NextImage
                 src={'/static/peepo.png'}

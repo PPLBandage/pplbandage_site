@@ -176,13 +176,16 @@ export const UseGlobalTooltip = ({
     );
 };
 
-type StaticTooltipProps = {
+export type StaticTooltipProps = {
     children: JSX.Element;
     title: string;
+    disabled?: boolean;
 };
 
 export const StaticTooltip = (props: StaticTooltipProps) => {
     const [displayed, setDisplayed] = useState<boolean>(false);
+
+    if (props.disabled) return props.children;
     return (
         <div
             onMouseEnter={() => setDisplayed(true)}

@@ -1,5 +1,6 @@
 import StyleBtn from '@/styles/slidebtn.module.css';
 import { useEffect, useState } from 'react';
+import { StaticTooltip, StaticTooltipProps } from './Tooltip';
 
 interface SlideButtonProps {
     onChange: (val: boolean) => Promise<void> | void;
@@ -9,6 +10,8 @@ interface SlideButtonProps {
     strict?: boolean;
     disabled?: boolean;
     loadable?: boolean;
+
+    tooltip?: Omit<StaticTooltipProps, 'children'>;
 }
 
 export const SlideButton = ({
@@ -18,7 +21,8 @@ export const SlideButton = ({
     defaultValue,
     strict,
     disabled,
-    loadable
+    loadable,
+    tooltip
 }: SlideButtonProps) => {
     const [active, setActive] = useState<boolean>(
         value || defaultValue || false
@@ -83,10 +87,12 @@ export const SlideButton = ({
                 onClick={change}
                 style={{ cursor: disabled ? 'auto' : 'pointer' }}
             >
-                <div
-                    className={StyleBtn.child}
-                    style={{ left: position, backgroundColor: color }}
-                />
+                <StaticTooltip disabled {...tooltip}>
+                    <div
+                        className={StyleBtn.child}
+                        style={{ left: position, backgroundColor: color }}
+                    />
+                </StaticTooltip>
             </div>
             {label && (
                 <label className={StyleBtn.label} onClick={change}>

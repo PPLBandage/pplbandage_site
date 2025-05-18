@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import style_root from '@/styles/admin/page.module.css';
 import { notFound, redirect, useRouter } from 'next/navigation';
 import { adminRoles, Query } from '@/components/Header';
-import AdaptiveGrid from '@/components/AdaptiveGrid';
+import { SimpleGrid } from '@/components/AdaptiveGrid';
 import { Fira_Code } from 'next/font/google';
 import Link from 'next/link';
 import SlideButton from '@/components/SlideButton';
@@ -162,9 +162,7 @@ const Users = () => {
                 page={page}
                 onChange={setPage}
             />
-            <AdaptiveGrid child_width={350} className={style_root}>
-                {usersEl}
-            </AdaptiveGrid>
+            <SimpleGrid>{usersEl}</SimpleGrid>
             <Paginator
                 total_count={totalCount}
                 take={48}

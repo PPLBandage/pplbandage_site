@@ -18,9 +18,15 @@ const Slider = ({
     range: number;
     onChange(val: number): void;
 }) => {
-    const [position, setPosition] = useState<number>(0);
     const [lastVal, setLastVal] = useState<number>(0);
     const [isDragging, setIsDragging] = useState<boolean>(false);
+
+    const setPosition = (pos: number) => {
+        const element = document.getElementById('slider_thumb');
+        if (element) {
+            element.style.top = `${pos}%`;
+        }
+    };
 
     const calcPosition = (range: number, y: number, ival?: number) => {
         const rect = document.getElementById('track').getBoundingClientRect();
@@ -94,7 +100,8 @@ const Slider = ({
             >
                 <div
                     className={Style.thumb}
-                    style={{ top: `${position}%`, touchAction: 'none' }}
+                    id="slider_thumb"
+                    style={{ touchAction: 'none' }}
                     onTouchMove={mouseMove}
                     onMouseDown={mouseDown}
                     onTouchStart={mouseDown}

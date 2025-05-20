@@ -1,5 +1,5 @@
 import Style from '@/styles/slider.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /*
     У этой компоненты есть большая проблема. Так как JavaScript однопоточный,
@@ -7,8 +7,10 @@ import { useEffect, useState } from 'react';
     
     Стандартный вертикальный слайдер использовать не выйдет, так как сюрприз-сюрприз,
     он не работает нормально в FireFox.
-*/
 
+    upd 20.05.2025: useState заменен на простой useRef, так как useState вызывает ререндер всей компоненты,
+    что сказывается на производительности
+*/
 const Slider = ({
     initial,
     range,
@@ -19,12 +21,11 @@ const Slider = ({
     onChange(val: number): void;
 }) => {
     const [lastVal, setLastVal] = useState<number>(0);
-    const [isDragging, setIsDragging] = useState<boolean>(false);
+    const thumb = useRef<HTMLDivElement>(null);
 
     const setPosition = (pos: number) => {
-        const element = document.getElementById('slider_thumb');
-        if (element) {
-            element.style.top = `${pos}%`;
+        if (thumb.current) {
+            thumb.current.style.top = `${pos}%`;
         }
     };
 
@@ -46,7 +47,6 @@ const Slider = ({
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mouseDown = (event: any) => {
-        setIsDragging(true);
         document.body.style.userSelect = 'none';
         const clientY =
             'touches' in event ? event.touches[0].clientY : event.clientY;
@@ -56,6 +56,11 @@ const Slider = ({
             onChange(position.value);
             setLastVal(position.value);
         }
+
+        document.addEventListener('mousemove', mouseMove);
+        document.addEventListener('mouseup', mouseUp);
+        document.addEventListener('touchmove', mouseMove);
+        document.addEventListener('touchend', mouseUp);
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -71,8 +76,12 @@ const Slider = ({
     };
 
     const mouseUp = () => {
-        setIsDragging(false);
         document.body.style.userSelect = 'auto';
+
+        document.removeEventListener('mousemove', mouseMove);
+        document.removeEventListener('mouseup', mouseUp);
+        document.removeEventListener('touchmove', mouseMove);
+        document.removeEventListener('touchend', mouseUp);
     };
 
     useEffect(() => {
@@ -81,15 +90,6 @@ const Slider = ({
 
     return (
         <>
-            {isDragging && (
-                <div
-                    className={Style.slider_block}
-                    onMouseMove={mouseMove}
-                    onMouseUp={mouseUp}
-                    onTouchMove={mouseMove}
-                    onTouchEnd={mouseUp}
-                />
-            )}
             <div
                 className={Style.track}
                 id="track"
@@ -100,7 +100,7 @@ const Slider = ({
             >
                 <div
                     className={Style.thumb}
-                    id="slider_thumb"
+                    ref={thumb}
                     style={{ touchAction: 'none' }}
                     onTouchMove={mouseMove}
                     onMouseDown={mouseDown}

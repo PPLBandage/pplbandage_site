@@ -43,7 +43,7 @@ export const generateMetadata = async ({
         openGraph: {
             title: `${data.name} · Автор`,
             description: `${works} – ${stars}`,
-            url: `https://pplbandage.ru/users/${data.username}`,
+            url: `https://pplb.ru/users/${data.username}`,
             siteName: 'Повязки Pepeland',
             images: data.avatar
         },

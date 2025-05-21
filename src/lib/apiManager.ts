@@ -288,7 +288,10 @@ class ApiManager {
     ): Promise<SearchResponse> {
         return (
             await this.doRequestSimple({
-                url: `/minecraft/search/${nickname}`,
+                url: `/minecraft/suggest`,
+                params: {
+                    q: nickname
+                },
                 method: 'GET',
                 signal
             })

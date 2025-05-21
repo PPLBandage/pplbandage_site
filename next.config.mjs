@@ -16,6 +16,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "pplb.ru",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   webpack(config) {

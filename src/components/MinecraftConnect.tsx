@@ -78,7 +78,7 @@ const MinecraftConnect = ({
                                 id="oauth_name"
                                 onClick={() => selectText('oauth_name')}
                             >
-                                oauth.pplb.ru
+                                oauth.pplbandage.ru
                             </span>
                             ` и получите там 6-значный код.
                         </p>

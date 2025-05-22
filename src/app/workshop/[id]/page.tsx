@@ -31,9 +31,9 @@ export const generateMetadata = async ({
         openGraph: {
             title: `${data.title} · Повязки Pepeland`,
             description: `${data.description} – ${stars}`,
-            url: `https://pplb.ru/workshop/${data.external_id}`,
+            url: `https://pplbandage.ru/workshop/${data.external_id}`,
             siteName: 'Повязки Pepeland',
-            images: `https://pplb.ru/api/v1/workshop/${data.external_id}/og`
+            images: `https://pplbandage.ru/api/v1/workshop/${data.external_id}/og`
         },
         twitter: {
             card: 'summary_large_image'

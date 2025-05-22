@@ -71,8 +71,8 @@ export default function Home() {
                     mc-oauth
                 </CustomLink>
                 . Для привязки вам нужно зайти на Minecraft сервер{' '}
-                <u>oauth.pplb.ru</u> для версии начиная с 1.8 и получить там
-                6-значный код, который нужно будет ввести на странице{' '}
+                <u>oauth.pplbandage.ru</u> для версии начиная с 1.8 и получить
+                там 6-значный код, который нужно будет ввести на странице{' '}
                 <CustomLink href="/me/settings">настроек</CustomLink>.
             </p>
             <p>

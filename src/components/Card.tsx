@@ -21,7 +21,6 @@ import ApiManager from '@/lib/apiManager';
 import { useConfigContext } from '@/lib/ConfigContext';
 import IconCandle from '@/resources/stars/candle.svg';
 import IconCandleOn from '@/resources/stars/candle_on.svg';
-import { useNextCookie } from 'use-next-cookie';
 import { CustomLink } from './Search';
 import { formatDate } from '@/lib/time';
 
@@ -86,11 +85,6 @@ export const CategoryShorten = ({ category, style }: CategoryShortenProps) => {
 
 export const constrain = (val: number, min_val: number, max_val: number) => {
     return Math.min(max_val, Math.max(min_val, val));
-};
-
-const backgrounds: { [key: string]: string } = {
-    amoled: 'amoled',
-    default: 'default'
 };
 
 interface ReferrerLinkProps
@@ -194,9 +188,6 @@ export const Card = ({
     base64: string;
     className?: { readonly [key: string]: string };
 }) => {
-    const theme = useNextCookie('theme_main', 1000);
-    const background = backgrounds[theme] ?? 'default';
-
     const categories = el.categories.map(category => (
         <div id={`category_${category.id}_${el.id}`} key={category.id}>
             <CategoryShorten
@@ -209,9 +200,6 @@ export const Card = ({
     return (
         <article
             className={`${style_card.card} ${className?.skin_description_props}`}
-            style={{
-                background: `url('/static/backgrounds/background_${background}.svg')`
-            }}
         >
             <div className={style_card.head_container}>
                 <StarElement el={el} />
@@ -300,14 +288,11 @@ export const Card = ({
 };
 
 export const CreateCard = ({ first }: { first?: boolean }) => {
-    const theme = useNextCookie('theme_main', 1000);
-    const background = backgrounds[theme] ?? 'default';
     return (
         <article
             className={`${style_card.card} ${style_card.create_card}`}
             style={
                 {
-                    background: `url('/static/backgrounds/background_${background}.svg')`,
                     '--background-size': first ? '200px' : '40%'
                 } as CSSProperties
             }

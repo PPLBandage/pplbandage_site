@@ -10,6 +10,7 @@ type SingleThemeType = {
     '--category-color': string;
     '--main-text-color': string;
     '--main-shadow-color': string;
+    '--card-background-image': string;
 };
 
 type ThemeType = { [key: string]: { title: string; data: SingleThemeType } };
@@ -28,7 +29,9 @@ const themes: ThemeType = {
             '--focus-color': '#717b91',
             '--category-color': '#717b91',
             '--main-text-color': '#ffffff',
-            '--main-shadow-color': '#1d2025'
+            '--main-shadow-color': '#1d2025',
+            '--card-background-image':
+                "url('/static/backgrounds/background_default.svg')"
         }
     },
     amoled: {
@@ -44,7 +47,9 @@ const themes: ThemeType = {
             '--focus-color': '#717b91',
             '--category-color': '#333845',
             '--main-text-color': '#ffffff',
-            '--main-shadow-color': '#121212'
+            '--main-shadow-color': '#121212',
+            '--card-background-image':
+                "url('/static/backgrounds/background_amoled.svg')"
         }
     }
 };

@@ -16,6 +16,7 @@
     background-color: var(--main-card-color) !important;
     background-size: 40% !important;
     background-repeat: repeat !important;
+    background: var(--card-background-image);
 
     box-sizing: border-box;
 }

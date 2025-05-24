@@ -29,6 +29,7 @@ const Discord = () => {
         'userConnections',
         async () => await ApiManager.getMeSettings()
     );
+
     if (isLoading) return null;
     return (
         <div className={Style.container}>
@@ -67,7 +68,7 @@ const Discord = () => {
 };
 
 const Minecraft = () => {
-    const { data, isLoading } = useSWR(
+    const { data, isLoading, mutate } = useSWR(
         'userConnections',
         async () => await ApiManager.getMeSettings()
     );
@@ -105,14 +106,39 @@ const Minecraft = () => {
                     defaultValue={data.connections?.minecraft?.valid}
                     strict={true}
                     loadable={true}
-                    onChange={setValidAPI}
+                    onChange={async state => {
+                        await ApiManager.setMinecraftVisible({ state });
+
+                        mutate({
+                            ...data,
+                            connections: {
+                                ...data.connections,
+                                minecraft: {
+                                    ...data.connections.minecraft,
+                                    valid: state
+                                }
+                            }
+                        });
+                    }}
                 />
                 <SlideButton
                     label="Автоматически устанавливать скин в редакторе"
                     defaultValue={data.connections?.minecraft?.autoload}
                     strict={true}
                     loadable={true}
-                    onChange={setAutoloadAPI}
+                    onChange={async state => {
+                        await ApiManager.setMinecraftAutoload({ state });
+                        mutate({
+                            ...data,
+                            connections: {
+                                ...data.connections,
+                                minecraft: {
+                                    ...data.connections.minecraft,
+                                    autoload: state
+                                }
+                            }
+                        });
+                    }}
                 />
             </div>
             <div className={Style.checkboxes}>
@@ -179,22 +205,6 @@ const disconnect = () => {
     ApiManager.disconnectMinecraft()
         .then(() => mutate('userConnections'))
         .catch(console.error);
-};
-
-const setValidAPI = (state: boolean): Promise<void> => {
-    return new Promise((resolve, reject) => {
-        ApiManager.setMinecraftVisible({ state })
-            .then(() => resolve())
-            .catch(reject);
-    });
-};
-
-const setAutoloadAPI = (state: boolean): Promise<void> => {
-    return new Promise((resolve, reject) => {
-        ApiManager.setMinecraftAutoload({ state })
-            .then(() => resolve())
-            .catch(reject);
-    });
 };
 
 const connectMinecraft = async (code: string): Promise<void> => {

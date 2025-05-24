@@ -5,7 +5,7 @@ import useSWR from 'swr';
 import ApiManager from '@/lib/apiManager';
 
 export const UserSettings = () => {
-    const { data, isLoading } = useSWR(
+    const { data, isLoading, mutate } = useSWR(
         'userConnections',
         async () => await ApiManager.getMeSettings()
     );
@@ -20,7 +20,10 @@ export const UserSettings = () => {
             <SlideButton
                 label="Публичный профиль"
                 defaultValue={data.can_be_public ? data.public_profile : false}
-                onChange={state => ApiManager.setPublicProfile({ state })}
+                onChange={async state => {
+                    await ApiManager.setPublicProfile({ state });
+                    mutate({ ...data, public_profile: state }, false);
+                }}
                 disabled={!data.can_be_public}
                 tooltip={{
                     title: 'У вас еще нет повязок',

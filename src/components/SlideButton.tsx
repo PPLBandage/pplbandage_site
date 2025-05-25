@@ -2,19 +2,22 @@ import StyleBtn from '@/styles/slidebtn.module.css';
 import { useEffect, useState } from 'react';
 import { StaticTooltip, StaticTooltipProps } from './Tooltip';
 
-interface SlideButtonProps {
-    onChange: (val: boolean) => Promise<void> | void;
+interface SlideButtonProps<Loadable extends boolean = false> {
+    loadable?: Loadable;
+
+    onChange: Loadable extends true
+        ? (val: boolean) => Promise<void>
+        : (val: boolean) => void;
     value?: boolean;
     label?: string;
     defaultValue?: boolean;
     strict?: boolean;
     disabled?: boolean;
-    loadable?: boolean;
 
     tooltip?: Omit<StaticTooltipProps, 'children'>;
 }
 
-export const SlideButton = ({
+export const SlideButton = <Loadable extends boolean = false>({
     onChange,
     value,
     label,
@@ -23,7 +26,7 @@ export const SlideButton = ({
     disabled,
     loadable,
     tooltip
-}: SlideButtonProps) => {
+}: SlideButtonProps<Loadable>) => {
     const [active, setActive] = useState<boolean>(
         value || defaultValue || false
     );

@@ -15,7 +15,8 @@ import {
     IconLeaf2,
     IconUserCheck,
     IconUserEdit,
-    IconQuestionMark
+    IconQuestionMark,
+    IconUserStar
 } from '@tabler/icons-react';
 import { JSX } from 'react';
 
@@ -37,7 +38,8 @@ const Icons: { [key: string]: JSX.Element } = {
     ),
     IconLeaf2: <IconLeaf2 width={15} height={15} />,
     IconUserCheck: <IconUserCheck width={15} height={15} />,
-    IconUserEdit: <IconUserEdit width={15} height={15} />
+    IconUserEdit: <IconUserEdit width={15} height={15} />,
+    IconUserStar: <IconUserStar width={15} height={15} />
 };
 
 export const getIcon = (icon: string) =>

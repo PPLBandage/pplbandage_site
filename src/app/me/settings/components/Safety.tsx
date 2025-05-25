@@ -23,14 +23,14 @@ const moveToStart = (arr: Session[]) => {
 const logoutSession = (session_id: number) => {
     if (!confirm(`Выйти с этого устройства?`)) return;
     ApiManager.logoutSession(session_id)
-        .then(() => mutate('userSessions', undefined, { revalidate: true }))
+        .then(() => mutate('userSessions', undefined, true))
         .catch(response => alert(response.data.message));
 };
 
 const logoutSessionAll = () => {
     if (!confirm('Выйти со всех устройств, кроме этого?')) return;
     ApiManager.logoutAllSessions()
-        .then(() => mutate('userSessions', undefined, { revalidate: true }))
+        .then(() => mutate('userSessions', undefined, true))
         .catch(response => alert(response.data.message));
 };
 

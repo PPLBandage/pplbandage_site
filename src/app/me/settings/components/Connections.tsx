@@ -83,32 +83,27 @@ const Minecraft = () => {
                 Minecraft аккаунт
             </h3>
             <div className={Style.head_container}>
-                {data && (
-                    <Image
-                        src={b64Prefix + data.connections.minecraft.head}
-                        alt=""
-                        width={64}
-                        height={64}
-                    />
-                )}
+                <Image
+                    src={b64Prefix + data.connections.minecraft.head}
+                    alt=""
+                    width={64}
+                    height={64}
+                />
                 <div className={Style.name_container}>
                     <p className={`${Style.name} ${minecraftMono.className}`}>
-                        {data.connections?.minecraft.nickname}
+                        {data.connections.minecraft.nickname}
                     </p>
                     <p className={`${Style.uuid} ${minecraftMono.className}`}>
-                        {data.connections?.minecraft.uuid}
+                        {data.connections.minecraft.uuid}
                     </p>
                 </div>
             </div>
             <div className={Style.checkboxes}>
                 <SlideButton
                     label="Отображать ник в поиске"
-                    defaultValue={data.connections?.minecraft?.valid}
-                    strict={true}
-                    loadable={true}
+                    defaultValue={data.connections.minecraft.valid}
                     onChange={async state => {
                         await ApiManager.setMinecraftVisible({ state });
-
                         mutate({
                             ...data,
                             connections: {
@@ -120,12 +115,12 @@ const Minecraft = () => {
                             }
                         });
                     }}
+                    strict
+                    loadable
                 />
                 <SlideButton
                     label="Автоматически устанавливать скин в редакторе"
-                    defaultValue={data.connections?.minecraft?.autoload}
-                    strict={true}
-                    loadable={true}
+                    defaultValue={data.connections.minecraft.autoload}
                     onChange={async state => {
                         await ApiManager.setMinecraftAutoload({ state });
                         mutate({
@@ -139,6 +134,8 @@ const Minecraft = () => {
                             }
                         });
                     }}
+                    strict
+                    loadable
                 />
             </div>
             <div className={Style.checkboxes}>

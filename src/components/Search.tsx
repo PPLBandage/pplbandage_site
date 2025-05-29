@@ -1,6 +1,11 @@
 'use client';
 
-import React, { JSX, useEffect, useState } from 'react';
+import React, {
+    HTMLAttributeAnchorTarget,
+    JSX,
+    useEffect,
+    useState
+} from 'react';
 import Select from 'react-select';
 import Styles from '@/styles/search.module.css';
 import { Category } from '@/types/global.d';
@@ -177,13 +182,15 @@ export const Search = ({
 
 export const CustomLink = ({
     children,
-    href
+    href,
+    target
 }: {
     children: JSX.Element | string;
     href: string;
+    target?: HTMLAttributeAnchorTarget;
 }) => {
     return (
-        <Link className={styleLink.CustomLink} href={href}>
+        <Link className={styleLink.CustomLink} href={href} target={target}>
             {children}
         </Link>
     );

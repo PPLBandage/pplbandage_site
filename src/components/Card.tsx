@@ -23,6 +23,7 @@ import IconCandle from '@/resources/stars/candle.svg';
 import IconCandleOn from '@/resources/stars/candle_on.svg';
 import { CustomLink } from './Search';
 import { formatDate } from '@/lib/time';
+import { removeLink } from './LinkedText';
 
 interface CategoryProps {
     category: Category;
@@ -250,7 +251,7 @@ export const Card = ({
                         {el.title}
                     </ReferrerLink>
                     <p className={style_card.description}>
-                        {constrainedText(el.description ?? '', 50)}
+                        {constrainedText(removeLink(el.description) ?? '', 50)}
                     </p>
                 </div>
 

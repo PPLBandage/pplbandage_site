@@ -16,7 +16,7 @@ export const getTheme = (theme: string) => {
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
     const cookie = useCookiesServer();
-    const theme = getTheme(cookie.get('theme_main') || 'default');
+    const theme = getTheme(cookie.get('theme_main') || 'amoled');
 
     return (
         <html

@@ -28,7 +28,7 @@ const Footer = () => {
     const cookiesServer = useCookiesServer();
     const themesKeys = Object.keys(themes);
     const initialThemeIndex = themesKeys.indexOf(
-        cookiesServer.get('theme_main') || 'default'
+        cookiesServer.get('theme_main') || 'amoled'
     );
     const [theme, setTheme_] = useState<number>(
         initialThemeIndex !== -1 ? initialThemeIndex : 0

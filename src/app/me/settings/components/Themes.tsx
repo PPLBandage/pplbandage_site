@@ -9,7 +9,7 @@ import Style_themes from '@/styles/me/themes.module.css';
 export const Themes = () => {
     const themeCookie = useNextCookie('theme_main', 1000);
     const [themeState, setThemeState] = useState<string>(
-        themeCookie || 'default'
+        themeCookie || 'amoled'
     );
 
     useEffect(() => setThemeState(themeCookie), [themeCookie]);

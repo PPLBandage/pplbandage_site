@@ -129,7 +129,7 @@ const Users = () => {
                         strict={true}
                         loadable={true}
                         onChange={value => updateUser(user, { banned: value })}
-                        defaultValue={user.banned}
+                        defaultValue={Boolean(user.flags & 1)}
                         disabled={
                             !user.permissions.every(perm => perm === 'default')
                         }
@@ -139,10 +139,10 @@ const Users = () => {
                         label="Пропустить проверку ролей"
                         strict={true}
                         loadable={true}
+                        defaultValue={Boolean(user.flags & (1 << 1))}
                         onChange={value =>
                             updateUser(user, { skip_ppl_check: value })
                         }
-                        defaultValue={user.skip_ppl_check}
                     />
                 </div>
             </div>

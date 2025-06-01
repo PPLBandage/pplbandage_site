@@ -177,7 +177,7 @@ export default function Home({
                 setLoaded(true);
             });
 
-            if (data.split_type) {
+            if (data.flags & (1 << 1)) {
                 client.current.setParams({ split_types: true });
                 asyncImage(b64Prefix + data.base64_slim).then(img =>
                     client.current.loadFromImage(img, true)

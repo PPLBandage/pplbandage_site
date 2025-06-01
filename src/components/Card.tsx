@@ -128,10 +128,11 @@ export const ReferrerLink: React.FC<ReferrerLinkProps> = ({
 };
 
 export const StarElement = ({ el }: { el: Bandage }) => {
+    const _starred = Boolean(el.flags & (1 << 2));
     const logged = getCookie('sessionId');
     const router = useRouter();
-    const [starred, setStarred] = useState<boolean>(el.starred);
-    const [last, setLast] = useState<boolean>(el.starred);
+    const [starred, setStarred] = useState<boolean>(_starred);
+    const [last, setLast] = useState<boolean>(_starred);
     const [starsCount, setStarsCount] = useState<number>(el.stars_count);
 
     useEffect(() => {
@@ -211,7 +212,7 @@ export const Card = ({
                             <IconEyeOff width={24} height={24} />
                         </StaticTooltip>
                     )}
-                    {el.split_type && (
+                    {Boolean(el.flags & (1 << 1)) && (
                         <StaticTooltip title="Раздельные модельки">
                             <IconCircleHalf2 width={24} height={24} />
                         </StaticTooltip>

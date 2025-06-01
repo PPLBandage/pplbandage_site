@@ -9,13 +9,12 @@ export interface Bandage {
     external_id: string;
     base64: string;
     base64_slim?: string;
-    split_type: boolean;
+    flags: number;
     average_og_color: string;
     userId: number;
     creation_date: Date;
     verified: boolean;
     stars_count: number;
-    starred: boolean;
     title: string;
     description: string;
     author: {
@@ -63,9 +62,8 @@ export interface UserAdmins {
         name: string;
         joined_at: Date;
         discord_id: number;
-        banned: boolean;
+        flags: number;
         permissions: string[];
-        skip_ppl_check: boolean;
     }[];
     totalCount: number;
 }

@@ -157,9 +157,7 @@ const Editor = ({
     const router = useRouter();
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
-    const [enabledCategories, setEnabledCategories] = useState<
-        Interfaces.Category[]
-    >([]);
+    const [enabledCategories] = useState<Interfaces.Category[]>([]);
     const [allCategories, setAllCategories] = useState<Interfaces.Category[]>(
         []
     );
@@ -179,19 +177,14 @@ const Editor = ({
             .then(data => {
                 setAllCategories(data);
                 if (window.location.hash === '#colorable') {
-                    const colorable_category = data.find(
-                        category => category.colorable
-                    );
-                    if (colorable_category) {
-                        setEnabledCategories([colorable_category]);
-                    }
+                    setColorable(true);
                 }
             })
             .catch(console.error);
     }, []);
 
     const debouncedHandleColorChange = useCallback(
-        // из за частого вызова oninput на слабых клиентах сильно лагает,
+        // из-за частого вызова oninput на слабых клиентах сильно лагает,
         // поэтому сделан дебаунс на 5мс
         debounce(event => {
             onColorChange(event.target.value);
@@ -200,17 +193,8 @@ const Editor = ({
     );
 
     useEffect(() => {
-        if (!categories || categories.length === 0) {
-            setColorable(false);
-            onColorableChange(false);
-            return;
-        }
-        const _colorable = categories.some(
-            category => allCategories.find(cat => cat.id === category).colorable
-        );
-        setColorable(_colorable);
-        onColorableChange(_colorable);
-    }, [categories]);
+        onColorableChange(colorable);
+    }, [colorable]);
 
     useEffect(() => {
         const title_el = document.getElementById('title') as HTMLLabelElement;
@@ -254,7 +238,8 @@ const Editor = ({
             categories: categories,
             base64: base64.replace(b64Prefix, ''),
             base64_slim: base64Slim?.replace(b64Prefix, ''),
-            split_type: splitTypes
+            split_type: splitTypes,
+            colorable
         })
             .then(response =>
                 router.replace(`/workshop/${response.data.external_id}`)
@@ -345,6 +330,13 @@ const Editor = ({
                 value={description}
             />
 
+            <SlideButton
+                label="Окрашиваемая"
+                value={colorable}
+                onChange={setColorable}
+                strict
+            />
+
             {colorable && (
                 <InfoCard title="Повязка отмечена как окрашиваемая!">
                     <div>
@@ -369,7 +361,7 @@ const Editor = ({
                 onChange={setCategories}
             />
             <label style={{ margin: 0, color: '#dc2626' }}>{createError}</label>
-            <button onClick={() => create()} className={style.skin_load}>
+            <button onClick={create} className={style.skin_load}>
                 Создать
             </button>
         </div>

@@ -8,8 +8,11 @@ import Select from 'react-select';
 import { IconArchive, IconX } from '@tabler/icons-react';
 import EditConfirmation from '@/components/EditConfirmation';
 import Image from 'next/image';
+import SlideButton from '@/components/SlideButton';
 
 const lstrip = (string: string) => string.replace(/^\s+/, '');
+const capitalize = (string: string) =>
+    string.charAt(0).toUpperCase() + string.slice(1);
 
 export const access_level: { value: number; label: string }[] = [
     { value: 0, label: 'Ограниченный доступ' },
@@ -34,6 +37,9 @@ const EditElement = ({
     );
     const [categories, setCategories] = useState<number[]>(undefined);
     const [accessLevel, setAccessLevel] = useState<number>(undefined);
+    const [colorable, setColorable] = useState<boolean>(
+        Boolean(bandage.flags & 1)
+    );
 
     useEffect(() => {
         ApiManager.getCategories(true)
@@ -41,16 +47,13 @@ const EditElement = ({
             .catch(console.error);
     }, []);
 
-    function capitalize(string: string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
     const save = () => {
         ApiManager.updateBandage(bandage.external_id, {
             title: title,
             description: description || null,
             categories: categories,
-            access_level: accessLevel
+            access_level: accessLevel,
+            colorable
         })
             .then(onDone)
             .catch(response => {
@@ -112,7 +115,7 @@ const EditElement = ({
                                 lstrip((ev.target as HTMLTextAreaElement).value)
                             )
                         }
-                        value={description}
+                        value={description ?? ''}
                     />
                 </>
             ) : (
@@ -125,6 +128,11 @@ const EditElement = ({
                     )}
                 </>
             )}
+            <SlideButton
+                label="Окрашиваемая"
+                value={colorable}
+                onChange={setColorable}
+            />
             <CategorySelector
                 enabledCategories={bandage.categories}
                 allCategories={allCategories}

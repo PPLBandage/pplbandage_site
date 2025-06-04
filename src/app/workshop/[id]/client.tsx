@@ -167,7 +167,7 @@ export default function Home({
                 });
 
                 client.current.setParams({
-                    colorable: data.categories.some(val => val.colorable)
+                    colorable: Boolean(data.flags & 1)
                 });
                 if (client.current.colorable) {
                     const randomColor = getRandomColor();

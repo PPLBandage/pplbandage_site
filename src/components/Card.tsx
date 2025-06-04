@@ -9,6 +9,7 @@ import { CSSProperties, ReactNode, useEffect, useState } from 'react';
 import {
     IconCircleHalf2,
     IconEyeOff,
+    IconPalette,
     IconPlus,
     IconStar,
     IconStarFilled,
@@ -207,6 +208,11 @@ export const Card = ({
                 <StarElement el={el} />
 
                 <div className={style_card.extra_params}>
+                    {Boolean(el.flags & 1) && (
+                        <StaticTooltip title="Окрашиваемая">
+                            <IconPalette width={24} height={24} />
+                        </StaticTooltip>
+                    )}
                     {el.access_level < 2 && (
                         <StaticTooltip title="Скрыта">
                             <IconEyeOff width={24} height={24} />

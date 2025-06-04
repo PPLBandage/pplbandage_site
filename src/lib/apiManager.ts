@@ -342,6 +342,7 @@ class ApiManager {
             description: string;
             categories: number[];
             access_level: number;
+            colorable: boolean;
         }
     ): Promise<void> {
         await this.doRequest({
@@ -375,6 +376,7 @@ class ApiManager {
         base64: string;
         base64_slim: string;
         split_type: boolean;
+        colorable: boolean;
     }): Promise<AxiosResponse> {
         return await this.doRequest({
             url: `/workshop`,

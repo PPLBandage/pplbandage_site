@@ -61,7 +61,7 @@ export const render = (
 ): Promise<JSX.Element[]> =>
     Promise.all(
         data.map(async el => {
-            const colorable = el.categories.some(val => val.colorable);
+            const colorable = el.flags & 1;
             const random_color = [
                 randint(0, 255),
                 randint(0, 255),

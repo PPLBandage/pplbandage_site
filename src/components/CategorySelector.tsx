@@ -6,7 +6,7 @@ import style_workshop from '@/styles/workshop/page.module.css';
 import IconSvg from '@/resources/icon.svg';
 
 interface CategorySelectorProps {
-    enabledCategories: Category[];
+    enabledCategories?: Category[];
     allCategories: Category[];
     onChange(selected: number[]): void;
 }

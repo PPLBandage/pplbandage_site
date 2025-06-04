@@ -157,7 +157,6 @@ const Editor = ({
     const router = useRouter();
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
-    const [enabledCategories] = useState<Interfaces.Category[]>([]);
     const [allCategories, setAllCategories] = useState<Interfaces.Category[]>(
         []
     );
@@ -356,7 +355,6 @@ const Editor = ({
             )}
 
             <CategorySelector
-                enabledCategories={enabledCategories}
                 allCategories={allCategories}
                 onChange={setCategories}
             />

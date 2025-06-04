@@ -35,7 +35,7 @@ const ASide = () => {
                     path == 'colorable' && style_sidebar.active
                 }`}
             >
-                Окрашиваемая повязка
+                Окрашиваемые повязки
             </TransitionLink>
             <TransitionLink
                 href="/tutorials/rules"

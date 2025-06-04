@@ -3,9 +3,7 @@
 import React from 'react';
 import style from '@/styles/tutorials/common.module.css';
 import InfoCard from '@/components/InfoCard';
-import { CategoryEl } from '@/components/Card';
 import { IconInfoCircle, IconBulb } from '@tabler/icons-react';
-import Link from 'next/link';
 
 export default function Home() {
     return (
@@ -84,26 +82,10 @@ export default function Home() {
                     marginBottom: '.5rem'
                 }}
             >
-                Публикация окрашиваемой повязки ничем не отличается от
-                публикации обычной повязки. Но на моменте выбора категорий вам
-                нужно выбрать категорию{' '}
-                <Link href="/workshop/create#colorable">
-                    <CategoryEl
-                        style={{
-                            display: 'inline-flex',
-                            height: '1rem',
-                            verticalAlign: 'top'
-                        }}
-                        category={{
-                            id: -1,
-                            name: 'Окрашиваемые',
-                            icon: 'IconPalette'
-                        }}
-                    />
-                </Link>
-                . Таким образом вы отметите свою работу как окрашиваемую и на
-                странице повязки в мастерской будет отображён соответствующий
-                элемент выбора цвета.
+                Публикация окрашиваемой повязки проходит так же, как и обычной —
+                единственное отличие в том, что нужно включить специальный
+                тумблер. Это отметит вашу работу как окрашиваемую, и на странице
+                повязки в мастерской появится элемент выбора цвета.
             </span>
         </div>
     );

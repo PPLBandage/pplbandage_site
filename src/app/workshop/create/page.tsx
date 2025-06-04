@@ -273,10 +273,15 @@ const Editor = ({
                 onChange={setUseOldMethod}
                 label="Использовать старый способ загрузки повязок"
             />
-
             <SlideButton
                 onChange={setSplitTypes}
                 label="Использовать разные повязки для разных типов скинов"
+            />
+            <SlideButton
+                label="Окрашиваемая"
+                value={colorable}
+                onChange={setColorable}
+                strict
             />
 
             <Selector
@@ -327,13 +332,6 @@ const Editor = ({
                     )
                 }
                 value={description}
-            />
-
-            <SlideButton
-                label="Окрашиваемая"
-                value={colorable}
-                onChange={setColorable}
-                strict
             />
 
             {colorable && (

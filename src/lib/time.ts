@@ -83,11 +83,17 @@ export const formatDateHuman = (date: Date, include_time?: boolean) => {
 };
 
 export const formatDate = (date: Date) => {
-    if (isNaN(date.getDay())) return '';
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-    return `${hours}:${minutes} ${day}.${month}.${year}`;
+    if (isNaN(date.getTime())) return '';
+
+    const formatter = new Intl.DateTimeFormat('ru-RU', {
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        hour: '2-digit',
+        minute: '2-digit',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour12: false
+    });
+
+    return formatter.format(date).replace(',', '');
 };

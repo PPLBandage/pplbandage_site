@@ -69,7 +69,7 @@ export const SlideButton = <Loadable extends boolean = false>({
         }
     }, [active]);
 
-    // Говнокод, забейте
+    // Говнокод, забейте (я сам уже не понимаю как он работает)
     const position = loading
         ? 'calc((2.6rem + 1px) / 2 - 1.3rem / 2)'
         : active

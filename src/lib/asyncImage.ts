@@ -1,3 +1,4 @@
+// Боже, как же я обожаю промисы
 const AsyncImage = (src: string): Promise<HTMLImageElement> =>
     new Promise((resolve, reject) => {
         const img = new Image();
@@ -14,6 +15,6 @@ export const base64Encode = (img: HTMLImageElement) => {
     canvas.width = img.naturalWidth;
     ctx.drawImage(img, 0, 0);
     return canvas.toDataURL();
-}
+};
 
 export default AsyncImage;

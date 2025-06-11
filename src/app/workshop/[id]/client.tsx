@@ -184,6 +184,8 @@ export default function Home({
                 );
             }
         };
+
+        client.current.init();
         scrollTo(0, 0);
     }, []);
 

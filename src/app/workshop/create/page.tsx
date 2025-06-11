@@ -58,7 +58,11 @@ export default function Home() {
             setSlim(event.slim);
         };
 
-        client.current.loadSkinUrl('/static/workshop_base.png');
+        client.current.onInit = () => {
+            client.current.loadSkinUrl('/static/workshop_base.png');
+        };
+
+        client.current.init();
         window.addEventListener('beforeunload', beforeUnload);
 
         return () => {

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import asyncImage, { base64Encode } from '@/lib/asyncImage';
 import ApiManager from '@/lib/apiManager';
 
@@ -61,24 +60,21 @@ class Client {
 
     private main_bandage: HTMLCanvasElement = null;
 
-    loadBase() {
-        asyncImage('/static/workshop_base.png').then(skin => {
-            const context = this.original_canvas.getContext('2d');
-            context!.drawImage(skin, 0, 0);
-            !!this.onInit && this.onInit();
-        });
+    async loadBase() {
+        const skin = await asyncImage('/static/workshop_base.png');
+        const context = this.original_canvas.getContext('2d');
+        context!.drawImage(skin, 0, 0);
     }
 
-    constructor() {
+    init() {
         this.original_canvas = document.createElement('canvas');
         this.original_canvas.width = 64;
         this.original_canvas.height = 64;
-        this.loadBase();
 
-        const color_picker = document.getElementById(
-            'color_picker'
-        ) as HTMLInputElement;
+        const color_picker = document.getElementById('color_picker');
         color_picker?.addEventListener('input', () => this.rerender());
+
+        this.loadBase().then(() => this.onInit?.());
     }
 
     async loadSkin(nickname: string): Promise<void> {
@@ -196,7 +192,9 @@ class Client {
             willReadFrequently: true
         });
         canvas_context.clearRect(0, 0, canvas.width, canvas.height);
-        render_original && canvas_context.drawImage(this.original_canvas, 0, 0);
+
+        if (render_original)
+            canvas_context.drawImage(this.original_canvas, 0, 0);
 
         const height = bandage_canvas.height;
 
@@ -234,13 +232,14 @@ class Client {
             lining = fillPepe(lining, rgb);
         }
 
-        this.clear_pix &&
+        if (this.clear_pix) {
             clearPepe(
                 canvas,
                 body_part_x_overlay[this.body_part],
                 body_part_y_overlay[this.body_part] + this.position,
                 height
             );
+        }
 
         const coef =
             this.slim && (this.body_part == 0 || this.body_part == 2) ? 1 : 0;
@@ -286,13 +285,14 @@ class Client {
                 break;
         }
 
-        this.first_layer &&
+        if (this.first_layer)
             canvas_context.drawImage(
                 cropped_lining,
                 first_x,
                 first_y + this.position
             );
-        this.second_layer &&
+
+        if (this.second_layer)
             canvas_context.drawImage(
                 cropped_pepe,
                 overlay_x,
@@ -301,7 +301,7 @@ class Client {
 
         if (!download) {
             this.skin = canvas.toDataURL();
-            !!this.onRendered &&
+            if (this.onRendered)
                 this.onRendered({
                     skin: this.skin,
                     cape: this.cape,
@@ -457,7 +457,7 @@ export const fillPepe = (
         canvas.width = input.width;
         canvas.height = input.height;
         const context = canvas.getContext('2d');
-        context && context.drawImage(input, 0, 0, input.width, input.height);
+        if (context) context.drawImage(input, 0, 0, input.width, input.height);
     } else {
         canvas = input;
     }

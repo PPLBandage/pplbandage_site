@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const getTheme = (theme: string) => {
     const keys = Object.keys(themes);
-    if (!keys.includes(theme)) return themes.default;
+    if (!keys.includes(theme)) return themes.amoled;
 
     return themes[theme];
 };

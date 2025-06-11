@@ -16,7 +16,7 @@ export const generateMetadata = async (): Promise<Metadata | undefined> => {
     const base = meta.base;
     if (!path) return base;
     const extend = object[path];
-    return merge({}, base, extend) as Metadata;
+    return merge(base, extend) as Metadata;
 };
 
 export const viewport: Viewport = {

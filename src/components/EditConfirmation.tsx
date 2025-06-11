@@ -94,18 +94,18 @@ const EditConfirmation = ({
                         />
 
                         <button
-                            className={`${style.button} ${
-                                available && style.available
-                            }`}
+                            className={
+                                `${style.button}` +
+                                `${available && style.available}`
+                            }
                             disabled={!available}
                             onClick={() => {
                                 if (!available) return;
                                 onInput()
                                     .then(() => setExpanded(false))
                                     .catch(response => {
-                                        const err = document.getElementById(
-                                            'error'
-                                        ) as HTMLParagraphElement;
+                                        const err =
+                                            document.getElementById('error');
                                         err.innerText = response;
                                         err.style.display = 'block';
                                     });

@@ -617,6 +617,10 @@ const Selector = ({
                         name="imageInput"
                         accept="image/png"
                         onChange={onChangeInput}
+                        onClick={evt => {
+                            const target = evt.target as HTMLInputElement;
+                            target.value = null;
+                        }}
                     />
                     <span id="select_file">
                         Выберите файл

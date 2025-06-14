@@ -564,10 +564,8 @@ const Selector = ({
     };
 
     const onChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        useOld
-            ? getDataOld(evt.target?.files[0])
-            : getData(evt.target?.files[0]);
+        const process = useOld ? getDataOld : getData;
+        process(evt.target?.files[0]);
         evt.target.files = null;
     };
 
@@ -583,10 +581,8 @@ const Selector = ({
     };
 
     const ondrop = (evt: React.DragEvent<HTMLLabelElement>) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        useOld
-            ? getDataOld(evt.dataTransfer?.files[0])
-            : getData(evt.dataTransfer?.files[0]);
+        const process = useOld ? getDataOld : getData;
+        process(evt.dataTransfer?.files[0]);
 
         evt.preventDefault();
         containerRef.current.style.borderStyle = 'dashed';

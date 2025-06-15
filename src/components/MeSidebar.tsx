@@ -1,7 +1,6 @@
 'use client';
 
 import { JSX, useState } from 'react';
-import { Query } from './Header';
 import style_sidebar from '@/styles/me/sidebar.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,8 +17,9 @@ import {
     IconStarFilled
 } from '@tabler/icons-react';
 import { TransitionLink } from '@/app/me/AnimatedLink';
+import { UserQuery } from '@/types/global';
 
-const Roles = ({ user }: { user: Query }) => {
+const Roles = ({ user }: { user: UserQuery }) => {
     if (!user || !user.roles) return null;
 
     const roles = user.roles.map(role => (
@@ -46,7 +46,7 @@ export const Me = ({
     self
 }: {
     children: JSX.Element;
-    data: Query;
+    data: UserQuery;
     self?: boolean;
 }) => {
     const [theme, setTheme] = useState<number>(data.profile_theme);
@@ -89,7 +89,7 @@ const AvatarHead = ({
     theme,
     color
 }: {
-    data: Query;
+    data: UserQuery;
     theme: number;
     color?: string;
 }) => {
@@ -176,7 +176,7 @@ const AvatarHead = ({
     );
 };
 
-const Pages = ({ data }: { data: Query }) => {
+const Pages = ({ data }: { data: UserQuery }) => {
     const pathname = usePathname();
     const path = pathname.split('/')[pathname.split('/').length - 1];
 

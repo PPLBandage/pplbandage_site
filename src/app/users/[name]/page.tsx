@@ -1,15 +1,14 @@
-import { Bandage } from '@/types/global.d';
+import { Bandage, UserQuery } from '@/types/global.d';
 import axios from 'axios';
 import { redirect } from 'next/navigation';
 import UsersClient from './client_code';
 import { headers } from 'next/headers';
 import { numbersTxt } from '@/lib/time';
-import { Query } from '@/components/Header';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { Me } from '@/components/MeSidebar';
 
-export interface Users extends Query {
+export interface Users extends UserQuery {
     userID: number;
     works: Bandage[];
     works_count: number;

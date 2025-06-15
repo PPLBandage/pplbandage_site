@@ -5,7 +5,6 @@ import styles from '@/styles/header.module.css';
 import { deleteCookie, getCookie } from 'cookies-next/client';
 import Link from 'next/link';
 import Image from 'next/image';
-import * as Interfaces from '@/types/global.d';
 
 import {
     IconUser,
@@ -28,22 +27,6 @@ import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
 import { jwtDecode } from 'jwt-decode';
 
-export interface Query {
-    username: string;
-    name: string;
-    avatar: string;
-    discordID: number;
-    joined_at: Date;
-    banner_color: string;
-    has_unreaded_notifications: boolean;
-    permissions: string[];
-    profile_theme: number;
-    stars_count: number;
-    roles: Interfaces.Category[];
-    last_accessed?: Date;
-}
-
-export const adminRoles = ['managebandages', 'updateusers', 'superadmin'];
 const Header = (): JSX.Element => {
     const cookie = useNextCookie('sessionId', 1000);
     const path = usePathname();

@@ -4,6 +4,20 @@ export interface Option {
     readonly isDisabled?: boolean;
 }
 
+export interface UserQuery {
+    username: string;
+    name: string;
+    avatar: string;
+    discordID: number;
+    joined_at: Date;
+    banner_color: string;
+    has_unreaded_notifications: boolean;
+    profile_theme: number;
+    stars_count: number;
+    roles: Category[];
+    last_accessed?: Date;
+}
+
 export interface Bandage {
     id: number;
     external_id: string;
@@ -62,7 +76,7 @@ export interface UserAdmins {
         joined_at: Date;
         discord_id: number;
         flags: number;
-        permissions: string[];
+        permissions: number;
     }[];
     totalCount: number;
 }

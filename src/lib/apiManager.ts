@@ -1,7 +1,6 @@
 import * as Interfaces from '@/types/global.d';
 import { authApi } from './api';
 import axios, { AxiosResponse, GenericAbortSignal, Method } from 'axios';
-import { Query } from '@/components/Header';
 import { SearchResponse } from '@/components/NickSearch';
 import { SkinResponse } from '@/lib/bandage_engine';
 
@@ -21,7 +20,7 @@ type SetStarResponse = { new_count: number; action_set: boolean };
 
 /*
     Этот класс следует переделать, так как он подгружается целиком в бандл,
-    что увеличивает его размер.
+    что увеличивает размер последнего.
 */
 class ApiManager {
     /** Do HTTP request */
@@ -99,13 +98,13 @@ class ApiManager {
     }
 
     /** Get me profile */
-    static async getMe(): Promise<Query> {
+    static async getMe(): Promise<Interfaces.UserQuery> {
         return (
             await this.doRequest({
                 url: '/users/@me',
                 method: 'GET'
             })
-        ).data as Query;
+        ).data as Interfaces.UserQuery;
     }
 
     /** Log out */

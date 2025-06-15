@@ -130,9 +130,7 @@ const Users = () => {
                         loadable={true}
                         onChange={value => updateUser(user, { banned: value })}
                         defaultValue={Boolean(user.flags & 1)}
-                        disabled={
-                            !user.permissions.every(perm => perm === 'default')
-                        }
+                        disabled={user.permissions !== 1}
                     />
 
                     <SlideButton

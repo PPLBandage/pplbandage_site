@@ -2,7 +2,7 @@
 
 import { Dispatch, JSX, SetStateAction, useEffect, useState } from 'react';
 import styles from '@/styles/header.module.css';
-import { deleteCookie } from 'cookies-next';
+import { deleteCookie, getCookie } from 'cookies-next/client';
 import Link from 'next/link';
 import Image from 'next/image';
 import * as Interfaces from '@/types/global.d';
@@ -26,6 +26,7 @@ import ReactCSSTransition from './CSSTransition';
 import { useNextCookie } from 'use-next-cookie';
 import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
+import { jwtDecode } from 'jwt-decode';
 
 export interface Query {
     username: string;
@@ -155,8 +156,10 @@ const AvatarMenu = ({
 };
 
 const LoggedMenu = () => {
-    const { data } = useSWR('me', () => ApiManager.getMe());
-    const admin = data?.permissions.some(role => adminRoles.includes(role));
+    const session = getCookie('sessionId');
+    const hasAccessToAdmin = !!session
+        ? (jwtDecode(session) as { access: number }).access > 1
+        : false;
 
     const logout = () => {
         ApiManager.logout()
@@ -194,7 +197,7 @@ const LoggedMenu = () => {
                 <IconAddressBook />
                 <span>Контакты</span>
             </Link>
-            {admin && (
+            {hasAccessToAdmin && (
                 <Link className={styles.menu_element} href="/admin">
                     <IconUserCog />
                     <span>Админ панель</span>

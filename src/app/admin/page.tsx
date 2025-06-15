@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import style_root from '@/styles/admin/page.module.css';
-import { notFound, redirect, useRouter } from 'next/navigation';
-import { adminRoles, Query } from '@/components/Header';
+import { notFound } from 'next/navigation';
 import { SimpleGrid } from '@/components/AdaptiveGrid';
 import { Fira_Code } from 'next/font/google';
 import Link from 'next/link';
@@ -11,8 +10,9 @@ import SlideButton from '@/components/SlideButton';
 import ApiManager from '@/lib/apiManager';
 import { UserAdmins } from '@/types/global.d';
 import { IconSearch } from '@tabler/icons-react';
-import { useCookiesServer, useNextCookie } from 'use-next-cookie';
+import { useNextCookie } from 'use-next-cookie';
 import { Paginator } from '@/components/Paginator';
+import { jwtDecode } from 'jwt-decode';
 
 const fira = Fira_Code({ subsets: ['latin'] });
 
@@ -174,39 +174,18 @@ const Users = () => {
 };
 
 const Admin = () => {
-    const logged = useNextCookie('sessionId', 1000);
-    const cookiesServer = useCookiesServer();
-    const [user, setUser] = useState<Query>(null);
-    const router = useRouter();
-
-    if (!cookiesServer.get('sessionId')) {
+    const session = useNextCookie('sessionId');
+    if (!session) {
         notFound();
     }
 
-    useEffect(() => {
-        if (!logged) {
-            redirect('/');
-        }
-    }, [logged]);
+    const access_flags = (jwtDecode(session) as { access: number }).access;
+    if (access_flags <= 1) {
+        notFound();
+    }
 
-    useEffect(() => {
-        ApiManager.getMe()
-            .then(data => {
-                if (
-                    !data?.permissions.some(role => adminRoles.includes(role))
-                ) {
-                    router.replace('/');
-                    return;
-                }
-                setUser(data);
-            })
-            .catch(console.error);
-    }, []);
-
-    const updateUsers =
-        user &&
-        (user.permissions.includes('updateusers') ||
-            user.permissions.includes('superadmin'));
+    const superAdmin = Boolean(access_flags & (1 << 5));
+    const updateUsers = superAdmin || Boolean(access_flags & (1 << 3));
 
     return (
         <main className={style_root.main}>

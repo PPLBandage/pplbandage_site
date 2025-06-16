@@ -19,7 +19,7 @@ const InfoCard = ({ title, children, color, style }: InfoCardProps) => {
             }}
             className={Style.container}
         >
-            <h3 className={Style.header}>{title}</h3>
+            <div className={Style.header}>{title}</div>
             {children}
         </div>
     );

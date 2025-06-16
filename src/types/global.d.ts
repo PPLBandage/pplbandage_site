@@ -43,7 +43,16 @@ export interface Bandage {
         nickname: string;
     };
     permissions_level: number;
-    check_state: 'review' | 'denied' | null;
+    moderation: {
+        type: string;
+        message: string;
+        is_hides: boolean;
+        issuer: {
+            id: string;
+            name: string;
+            username: string;
+        };
+    } | null;
     access_level: number;
     accent_color: string;
     star_type: number;

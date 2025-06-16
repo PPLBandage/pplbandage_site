@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import styles from '@/styles/root/page.module.css';
 import Link from 'next/link';
-import { CustomLink } from '@/components/Search';
+import { CustomLink } from '@/components/workshop/Search';
 import {
     IconInfinity,
     IconAlertTriangle,

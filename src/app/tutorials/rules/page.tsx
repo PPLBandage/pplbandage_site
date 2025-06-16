@@ -4,7 +4,7 @@ import React from 'react';
 import style from '@/styles/tutorials/common.module.css';
 import InfoCard from '@/components/InfoCard';
 import { IconAlertTriangle } from '@tabler/icons-react';
-import { CustomLink } from '@/components/Search';
+import { CustomLink } from '@/components/workshop/Search';
 
 export default function Home() {
     return (

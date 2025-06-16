@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import style_root from '@/styles/admin/page.module.css';
 import { notFound } from 'next/navigation';
-import { SimpleGrid } from '@/components/AdaptiveGrid';
+import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
 import { Fira_Code } from 'next/font/google';
 import Link from 'next/link';
 import SlideButton from '@/components/SlideButton';
@@ -11,7 +11,7 @@ import ApiManager from '@/lib/apiManager';
 import { UserAdmins } from '@/types/global.d';
 import { IconSearch } from '@tabler/icons-react';
 import { useNextCookie } from 'use-next-cookie';
-import { Paginator } from '@/components/Paginator';
+import { Paginator } from '@/components/workshop/Paginator';
 import { jwtDecode } from 'jwt-decode';
 
 const fira = Fira_Code({ subsets: ['latin'] });

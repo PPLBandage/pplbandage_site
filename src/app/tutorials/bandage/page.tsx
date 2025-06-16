@@ -2,7 +2,7 @@
 
 import React from 'react';
 import style from '@/styles/tutorials/common.module.css';
-import { CustomLink } from '@/components/Search';
+import { CustomLink } from '@/components/workshop/Search';
 import InfoCard from '@/components/InfoCard';
 import { IconAlertTriangle, IconBulb } from '@tabler/icons-react';
 

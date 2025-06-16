@@ -2,18 +2,18 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import style from '@/styles/workshop/create/page.module.css';
-import SkinView3D from '@/components/SkinView';
-import { anims } from '@/app/workshop/poses';
+import SkinView3D from '@/components/workshop/SkinView';
+import { anims } from '@/lib/poses';
 import { useRouter } from 'next/navigation';
 import Select from 'react-select';
 import Client, { b64Prefix } from '@/lib/bandage_engine';
-import CategorySelector from '@/components/CategorySelector';
+import CategorySelector from '@/components/workshop/CategorySelector';
 import * as Interfaces from '@/types/global.d';
 import debounce from 'lodash.debounce';
 import InfoCard from '@/components/InfoCard';
 import { redirect } from 'next/navigation';
 import { Fira_Code } from 'next/font/google';
-import { CustomLink } from '@/components/Search';
+import { CustomLink } from '@/components/workshop/Search';
 import asyncImage from '@/lib/asyncImage';
 import SlideButton from '@/components/SlideButton';
 import ApiManager from '@/lib/apiManager';

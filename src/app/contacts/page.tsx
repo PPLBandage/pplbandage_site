@@ -9,7 +9,7 @@ import {
     IconExternalLink
 } from '@tabler/icons-react';
 import InfoCard from '@/components/InfoCard';
-import Feedback from './Feedback.server';
+import Feedback from '@/components/feedback/Feedback.server';
 
 interface CardProps {
     name: string;

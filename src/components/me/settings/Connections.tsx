@@ -12,7 +12,7 @@ import Image from 'next/image';
 import { b64Prefix } from '@/lib/bandage_engine';
 import { minecraftMono } from '@/fonts/Minecraft';
 import SlideButton from '@/components/SlideButton';
-import MinecraftConnect from '@/components/MinecraftConnect';
+import MinecraftConnect from '@/components/me/MinecraftConnect';
 import { formatDateHuman } from '@/lib/time';
 
 export const Connections = () => {

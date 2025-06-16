@@ -1,6 +1,6 @@
 'use client';
 
-import { setTheme } from '@/app/me/settings/setTheme';
+import { setTheme } from '@/lib/setTheme';
 import style from '@/styles/footer.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';

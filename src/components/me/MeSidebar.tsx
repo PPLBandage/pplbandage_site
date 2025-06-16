@@ -6,8 +6,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { formatDate, timeStamp } from '@/lib/time';
-import Menu from './ThemeSelect';
-import { CategoryEl } from './Card';
+import Menu from '../ThemeSelect';
+import { CategoryEl } from '@/components/workshop/Card';
 
 import {
     IconSettings,
@@ -16,7 +16,7 @@ import {
     IconList,
     IconStarFilled
 } from '@tabler/icons-react';
-import { TransitionLink } from '@/app/me/AnimatedLink';
+import { TransitionLink } from '@/components/me/AnimatedLink';
 import { UserQuery } from '@/types/global';
 
 const Roles = ({ user }: { user: UserQuery }) => {

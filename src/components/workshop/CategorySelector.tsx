@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Category } from '@/types/global.d';
-import { CategoryEl } from '@/components/Card';
+import { CategoryEl } from '@/components/workshop/Card';
 import style from '@/styles/category_selector.module.css';
 import style_workshop from '@/styles/workshop/page.module.css';
 import IconSvg from '@/resources/icon.svg';

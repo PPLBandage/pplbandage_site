@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 import style_sidebar from '@/styles/me/sidebar.module.css';
 import styles_me from '@/styles/me/me.module.css';
 import { Bandage } from '@/types/global.d';
-import { SimpleGrid } from '@/components/AdaptiveGrid';
+import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
 import { renderSkin } from '@/lib/SkinCardRender';
 import ApiManager from '@/lib/apiManager';
-import { Placeholder } from '@/app/me/Placeholder';
+import { Placeholder } from '@/components/me/Placeholder';
 
 const Main = () => {
     const [elements, setElements] = useState<JSX.Element[]>(null);

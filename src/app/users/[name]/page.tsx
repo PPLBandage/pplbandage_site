@@ -6,7 +6,7 @@ import { headers } from 'next/headers';
 import { numbersTxt } from '@/lib/time';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { Me } from '@/components/MeSidebar';
+import { Me } from '@/components/me/MeSidebar';
 
 export interface Users extends UserQuery {
     userID: number;

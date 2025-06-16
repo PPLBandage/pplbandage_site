@@ -17,14 +17,14 @@ import {
 } from '@tabler/icons-react';
 import { getIcon } from '@/lib/Categories';
 import { usePathname, useRouter } from 'next/navigation';
-import { StaticTooltip } from './Tooltip';
+import { StaticTooltip } from '@/components/Tooltip';
 import ApiManager from '@/lib/apiManager';
 import { useConfigContext } from '@/lib/ConfigContext';
 import IconCandle from '@/resources/stars/candle.svg';
 import IconCandleOn from '@/resources/stars/candle_on.svg';
-import { CustomLink } from './Search';
+import { CustomLink } from '@/components/workshop/Search';
 import { formatDate } from '@/lib/time';
-import { removeLink } from './LinkedText';
+import { removeLink } from '@/components/workshop/LinkedText';
 
 interface CategoryProps {
     category: Category;

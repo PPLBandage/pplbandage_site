@@ -2,7 +2,7 @@
 
 import React, { CSSProperties, JSX, useEffect, useState } from 'react';
 import ApiManager from '@/lib/apiManager';
-import { Me } from '@/components/MeSidebar';
+import { Me } from '@/components/me/MeSidebar';
 import {
     redirect,
     usePathname,
@@ -11,7 +11,7 @@ import {
 } from 'next/navigation';
 import { httpStatusCodes } from '@/lib/StatusCodes';
 import RolesDialog from '@/components/RolesDialog';
-import MinecraftConnect from '@/components/MinecraftConnect';
+import MinecraftConnect from '@/components/me/MinecraftConnect';
 import styles from '@/styles/me/me.module.css';
 import Link from 'next/link';
 import {

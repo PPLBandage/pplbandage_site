@@ -3,8 +3,8 @@
 import React from 'react';
 import style from '@/styles/tutorials/common.module.css';
 import InfoCard from '@/components/InfoCard';
-import { CategoryEl } from '@/components/Card';
-import { CustomLink } from '@/components/Search';
+import { CategoryEl } from '@/components/workshop/Card';
+import { CustomLink } from '@/components/workshop/Search';
 import styles from '@/styles/me/me.module.css';
 
 import {

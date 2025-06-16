@@ -15,7 +15,7 @@ import Link from 'next/link';
 import style_workshop from '@/styles/workshop/page.module.css';
 import { IconSearch, IconFilter } from '@tabler/icons-react';
 import IconSvg from '@/resources/icon.svg';
-import ReactCSSTransition from './CSSTransition';
+import ReactCSSTransition from '../CSSTransition';
 
 const options_take: readonly { value: number; label: string }[] = [
     { value: 12, label: '12' },

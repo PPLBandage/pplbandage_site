@@ -7,23 +7,23 @@ import style from '@/styles/editor/page.module.css';
 import * as Interfaces from '@/types/global.d';
 
 import Client, { b64Prefix } from '@/lib/bandage_engine';
-import SkinView3D from '@/components/SkinView';
+import SkinView3D from '@/components/workshop/SkinView';
 
 import Select from 'react-select';
 import debounce from 'lodash.debounce';
-import NavigatorEl from '@/components/Navigator';
-import { anims } from '@/app/workshop/poses';
+import NavigatorEl from '@/components/workshop/Navigator';
+import { anims } from '@/lib/poses';
 import asyncImage from '@/lib/asyncImage';
 
 import { IconDownload, IconPlus } from '@tabler/icons-react';
-import Slider from '@/components/Slider';
+import Slider from '@/components/workshop/Slider';
 import SlideButton from '@/components/SlideButton';
-import SkinLoad from './components/skinLoad';
-import EditElement from './components/edit';
-import Info from './components/info';
-import RawBandageDownload from './components/rawBandageDownload';
-import { StarElement } from '@/components/Card';
-import { CustomLink } from '@/components/Search';
+import SkinLoad from '@/components/workshop/skinLoad';
+import EditElement from '@/components/workshop/edit';
+import Info from '@/components/workshop/info';
+import RawBandageDownload from '@/components/workshop/rawBandageDownload';
+import { StarElement } from '@/components/workshop/Card';
+import { CustomLink } from '@/components/workshop/Search';
 import InfoCard from '@/components/InfoCard';
 
 const body_part: readonly { value: number; label: string }[] = [

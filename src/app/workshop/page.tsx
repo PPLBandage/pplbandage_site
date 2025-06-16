@@ -5,16 +5,19 @@ import React, { JSX } from 'react';
 import { useEffect, useState } from 'react';
 import Style from '@/styles/workshop/page.module.css';
 
-import { Paginator } from '@/components/Paginator';
-import { Search } from '@/components/Search';
+import { Paginator } from '@/components/workshop/Paginator';
+import { Search } from '@/components/workshop/Search';
 import { BandageResponse, Category } from '@/types/global.d';
-import { constrain } from '@/components/Card';
+import { constrain } from '@/components/workshop/Card';
 import Image from 'next/image';
 import styles_card from '@/styles/me/me.module.css';
 import IconSvg from '@/resources/icon.svg';
-import { BrowserNotification, calcChecksum } from './checkBrowserAPI';
+import {
+    BrowserNotification,
+    calcChecksum
+} from '@/components/workshop/checkBrowserAPI';
 import { renderSkin } from '@/lib/SkinCardRender';
-import { SimpleGrid } from '@/components/AdaptiveGrid';
+import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
 import ApiManager from '@/lib/apiManager';
 import { ConfigContext, ConfigInterface } from '@/lib/ConfigContext';
 import { getCookie, setCookie } from 'cookies-next';

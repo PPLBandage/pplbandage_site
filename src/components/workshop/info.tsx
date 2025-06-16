@@ -2,8 +2,8 @@ import { IconEdit, IconUser } from '@tabler/icons-react';
 import Link from 'next/link';
 import style from '@/styles/editor/page.module.css';
 import * as Interfaces from '@/types/global.d';
-import { CategoryEl } from '@/components/Card';
-import { LinkedText } from '@/components/LinkedText';
+import { CategoryEl } from '@/components/workshop/Card';
+import { LinkedText } from '@/components/workshop/LinkedText';
 
 const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
     const categories = el.categories.map(category => (

@@ -1,4 +1,4 @@
-import CategorySelector from '@/components/CategorySelector';
+import CategorySelector from '@/components/workshop/CategorySelector';
 import ApiManager from '@/lib/apiManager';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -6,7 +6,7 @@ import style from '@/styles/editor/page.module.css';
 import * as Interfaces from '@/types/global.d';
 import Select from 'react-select';
 import { IconArchive, IconX } from '@tabler/icons-react';
-import EditConfirmation from '@/components/EditConfirmation';
+import EditConfirmation from '@/components/workshop/EditConfirmation';
 import Image from 'next/image';
 import SlideButton from '@/components/SlideButton';
 

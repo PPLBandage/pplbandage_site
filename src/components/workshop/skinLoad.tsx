@@ -4,7 +4,7 @@ import NextImage from 'next/image';
 import style from '@/styles/editor/page.module.css';
 import style_base from '@/styles/minecraftConnect.module.css';
 import AsyncImage from '@/lib/asyncImage';
-import Searcher from '@/components/NickSearch';
+import Searcher from '@/components/workshop/NickSearch';
 import ApiManager from '@/lib/apiManager';
 import axios, { AxiosError } from 'axios';
 import ReactCSSTransition from '@/components/CSSTransition';

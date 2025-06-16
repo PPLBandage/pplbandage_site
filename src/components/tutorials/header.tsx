@@ -3,7 +3,7 @@
 import style_sidebar from '@/styles/me/sidebar.module.css';
 import style_add from '@/styles/tutorials/common.module.css';
 import { usePathname } from 'next/navigation';
-import { TransitionLink } from './AnimatedLink';
+import { TransitionLink } from '@/components/tutorials/AnimatedLink';
 
 const ASide = () => {
     const pathname = usePathname();

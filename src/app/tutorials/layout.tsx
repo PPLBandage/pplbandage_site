@@ -1,4 +1,4 @@
-import ASide from './header';
+import ASide from '@/components/tutorials/header';
 import style from '@/styles/tutorials/common.module.css';
 
 const TutorialsLayout = ({ children }: { children: React.ReactNode }) => {

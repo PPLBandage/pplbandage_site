@@ -1,4 +1,4 @@
-import { JSX, useState } from 'react';
+import { JSX, MouseEventHandler, useState } from 'react';
 import style from '@/styles/minecraftConnect.module.css';
 import { IconBrandMinecraft, IconCheck, IconX } from '@tabler/icons-react';
 import ReactCSSTransition from '@/components/CSSTransition';
@@ -16,8 +16,9 @@ const MinecraftConnect = ({
 }: MinecraftConnectProps) => {
     const [expanded, setExpanded] = useState<boolean>(false);
 
-    const selectText = (nodeId: string) => {
-        const node = document.getElementById(nodeId);
+    const selectText: MouseEventHandler<HTMLSpanElement> = evt => {
+        const node = evt.target as HTMLSpanElement;
+        navigator.clipboard.writeText(node.innerText);
         if (window.getSelection) {
             const selection = window.getSelection();
             const range = document.createRange();
@@ -75,8 +76,7 @@ const MinecraftConnect = ({
                             Зайдите на Minecraft сервер `
                             <span
                                 className={style.oauth_name}
-                                id="oauth_name"
-                                onClick={() => selectText('oauth_name')}
+                                onClick={selectText}
                             >
                                 oauth.pplbandage.ru
                             </span>

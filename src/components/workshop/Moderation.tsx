@@ -31,7 +31,7 @@ const Moderation = ({ moderation }: { moderation: Bandage['moderation'] }) => {
 
     const issuer_title: ModerationType = {
         review: 'Запрошен',
-        denied: 'Просмотрен',
+        denied: 'Просмотрено',
         info: 'Создан'
     };
 

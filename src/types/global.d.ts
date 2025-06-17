@@ -56,6 +56,8 @@ export interface Bandage {
     access_level: number;
     accent_color: string;
     star_type: number;
+    archived: boolean;
+    relevance_modifier?: number;
 }
 
 export interface Category {

@@ -227,12 +227,20 @@ export const Card = ({
                     )}
                     {Boolean(el.flags & (1 << 4)) && (
                         <StaticTooltip title="Отклонена">
-                            <IconCircleDashedX width={24} height={24} />
+                            <IconCircleDashedX
+                                width={24}
+                                height={24}
+                                color="#dc2626"
+                            />
                         </StaticTooltip>
                     )}
                     {Boolean(el.flags & (1 << 3)) && (
                         <StaticTooltip title="На рассмотрении">
-                            <IconHourglassHigh width={24} height={24} />
+                            <IconHourglassHigh
+                                width={24}
+                                height={24}
+                                color="#FFC107"
+                            />
                         </StaticTooltip>
                     )}
                 </div>

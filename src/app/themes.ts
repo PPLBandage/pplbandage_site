@@ -52,6 +52,26 @@ const themes: ThemeType = {
                 "url('/static/backgrounds/background_amoled.svg')"
         }
     }
+    /*
+    light: {
+        title: 'Светлая',
+        data: {
+            '--main-bg-color': '#e5e7eb',
+            '--main-card-color': '#ffffff',
+            '--main-element-color': '#e5e7eb',
+            '--main-action-color': '#00ADB5',
+            '--main-menu-color': '#dddddd',
+            '--dark-hover': '#babcbf',
+            '--hr-color': '#596172',
+            '--focus-color': '#717b91',
+            '--category-color': '#e5e7eb',
+            '--main-text-color': '#000000',
+            '--main-shadow-color': '#9d9a9a',
+            '--card-background-image':
+                "url('/static/backgrounds/background_default.svg')"
+        }
+    }
+    */
 };
 
 export default themes;

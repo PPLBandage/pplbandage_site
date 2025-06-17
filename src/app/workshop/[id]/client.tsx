@@ -23,7 +23,8 @@ import EditElement from '@/components/workshop/edit';
 import Info from '@/components/workshop/info';
 import RawBandageDownload from '@/components/workshop/rawBandageDownload';
 import { StarElement } from '@/components/workshop/Card';
-import Moderation from '@/components/workshop/Moderation';
+import Moderation from '@/components/workshop/single/Moderation';
+import ModeratorActions from '@/components/workshop/single/ModerationActions';
 
 const body_part: readonly { value: number; label: string }[] = [
     { value: 0, label: 'Левая рука' },
@@ -214,6 +215,7 @@ export default function Home({
             >
                 <NavigatorEl path={navPath} style={{ marginBottom: '1rem' }} />
                 {data.moderation && <Moderation moderation={data.moderation} />}
+                <ModeratorActions data={data} />
                 <div className={style.main_container}>
                     <div
                         className={style.skin_parent}

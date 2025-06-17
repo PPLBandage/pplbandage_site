@@ -5,8 +5,8 @@ import {
     IconHourglassHigh,
     IconInfoCircle
 } from '@tabler/icons-react';
-import { LinkedText } from './LinkedText';
-import InfoCard from '../InfoCard';
+import { LinkedText } from '../LinkedText';
+import InfoCard from '../../InfoCard';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ModerationType = { [key: string]: any };
@@ -48,7 +48,10 @@ const Moderation = ({ moderation }: { moderation: Bandage['moderation'] }) => {
 
     let message = moderation.message;
     if (moderation.type === 'denied') {
-        message = `Ваша работа была отклонена модерацией. Сообщение модератора: "${moderation.message}"`;
+        message = `Ваша работа была отклонена модерацией.`;
+        if (moderation.message) {
+            message = message + ` Сообщение модератора: ${moderation.message}`;
+        }
     }
 
     return (

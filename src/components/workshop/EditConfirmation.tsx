@@ -95,7 +95,7 @@ const EditConfirmation = ({
 
                         <button
                             className={
-                                `${style.button}` +
+                                `${style.button} ` +
                                 `${available && style.available}`
                             }
                             disabled={!available}

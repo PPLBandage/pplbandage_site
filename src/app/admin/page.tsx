@@ -176,7 +176,7 @@ const ModerationBandages = () => {
     const [elements, setElements] = useState<JSX.Element[]>([]);
 
     const render_skins = (data: Bandage[]) => {
-        renderSkin(data.reverse(), styles_card).then(setElements);
+        renderSkin(data, styles_card).then(setElements);
     };
 
     useEffect(() => {

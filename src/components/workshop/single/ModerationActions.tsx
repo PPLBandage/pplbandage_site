@@ -106,7 +106,7 @@ const Moderation = ({ data }: { data: Bandage }) => {
                 <>
                     <p className={style.hl2}>Сообщение</p>
                     <textarea
-                        maxLength={100}
+                        maxLength={200}
                         id="message"
                         placeholder="Сообщение"
                         className={style.textarea}

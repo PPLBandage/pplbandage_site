@@ -209,8 +209,8 @@ const Admin = () => {
     return (
         <main className={style_root.main}>
             <div className={style_root.main_container}>
-                {manageBandages && <ModerationBandages />}
                 {updateUsers && <Users />}
+                {manageBandages && <ModerationBandages />}
             </div>
         </main>
     );

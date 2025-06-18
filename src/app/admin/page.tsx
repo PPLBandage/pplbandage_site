@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import style_root from '@/styles/admin/page.module.css';
 import { notFound } from 'next/navigation';
 import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
@@ -8,11 +8,12 @@ import { Fira_Code } from 'next/font/google';
 import Link from 'next/link';
 import SlideButton from '@/components/SlideButton';
 import ApiManager from '@/lib/apiManager';
-import { UserAdmins } from '@/types/global.d';
+import { Bandage, UserAdmins } from '@/types/global.d';
 import { IconSearch } from '@tabler/icons-react';
-import { useNextCookie } from 'use-next-cookie';
 import { Paginator } from '@/components/workshop/Paginator';
-import { jwtDecode } from 'jwt-decode';
+import useAccess from '@/lib/useAccess';
+import { renderSkin } from '@/lib/SkinCardRender';
+import styles_card from '@/styles/me/me.module.css';
 
 const fira = Fira_Code({ subsets: ['latin'] });
 
@@ -171,24 +172,45 @@ const Users = () => {
     );
 };
 
+const ModerationBandages = () => {
+    const [elements, setElements] = useState<JSX.Element[]>([]);
+
+    const render_skins = (data: Bandage[]) => {
+        renderSkin(data, styles_card).then(setElements);
+    };
+
+    useEffect(() => {
+        ApiManager.getUnderModerationBandages()
+            .then(render_skins)
+            .catch(console.error);
+    }, []);
+
+    return (
+        <div
+            className={style_root.users_container}
+            style={{ marginBottom: '1rem' }}
+        >
+            <h2 style={{ margin: 0 }}>Повязки на модерации</h2>
+            <SimpleGrid>{elements}</SimpleGrid>
+        </div>
+    );
+};
+
 const Admin = () => {
-    const session = useNextCookie('sessionId');
-    if (!session) {
+    const access = useAccess();
+    if (!access.length) {
         notFound();
     }
 
-    const access_flags = (jwtDecode(session) as { access: number }).access;
-    if (access_flags <= 1) {
-        notFound();
-    }
-
-    const superAdmin = Boolean(access_flags & (1 << 5));
-    const updateUsers = superAdmin || Boolean(access_flags & (1 << 3));
+    const superAdmin = access.includes(5);
+    const updateUsers = superAdmin || access.includes(3);
+    const manageBandages = superAdmin || access.includes(1);
 
     return (
         <main className={style_root.main}>
             <div className={style_root.main_container}>
                 {updateUsers && <Users />}
+                {manageBandages && <ModerationBandages />}
             </div>
         </main>
     );

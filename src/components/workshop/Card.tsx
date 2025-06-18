@@ -7,8 +7,10 @@ import Link, { LinkProps } from 'next/link';
 import { CSSProperties, ReactNode, useEffect, useState } from 'react';
 
 import {
+    IconCircleDashedX,
     IconCircleHalf2,
     IconEyeOff,
+    IconHourglassHigh,
     IconPalette,
     IconPlus,
     IconStar,
@@ -221,6 +223,24 @@ export const Card = ({
                     {Boolean(el.flags & (1 << 1)) && (
                         <StaticTooltip title="Раздельные модельки">
                             <IconCircleHalf2 width={24} height={24} />
+                        </StaticTooltip>
+                    )}
+                    {Boolean(el.flags & (1 << 4)) && (
+                        <StaticTooltip title="Отклонена">
+                            <IconCircleDashedX
+                                width={24}
+                                height={24}
+                                color="#dc2626"
+                            />
+                        </StaticTooltip>
+                    )}
+                    {Boolean(el.flags & (1 << 3)) && (
+                        <StaticTooltip title="На рассмотрении">
+                            <IconHourglassHigh
+                                width={24}
+                                height={24}
+                                color="#FFC107"
+                            />
                         </StaticTooltip>
                     )}
                 </div>

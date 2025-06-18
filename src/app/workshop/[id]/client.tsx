@@ -23,8 +23,8 @@ import EditElement from '@/components/workshop/edit';
 import Info from '@/components/workshop/info';
 import RawBandageDownload from '@/components/workshop/rawBandageDownload';
 import { StarElement } from '@/components/workshop/Card';
-import { CustomLink } from '@/components/workshop/Search';
-import InfoCard from '@/components/InfoCard';
+import Moderation from '@/components/workshop/single/Moderation';
+import ModeratorActions from '@/components/workshop/single/ModerationActions';
 
 const body_part: readonly { value: number; label: string }[] = [
     { value: 0, label: 'Левая рука' },
@@ -189,26 +189,6 @@ export default function Home({
         scrollTo(0, 0);
     }, []);
 
-    const check_states = {
-        review: {
-            title: 'На проверке',
-            description:
-                'Ваша работа сейчас проходит модерацию, дождитесь ее завершения.',
-            color: '#D29922'
-        },
-        denied: {
-            title: 'Отклонено',
-            description: (
-                <span>
-                    Ваша работа была отклонена модерацией. Для получения
-                    информации обратитесь в{' '}
-                    <CustomLink href="/contacts">поддержку</CustomLink>.
-                </span>
-            ),
-            color: '#ff0000'
-        }
-    };
-
     return (
         <>
             <SkinLoad
@@ -234,20 +214,8 @@ export default function Home({
                 }
             >
                 <NavigatorEl path={navPath} style={{ marginBottom: '1rem' }} />
-                {data.check_state && (
-                    <InfoCard
-                        color={check_states[data.check_state].color}
-                        title={check_states[data.check_state].title}
-                        style={{
-                            marginBottom: '1rem',
-                            maxWidth: '1280px',
-                            marginLeft: 'auto',
-                            marginRight: 'auto'
-                        }}
-                    >
-                        {check_states[data.check_state].description}
-                    </InfoCard>
-                )}
+                {data.moderation && <Moderation moderation={data.moderation} />}
+                <ModeratorActions data={data} />
                 <div className={style.main_container}>
                     <div
                         className={style.skin_parent}

@@ -84,6 +84,33 @@ class ApiManager {
         ).data;
     }
 
+    /** Get bandages under moderation */
+    static async getUnderModerationBandages(): Promise<Interfaces.Bandage[]> {
+        return (
+            await this.doRequest({
+                url: `/workshop/moderation`,
+                method: 'GET'
+            })
+        ).data as Interfaces.Bandage[];
+    }
+
+    /** Change bandage moderation status */
+    static async changeBandageModeration(
+        id: string,
+        body: {
+            type: string;
+            message: string;
+            is_final: boolean;
+            is_hides: boolean;
+        }
+    ): Promise<void> {
+        await this.doRequest({
+            url: `/workshop/${id}/moderation`,
+            method: 'PUT',
+            data: body
+        });
+    }
+
     /** Get Categories */
     static async getCategories(
         forEdit?: boolean

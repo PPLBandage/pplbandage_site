@@ -2,10 +2,10 @@ import Select, { GroupBase } from 'react-select';
 import * as Interfaces from '@/types/global.d';
 import { useCallback, useRef, useState } from 'react';
 import Style from '@/styles/nick_search.module.css';
-import ApiManager from '@/lib/apiManager';
 import { debounce } from 'lodash';
 import Image from 'next/image';
 import { b64Prefix } from '@/lib/bandageEngine';
+import { searchNicks } from '@/lib/apiManager';
 
 export interface SearchResponse {
     status: string;
@@ -82,7 +82,7 @@ const Searcher = ({ onChange }: SearchProps) => {
 
         abortController.current?.abort?.();
         abortController.current = new AbortController();
-        ApiManager.searchNicks(nickname, abortController.current.signal)
+        searchNicks(nickname, abortController.current.signal)
             .then(response_data => {
                 if (!response_data.data) return;
 

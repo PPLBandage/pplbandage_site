@@ -4,14 +4,14 @@ import { JSX, useEffect, useState } from 'react';
 import styles from '@/styles/me/me.module.css';
 import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
 import { renderSkin } from '@/lib/SkinCardRender';
-import ApiManager from '@/lib/apiManager';
 import { CreateCard } from '@/components/workshop/Card';
+import { getMeWorks } from '@/lib/apiManager';
 
 const Main = () => {
     const [cards, setCards] = useState<JSX.Element[]>(null);
 
     useEffect(() => {
-        ApiManager.getMeWorks()
+        getMeWorks()
             .then(data => renderSkin(data.reverse(), styles).then(setCards))
             .catch(console.error);
     }, []);

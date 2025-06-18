@@ -6,11 +6,15 @@ import {
 } from '@tabler/icons-react';
 import Style_safety from '@/styles/me/safety.module.css';
 import Style from '@/styles/me/connections.module.css';
-import ApiManager from '@/lib/apiManager';
 import { formatDate, timeStamp } from '@/lib/time';
 import { Session } from '@/types/global.d';
 import useSWR, { mutate } from 'swr';
 import { Loading } from './Loading';
+import {
+    getSessions,
+    logoutAllSessions,
+    logoutSession as logoutSessionAPI
+} from '@/lib/apiManager';
 
 const moveToStart = (arr: Session[]) => {
     const filteredArray = arr.filter(el => !el.is_self);
@@ -22,14 +26,14 @@ const moveToStart = (arr: Session[]) => {
 
 const logoutSession = (session_id: number) => {
     if (!confirm(`Выйти с этого устройства?`)) return;
-    ApiManager.logoutSession(session_id)
+    logoutSessionAPI(session_id)
         .then(() => mutate('userSessions', undefined, true))
         .catch(response => alert(response.data.message));
 };
 
 const logoutSessionAll = () => {
     if (!confirm('Выйти со всех устройств, кроме этого?')) return;
-    ApiManager.logoutAllSessions()
+    logoutAllSessions()
         .then(() => mutate('userSessions', undefined, true))
         .catch(response => alert(response.data.message));
 };
@@ -52,7 +56,7 @@ export const Safety = () => {
 const Sessions = () => {
     const { data, isLoading } = useSWR(
         'userSessions',
-        async () => await ApiManager.getSessions()
+        async () => await getSessions()
     );
 
     if (isLoading) return <Loading />;

@@ -18,9 +18,9 @@ import {
 } from '@/components/workshop/checkBrowserAPI';
 import { renderSkin } from '@/lib/SkinCardRender';
 import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
-import ApiManager from '@/lib/apiManager';
 import { ConfigContext, ConfigInterface } from '@/lib/ConfigContext';
 import { getCookie, setCookie } from 'cookies-next';
+import { getCategories, getWorkshop } from '@/lib/apiManager';
 
 export default function Home() {
     const [data, setData] = useState<BandageResponse>(null);
@@ -42,7 +42,7 @@ export default function Home() {
 
     useEffect(() => {
         const workshopState = window.sessionStorage.getItem('workshopState');
-        ApiManager.getCategories()
+        getCategories()
             .then(categories => {
                 if (workshopState) {
                     window.sessionStorage.removeItem('workshopState');
@@ -100,7 +100,7 @@ export default function Home() {
             return;
         }
 
-        ApiManager.getWorkshop(config)
+        getWorkshop(config)
             .then(data => {
                 setData(data);
                 setTotalCount(data.totalCount);

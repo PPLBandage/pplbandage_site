@@ -20,13 +20,13 @@ import {
 import { getIcon } from '@/lib/Categories';
 import { usePathname, useRouter } from 'next/navigation';
 import { StaticTooltip } from '@/components/Tooltip';
-import ApiManager from '@/lib/apiManager';
 import { useConfigContext } from '@/lib/ConfigContext';
 import IconCandle from '@/resources/stars/candle.svg';
 import IconCandleOn from '@/resources/stars/candle_on.svg';
 import { CustomLink } from '@/components/workshop/Search';
 import { formatDate } from '@/lib/time';
 import { removeLink } from '@/components/workshop/LinkedText';
+import { setStar } from '@/lib/apiManager';
 
 interface CategoryProps {
     category: Category;
@@ -140,7 +140,7 @@ export const StarElement = ({ el }: { el: Bandage }) => {
 
     useEffect(() => {
         if (logged && starred != last) {
-            ApiManager.setStar(el.external_id, { set: starred })
+            setStar(el.external_id, { set: starred })
                 .then(data => setStarsCount(data.new_count))
                 .catch(console.error)
                 .finally(() => setLast(starred));

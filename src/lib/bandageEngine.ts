@@ -1,5 +1,5 @@
 import asyncImage, { base64Encode } from '@/lib/asyncImage';
-import ApiManager from '@/lib/apiManager';
+import { getSkin } from './apiManager';
 
 export interface SkinResponse {
     skin: string;
@@ -80,7 +80,7 @@ class Client {
     async loadSkin(nickname: string): Promise<void> {
         if (!nickname) return;
 
-        const data = await ApiManager.getSkin(nickname);
+        const data = await getSkin(nickname);
         this.slim = data.slim;
 
         this.setOriginalCanvas(b64Prefix + data.skin, () => {

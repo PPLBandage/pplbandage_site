@@ -20,12 +20,12 @@ import {
     IconAddressBook
 } from '@tabler/icons-react';
 import IconCropped from '@/resources/icon-cropped.svg';
-import ApiManager from '@/lib/apiManager';
 import ReactCSSTransition from './CSSTransition';
 import { useNextCookie } from 'use-next-cookie';
 import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
 import { jwtDecode } from 'jwt-decode';
+import { getMe, logout } from '@/lib/apiManager';
 
 const Header = (): JSX.Element => {
     const cookie = useNextCookie('sessionId', 1000);
@@ -101,7 +101,7 @@ const AvatarMenu = ({
     expanded: boolean;
     expand: Dispatch<SetStateAction<boolean>>;
 }) => {
-    const { data } = useSWR('me', () => ApiManager.getMe());
+    const { data } = useSWR('me', () => getMe());
     const [loading, setLoading] = useState<boolean>(true);
 
     return (
@@ -144,8 +144,8 @@ const LoggedMenu = () => {
         ? (jwtDecode(session) as { access: number }).access > 1
         : false;
 
-    const logout = () => {
-        ApiManager.logout()
+    const userLogout = () => {
+        logout()
             .then(() => {
                 deleteCookie('sessionId');
                 window.location.assign('/');
@@ -186,7 +186,7 @@ const LoggedMenu = () => {
                     <span>Админ панель</span>
                 </Link>
             )}
-            <a className={styles.menu_element} onClick={logout}>
+            <a className={styles.menu_element} onClick={userLogout}>
                 <IconLogout />
                 <span>Выйти</span>
             </a>

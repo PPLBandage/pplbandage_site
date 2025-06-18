@@ -6,8 +6,8 @@ import style from '@/styles/workshop/moderationActions.module.css';
 import { IconRosetteDiscountCheck } from '@tabler/icons-react';
 import Select from 'react-select';
 import SlideButton from '@/components/SlideButton';
-import ApiManager from '@/lib/apiManager';
 import { Bandage } from '@/types/global';
+import { changeBandageModeration } from '@/lib/apiManager';
 
 const ModeratorActions = ({ data }: { data: Bandage }) => {
     const access = useAccess();
@@ -77,7 +77,7 @@ const Moderation = ({ data }: { data: Bandage }) => {
         if (!action) {
             return;
         }
-        ApiManager.changeBandageModeration(data.external_id, {
+        changeBandageModeration(data.external_id, {
             type: action.value,
             message: message,
             is_final: !isAppealable,

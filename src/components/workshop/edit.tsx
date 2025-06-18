@@ -1,5 +1,4 @@
 import CategorySelector from '@/components/workshop/CategorySelector';
-import ApiManager from '@/lib/apiManager';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import style from '@/styles/editor/page.module.css';
@@ -9,6 +8,12 @@ import { IconArchive, IconX } from '@tabler/icons-react';
 import EditConfirmation from '@/components/workshop/EditConfirmation';
 import Image from 'next/image';
 import SlideButton from '@/components/SlideButton';
+import {
+    getCategories,
+    updateBandage,
+    deleteBandage as deleteBandageAPI,
+    archiveBandage as archiveBandageAPI
+} from '@/lib/apiManager';
 
 const lstrip = (string: string) => string.replace(/^\s+/, '');
 const capitalize = (string: string) =>
@@ -42,13 +47,11 @@ const EditElement = ({
     );
 
     useEffect(() => {
-        ApiManager.getCategories(true)
-            .then(setAllCategories)
-            .catch(console.error);
+        getCategories(true).then(setAllCategories).catch(console.error);
     }, []);
 
     const save = () => {
-        ApiManager.updateBandage(bandage.external_id, {
+        updateBandage(bandage.external_id, {
             title: title,
             description: description || null,
             categories: categories,
@@ -71,7 +74,7 @@ const EditElement = ({
 
     const deleteBandage = async (): Promise<void> => {
         return new Promise((resolve, reject) => {
-            ApiManager.deleteBandage(bandage.external_id)
+            deleteBandageAPI(bandage.external_id)
                 .then(() => {
                     resolve();
                     router.replace('/workshop');
@@ -82,7 +85,7 @@ const EditElement = ({
 
     const archiveBandage = (): Promise<void> => {
         return new Promise((resolve, reject) => {
-            ApiManager.archiveBandage(bandage.external_id)
+            archiveBandageAPI(bandage.external_id)
                 .then(() => {
                     resolve();
                     window.location.reload();

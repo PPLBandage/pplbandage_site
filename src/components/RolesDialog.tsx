@@ -10,18 +10,18 @@ import styles from '@/styles/me/me.module.css';
 import style_main from '@/styles/RolesDialog.module.css';
 import ReactCSSTransition from './CSSTransition';
 import { Role } from '@/types/global.d';
-import ApiManager from '@/lib/apiManager';
 import IconBoosty from '@/resources/boosty.svg';
 import IconPPL from '@/resources/icon.svg';
 import style_workshop from '@/styles/workshop/page.module.css';
 import IconSvg from '@/resources/icon.svg';
+import { getRoles } from '@/lib/apiManager';
 
 const RolesDialog = ({ children }: { children: JSX.Element }) => {
     const [expanded, setExpanded] = useState<boolean>(false);
     const [roles, setRoles] = useState<Role[]>([]);
 
     useEffect(() => {
-        ApiManager.getRoles().then(setRoles).catch(console.error);
+        getRoles().then(setRoles).catch(console.error);
     }, []);
 
     const roles_el = roles.map(role => {

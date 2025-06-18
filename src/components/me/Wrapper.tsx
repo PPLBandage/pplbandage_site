@@ -1,7 +1,6 @@
 'use client';
 
 import React, { CSSProperties, JSX, useEffect, useState } from 'react';
-import ApiManager from '@/lib/apiManager';
 import { Me } from '@/components/me/MeSidebar';
 import {
     redirect,
@@ -23,6 +22,11 @@ import {
 import IconSvgCropped from '@/resources/icon-cropped.svg';
 import { useNextCookie } from 'use-next-cookie';
 import useSWR from 'swr';
+import {
+    getMe,
+    loginDiscord,
+    loginMinecraft as loginMinecraftAPI
+} from '@/lib/apiManager';
 
 const Wrapper = ({ children }: { children: JSX.Element }) => {
     const searchParams = useSearchParams();
@@ -44,7 +48,7 @@ const Wrapper = ({ children }: { children: JSX.Element }) => {
 };
 
 const MeLoader = ({ children }: { children: JSX.Element }) => {
-    const { data } = useSWR('me', () => ApiManager.getMe());
+    const { data } = useSWR('me', () => getMe());
 
     if (!data) return null;
     return (
@@ -65,7 +69,7 @@ const Loading = ({
     const [loadingStatus, setLoadingStatus] = useState<string>('');
 
     useEffect(() => {
-        ApiManager.loginDiscord(code)
+        loginDiscord(code)
             .then(() => {
                 callback(true);
                 router.replace('/me');
@@ -103,7 +107,7 @@ const Loading = ({
 const Login = () => {
     const loginMinecraft = async (code: string): Promise<void> => {
         return new Promise((resolve, reject) => {
-            ApiManager.loginMinecraft(code)
+            loginMinecraftAPI(code)
                 .then(() => {
                     window.location.reload();
                     resolve();

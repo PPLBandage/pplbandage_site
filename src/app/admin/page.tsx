@@ -7,13 +7,18 @@ import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
 import { Fira_Code } from 'next/font/google';
 import Link from 'next/link';
 import SlideButton from '@/components/SlideButton';
-import ApiManager from '@/lib/apiManager';
 import { Bandage, UserAdmins } from '@/types/global.d';
 import { IconSearch } from '@tabler/icons-react';
 import { Paginator } from '@/components/workshop/Paginator';
 import useAccess from '@/lib/useAccess';
 import { renderSkin } from '@/lib/SkinCardRender';
 import styles_card from '@/styles/me/me.module.css';
+import {
+    forceRegister,
+    getUnderModerationBandages,
+    getUsers,
+    updateUser
+} from '@/lib/apiManager';
 
 const fira = Fira_Code({ subsets: ['latin'] });
 
@@ -48,7 +53,7 @@ const ForceRegister = () => {
     const register = () => {
         if (id === '') return;
 
-        ApiManager.forceRegister(id)
+        forceRegister(id)
             .then(() => window.location.reload())
             .catch(e => alert(e.data.message));
     };
@@ -78,7 +83,7 @@ const Users = () => {
     const [totalCount, setTotalCount] = useState<number>(0);
 
     useEffect(() => {
-        ApiManager.getUsers(page, 48, userQuery)
+        getUsers(page, 48, userQuery)
             .then(u => {
                 setUsers(u.data);
                 setTotalCount(u.totalCount);
@@ -90,12 +95,12 @@ const Users = () => {
         scrollTo({ top: 0, behavior: 'smooth' });
     }, [page]);
 
-    const updateUser = (
+    const userUpdate = (
         user: UserAdmins['data'][number],
         data: { banned?: boolean; skip_ppl_check?: boolean }
     ): Promise<void> => {
         return new Promise((resolve, reject) => {
-            ApiManager.updateUser(user.username, data)
+            updateUser(user.username, data)
                 .then(resolve)
                 .catch(err => {
                     alert(err.data.message);
@@ -129,7 +134,7 @@ const Users = () => {
                         label="Заблокирован"
                         strict={true}
                         loadable={true}
-                        onChange={value => updateUser(user, { banned: value })}
+                        onChange={value => userUpdate(user, { banned: value })}
                         defaultValue={Boolean(user.flags & 1)}
                         disabled={user.permissions !== 1}
                     />
@@ -140,7 +145,7 @@ const Users = () => {
                         loadable={true}
                         defaultValue={Boolean(user.flags & (1 << 1))}
                         onChange={value =>
-                            updateUser(user, { skip_ppl_check: value })
+                            userUpdate(user, { skip_ppl_check: value })
                         }
                     />
                 </div>
@@ -180,9 +185,7 @@ const ModerationBandages = () => {
     };
 
     useEffect(() => {
-        ApiManager.getUnderModerationBandages()
-            .then(render_skins)
-            .catch(console.error);
+        getUnderModerationBandages().then(render_skins).catch(console.error);
     }, []);
 
     return (

@@ -16,8 +16,8 @@ import { Fira_Code } from 'next/font/google';
 import { CustomLink } from '@/components/workshop/Search';
 import asyncImage from '@/lib/asyncImage';
 import SlideButton from '@/components/SlideButton';
-import ApiManager from '@/lib/apiManager';
 import { useNextCookie } from 'use-next-cookie';
+import { createBandage, getCategories } from '@/lib/apiManager';
 const fira = Fira_Code({ subsets: ['latin'] });
 
 const capitalize = (string: string) =>
@@ -176,7 +176,7 @@ const Editor = ({
     const [createError, setCreateError] = useState<string>('');
 
     useEffect(() => {
-        ApiManager.getCategories(true)
+        getCategories(true)
             .then(data => {
                 setAllCategories(data);
                 if (window.location.hash === '#colorable') {
@@ -235,7 +235,7 @@ const Editor = ({
         if (mutex) return;
         setMutex(true);
 
-        ApiManager.createBandage({
+        createBandage({
             title: title,
             description: description,
             categories: categories,

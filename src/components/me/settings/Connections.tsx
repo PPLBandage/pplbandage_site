@@ -1,4 +1,3 @@
-import ApiManager from '@/lib/apiManager';
 import Style from '@/styles/me/connections.module.css';
 import {
     IconBrandDiscord,
@@ -14,6 +13,14 @@ import { minecraftMono } from '@/fonts/Minecraft';
 import SlideButton from '@/components/SlideButton';
 import MinecraftConnect from '@/components/me/MinecraftConnect';
 import { formatDateHuman } from '@/lib/time';
+import {
+    connectMinecraft as connectMinecraftAPI,
+    disconnectMinecraft,
+    getMeSettings,
+    purgeSkinCache,
+    setMinecraftAutoload,
+    setMinecraftVisible
+} from '@/lib/apiManager';
 
 export const Connections = () => {
     return (
@@ -27,7 +34,7 @@ export const Connections = () => {
 const Discord = () => {
     const { data, isLoading } = useSWR(
         'userConnections',
-        async () => await ApiManager.getMeSettings()
+        async () => await getMeSettings()
     );
 
     if (isLoading) return null;
@@ -70,7 +77,7 @@ const Discord = () => {
 const Minecraft = () => {
     const { data, isLoading, mutate } = useSWR(
         'userConnections',
-        async () => await ApiManager.getMeSettings()
+        async () => await getMeSettings()
     );
 
     if (isLoading) return null;
@@ -103,7 +110,7 @@ const Minecraft = () => {
                     label="Отображать ник в поиске"
                     defaultValue={data.connections.minecraft.valid}
                     onChange={async state => {
-                        await ApiManager.setMinecraftVisible({ state });
+                        await setMinecraftVisible({ state });
                         mutate({
                             ...data,
                             connections: {
@@ -122,7 +129,7 @@ const Minecraft = () => {
                     label="Автоматически устанавливать скин в редакторе"
                     defaultValue={data.connections.minecraft.autoload}
                     onChange={async state => {
-                        await ApiManager.setMinecraftAutoload({ state });
+                        await setMinecraftAutoload({ state });
                         mutate({
                             ...data,
                             connections: {
@@ -187,7 +194,7 @@ const refreshMinecraft = () => {
     const load_icon = document.getElementById('refresh');
     load_icon.setAttribute('class', Style.loading_class);
 
-    ApiManager.purgeSkinCache()
+    purgeSkinCache()
         .then(() => mutate('userConnections'))
         .catch(response => alert(response.data.message))
         .finally(() => load_icon.removeAttribute('class'));
@@ -199,12 +206,12 @@ const disconnect = () => {
     );
     if (!confirmed) return;
 
-    ApiManager.disconnectMinecraft()
+    disconnectMinecraft()
         .then(() => mutate('userConnections'))
         .catch(console.error);
 };
 
 const connectMinecraft = async (code: string): Promise<void> => {
-    await ApiManager.connectMinecraft(code);
+    await connectMinecraftAPI(code);
     setTimeout(() => mutate('userConnections'), 150);
 };

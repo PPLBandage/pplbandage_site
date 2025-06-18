@@ -2,7 +2,7 @@ import * as Interfaces from '@/types/global.d';
 import { authApi } from './api';
 import axios, { AxiosResponse, GenericAbortSignal, Method } from 'axios';
 import { SearchResponse } from '@/components/workshop/NickSearch';
-import { SkinResponse } from '@/lib/bandage_engine';
+import { SkinResponse } from '@/lib/bandageEngine';
 
 type RequestProps = {
     url: string;

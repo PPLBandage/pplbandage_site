@@ -5,7 +5,7 @@ import Style from '@/styles/nick_search.module.css';
 import ApiManager from '@/lib/apiManager';
 import { debounce } from 'lodash';
 import Image from 'next/image';
-import { b64Prefix } from '@/lib/bandage_engine';
+import { b64Prefix } from '@/lib/bandageEngine';
 
 export interface SearchResponse {
     status: string;

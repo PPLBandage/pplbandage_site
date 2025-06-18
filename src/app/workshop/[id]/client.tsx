@@ -6,7 +6,7 @@ import { useEffect, useState, useRef } from 'react';
 import style from '@/styles/editor/page.module.css';
 import * as Interfaces from '@/types/global.d';
 
-import Client, { b64Prefix } from '@/lib/bandage_engine';
+import Client, { b64Prefix } from '@/lib/bandageEngine';
 import SkinView3D from '@/components/workshop/SkinView';
 
 import Select from 'react-select';
@@ -25,6 +25,8 @@ import RawBandageDownload from '@/components/workshop/rawBandageDownload';
 import { StarElement } from '@/components/workshop/Card';
 import Moderation from '@/components/workshop/single/Moderation';
 import ModeratorActions from '@/components/workshop/single/ModerationActions';
+import { getRandomColor, rgbToHex } from '@/lib/colorUtils';
+import { generatePath } from '@/lib/workshopPath';
 
 const body_part: readonly { value: number; label: string }[] = [
     { value: 0, label: 'Левая рука' },
@@ -38,63 +40,6 @@ const layers: readonly { value: string; label: string }[] = [
     { value: '1', label: 'Только на первом слое' },
     { value: '2', label: 'Только на втором слое' }
 ];
-
-const getRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-};
-
-const componentToHex = (c: number) => {
-    const hex = c.toString(16);
-    return hex.length == 1 ? '0' + hex : hex;
-};
-
-export const rgbToHex = (r: number, g: number, b: number) => {
-    return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
-};
-
-const generatePath = (
-    external_id: string,
-    referrer_str: string | null,
-    author: string | undefined
-) => {
-    const names: { [key: string]: { name: string; url: string } } = {
-        workshop: { name: 'Мастерская', url: '/workshop' },
-        me: { name: 'Личный кабинет', url: '/me' },
-        stars: { name: 'Избранное', url: '/me/stars' },
-        notifications: { name: 'Уведомления', url: '/me/notifications' }
-    };
-
-    const default_path = [
-        { name: 'Мастерская', url: '/workshop' },
-        { name: external_id, url: `/workshop/${external_id}` }
-    ];
-
-    const referrer = referrer_str ?? window.sessionStorage.getItem('referrer');
-    window.sessionStorage.removeItem('referrer');
-
-    if (!referrer || referrer === window.location.pathname) {
-        return default_path;
-    }
-
-    let result;
-    if (referrer.startsWith('/users') && !!author) {
-        const username = referrer.split('/').reverse()[0];
-        result = [{ name: author, url: `/users/${username}` }];
-    } else {
-        result = referrer
-            .split('/')
-            .slice(1)
-            .map(page => names[page]);
-        if (result.some(page => !page)) return default_path;
-    }
-
-    return [...result, { name: external_id, url: `/workshop/${external_id}` }];
-};
 
 export default function Home({
     data,
@@ -216,6 +161,7 @@ export default function Home({
                 <NavigatorEl path={navPath} style={{ marginBottom: '1rem' }} />
                 {data.moderation && <Moderation moderation={data.moderation} />}
                 <ModeratorActions data={data} />
+
                 <div className={style.main_container}>
                     <div
                         className={style.skin_parent}

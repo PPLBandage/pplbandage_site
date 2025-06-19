@@ -20,13 +20,13 @@ import Slider from '@/components/workshop/Slider';
 import SlideButton from '@/components/SlideButton';
 import SkinLoad from '@/components/workshop/SkinLoad';
 import EditElement from '@/components/workshop/EditElement';
-import Info from '@/components/workshop/Info';
 import RawBandageDownload from '@/components/workshop/RawBandageDownload';
 import Moderation from '@/components/workshop/single/Moderation';
 import ModeratorActions from '@/components/workshop/single/ModerationActions';
 import { getRandomColor, rgbToHex } from '@/lib/colorUtils';
 import { generatePath } from '@/lib/workshopPath';
 import StarElement from '@/components/workshop/Star';
+import Info from '@/components/workshop/info';
 
 const body_part: readonly { value: number; label: string }[] = [
     { value: 0, label: 'Левая рука' },

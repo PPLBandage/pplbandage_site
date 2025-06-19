@@ -74,15 +74,23 @@
     overflow-wrap: anywhere;
 }
 
-.categories {
+.tags {
     display: flex;
-    flex-wrap: wrap-reverse;
-    gap: 5px;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    gap: 4px;
 
     position: absolute;
     bottom: 0;
+    left: 0;
+    right: 0;
 
     padding: .5rem;
+
+    mask-size: 100% 100%;
+    mask-image: linear-gradient(90deg,
+            black 85%,
+            transparent 100%);
 }
 
 .username {
@@ -144,17 +152,6 @@
 .star {
     width: 1.5rem;
     height: 1.5rem;
-}
-
-.category_shorten {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--main-element-color);
-    padding: .2rem;
-    border-radius: 5px;
-    border: 1px var(--category-color) solid;
-    cursor: pointer;
 }
 
 .create_card {

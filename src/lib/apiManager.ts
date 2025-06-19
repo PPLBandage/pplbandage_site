@@ -108,17 +108,19 @@ export const changeBandageModeration = async (
     });
 };
 
-/** Get Categories */
-export const getCategories = async (
-    forEdit?: boolean
-): Promise<Interfaces.Category[]> => {
+/** Get Tags Suggestions */
+export const getTagsSuggestions = async (
+    q: string,
+    signal: GenericAbortSignal
+): Promise<string[]> => {
     return (
         await doRequestSimple({
-            url: '/workshop/categories',
+            url: '/workshop/tags/suggest',
             method: 'GET',
-            params: { for_edit: forEdit ?? false }
+            params: { q: q },
+            signal
         })
-    ).data as Interfaces.Category[];
+    ).data;
 };
 
 /** Get me profile */
@@ -365,7 +367,7 @@ export const updateBandage = async (
     data: {
         title: string;
         description: string;
-        categories: number[];
+        tags: string[];
         access_level: number;
         colorable: boolean;
     }
@@ -397,7 +399,7 @@ export const archiveBandage = async (id: string): Promise<void> => {
 export const createBandage = async (data: {
     title: string;
     description: string;
-    categories: number[];
+    tags: string[];
     base64: string;
     base64_slim: string;
     split_type: boolean;
@@ -425,7 +427,6 @@ export const getWorkshop = async (params: {
     page: number;
     take: number;
     search: string;
-    filters: string;
     sort: string;
 }): Promise<Interfaces.BandageResponse> => {
     return (

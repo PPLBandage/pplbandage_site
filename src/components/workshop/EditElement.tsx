@@ -1,6 +1,5 @@
-import CategorySelector from '@/components/workshop/CategorySelector';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import style from '@/styles/editor/page.module.css';
 import * as Interfaces from '@/types/global.d';
 import Select from 'react-select';
@@ -9,11 +8,11 @@ import EditConfirmation from '@/components/workshop/EditConfirmation';
 import Image from 'next/image';
 import SlideButton from '@/components/SlideButton';
 import {
-    getCategories,
     updateBandage,
     deleteBandage as deleteBandageAPI,
     archiveBandage as archiveBandageAPI
 } from '@/lib/apiManager';
+import TagSearch from './TagSearch';
 
 const lstrip = (string: string) => string.replace(/^\s+/, '');
 const capitalize = (string: string) =>
@@ -37,24 +36,17 @@ const EditElement = ({
     const router = useRouter();
     const [title, setTitle] = useState<string>(bandage.title);
     const [description, setDescription] = useState<string>(bandage.description);
-    const [allCategories, setAllCategories] = useState<Interfaces.Category[]>(
-        []
-    );
-    const [categories, setCategories] = useState<number[]>(undefined);
     const [accessLevel, setAccessLevel] = useState<number>(undefined);
+    const [tags, setTags] = useState<string[]>(bandage.tags);
     const [colorable, setColorable] = useState<boolean>(
         Boolean(bandage.flags & 1)
     );
-
-    useEffect(() => {
-        getCategories(true).then(setAllCategories).catch(console.error);
-    }, []);
 
     const save = () => {
         updateBandage(bandage.external_id, {
             title: title,
             description: description || null,
-            categories: categories,
+            tags: tags,
             access_level: accessLevel,
             colorable
         })
@@ -136,11 +128,6 @@ const EditElement = ({
                 value={colorable}
                 onChange={setColorable}
             />
-            <CategorySelector
-                enabledCategories={bandage.categories}
-                allCategories={allCategories}
-                onChange={setCategories}
-            />
             <Select
                 options={access_level}
                 defaultValue={access_level[bandage.access_level]}
@@ -150,6 +137,10 @@ const EditElement = ({
                 instanceId="select-1"
                 onChange={n => setAccessLevel(n.value)}
             />
+
+            <p style={{ margin: 0, marginTop: '.5rem' }}>Выберите теги</p>
+            <TagSearch defaultValue={bandage.tags} onChange={setTags} />
+
             <div className={style.check_notification}>
                 <h3>Опасная зона</h3>
                 <p>

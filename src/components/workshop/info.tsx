@@ -2,14 +2,13 @@ import { IconEdit, IconUser } from '@tabler/icons-react';
 import Link from 'next/link';
 import style from '@/styles/editor/page.module.css';
 import * as Interfaces from '@/types/global.d';
-import { CategoryEl } from '@/components/workshop/Card';
 import { LinkedText } from '@/components/workshop/LinkedText';
+import TagElement from './TagElement';
 
 const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
-    const categories = el.categories.map(category => (
-        <CategoryEl key={category.id} category={category} />
+    const tags = el.tags.map((tag, index) => (
+        <TagElement key={index} title={tag} />
     ));
-
     return (
         <div className={style.info_container}>
             <h2
@@ -31,9 +30,7 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
                     <LinkedText text={el.description} />
                 </p>
             )}
-            {categories.length > 0 && (
-                <div className={style.categories}>{categories}</div>
-            )}
+            <div className={style.tags_container}>{tags}</div>
             {el.author ? (
                 el.author.public ? (
                     <Link

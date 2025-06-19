@@ -7,8 +7,6 @@ import { anims } from '@/lib/poses';
 import { useRouter } from 'next/navigation';
 import Select from 'react-select';
 import Client, { b64Prefix } from '@/lib/bandageEngine';
-import CategorySelector from '@/components/workshop/CategorySelector';
-import * as Interfaces from '@/types/global.d';
 import debounce from 'lodash.debounce';
 import InfoCard from '@/components/InfoCard';
 import { redirect } from 'next/navigation';
@@ -17,7 +15,8 @@ import { CustomLink } from '@/components/workshop/Search';
 import asyncImage from '@/lib/asyncImage';
 import SlideButton from '@/components/SlideButton';
 import { useNextCookie } from 'use-next-cookie';
-import { createBandage, getCategories } from '@/lib/apiManager';
+import { createBandage } from '@/lib/apiManager';
+import TagSearch from '@/components/workshop/TagSearch';
 const fira = Fira_Code({ subsets: ['latin'] });
 
 const capitalize = (string: string) =>
@@ -161,10 +160,7 @@ const Editor = ({
     const router = useRouter();
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
-    const [allCategories, setAllCategories] = useState<Interfaces.Category[]>(
-        []
-    );
-    const [categories, setCategories] = useState<number[]>([]);
+    const [tags, setTags] = useState<string[]>([]);
     const [base64, setBase64] = useState<string>(null);
     const [base64Slim, setBase64Slim] = useState<string>(null);
     const [mutex, setMutex] = useState<boolean>(false);
@@ -176,14 +172,9 @@ const Editor = ({
     const [createError, setCreateError] = useState<string>('');
 
     useEffect(() => {
-        getCategories(true)
-            .then(data => {
-                setAllCategories(data);
-                if (window.location.hash === '#colorable') {
-                    setColorable(true);
-                }
-            })
-            .catch(console.error);
+        if (window.location.hash === '#colorable') {
+            setColorable(true);
+        }
     }, []);
 
     const debouncedHandleColorChange = useCallback(
@@ -238,7 +229,7 @@ const Editor = ({
         createBandage({
             title: title,
             description: description,
-            categories: categories,
+            tags: tags,
             base64: base64.replace(b64Prefix, ''),
             base64_slim: base64Slim?.replace(b64Prefix, ''),
             split_type: splitTypes,
@@ -356,10 +347,9 @@ const Editor = ({
                 </InfoCard>
             )}
 
-            <CategorySelector
-                allCategories={allCategories}
-                onChange={setCategories}
-            />
+            <p style={{ margin: 0, marginTop: '.5rem' }}>Выберите теги</p>
+            <TagSearch defaultValue={[]} onChange={setTags} />
+
             <label style={{ margin: 0, color: '#dc2626' }}>{createError}</label>
             <button onClick={create} className={style.skin_load}>
                 Создать

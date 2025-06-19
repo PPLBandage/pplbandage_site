@@ -72,7 +72,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .react-select-container .react-select__option {
-	color: #ffffff;
+	color: var(--main-text-color);
 	background-color: var(--main-element-color);
 	transition-property: border-color, box-shadow, background-color, color;
 	transition-duration: 150ms;
@@ -120,10 +120,18 @@ body::-webkit-scrollbar-thumb {
 .react-select-container .react-select__input-container,
 .react-select-container .react-select__placeholder,
 .react-select-container .react-select__single-value {
-	color: #ffffff;
+	color: var(--main-text-color);
 	transition-property: border-color, box-shadow, background-color, color;
 	transition-duration: 150ms;
 	transition-timing-function: ease-in-out;
+}
+
+.react-select-container .react-select__multi-value {
+	background-color: var(--main-element-color);
+}
+
+.react-select-container .react-select__multi-value__label {
+	color: var(--main-text-color);
 }
 
 input::-webkit-outer-spin-button,

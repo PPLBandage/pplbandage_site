@@ -1,10 +1,8 @@
-import { Bandage, Category } from '@/types/global.d';
-import Style from '@/styles/workshop/page.module.css';
+import { Bandage } from '@/types/global.d';
 import style_card from '@/styles/workshop/card.module.css';
 import NextImage from 'next/image';
-import { getCookie } from 'cookies-next';
-import Link, { LinkProps } from 'next/link';
-import { CSSProperties, ReactNode, useEffect, useState } from 'react';
+import Link from 'next/link';
+import { CSSProperties } from 'react';
 
 import {
     IconCircleDashedX,
@@ -13,176 +11,16 @@ import {
     IconHourglassHigh,
     IconPalette,
     IconPlus,
-    IconStar,
-    IconStarFilled,
     IconUser
 } from '@tabler/icons-react';
-import { getIcon } from '@/lib/Categories';
-import { usePathname, useRouter } from 'next/navigation';
 import { StaticTooltip } from '@/components/Tooltip';
-import { useConfigContext } from '@/lib/ConfigContext';
-import IconCandle from '@/resources/stars/candle.svg';
-import IconCandleOn from '@/resources/stars/candle_on.svg';
 import { CustomLink } from '@/components/workshop/Search';
 import { formatDate } from '@/lib/time';
 import { removeLink } from '@/components/workshop/LinkedText';
-import { setStar } from '@/lib/apiManager';
-
-interface CategoryProps {
-    category: Category;
-    enabled?: boolean;
-    onClick?(): void;
-    hoverable?: boolean;
-    style?: CSSProperties;
-}
-
-export const CategoryEl = ({
-    category,
-    enabled,
-    onClick,
-    hoverable,
-    style
-}: CategoryProps) => {
-    return (
-        <div
-            key={category.id}
-            className={`${Style.category} ${
-                enabled && Style.enabled_category
-            } ${hoverable && Style.hoverable}`}
-            onClick={() => onClick && onClick()}
-            style={style}
-        >
-            {getIcon(category.icon)}
-            <p>{category.name}</p>
-        </div>
-    );
-};
-
-const constrainedText = (string: string, max_length: number): string => {
-    const words = string.split(' ');
-    for (let x = 0; x < words.length; x++) {
-        if (words[0].length > max_length) {
-            return string.slice(0, max_length) + '...';
-        }
-        if (words.slice(0, x).join(' ').length > max_length) {
-            return words.slice(0, x - 1).join(' ') + '...';
-        }
-    }
-    return string;
-};
-
-interface CategoryShortenProps {
-    category: Category;
-    style?: CSSProperties;
-    parent_id: string;
-}
-
-export const CategoryShorten = ({ category, style }: CategoryShortenProps) => {
-    return (
-        <StaticTooltip key={category.id} title={category.name}>
-            <div className={`${style_card.category_shorten}`} style={style}>
-                {getIcon(category.icon)}
-            </div>
-        </StaticTooltip>
-    );
-};
-
-export const constrain = (val: number, min_val: number, max_val: number) => {
-    return Math.min(max_val, Math.max(min_val, val));
-};
-
-interface ReferrerLinkProps
-    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>,
-        LinkProps {
-    children: ReactNode;
-    href: string;
-}
-
-export const ReferrerLink: React.FC<ReferrerLinkProps> = ({
-    children,
-    href,
-    ...props
-}) => {
-    const pathname = usePathname();
-    const router = useRouter();
-    const context = useConfigContext();
-
-    const handleTransition = async (
-        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-    ) => {
-        e.preventDefault();
-        if (pathname.endsWith(href)) return;
-        window.sessionStorage.setItem('referrer', pathname);
-        if (context && context.lastConfig) {
-            const scroll = window.scrollY || document.documentElement.scrollTop;
-            window.sessionStorage.setItem(
-                'workshopState',
-                JSON.stringify({ ...context.lastConfig, scroll })
-            );
-        }
-        router.push(href);
-    };
-
-    return (
-        <Link {...props} href={href} onClick={handleTransition}>
-            {children}
-        </Link>
-    );
-};
-
-export const StarElement = ({ el }: { el: Bandage }) => {
-    const _starred = Boolean(el.flags & (1 << 2));
-    const logged = getCookie('sessionId');
-    const router = useRouter();
-    const [starred, setStarred] = useState<boolean>(_starred);
-    const [last, setLast] = useState<boolean>(_starred);
-    const [starsCount, setStarsCount] = useState<number>(el.stars_count);
-
-    useEffect(() => {
-        if (logged && starred != last) {
-            setStar(el.external_id, { set: starred })
-                .then(data => setStarsCount(data.new_count))
-                .catch(console.error)
-                .finally(() => setLast(starred));
-        }
-    }, [starred]);
-
-    let StarIcon = undefined;
-
-    switch (el.star_type) {
-        case 1:
-            StarIcon = starred ? IconCandleOn : IconCandle;
-            break;
-        default:
-            StarIcon = starred ? IconStarFilled : IconStar;
-            break;
-    }
-
-    return (
-        <div
-            className={style_card.star_container}
-            onClick={() => {
-                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                logged ? setStarred(prev => !prev) : router.push('/me');
-            }}
-        >
-            <StarIcon
-                className={style_card.star}
-                width={el.star_type === 0 ? 24 : undefined}
-                height={24}
-                color={el.star_type === 0 ? '#ffb900' : undefined}
-                id={el.external_id + '_star'}
-                style={{ width: el.star_type === 0 ? 24 : 18 } as CSSProperties}
-            />
-            <span
-                className={style_card.star_count}
-                id={el.external_id + '_text'}
-            >
-                {starsCount}
-            </span>
-        </div>
-    );
-};
+import { constrainedText } from '@/lib/textUtils';
+import ReferrerLink from './ReferrerLink';
+import TagElement from './TagElement';
+import StarElement from './Star';
 
 export const Card = ({
     el,
@@ -193,14 +31,7 @@ export const Card = ({
     base64: string;
     className?: { readonly [key: string]: string };
 }) => {
-    const categories = el.categories.map(category => (
-        <div id={`category_${category.id}_${el.id}`} key={category.id}>
-            <CategoryShorten
-                category={category}
-                parent_id={`category_${category.id}_${el.id}`}
-            />
-        </div>
-    ));
+    const tagsEl = el.tags.map(tag => <TagElement title={tag} key={tag} />);
 
     return (
         <article
@@ -267,7 +98,7 @@ export const Card = ({
                         draggable="false"
                     />
                 </ReferrerLink>
-                <div className={style_card.categories}>{categories}</div>
+                <div className={style_card.tags}>{tagsEl}</div>
             </div>
             <div className={style_card.about}>
                 <div>

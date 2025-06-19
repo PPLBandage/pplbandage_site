@@ -37,7 +37,7 @@ export interface Bandage {
         name: string;
         public: boolean;
     };
-    categories: Category[];
+    tags: string[];
     me_profile?: {
         uuid: string;
         nickname: string;
@@ -58,13 +58,6 @@ export interface Bandage {
     star_type: number;
     archived: boolean;
     relevance_modifier?: number;
-}
-
-export interface Category {
-    id: number;
-    name: string;
-    icon: string;
-    enabled?: boolean;
 }
 
 export interface BandageResponse {

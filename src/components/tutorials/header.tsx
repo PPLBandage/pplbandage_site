@@ -4,6 +4,12 @@ import style_sidebar from '@/styles/me/sidebar.module.css';
 import style_add from '@/styles/tutorials/common.module.css';
 import { usePathname } from 'next/navigation';
 import { TransitionLink } from '@/components/tutorials/AnimatedLink';
+import {
+    IconBandage,
+    IconGavel,
+    IconPalette,
+    IconSmartHome
+} from '@tabler/icons-react';
 
 const ASide = () => {
     const pathname = usePathname();
@@ -19,6 +25,7 @@ const ASide = () => {
                     path == 'tutorials' && style_sidebar.active
                 }`}
             >
+                <IconSmartHome />
                 Главная
             </TransitionLink>
             <TransitionLink
@@ -27,6 +34,7 @@ const ASide = () => {
                     path == 'bandage' && style_sidebar.active
                 }`}
             >
+                <IconBandage />
                 Создание повязки
             </TransitionLink>
             <TransitionLink
@@ -35,6 +43,7 @@ const ASide = () => {
                     path == 'colorable' && style_sidebar.active
                 }`}
             >
+                <IconPalette />
                 Окрашиваемые повязки
             </TransitionLink>
             <TransitionLink
@@ -43,6 +52,7 @@ const ASide = () => {
                     path == 'rules' && style_sidebar.active
                 }`}
             >
+                <IconGavel />
                 Правила сайта
             </TransitionLink>
         </div>

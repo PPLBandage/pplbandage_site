@@ -1,13 +1,13 @@
 'use client';
 
-import { JSX, useState } from 'react';
+import { CSSProperties, JSX, useState } from 'react';
 import style_sidebar from '@/styles/me/sidebar.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { formatDate, timeStamp } from '@/lib/time';
 import Menu from '../ThemeSelect';
-import { CategoryEl } from '@/components/workshop/Card';
+import Style from '@/styles/workshop/page.module.css';
 
 import {
     IconSettings,
@@ -18,13 +18,47 @@ import {
 } from '@tabler/icons-react';
 import { TransitionLink } from '@/components/me/AnimatedLink';
 import { UserQuery } from '@/types/global';
+import { getIcon } from '@/lib/Categories';
+
+interface RoleProps {
+    role: {
+        id: number;
+        name: string;
+        icon: string;
+    };
+    enabled?: boolean;
+    onClick?(): void;
+    hoverable?: boolean;
+    style?: CSSProperties;
+}
+
+export const RoleEl = ({
+    role,
+    enabled,
+    onClick,
+    hoverable,
+    style
+}: RoleProps) => {
+    return (
+        <div
+            key={role.id}
+            className={`${Style.category} ${
+                enabled && Style.enabled_category
+            } ${hoverable && Style.hoverable}`}
+            onClick={() => onClick && onClick()}
+            style={style}
+        >
+            {getIcon(role.icon)}
+            <p>{role.name}</p>
+        </div>
+    );
+};
 
 const Roles = ({ user }: { user: UserQuery }) => {
     if (!user || !user.roles) return null;
 
-    const roles = user.roles.map(role => (
-        <CategoryEl category={role} key={role.id} />
-    ));
+    const roles = user.roles.map(role => <RoleEl role={role} key={role.id} />);
+
     return (
         <div
             className={style_sidebar.card}

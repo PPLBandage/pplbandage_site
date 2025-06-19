@@ -18,15 +18,15 @@ import asyncImage from '@/lib/asyncImage';
 import { IconDownload, IconPlus } from '@tabler/icons-react';
 import Slider from '@/components/workshop/Slider';
 import SlideButton from '@/components/SlideButton';
-import SkinLoad from '@/components/workshop/skinLoad';
-import EditElement from '@/components/workshop/edit';
-import Info from '@/components/workshop/info';
-import RawBandageDownload from '@/components/workshop/rawBandageDownload';
-import { StarElement } from '@/components/workshop/Card';
+import SkinLoad from '@/components/workshop/SkinLoad';
+import EditElement from '@/components/workshop/EditElement';
+import Info from '@/components/workshop/Info';
+import RawBandageDownload from '@/components/workshop/RawBandageDownload';
 import Moderation from '@/components/workshop/single/Moderation';
 import ModeratorActions from '@/components/workshop/single/ModerationActions';
 import { getRandomColor, rgbToHex } from '@/lib/colorUtils';
 import { generatePath } from '@/lib/workshopPath';
+import StarElement from '@/components/workshop/Star';
 
 const body_part: readonly { value: number; label: string }[] = [
     { value: 0, label: 'Левая рука' },

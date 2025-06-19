@@ -3,16 +3,10 @@
 import React from 'react';
 import style from '@/styles/tutorials/common.module.css';
 import InfoCard from '@/components/InfoCard';
-import { CategoryEl } from '@/components/workshop/Card';
 import { CustomLink } from '@/components/workshop/Search';
 import styles from '@/styles/me/me.module.css';
 
-import {
-    IconInfoCircle,
-    IconAlertTriangle,
-    IconBulb
-} from '@tabler/icons-react';
-import Link from 'next/link';
+import { IconInfoCircle, IconBulb } from '@tabler/icons-react';
 import RolesDialog from '@/components/RolesDialog';
 
 export default function Home() {
@@ -115,7 +109,7 @@ export default function Home() {
                     <b>Описание:</b> не более 300 символов
                 </li>
                 <li>
-                    <b>Категории:</b> без ограничений
+                    <b>Теги:</b> не более 10
                 </li>
             </ul>
             <InfoCard
@@ -145,9 +139,8 @@ export default function Home() {
                 Все повязки после создания должны пройти обязательную модерацию.
                 До тех пор повязка не будет доступна из мастерской и видна по
                 ссылке только вам. Во время модерации вы можете так же
-                редактировать информацию о повязке, но после одобрения повязки,
-                изменить название и описание будет возможно только через
-                администрацию сайта.
+                редактировать информацию о повязке. После одобрения повязки,
+                любое ее изменение приведет к запросу повторной модерации.
             </p>
 
             <p>
@@ -176,56 +169,16 @@ export default function Home() {
                 </p>
             </InfoCard>
 
-            <h2>Категории</h2>
+            <h2>Теги</h2>
             <p>
-                Любая повязка может иметь категории. Это помогает пользователям
-                легче искать работы. Повязка может иметь неограниченное
-                количество категорий. Категории, установленные на вашей работе
-                должны точно её описывать. Не стоит ими злоупотреблять.
+                При создании повязки вы можете добавить для неё теги. Теги
+                помогают лучше классифицировать повязку по тематикам или
+                категориям, чтобы другим пользователям было проще её искать и
+                фильтровать. <br />
+                Используйте осмысленные, краткие и понятные теги. Это позволит
+                другим быстрее ориентироваться при поиске подходящей повязки и
+                сделает мастерскую более удобной для всех.
             </p>
-
-            <InfoCard
-                color="#D29922"
-                title={
-                    <div className={style.cards_header}>
-                        <IconAlertTriangle width={24} height={24} />
-                        <p style={{ margin: 0 }}>Внимание</p>
-                    </div>
-                }
-            >
-                <p style={{ margin: 0 }}>
-                    Злоупотребление категориями может привести к блокировке
-                    повязки.
-                </p>
-            </InfoCard>
-
-            <span
-                style={{
-                    display: 'block',
-                    marginTop: '.5rem',
-                    marginBottom: '.5rem'
-                }}
-            >
-                Некоторые категории несут больше, чем информативный характер.
-                Например, категория{' '}
-                <Link href="/workshop/create#colorable">
-                    <CategoryEl
-                        style={{
-                            display: 'inline-flex',
-                            height: '1rem',
-                            verticalAlign: 'top'
-                        }}
-                        category={{
-                            id: -1,
-                            name: 'Окрашиваемые',
-                            icon: 'IconPalette'
-                        }}
-                    />
-                </Link>{' '}
-                показывает, что эта повязка имеет возможность окрашивания, и на
-                странице повязки будет отображён соответствующий элемент для
-                выбора цвета.
-            </span>
         </div>
     );
 }

@@ -7,8 +7,7 @@ import Style from '@/styles/workshop/page.module.css';
 
 import { Paginator } from '@/components/workshop/Paginator';
 import { Search } from '@/components/workshop/Search';
-import { BandageResponse, Category } from '@/types/global.d';
-import { constrain } from '@/components/workshop/Card';
+import { BandageResponse } from '@/types/global.d';
 import Image from 'next/image';
 import styles_card from '@/styles/me/me.module.css';
 import IconSvg from '@/resources/icon.svg';
@@ -20,7 +19,8 @@ import { renderSkin } from '@/lib/SkinCardRender';
 import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
 import { ConfigContext, ConfigInterface } from '@/lib/ConfigContext';
 import { getCookie, setCookie } from 'cookies-next';
-import { getCategories, getWorkshop } from '@/lib/apiManager';
+import { getWorkshop } from '@/lib/apiManager';
+import { constrain } from '@/lib/textUtils';
 
 export default function Home() {
     const [data, setData] = useState<BandageResponse>(null);
@@ -30,11 +30,7 @@ export default function Home() {
     const [take, setTake] = useState<number>(12);
     const [search, setSearch] = useState<string>('');
     const [firstLoaded, setFirstLoaded] = useState<boolean>(false);
-
     const [lastConfig, setLastConfig] = useState(null);
-    const [categories, setCategories] = useState<Category[]>([]);
-
-    const [filters, setFilters] = useState<Category[]>([]); // Temp state for search callback
     const [scroll, setScroll] = useState<number>(0);
 
     const [sort, setSort] = useState<string>('relevant_up');
@@ -42,58 +38,28 @@ export default function Home() {
 
     useEffect(() => {
         const workshopState = window.sessionStorage.getItem('workshopState');
-        getCategories()
-            .then(categories => {
-                if (workshopState) {
-                    window.sessionStorage.removeItem('workshopState');
+        if (workshopState) {
+            window.sessionStorage.removeItem('workshopState');
 
-                    const data = JSON.parse(workshopState) as ConfigInterface;
-                    data.page && setPage(data.page);
-                    data.totalCount && setTotalCount(data.totalCount);
-                    data.take && setTake(data.take);
-                    data.search && setSearch(data.search);
-                    data.sort && setSort(data.sort);
-                    data.scroll && setScroll(data.scroll);
-
-                    let _categories = categories;
-                    if (data.filters) {
-                        const initial_filters = data.filters
-                            .split(',')
-                            .map(Number);
-                        _categories = categories.map(i => {
-                            if (initial_filters.includes(i.id))
-                                i.enabled = true;
-                            return i;
-                        });
-                    }
-                    setFilters(_categories);
-                    setCategories(_categories);
-                } else {
-                    setCategories(categories);
-                    setFilters(categories);
-                }
-
-                setFirstLoaded(true);
-            })
-            .catch(console.error);
-
-        if (!workshopState) {
-            setFirstLoaded(true);
+            const data = JSON.parse(workshopState) as ConfigInterface;
+            data.page && setPage(data.page);
+            data.totalCount && setTotalCount(data.totalCount);
+            data.take && setTake(data.take);
+            data.search && setSearch(data.search);
+            data.sort && setSort(data.sort);
+            data.scroll && setScroll(data.scroll);
         }
+
+        setFirstLoaded(true);
     }, []);
 
     useEffect(() => {
         if (!firstLoaded) return;
 
-        const filters_str = filters
-            .filter(filter => filter.enabled)
-            .map(filter => filter.id)
-            .toString();
         const config = {
             page: constrain(page, 0, Math.ceil(totalCount / take)),
             take: take,
             search: search || undefined,
-            filters: filters_str || undefined,
             sort: sort || undefined
         };
         if (JSON.stringify(config) === JSON.stringify(lastConfig)) {
@@ -108,7 +74,7 @@ export default function Home() {
             .catch(console.error);
 
         setLastConfig(config);
-    }, [page, search, take, filters, sort, firstLoaded]);
+    }, [page, search, take, sort, firstLoaded]);
 
     useEffect(() => {
         if (!getCookie('warningAccepted')) {
@@ -153,11 +119,9 @@ export default function Home() {
                         sort={sort}
                         take={take}
                         search={search}
-                        categories={categories}
                         onSearch={setSearch}
                         onChangeTake={setTake}
                         onChangeSort={setSort}
-                        onChangeFilters={setFilters}
                     />
 
                     <Paginator

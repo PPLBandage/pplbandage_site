@@ -1,0 +1,15 @@
+.container {
+    background-color: var(--main-element-color);
+    padding: .15rem .6rem;
+    border-radius: 9999px;
+    border: 1px var(--category-color) solid;
+    flex-grow: 0;
+    flex-shrink: 0;
+    transition: border .15s;
+}
+
+.container p {
+    margin: 0;
+    font-size: .9rem;
+    color: var(--main-text-color);
+}

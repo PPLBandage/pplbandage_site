@@ -87,7 +87,7 @@ export const Card = ({
             >
                 <ReferrerLink
                     href={`/workshop/${el.external_id}`}
-                    style={{ display: 'flex' }}
+                    style={{ display: 'flex', overflow: 'hidden' }}
                 >
                     <NextImage
                         src={base64}

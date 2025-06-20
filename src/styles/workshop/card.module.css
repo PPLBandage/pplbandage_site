@@ -26,6 +26,12 @@
     width: 100%;
     height: auto;
     box-sizing: border-box;
+
+    transition: transform 200ms ease-in-out;
+}
+
+.skin:hover {
+    transform: scale(1.01);
 }
 
 

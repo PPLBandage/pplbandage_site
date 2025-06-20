@@ -11,6 +11,8 @@ interface PaginatorProps {
     page: number;
 }
 
+// Андрей, если ты из будущего и читаешь это,
+// Прости меня, мне лень это переписывать
 export const Paginator = ({
     total_count,
     take,
@@ -58,16 +60,22 @@ export const Paginator = ({
                         `${Styles.page} ` +
                         `${x == Math.max(0, _page) && Styles.active}`
                     }
-                    onClick={() => _setPage(x)}
+                    onClick={() => updatePage(x)}
                 >
                     {x + 1}
                 </p>
             );
         }
         _setPages(data);
+    }, [_page, _totalCount, _take]);
+
+    const updatePage = (_page: number) => {
+        _setPage(_page);
+
+        const pages_count = Math.ceil(_totalCount / _take);
         const page = Math.min(Math.max(0, _page), Math.max(0, pages_count - 1));
         onChange(page);
-    }, [_page, _totalCount, _take]);
+    };
 
     const loadingPages = Array.from({ length: 5 }, (_, index) => (
         <p key={index} className={`${Styles.page} ${Styles.page_loading}`} />
@@ -78,15 +86,15 @@ export const Paginator = ({
             <>
                 <IconChevronLeft
                     className={`${Styles.page} ${Styles.arrow}`}
-                    onClick={() => _setPage(last => Math.max(0, last - 1))}
+                    onClick={() => updatePage(Math.max(0, _page - 1))}
                 />
                 {_display ? _pages : loadingPages}
                 <IconChevronRight
                     className={`${Styles.page} ${Styles.arrow}`}
                     onClick={() =>
-                        _setPage(last =>
+                        updatePage(
                             Math.min(
-                                last + 1,
+                                _page + 1,
                                 Math.ceil(_totalCount / _take) - 1
                             )
                         )

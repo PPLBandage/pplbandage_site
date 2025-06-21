@@ -4,6 +4,7 @@ import style from '@/styles/editor/page.module.css';
 import * as Interfaces from '@/types/global.d';
 import { LinkedText } from '@/components/workshop/LinkedText';
 import TagElement from './TagElement';
+import { formatDate } from '@/lib/time';
 
 const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
     const tags = el.tags.map((tag, index) => (
@@ -31,8 +32,8 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
                 </p>
             )}
             <div className={style.tags_container}>{tags}</div>
-            {el.author ? (
-                el.author.public ? (
+            <span className={style.author_cont}>
+                {el.author.public ? (
                     <Link
                         className={style.author}
                         href={`/users/${el.author.username}`}
@@ -45,13 +46,12 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
                         <IconUser width={24} height={24} />
                         {el.author.name}
                     </a>
-                )
-            ) : (
-                <a className={`${style.author} ${style.username_private}`}>
-                    <IconUser width={24} height={24} />
-                    Unknown
-                </a>
-            )}
+                )}
+                <span style={{ opacity: '.8' }}>•</span>
+                <span style={{ opacity: '.8', fontSize: '1rem' }}>
+                    {formatDate(new Date(el.creation_date))}
+                </span>
+            </span>
         </div>
     );
 };

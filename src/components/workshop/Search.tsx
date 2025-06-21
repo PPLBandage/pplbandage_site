@@ -11,7 +11,8 @@ const options_take: readonly { value: number; label: string }[] = [
     { value: 12, label: '12' },
     { value: 24, label: '24' },
     { value: 36, label: '36' },
-    { value: 48, label: '48' }
+    { value: 48, label: '48' },
+    { value: 60, label: '60' }
 ];
 
 const options_sortir: readonly { value: string; label: string }[] = [

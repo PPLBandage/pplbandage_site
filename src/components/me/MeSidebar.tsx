@@ -52,7 +52,10 @@ const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
             <div className={style_sidebar.subscribe_container}>
                 {!isSelf && logged ? (
                     <>
-                        <div className={style_sidebar.subscribe_count}>
+                        <div
+                            className={style_sidebar.subscribe_count}
+                            style={{ borderRight: 'none' }}
+                        >
                             <IconUser width={20} height={20} />
                             <span>{subscribers}</span>
                         </div>

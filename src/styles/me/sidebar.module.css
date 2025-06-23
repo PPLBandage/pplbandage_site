@@ -50,7 +50,6 @@
     padding: .5rem;
     border-radius: 99px 0 0 99px;
     border: 1px solid var(--category-color);
-    border-right: none;
 
     display: flex;
     align-items: center;

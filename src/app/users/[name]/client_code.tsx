@@ -1,11 +1,11 @@
 'use client';
 
-import { Users } from './page';
 import { JSX, useEffect, useState } from 'react';
 import styles from '@/styles/me/me.module.css';
 import style_sidebar from '@/styles/me/sidebar.module.css';
 import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
 import { renderSkin } from '@/lib/SkinCardRender';
+import { Users } from '@/types/global';
 
 const UsersClient = ({ user }: { user: Users }) => {
     const [elements, setElements] = useState<JSX.Element[]>(null);

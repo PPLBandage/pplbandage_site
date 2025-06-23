@@ -27,6 +27,7 @@ import {
     loginDiscord,
     loginMinecraft as loginMinecraftAPI
 } from '@/lib/apiManager';
+import { Users } from '@/types/global';
 
 const Wrapper = ({ children }: { children: JSX.Element }) => {
     const searchParams = useSearchParams();
@@ -52,7 +53,7 @@ const MeLoader = ({ children }: { children: JSX.Element }) => {
 
     if (!data) return null;
     return (
-        <Me data={data} self>
+        <Me data={data as Users} self>
             {children}
         </Me>
     );

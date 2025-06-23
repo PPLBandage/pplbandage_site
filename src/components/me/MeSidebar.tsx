@@ -23,12 +23,16 @@ import { subscribeTo, unsubscribeFrom } from '@/lib/apiManager';
 
 const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
     const logged = !!useNextCookie('sessionId');
-    const [subscribed, setSubscribed] = useState<boolean>(user.is_subscribed);
+    const [subscribed, setSubscribed] = useState<boolean>(
+        !isSelf ? user.is_subscribed : false
+    );
     const [subscribers, setSubscribers] = useState<number>(
         user.subscribers_count
     );
 
     const changeSubscription = () => {
+        if (isSelf) return;
+
         (subscribed ? unsubscribeFrom : subscribeTo)(user.username).then(
             setSubscribers
         );

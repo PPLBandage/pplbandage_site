@@ -72,7 +72,8 @@ const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
                         style={{
                             borderRadius: '10px',
                             width: '100%',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            padding: '.3rem .5rem'
                         }}
                     >
                         <span>

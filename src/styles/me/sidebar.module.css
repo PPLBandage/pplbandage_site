@@ -48,7 +48,7 @@
 .subscribe_count {
     background-color: var(--main-element-color);
     padding: .5rem;
-    border-radius: 99px 0 0 99px;
+    border-radius: 10px 0 0 10px;
     border: 1px solid var(--category-color);
 
     display: flex;
@@ -60,7 +60,7 @@
     background-color: var(--main-element-color);
     padding: .5rem;
     border: 1px solid var(--category-color);
-    border-radius: 0 99px 99px 0;
+    border-radius: 0 10px 10px 0;
     font-family: inherit;
 
     font-size: 1rem;

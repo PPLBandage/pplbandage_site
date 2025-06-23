@@ -70,7 +70,7 @@ const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
                     <div
                         className={style_sidebar.subscribe_count}
                         style={{
-                            borderRadius: '99px',
+                            borderRadius: '10px',
                             width: '100%',
                             justifyContent: 'center'
                         }}

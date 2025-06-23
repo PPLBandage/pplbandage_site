@@ -14,8 +14,18 @@ export interface UserQuery {
     has_unreaded_notifications: boolean;
     profile_theme: number;
     stars_count: number;
+    subscribers_count: number;
     roles: Category[];
     last_accessed?: Date;
+}
+
+export interface Users extends UserQuery {
+    userID: number;
+    works: Bandage[];
+    works_count: number;
+    is_self: boolean;
+    is_subscribed?: boolean;
+    profile_theme: number;
 }
 
 export interface Bandage {

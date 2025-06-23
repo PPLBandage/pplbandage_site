@@ -395,6 +395,26 @@ export const archiveBandage = async (id: string): Promise<void> => {
     });
 };
 
+/** Subscribe to user */
+export const subscribeTo = async (username: string): Promise<number> => {
+    return (
+        await doRequest({
+            url: `/users/${username}/subscribers`,
+            method: 'POST'
+        })
+    ).data.count;
+};
+
+/** Unsubscribe to user */
+export const unsubscribeFrom = async (username: string): Promise<number> => {
+    return (
+        await doRequest({
+            url: `/users/${username}/subscribers`,
+            method: 'DELETE'
+        })
+    ).data.count;
+};
+
 /** Create bandage */
 export const createBandage = async (data: {
     title: string;

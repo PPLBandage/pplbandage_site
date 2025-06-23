@@ -25,43 +25,6 @@
     gap: 1rem;
 }
 
-
-.category {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--main-element-color);
-    padding: .1rem .2rem;
-    border-radius: 5px;
-    border: 1px var(--category-color) solid;
-    flex-grow: 0;
-    flex-shrink: 0;
-    transition: border .15s;
-}
-
-.category p {
-    margin: 0;
-    margin-left: .1rem;
-    color: var(--main-text-color);
-}
-
-.enabled_category {
-    border: 1px #17c43d solid;
-}
-
-.hoverable {
-    cursor: pointer;
-    user-select: none;
-}
-
-.hoverable:hover {
-    border: 1px var(--main-element-color) solid;
-}
-
-.enabled_category:hover {
-    border: 1px rgb(15, 133, 41) solid;
-}
-
 .loading {
     width: 100%;
     animation: loading 3s infinite ease-in-out;

@@ -41,6 +41,41 @@
     overflow: hidden;
 }
 
+.subscribe_container {
+    display: flex;
+}
+
+.subscribe_count {
+    background-color: var(--main-element-color);
+    padding: .5rem;
+    border-radius: 99px 0 0 99px;
+    border: 1px solid var(--category-color);
+    border-right: none;
+
+    display: flex;
+    align-items: center;
+    gap: .1rem;
+}
+
+.subscribe_button {
+    background-color: var(--main-element-color);
+    padding: .5rem;
+    border: 1px solid var(--category-color);
+    border-radius: 0 99px 99px 0;
+    font-family: inherit;
+
+    font-size: 1rem;
+
+    width: 100%;
+    cursor: pointer;
+
+    transition: background-color 150ms;
+}
+
+.subscribe_button:hover {
+    background-color: var(--dark-hover);
+}
+
 .avatar_container {
     width: 7rem;
     height: 7rem;

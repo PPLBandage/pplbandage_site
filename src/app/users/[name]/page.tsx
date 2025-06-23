@@ -1,4 +1,3 @@
-import { Bandage, UserQuery } from '@/types/global.d';
 import axios from 'axios';
 import { redirect } from 'next/navigation';
 import UsersClient from './client_code';
@@ -7,14 +6,7 @@ import { numbersTxt } from '@/lib/time';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { Me } from '@/components/me/MeSidebar';
-
-export interface Users extends UserQuery {
-    userID: number;
-    works: Bandage[];
-    works_count: number;
-    is_self: boolean;
-    profile_theme: number;
-}
+import { Users as UsersType } from '@/types/global';
 
 export const generateMetadata = async ({
     params
@@ -32,7 +24,7 @@ export const generateMetadata = async ({
         }
     );
 
-    const data = meta.data as Users;
+    const data = meta.data as UsersType;
     if (!data) return null;
     const works = numbersTxt(data.works_count, ['работа', 'работы', 'работ']);
     const stars = numbersTxt(data.stars_count, ['звезда', 'звезды', 'звёзд']);
@@ -67,7 +59,7 @@ const Users = async ({ params }: { params: Promise<{ name: string }> }) => {
         }
     );
 
-    const data = data_request.data as Users;
+    const data = data_request.data as UsersType;
     if (data_request.status !== 200) notFound();
     if (!data) notFound();
     if (data.is_self) redirect('/me');

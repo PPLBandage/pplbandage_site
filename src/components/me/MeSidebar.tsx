@@ -1,75 +1,83 @@
 'use client';
 
-import { CSSProperties, JSX, useState } from 'react';
+import { JSX, useState } from 'react';
 import style_sidebar from '@/styles/me/sidebar.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { formatDate, timeStamp } from '@/lib/time';
+import { formatDate, numbersTxt, timeStamp } from '@/lib/time';
 import Menu from '../ThemeSelect';
-import Style from '@/styles/workshop/page.module.css';
 
 import {
     IconSettings,
     IconBell,
     IconStar,
     IconList,
-    IconStarFilled
+    IconStarFilled,
+    IconUser
 } from '@tabler/icons-react';
 import { TransitionLink } from '@/components/me/AnimatedLink';
-import { UserQuery } from '@/types/global';
-import { getIcon } from '@/lib/Categories';
+import { UserQuery, Users } from '@/types/global';
+import { useNextCookie } from 'use-next-cookie';
+import { subscribeTo, unsubscribeFrom } from '@/lib/apiManager';
 
-interface RoleProps {
-    role: {
-        id: number;
-        name: string;
-        icon: string;
-    };
-    enabled?: boolean;
-    onClick?(): void;
-    hoverable?: boolean;
-    style?: CSSProperties;
-}
-
-export const RoleEl = ({
-    role,
-    enabled,
-    onClick,
-    hoverable,
-    style
-}: RoleProps) => {
-    return (
-        <div
-            key={role.id}
-            className={`${Style.category} ${
-                enabled && Style.enabled_category
-            } ${hoverable && Style.hoverable}`}
-            onClick={() => onClick && onClick()}
-            style={style}
-        >
-            {getIcon(role.icon)}
-            <p>{role.name}</p>
-        </div>
+const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
+    const logged = !!useNextCookie('sessionId');
+    const [subscribed, setSubscribed] = useState<boolean>(user.is_subscribed);
+    const [subscribers, setSubscribers] = useState<number>(
+        user.subscribers_count
     );
-};
 
-const Roles = ({ user }: { user: UserQuery }) => {
-    if (!user || !user.roles) return null;
+    const changeSubscription = () => {
+        (subscribed ? unsubscribeFrom : subscribeTo)(user.username).then(
+            setSubscribers
+        );
+        setSubscribed(prev => !prev);
+    };
 
-    const roles = user.roles.map(role => <RoleEl role={role} key={role.id} />);
-
+    const text = subscribed ? 'Отписаться' : 'Подписаться';
     return (
         <div
             className={style_sidebar.card}
             style={{
                 gap: '.5rem',
                 alignItems: 'stretch',
-                background:
-                    'color-mix(in srgb, var(--main-card-color) 80%, black 20%)'
+                boxShadow: '0px 13px 8px 0px rgb(0 0 0 / 20%) inset'
             }}
         >
-            {roles}
+            <div className={style_sidebar.subscribe_container}>
+                {!isSelf && logged ? (
+                    <>
+                        <div className={style_sidebar.subscribe_count}>
+                            <IconUser width={20} height={20} />
+                            <span>{subscribers}</span>
+                        </div>
+                        <button
+                            className={style_sidebar.subscribe_button}
+                            onClick={changeSubscription}
+                        >
+                            {text}
+                        </button>
+                    </>
+                ) : (
+                    <div
+                        className={style_sidebar.subscribe_count}
+                        style={{
+                            borderRadius: '99px',
+                            width: '100%',
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <span>
+                            {numbersTxt(subscribers, [
+                                'Подписчик',
+                                'Подписчика',
+                                'Подписчиков'
+                            ])}
+                        </span>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
@@ -80,7 +88,7 @@ export const Me = ({
     self
 }: {
     children: JSX.Element;
-    data: UserQuery;
+    data: Users;
     self?: boolean;
 }) => {
     const [theme, setTheme] = useState<number>(data.profile_theme);
@@ -107,7 +115,7 @@ export const Me = ({
                                     />
                                 )}
                             </div>
-                            {data.roles.length > 0 && <Roles user={data} />}
+                            <Subscribers user={data} isSelf={self} />
                         </div>
                         {self && <Pages data={data} />}
                     </div>

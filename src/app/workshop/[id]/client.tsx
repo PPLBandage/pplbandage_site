@@ -139,7 +139,7 @@ export default function Home({
             <SkinLoad
                 onChange={evt => {
                     if (evt) {
-                        client.current?.changeSkin(
+                        client.current?.loadSkinBase64(
                             evt.data,
                             evt.slim,
                             evt.cape ? b64Prefix + evt.cape : ''

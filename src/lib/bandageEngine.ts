@@ -61,27 +61,32 @@ class Client {
     private main_bandage: HTMLCanvasElement = null;
 
     async loadBase() {
+        // Грузим базовый скин в `original_canvas`
         const skin = await asyncImage('/static/workshop_base.png');
         const context = this.original_canvas.getContext('2d');
         context!.drawImage(skin, 0, 0);
     }
 
     init() {
+        // Инициализируем канваз для исходного скина
         this.original_canvas = document.createElement('canvas');
         this.original_canvas.width = 64;
         this.original_canvas.height = 64;
 
+        // Вешаем ивентлистенеры на колорпикер
         const color_picker = document.getElementById('color_picker');
         color_picker?.addEventListener('input', () => this.rerender());
 
+        // Грузим базовый скин и вызываем колбек на инициализацию
         this.loadBase().then(() => this.onInit?.());
     }
 
+    /** Загрузить скин по нику в движок */
     async loadSkin(nickname: string): Promise<void> {
         if (!nickname) return;
 
         const data = await getSkin(nickname);
-        this.slim = data.slim;
+        this.slim = data.slim; // Установка тонких рук
 
         this.setOriginalCanvas(b64Prefix + data.skin, () => {
             this.skin = b64Prefix + data.skin;
@@ -91,6 +96,7 @@ class Client {
         });
     }
 
+    /** Загрузка скина с URL */
     loadSkinUrl(url: string) {
         asyncImage(url)
             .then(img => {
@@ -103,6 +109,21 @@ class Client {
             .catch(console.error);
     }
 
+    /** Загрузить скин из base64 */
+    loadSkinBase64(skin_b64: string, slim?: boolean, cape?: string) {
+        if (slim !== undefined) this.slim = slim;
+        this.setOriginalCanvas(skin_b64, () => {
+            this.skin = skin_b64;
+            this.cape = cape;
+
+            this.rerender();
+        });
+    }
+
+    /**
+    Синхронно сохранить исходный base64 в канваз `original_canvas`  
+    Вызывает `callback` при успешной загрузке
+    */
     private setOriginalCanvas(b64: string, callback: () => void) {
         const context = this.original_canvas.getContext('2d');
         if (!context) {
@@ -119,52 +140,47 @@ class Client {
 
     //---------------------bandage_manager-------------------
 
+    /**
+    Синхронно загрузить повязку из изображения  
+    `slim` – повязка предназначена для тонких рук (используется в раздельном типе)
+    */
     loadFromImage(img: HTMLImageElement, slim?: boolean) {
         const height = img.height / 2;
-        const pepe_canvas = document.createElement(
-            'canvas'
-        ) as HTMLCanvasElement;
-        const context_pepe = pepe_canvas.getContext('2d');
-        pepe_canvas.width = 16;
-        pepe_canvas.height = height;
 
-        const lining_canvas = document.createElement(
-            'canvas'
-        ) as HTMLCanvasElement;
-        const context_lining = lining_canvas.getContext('2d');
-        lining_canvas.width = 16;
-        lining_canvas.height = height;
+        // Грузим первый слой повязки в канваз
+        const first_layer = document.createElement('canvas');
+        const first_layer_ctx = first_layer.getContext('2d');
+        first_layer.width = 16;
+        first_layer.height = height;
 
-        context_pepe.drawImage(img, 0, 0, 16, height, 0, 0, 16, height);
-        context_lining.drawImage(img, 0, height, 16, height, 0, 0, 16, height);
+        // Грузим второй слой повязки в канваз
+        const second_layer = document.createElement('canvas');
+        const second_layer_ctx = second_layer.getContext('2d');
+        second_layer.width = 16;
+        second_layer.height = height;
+
+        first_layer_ctx.drawImage(img, 0, height, 16, height, 0, 0, 16, height);
+        second_layer_ctx.drawImage(img, 0, 0, 16, height, 0, 0, 16, height);
 
         if (slim) {
-            this.pepe_canvas_slim = pepe_canvas;
-            this.lining_canvas_slim = lining_canvas;
+            this.pepe_canvas_slim = second_layer;
+            this.lining_canvas_slim = first_layer;
         } else {
-            this.pepe_canvas = pepe_canvas;
-            this.lining_canvas = lining_canvas;
+            this.pepe_canvas = second_layer;
+            this.lining_canvas = first_layer;
         }
-        this.position = 6 - Math.floor(height / 2);
 
+        this.position = 6 - Math.floor(height / 2);
         this.rerender();
     }
 
+    /** Изменить состояние тонких рук */
     changeSlim(slim: boolean) {
         this.slim = slim;
         this.rerender();
     }
 
-    changeSkin(skin: string, slim?: boolean, cape?: string) {
-        if (slim !== undefined) this.slim = slim;
-        this.setOriginalCanvas(skin, () => {
-            this.skin = skin;
-            this.cape = cape;
-
-            this.rerender();
-        });
-    }
-
+    /** Установить параметры рендера */
     setParams(props: Settings) {
         Object.entries(props).forEach(([key, value]) => {
             Object.defineProperty(this, key, { value });
@@ -173,33 +189,43 @@ class Client {
     }
 
     //-----------RENDER-------------
+    /**
+    Синхронно выполнит рендер повязки на скин  
+    `render_original` – нужно ли рендерить оригинальный скин
+    */
     rerender(render_original: boolean = true, download?: boolean) {
         const canvas = document.createElement('canvas');
         canvas.width = 64;
         canvas.height = 64;
 
-        let bandage_canvas = this.pepe_canvas;
-        let lining_canvas = this.lining_canvas;
+        // Копируем повязки в локальные переменные
+        let second_layer_canvas = this.pepe_canvas;
+        let first_layer_canvas = this.lining_canvas;
 
+        // При раздельных типах и тонких руках - грузим повязки для тонких рук
+        // Не будет вызвано если повязка на ноге
         if (this.split_types && this.slim && [0, 2].includes(this.body_part)) {
-            bandage_canvas = this.pepe_canvas_slim;
-            lining_canvas = this.lining_canvas_slim;
+            second_layer_canvas = this.pepe_canvas_slim;
+            first_layer_canvas = this.lining_canvas_slim;
         }
 
-        if (!bandage_canvas || !lining_canvas) return;
+        if (!second_layer_canvas || !first_layer_canvas) return;
 
+        // Результативный канваз
         const canvas_context = canvas.getContext('2d', {
             willReadFrequently: true
         });
         canvas_context.clearRect(0, 0, canvas.width, canvas.height);
 
+        // Рисуем базовый скин
         if (render_original)
             canvas_context.drawImage(this.original_canvas, 0, 0);
 
-        const height = bandage_canvas.height;
+        const height = second_layer_canvas.height;
 
-        let pepe = crop_pepe(
-            bandage_canvas,
+        // Обрезаем второй слой
+        let second_layer = this.crop_pepe(
+            second_layer_canvas,
             this.slim,
             height,
             this.body_part,
@@ -212,8 +238,9 @@ class Client {
             willReadFrequently: true
         });
 
-        let lining = crop_pepe(
-            lining_canvas,
+        // Обрезаем первый слой
+        let first_layer = this.crop_pepe(
+            first_layer_canvas,
             this.slim,
             height,
             this.body_part,
@@ -226,12 +253,14 @@ class Client {
             willReadFrequently: true
         });
 
+        // Если повязка окрашиваемая - красим
         if (this.colorable) {
             const rgb = hex2rgb(this.color);
-            pepe = fillPepe(pepe, rgb);
-            lining = fillPepe(lining, rgb);
+            second_layer = fillPepe(second_layer, rgb);
+            first_layer = fillPepe(first_layer, rgb);
         }
 
+        // Очищаем пиксели над повязкой
         if (this.clear_pix) {
             clearPepe(
                 canvas,
@@ -241,31 +270,36 @@ class Client {
             );
         }
 
+        // Коэффициент смещения повязки относительно себя
+        // Смещение на один пиксель вправо, если руки тонкие и повязка на руках
         const coef =
             this.slim && (this.body_part == 0 || this.body_part == 2) ? 1 : 0;
+
+        // Рисуем повязки на их холсты
         ctx_pepe.drawImage(
-            pepe,
+            second_layer,
             coef,
             0,
-            pepe.width - coef,
+            second_layer.width - coef,
             height,
             0,
             0,
-            pepe.width - coef,
+            second_layer.width - coef,
             height
         );
         ctx_lining.drawImage(
-            lining,
+            first_layer,
             coef,
             0,
-            lining.width - coef,
+            first_layer.width - coef,
             height,
             0,
             0,
-            lining.width - coef,
+            first_layer.width - coef,
             height
         );
 
+        // Берем координаты для рендеринга повязки
         let overlay_x = body_part_x_overlay[this.body_part];
         let overlay_y = body_part_y_overlay[this.body_part];
 
@@ -274,6 +308,7 @@ class Client {
 
         this.main_bandage = cropped_lining;
 
+        // В соответствие с выбранным слоем отрисовки выбираем координаты
         switch (this.layers) {
             case '1':
                 overlay_x = first_x;
@@ -285,6 +320,7 @@ class Client {
                 break;
         }
 
+        // Рендерим повязку на результативный канваз
         if (this.first_layer)
             canvas_context.drawImage(
                 cropped_lining,
@@ -299,6 +335,7 @@ class Client {
                 overlay_y + this.position
             );
 
+        // Вызываем колбек после рендера
         if (!download) {
             this.skin = canvas.toDataURL();
             if (this.onRendered)
@@ -312,6 +349,7 @@ class Client {
         }
     }
 
+    /** Вычислить средний цвет повязки */
     calcColor() {
         const on_second_layer = this.layers === '2'; // Брать пиксели со второго слоя
 
@@ -361,80 +399,112 @@ class Client {
         };
     }
 
+    /** Скачать base64 изображение */
     download(skin?: string, name?: string) {
         const link = document.createElement('a');
         link.download = name || 'skin.png';
         link.href = skin || this.skin;
         link.click();
     }
-}
 
-export const crop_pepe = (
-    pepe_canvas: HTMLCanvasElement,
-    slim: boolean,
-    height: number,
-    body_part: number,
-    split_types: boolean
-): HTMLCanvasElement => {
-    const bandage_canvas = document.createElement(
-        'canvas'
-    ) as HTMLCanvasElement;
-    bandage_canvas.width = 16;
-    bandage_canvas.height = height;
-    const context = bandage_canvas.getContext('2d', {
-        willReadFrequently: true
-    });
-
-    if (slim && (body_part === 0 || body_part === 2)) {
-        if (split_types) {
-            context?.drawImage(pepe_canvas, 0, 0, 15, height, 0, 0, 15, height);
-        } else {
-            context?.drawImage(pepe_canvas, 5, 0, 10, height, 5, 0, 10, height);
-            context?.drawImage(pepe_canvas, 0, 0, 4, height, 1, 0, 4, height);
-        }
-    } else {
-        context?.drawImage(pepe_canvas, 0, 0);
-    }
-
-    if (body_part > 1) {
-        const result_canvas = document.createElement(
+    /** Подогнать повязку под соответствующий тип рук/ног */
+    crop_pepe(
+        pepe_canvas: HTMLCanvasElement,
+        slim: boolean,
+        height: number,
+        body_part: number,
+        split_types: boolean
+    ): HTMLCanvasElement {
+        const bandage_canvas = document.createElement(
             'canvas'
         ) as HTMLCanvasElement;
-        result_canvas.width = 16;
-        result_canvas.height = height;
-        const context = result_canvas.getContext('2d', {
+        bandage_canvas.width = 16;
+        bandage_canvas.height = height;
+        const context = bandage_canvas.getContext('2d', {
             willReadFrequently: true
         });
 
-        const paste_position = !(slim && (body_part == 0 || body_part == 2))
-            ? 8
-            : 7;
-        context?.drawImage(
-            bandage_canvas,
-            0,
-            0,
-            8,
-            height,
-            paste_position,
-            0,
-            8,
-            height
-        ); // left
-        context?.drawImage(
-            bandage_canvas,
-            paste_position,
-            0,
-            8,
-            height,
-            0,
-            0,
-            8,
-            height
-        ); // right
-        return result_canvas;
+        if (slim && (body_part === 0 || body_part === 2)) {
+            if (split_types) {
+                context?.drawImage(
+                    pepe_canvas,
+                    0,
+                    0,
+                    15,
+                    height,
+                    0,
+                    0,
+                    15,
+                    height
+                );
+            } else {
+                context?.drawImage(
+                    pepe_canvas,
+                    5,
+                    0,
+                    10,
+                    height,
+                    5,
+                    0,
+                    10,
+                    height
+                );
+                context?.drawImage(
+                    pepe_canvas,
+                    0,
+                    0,
+                    4,
+                    height,
+                    1,
+                    0,
+                    4,
+                    height
+                );
+            }
+        } else {
+            context?.drawImage(pepe_canvas, 0, 0);
+        }
+
+        if (body_part > 1) {
+            const result_canvas = document.createElement(
+                'canvas'
+            ) as HTMLCanvasElement;
+            result_canvas.width = 16;
+            result_canvas.height = height;
+            const context = result_canvas.getContext('2d', {
+                willReadFrequently: true
+            });
+
+            const paste_position = !(slim && (body_part == 0 || body_part == 2))
+                ? 8
+                : 7;
+            context?.drawImage(
+                bandage_canvas,
+                0,
+                0,
+                8,
+                height,
+                paste_position,
+                0,
+                8,
+                height
+            ); // left
+            context?.drawImage(
+                bandage_canvas,
+                paste_position,
+                0,
+                8,
+                height,
+                0,
+                0,
+                8,
+                height
+            ); // right
+            return result_canvas;
+        }
+        return bandage_canvas;
     }
-    return bandage_canvas;
-};
+}
 
 export const clearPepe = (
     canvas: HTMLCanvasElement,
@@ -495,77 +565,6 @@ const hex2rgb = (hex: string) => {
     const b = parseInt(hex.slice(5, 7), 16);
 
     return [r, g, b];
-};
-
-export const to64 = (skin: HTMLImageElement): HTMLCanvasElement => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-        throw new Error('Unable to get canvas context');
-    }
-
-    canvas.width = 64;
-    canvas.height = 64;
-
-    const leg = document.createElement('canvas');
-    const legCtx = leg.getContext('2d');
-    if (!legCtx) {
-        throw new Error('Unable to get canvas context for leg');
-    }
-    leg.width = 16;
-    leg.height = 16;
-    legCtx.drawImage(skin, 0, 16, 16, 16, 0, 0, 16, 16);
-
-    const arm = document.createElement('canvas');
-    const armCtx = arm.getContext('2d');
-    if (!armCtx) {
-        throw new Error('Unable to get canvas context for arm');
-    }
-    arm.width = 24;
-    arm.height = 16;
-    armCtx.drawImage(skin, 40, 16, 24, 16, 0, 0, 24, 16);
-
-    ctx.drawImage(leg, 16, 48);
-    ctx.drawImage(arm, 32, 48);
-    ctx.drawImage(skin, 0, 0);
-
-    // Mirroring functions for easier handling of symmetrical parts
-    const mirrorImage = (
-        srcCanvas: HTMLCanvasElement,
-        sx: number,
-        sy: number,
-        sw: number,
-        sh: number,
-        dx: number,
-        dy: number
-    ) => {
-        const tempCanvas = document.createElement('canvas');
-        const tempCtx = tempCanvas.getContext('2d');
-        if (!tempCtx) {
-            throw new Error('Unable to get temporary canvas context');
-        }
-        tempCanvas.width = sw;
-        tempCanvas.height = sh;
-        tempCtx.scale(-1, 1);
-        tempCtx.drawImage(srcCanvas, sx, sy, sw, sh, -sw, 0, sw, sh);
-        ctx.drawImage(tempCanvas, 0, 0, sw, sh, dx, dy, sw, sh);
-    };
-
-    mirrorImage(leg, 0, 4, 4, 12, 24, 52);
-    mirrorImage(leg, 8, 4, 4, 12, 16, 52);
-    mirrorImage(leg, 4, 4, 4, 12, 20, 52);
-    mirrorImage(leg, 12, 4, 4, 12, 28, 52);
-    mirrorImage(leg, 4, 0, 4, 4, 20, 48);
-    mirrorImage(leg, 8, 0, 4, 4, 24, 48);
-
-    mirrorImage(arm, 0, 4, 4, 12, 40, 52);
-    mirrorImage(arm, 8, 4, 4, 12, 32, 52);
-    mirrorImage(arm, 4, 4, 4, 12, 36, 52);
-    mirrorImage(arm, 12, 4, 4, 12, 44, 52);
-    mirrorImage(arm, 4, 0, 4, 4, 36, 48);
-    mirrorImage(arm, 8, 0, 4, 4, 40, 48);
-
-    return canvas;
 };
 
 export default Client;

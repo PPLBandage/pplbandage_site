@@ -1,4 +1,5 @@
 // Боже, как же я обожаю промисы
+/** Асинхронно загрузить изображение */
 const AsyncImage = (src: string): Promise<HTMLImageElement> =>
     new Promise((resolve, reject) => {
         const img = new Image();
@@ -8,6 +9,7 @@ const AsyncImage = (src: string): Promise<HTMLImageElement> =>
         img.onerror = reject;
     });
 
+/** Синхронно получить картинку как base64 */
 export const base64Encode = (img: HTMLImageElement) => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');

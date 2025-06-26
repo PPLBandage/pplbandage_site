@@ -15,7 +15,7 @@
 ## Getting Started
 PPLBandage project created specifically for the PepeLand community. Developed and maintained by PPLBandage team.  
 - Visit [our site](https://pplbandage.ru) for more information.
-- Visit the [backed source code](https://github.com/PPLBandage/pplbandage_backend).
+- Visit the [backend source code](https://github.com/PPLBandage/pplbandage_backend).
 - And also read [the rules](https://pplbandage.ru/tutorials/rules) of use of the site.
 
 ## Known Issues

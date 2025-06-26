@@ -3,6 +3,27 @@
     flex-direction: column
 }
 
+.root_button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    text-align: left;
+    text-decoration: none;
+
+    gap: .5rem;
+
+    background-color: var(--main-card-color);
+    border: 2px dashed var(--main-element-color);
+    border-radius: 10px;
+
+    padding: .5rem;
+}
+
+.root_button:hover {
+    border: 2px solid var(--main-element-color);
+}
+
 .buttons_container {
     display: flex;
     flex-direction: column;

@@ -30,8 +30,7 @@ export default function GlobalError({ error }: GlobalErrorProps) {
                     <main className={style.main}>
                         <h2 style={{ fontSize: '2rem' }}>Client Error</h2>
                         <h3 style={{ margin: '.78rem' }}>
-                            Произошла ошибка на стороне клиента ({error.message}
-                            )
+                            Произошла ошибка на стороне клиента ({error.message})
                         </h3>
                         <div>
                             <button

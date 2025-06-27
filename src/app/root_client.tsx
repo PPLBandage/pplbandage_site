@@ -130,6 +130,9 @@ const HomeClient = ({ pong }: { pong: number }) => {
                         PepeLand
                     </Link>
                     .
+                    <Link href="/tutorials/rules#PP" style={{ marginLeft: '.5rem' }}>
+                        Privacy Policy
+                    </Link>
                 </p>
                 <IconCropped width={24} height={24} className={styles.logo} />
             </footer>

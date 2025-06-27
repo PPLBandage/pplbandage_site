@@ -125,8 +125,10 @@
 }
 
 .migrationOpenButton {
+    font-family: inherit;
     cursor: pointer;
     animation: migrationFading 2s infinite;
+    font-weight: 500;
 }
 
 .migrationOpenButton:hover {

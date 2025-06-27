@@ -124,6 +124,29 @@
     border: 2px rgba(12, 247, 215) dashed;
 }
 
+.migrationOpenButton {
+    cursor: pointer;
+    animation: migrationFading 2s infinite;
+}
+
+.migrationOpenButton:hover {
+    border: 2px #D29922 dashed !important;
+}
+
+@keyframes migrationFading {
+    0% {
+        border-color: var(--main-element-color);
+    }
+
+    50% {
+        border-color: #D29922;
+    }
+
+    100% {
+        border-color: var(--main-element-color);
+    }
+}
+
 .footer {
     position: fixed;
     bottom: 1rem;

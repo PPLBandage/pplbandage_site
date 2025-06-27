@@ -4,11 +4,7 @@ import React, { useState } from 'react';
 import styles from '@/styles/root/page.module.css';
 import Link from 'next/link';
 import { CustomLink } from '@/components/workshop/Search';
-import {
-    IconInfinity,
-    IconAlertTriangle,
-    IconStack
-} from '@tabler/icons-react';
+import { IconInfinity, IconAlertTriangle, IconStack } from '@tabler/icons-react';
 import InfoCard from '@/components/InfoCard';
 
 // Import pepes images
@@ -24,6 +20,7 @@ import Pepe8 from '@/resources/pepes_svg/8.svg';
 import Pepe9 from '@/resources/pepes_svg/9.svg';
 
 import IconCropped from '@/resources/icon-cropped.svg';
+import ProviderMigrationDialog from '@/components/temp/ProviderMigrationDialog';
 
 const pepesObj = {
     ogukal: Pepe0,
@@ -40,6 +37,7 @@ const pepesObj = {
 
 const HomeClient = ({ pong }: { pong: number }) => {
     const [animationState, setAnimationState] = useState<boolean>(true);
+    const [migrationExpanded, setMigrationExpanded] = useState<boolean>(false);
 
     const pepes = Object.entries(pepesObj).map(([path, Pepe], index) => (
         <Link
@@ -60,6 +58,11 @@ const HomeClient = ({ pong }: { pong: number }) => {
 
     return (
         <div>
+            <ProviderMigrationDialog
+                expanded={migrationExpanded}
+                setExpanded={setMigrationExpanded}
+            />
+
             <div className={styles.main_container}>
                 <svg width="958" height="318" className={styles.svg}>
                     <path
@@ -89,6 +92,15 @@ const HomeClient = ({ pong }: { pong: number }) => {
                         <IconStack />
                         Открыть мастерскую
                     </Link>
+
+                    <button
+                        onClick={() => setMigrationExpanded(true)}
+                        className={`${styles.link} ${styles.migrationOpenButton}`}
+                    >
+                        <IconAlertTriangle color="#D29922" />
+                        Важное объявление
+                    </button>
+
                     {pong !== 200 && (
                         <InfoCard
                             color="#D29922"
@@ -113,8 +125,7 @@ const HomeClient = ({ pong }: { pong: number }) => {
             </div>
             <footer className={styles.footer}>
                 <p>
-                    Сайт pplbandage.ru не является официальной частью сети
-                    серверов{' '}
+                    Сайт pplbandage.ru не является официальной частью сети серверов{' '}
                     <Link href="https://pepeland.net" target="_blank">
                         PepeLand
                     </Link>

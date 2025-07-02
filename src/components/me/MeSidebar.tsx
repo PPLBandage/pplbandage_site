@@ -26,9 +26,7 @@ const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
     const [subscribed, setSubscribed] = useState<boolean>(
         !isSelf ? user.is_subscribed : false
     );
-    const [subscribers, setSubscribers] = useState<number>(
-        user.subscribers_count
-    );
+    const [subscribers, setSubscribers] = useState<number>(user.subscribers_count);
 
     const changeSubscription = () => {
         if (isSelf) return;
@@ -146,7 +144,9 @@ const AvatarHead = ({
     let used_color = undefined;
     let image = undefined;
     if (theme === 1) {
-        image = { backgroundImage: `url("${data.avatar}")` };
+        // Fuck this
+        const url = `/_next/image?url=${encodeURI(data.avatar)}&w=256&q=75`;
+        image = { backgroundImage: `url("${url}")` };
     } else {
         used_color = {
             backgroundColor: theme === 2 ? color : 'var(--main-card-color)'

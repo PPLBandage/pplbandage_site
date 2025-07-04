@@ -5,8 +5,9 @@ import style from '@/styles/404/page.module.css';
 import { IconReload } from '@tabler/icons-react';
 import { getTheme } from '../components/root/providers';
 import { getCookie } from 'cookies-next/client';
-import { CSSProperties } from 'react';
+import { CSSProperties, useEffect } from 'react';
 import { Inter } from 'next/font/google';
+import { usePathname } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,6 +18,17 @@ type GlobalErrorProps = {
 
 export default function GlobalError({ error }: GlobalErrorProps) {
     const theme = getTheme(getCookie('theme_main') || 'amoled');
+    const path = usePathname();
+
+    useEffect(() => {
+        const content = `Page: ${path}\nMessage: ${error.message ?? 'No message'}`;
+        fetch('/api/v1/error-report', {
+            body: JSON.stringify({ content }),
+            method: 'POST',
+            headers: { 'content-type': 'application/json' }
+        }).then(() => console.info('System has been reported about your issue'));
+    }, []);
+
     return (
         <html
             style={theme.data as CSSProperties}

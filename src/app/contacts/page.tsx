@@ -81,9 +81,9 @@ const Home = () => {
                     style={{ maxWidth: 'calc(500px + 1rem)' }}
                 >
                     <p style={{ margin: 0 }}>
-                        Не обращайтесь к модераторам PepeLand с вопросами по
-                        данному сайту! Они не принимают непосредственного
-                        участия в модерации повязок.
+                        Не обращайтесь к модераторам PepeLand с вопросами по данному
+                        сайту! Они не принимают непосредственного участия в модерации
+                        повязок.
                     </p>
                 </InfoCard>
                 <div className={style.cards_container}>
@@ -97,16 +97,12 @@ const Home = () => {
                             {
                                 name: 'Telegram',
                                 URL: 'https://t.me/andcool_systems',
-                                icon: (
-                                    <IconBrandTelegram width={24} height={24} />
-                                )
+                                icon: <IconBrandTelegram width={24} height={24} />
                             },
                             {
                                 name: 'Telegram канал',
                                 URL: 'https://tg.andcool.ru',
-                                icon: (
-                                    <IconBrandTelegram width={24} height={24} />
-                                )
+                                icon: <IconBrandTelegram width={24} height={24} />
                             }
                         ]}
                     />
@@ -121,16 +117,12 @@ const Home = () => {
                             {
                                 name: 'Telegram',
                                 URL: 'https://t.me/shapestd',
-                                icon: (
-                                    <IconBrandTelegram width={24} height={24} />
-                                )
+                                icon: <IconBrandTelegram width={24} height={24} />
                             },
                             {
                                 name: 'ВК',
                                 URL: 'https://vk.com/shapestd',
-                                icon: (
-                                    <IconExternalLink width={24} height={24} />
-                                )
+                                icon: <IconExternalLink width={24} height={24} />
                             }
                         ]}
                     />

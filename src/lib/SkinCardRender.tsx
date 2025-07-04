@@ -62,11 +62,7 @@ export const render = (
     Promise.all(
         data.map(async el => {
             const colorable = el.flags & 1;
-            const random_color = [
-                randint(0, 255),
-                randint(0, 255),
-                randint(0, 255)
-            ];
+            const random_color = [randint(0, 255), randint(0, 255), randint(0, 255)];
 
             const result = await generateSkin(
                 el.base64,

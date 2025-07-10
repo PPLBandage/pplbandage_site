@@ -2,12 +2,7 @@
 
 import React, { CSSProperties, JSX, useEffect, useState } from 'react';
 import { Me } from '@/components/me/MeSidebar';
-import {
-    redirect,
-    usePathname,
-    useRouter,
-    useSearchParams
-} from 'next/navigation';
+import { redirect, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { httpStatusCodes } from '@/lib/StatusCodes';
 import RolesDialog from '@/components/RolesDialog';
 import MinecraftConnect from '@/components/me/MinecraftConnect';
@@ -78,8 +73,7 @@ const Loading = ({
             .catch(response => {
                 setLoadingStatus(
                     `${response.status}: ${
-                        response.data.message ||
-                        httpStatusCodes[response.status]
+                        response.data.message || httpStatusCodes[response.status]
                     }`
                 );
             });
@@ -152,22 +146,24 @@ const Login = () => {
                 </div>
 
                 <span className={styles.p} id="about_logging">
-                    Для регистрации вам нужно быть участником Discord сервера{' '}
-                    <a href="https://baad.pw/ds" className={styles.a}>
-                        PWGood
-                    </a>{' '}
-                    и иметь одну из этих&nbsp;
-                    <RolesDialog>
-                        <span
-                            style={{
-                                cursor: 'pointer',
-                                textDecoration: 'underline'
-                            }}
-                        >
-                            ролей
-                        </span>
-                    </RolesDialog>
-                    .
+                    <s>
+                        Для регистрации вам нужно быть участником Discord сервера{' '}
+                        <a href="https://baad.pw/ds" className={styles.a}>
+                            PWGood
+                        </a>{' '}
+                        и иметь одну из этих&nbsp;
+                        <RolesDialog>
+                            <span
+                                style={{
+                                    cursor: 'pointer',
+                                    textDecoration: 'underline'
+                                }}
+                            >
+                                ролей
+                            </span>
+                        </RolesDialog>
+                        .
+                    </s>
                 </span>
                 <p style={{ color: 'gray', marginBottom: 0 }}>
                     Регистрируясь на сайте вы соглашаетесь с настоящими{' '}

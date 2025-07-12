@@ -192,9 +192,9 @@
 
 .ppl_name {
     color: var(--main-text-color);
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     margin: 0;
-    margin-left: .5rem;
+    margin-left: .75rem;
 }
 
 .unreaded {

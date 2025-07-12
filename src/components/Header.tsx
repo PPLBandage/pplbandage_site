@@ -56,13 +56,8 @@ const Header = (): JSX.Element => {
                 >
                     <div className={styles.site_name_container}>
                         <Link href={'/'} className={styles.root_anchor}>
-                            <IconCropped
-                                width={40}
-                                className={styles.main_icon}
-                            />
-                            <h1 className={styles.ppl_name}>
-                                Повязки Pepeland
-                            </h1>
+                            <IconCropped width={36} className={styles.main_icon} />
+                            <h1 className={styles.ppl_name}>Повязки Pepeland</h1>
                         </Link>
                     </div>
 

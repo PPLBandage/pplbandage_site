@@ -29,7 +29,7 @@ const TagSearch = ({
     }, [selectedTags]);
 
     const loadSuggestions = (newValue?: string) => {
-        newValue = (newValue || '').slice(0, 20);
+        newValue = (newValue || '').slice(0, 20).replace(/[^\p{L}\p{N} ]/gu, '');
         const key = newValue.toLowerCase();
 
         if (tagsCache.current[key]) {

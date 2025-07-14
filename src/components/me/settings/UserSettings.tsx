@@ -6,7 +6,7 @@ import { getMeSettings, setPublicProfile } from '@/lib/apiManager';
 
 export const UserSettings = () => {
     const { data, isLoading, mutate } = useSWR(
-        'userConnections',
+        'userSettings',
         async () => await getMeSettings()
     );
 

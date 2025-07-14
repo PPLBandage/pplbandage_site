@@ -274,6 +274,15 @@ const Pages = ({ data }: { data: UserQuery }) => {
                 <IconSettings />
                 Настройки
             </TransitionLink>
+            <TransitionLink
+                href="/me/accounts"
+                className={`${style_sidebar.side_butt} ${
+                    path === 'accounts' && style_sidebar.active
+                }`}
+            >
+                <IconUser />
+                Аккаунты
+            </TransitionLink>
         </div>
     );
 };

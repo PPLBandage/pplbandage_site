@@ -238,6 +238,16 @@ export const getMeSettings = async (): Promise<SettingsResponse> => {
     ).data as SettingsResponse;
 };
 
+/** Get me connections */
+export const getMeConnections = async (): Promise<ConnectionsResponse> => {
+    return (
+        await doRequest({
+            url: `/users/@me/connections`,
+            method: 'GET'
+        })
+    ).data as ConnectionsResponse;
+};
+
 /** Set public profile */
 export const setPublicProfile = async (params: {
     state: boolean;
@@ -442,7 +452,7 @@ export const getRoles = async (): Promise<Interfaces.Role[]> => {
     ).data;
 };
 
-/** Get registration roles */
+/** Get workshop */
 export const getWorkshop = async (params: {
     page: number;
     take: number;
@@ -454,6 +464,27 @@ export const getWorkshop = async (params: {
             url: `/workshop`,
             method: 'GET',
             params
+        })
+    ).data;
+};
+
+/** Connect discord */
+export const connectDiscord = async (code: string) => {
+    return (
+        await doRequest({
+            url: `/users/@me/connections/discord`,
+            method: 'POST',
+            data: { code }
+        })
+    ).data;
+};
+
+/** Disconnect discord */
+export const disconnectDiscord = async () => {
+    return (
+        await doRequest({
+            url: `/users/@me/connections/discord`,
+            method: 'DELETE'
         })
     ).data;
 };

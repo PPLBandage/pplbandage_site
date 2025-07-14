@@ -2,32 +2,23 @@
 
 import React, { CSSProperties, JSX, useEffect, useState } from 'react';
 import { Me } from '@/components/me/MeSidebar';
-import { redirect, usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { httpStatusCodes } from '@/lib/StatusCodes';
+import { redirect, usePathname } from 'next/navigation';
 import RolesDialog from '@/components/RolesDialog';
 import MinecraftConnect from '@/components/me/MinecraftConnect';
 import styles from '@/styles/me/me.module.css';
-import Link from 'next/link';
 import {
-    IconArrowBack,
     IconBrandDiscord,
     IconBrandMinecraft,
     IconLogin
 } from '@tabler/icons-react';
-import IconSvgCropped from '@/resources/icon-cropped.svg';
 import { useNextCookie } from 'use-next-cookie';
 import useSWR from 'swr';
-import {
-    getMe,
-    loginDiscord,
-    loginMinecraft as loginMinecraftAPI
-} from '@/lib/apiManager';
+import { getMe, loginMinecraft as loginMinecraftAPI } from '@/lib/apiManager';
 import { Users } from '@/types/global';
 
 const Wrapper = ({ children }: { children: JSX.Element }) => {
-    const searchParams = useSearchParams();
-    const pathname = usePathname().split('/').reverse()[0];
-    const code = searchParams.get('code');
+    const pathname_full = usePathname();
+    const pathname = pathname_full.split('/').reverse()[0];
     const session = useNextCookie('sessionId', 1000);
     const [isLogged, setIsLogged] = useState<boolean>(!!session);
 
@@ -35,9 +26,9 @@ const Wrapper = ({ children }: { children: JSX.Element }) => {
         setIsLogged(!!session);
     }, [session]);
 
-    if (pathname === 'login') return children;
+    if (pathname_full.includes('login') || pathname_full.includes('connect'))
+        return children;
     if (pathname !== 'me' && !isLogged) redirect('/me');
-    if (code) return <Loading code={code} callback={setIsLogged} />;
     if (!isLogged) return <Login />;
 
     return <MeLoader>{children}</MeLoader>;
@@ -51,51 +42,6 @@ const MeLoader = ({ children }: { children: JSX.Element }) => {
         <Me data={data as Users} self>
             {children}
         </Me>
-    );
-};
-
-const Loading = ({
-    code,
-    callback
-}: {
-    code: string;
-    callback: (v: boolean) => void;
-}) => {
-    const router = useRouter();
-    const [loadingStatus, setLoadingStatus] = useState<string>('');
-
-    useEffect(() => {
-        loginDiscord(code)
-            .then(() => {
-                callback(true);
-                router.replace('/me');
-            })
-            .catch(response => {
-                setLoadingStatus(
-                    `${response.status}: ${
-                        response.data.message || httpStatusCodes[response.status]
-                    }`
-                );
-            });
-    }, []);
-
-    return (
-        <div className={styles.loading_container}>
-            <IconSvgCropped
-                width={58}
-                height={58}
-                className={`${!loadingStatus && styles.loading}`}
-            />
-            <h3>{loadingStatus || 'Загрузка'}</h3>
-            <Link
-                className={styles.link}
-                style={{ visibility: loadingStatus ? 'visible' : 'hidden' }}
-                href="/me"
-            >
-                <IconArrowBack />
-                Назад
-            </Link>
-        </div>
     );
 };
 

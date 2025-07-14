@@ -1,84 +1,33 @@
+import useSWR, { mutate } from 'swr';
 import Style from '@/styles/me/connections.module.css';
 import {
-    IconBrandDiscord,
     IconBrandMinecraft,
     IconPlugConnected,
     IconRefresh,
     IconX
 } from '@tabler/icons-react';
-import useSWR, { mutate } from 'swr';
 import Image from 'next/image';
-import { minecraftMono } from '@/fonts/Minecraft';
-import SlideButton from '@/components/SlideButton';
-import MinecraftConnect from '@/components/me/MinecraftConnect';
-import { formatDateHuman } from '@/lib/time';
 import {
     connectMinecraft as connectMinecraftAPI,
     disconnectMinecraft,
-    getMeSettings,
+    getMeConnections,
     purgeSkinCache,
     setMinecraftAutoload,
     setMinecraftVisible
 } from '@/lib/apiManager';
+import { minecraftMono } from '@/fonts/Minecraft';
+import SlideButton from '@/components/SlideButton';
+import { formatDateHuman } from '@/lib/time';
+import MinecraftConnect from '../MinecraftConnect';
 
-export const Connections = () => {
-    return (
-        <>
-            <Discord />
-            <Minecraft />
-        </>
-    );
-};
-
-const Discord = () => {
-    const { data, isLoading } = useSWR(
-        'userConnections',
-        async () => await getMeSettings()
-    );
-
-    if (isLoading) return null;
-    return (
-        <div className={Style.container}>
-            <h3>
-                <IconBrandDiscord />
-                Discord аккаунт
-            </h3>
-            <div className={Style.discord_container}>
-                {data.connections?.discord && (
-                    <Image
-                        src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/avatars/${data?.userID}/discord`}
-                        alt="avatar"
-                        width={64}
-                        height={64}
-                        style={{ borderRadius: '50%' }}
-                    />
-                )}
-                <div className={Style.discord_name_container}>
-                    <h1>
-                        {data.connections?.discord?.name ||
-                            data.connections.discord.username}
-                    </h1>
-                    <p>
-                        Подключено{' '}
-                        {data.connections?.discord &&
-                            formatDateHuman(
-                                new Date(data.connections?.discord?.connected_at)
-                            )}
-                    </p>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const Minecraft = () => {
+export const Minecraft = () => {
     const { data, isLoading, mutate } = useSWR(
         'userConnections',
-        async () => await getMeSettings()
+        async () => await getMeConnections()
     );
 
     if (isLoading) return null;
-    if (!data.connections.minecraft) return <UnloggedMinecraft />;
+    if (!data.minecraft) return <UnloggedMinecraft />;
 
     return (
         <div className={Style.container}>
@@ -95,27 +44,24 @@ const Minecraft = () => {
                 />
                 <div className={Style.name_container}>
                     <p className={`${Style.name} ${minecraftMono.className}`}>
-                        {data.connections.minecraft.nickname}
+                        {data.minecraft.nickname}
                     </p>
                     <p className={`${Style.uuid} ${minecraftMono.className}`}>
-                        {data.connections.minecraft.uuid}
+                        {data.minecraft.uuid}
                     </p>
                 </div>
             </div>
             <div className={Style.checkboxes}>
                 <SlideButton
                     label="Отображать ник в поиске"
-                    defaultValue={data.connections.minecraft.valid}
+                    defaultValue={data.minecraft.valid}
                     onChange={async state => {
                         await setMinecraftVisible({ state });
                         mutate({
                             ...data,
-                            connections: {
-                                ...data.connections,
-                                minecraft: {
-                                    ...data.connections.minecraft,
-                                    valid: state
-                                }
+                            minecraft: {
+                                ...data.minecraft,
+                                autoload: state
                             }
                         });
                     }}
@@ -124,17 +70,14 @@ const Minecraft = () => {
                 />
                 <SlideButton
                     label="Автоматически устанавливать скин в редакторе"
-                    defaultValue={data.connections.minecraft.autoload}
+                    defaultValue={data.minecraft.autoload}
                     onChange={async state => {
                         await setMinecraftAutoload({ state });
                         mutate({
                             ...data,
-                            connections: {
-                                ...data.connections,
-                                minecraft: {
-                                    ...data.connections.minecraft,
-                                    autoload: state
-                                }
+                            minecraft: {
+                                ...data.minecraft,
+                                autoload: state
                             }
                         });
                     }}
@@ -146,10 +89,7 @@ const Minecraft = () => {
                 <span>
                     Последний раз кэшировано{' '}
                     <b>
-                        {formatDateHuman(
-                            new Date(data.connections.minecraft.last_cached),
-                            true
-                        )}
+                        {formatDateHuman(new Date(data.minecraft.last_cached), true)}
                     </b>
                 </span>
                 <button className={Style.unlink} onClick={refreshMinecraft}>

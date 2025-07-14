@@ -3,7 +3,6 @@
 import { JSX, useState } from 'react';
 import style_sidebar from '@/styles/me/sidebar.module.css';
 import Image from 'next/image';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { formatDate, numbersTxt, timeStamp } from '@/lib/time';
 import Menu from '../ThemeSelect';
@@ -214,16 +213,7 @@ const AvatarHead = ({
                         {timeStamp(new Date(data.joined_at).getTime() / 1000)}
                     </p>
                 </div>
-                <p className={style_sidebar.uid}>
-                    Discord id:{' '}
-                    <Link
-                        href={`https://discord.com/users/${data.discordID}`}
-                        className={style_sidebar.discord_id}
-                        target="_blank"
-                    >
-                        {data.discordID}
-                    </Link>
-                </p>
+                <p className={style_sidebar.uid}>User ID: {data.userID}</p>
             </div>
         </div>
     );

@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { connectDiscord } from '@/lib/apiManager';
 import { httpStatusCodes } from '@/lib/StatusCodes';
-import LoadingWrapper from '../Wrapper';
+import LoadingWrapper from '@/components/me/accounts/LoadingWrapper';
 
 const Page = () => {
     const router = useRouter();

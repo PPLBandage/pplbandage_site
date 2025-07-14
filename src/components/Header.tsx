@@ -110,10 +110,13 @@ const AvatarMenu = ({
                 }
                 onClick={() => expand(prev => !prev)}
             >
-                {data?.avatar && (
+                {data?.userID && (
                     <Image
                         className={styles.avatar}
-                        src={data?.avatar}
+                        src={
+                            process.env.NEXT_PUBLIC_DOMAIN +
+                            `/api/v1/avatars/${data?.userID}`
+                        }
                         alt=""
                         width={80}
                         height={80}

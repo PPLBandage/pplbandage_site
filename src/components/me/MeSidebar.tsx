@@ -141,11 +141,14 @@ const AvatarHead = ({
     theme: number;
     color?: string;
 }) => {
+    const avatar =
+        process.env.NEXT_PUBLIC_DOMAIN + `/api/v1/avatars/${data?.userID}`;
+
     let used_color = undefined;
     let image = undefined;
     if (theme === 1) {
         // Fuck this
-        const url = `/_next/image?url=${encodeURI(data.avatar)}&w=256&q=75`;
+        const url = `/_next/image?url=${encodeURI(avatar)}&w=256&q=75`;
         image = { backgroundImage: `url("${url}")` };
     } else {
         used_color = {
@@ -173,7 +176,7 @@ const AvatarHead = ({
                 <div className={style_sidebar.avatar_container}>
                     {theme === 0 && (
                         <Image
-                            src={data.avatar}
+                            src={avatar}
                             className={style_sidebar.blurred_avatar}
                             alt=""
                             width={150}
@@ -183,7 +186,7 @@ const AvatarHead = ({
                         />
                     )}
                     <Image
-                        src={data.avatar}
+                        src={avatar}
                         alt=""
                         width={150}
                         height={150}

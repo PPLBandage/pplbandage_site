@@ -1,14 +1,13 @@
 interface SettingsResponse {
-    statusCode: number;
+    userID: string;
     public_profile: boolean;
     can_be_public: boolean;
     connections: {
-        discord: {
+        discord?: {
             user_id: number;
             username: string;
             name: string;
             connected_at: Date;
-            avatar: string;
         };
         minecraft?: {
             nickname: string;

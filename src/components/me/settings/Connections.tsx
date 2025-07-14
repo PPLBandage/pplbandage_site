@@ -47,7 +47,10 @@ const Discord = () => {
             <div className={Style.discord_container}>
                 {data.connections?.discord && (
                     <Image
-                        src={data.connections?.discord.avatar}
+                        src={
+                            process.env.NEXT_PUBLIC_DOMAIN +
+                            `/api/v1/avatars/${data?.userID}/discord`
+                        }
                         alt="avatar"
                         width={64}
                         height={64}
@@ -63,9 +66,7 @@ const Discord = () => {
                         Подключено{' '}
                         {data.connections?.discord &&
                             formatDateHuman(
-                                new Date(
-                                    data.connections?.discord?.connected_at
-                                )
+                                new Date(data.connections?.discord?.connected_at)
                             )}
                     </p>
                 </div>
@@ -177,8 +178,8 @@ const UnloggedMinecraft = () => {
                 Minecraft аккаунт
             </h3>
             <p style={{ margin: 0 }}>
-                Подключите свой аккаунт Minecraft, чтобы управлять кэшем скинов
-                и настройками видимости вашего никнейма в поиске.
+                Подключите свой аккаунт Minecraft, чтобы управлять кэшем скинов и
+                настройками видимости вашего никнейма в поиске.
             </p>
             <MinecraftConnect onInput={connectMinecraft}>
                 <button className={Style.unlink} style={{ width: '100%' }}>

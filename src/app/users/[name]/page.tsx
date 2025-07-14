@@ -16,13 +16,10 @@ export const generateMetadata = async ({
     const props = await params;
     const headers_obj = Object.fromEntries([...(await headers()).entries()]);
 
-    const meta = await axios.get(
-        `${process.env.API_URL}/users/${props.name}/og`,
-        {
-            validateStatus: () => true,
-            headers: { ...headers_obj, 'Unique-Access': process.env.TOKEN }
-        }
-    );
+    const meta = await axios.get(`${process.env.API_URL}/users/${props.name}/og`, {
+        validateStatus: () => true,
+        headers: { ...headers_obj, 'Unique-Access': process.env.TOKEN }
+    });
 
     const data = meta.data as UsersType;
     if (!data) return null;
@@ -36,7 +33,7 @@ export const generateMetadata = async ({
             description: `${works} – ${stars}`,
             url: `https://pplbandage.ru/users/${data.username}`,
             siteName: 'Повязки Pepeland',
-            images: data.avatar
+            images: process.env.API_URL + `/avatars/${data?.userID}`
         },
         twitter: {
             card: 'summary'

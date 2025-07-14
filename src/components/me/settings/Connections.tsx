@@ -8,7 +8,6 @@ import {
 } from '@tabler/icons-react';
 import useSWR, { mutate } from 'swr';
 import Image from 'next/image';
-import { b64Prefix } from '@/lib/bandageEngine';
 import { minecraftMono } from '@/fonts/Minecraft';
 import SlideButton from '@/components/SlideButton';
 import MinecraftConnect from '@/components/me/MinecraftConnect';
@@ -47,10 +46,7 @@ const Discord = () => {
             <div className={Style.discord_container}>
                 {data.connections?.discord && (
                     <Image
-                        src={
-                            process.env.NEXT_PUBLIC_DOMAIN +
-                            `/api/v1/avatars/${data?.userID}/discord`
-                        }
+                        src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/avatars/${data?.userID}/discord`}
                         alt="avatar"
                         width={64}
                         height={64}
@@ -92,7 +88,7 @@ const Minecraft = () => {
             </h3>
             <div className={Style.head_container}>
                 <Image
-                    src={b64Prefix + data.connections.minecraft.head}
+                    src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/avatars/${data?.userID}/minecraft`}
                     alt=""
                     width={64}
                     height={64}

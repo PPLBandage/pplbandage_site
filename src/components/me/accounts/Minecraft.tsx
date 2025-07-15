@@ -19,6 +19,7 @@ import { minecraftMono } from '@/fonts/Minecraft';
 import SlideButton from '@/components/SlideButton';
 import { formatDateHuman } from '@/lib/time';
 import MinecraftConnect from '../MinecraftConnect';
+import DisconnectHelper from './DisconnectHelper';
 
 export const Minecraft = () => {
     const { data, isLoading, mutate } = useSWR(
@@ -97,10 +98,12 @@ export const Minecraft = () => {
                     Обновить кэш
                 </button>
 
-                <button className={Style.unlink} onClick={disconnect}>
-                    <IconX />
-                    Отвязать
-                </button>
+                <DisconnectHelper>
+                    <button className={Style.unlink} onClick={disconnect}>
+                        <IconX />
+                        Отвязать
+                    </button>
+                </DisconnectHelper>
             </div>
         </div>
     );

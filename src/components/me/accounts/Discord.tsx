@@ -4,6 +4,7 @@ import { IconBrandDiscord, IconPlugConnected, IconX } from '@tabler/icons-react'
 import useSWR, { mutate } from 'swr';
 import Image from 'next/image';
 import { formatDateHuman } from '@/lib/time';
+import DisconnectHelper from './DisconnectHelper';
 
 export const Discord = () => {
     const { data, isLoading } = useSWR(
@@ -44,10 +45,12 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
                     </p>
                 </div>
             </div>
-            <button className={Style.unlink} onClick={disconnect}>
-                <IconX />
-                Отвязать
-            </button>
+            <DisconnectHelper>
+                <button className={Style.unlink} onClick={disconnect}>
+                    <IconX />
+                    Отвязать
+                </button>
+            </DisconnectHelper>
         </>
     );
 };
@@ -65,13 +68,21 @@ const disconnect = () => {
 
 const NotConnected = () => {
     return (
-        <a
-            className={Style.unlink}
-            style={{ textDecoration: 'none' }}
-            href={process.env.NEXT_PUBLIC_API_URL + 'auth/url/discord?connect=true'}
-        >
-            <IconPlugConnected />
-            Подключить
-        </a>
+        <div>
+            <span>
+                Подключите свой Discord-аккаунт, чтобы использовать вход через
+                Discord.
+            </span>
+            <a
+                className={Style.unlink}
+                style={{ textDecoration: 'none', marginTop: '1rem' }}
+                href={
+                    process.env.NEXT_PUBLIC_API_URL + 'auth/url/discord?connect=true'
+                }
+            >
+                <IconPlugConnected />
+                Подключить
+            </a>
+        </div>
     );
 };

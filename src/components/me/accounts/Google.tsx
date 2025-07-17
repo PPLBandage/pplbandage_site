@@ -1,12 +1,16 @@
-import { disconnectDiscord, getMeConnections } from '@/lib/apiManager';
+import { disconnectGoogle, getMeConnections } from '@/lib/apiManager';
 import Style from '@/styles/me/connections.module.css';
-import { IconBrandDiscord, IconPlugConnected, IconX } from '@tabler/icons-react';
+import {
+    IconBrandGoogleFilled,
+    IconPlugConnected,
+    IconX
+} from '@tabler/icons-react';
 import useSWR, { mutate } from 'swr';
 import Image from 'next/image';
 import { formatDateHuman } from '@/lib/time';
 import DisconnectHelper from './DisconnectHelper';
 
-export const Discord = () => {
+export const Google = () => {
     const { data, isLoading } = useSWR(
         'userConnections',
         async () => await getMeConnections()
@@ -16,10 +20,10 @@ export const Discord = () => {
     return (
         <div className={Style.container}>
             <h3>
-                <IconBrandDiscord />
-                Discord аккаунт
+                <IconBrandGoogleFilled />
+                Google аккаунт
             </h3>
-            {!!data.discord ? <Connected data={data} /> : <NotConnected />}
+            {!!data.google ? <Connected data={data} /> : <NotConnected />}
         </div>
     );
 };
@@ -28,25 +32,23 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
     return (
         <>
             <div className={Style.discord_container}>
-                {data.discord && (
-                    <Image
-                        src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/avatars/${data.userID}/discord`}
-                        alt="avatar"
-                        width={64}
-                        height={64}
-                        style={{ borderRadius: '50%' }}
-                    />
-                )}
+                <Image
+                    src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/avatars/${data.userID}/google`}
+                    alt="avatar"
+                    width={64}
+                    height={64}
+                    style={{ borderRadius: '50%' }}
+                />
                 <div className={Style.discord_name_container}>
-                    <h1>{data.discord.name}</h1>
+                    <h1>{data.google.name}</h1>
                     <p className={Style.discord_name_container_p}>
-                        {data.discord.username}
+                        {data.google.email}
                     </p>
                 </div>
             </div>
             <div className={Style.disconnect_container}>
                 <p className={Style.discord_name_container_p}>
-                    Подключено {formatDateHuman(new Date(data.discord.connected_at))}
+                    Подключено {formatDateHuman(new Date(data.google.connected_at))}
                 </p>
                 <DisconnectHelper>
                     <button className={Style.unlink} onClick={disconnect}>
@@ -61,11 +63,11 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
 
 const disconnect = () => {
     const confirmed = confirm(
-        'Отвязать учётную запись Discord? Вы больше не сможете войти этим методом'
+        'Отвязать учётную запись Google? Вы больше не сможете войти этим методом'
     );
     if (!confirmed) return;
 
-    disconnectDiscord()
+    disconnectGoogle()
         .then(() => mutate('userConnections'))
         .catch(console.error);
 };
@@ -74,14 +76,13 @@ const NotConnected = () => {
     return (
         <div>
             <span>
-                Подключите свой Discord-аккаунт, чтобы использовать вход через
-                Discord.
+                Подключите свой Google-аккаунт, чтобы использовать вход через Google.
             </span>
             <a
                 className={Style.unlink}
                 style={{ textDecoration: 'none', marginTop: '1rem' }}
                 href={
-                    process.env.NEXT_PUBLIC_API_URL + 'auth/url/discord?connect=true'
+                    process.env.NEXT_PUBLIC_API_URL + 'auth/url/google?connect=true'
                 }
             >
                 <IconPlugConnected />

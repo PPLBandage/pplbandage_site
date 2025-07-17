@@ -60,12 +60,6 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
                                 onClick={() => setExpanded(false)}
                             />
                         </div>
-                        {login && (
-                            <p className={style.login_warn}>
-                                Этот способ будет работать, если вы привязали аккаунт
-                                Minecraft в личном кабинете.
-                            </p>
-                        )}
                         <p className={style.instruct_connect}>
                             Зайдите на Minecraft сервер `
                             <span className={style.oauth_name} onClick={selectText}>

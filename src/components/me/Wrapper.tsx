@@ -3,11 +3,11 @@
 import React, { CSSProperties, JSX, useEffect, useState } from 'react';
 import { Me } from '@/components/me/MeSidebar';
 import { redirect, usePathname } from 'next/navigation';
-import RolesDialog from '@/components/RolesDialog';
 import MinecraftConnect from '@/components/me/MinecraftConnect';
 import styles from '@/styles/me/me.module.css';
 import {
     IconBrandDiscord,
+    IconBrandGoogleFilled,
     IconBrandMinecraft,
     IconLogin
 } from '@tabler/icons-react';
@@ -74,7 +74,15 @@ const Login = () => {
                 <div className={styles.login_through}>
                     <a
                         className={styles.login_button}
-                        href={'/me/login'}
+                        href={'/api/v1/auth/url/google'}
+                        style={{ '--color': '#FBBC04' } as CSSProperties}
+                    >
+                        <IconBrandGoogleFilled />
+                        Google
+                    </a>
+                    <a
+                        className={styles.login_button}
+                        href={'/api/v1/auth/url/discord'}
                         style={{ '--color': '#5662f6' } as CSSProperties}
                     >
                         <IconBrandDiscord />
@@ -90,27 +98,6 @@ const Login = () => {
                         </div>
                     </MinecraftConnect>
                 </div>
-
-                <span className={styles.p} id="about_logging">
-                    <s>
-                        Для регистрации вам нужно быть участником Discord сервера{' '}
-                        <a href="https://baad.pw/ds" className={styles.a}>
-                            PWGood
-                        </a>{' '}
-                        и иметь одну из этих&nbsp;
-                        <RolesDialog>
-                            <span
-                                style={{
-                                    cursor: 'pointer',
-                                    textDecoration: 'underline'
-                                }}
-                            >
-                                ролей
-                            </span>
-                        </RolesDialog>
-                        .
-                    </s>
-                </span>
                 <p style={{ color: 'gray', marginBottom: 0 }}>
                     Регистрируясь на сайте вы соглашаетесь с настоящими{' '}
                     <a

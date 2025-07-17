@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { loginDiscord } from '@/lib/apiManager';
+import { connectGoogle } from '@/lib/apiManager';
 import { httpStatusCodes } from '@/lib/StatusCodes';
 import LoadingWrapper from '@/components/me/accounts/LoadingWrapper';
 
@@ -13,10 +13,10 @@ const Page = () => {
     const [loadingStatus, setLoadingStatus] = useState<string>('');
 
     useEffect(() => {
-        if (!code) router.replace('/me');
+        if (!code) router.replace('/me/accounts');
 
-        loginDiscord(code)
-            .then(() => router.replace('/me'))
+        connectGoogle(code)
+            .then(() => router.replace('/me/accounts'))
             .catch(response => {
                 setLoadingStatus(
                     `${response.status}: ${

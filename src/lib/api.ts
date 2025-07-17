@@ -4,7 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { getCookie, deleteCookie, setCookie } from 'cookies-next';
 
 const api = process.env.NEXT_PUBLIC_API_URL;
-const login_endpoints = ['/auth/discord/', '/auth/minecraft/'];
+const login_endpoints = ['/auth/discord/', '/auth/minecraft/', '/auth/google'];
 
 interface CookieObj {
     sessionId: string;
@@ -54,10 +54,7 @@ const tokenMutex = new Mutex();
 */
 authApi.interceptors.request.use(async config => {
     const sessionId = getCookie('sessionId') as string;
-    if (
-        !sessionId &&
-        !login_endpoints.some(url => config.url.startsWith(url))
-    ) {
+    if (!sessionId && !login_endpoints.some(url => config.url.startsWith(url))) {
         const error = new Error('No cookie');
         return Promise.reject(error);
     }

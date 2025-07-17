@@ -6,9 +6,16 @@ interface SettingsResponse {
 
 interface ConnectionsResponse {
     userID: string;
+    google: {
+        sub: string;
+        email: string;
+        name: string;
+        connected_at: Date;
+    } | null;
     discord: {
         user_id: number;
         name: string;
+        username: string;
         connected_at: Date;
     } | null;
     minecraft: {

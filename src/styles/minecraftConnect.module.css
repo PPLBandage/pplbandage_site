@@ -2,12 +2,6 @@
     color: rgba(12, 247, 215);
 }
 
-.login_warn {
-    margin: 0;
-    font-size: .9rem;
-    opacity: 0.6;
-}
-
 .instruct_connect {
     margin: 0;
     font-size: .95rem;

@@ -10,7 +10,7 @@ import { getMeSettings } from '@/lib/api/user';
 
 const Page = () => {
     const { data, isLoading } = useSWR(
-        'userConnections',
+        'userSettings',
         async () => await getMeSettings()
     );
 

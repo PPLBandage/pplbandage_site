@@ -1,4 +1,4 @@
-import { getMeConnections } from '@/lib/apiManager';
+import { getMeConnections } from '@/lib/api/connections';
 import { JSX } from 'react';
 import useSWR from 'swr';
 

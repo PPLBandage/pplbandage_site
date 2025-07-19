@@ -1,7 +1,7 @@
 'use client';
 
-import { connectTwitch } from '@/lib/apiManager';
 import LoginWrapper from '@/components/me/accounts/LoginWrapper';
+import { connectTwitch } from '@/lib/api/connections';
 import { useSearchParams } from 'next/navigation';
 
 const Page = () => {

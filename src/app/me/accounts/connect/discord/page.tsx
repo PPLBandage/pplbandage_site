@@ -1,8 +1,8 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { connectDiscord } from '@/lib/apiManager';
 import LoginWrapper from '@/components/me/accounts/LoginWrapper';
+import { connectDiscord } from '@/lib/api/connections';
 
 const Page = () => {
     const params = useSearchParams();

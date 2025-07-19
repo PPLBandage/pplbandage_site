@@ -4,11 +4,8 @@ import React from 'react';
 import style from '@/styles/tutorials/common.module.css';
 import InfoCard from '@/components/InfoCard';
 import { CustomLink } from '@/components/workshop/Search';
-import styles from '@/styles/me/me.module.css';
 
 import { IconInfoCircle, IconBulb } from '@tabler/icons-react';
-import RolesDialog from '@/components/RolesDialog';
-
 export default function Home() {
     return (
         <div className={style.animated} id="tutorials">
@@ -25,20 +22,6 @@ export default function Home() {
                 администрацией и имеющие публичный доступ. Доступ к мастерской имеют
                 все без исключения пользователи, как зарегистрированные, так и нет.
             </p>
-
-            <h2>Регистрация на сайте</h2>
-            <span style={{ display: 'block', marginBottom: '1rem' }}>
-                <s>
-                    Регистрация разрешена только пользователям, являющимися членами
-                    Discord сервера PWGood, а так же имеющие определенные&nbsp;
-                    <RolesDialog>
-                        <span className={styles.roles_text}>роли</span>
-                    </RolesDialog>
-                </s>
-                . При регистрации сайт сохраняет ваш никнейм с учётной записи
-                Discord. Дальнейшее его изменение возможно только через администрацию
-                сайта.
-            </span>
             <InfoCard
                 color="#4493F8"
                 title={

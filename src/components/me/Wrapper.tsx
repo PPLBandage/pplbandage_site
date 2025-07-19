@@ -14,8 +14,9 @@ import {
 } from '@tabler/icons-react';
 import { useNextCookie } from 'use-next-cookie';
 import useSWR from 'swr';
-import { getMe, loginMinecraft as loginMinecraftAPI } from '@/lib/apiManager';
 import { Users } from '@/types/global';
+import { getMe } from '@/lib/api/user';
+import { loginMinecraft as loginMinecraftAPI } from '@/lib/api/auth';
 
 const Wrapper = ({ children }: { children: JSX.Element }) => {
     const pathname_full = usePathname();

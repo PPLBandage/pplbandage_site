@@ -18,7 +18,7 @@ import {
 import { TransitionLink } from '@/components/me/AnimatedLink';
 import { UserQuery, Users } from '@/types/global';
 import { useNextCookie } from 'use-next-cookie';
-import { subscribeTo, unsubscribeFrom } from '@/lib/apiManager';
+import { subscribeTo, unsubscribeFrom } from '@/lib/api/user';
 
 const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
     const logged = !!useNextCookie('sessionId');

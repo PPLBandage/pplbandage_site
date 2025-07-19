@@ -1,10 +1,10 @@
-import { disconnectTwitch, getMeConnections } from '@/lib/apiManager';
 import Style from '@/styles/me/connections.module.css';
 import { IconBrandTwitch, IconPlugConnected, IconX } from '@tabler/icons-react';
 import useSWR, { mutate } from 'swr';
 import Image from 'next/image';
 import { formatDateHuman } from '@/lib/time';
 import DisconnectHelper from './DisconnectHelper';
+import { disconnectTwitch, getMeConnections } from '@/lib/api/connections';
 
 export const Twitch = () => {
     const { data, isLoading } = useSWR(

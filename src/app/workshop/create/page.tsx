@@ -15,8 +15,8 @@ import { CustomLink } from '@/components/workshop/Search';
 import asyncImage from '@/lib/asyncImage';
 import SlideButton from '@/components/SlideButton';
 import { useNextCookie } from 'use-next-cookie';
-import { createBandage } from '@/lib/apiManager';
 import TagSearch from '@/components/workshop/TagSearch';
+import { createBandage } from '@/lib/api/workshop';
 const fira = Fira_Code({ subsets: ['latin'] });
 
 const capitalize = (string: string) =>
@@ -256,9 +256,7 @@ const Editor = ({
 
     return (
         <div className={style.editor_div}>
-            <h2 style={{ marginTop: 0, marginBottom: '.5rem' }}>
-                Создать повязку
-            </h2>
+            <h2 style={{ marginTop: 0, marginBottom: '.5rem' }}>Создать повязку</h2>
             <h3 style={{ margin: 0 }}>
                 Перед началом создания повязки прочитайте{' '}
                 <CustomLink href="/tutorials/bandage">туториал</CustomLink>
@@ -322,9 +320,7 @@ const Editor = ({
                 placeholder="Описание"
                 className={style.textarea}
                 onInput={ev =>
-                    setDescription(
-                        lstrip((ev.target as HTMLTextAreaElement).value)
-                    )
+                    setDescription(lstrip((ev.target as HTMLTextAreaElement).value))
                 }
                 value={description}
             />
@@ -389,9 +385,7 @@ const Selector = ({
         reader.onload = () => {
             asyncImage(reader.result as string).then(img => {
                 if (img.width !== 16) {
-                    setError(
-                        'Развертка повязки должна иметь ширину 16 пикселей'
-                    );
+                    setError('Развертка повязки должна иметь ширину 16 пикселей');
                     return;
                 }
                 if (img.height < 2 || img.height > 24) {

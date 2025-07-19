@@ -5,7 +5,7 @@ import ReactCSSTransition from '@/components/CSSTransition';
 
 import Styles from '@/styles/theme_selector.module.css';
 import { IconBucketDroplet, IconPalette, IconPhoto } from '@tabler/icons-react';
-import { setTheme as setThemeAPI } from '@/lib/apiManager';
+import { setUserSetting } from '@/lib/api/user';
 
 interface MenuProps {
     initialValue?: number;
@@ -39,7 +39,7 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
 
         onChange(_theme);
         setTheme(_theme);
-        setThemeAPI({ theme: _theme }).catch(console.error);
+        setUserSetting({ theme: _theme }).catch(console.error);
         timeoutRef.current = setTimeout(() => {
             setDisplayTheme(_theme);
             setOpacity(1);

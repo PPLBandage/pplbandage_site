@@ -14,7 +14,7 @@ import {
     getSessions,
     logoutAllSessions,
     logoutSession as logoutSessionAPI
-} from '@/lib/apiManager';
+} from '@/lib/api/user';
 
 const moveToStart = (arr: Session[]) => {
     const filteredArray = arr.filter(el => !el.is_self);
@@ -102,9 +102,7 @@ const SessionCard = ({ session }: { session: Session }) => {
                     title={formatDate(new Date(session.last_accessed))}
                 >
                     Последний доступ{' '}
-                    {timeStamp(
-                        new Date(session.last_accessed).getTime() / 1000
-                    )}
+                    {timeStamp(new Date(session.last_accessed).getTime() / 1000)}
                 </p>
             </div>
             {!session.is_self && (

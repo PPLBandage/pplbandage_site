@@ -14,37 +14,6 @@
     gap: .5rem;
 }
 
-.role_title {
-    color: var(--main-text-color);
-    margin: 0;
-    font-size: 80%;
-    text-wrap: nowrap;
-}
-
-.role_dot {
-    display: block;
-    width: 0.7rem;
-    height: 0.7rem;
-    border-radius: 50%;
-    margin-right: 3px;
-}
-
-.role_container {
-    display: flex;
-    box-sizing: border-box;
-    align-items: center;
-    background-color: var(--main-element-color);
-    padding: 4px;
-    margin: 2px;
-    border-radius: 5px;
-    border: 1px solid #5c6579
-}
-
-.roles_text {
-    text-decoration: underline;
-    user-select: none;
-    cursor: pointer;
-}
 
 .login_main {
     position: absolute;

@@ -4,10 +4,10 @@ import { Discord } from '@/components/me/accounts/Discord';
 import { Minecraft } from '@/components/me/accounts/Minecraft';
 import Style from '@/styles/me/connections.module.css';
 import style_sidebar from '@/styles/me/sidebar.module.css';
-import { getMeConnections } from '@/lib/apiManager';
 import useSWR from 'swr';
 import { Google } from '@/components/me/accounts/Google';
 import { Twitch } from '@/components/me/accounts/Twitch';
+import { getMeConnections } from '@/lib/api/connections';
 
 const Page = () => {
     const { data, isLoading } = useSWR(

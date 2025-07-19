@@ -5,7 +5,7 @@ import Style from '@/styles/nick_search.module.css';
 import { debounce } from 'lodash';
 import Image from 'next/image';
 import { b64Prefix } from '@/lib/bandageEngine';
-import { searchNicks } from '@/lib/apiManager';
+import { searchNicks } from '@/lib/api/minecraft';
 
 export interface SearchResponse {
     status: string;
@@ -25,15 +25,10 @@ interface SearchProps {
 
 const buildNicks = (data: SearchResponse, nickname: string) => {
     return data.data.map(nick => {
-        const first_pos = nick.name
-            .toLowerCase()
-            .indexOf(nickname.toLowerCase());
+        const first_pos = nick.name.toLowerCase().indexOf(nickname.toLowerCase());
         const first = nick.name.slice(0, first_pos);
         const middle = nick.name.slice(first_pos, first_pos + nickname.length);
-        const last = nick.name.slice(
-            first_pos + nickname.length,
-            nick.name.length
-        );
+        const last = nick.name.slice(first_pos + nickname.length, nick.name.length);
         const label = (
             <span>
                 {first}

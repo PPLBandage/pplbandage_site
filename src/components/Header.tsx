@@ -25,7 +25,7 @@ import { useNextCookie } from 'use-next-cookie';
 import { usePathname } from 'next/navigation';
 import useSWR from 'swr';
 import { jwtDecode } from 'jwt-decode';
-import { getMe, logout } from '@/lib/apiManager';
+import { getMe, logout } from '@/lib/api/user';
 
 const Header = (): JSX.Element => {
     const cookie = useNextCookie('sessionId', 1000);

@@ -2,7 +2,7 @@ import SlideButton from '@/components/SlideButton';
 import { IconUser } from '@tabler/icons-react';
 import Style from '@/styles/me/connections.module.css';
 import useSWR from 'swr';
-import { getMeSettings, setPublicProfile } from '@/lib/apiManager';
+import { getMeSettings, setUserSetting } from '@/lib/api/user';
 
 export const UserSettings = () => {
     const { data, isLoading, mutate } = useSWR(
@@ -21,7 +21,7 @@ export const UserSettings = () => {
                 label="Публичный профиль"
                 defaultValue={data.can_be_public ? data.public_profile : false}
                 onChange={async state => {
-                    await setPublicProfile({ state });
+                    await setUserSetting({ public: state });
                     mutate({ ...data, public_profile: state }, false);
                 }}
                 disabled={!data.can_be_public}

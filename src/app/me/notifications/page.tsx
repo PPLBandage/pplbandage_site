@@ -8,7 +8,7 @@ import { INotifications } from '@/types/global.d';
 import sanitizeHtml from 'sanitize-html';
 import { Placeholder } from '@/components/me/Placeholder';
 import { formatDate } from '@/lib/time';
-import { getMeNotifications } from '@/lib/apiManager';
+import { getMeNotifications } from '@/lib/api/user';
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState<INotifications>(null);
@@ -16,18 +16,13 @@ const Notifications = () => {
 
     useEffect(() => {
         if (page < 0) return;
-        getMeNotifications({ page })
-            .then(setNotifications)
-            .catch(console.error);
+        getMeNotifications({ page }).then(setNotifications).catch(console.error);
     }, [page]);
 
     if (notifications === null) return null;
     if (notifications.data.length === 0) return <Placeholder />;
     return (
-        <div
-            id="sidebar"
-            className={`${Style.container} ${style_sidebar.hidable}`}
-        >
+        <div id="sidebar" className={`${Style.container} ${style_sidebar.hidable}`}>
             {notifications.total_count > 5 && (
                 <Paginator
                     total_count={notifications?.total_count}

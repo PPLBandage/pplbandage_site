@@ -1,8 +1,8 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { connectGoogle } from '@/lib/apiManager';
 import LoginWrapper from '@/components/me/accounts/LoginWrapper';
+import { connectGoogle } from '@/lib/api/connections';
 
 const Page = () => {
     const params = useSearchParams();

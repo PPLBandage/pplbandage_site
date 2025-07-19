@@ -20,7 +20,6 @@ import Pepe8 from '@/resources/pepes_svg/8.svg';
 import Pepe9 from '@/resources/pepes_svg/9.svg';
 
 import IconCropped from '@/resources/icon-cropped.svg';
-import ProviderMigrationDialog from '@/components/temp/ProviderMigrationDialog';
 
 const pepesObj = {
     ogukal: Pepe0,
@@ -37,7 +36,6 @@ const pepesObj = {
 
 const HomeClient = ({ pong }: { pong: number }) => {
     const [animationState, setAnimationState] = useState<boolean>(true);
-    const [migrationExpanded, setMigrationExpanded] = useState<boolean>(false);
 
     const pepes = Object.entries(pepesObj).map(([path, Pepe], index) => (
         <Link
@@ -58,11 +56,6 @@ const HomeClient = ({ pong }: { pong: number }) => {
 
     return (
         <div>
-            <ProviderMigrationDialog
-                expanded={migrationExpanded}
-                setExpanded={setMigrationExpanded}
-            />
-
             <div className={styles.main_container}>
                 <svg width="958" height="318" className={styles.svg}>
                     <path
@@ -92,14 +85,6 @@ const HomeClient = ({ pong }: { pong: number }) => {
                         <IconStack />
                         Открыть мастерскую
                     </Link>
-
-                    <button
-                        onClick={() => setMigrationExpanded(true)}
-                        className={`${styles.link} ${styles.migrationOpenButton}`}
-                    >
-                        <IconAlertTriangle color="#D29922" />
-                        Важное объявление
-                    </button>
 
                     {pong !== 200 && (
                         <InfoCard

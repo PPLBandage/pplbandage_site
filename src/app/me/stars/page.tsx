@@ -8,7 +8,7 @@ import { Bandage } from '@/types/global.d';
 import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
 import { renderSkin } from '@/lib/SkinCardRender';
 import { Placeholder } from '@/components/me/Placeholder';
-import { getMeStars } from '@/lib/apiManager';
+import { getMeStars } from '@/lib/api/user';
 
 const Main = () => {
     const [elements, setElements] = useState<JSX.Element[]>(null);

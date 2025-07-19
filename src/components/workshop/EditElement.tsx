@@ -7,12 +7,12 @@ import { IconArchive, IconX } from '@tabler/icons-react';
 import EditConfirmation from '@/components/workshop/EditConfirmation';
 import Image from 'next/image';
 import SlideButton from '@/components/SlideButton';
+import TagSearch from './TagSearch';
 import {
     updateBandage,
     deleteBandage as deleteBandageAPI,
     archiveBandage as archiveBandageAPI
-} from '@/lib/apiManager';
-import TagSearch from './TagSearch';
+} from '@/lib/api/workshop';
 
 const lstrip = (string: string) => string.replace(/^\s+/, '');
 const capitalize = (string: string) =>
@@ -38,9 +38,7 @@ const EditElement = ({
     const [description, setDescription] = useState<string>(bandage.description);
     const [accessLevel, setAccessLevel] = useState<number>(undefined);
     const [tags, setTags] = useState<string[]>(bandage.tags);
-    const [colorable, setColorable] = useState<boolean>(
-        Boolean(bandage.flags & 1)
-    );
+    const [colorable, setColorable] = useState<boolean>(Boolean(bandage.flags & 1));
 
     const save = () => {
         updateBandage(bandage.external_id, {
@@ -144,8 +142,8 @@ const EditElement = ({
             <div className={style.check_notification}>
                 <h3>Опасная зона</h3>
                 <p>
-                    Все действия в данной зоне имеют необратимый характер,
-                    делайте их с умом!
+                    Все действия в данной зоне имеют необратимый характер, делайте их
+                    с умом!
                 </p>
 
                 <div className={style.delete_cont}>

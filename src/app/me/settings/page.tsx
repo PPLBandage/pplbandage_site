@@ -6,7 +6,7 @@ import { Themes } from '@/components/me/settings/Themes';
 import { UserSettings } from '@/components/me/settings/UserSettings';
 import { Safety } from '@/components/me/settings/Safety';
 import useSWR from 'swr';
-import { getMeSettings } from '@/lib/apiManager';
+import { getMeSettings } from '@/lib/api/user';
 
 const Page = () => {
     const { data, isLoading } = useSWR(

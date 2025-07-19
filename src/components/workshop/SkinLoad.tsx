@@ -8,7 +8,7 @@ import Searcher from '@/components/workshop/NickSearch';
 import axios, { AxiosError } from 'axios';
 import ReactCSSTransition from '@/components/CSSTransition';
 import { b64Prefix } from '@/lib/bandageEngine';
-import { getSkin } from '@/lib/apiManager';
+import { getSkin } from '@/lib/api/minecraft';
 
 type SkinLoadProps = {
     onChange(data: { data: string; slim: boolean; cape?: string } | null): void;

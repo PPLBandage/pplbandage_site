@@ -1,10 +1,10 @@
-import { disconnectDiscord, getMeConnections } from '@/lib/apiManager';
 import Style from '@/styles/me/connections.module.css';
 import { IconBrandDiscord, IconPlugConnected, IconX } from '@tabler/icons-react';
 import useSWR, { mutate } from 'swr';
 import Image from 'next/image';
 import { formatDateHuman } from '@/lib/time';
 import DisconnectHelper from './DisconnectHelper';
+import { disconnectDiscord, getMeConnections } from '@/lib/api/connections';
 
 export const Discord = () => {
     const { data, isLoading } = useSWR(

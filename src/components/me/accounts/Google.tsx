@@ -1,4 +1,3 @@
-import { disconnectGoogle, getMeConnections } from '@/lib/apiManager';
 import Style from '@/styles/me/connections.module.css';
 import {
     IconBrandGoogleFilled,
@@ -9,6 +8,7 @@ import useSWR, { mutate } from 'swr';
 import Image from 'next/image';
 import { formatDateHuman } from '@/lib/time';
 import DisconnectHelper from './DisconnectHelper';
+import { disconnectGoogle, getMeConnections } from '@/lib/api/connections';
 
 export const Google = () => {
     const { data, isLoading } = useSWR(

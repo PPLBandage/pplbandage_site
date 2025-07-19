@@ -8,7 +8,13 @@ const Page = () => {
     const params = useSearchParams();
     const code = params.get('code');
 
-    return <LoginWrapper code={code} callback={connectTwitch} />;
+    return (
+        <LoginWrapper
+            code={code}
+            callback={connectTwitch}
+            redirect_to="/me/accounts"
+        />
+    );
 };
 
 export default Page;

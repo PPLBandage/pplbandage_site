@@ -8,7 +8,13 @@ const Page = () => {
     const params = useSearchParams();
     const code = params.get('code');
 
-    return <LoginWrapper code={code} callback={connectDiscord} />;
+    return (
+        <LoginWrapper
+            code={code}
+            callback={connectDiscord}
+            redirect_to="/me/accounts"
+        />
+    );
 };
 
 export default Page;

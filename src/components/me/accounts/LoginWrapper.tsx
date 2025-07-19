@@ -10,19 +10,21 @@ import { httpStatusCodes } from '@/lib/StatusCodes';
 
 const LoginWrapper = ({
     code,
-    callback
+    callback,
+    redirect_to = '/me'
 }: {
     code: string;
     callback: (code: string) => Promise<void>;
+    redirect_to?: string;
 }) => {
     const router = useRouter();
     const [loadingStatus, setLoadingStatus] = useState<string>('');
 
     useEffect(() => {
-        if (!code) router.replace('/me/accounts');
+        if (!code) router.replace(redirect_to);
 
         callback(code)
-            .then(() => router.replace('/me/accounts'))
+            .then(() => router.replace(redirect_to))
             .catch(response => {
                 setLoadingStatus(
                     `${response.status}: ${

@@ -12,6 +12,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@next/bundle-analyzer": "^15.4.2",
         "@svgr/webpack": "^8.1.0",
         "@tabler/icons-react": "^3.34.0",
         "@types/lodash.debounce": "^4.0.9",

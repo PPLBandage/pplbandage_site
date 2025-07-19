@@ -21,7 +21,7 @@ export const UserSettings = () => {
                 label="Публичный профиль"
                 defaultValue={data.can_be_public ? data.public_profile : false}
                 onChange={async state => {
-                    await setUserSetting({ public: state });
+                    await setUserSetting({ public_profile: state });
                     mutate({ ...data, public_profile: state }, false);
                 }}
                 disabled={!data.can_be_public}

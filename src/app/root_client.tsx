@@ -57,17 +57,19 @@ const HomeClient = ({ pong }: { pong: number }) => {
     return (
         <div>
             <div className={styles.main_container}>
-                <svg width="958" height="318" className={styles.svg}>
-                    <path
-                        className={styles.path}
-                        d="M 477 159 C -159 -391 -159 709 477 159 C 1113 -391 1113 709 477 159"
-                        strokeWidth="3"
-                        strokeDasharray="10,10"
-                        stroke="rgba(45, 212, 191, .5)"
-                        fill="none"
-                    />
-                </svg>
-                <div className={styles.bandages}>{pepes}</div>
+                <div className={styles.background}>
+                    <svg width="958" height="318" className={styles.svg}>
+                        <path
+                            className={styles.path}
+                            d="M 477 159 C -159 -391 -159 709 477 159 C 1113 -391 1113 709 477 159"
+                            strokeWidth="3"
+                            strokeDasharray="10,10"
+                            stroke="rgba(45, 212, 191, .5)"
+                            fill="none"
+                        />
+                    </svg>
+                    <div className={styles.bandages}>{pepes}</div>
+                </div>
                 <div className={styles.container}>
                     <p className={styles.p}>
                         <span className={styles.one}>1</span>Сайт

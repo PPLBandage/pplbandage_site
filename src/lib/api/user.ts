@@ -102,11 +102,11 @@ export const getMeSettings = async (): Promise<SettingsResponse> => {
 };
 
 type UserSettings = {
-    theme?: number;
-    skin_autoload?: boolean;
-    nick_search?: boolean;
-    public?: boolean;
-    prefer_avatar?: string;
+    profile_theme?: number;
+    minecraft_skin_autoload?: boolean;
+    minecraft_nick_searchable?: boolean;
+    public_profile?: boolean;
+    preferred_avatar?: string;
 };
 
 /** Set user settings */

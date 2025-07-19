@@ -39,7 +39,7 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
 
         onChange(_theme);
         setTheme(_theme);
-        setUserSetting({ theme: _theme }).catch(console.error);
+        setUserSetting({ profile_theme: _theme }).catch(console.error);
         timeoutRef.current = setTimeout(() => {
             setDisplayTheme(_theme);
             setOpacity(1);

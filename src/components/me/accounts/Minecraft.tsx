@@ -56,7 +56,7 @@ export const Minecraft = () => {
                     label="Отображать ник в поиске"
                     defaultValue={data.minecraft.valid}
                     onChange={async state => {
-                        await setUserSetting({ nick_search: state });
+                        await setUserSetting({ minecraft_nick_searchable: state });
                         mutate({
                             ...data,
                             minecraft: {
@@ -72,7 +72,7 @@ export const Minecraft = () => {
                     label="Автоматически устанавливать скин в редакторе"
                     defaultValue={data.minecraft.autoload}
                     onChange={async state => {
-                        await setUserSetting({ skin_autoload: state });
+                        await setUserSetting({ minecraft_skin_autoload: state });
                         mutate({
                             ...data,
                             minecraft: {

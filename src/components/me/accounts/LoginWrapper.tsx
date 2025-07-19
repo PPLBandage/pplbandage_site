@@ -4,7 +4,7 @@ import { IconArrowBack } from '@tabler/icons-react';
 import Link from 'next/link';
 import IconSvgCropped from '@/resources/icon-cropped.svg';
 import styles from '@/styles/me/me.module.css';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { httpStatusCodes } from '@/lib/StatusCodes';
 

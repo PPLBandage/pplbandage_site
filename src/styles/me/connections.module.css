@@ -19,6 +19,20 @@
     align-items: stretch;
 }
 
+.avatars_providers {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: .5rem;
+}
+
+.preferred_avatar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
 .container img {
     image-rendering: pixelated;
     border-radius: 1.1rem;

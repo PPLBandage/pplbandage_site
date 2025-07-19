@@ -2,6 +2,10 @@ interface SettingsResponse {
     userID: string;
     public_profile: boolean;
     can_be_public: boolean;
+    avatar: {
+        current: string;
+        available: string[];
+    };
 }
 
 interface ConnectionsResponse {

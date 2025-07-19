@@ -22,6 +22,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "dev2.andcool.ru",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   webpack(config) {

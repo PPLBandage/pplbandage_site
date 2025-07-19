@@ -4,7 +4,12 @@ import { jwtDecode } from 'jwt-decode';
 import { getCookie, deleteCookie, setCookie } from 'cookies-next';
 
 const api = process.env.NEXT_PUBLIC_API_URL;
-const login_endpoints = ['/auth/discord/', '/auth/minecraft/', '/auth/google'];
+const login_endpoints = [
+    '/auth/discord',
+    '/auth/minecraft',
+    '/auth/google',
+    '/auth/twitch'
+];
 
 interface CookieObj {
     sessionId: string;

@@ -1,7 +1,16 @@
 .login_through {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-bottom: 1rem;
+    gap: .75rem;
+    width: 100%;
+    justify-content: space-between
+}
+
+.login_through_column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     gap: .5rem;
 }
 

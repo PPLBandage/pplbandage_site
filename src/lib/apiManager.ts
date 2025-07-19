@@ -89,6 +89,16 @@ export const loginGoogle = async (code: string) => {
     ).data;
 };
 
+export const loginTwitch = async (code: string) => {
+    return (
+        await doRequest({
+            url: `/auth/twitch`,
+            method: 'POST',
+            data: { code }
+        })
+    ).data;
+};
+
 /** Get bandages under moderation */
 export const getUnderModerationBandages = async (): Promise<
     Interfaces.Bandage[]
@@ -515,6 +525,27 @@ export const disconnectGoogle = async () => {
     return (
         await doRequest({
             url: `/users/@me/connections/google`,
+            method: 'DELETE'
+        })
+    ).data;
+};
+
+/** Connect google */
+export const connectTwitch = async (code: string) => {
+    return (
+        await doRequest({
+            url: `/users/@me/connections/twitch`,
+            method: 'POST',
+            data: { code }
+        })
+    ).data;
+};
+
+/** Disconnect google */
+export const disconnectTwitch = async () => {
+    return (
+        await doRequest({
+            url: `/users/@me/connections/twitch`,
             method: 'DELETE'
         })
     ).data;

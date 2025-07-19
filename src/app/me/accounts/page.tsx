@@ -7,6 +7,7 @@ import style_sidebar from '@/styles/me/sidebar.module.css';
 import { getMeConnections } from '@/lib/apiManager';
 import useSWR from 'swr';
 import { Google } from '@/components/me/accounts/Google';
+import { Twitch } from '@/components/me/accounts/Twitch';
 
 const Page = () => {
     const { data, isLoading } = useSWR(
@@ -19,6 +20,7 @@ const Page = () => {
         <div id="sidebar" className={`${Style.main} ${style_sidebar.hidable}`}>
             <Google />
             <Discord />
+            <Twitch />
             <Minecraft />
         </div>
     );

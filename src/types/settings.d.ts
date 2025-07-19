@@ -12,6 +12,12 @@ interface ConnectionsResponse {
         name: string;
         connected_at: Date;
     } | null;
+    twitch: {
+        uid: string;
+        login: string;
+        name: string;
+        connected_at: Date;
+    } | null;
     discord: {
         user_id: number;
         name: string;

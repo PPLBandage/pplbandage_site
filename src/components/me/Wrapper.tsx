@@ -9,6 +9,7 @@ import {
     IconBrandDiscord,
     IconBrandGoogleFilled,
     IconBrandMinecraft,
+    IconBrandTwitch,
     IconLogin
 } from '@tabler/icons-react';
 import { useNextCookie } from 'use-next-cookie';
@@ -72,31 +73,43 @@ const Login = () => {
                 </h1>
 
                 <div className={styles.login_through}>
-                    <a
-                        className={styles.login_button}
-                        href={'/api/v1/auth/url/google'}
-                        style={{ '--color': '#FBBC04' } as CSSProperties}
-                    >
-                        <IconBrandGoogleFilled />
-                        Google
-                    </a>
-                    <a
-                        className={styles.login_button}
-                        href={'/api/v1/auth/url/discord'}
-                        style={{ '--color': '#5662f6' } as CSSProperties}
-                    >
-                        <IconBrandDiscord />
-                        Discord
-                    </a>
-                    <MinecraftConnect onInput={loginMinecraft} login>
-                        <div
+                    <div className={styles.login_through_column}>
+                        <a
                             className={styles.login_button}
-                            style={{ '--color': '#56ff4b' } as CSSProperties}
+                            href={'/api/v1/auth/url/google'}
+                            style={{ '--color': '#FBBC04' } as CSSProperties}
                         >
-                            <IconBrandMinecraft />
-                            Minecraft
-                        </div>
-                    </MinecraftConnect>
+                            <IconBrandGoogleFilled />
+                            Google
+                        </a>
+                        <a
+                            className={styles.login_button}
+                            href={'/api/v1/auth/url/discord'}
+                            style={{ '--color': '#5662f6' } as CSSProperties}
+                        >
+                            <IconBrandDiscord />
+                            Discord
+                        </a>
+                    </div>
+                    <div className={styles.login_through_column}>
+                        <a
+                            className={styles.login_button}
+                            href={'/api/v1/auth/url/twitch'}
+                            style={{ '--color': '#6441a5' } as CSSProperties}
+                        >
+                            <IconBrandTwitch />
+                            Twitch
+                        </a>
+                        <MinecraftConnect onInput={loginMinecraft} login>
+                            <div
+                                className={styles.login_button}
+                                style={{ '--color': '#56ff4b' } as CSSProperties}
+                            >
+                                <IconBrandMinecraft />
+                                Minecraft
+                            </div>
+                        </MinecraftConnect>
+                    </div>
                 </div>
                 <p style={{ color: 'gray', marginBottom: 0 }}>
                     Регистрируясь на сайте вы соглашаетесь с настоящими{' '}

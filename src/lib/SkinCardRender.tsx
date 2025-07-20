@@ -25,7 +25,7 @@ export const generateSkin = async (
     skin_canvas.width = 64;
     skin_canvas.height = 64;
 
-    const bandage_new = !!color ? fillPepe(bandage, color) : bandage;
+    const bandage_new = color ? fillPepe(bandage, color) : bandage;
     skin_context.drawImage(base_skin, 0, 0);
     skin_context.drawImage(
         bandage_new,

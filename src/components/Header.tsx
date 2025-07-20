@@ -138,7 +138,7 @@ const AvatarMenu = ({
 
 const LoggedMenu = () => {
     const session = getCookie('sessionId');
-    const hasAccessToAdmin = !!session
+    const hasAccessToAdmin = session
         ? (jwtDecode(session) as { access: number }).access > 1
         : false;
 

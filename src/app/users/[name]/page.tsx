@@ -14,7 +14,7 @@ export const generateMetadata = async ({
     params: Promise<{ name: string }>;
 }): Promise<Metadata> => {
     const props = await params;
-    const headers_obj = Object.fromEntries([...(await headers()).entries()]);
+    const headers_obj = Object.fromEntries((await headers()).entries());
 
     const meta = await axios.get(`${process.env.API_URL}/users/${props.name}/og`, {
         validateStatus: () => true,
@@ -45,7 +45,7 @@ export const generateMetadata = async ({
 };
 
 const Users = async ({ params }: { params: Promise<{ name: string }> }) => {
-    const headers_obj = Object.fromEntries([...(await headers()).entries()]);
+    const headers_obj = Object.fromEntries((await headers()).entries());
     const props = await params;
 
     const data_request = await axios.get(

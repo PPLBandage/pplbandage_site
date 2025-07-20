@@ -12,7 +12,7 @@ export const generateMetadata = async ({
     params: Promise<{ id: string }>;
 }): Promise<Metadata> => {
     const props = await params;
-    const headers_obj = Object.fromEntries([...(await headers()).entries()]);
+    const headers_obj = Object.fromEntries((await headers()).entries());
 
     const meta = await axios.get(
         `${process.env.API_URL}/workshop/${props.id}/info`,
@@ -72,7 +72,7 @@ const Main = async ({
     params: Promise<{ id: string }>;
     searchParams: Promise<Record<string, string | string[]>>;
 }) => {
-    const headers_obj = Object.fromEntries([...(await headers()).entries()]);
+    const headers_obj = Object.fromEntries((await headers()).entries());
     const search = await searchParams;
     const props = await params;
     const referrer = search['ref'];

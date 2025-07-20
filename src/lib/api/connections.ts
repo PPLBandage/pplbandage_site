@@ -13,8 +13,9 @@ export const getMeConnections = async (): Promise<ConnectionsResponse> => {
 /** Connect Minecraft Profile */
 export const connectMinecraft = async (code: string): Promise<void> => {
     await doRequest({
-        url: `/users/@me/connections/minecraft/connect/${code}`,
-        method: 'POST'
+        url: `/users/@me/connections/minecraft`,
+        method: 'POST',
+        data: { code }
     });
 };
 

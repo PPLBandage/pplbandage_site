@@ -3,8 +3,9 @@ import { doRequest } from './utils';
 export const loginDiscord = async (code: string) => {
     return (
         await doRequest({
-            url: `/auth/discord/${code}`,
-            method: 'POST'
+            url: `/auth/discord`,
+            method: 'POST',
+            data: { code }
         })
     ).data;
 };
@@ -12,8 +13,9 @@ export const loginDiscord = async (code: string) => {
 export const loginMinecraft = async (code: string) => {
     return (
         await doRequest({
-            url: `/auth/minecraft/${code}`,
-            method: 'POST'
+            url: `/auth/minecraft`,
+            method: 'POST',
+            data: { code }
         })
     ).data;
 };

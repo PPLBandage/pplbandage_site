@@ -54,6 +54,14 @@
             "description": "Настройте свой аккаунт здесь"
         }
     },
+    "/me/accounts": {
+        "title": "Аккаунты · Повязки Pepeland",
+        "description": "Подключенные аккаунты",
+        "openGraph": {
+            "title": "Аккаунты · Повязки Pepeland",
+            "description": "Подключенные аккаунты"
+        }
+    },
     "/me/stars": {
         "title": "Избранное · Повязки Pepeland",
         "description": "Ваши избранные работы",

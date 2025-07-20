@@ -2,32 +2,25 @@
 
 import React, { CSSProperties, JSX, useEffect, useState } from 'react';
 import { Me } from '@/components/me/MeSidebar';
-import { redirect, usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { httpStatusCodes } from '@/lib/StatusCodes';
-import RolesDialog from '@/components/RolesDialog';
+import { redirect, usePathname } from 'next/navigation';
 import MinecraftConnect from '@/components/me/MinecraftConnect';
 import styles from '@/styles/me/me.module.css';
-import Link from 'next/link';
 import {
-    IconArrowBack,
     IconBrandDiscord,
+    IconBrandGoogleFilled,
     IconBrandMinecraft,
+    IconBrandTwitch,
     IconLogin
 } from '@tabler/icons-react';
-import IconSvgCropped from '@/resources/icon-cropped.svg';
 import { useNextCookie } from 'use-next-cookie';
 import useSWR from 'swr';
-import {
-    getMe,
-    loginDiscord,
-    loginMinecraft as loginMinecraftAPI
-} from '@/lib/apiManager';
 import { Users } from '@/types/global';
+import { getMe } from '@/lib/api/user';
+import { loginMinecraft as loginMinecraftAPI } from '@/lib/api/auth';
 
 const Wrapper = ({ children }: { children: JSX.Element }) => {
-    const searchParams = useSearchParams();
-    const pathname = usePathname().split('/').reverse()[0];
-    const code = searchParams.get('code');
+    const pathname_full = usePathname();
+    const pathname = pathname_full.split('/').reverse()[0];
     const session = useNextCookie('sessionId', 1000);
     const [isLogged, setIsLogged] = useState<boolean>(!!session);
 
@@ -35,9 +28,9 @@ const Wrapper = ({ children }: { children: JSX.Element }) => {
         setIsLogged(!!session);
     }, [session]);
 
-    if (pathname === 'login') return children;
+    if (pathname_full.includes('login') || pathname_full.includes('connect'))
+        return children;
     if (pathname !== 'me' && !isLogged) redirect('/me');
-    if (code) return <Loading code={code} callback={setIsLogged} />;
     if (!isLogged) return <Login />;
 
     return <MeLoader>{children}</MeLoader>;
@@ -51,51 +44,6 @@ const MeLoader = ({ children }: { children: JSX.Element }) => {
         <Me data={data as Users} self>
             {children}
         </Me>
-    );
-};
-
-const Loading = ({
-    code,
-    callback
-}: {
-    code: string;
-    callback: (v: boolean) => void;
-}) => {
-    const router = useRouter();
-    const [loadingStatus, setLoadingStatus] = useState<string>('');
-
-    useEffect(() => {
-        loginDiscord(code)
-            .then(() => {
-                callback(true);
-                router.replace('/me');
-            })
-            .catch(response => {
-                setLoadingStatus(
-                    `${response.status}: ${
-                        response.data.message || httpStatusCodes[response.status]
-                    }`
-                );
-            });
-    }, []);
-
-    return (
-        <div className={styles.loading_container}>
-            <IconSvgCropped
-                width={58}
-                height={58}
-                className={`${!loadingStatus && styles.loading}`}
-            />
-            <h3>{loadingStatus || 'Загрузка'}</h3>
-            <Link
-                className={styles.link}
-                style={{ visibility: loadingStatus ? 'visible' : 'hidden' }}
-                href="/me"
-            >
-                <IconArrowBack />
-                Назад
-            </Link>
-        </div>
     );
 };
 
@@ -126,45 +74,44 @@ const Login = () => {
                 </h1>
 
                 <div className={styles.login_through}>
-                    <a
-                        className={styles.login_button}
-                        href={'/me/login'}
-                        style={{ '--color': '#5662f6' } as CSSProperties}
-                    >
-                        <IconBrandDiscord />
-                        Discord
-                    </a>
-                    <MinecraftConnect onInput={loginMinecraft} login>
-                        <div
+                    <div className={styles.login_through_column}>
+                        <a
                             className={styles.login_button}
-                            style={{ '--color': '#56ff4b' } as CSSProperties}
+                            href={'/api/v1/auth/url/google'}
+                            style={{ '--color': '#FBBC04' } as CSSProperties}
                         >
-                            <IconBrandMinecraft />
-                            Minecraft
-                        </div>
-                    </MinecraftConnect>
-                </div>
-
-                <span className={styles.p} id="about_logging">
-                    <s>
-                        Для регистрации вам нужно быть участником Discord сервера{' '}
-                        <a href="https://baad.pw/ds" className={styles.a}>
-                            PWGood
-                        </a>{' '}
-                        и иметь одну из этих&nbsp;
-                        <RolesDialog>
-                            <span
-                                style={{
-                                    cursor: 'pointer',
-                                    textDecoration: 'underline'
-                                }}
+                            <IconBrandGoogleFilled />
+                            Google
+                        </a>
+                        <a
+                            className={styles.login_button}
+                            href={'/api/v1/auth/url/discord'}
+                            style={{ '--color': '#5662f6' } as CSSProperties}
+                        >
+                            <IconBrandDiscord />
+                            Discord
+                        </a>
+                    </div>
+                    <div className={styles.login_through_column}>
+                        <a
+                            className={styles.login_button}
+                            href={'/api/v1/auth/url/twitch'}
+                            style={{ '--color': '#6441a5' } as CSSProperties}
+                        >
+                            <IconBrandTwitch />
+                            Twitch
+                        </a>
+                        <MinecraftConnect onInput={loginMinecraft} login>
+                            <div
+                                className={styles.login_button}
+                                style={{ '--color': '#56ff4b' } as CSSProperties}
                             >
-                                ролей
-                            </span>
-                        </RolesDialog>
-                        .
-                    </s>
-                </span>
+                                <IconBrandMinecraft />
+                                Minecraft
+                            </div>
+                        </MinecraftConnect>
+                    </div>
+                </div>
                 <p style={{ color: 'gray', marginBottom: 0 }}>
                     Регистрируясь на сайте вы соглашаетесь с настоящими{' '}
                     <a

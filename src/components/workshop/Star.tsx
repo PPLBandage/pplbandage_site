@@ -1,4 +1,3 @@
-import { setStar } from '@/lib/apiManager';
 import { Bandage } from '@/types/global';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
@@ -7,6 +6,7 @@ import IconCandle from '@/resources/stars/candle.svg';
 import IconCandleOn from '@/resources/stars/candle_on.svg';
 import { IconStar, IconStarFilled } from '@tabler/icons-react';
 import style_card from '@/styles/workshop/card.module.css';
+import { setStar } from '@/lib/api/workshop';
 
 const StarElement = ({ el }: { el: Bandage }) => {
     const _starred = Boolean(el.flags & (1 << 2));
@@ -52,10 +52,7 @@ const StarElement = ({ el }: { el: Bandage }) => {
                 id={el.external_id + '_star'}
                 style={{ width: el.star_type === 0 ? 24 : 18 } as CSSProperties}
             />
-            <span
-                className={style_card.star_count}
-                id={el.external_id + '_text'}
-            >
+            <span className={style_card.star_count} id={el.external_id + '_text'}>
                 {starsCount}
             </span>
         </div>

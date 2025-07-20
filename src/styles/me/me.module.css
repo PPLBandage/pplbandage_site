@@ -1,48 +1,19 @@
 .login_through {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-bottom: 1rem;
+    gap: .75rem;
+    width: 100%;
+    justify-content: space-between
+}
+
+.login_through_column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     gap: .5rem;
 }
 
-.p {
-    margin-top: .5rem;
-    color: var(--main-text-color);
-    transition: color 250ms;
-    display: block;
-}
-
-.role_title {
-    color: var(--main-text-color);
-    margin: 0;
-    font-size: 80%;
-    text-wrap: nowrap;
-}
-
-.role_dot {
-    display: block;
-    width: 0.7rem;
-    height: 0.7rem;
-    border-radius: 50%;
-    margin-right: 3px;
-}
-
-.role_container {
-    display: flex;
-    box-sizing: border-box;
-    align-items: center;
-    background-color: var(--main-element-color);
-    padding: 4px;
-    margin: 2px;
-    border-radius: 5px;
-    border: 1px solid #5c6579
-}
-
-.roles_text {
-    text-decoration: underline;
-    user-select: none;
-    cursor: pointer;
-}
 
 .login_main {
     position: absolute;
@@ -87,7 +58,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    gap: .5rem;
+    gap: .3rem;
     color: var(--main-text-color);
     cursor: pointer;
     transform: scale(1);

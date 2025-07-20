@@ -3,7 +3,6 @@
 import { JSX, useState } from 'react';
 import style_sidebar from '@/styles/me/sidebar.module.css';
 import Image from 'next/image';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { formatDate, numbersTxt, timeStamp } from '@/lib/time';
 import Menu from '../ThemeSelect';
@@ -19,7 +18,7 @@ import {
 import { TransitionLink } from '@/components/me/AnimatedLink';
 import { UserQuery, Users } from '@/types/global';
 import { useNextCookie } from 'use-next-cookie';
-import { subscribeTo, unsubscribeFrom } from '@/lib/apiManager';
+import { subscribeTo, unsubscribeFrom } from '@/lib/api/user';
 
 const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
     const logged = !!useNextCookie('sessionId');
@@ -141,11 +140,14 @@ const AvatarHead = ({
     theme: number;
     color?: string;
 }) => {
+    const avatar =
+        process.env.NEXT_PUBLIC_DOMAIN + `/api/v1/avatars/${data?.userID}`;
+
     let used_color = undefined;
     let image = undefined;
     if (theme === 1) {
         // Fuck this
-        const url = `/_next/image?url=${encodeURI(data.avatar)}&w=256&q=75`;
+        const url = `/_next/image?url=${encodeURI(avatar)}&w=256&q=75`;
         image = { backgroundImage: `url("${url}")` };
     } else {
         used_color = {
@@ -173,7 +175,7 @@ const AvatarHead = ({
                 <div className={style_sidebar.avatar_container}>
                     {theme === 0 && (
                         <Image
-                            src={data.avatar}
+                            src={avatar}
                             className={style_sidebar.blurred_avatar}
                             alt=""
                             width={150}
@@ -183,7 +185,7 @@ const AvatarHead = ({
                         />
                     )}
                     <Image
-                        src={data.avatar}
+                        src={avatar}
                         alt=""
                         width={150}
                         height={150}
@@ -211,16 +213,7 @@ const AvatarHead = ({
                         {timeStamp(new Date(data.joined_at).getTime() / 1000)}
                     </p>
                 </div>
-                <p className={style_sidebar.uid}>
-                    Discord id:{' '}
-                    <Link
-                        href={`https://discord.com/users/${data.discordID}`}
-                        className={style_sidebar.discord_id}
-                        target="_blank"
-                    >
-                        {data.discordID}
-                    </Link>
-                </p>
+                <p className={style_sidebar.uid}>User ID: {data.userID}</p>
             </div>
         </div>
     );
@@ -280,6 +273,15 @@ const Pages = ({ data }: { data: UserQuery }) => {
             >
                 <IconSettings />
                 Настройки
+            </TransitionLink>
+            <TransitionLink
+                href="/me/accounts"
+                className={`${style_sidebar.side_butt} ${
+                    path === 'accounts' && style_sidebar.active
+                }`}
+            >
+                <IconUser />
+                Аккаунты
             </TransitionLink>
         </div>
     );

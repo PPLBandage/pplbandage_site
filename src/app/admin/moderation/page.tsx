@@ -7,8 +7,8 @@ import { JSX, useEffect, useState } from 'react';
 import { Bandage } from '@/types/global';
 import { renderSkin } from '@/lib/SkinCardRender';
 import styles_card from '@/styles/me/me.module.css';
-import { getUnderModerationBandages } from '@/lib/apiManager';
 import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
+import { getUnderModerationBandages } from '@/lib/api/workshop';
 
 const ModerationBandages = () => {
     const [elements, setElements] = useState<JSX.Element[]>([]);
@@ -22,10 +22,7 @@ const ModerationBandages = () => {
     }, []);
 
     return (
-        <div
-            className={style_root.users_container}
-            style={{ marginBottom: '1rem' }}
-        >
+        <div className={style_root.users_container} style={{ marginBottom: '1rem' }}>
             <h2 style={{ margin: 0 }}>Повязки на модерации</h2>
             <SimpleGrid>{elements}</SimpleGrid>
         </div>

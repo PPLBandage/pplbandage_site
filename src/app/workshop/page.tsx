@@ -19,8 +19,8 @@ import { renderSkin } from '@/lib/SkinCardRender';
 import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
 import { ConfigContext, ConfigInterface } from '@/lib/ConfigContext';
 import { getCookie, setCookie } from 'cookies-next';
-import { getWorkshop } from '@/lib/apiManager';
 import { constrain } from '@/lib/textUtils';
+import { getWorkshop } from '@/lib/api/workshop';
 
 export default function Home() {
     const [data, setData] = useState<BandageResponse>(null);

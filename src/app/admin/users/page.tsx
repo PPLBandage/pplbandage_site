@@ -6,12 +6,12 @@ import { Fira_Code } from 'next/font/google';
 import style_root from '@/styles/admin/page.module.css';
 import { useEffect, useState } from 'react';
 import { IconSearch } from '@tabler/icons-react';
-import { forceRegister, getUsers, updateUser } from '@/lib/apiManager';
 import { UserAdmins } from '@/types/global';
 import Link from 'next/link';
 import SlideButton from '@/components/SlideButton';
 import { notFound } from 'next/navigation';
 import useAccess from '@/lib/useAccess';
+import { getUsers, updateUser } from '@/lib/api/user';
 
 const fira = Fira_Code({ subsets: ['latin'] });
 
@@ -35,35 +35,6 @@ const Search = ({ onSearch }: { onSearch(val: string): void }) => {
                 onClick={() => onSearch(search)}
             >
                 <IconSearch width={20} height={20} />
-            </button>
-        </div>
-    );
-};
-
-const ForceRegister = () => {
-    const [id, setId] = useState<string>('');
-
-    const register = () => {
-        if (id === '') return;
-
-        forceRegister(id)
-            .then(() => window.location.reload())
-            .catch(e => alert(e.data.message));
-    };
-
-    return (
-        <div className={style_root.search_main}>
-            <input
-                onChange={e => setId(e.target.value)}
-                className={style_root.search_input}
-                placeholder="Discord ID"
-            />
-            <button
-                className={style_root.search_button}
-                onClick={() => register()}
-                style={{ width: 'auto', fontFamily: 'inherit' }}
-            >
-                Register
             </button>
         </div>
     );
@@ -149,10 +120,7 @@ const Users = () => {
     return (
         <div className={style_root.users_container}>
             <h2 style={{ margin: 0 }}>Пользователи ({totalCount})</h2>
-            <div className={style_root.register_container}>
-                <Search onSearch={setQuery} />
-                <ForceRegister />
-            </div>
+            <Search onSearch={setQuery} />
             <Paginator
                 total_count={totalCount}
                 take={48}

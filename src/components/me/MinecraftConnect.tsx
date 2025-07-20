@@ -9,11 +9,7 @@ interface MinecraftConnectProps {
     login?: boolean;
 }
 
-const MinecraftConnect = ({
-    login,
-    children,
-    onInput
-}: MinecraftConnectProps) => {
+const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) => {
     const [expanded, setExpanded] = useState<boolean>(false);
 
     const selectText: MouseEventHandler<HTMLSpanElement> = evt => {
@@ -28,9 +24,7 @@ const MinecraftConnect = ({
         }
     };
 
-    const title = login
-        ? 'Войти через Minecraft'
-        : 'Подключить аккаунт Minecraft';
+    const title = login ? 'Войти через Minecraft' : 'Подключить аккаунт Minecraft';
 
     return (
         <>
@@ -66,18 +60,9 @@ const MinecraftConnect = ({
                                 onClick={() => setExpanded(false)}
                             />
                         </div>
-                        {login && (
-                            <p className={style.login_warn}>
-                                Этот способ будет работать, если вы привязали
-                                аккаунт Minecraft в личном кабинете.
-                            </p>
-                        )}
                         <p className={style.instruct_connect}>
                             Зайдите на Minecraft сервер `
-                            <span
-                                className={style.oauth_name}
-                                onClick={selectText}
-                            >
+                            <span className={style.oauth_name} onClick={selectText}>
                                 oauth.pplbandage.ru
                             </span>
                             ` и получите там 6-значный код.
@@ -111,10 +96,10 @@ const MinecraftConnect = ({
                                             const data = response.data as {
                                                 message: string;
                                             };
-                                            const err = document.getElementById(
-                                                'error'
-                                            ) as HTMLParagraphElement;
-                                            err.innerText = data.message;
+                                            const err =
+                                                document.getElementById('error');
+                                            err.innerText =
+                                                data.message ?? 'Внутренняя ошибка';
                                             err.style.display = 'block';
                                         });
                                 }}

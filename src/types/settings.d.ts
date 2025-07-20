@@ -1,22 +1,38 @@
 interface SettingsResponse {
-    statusCode: number;
+    userID: string;
     public_profile: boolean;
     can_be_public: boolean;
-    connections: {
-        discord: {
-            user_id: number;
-            username: string;
-            name: string;
-            connected_at: Date;
-            avatar: string;
-        };
-        minecraft?: {
-            nickname: string;
-            uuid: string;
-            last_cached: number;
-            head: string;
-            valid: boolean;
-            autoload: boolean;
-        };
+    avatar: {
+        current: string;
+        available: string[];
     };
+}
+
+interface ConnectionsResponse {
+    userID: string;
+    google: {
+        sub: string;
+        email: string;
+        name: string;
+        connected_at: Date;
+    } | null;
+    twitch: {
+        uid: string;
+        login: string;
+        name: string;
+        connected_at: Date;
+    } | null;
+    discord: {
+        user_id: number;
+        name: string;
+        username: string;
+        connected_at: Date;
+    } | null;
+    minecraft: {
+        nickname: string;
+        uuid: string;
+        last_cached: number;
+        valid: boolean;
+        autoload: boolean;
+    } | null;
 }

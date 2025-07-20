@@ -1,6 +1,6 @@
 'use client';
 
-import { getTagsSuggestions } from '@/lib/apiManager';
+import { getTagsSuggestions } from '@/lib/api/workshop';
 import { debounce } from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Select, { GroupBase } from 'react-select';

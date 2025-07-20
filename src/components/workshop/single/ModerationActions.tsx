@@ -7,7 +7,7 @@ import { IconRosetteDiscountCheck } from '@tabler/icons-react';
 import Select from 'react-select';
 import SlideButton from '@/components/SlideButton';
 import { Bandage } from '@/types/global';
-import { changeBandageModeration } from '@/lib/apiManager';
+import { changeBandageModeration } from '@/lib/api/workshop';
 
 const ModeratorActions = ({ data }: { data: Bandage }) => {
     const access = useAccess();

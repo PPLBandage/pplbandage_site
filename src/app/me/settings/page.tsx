@@ -2,16 +2,15 @@
 
 import Style from '@/styles/me/connections.module.css';
 import style_sidebar from '@/styles/me/sidebar.module.css';
-import { Connections } from '@/components/me/settings/Connections';
 import { Themes } from '@/components/me/settings/Themes';
 import { UserSettings } from '@/components/me/settings/UserSettings';
 import { Safety } from '@/components/me/settings/Safety';
 import useSWR from 'swr';
-import { getMeSettings } from '@/lib/apiManager';
+import { getMeSettings } from '@/lib/api/user';
 
 const Page = () => {
     const { data, isLoading } = useSWR(
-        'userConnections',
+        'userSettings',
         async () => await getMeSettings()
     );
 
@@ -19,7 +18,6 @@ const Page = () => {
     return (
         <div id="sidebar" className={`${Style.main} ${style_sidebar.hidable}`}>
             <UserSettings />
-            <Connections />
             <Themes />
             <Safety />
         </div>

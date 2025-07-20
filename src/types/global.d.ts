@@ -5,9 +5,9 @@ export interface Option {
 }
 
 export interface UserQuery {
+    userID: string;
     username: string;
     name: string;
-    avatar: string;
     discordID: number;
     joined_at: Date;
     banner_color: string;
@@ -20,7 +20,7 @@ export interface UserQuery {
 }
 
 export interface Users extends UserQuery {
-    userID: number;
+    userID: string;
     works: Bandage[];
     works_count: number;
     is_self: boolean;

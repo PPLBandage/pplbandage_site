@@ -14,7 +14,7 @@ import {
     getSessions,
     logoutAllSessions,
     logoutSession as logoutSessionAPI
-} from '@/lib/apiManager';
+} from '@/lib/api/user';
 
 const moveToStart = (arr: Session[]) => {
     const filteredArray = arr.filter(el => !el.is_self);
@@ -24,17 +24,31 @@ const moveToStart = (arr: Session[]) => {
     return filteredArray;
 };
 
-const logoutSession = (session_id: number) => {
+const logoutSession = (session_id: number, sessions: Session[]) => {
     if (!confirm(`Выйти с этого устройства?`)) return;
+
     logoutSessionAPI(session_id)
-        .then(() => mutate('userSessions', undefined, true))
+        .then(() =>
+            mutate(
+                'userSessions',
+                sessions.filter(session => session.id !== session_id),
+                true
+            )
+        )
         .catch(response => alert(response.data.message));
 };
 
-const logoutSessionAll = () => {
+const logoutSessionAll = (all_sessions: Session[], current_session_id: number) => {
+    console.log(all_sessions, current_session_id);
     if (!confirm('Выйти со всех устройств, кроме этого?')) return;
     logoutAllSessions()
-        .then(() => mutate('userSessions', undefined, true))
+        .then(() =>
+            mutate(
+                'userSessions',
+                [all_sessions.find(session => session.id === current_session_id)],
+                true
+            )
+        )
         .catch(response => alert(response.data.message));
 };
 
@@ -75,7 +89,15 @@ const Sessions = () => {
         <>
             {sessions}
             {sessions.length > 1 && (
-                <button className={Style.unlink} onClick={logoutSessionAll}>
+                <button
+                    className={Style.unlink}
+                    onClick={() =>
+                        logoutSessionAll(
+                            data,
+                            data.find(session => session.is_self).id
+                        )
+                    }
+                >
                     <IconX />
                     Выйти со всех устройств
                 </button>
@@ -85,6 +107,8 @@ const Sessions = () => {
 };
 
 const SessionCard = ({ session }: { session: Session }) => {
+    const { data } = useSWR('userSessions');
+
     return (
         <div key={session.id} className={Style_safety.container}>
             <div className={Style_safety.session}>
@@ -102,15 +126,13 @@ const SessionCard = ({ session }: { session: Session }) => {
                     title={formatDate(new Date(session.last_accessed))}
                 >
                     Последний доступ{' '}
-                    {timeStamp(
-                        new Date(session.last_accessed).getTime() / 1000
-                    )}
+                    {timeStamp(new Date(session.last_accessed).getTime() / 1000)}
                 </p>
             </div>
             {!session.is_self && (
                 <button
                     className={Style_safety.button}
-                    onClick={() => logoutSession(session.id)}
+                    onClick={() => logoutSession(session.id, data)}
                 >
                     <IconX />
                 </button>

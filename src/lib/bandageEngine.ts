@@ -1,5 +1,5 @@
 import asyncImage, { base64Encode } from '@/lib/asyncImage';
-import { getSkin } from './apiManager';
+import { getSkin } from './api/minecraft';
 
 export interface SkinResponse {
     skin: string;
@@ -218,8 +218,7 @@ class Client {
         canvas_context.clearRect(0, 0, canvas.width, canvas.height);
 
         // Рисуем базовый скин
-        if (render_original)
-            canvas_context.drawImage(this.original_canvas, 0, 0);
+        if (render_original) canvas_context.drawImage(this.original_canvas, 0, 0);
 
         const height = second_layer_canvas.height;
 
@@ -415,9 +414,7 @@ class Client {
         body_part: number,
         split_types: boolean
     ): HTMLCanvasElement {
-        const bandage_canvas = document.createElement(
-            'canvas'
-        ) as HTMLCanvasElement;
+        const bandage_canvas = document.createElement('canvas') as HTMLCanvasElement;
         bandage_canvas.width = 16;
         bandage_canvas.height = height;
         const context = bandage_canvas.getContext('2d', {
@@ -426,40 +423,10 @@ class Client {
 
         if (slim && (body_part === 0 || body_part === 2)) {
             if (split_types) {
-                context?.drawImage(
-                    pepe_canvas,
-                    0,
-                    0,
-                    15,
-                    height,
-                    0,
-                    0,
-                    15,
-                    height
-                );
+                context?.drawImage(pepe_canvas, 0, 0, 15, height, 0, 0, 15, height);
             } else {
-                context?.drawImage(
-                    pepe_canvas,
-                    5,
-                    0,
-                    10,
-                    height,
-                    5,
-                    0,
-                    10,
-                    height
-                );
-                context?.drawImage(
-                    pepe_canvas,
-                    0,
-                    0,
-                    4,
-                    height,
-                    1,
-                    0,
-                    4,
-                    height
-                );
+                context?.drawImage(pepe_canvas, 5, 0, 10, height, 5, 0, 10, height);
+                context?.drawImage(pepe_canvas, 0, 0, 4, height, 1, 0, 4, height);
             }
         } else {
             context?.drawImage(pepe_canvas, 0, 0);

@@ -159,4 +159,12 @@
     .head_container p {
         overflow-wrap: anywhere;
     }
+
+    .discord_name_container h1 {
+        font-size: 1.2rem;
+    }
+
+    .name {
+        font-size: 1.1rem;
+    }
 }

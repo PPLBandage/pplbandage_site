@@ -19,7 +19,7 @@ export const Discord = () => {
                 <IconBrandDiscord />
                 Discord аккаунт
             </h3>
-            {!!data.discord ? <Connected data={data} /> : <NotConnected />}
+            {data.discord ? <Connected data={data} /> : <NotConnected />}
         </div>
     );
 };

@@ -23,7 +23,7 @@ export const Google = () => {
                 <IconBrandGoogleFilled />
                 Google аккаунт
             </h3>
-            {!!data.google ? <Connected data={data} /> : <NotConnected />}
+            {data.google ? <Connected data={data} /> : <NotConnected />}
         </div>
     );
 };

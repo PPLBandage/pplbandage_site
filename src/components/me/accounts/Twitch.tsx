@@ -19,7 +19,7 @@ export const Twitch = () => {
                 <IconBrandTwitch />
                 Twitch аккаунт
             </h3>
-            {!!data.twitch ? <Connected data={data} /> : <NotConnected />}
+            {data.twitch ? <Connected data={data} /> : <NotConnected />}
         </div>
     );
 };

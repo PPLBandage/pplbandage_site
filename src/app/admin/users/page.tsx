@@ -83,14 +83,9 @@ const Users = () => {
                     >
                         {user.name}
                     </Link>
-                    <Link
-                        href={`https://discord.com/users/${user.discord_id}`}
-                        className={style_root.username}
-                    >
-                        {user.username}
-                    </Link>
+                    <span className={style_root.username}>{user.username}</span>
                     <p className={`${style_root.did} ${fira.className}`}>
-                        {user.discord_id}
+                        {user.id}
                     </p>
                 </div>
                 <div className={style_root.buttons_container}>

@@ -8,7 +8,6 @@ export interface UserQuery {
     userID: string;
     username: string;
     name: string;
-    discordID: number;
     joined_at: Date;
     banner_color: string;
     has_unreaded_notifications: boolean;
@@ -88,7 +87,6 @@ export interface UserAdmins {
         username: string;
         name: string;
         joined_at: Date;
-        discord_id: number;
         flags: number;
         permissions: number;
     }[];

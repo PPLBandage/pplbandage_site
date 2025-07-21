@@ -1,6 +1,18 @@
 .name_container {
     display: flex;
-    flex-direction: column
+    flex-direction: column;
+    width: 100%;
+}
+
+.main_name_container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main_name_container svg {
+    cursor: pointer;
 }
 
 .root_button {
@@ -75,10 +87,6 @@
     margin: 0;
     color: gray;
     text-decoration: none;
-}
-
-.username:hover {
-    text-decoration: underline;
 }
 
 .did {

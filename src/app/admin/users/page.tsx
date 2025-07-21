@@ -5,13 +5,20 @@ import { Paginator } from '@/components/workshop/Paginator';
 import { Fira_Code } from 'next/font/google';
 import style_root from '@/styles/admin/page.module.css';
 import { useEffect, useState } from 'react';
-import { IconSearch } from '@tabler/icons-react';
+import {
+    IconBrandDiscord,
+    IconBrandGoogleFilled,
+    IconBrandMinecraft,
+    IconBrandTwitch,
+    IconSearch
+} from '@tabler/icons-react';
 import { UserAdmins } from '@/types/global';
 import Link from 'next/link';
 import SlideButton from '@/components/SlideButton';
 import { notFound } from 'next/navigation';
 import useAccess from '@/lib/useAccess';
 import { getUsers, updateUser } from '@/lib/api/user';
+import { StaticTooltip } from '@/components/Tooltip';
 
 const fira = Fira_Code({ subsets: ['latin'] });
 
@@ -39,6 +46,8 @@ const Search = ({ onSearch }: { onSearch(val: string): void }) => {
         </div>
     );
 };
+
+const getBitSet = (set: number, bit: number): boolean => Boolean(set & (1 << bit));
 
 const Users = () => {
     const [users, setUsers] = useState<UserAdmins['data']>([]);
@@ -74,15 +83,40 @@ const Users = () => {
     };
 
     const usersEl = users.map(user => {
+        console.log(user.flags);
         return (
             <div key={user.id} className={style_root.user_card}>
                 <div className={style_root.name_container}>
-                    <Link
-                        href={`/users/${user.username}`}
-                        className={style_root.name}
-                    >
-                        {user.name}
-                    </Link>
+                    <div className={style_root.main_name_container}>
+                        <Link
+                            href={`/users/${user.username}`}
+                            className={style_root.name}
+                        >
+                            {user.name}
+                        </Link>
+                        <div style={{ display: 'flex', gap: '.1rem' }}>
+                            {getBitSet(user.flags, 2) && (
+                                <StaticTooltip title="Discord">
+                                    <IconBrandDiscord width={16} height={16} />
+                                </StaticTooltip>
+                            )}
+                            {getBitSet(user.flags, 3) && (
+                                <StaticTooltip title="Google">
+                                    <IconBrandGoogleFilled width={16} height={16} />
+                                </StaticTooltip>
+                            )}
+                            {getBitSet(user.flags, 4) && (
+                                <StaticTooltip title="Twitch">
+                                    <IconBrandTwitch width={16} height={16} />
+                                </StaticTooltip>
+                            )}
+                            {getBitSet(user.flags, 5) && (
+                                <StaticTooltip title="Minecraft">
+                                    <IconBrandMinecraft width={16} height={16} />
+                                </StaticTooltip>
+                            )}
+                        </div>
+                    </div>
                     <span className={style_root.username}>{user.username}</span>
                     <p className={`${style_root.did} ${fira.className}`}>
                         {user.id}
@@ -102,7 +136,7 @@ const Users = () => {
                         label="Пропустить проверку ролей"
                         strict={true}
                         loadable={true}
-                        defaultValue={Boolean(user.flags & (1 << 1))}
+                        defaultValue={getBitSet(user.flags, 1)}
                         onChange={value =>
                             userUpdate(user, { skip_ppl_check: value })
                         }

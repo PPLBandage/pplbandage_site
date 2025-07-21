@@ -1,3 +1,5 @@
+'use client';
+
 import { IconEdit, IconUser } from '@tabler/icons-react';
 import Link from 'next/link';
 import style from '@/styles/editor/page.module.css';
@@ -5,11 +7,16 @@ import * as Interfaces from '@/types/global.d';
 import { LinkedText } from '@/components/workshop/LinkedText';
 import TagElement from './TagElement';
 import { formatDate } from '@/lib/time';
+import { useEffect, useState } from 'react';
 
 const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
-    const tags = el.tags.map((tag, index) => (
-        <TagElement key={index} title={tag} />
-    ));
+    const [date, setDate] = useState<string>('');
+
+    useEffect(() => {
+        setDate(formatDate(new Date(el.creation_date)));
+    }, []);
+
+    const tags = el.tags.map((tag, index) => <TagElement key={index} title={tag} />);
     return (
         <div className={style.info_container}>
             <h2
@@ -48,9 +55,7 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
                     </a>
                 )}
                 <span style={{ opacity: '.8' }}>•</span>
-                <span style={{ opacity: '.8', fontSize: '1rem' }}>
-                    {formatDate(new Date(el.creation_date))}
-                </span>
+                <span style={{ opacity: '.8', fontSize: '1rem' }}>{date}</span>
             </span>
         </div>
     );

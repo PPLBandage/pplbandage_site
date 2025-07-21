@@ -25,8 +25,7 @@ export class TPose extends PlayerAnimation {
         const PI = Math.PI;
         const default_arm_rot = (PI / 180) * -89;
         player.skin.rightArm.rotation.z = Math.cos(t) * 0.02 + default_arm_rot;
-        player.skin.leftArm.rotation.z =
-            Math.cos(t - PI) * 0.02 - default_arm_rot;
+        player.skin.leftArm.rotation.z = Math.cos(t - PI) * 0.02 - default_arm_rot;
 
         player.skin.leftLeg.rotation.z = (PI / 180) * 25;
         player.skin.rightLeg.rotation.z = (PI / 180) * -25;
@@ -87,10 +86,9 @@ const SkinView3D = ({
         skinViewRef.current.scene.position.y = -2.5;
         if (background) skinViewRef.current.loadBackground(background);
 
-        skinViewRef.current.loadSkin(
-            SKIN ? SKIN : '/static/workshop_base.png',
-            { model: slim ? 'slim' : 'default' }
-        );
+        skinViewRef.current.loadSkin(SKIN ? SKIN : '/static/workshop_base.png', {
+            model: slim ? 'slim' : 'default'
+        });
         if (CAPE) skinViewRef.current.loadSkin(CAPE);
 
         const resizeObserver = new ResizeObserver(entries => {
@@ -104,10 +102,9 @@ const SkinView3D = ({
     }, []);
 
     useEffect(() => {
-        skinViewRef.current?.loadSkin(
-            SKIN ? SKIN : '/static/workshop_base.png',
-            { model: slim ? 'slim' : 'default' }
-        );
+        skinViewRef.current?.loadSkin(SKIN ? SKIN : '/static/workshop_base.png', {
+            model: slim ? 'slim' : 'default'
+        });
     }, [SKIN, slim]);
 
     useEffect(() => {

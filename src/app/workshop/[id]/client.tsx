@@ -76,9 +76,7 @@ export default function Home({
 
     const adjustColor = () => {
         const color = client.current.calcColor();
-        const selector = document.getElementById(
-            'color_select'
-        ) as HTMLInputElement;
+        const selector = document.getElementById('color_select') as HTMLInputElement;
 
         selector.value = rgbToHex(~~color.r, ~~color.g, ~~color.b);
         client.current.setParams({ color: selector.value });
@@ -176,7 +174,6 @@ export default function Home({
                             slim={slim}
                             className={style.render_canvas}
                             pose={pose}
-                            background="/static/background_big.png"
                             id="canvas_container"
                         />
                         <div className={style.render_footer}>
@@ -188,9 +185,7 @@ export default function Home({
                                 Загрузить скин
                             </button>
                             <SlideButton
-                                onChange={val =>
-                                    client.current?.changeSlim(val)
-                                }
+                                onChange={val => client.current?.changeSlim(val)}
                                 value={slim}
                                 label="Тонкие руки"
                             />
@@ -202,9 +197,7 @@ export default function Home({
                                 isSearchable={false}
                                 onChange={n => setPose(n.value)}
                                 instanceId="select-1"
-                                formatOptionLabel={nick_value =>
-                                    nick_value.label
-                                }
+                                formatOptionLabel={nick_value => nick_value.label}
                             />
                             <button
                                 className={style.skin_load}
@@ -242,11 +235,7 @@ export default function Home({
                                     >
                                         Подобрать цвет
                                     </button>
-                                    <div
-                                        className={
-                                            style.colorable_selector_cont
-                                        }
-                                    >
+                                    <div className={style.colorable_selector_cont}>
                                         <input
                                             type="color"
                                             id="color_select"

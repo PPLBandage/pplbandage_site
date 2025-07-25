@@ -109,6 +109,6 @@ export interface Session {
     last_accessed: Date;
     is_self: boolean;
     is_mobile: boolean;
-    browser: string;
-    browser_version: string;
+    browser?: string;
+    browser_version?: string;
 }

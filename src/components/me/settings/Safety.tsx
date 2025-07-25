@@ -1,6 +1,7 @@
 import {
     IconDeviceDesktop,
     IconDeviceMobile,
+    IconServer,
     IconShield,
     IconX
 } from '@tabler/icons-react';
@@ -109,16 +110,16 @@ const Sessions = () => {
 const SessionCard = ({ session }: { session: Session }) => {
     const { data } = useSWR('userSessions');
 
+    let SessionIcon = IconDeviceDesktop;
+    if (session.browser && session.is_mobile) SessionIcon = IconDeviceMobile;
+    if (!session.browser) SessionIcon = IconServer;
+
     return (
         <div key={session.id} className={Style_safety.container}>
             <div className={Style_safety.session}>
                 <h2 className={Style_safety.header}>
-                    {session.is_mobile ? (
-                        <IconDeviceMobile />
-                    ) : (
-                        <IconDeviceDesktop />
-                    )}
-                    {session.browser} {session.browser_version}{' '}
+                    {<SessionIcon />}
+                    {session.browser ?? 'Unknown'} {session.browser_version}{' '}
                     {session.is_self && <p>Это устройство</p>}
                 </h2>
                 <p

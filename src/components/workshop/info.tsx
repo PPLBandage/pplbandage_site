@@ -4,7 +4,7 @@ import { IconEdit, IconUser } from '@tabler/icons-react';
 import Link from 'next/link';
 import style from '@/styles/editor/page.module.css';
 import * as Interfaces from '@/types/global.d';
-import { LinkedText } from '@/components/workshop/LinkedText';
+import { TextFormatter } from '@/components/workshop/TextFormatter';
 import TagElement from './TagElement';
 import { formatDate } from '@/lib/time';
 import { useEffect, useState } from 'react';
@@ -35,7 +35,7 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
             </h2>
             {el.description && (
                 <p className={style.description}>
-                    <LinkedText text={el.description} />
+                    <TextFormatter text={el.description} />
                 </p>
             )}
             <div className={style.tags_container}>{tags}</div>

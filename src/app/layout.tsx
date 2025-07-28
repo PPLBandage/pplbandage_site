@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Providers from '@/components/root/providers';
 import '@/styles/layout.css';
 import { headers } from 'next/headers';
-import meta from '@/app/meta.json';
+import meta from '@/constants/meta.json';
 import { merge } from 'lodash';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';

@@ -5,7 +5,7 @@ import {
     IconHourglassHigh,
     IconInfoCircle
 } from '@tabler/icons-react';
-import { LinkedText } from '../LinkedText';
+import { TextFormatter } from '../TextFormatter';
 import InfoCard from '../../InfoCard';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -66,7 +66,7 @@ const Moderation = ({ moderation }: { moderation: Bandage['moderation'] }) => {
             }}
         >
             <>
-                <LinkedText text={message} />
+                <TextFormatter text={message} />
             </>
         </InfoCard>
     );

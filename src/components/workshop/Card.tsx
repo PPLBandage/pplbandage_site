@@ -16,7 +16,7 @@ import {
 import { StaticTooltip } from '@/components/Tooltip';
 import { CustomLink } from '@/components/workshop/Search';
 import { formatDate } from '@/lib/time';
-import { removeLink } from '@/components/workshop/LinkedText';
+import { removeLink } from '@/components/workshop/TextFormatter';
 import { constrainedText } from '@/lib/textUtils';
 import ReferrerLink from './ReferrerLink';
 import TagElement from './TagElement';
@@ -109,7 +109,7 @@ export const Card = ({
                         {el.title}
                     </ReferrerLink>
                     <p className={style_card.description}>
-                        {constrainedText(removeLink(el.description) ?? '', 50)}
+                        {removeLink(constrainedText(el.description ?? '', 50))}
                     </p>
                 </div>
 
@@ -175,9 +175,7 @@ export const CreateCard = ({ first }: { first?: boolean }) => {
                 </h2>
                 <p>
                     Не знаете как? Прочитайте{' '}
-                    <CustomLink href="/tutorials/bandage">
-                        наш туториал
-                    </CustomLink>
+                    <CustomLink href="/tutorials/bandage">наш туториал</CustomLink>
                 </p>
             </div>
         </article>

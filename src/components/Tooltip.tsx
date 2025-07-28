@@ -7,6 +7,7 @@ import ReactCSSTransition from './CSSTransition';
 export type StaticTooltipProps = {
     children: JSX.Element;
     title: string;
+    use_span?: boolean;
     disabled?: boolean;
     container_styles?: CSSProperties;
     tooltip_styles?: CSSProperties;
@@ -16,8 +17,10 @@ export const StaticTooltip = (props: StaticTooltipProps) => {
     const [displayed, setDisplayed] = useState<boolean>(false);
 
     if (props.disabled) return props.children;
+
+    const Cont = props.use_span ? 'span' : 'div';
     return (
-        <div
+        <Cont
             onMouseEnter={() => setDisplayed(true)}
             onMouseLeave={() => setDisplayed(false)}
             style={{ position: 'relative', ...props.container_styles }}
@@ -36,6 +39,6 @@ export const StaticTooltip = (props: StaticTooltipProps) => {
                 </span>
             </ReactCSSTransition>
             {props.children}
-        </div>
+        </Cont>
     );
 };

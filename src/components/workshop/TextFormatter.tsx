@@ -56,7 +56,7 @@ const Emote = ({ name }: { name: string }) => {
         // Знаете почему рефами? А потому что через обычный src проп браузер
         // не вызывает onError ивент. Почему? Ха! Спросите чего попроще
         imageRef.current.src = `/static/emotes/${name}.png`;
-    });
+    }, []);
 
     if (failed) return <>:{name}:</>;
 

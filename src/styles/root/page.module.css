@@ -126,7 +126,7 @@
     align-items: center;
     gap: .4rem;
 
-    animation: workshop_open_anim 3s infinite;
+    /*animation: workshop_open_anim 3s infinite;*/
 }
 
 .link:hover {

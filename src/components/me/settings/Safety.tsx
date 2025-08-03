@@ -40,7 +40,6 @@ const logoutSession = (session_id: number, sessions: Session[]) => {
 };
 
 const logoutSessionAll = (all_sessions: Session[], current_session_id: number) => {
-    console.log(all_sessions, current_session_id);
     if (!confirm('Выйти со всех устройств, кроме этого?')) return;
     logoutAllSessions()
         .then(() =>

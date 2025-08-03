@@ -83,7 +83,6 @@ const Users = () => {
     };
 
     const usersEl = users.map(user => {
-        console.log(user.flags);
         return (
             <div key={user.id} className={style_root.user_card}>
                 <div className={style_root.name_container}>

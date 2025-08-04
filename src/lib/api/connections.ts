@@ -89,3 +89,24 @@ export const disconnectTwitch = async () => {
         })
     ).data;
 };
+
+/** Connect telegram */
+export const connectTelegram = async (code: string) => {
+    return (
+        await doRequest({
+            url: `/users/@me/connections/telegram`,
+            method: 'POST',
+            data: { code }
+        })
+    ).data;
+};
+
+/** Disconnect telegram */
+export const disconnectTelegram = async () => {
+    return (
+        await doRequest({
+            url: `/users/@me/connections/telegram`,
+            method: 'DELETE'
+        })
+    ).data;
+};

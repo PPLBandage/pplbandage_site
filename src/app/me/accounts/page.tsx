@@ -8,6 +8,7 @@ import useSWR from 'swr';
 import { Google } from '@/components/me/accounts/Google';
 import { Twitch } from '@/components/me/accounts/Twitch';
 import { getMeConnections } from '@/lib/api/connections';
+import { Telegram } from '@/components/me/accounts/Telegram';
 
 const Page = () => {
     const { data, isLoading } = useSWR(
@@ -22,6 +23,7 @@ const Page = () => {
             <Discord />
             <Twitch />
             <Minecraft />
+            <Telegram />
         </div>
     );
 };

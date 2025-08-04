@@ -8,7 +8,8 @@ const login_endpoints = [
     '/auth/discord',
     '/auth/minecraft',
     '/auth/google',
-    '/auth/twitch'
+    '/auth/twitch',
+    '/auth/telegram'
 ];
 
 interface CookieObj {

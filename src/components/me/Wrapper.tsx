@@ -9,6 +9,7 @@ import {
     IconBrandDiscord,
     IconBrandGoogleFilled,
     IconBrandMinecraft,
+    IconBrandTelegram,
     IconBrandTwitch,
     IconLogin
 } from '@tabler/icons-react';
@@ -73,16 +74,24 @@ const Login = () => {
                     Войти через
                 </h1>
 
+                <a
+                    className={styles.login_button}
+                    href={'/api/v1/auth/url/google'}
+                    style={
+                        {
+                            '--color': '#FBBC04',
+                            marginBottom: '.5rem'
+                        } as CSSProperties
+                    }
+                >
+                    <IconBrandGoogleFilled />
+                    Google
+                </a>
                 <div className={styles.login_through}>
-                    <div className={styles.login_through_column}>
-                        <a
-                            className={styles.login_button}
-                            href={'/api/v1/auth/url/google'}
-                            style={{ '--color': '#FBBC04' } as CSSProperties}
-                        >
-                            <IconBrandGoogleFilled />
-                            Google
-                        </a>
+                    <div
+                        className={styles.login_through_column}
+                        style={{ gridArea: 'cl' }}
+                    >
                         <a
                             className={styles.login_button}
                             href={'/api/v1/auth/url/discord'}
@@ -91,8 +100,19 @@ const Login = () => {
                             <IconBrandDiscord />
                             Discord
                         </a>
+                        <a
+                            className={styles.login_button}
+                            href={'/api/v1/auth/url/telegram'}
+                            style={{ '--color': '#24A1DE' } as CSSProperties}
+                        >
+                            <IconBrandTelegram />
+                            Telegram
+                        </a>
                     </div>
-                    <div className={styles.login_through_column}>
+                    <div
+                        className={styles.login_through_column}
+                        style={{ gridArea: 'cr' }}
+                    >
                         <a
                             className={styles.login_button}
                             href={'/api/v1/auth/url/twitch'}

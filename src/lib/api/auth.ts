@@ -39,3 +39,13 @@ export const loginTwitch = async (code: string) => {
         })
     ).data;
 };
+
+export const loginTelegram = async (code: string) => {
+    return (
+        await doRequest({
+            url: `/auth/telegram`,
+            method: 'POST',
+            data: { code }
+        })
+    ).data;
+};

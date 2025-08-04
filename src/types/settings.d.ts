@@ -35,4 +35,10 @@ interface ConnectionsResponse {
         valid: boolean;
         autoload: boolean;
     } | null;
+    telegram: {
+        id: string;
+        name: string;
+        login: string | null;
+        connected_at: Date;
+    } | null;
 }

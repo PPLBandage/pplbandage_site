@@ -14,7 +14,7 @@ type AvailableAvatarType = {
     value: string;
 };
 
-const capitalize = (str: string) => str.at(0).toUpperCase() + str.slice(1);
+const capitalize = (str: string) => str?.at?.(0).toUpperCase() + str.slice(1);
 
 const AvatarSelector = () => {
     const [selected, setSelected] = useState<AvailableAvatarType>(null);

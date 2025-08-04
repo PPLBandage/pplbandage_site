@@ -9,6 +9,7 @@ import {
     IconBrandDiscord,
     IconBrandGoogleFilled,
     IconBrandMinecraft,
+    IconBrandTelegram,
     IconBrandTwitch,
     IconSearch
 } from '@tabler/icons-react';
@@ -112,6 +113,11 @@ const Users = () => {
                             {getBitSet(user.flags, 5) && (
                                 <StaticTooltip title="Minecraft">
                                     <IconBrandMinecraft width={16} height={16} />
+                                </StaticTooltip>
+                            )}
+                            {getBitSet(user.flags, 6) && (
+                                <StaticTooltip title="Telegram">
+                                    <IconBrandTelegram width={16} height={16} />
                                 </StaticTooltip>
                             )}
                         </div>

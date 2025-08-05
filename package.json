@@ -19,6 +19,7 @@
         "async-mutex": "^0.5.0",
         "axios": "^1.11.0",
         "cookies-next": "^6.1.0",
+        "geist": "^1.4.2",
         "js-sha256": "^0.11.1",
         "jwt-decode": "^4.0.0",
         "lodash": "^4.17.21",

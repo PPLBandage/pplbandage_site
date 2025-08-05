@@ -29,7 +29,7 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
         <>
             <div className={Style.discord_container}>
                 <Image
-                    src="/icon.png"
+                    src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/avatars/${data.userID}/telegram`}
                     alt="avatar"
                     width={64}
                     height={64}

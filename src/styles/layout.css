@@ -4,7 +4,7 @@ html {
 
 body {
 	background:
-		linear-gradient(rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.04) 100%) center center / cover,
+		linear-gradient(rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.03) 100%) center center / cover,
 		linear-gradient(to right, transparent 29px, rgba(255, 255, 255, 0.03) 30px, transparent 31px) 0% 0% / 30px 30px,
 		linear-gradient(transparent 29px, rgba(255, 255, 255, 0.03) 30px, transparent 31px) 0% 0% / 30px 30px;
 

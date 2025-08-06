@@ -36,10 +36,18 @@ function easeInOutSine(x: number): number {
     return -(Math.cos(Math.PI * x) - 1) / 2;
 }
 
+function normalizeAngle(angle: number) {
+    let a = angle % (2 * Math.PI);
+    if (a <= -Math.PI) a += 2 * Math.PI;
+    else if (a > Math.PI) a -= 2 * Math.PI;
+    return a;
+}
+
 const MainSkinViewer = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const skinViewRef = useRef<SkinViewer>(null);
     const posRef = useRef<number>(0);
+    const intervalRef = useRef<number>(0);
     const [grabbed, setGrabbed] = useState<boolean>(false);
 
     const lastTimeGrabbed = useRef<number>(0);
@@ -58,16 +66,20 @@ const MainSkinViewer = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element
     useEffect(() => {
         const checkMobile = () => {
             const isMobile = window.innerWidth <= 850;
-            if (isMobile && skinViewRef.current) {
-                skinViewRef.current.dispose();
-            } else {
+            if (isMobile) {
+                skinViewRef.current?.dispose?.();
+            } else if (!skinViewRef.current || skinViewRef.current.disposed) {
                 initSkinViewer();
             }
         };
         checkMobile();
         window.addEventListener('resize', checkMobile);
 
-        return () => window.removeEventListener('resize', checkMobile);
+        return () => {
+            if (skinViewRef.current) skinViewRef.current.dispose();
+            cancelAnimationFrame(intervalRef.current);
+            window.removeEventListener('resize', checkMobile);
+        };
     }, []);
 
     const initSkinViewer = () => {
@@ -95,14 +107,19 @@ const MainSkinViewer = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element
 
         skinViewRef.current.animation = new SkinViewBlockbench({
             animation,
-            forceLoop: true,
-            onLoopEnd: () => console.log('loop end'),
-            onFinish: () => console.log('animation ended')
+            animationName: 'new',
+            onFinish: animation => {
+                if (animation.animation_name === 'new') {
+                    animation.setAnimation({
+                        animationName: '1_anim'
+                    });
+                }
+            },
+            onLoopEnd: animation => {
+                animation.setAnimation({ animationName: 'new' });
+            }
         });
-    };
 
-    useEffect(() => {
-        let animationId: number;
         const checkLastGrabbed = () => {
             if (initialReturningData.current.running) {
                 const st = initialReturningData.current.start_time;
@@ -126,19 +143,16 @@ const MainSkinViewer = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element
                 !initialReturningData.current.grabbed
             ) {
                 initialReturningData.current.running = true;
-                initialReturningData.current.start_pos =
-                    skinViewRef.current.playerWrapper.rotation.y % (Math.PI * 2);
+                initialReturningData.current.start_pos = normalizeAngle(
+                    skinViewRef.current.playerWrapper.rotation.y % (Math.PI * 2)
+                );
                 initialReturningData.current.start_time = new Date().getTime();
             }
-            animationId = requestAnimationFrame(checkLastGrabbed);
+            intervalRef.current = requestAnimationFrame(checkLastGrabbed);
         };
 
-        animationId = requestAnimationFrame(checkLastGrabbed);
-        return () => {
-            if (skinViewRef.current) skinViewRef.current.dispose();
-            cancelAnimationFrame(animationId);
-        };
-    }, []);
+        intervalRef.current = requestAnimationFrame(checkLastGrabbed);
+    };
 
     useEffect(() => {
         const onMouseMove = (evt: MouseEvent) => {

@@ -40,11 +40,11 @@ const HomeClient = () => {
                         <MainSkinViewer width={400} height={545} />
                         <svg
                             width="250"
-                            height="100"
+                            height="120"
                             xmlns="http://www.w3.org/2000/svg"
                             className={styles.shadow}
                         >
-                            <ellipse rx="125" ry="50" cx="125" cy="50" />
+                            <ellipse rx="125" ry="60" cx="125" cy="60" />
                         </svg>
                     </div>
                 </div>

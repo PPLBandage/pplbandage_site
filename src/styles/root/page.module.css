@@ -153,8 +153,8 @@
 
 .shadow {
     position: absolute;
-    left: 50%;
-    bottom: -1rem;
+    left: 51%;
+    bottom: 0rem;
 
     transform: translateX(-50%);
 

@@ -43,7 +43,7 @@ function normalizeAngle(angle: number) {
     return a;
 }
 
-const MainSkinViewer = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => {
+const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const skinViewRef = useRef<SkinViewer>(null);
     const posRef = useRef<number>(0);
@@ -107,17 +107,7 @@ const MainSkinViewer = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element
 
         skinViewRef.current.animation = new SkinViewBlockbench({
             animation,
-            animationName: 'new',
-            onFinish: animation => {
-                if (animation.animation_name === 'new') {
-                    animation.setAnimation({
-                        animationName: '1_anim'
-                    });
-                }
-            },
-            onLoopEnd: animation => {
-                animation.setAnimation({ animationName: 'new' });
-            }
+            animationName: '1_anim'
         });
 
         const checkLastGrabbed = () => {
@@ -202,4 +192,4 @@ const MainSkinViewer = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element
     );
 };
 
-export default MainSkinViewer;
+export default SkinRender;

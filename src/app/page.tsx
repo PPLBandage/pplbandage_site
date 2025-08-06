@@ -7,7 +7,7 @@ import Link from 'next/link';
 import IconCropped from '@/resources/icon-cropped.svg';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
-import MainSkinViewer from '@/components/root/MainSkinView';
+import SkinRender from '@/components/root/MainSkinView';
 
 const HomeClient = () => {
     return (
@@ -37,7 +37,7 @@ const HomeClient = () => {
                         </p>
                     </div>
                     <div className={styles.image_container}>
-                        <MainSkinViewer width={400} height={545} />
+                        <SkinRender width={400} height={545} />
                         <svg
                             width="250"
                             height="120"

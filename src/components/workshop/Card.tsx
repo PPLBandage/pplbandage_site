@@ -10,8 +10,7 @@ import {
     IconEyeOff,
     IconHourglassHigh,
     IconPalette,
-    IconPlus,
-    IconUser
+    IconPlus
 } from '@tabler/icons-react';
 import { StaticTooltip } from '@/components/Tooltip';
 import { CustomLink } from '@/components/workshop/Search';
@@ -21,6 +20,81 @@ import { constrainedText } from '@/lib/textUtils';
 import ReferrerLink from './ReferrerLink';
 import TagElement from './TagElement';
 import StarElement from './Star';
+import { AuthorLink } from './AuthorLink';
+
+const ExtraParams = ({
+    flags,
+    access_level
+}: {
+    flags: number;
+    access_level: number;
+}) => {
+    return (
+        <div className={style_card.extra_params}>
+            {Boolean(flags & 1) && (
+                <StaticTooltip title="Окрашиваемая">
+                    <IconPalette width={24} height={24} />
+                </StaticTooltip>
+            )}
+            {access_level < 2 && (
+                <StaticTooltip title="Скрыта">
+                    <IconEyeOff width={24} height={24} />
+                </StaticTooltip>
+            )}
+            {Boolean(flags & (1 << 1)) && (
+                <StaticTooltip title="Раздельные модельки">
+                    <IconCircleHalf2 width={24} height={24} />
+                </StaticTooltip>
+            )}
+            {Boolean(flags & (1 << 4)) && (
+                <StaticTooltip title="Отклонена">
+                    <IconCircleDashedX width={24} height={24} color="#dc2626" />
+                </StaticTooltip>
+            )}
+            {Boolean(flags & (1 << 3)) && (
+                <StaticTooltip title="На рассмотрении">
+                    <IconHourglassHigh width={24} height={24} color="#FFC107" />
+                </StaticTooltip>
+            )}
+        </div>
+    );
+};
+
+export const CreateCard = ({ first }: { first?: boolean }) => {
+    return (
+        <article
+            className={`${style_card.card} ${style_card.create_card}`}
+            style={
+                {
+                    '--background-size': first ? '200px' : '40%'
+                } as CSSProperties
+            }
+        >
+            <NextImage
+                src={'/static/peepo.png'}
+                alt="peepo"
+                width={123}
+                height={128}
+                className={style_card.peepo}
+                priority
+            />
+            <Link href="/workshop/create">
+                <IconPlus width={50} height={50} />
+            </Link>
+            <div>
+                <h2>
+                    {first
+                        ? 'Создайте свою первую повязку'
+                        : 'Создать новую повязку'}
+                </h2>
+                <p>
+                    Не знаете как? Прочитайте{' '}
+                    <CustomLink href="/tutorials/bandage">наш туториал</CustomLink>
+                </p>
+            </div>
+        </article>
+    );
+};
 
 export const Card = ({
     el,
@@ -39,42 +113,7 @@ export const Card = ({
         >
             <div className={style_card.head_container}>
                 <StarElement el={el} />
-
-                <div className={style_card.extra_params}>
-                    {Boolean(el.flags & 1) && (
-                        <StaticTooltip title="Окрашиваемая">
-                            <IconPalette width={24} height={24} />
-                        </StaticTooltip>
-                    )}
-                    {el.access_level < 2 && (
-                        <StaticTooltip title="Скрыта">
-                            <IconEyeOff width={24} height={24} />
-                        </StaticTooltip>
-                    )}
-                    {Boolean(el.flags & (1 << 1)) && (
-                        <StaticTooltip title="Раздельные модельки">
-                            <IconCircleHalf2 width={24} height={24} />
-                        </StaticTooltip>
-                    )}
-                    {Boolean(el.flags & (1 << 4)) && (
-                        <StaticTooltip title="Отклонена">
-                            <IconCircleDashedX
-                                width={24}
-                                height={24}
-                                color="#dc2626"
-                            />
-                        </StaticTooltip>
-                    )}
-                    {Boolean(el.flags & (1 << 3)) && (
-                        <StaticTooltip title="На рассмотрении">
-                            <IconHourglassHigh
-                                width={24}
-                                height={24}
-                                color="#FFC107"
-                            />
-                        </StaticTooltip>
-                    )}
-                </div>
+                <ExtraParams flags={el.flags} access_level={el.access_level} />
             </div>
             <div
                 style={
@@ -114,69 +153,11 @@ export const Card = ({
                 </div>
 
                 <div>
-                    {el.author.public ? (
-                        <Link
-                            className={style_card.username}
-                            href={`/users/${el.author.username}`}
-                        >
-                            <IconUser style={{ width: '1.5rem' }} />
-                            {el.author.name}
-                        </Link>
-                    ) : (
-                        <Link
-                            href={
-                                el.author.public
-                                    ? `/users/${el.author.username}`
-                                    : ''
-                            }
-                            className={`${style_card.username} ${
-                                !el.author.public && style_card.username_private
-                            }`}
-                        >
-                            <IconUser style={{ width: '1.5rem' }} />
-                            {el.author.name}
-                        </Link>
-                    )}
+                    <AuthorLink author={el.author} />
                     <p className={style_card.creation_date}>
                         {formatDate(new Date(el.creation_date))}
                     </p>
                 </div>
-            </div>
-        </article>
-    );
-};
-
-export const CreateCard = ({ first }: { first?: boolean }) => {
-    return (
-        <article
-            className={`${style_card.card} ${style_card.create_card}`}
-            style={
-                {
-                    '--background-size': first ? '200px' : '40%'
-                } as CSSProperties
-            }
-        >
-            <NextImage
-                src={'/static/peepo.png'}
-                alt="peepo"
-                width={123}
-                height={128}
-                className={style_card.peepo}
-                priority
-            />
-            <Link href="/workshop/create">
-                <IconPlus width={50} height={50} />
-            </Link>
-            <div>
-                <h2>
-                    {first
-                        ? 'Создайте свою первую повязку'
-                        : 'Создать новую повязку'}
-                </h2>
-                <p>
-                    Не знаете как? Прочитайте{' '}
-                    <CustomLink href="/tutorials/bandage">наш туториал</CustomLink>
-                </p>
             </div>
         </article>
     );

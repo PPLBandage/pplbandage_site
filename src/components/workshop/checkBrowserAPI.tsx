@@ -4,6 +4,7 @@ import style from '@/styles/browserAPINotification.module.css';
 import { IconX } from '@tabler/icons-react';
 import ReactCSSTransition from '@/components/CSSTransition';
 
+// idfk
 const image =
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAICAYAAADwdn+XAAABR0lEQVR4nH2QQWrjQBREnxrJyKjdtoXQYkJjyAGyySXmEtnlBEMOkUUOkb1PMVcQGMbMqjHGYCxhLLVhZKs7i8ZeDalNUZ9fn/oV8R1+/fAAlGnQxSjw65/othIbY7y19u6RUrLf7xmNRjx9/sR9bBEiwjmPEBG8P1JVlZ/NZnRdh7DWcj6fkVICIIRgOp2S53nQbw/8VXApIv6FEX3fczwekVJyj/JfPL+HF+JwnHQa+PfL3Rctl0uvtSZNU5RSVFUFwOVyQWsNgLWWYRio6zpUUpZkWRYSaq1ZrVbsdjvW6zV1Xd/fsdZiraVpGvq+J45jiqLAe8+tN7HdblFKkSQJwzCwWCwwxjCfz2nbFoDT6cR4PAZgMpngvcc5R9d1xM45AIwxKKW4Xq9orZFSIqWkLEvatqVpGpIkYbPZkOc5WZZxOBz4AtiqiNt8TBK7AAAAAElFTkSuQmCC';
 const rightChecksum =
@@ -45,8 +46,8 @@ export const BrowserNotification = ({
             <div className={style.container}>
                 <div>
                     <p>
-                        Мы определили, что ваш браузер может некорректно
-                        отображать скины.
+                        Мы определили, что ваш браузер может некорректно отображать
+                        скины.
                     </p>
                     <p>
                         Если возникнут проблемы, попробуйте использовать другой

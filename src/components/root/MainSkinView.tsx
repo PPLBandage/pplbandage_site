@@ -2,6 +2,7 @@ import { CSSProperties, JSX, useEffect, useRef, useState } from 'react';
 import { PlayerAnimation, PlayerObject, SkinViewer } from 'skinview3d';
 import { SkinViewBlockbench } from 'skinview3d-blockbench';
 import { Euler, MathUtils } from 'three';
+import styles from '@/styles/root/page.module.css';
 
 import animation from './model.animation.json';
 import skin from './skin.png';
@@ -44,6 +45,7 @@ function normalizeAngle(angle: number) {
 }
 
 const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => {
+    const [inited, setInited] = useState<boolean>(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const skinViewRef = useRef<SkinViewer>(null);
     const posRef = useRef<number>(0);
@@ -96,7 +98,8 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
         skinViewRef.current.controls.enablePan = false;
 
         skinViewRef.current.camera.fov = 70;
-        //skinViewRef.current.globalLight.intensity = 2.5;
+        //skinViewRef.current.globalLight.intensity = 2;
+        //skinViewRef.current.cameraLight.intensity = 2000;
 
         skinViewRef.current.camera.position.x = 15.69;
         skinViewRef.current.camera.position.y = 18.09;
@@ -109,6 +112,8 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
             animation,
             animationName: '1_anim'
         });
+
+        setInited(true);
 
         const checkLastGrabbed = () => {
             if (initialReturningData.current.running) {
@@ -134,7 +139,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
             ) {
                 initialReturningData.current.running = true;
                 initialReturningData.current.start_pos = normalizeAngle(
-                    skinViewRef.current.playerWrapper.rotation.y % (Math.PI * 2)
+                    skinViewRef.current.playerWrapper.rotation.y
                 );
                 initialReturningData.current.start_time = new Date().getTime();
             }
@@ -182,10 +187,10 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
             height={height}
             ref={canvasRef}
             style={{
-                position: 'relative',
-                zIndex: 5,
-                cursor: grabbed ? 'grabbing' : 'grab'
+                cursor: grabbed ? 'grabbing' : 'grab',
+                opacity: inited ? '1' : '0'
             }}
+            className={styles.skin_render}
             onMouseDown={() => setGrabbed(true)}
             onMouseUp={() => setGrabbed(false)}
         />

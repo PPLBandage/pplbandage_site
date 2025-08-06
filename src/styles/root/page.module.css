@@ -64,18 +64,6 @@
     margin-right: 8rem;
 }
 
-.image_bandage {
-    position: absolute;
-    left: 0;
-    top: 0;
-
-    filter: blur(70px);
-    transform: scale(1.2);
-    transform-origin: center;
-    z-index: 0;
-
-    animation: 1.2s bandage_show;
-}
 
 @keyframes bandage_show {
     0% {
@@ -85,11 +73,6 @@
     100% {
         opacity: 1;
     }
-}
-
-.image_skin {
-    position: relative;
-    z-index: 5;
 }
 
 .left_shade {
@@ -102,10 +85,17 @@
     bottom: 0;
 
     transform: translate(-50%, 50%);
+    transform-origin: center;
     z-index: -1;
 
     filter: blur(200px);
-    animation: 1.2s shade_show ease-out;
+
+    animation-name: shade_show, pulse;
+    animation-duration: 1.3s, 20s;
+    animation-delay: 0s, 1.3s;
+    animation-timing-function: ease-out, ease-in-out;
+    animation-fill-mode: forwards, none;
+    animation-iteration-count: 1, infinite;
 }
 
 .right_shade {
@@ -123,6 +113,18 @@
 
     100% {
         width: 150px;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        width: 150px;
+    }
+
+    50% {
+        width: 100px;
     }
 }
 
@@ -167,10 +169,10 @@
 
 .shadow {
     position: absolute;
-    left: 8%;
-    bottom: -3%;
+    left: 20%;
+    bottom: 3%;
 
-    fill: #0e0e0e;
+    fill: #00000050;
     filter: blur(2px);
 }
 

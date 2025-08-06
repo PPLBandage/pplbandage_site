@@ -99,6 +99,11 @@ const SkinView3D = ({
         });
 
         resizeObserver.observe(document.getElementById(id) as HTMLDivElement);
+
+        return () => {
+            if (skinViewRef.current) skinViewRef.current.dispose();
+            resizeObserver.disconnect();
+        };
     }, []);
 
     useEffect(() => {

@@ -2,14 +2,12 @@
 
 import React from 'react';
 import styles from '@/styles/root/page.module.css';
-import Image from 'next/image';
 import Link from 'next/link';
 
 import IconCropped from '@/resources/icon-cropped.svg';
-import person from '@/resources/root/person.png';
-import bandage from '@/resources/root/bandage.png';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
+import MainSkinViewer from '@/components/root/MainSkinView';
 
 const HomeClient = () => {
     return (
@@ -39,18 +37,7 @@ const HomeClient = () => {
                         </p>
                     </div>
                     <div className={styles.image_container}>
-                        <Image
-                            src={bandage}
-                            alt=""
-                            width={300}
-                            className={styles.image_bandage}
-                        />
-                        <Image
-                            src={person}
-                            alt=""
-                            width={300}
-                            className={styles.image_skin}
-                        />
+                        <MainSkinViewer width={400} height={545} />
                         <svg
                             width="250"
                             height="100"

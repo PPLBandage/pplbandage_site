@@ -1,13 +1,13 @@
 'use client';
 
-import { IconEdit, IconUser } from '@tabler/icons-react';
-import Link from 'next/link';
+import { IconEdit } from '@tabler/icons-react';
 import style from '@/styles/editor/page.module.css';
 import * as Interfaces from '@/types/global.d';
 import { TextFormatter } from '@/components/workshop/TextFormatter';
 import TagElement from './TagElement';
 import { formatDate } from '@/lib/time';
 import { useEffect, useState } from 'react';
+import { AuthorLink } from './AuthorLink';
 
 const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
     const [date, setDate] = useState<string>('');
@@ -40,20 +40,7 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
             )}
             <div className={style.tags_container}>{tags}</div>
             <span className={style.author_cont}>
-                {el.author.public ? (
-                    <Link
-                        className={style.author}
-                        href={`/users/${el.author.username}`}
-                    >
-                        <IconUser width={24} height={24} />
-                        {el.author.name}
-                    </Link>
-                ) : (
-                    <a className={`${style.author} ${style.username_private}`}>
-                        <IconUser width={24} height={24} />
-                        {el.author.name}
-                    </a>
-                )}
+                <AuthorLink author={el.author} />
                 <span style={{ opacity: '.8' }}>•</span>
                 <span style={{ opacity: '.8', fontSize: '1rem' }}>{date}</span>
             </span>

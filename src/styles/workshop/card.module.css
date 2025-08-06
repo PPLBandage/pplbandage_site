@@ -78,6 +78,7 @@
     margin-top: .3rem;
     color: #d8d8d8;
     overflow-wrap: anywhere;
+    margin-bottom: 1rem;
 }
 
 .tags {
@@ -104,7 +105,6 @@
     align-items: center;
     margin-bottom: 0;
     color: var(--main-text-color);
-    margin-top: 1rem;
     text-decoration: none;
 }
 
@@ -114,6 +114,7 @@
 
 .username_private:hover {
     text-decoration: none;
+    cursor: auto;
 }
 
 .creation_date {

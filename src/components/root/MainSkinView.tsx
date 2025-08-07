@@ -1,36 +1,16 @@
 import { CSSProperties, JSX, useEffect, useRef, useState } from 'react';
-import { PlayerAnimation, PlayerObject, SkinViewer } from 'skinview3d';
-import { SkinViewBlockbench } from 'skinview3d-blockbench';
-import { Euler, MathUtils } from 'three';
+import { SkinViewer } from 'skinview3d';
 import styles from '@/styles/root/page.module.css';
 
 import animation from './model.animation.json';
 import skin from './skin.png';
+import { AnimationController } from './AnimationController';
 
 interface SkinView3DOptions {
     SKIN?: string;
     style?: CSSProperties;
     width?: number;
     height?: number;
-}
-
-export class Pose extends PlayerAnimation {
-    private getEuler(x: number, y: number, z: number) {
-        return new Euler(
-            MathUtils.degToRad(x),
-            -MathUtils.degToRad(y),
-            -MathUtils.degToRad(z),
-            'ZYX'
-        );
-    }
-
-    protected animate(player: PlayerObject): void {
-        player.skin.head.setRotationFromEuler(this.getEuler(-5, -9.9, 0.2));
-        player.skin.leftArm.setRotationFromEuler(this.getEuler(0, 0, -10));
-        player.skin.rightArm.setRotationFromEuler(this.getEuler(0, 0, 7.5));
-        player.skin.leftLeg.setRotationFromEuler(this.getEuler(0, 2.5, -7.5));
-        player.skin.rightLeg.setRotationFromEuler(this.getEuler(0, 0, 5));
-    }
 }
 
 function easeInOutSine(x: number): number {
@@ -108,9 +88,9 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
         skinViewRef.current.scene.position.x = 0.3;
         skinViewRef.current.scene.position.y = -1.5;
 
-        skinViewRef.current.animation = new SkinViewBlockbench({
+        skinViewRef.current.animation = new AnimationController({
             animation,
-            animationName: '1_anim'
+            animationName: 'initial'
         });
 
         setInited(true);

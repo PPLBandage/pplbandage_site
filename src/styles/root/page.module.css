@@ -185,7 +185,7 @@
     position: relative;
     z-index: 5;
 
-    transition: opacity 250ms;
+    transition: opacity 1s;
 }
 
 .footer {

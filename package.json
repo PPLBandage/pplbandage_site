@@ -12,9 +12,9 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@next/bundle-analyzer": "^15.4.2",
+        "@next/bundle-analyzer": "^15.4.6",
         "@svgr/webpack": "^8.1.0",
-        "@tabler/icons-react": "^3.34.0",
+        "@tabler/icons-react": "^3.34.1",
         "@types/lodash.debounce": "^4.0.9",
         "async-mutex": "^0.5.0",
         "axios": "^1.11.0",
@@ -24,9 +24,9 @@
         "jwt-decode": "^4.0.0",
         "lodash": "^4.17.21",
         "lodash.debounce": "^4.0.8",
-        "next": "^15.4.1",
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0",
+        "next": "^15.4.6",
+        "react": "^19.1.1",
+        "react-dom": "^19.1.1",
         "react-select": "^5.10.2",
         "sanitize-html": "^2.17.0",
         "sharp": "^0.34.3",
@@ -38,8 +38,8 @@
         "@types/node": "^24",
         "@types/react": "^19",
         "@types/sanitize-html": "^2.16.0",
-        "eslint": "^9.31.0",
-        "eslint-config-next": "^15.4.1",
+        "eslint": "^9.32.0",
+        "eslint-config-next": "^15.4.6",
         "typescript": "^5"
     }
 }

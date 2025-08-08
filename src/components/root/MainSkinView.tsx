@@ -97,7 +97,6 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
             if (initialReturningData.current.running) {
                 const st = initialReturningData.current.start_time;
                 const et = initialReturningData.current.start_time + 500;
-
                 const progress = (new Date().getTime() - st) / (et - st);
 
                 if (progress >= 1) {
@@ -112,8 +111,8 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
             if (
                 new Date().getTime() - lastTimeGrabbed.current >= 2000 &&
                 !initialReturningData.current.running &&
-                skinViewRef.current.playerWrapper.rotation.y !== 0 &&
-                !initialReturningData.current.grabbed
+                !initialReturningData.current.grabbed &&
+                skinViewRef.current.playerWrapper.rotation.y !== 0
             ) {
                 initialReturningData.current.running = true;
                 initialReturningData.current.start_pos = normalizeAngle(
@@ -124,7 +123,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
             intervalRef.current = requestAnimationFrame(checkLastGrabbed);
         };
 
-        intervalRef.current = requestAnimationFrame(checkLastGrabbed);
+        requestAnimationFrame(checkLastGrabbed);
     };
 
     useEffect(() => {
@@ -143,10 +142,8 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
 
             if (!posRef.current) posRef.current = x;
 
-            if (skinViewRef.current?.playerWrapper?.rotation) {
-                skinViewRef.current.playerWrapper.rotation.y +=
-                    (x - posRef.current) / 100;
-            }
+            skinViewRef.current.playerWrapper.rotation.y +=
+                (x - posRef.current) / 100;
 
             posRef.current = x;
             lastTimeGrabbed.current = Date.now();

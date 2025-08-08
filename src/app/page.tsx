@@ -36,17 +36,7 @@ const HomeClient = () => {
                             <Link href={'https://andcool.ru'}>AndcoolSystems</Link>
                         </p>
                     </div>
-                    <div className={styles.image_container}>
-                        <SkinRender width={400} height={545} />
-                        <svg
-                            width="250"
-                            height="120"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className={styles.shadow}
-                        >
-                            <ellipse rx="125" ry="60" cx="125" cy="60" />
-                        </svg>
-                    </div>
+                    <SkinRender width={400} height={545} />
                 </div>
             </div>
             <footer className={styles.footer}>

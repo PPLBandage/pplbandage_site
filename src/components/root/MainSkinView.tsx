@@ -173,18 +173,30 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
     }, [grabbed]);
 
     return (
-        <canvas
-            width={width}
-            height={height}
-            ref={canvasRef}
+        <div
+            className={styles.image_container}
             style={{
                 cursor: grabbed ? 'grabbing' : 'grab',
                 opacity: inited ? '1' : '0'
             }}
-            className={styles.skin_render}
-            onMouseDown={() => setGrabbed(true)}
-            onTouchStart={() => setGrabbed(true)}
-        />
+        >
+            <canvas
+                width={width}
+                height={height}
+                ref={canvasRef}
+                className={styles.skin_render}
+                onMouseDown={() => setGrabbed(true)}
+                onTouchStart={() => setGrabbed(true)}
+            />
+            <svg
+                width="250"
+                height="120"
+                xmlns="http://www.w3.org/2000/svg"
+                className={styles.shadow}
+            >
+                <ellipse rx="125" ry="60" cx="125" cy="60" />
+            </svg>
+        </div>
     );
 };
 

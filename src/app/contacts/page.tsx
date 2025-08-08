@@ -3,11 +3,7 @@ import style from '@/styles/contacts/page.module.css';
 import style_card from '@/styles/contacts/card.module.css';
 import Image from 'next/image';
 import { CSSProperties, JSX } from 'react';
-import {
-    IconAlertTriangle,
-    IconBrandTelegram,
-    IconExternalLink
-} from '@tabler/icons-react';
+import { IconAlertTriangle, IconBrandTelegram } from '@tabler/icons-react';
 import InfoCard from '@/components/InfoCard';
 import Feedback from '@/components/feedback/Feedback.server';
 
@@ -108,21 +104,21 @@ const Home = () => {
                     />
 
                     <Card
-                        name="Shape STD"
-                        image="/static/contacts/dino_like.gif"
-                        description="Продакшн, дизайн повязок"
-                        color="#689295"
-                        site_name="gamdav_"
+                        name="Vakenak"
+                        image="/static/contacts/dino_grass.gif"
+                        description="Главный модератор повязок"
+                        color="#14e65f"
+                        site_name="vakenak_d"
                         links={[
                             {
                                 name: 'Telegram',
-                                URL: 'https://t.me/shapestd',
+                                URL: 'https://t.me/Vakenak',
                                 icon: <IconBrandTelegram width={24} height={24} />
                             },
                             {
-                                name: 'ВК',
-                                URL: 'https://vk.com/shapestd',
-                                icon: <IconExternalLink width={24} height={24} />
+                                name: 'Telegram канал',
+                                URL: 'https://t.me/Vakenak_LIFE',
+                                icon: <IconBrandTelegram width={24} height={24} />
                             }
                         ]}
                     />

@@ -50,6 +50,8 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
             const isMobile = window.innerWidth <= 850;
             if (isMobile) {
                 skinViewRef.current?.dispose?.();
+                setInited(false);
+                cancelAnimationFrame(intervalRef.current);
             } else if (!skinViewRef.current || skinViewRef.current.disposed) {
                 initSkinViewer();
             }
@@ -65,21 +67,17 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
     }, []);
 
     const initSkinViewer = () => {
-        const view = new SkinViewer({
+        skinViewRef.current = new SkinViewer({
             canvas: canvasRef.current,
-            skin: SKIN ? SKIN : skin,
             width: width || 400,
             height: height || 400
         });
-        skinViewRef.current = view;
 
         skinViewRef.current.controls.enableZoom = false;
         skinViewRef.current.controls.enableRotate = false;
         skinViewRef.current.controls.enablePan = false;
 
         skinViewRef.current.camera.fov = 70;
-        //skinViewRef.current.globalLight.intensity = 2;
-        //skinViewRef.current.cameraLight.intensity = 2000;
 
         skinViewRef.current.camera.position.x = 15.69;
         skinViewRef.current.camera.position.y = 18.09;
@@ -93,7 +91,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
             animationName: 'initial'
         });
 
-        setInited(true);
+        skinViewRef.current.loadSkin(SKIN ? SKIN : skin).then(() => setInited(true));
 
         const checkLastGrabbed = () => {
             if (initialReturningData.current.running) {

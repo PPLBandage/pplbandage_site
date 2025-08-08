@@ -9,18 +9,18 @@ export class AnimationController extends SkinViewBlockbench {
     }
 
     onLoopEnd = (animation: SkinViewBlockbench) => {
-        if (animation.animation_iteration >= 2) {
-            this.setAnimation({ animationName: 'new' });
+        if (animation.animationIteration >= 2) {
+            this.setAnimation('new');
         }
     };
 
     onFinish = (animation: SkinViewBlockbench) => {
-        if (animation.current_animation_name === 'new') {
-            this.setAnimation({ animationName: '1_anim' });
+        if (animation.animationName === 'new') {
+            this.setAnimation('1_anim');
         }
 
-        if (animation.current_animation_name === 'initial') {
-            this.setAnimation({ animationName: 'new' });
+        if (animation.animationName === 'initial') {
+            this.setAnimation('new');
         }
     };
 }

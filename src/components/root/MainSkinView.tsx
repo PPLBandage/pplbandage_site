@@ -2,8 +2,8 @@ import { CSSProperties, JSX, useEffect, useRef, useState } from 'react';
 import { SkinViewer } from 'skinview3d';
 import styles from '@/styles/root/page.module.css';
 
-import animation from './model.animation.json';
-import skin from './skin.png';
+import animation from '@/resources/model.animation.json';
+import skin from '@/resources/skin.png';
 import { AnimationController } from './AnimationController';
 
 interface SkinView3DOptions {
@@ -130,18 +130,28 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
     };
 
     useEffect(() => {
-        const onMouseMove = (evt: MouseEvent) => {
+        const onMouseMove = (evt: MouseEvent | TouchEvent) => {
             if (!grabbed || !canvasRef.current) return;
+
             const rect = canvasRef.current.getBoundingClientRect();
-            const x = evt.clientX - rect.left;
+            let x: number;
+
+            if (evt instanceof TouchEvent) {
+                if (evt.touches.length === 0) return;
+                x = evt.touches[0].clientX - rect.left;
+            } else {
+                x = evt.clientX - rect.left;
+            }
 
             if (!posRef.current) posRef.current = x;
 
-            skinViewRef.current.playerWrapper.rotation.y +=
-                (x - posRef.current) / 100;
+            if (skinViewRef.current?.playerWrapper?.rotation) {
+                skinViewRef.current.playerWrapper.rotation.y +=
+                    (x - posRef.current) / 100;
+            }
 
             posRef.current = x;
-            lastTimeGrabbed.current = new Date().getTime();
+            lastTimeGrabbed.current = Date.now();
         };
 
         const onMouseUp = () => {
@@ -152,12 +162,18 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
         window.addEventListener('mousemove', onMouseMove);
         window.addEventListener('mouseup', onMouseUp);
 
+        window.addEventListener('touchmove', onMouseMove);
+        window.addEventListener('touchend', onMouseUp);
+
         initialReturningData.current.grabbed = grabbed;
         if (grabbed) initialReturningData.current.running = false;
 
         return () => {
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('mouseup', onMouseUp);
+
+            window.removeEventListener('touchmove', onMouseMove);
+            window.removeEventListener('touchend', onMouseUp);
         };
     }, [grabbed]);
 
@@ -172,7 +188,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
             }}
             className={styles.skin_render}
             onMouseDown={() => setGrabbed(true)}
-            onMouseUp={() => setGrabbed(false)}
+            onTouchStart={() => setGrabbed(true)}
         />
     );
 };

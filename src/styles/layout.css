@@ -26,6 +26,7 @@ body {
 
 body::-webkit-scrollbar {
 	width: 10px;
+	background-color: color-mix(in hsl, var(--main-bg-color), white 3.1%);
 }
 
 body::-webkit-scrollbar-thumb {

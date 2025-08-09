@@ -5,7 +5,8 @@ import Image from 'next/image';
 import { CSSProperties, JSX } from 'react';
 import { IconAlertTriangle, IconBrandTelegram } from '@tabler/icons-react';
 import InfoCard from '@/components/InfoCard';
-import Feedback from '@/components/feedback/Feedback.server';
+import Feedback from '@/components/contacts/feedback/Feedback.server';
+import { Thanks } from '@/components/contacts/Thanks';
 
 interface CardProps {
     name: string;
@@ -123,6 +124,7 @@ const Home = () => {
                         ]}
                     />
                 </div>
+                <Thanks />
                 <Feedback />
             </div>
         </main>

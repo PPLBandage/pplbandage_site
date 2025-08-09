@@ -1,0 +1,17 @@
+.container {
+    padding: 1rem;
+}
+
+.container p {
+    font-style: normal;
+}
+
+.container ul {
+    padding-left: 30px;
+    margin-top: .5rem;
+    margin-bottom: 0;
+}
+
+.container li {
+    font-size: .9rem;
+}

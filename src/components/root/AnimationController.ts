@@ -8,11 +8,7 @@ export class AnimationController extends SkinViewBlockbench {
         super(props);
     }
 
-    onLoopEnd = (animation: SkinViewBlockbench) => {
-        if (animation.animationIteration >= 2) {
-            this.setAnimation('new');
-        }
-    };
+    onLoopEnd = (animation: SkinViewBlockbench) => {};
 
     onFinish = (animation: SkinViewBlockbench) => {
         if (animation.animationName === 'new') {

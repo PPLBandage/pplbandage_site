@@ -12,9 +12,12 @@ import SkinRender from '@/components/root/MainSkinView';
 const HomeClient = () => {
     return (
         <div>
+            <div className={styles.background} />
+            <div
+                className={`${styles.background_icons} ${styles.background_icons_blur}`}
+            />
+            <div className={styles.background_icons} />
             <div className={styles.main_container}>
-                <div className={styles.left_shade} />
-                <div className={`${styles.left_shade} ${styles.right_shade}`} />
                 <div className={styles.container}>
                     <div className={styles.texts}>
                         <h1 className={`${styles.h1} ${GeistSans.className}`}>

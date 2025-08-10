@@ -8,8 +8,37 @@
     margin-right: 2rem;
 }
 
+.background {
+    position: fixed;
+    inset: 0;
+
+    background:
+        radial-gradient(circle at 35% 45%,
+            rgba(0, 191, 166, 0.12) 0%,
+            rgba(0, 191, 166, 0.004) 60%),
+        radial-gradient(circle at 35% 45%,
+            #0a0f0d 0%,
+            #050807 100%);
+    background-blend-mode: screen, normal;
+    color: white;
+}
+
+.background_icons {
+    position: fixed;
+    inset: 0;
+    background-image: url('/static/backgrounds/background.svg');
+    background-repeat: repeat;
+    background-size: 960px;
+
+    opacity: .3;
+}
+
+.background_icons_blur {
+    filter: blur(5px);
+}
+
 .h1 {
-    font-size: 2.5rem;
+    font-size: 2.7rem;
     text-align: left;
 
     background: #b9b9b9;
@@ -25,8 +54,6 @@
     background: linear-gradient(to top, #2dd4bf 0%, #b8e2dd 100%);
     background-clip: text;
     -webkit-text-fill-color: transparent;
-
-    text-shadow: 0 0 150px #2dd4bf;
 }
 
 .description {
@@ -50,12 +77,26 @@
 }
 
 .texts {
-    max-width: 40%;
+    max-width: 50%;
     margin-top: 2rem;
 
     display: flex;
     flex-direction: column;
     gap: .8rem;
+
+    animation: texts_show .8s forwards;
+}
+
+@keyframes texts_show {
+    0% {
+        opacity: 0;
+        filter: blur(10px);
+    }
+
+    100% {
+        opacity: 1;
+        filter: none;
+    }
 }
 
 .image_container {
@@ -77,31 +118,6 @@
     }
 }
 
-.left_shade {
-    width: 150px;
-    aspect-ratio: 1;
-    background-color: var(--main-action-color);
-
-    position: absolute;
-    left: -2rem;
-    bottom: 0;
-
-    transform: translate(-50%, 50%);
-    transform-origin: center;
-    z-index: -1;
-
-    filter: blur(200px);
-
-    animation: shade_show 1.3s ease-out forwards;
-}
-
-.right_shade {
-    transform: translate(50%, -50%);
-    left: auto;
-    bottom: auto;
-    top: 50%;
-    right: -2rem;
-}
 
 @keyframes shade_show {
     0% {

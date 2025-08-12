@@ -47,8 +47,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
 
     useEffect(() => {
         const checkMobile = () => {
-            const isMobile = window.innerWidth <= 850;
-            if (isMobile) {
+            if (window.innerWidth <= 850) {
                 skinViewRef.current?.dispose?.();
                 setInited(false);
                 cancelAnimationFrame(intervalRef.current);

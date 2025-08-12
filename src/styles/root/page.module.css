@@ -217,18 +217,14 @@
     width: calc(100% - 2rem);
 }
 
-.footer a {
-    color: gray;
-}
-
 .footer p {
-    color: gray;
+    opacity: .5;
     margin: 0;
     font-size: .8rem;
 }
 
 .logo {
-    filter: brightness(.5);
+    opacity: .5;
 }
 
 @media(max-width: 850px) {

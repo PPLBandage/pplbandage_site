@@ -2,7 +2,7 @@ import { CSSProperties, JSX, useEffect, useRef, useState } from 'react';
 import { SkinViewer } from 'skinview3d';
 import styles from '@/styles/root/page.module.css';
 
-import animation from '@/resources/model.animation.json';
+import animation from '@/resources/1model.animation.json';
 import skin from '@/resources/skin.png';
 import { AnimationController } from './AnimationController';
 
@@ -96,7 +96,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
             if (initialReturningData.current.running) {
                 const st = initialReturningData.current.start_time;
                 const et = initialReturningData.current.start_time + 500;
-                const progress = (new Date().getTime() - st) / (et - st);
+                const progress = (Date.now() - st) / (et - st);
 
                 if (progress >= 1) {
                     initialReturningData.current.running = false;
@@ -108,7 +108,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
             }
 
             if (
-                new Date().getTime() - lastTimeGrabbed.current >= 2000 &&
+                Date.now() - lastTimeGrabbed.current >= 2000 &&
                 !initialReturningData.current.running &&
                 !initialReturningData.current.grabbed &&
                 skinViewRef.current.playerWrapper.rotation.y !== 0
@@ -117,7 +117,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
                 initialReturningData.current.start_pos = normalizeAngle(
                     skinViewRef.current.playerWrapper.rotation.y
                 );
-                initialReturningData.current.start_time = new Date().getTime();
+                initialReturningData.current.start_time = Date.now();
             }
             intervalRef.current = requestAnimationFrame(checkLastGrabbed);
         };

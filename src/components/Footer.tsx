@@ -5,13 +5,9 @@ import style from '@/styles/footer.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import themes from '@/app/themes';
+import themes from '@/constants/themes';
 import { useCookiesServer } from 'use-next-cookie';
-import {
-    IconAddressBook,
-    IconBrandGithub,
-    IconPalette
-} from '@tabler/icons-react';
+import { IconAddressBook, IconBrandGithub, IconPalette } from '@tabler/icons-react';
 
 import IconPepe from '@/resources/icon.svg';
 import { StaticTooltip } from './Tooltip';

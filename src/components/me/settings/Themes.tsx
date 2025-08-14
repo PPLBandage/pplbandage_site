@@ -2,15 +2,13 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useNextCookie } from 'use-next-cookie';
 import { setTheme } from '@/lib/setTheme';
 import Style from '@/styles/me/connections.module.css';
-import themes from '@/app/themes';
+import themes from '@/constants/themes';
 import { IconPalette } from '@tabler/icons-react';
 import Style_themes from '@/styles/me/themes.module.css';
 
 export const Themes = () => {
     const themeCookie = useNextCookie('theme_main', 1000);
-    const [themeState, setThemeState] = useState<string>(
-        themeCookie || 'amoled'
-    );
+    const [themeState, setThemeState] = useState<string>(themeCookie || 'amoled');
 
     useEffect(() => setThemeState(themeCookie), [themeCookie]);
 

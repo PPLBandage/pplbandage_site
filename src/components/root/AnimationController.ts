@@ -12,12 +12,12 @@ export class AnimationController extends SkinViewBlockbench {
         //this.setAnimation('new');
     };
 
-    onFinish = (animation: SkinViewBlockbench) => {
-        if (animation.animationName === 'new') {
+    onFinish = () => {
+        if (this.animationName === 'new') {
             this.setAnimation('1_anim');
         }
 
-        if (animation.animationName === 'initial') {
+        if (this.animationName === 'initial') {
             this.setAnimation('new');
         }
     };

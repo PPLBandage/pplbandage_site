@@ -27,8 +27,8 @@ function normalizeAngle(angle: number) {
 const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => {
     const [inited, setInited] = useState<boolean>(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const skinViewRef = useRef<SkinViewer>(null);
-    const posRef = useRef<number>(0);
+    const skinViewRef = useRef<SkinViewer>(null!);
+    const posRef = useRef<number | null>(0);
     const intervalRef = useRef<number>(0);
     const [grabbed, setGrabbed] = useState<boolean>(false);
 
@@ -67,7 +67,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
 
     const initSkinViewer = () => {
         skinViewRef.current = new SkinViewer({
-            canvas: canvasRef.current,
+            canvas: canvasRef.current!,
             width: width || 400,
             height: height || 400
         });

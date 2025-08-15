@@ -5,7 +5,7 @@ import { loginTelegram } from '@/lib/api/auth';
 import { useEffect, useState } from 'react';
 
 const Page = () => {
-    const [code, setCode] = useState<string>(null);
+    const [code, setCode] = useState<string | null>(null);
 
     useEffect(() => {
         const fragment = window.location.hash.substring(1);

@@ -16,7 +16,7 @@ export const calcChecksum = async () => {
     const canvas = document.createElement('canvas');
     canvas.width = 16;
     canvas.height = 8;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d')!;
 
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;

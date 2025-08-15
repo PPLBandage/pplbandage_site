@@ -73,7 +73,7 @@ const Sessions = () => {
         async () => await getSessions()
     );
 
-    if (isLoading) return <Loading />;
+    if (isLoading || !data) return <Loading />;
 
     const sorted = data.sort(
         (session1, session2) =>
@@ -94,7 +94,7 @@ const Sessions = () => {
                     onClick={() =>
                         logoutSessionAll(
                             data,
-                            data.find(session => session.is_self).id
+                            data.find(session => session.is_self)!.id
                         )
                     }
                 >

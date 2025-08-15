@@ -11,7 +11,7 @@ import { Placeholder } from '@/components/me/Placeholder';
 import { getMeStars } from '@/lib/api/user';
 
 const Main = () => {
-    const [elements, setElements] = useState<JSX.Element[]>(null);
+    const [elements, setElements] = useState<JSX.Element[] | null>(null);
 
     const render_skins = (data: Bandage[]) => {
         renderSkin(data.reverse(), styles_me).then(setElements);

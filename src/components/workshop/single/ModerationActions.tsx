@@ -1,7 +1,7 @@
 'use client';
 
 import useAccess from '@/lib/useAccess';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import style from '@/styles/workshop/moderationActions.module.css';
 import { IconRosetteDiscountCheck } from '@tabler/icons-react';
 import Select from 'react-select';
@@ -86,6 +86,16 @@ const Moderation = ({ data }: { data: Bandage }) => {
             .then(() => window.location.reload())
             .catch(() => alert('Не удалось изменить состояние модерации'));
     };
+
+    useEffect(() => {
+        if (!action) return;
+
+        if (action.value === data.moderation?.type) {
+            setMessage(data.moderation?.message);
+        } else {
+            setMessage('');
+        }
+    }, [action]);
 
     const need_message = action?.need_message ?? false;
     return (

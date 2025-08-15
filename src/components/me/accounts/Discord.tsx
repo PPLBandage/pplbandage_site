@@ -12,7 +12,7 @@ export const Discord = () => {
         async () => await getMeConnections()
     );
 
-    if (isLoading) return null;
+    if (isLoading || !data) return null;
     return (
         <div className={Style.container}>
             <h3>
@@ -38,15 +38,16 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
                     />
                 )}
                 <div className={Style.discord_name_container}>
-                    <h1>{data.discord.name}</h1>
+                    <h1>{data.discord!.name}</h1>
                     <p className={Style.discord_name_container_p}>
-                        {data.discord.username}
+                        {data.discord!.username}
                     </p>
                 </div>
             </div>
             <div className={Style.disconnect_container}>
                 <p className={Style.discord_name_container_p}>
-                    Подключено {formatDateHuman(new Date(data.discord.connected_at))}
+                    Подключено{' '}
+                    {formatDateHuman(new Date(data.discord!.connected_at))}
                 </p>
                 <DisconnectHelper>
                     <button className={Style.unlink} onClick={disconnect}>

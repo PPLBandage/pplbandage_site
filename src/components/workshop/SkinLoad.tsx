@@ -22,7 +22,7 @@ type DataType = {
 };
 
 const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
-    const [data, setData] = useState<DataType>(null);
+    const [data, setData] = useState<DataType | null>(null);
     const [loaded, setLoaded] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [dropActive, setDropActive] = useState<boolean>(false);
@@ -35,7 +35,7 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
 
     const isSlim = (img: HTMLImageElement): boolean => {
         const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
+        const context = canvas.getContext('2d')!;
         context?.clearRect(0, 0, 64, 64);
         context?.drawImage(img, 0, 0, img.width, img.height);
         const pixelData = context.getImageData(46, 52, 1, 1).data;
@@ -119,7 +119,9 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
     };
 
     const onChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        getData(evt.target?.files[0]);
+        if (evt.target?.files && evt.target.files[0]) {
+            getData(evt.target.files[0]);
+        }
         evt.target.files = null;
     };
 

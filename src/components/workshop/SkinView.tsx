@@ -8,7 +8,7 @@ import {
 
 interface SkinView3DOptions {
     SKIN: string;
-    CAPE: string;
+    CAPE?: string;
     className: string;
     style?: CSSProperties;
     slim: boolean;
@@ -45,7 +45,7 @@ const SkinView3D = ({
     style
 }: SkinView3DOptions): JSX.Element => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const skinViewRef = useRef<SkinViewer>(null);
+    const skinViewRef = useRef<SkinViewer>(null!);
 
     const setPose = (pose: number) => {
         switch (pose) {
@@ -64,13 +64,13 @@ const SkinView3D = ({
 
     useEffect(() => {
         const view = new SkinViewer({
-            canvas: canvasRef.current,
+            canvas: canvasRef.current!,
             width: width || 400,
             height: height || 400
         });
         skinViewRef.current = view;
 
-        setPose(pose);
+        if (pose) setPose(pose);
         skinViewRef.current.controls.enablePan = true;
         skinViewRef.current.fov = 90;
         skinViewRef.current.globalLight.intensity = 2.5;
@@ -120,7 +120,7 @@ const SkinView3D = ({
     }, [CAPE]);
 
     useEffect(() => {
-        setPose(pose);
+        if (pose) setPose(pose);
     }, [pose]);
 
     return (

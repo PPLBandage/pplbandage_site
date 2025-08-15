@@ -39,7 +39,7 @@ export const doRequestSimple = async ({
 }: // eslint-disable-next-line @typescript-eslint/no-explicit-any
 RequestProps): Promise<AxiosResponse<any, unknown>> => {
     const response = await axios.request({
-        url: process.env.NEXT_PUBLIC_API_URL.slice(0, -1) + url,
+        url: process.env.NEXT_PUBLIC_API_URL!.slice(0, -1) + url,
         method,
         data,
         params,

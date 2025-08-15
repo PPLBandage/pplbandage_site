@@ -16,7 +16,7 @@ export const Google = () => {
         async () => await getMeConnections()
     );
 
-    if (isLoading) return null;
+    if (isLoading || !data) return null;
     return (
         <div className={Style.container}>
             <h3>
@@ -40,15 +40,15 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
                     style={{ borderRadius: '50%' }}
                 />
                 <div className={Style.discord_name_container}>
-                    <h1>{data.google.name}</h1>
+                    <h1>{data.google!.name}</h1>
                     <p className={Style.discord_name_container_p}>
-                        {data.google.email}
+                        {data.google!.email}
                     </p>
                 </div>
             </div>
             <div className={Style.disconnect_container}>
                 <p className={Style.discord_name_container_p}>
-                    Подключено {formatDateHuman(new Date(data.google.connected_at))}
+                    Подключено {formatDateHuman(new Date(data.google!.connected_at))}
                 </p>
                 <DisconnectHelper>
                     <button className={Style.unlink} onClick={disconnect}>

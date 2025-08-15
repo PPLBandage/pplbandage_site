@@ -23,7 +23,7 @@ import { subscribeTo, unsubscribeFrom } from '@/lib/api/user';
 const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
     const logged = !!useNextCookie('sessionId');
     const [subscribed, setSubscribed] = useState<boolean>(
-        !isSelf ? user.is_subscribed : false
+        !isSelf ? user.is_subscribed! : false
     );
     const [subscribers, setSubscribers] = useState<number>(user.subscribers_count);
 
@@ -120,7 +120,7 @@ export const Me = ({
                                     />
                                 )}
                             </div>
-                            <Subscribers user={data} isSelf={self} />
+                            <Subscribers user={data} isSelf={self ?? false} />
                         </div>
                         {self && <Pages data={data} />}
                     </div>
@@ -154,7 +154,7 @@ const AvatarHead = ({
             backgroundColor: theme === 2 ? color : 'var(--main-card-color)'
         };
     }
-    const last_accessed = new Date(data?.last_accessed);
+    const last_accessed = new Date(data.last_accessed!);
 
     return (
         <div

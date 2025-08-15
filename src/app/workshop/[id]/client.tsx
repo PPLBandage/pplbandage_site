@@ -53,7 +53,7 @@ export default function Home({
 
     const [pose, setPose] = useState<number>(1);
     const [skin, setSkin] = useState<string>('');
-    const [cape, setCape] = useState<string>('');
+    const [cape, setCape] = useState<string | null>(null);
     const [slim, setSlim] = useState<boolean>(false);
     const [edit, setEdit] = useState<boolean>(false);
 
@@ -63,7 +63,7 @@ export default function Home({
         max: number;
         value: number;
     }>({ max: 8, value: 4 });
-    const client = useRef<Client>(null);
+    const client = useRef<Client>(undefined!);
 
     const debouncedHandleColorChange = useCallback(
         // из-за частого вызова oninput на слабых клиентах сильно лагает,
@@ -106,7 +106,7 @@ export default function Home({
 
                 setRangeProps({
                     value: client.current.position,
-                    max: 12 - client.current.pepe_canvas.height
+                    max: 12 - client.current.pepe_canvas!.height
                 });
 
                 client.current.setParams({
@@ -170,7 +170,7 @@ export default function Home({
                         </div>
                         <SkinView3D
                             SKIN={skin}
-                            CAPE={cape}
+                            CAPE={cape ?? undefined}
                             slim={slim}
                             className={style.render_canvas}
                             pose={pose}
@@ -195,7 +195,7 @@ export default function Home({
                                 className={`react-select-container`}
                                 classNamePrefix="react-select"
                                 isSearchable={false}
-                                onChange={n => setPose(n.value)}
+                                onChange={n => setPose(n!.value)}
                                 instanceId="select-1"
                                 formatOptionLabel={nick_value => nick_value.label}
                             />
@@ -208,7 +208,7 @@ export default function Home({
                             </button>
                             <RawBandageDownload
                                 client={client}
-                                bandage={slim ? data.base64_slim : data.base64}
+                                bandage={slim ? data.base64_slim! : data.base64}
                             />
                         </div>
                     </div>
@@ -299,7 +299,7 @@ export default function Home({
                                         instanceId="select-2"
                                         onChange={n =>
                                             client.current?.setParams({
-                                                body_part: n.value
+                                                body_part: n!.value
                                             })
                                         }
                                     />
@@ -312,7 +312,7 @@ export default function Home({
                                         instanceId="select-3"
                                         onChange={n =>
                                             client.current?.setParams({
-                                                layers: n.value
+                                                layers: n!.value
                                             })
                                         }
                                     />

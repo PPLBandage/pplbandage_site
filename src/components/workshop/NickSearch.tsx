@@ -127,7 +127,7 @@ const Searcher = ({ onChange }: SearchProps) => {
             onInputChange={n => onInput(n)}
             inputValue={input}
             onChange={n => {
-                if (n.value) {
+                if (n && n.value) {
                     setLoading(true);
                     const nickname = n.value;
                     const parts = nickname.split(' – ');

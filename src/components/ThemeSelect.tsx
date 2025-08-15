@@ -8,7 +8,7 @@ import { IconBucketDroplet, IconPalette, IconPhoto } from '@tabler/icons-react';
 import { setUserSetting } from '@/lib/api/user';
 
 interface MenuProps {
-    initialValue?: number;
+    initialValue: number;
     color_available?: boolean;
     onChange(val: number): void;
 }

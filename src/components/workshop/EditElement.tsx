@@ -36,7 +36,7 @@ const EditElement = ({
     const router = useRouter();
     const [title, setTitle] = useState<string>(bandage.title);
     const [description, setDescription] = useState<string>(bandage.description);
-    const [accessLevel, setAccessLevel] = useState<number>(undefined);
+    const [accessLevel, setAccessLevel] = useState<number>(bandage.access_level);
     const [tags, setTags] = useState<string[]>(bandage.tags);
     const [colorable, setColorable] = useState<boolean>(Boolean(bandage.flags & 1));
 
@@ -133,7 +133,7 @@ const EditElement = ({
                 classNamePrefix="react-select"
                 isSearchable={false}
                 instanceId="select-1"
-                onChange={n => setAccessLevel(n.value)}
+                onChange={n => setAccessLevel(n!.value)}
             />
 
             <p style={{ margin: 0, marginTop: '.5rem' }}>Выберите теги</p>

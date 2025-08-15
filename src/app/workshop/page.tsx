@@ -20,17 +20,17 @@ import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
 import { ConfigContext, ConfigInterface } from '@/lib/ConfigContext';
 import { getCookie, setCookie } from 'cookies-next';
 import { constrain } from '@/lib/textUtils';
-import { getWorkshop } from '@/lib/api/workshop';
+import { getWorkshop, GetWorkshopInterface } from '@/lib/api/workshop';
 
 export default function Home() {
-    const [data, setData] = useState<BandageResponse>(null);
-    const [elements, setElements] = useState<JSX.Element[]>(null);
+    const [data, setData] = useState<BandageResponse | null>(null);
+    const [elements, setElements] = useState<JSX.Element[] | null>(null);
     const [totalCount, setTotalCount] = useState<number>(0);
     const [page, setPage] = useState<number>(0);
     const [take, setTake] = useState<number>(12);
     const [search, setSearch] = useState<string>('');
     const [firstLoaded, setFirstLoaded] = useState<boolean>(false);
-    const [lastConfig, setLastConfig] = useState(null);
+    const [lastConfig, setLastConfig] = useState<GetWorkshopInterface | null>(null);
     const [scroll, setScroll] = useState<number>(0);
 
     const [sort, setSort] = useState<string>('relevant_up');
@@ -140,7 +140,7 @@ export default function Home() {
                                 : 'translateY(50px)'
                         }}
                     >
-                        <SimpleGrid>{elements}</SimpleGrid>
+                        {elements && <SimpleGrid>{elements}</SimpleGrid>}
                     </div>
 
                     {(!elements || elements.length === 0) && (
@@ -161,7 +161,7 @@ export default function Home() {
     );
 }
 
-const TheresNothingHere = ({ elements }: { elements: JSX.Element[] }) => {
+const TheresNothingHere = ({ elements }: { elements: JSX.Element[] | null }) => {
     return (
         <>
             {elements && elements.length === 0 ? (

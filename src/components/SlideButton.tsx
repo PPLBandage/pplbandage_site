@@ -27,9 +27,7 @@ export const SlideButton = <Loadable extends boolean = false>({
     loadable,
     tooltip
 }: SlideButtonProps<Loadable>) => {
-    const [active, setActive] = useState<boolean>(
-        value || defaultValue || false
-    );
+    const [active, setActive] = useState<boolean>(value || defaultValue || false);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [isInitialMount, setIsInitialMount] = useState<boolean>(true);
@@ -90,7 +88,7 @@ export const SlideButton = <Loadable extends boolean = false>({
                 onClick={change}
                 style={{ cursor: disabled ? 'auto' : 'pointer' }}
             >
-                <StaticTooltip disabled {...tooltip}>
+                <StaticTooltip disabled {...tooltip} title={tooltip?.title || ''}>
                     <div
                         className={StyleBtn.child}
                         style={{ left: position, backgroundColor: color }}

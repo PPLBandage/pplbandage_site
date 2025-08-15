@@ -10,7 +10,7 @@ export const Themes = () => {
     const themeCookie = useNextCookie('theme_main', 1000);
     const [themeState, setThemeState] = useState<string>(themeCookie || 'amoled');
 
-    useEffect(() => setThemeState(themeCookie), [themeCookie]);
+    useEffect(() => setThemeState(themeCookie ?? 'amoled'), [themeCookie]);
 
     const change_theme = (name: string) => {
         setThemeState(name);

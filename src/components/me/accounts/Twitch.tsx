@@ -12,7 +12,7 @@ export const Twitch = () => {
         async () => await getMeConnections()
     );
 
-    if (isLoading) return null;
+    if (isLoading || !data) return null;
     return (
         <div className={Style.container}>
             <h3>
@@ -36,15 +36,15 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
                     style={{ borderRadius: '50%' }}
                 />
                 <div className={Style.discord_name_container}>
-                    <h1>{data.twitch.name}</h1>
+                    <h1>{data.twitch!.name}</h1>
                     <p className={Style.discord_name_container_p}>
-                        {data.twitch.login}
+                        {data.twitch!.login}
                     </p>
                 </div>
             </div>
             <div className={Style.disconnect_container}>
                 <p className={Style.discord_name_container_p}>
-                    Подключено {formatDateHuman(new Date(data.twitch.connected_at))}
+                    Подключено {formatDateHuman(new Date(data.twitch!.connected_at))}
                 </p>
                 <DisconnectHelper>
                     <button className={Style.unlink} onClick={disconnect}>

@@ -17,6 +17,7 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
         navigator.clipboard.writeText(node.innerText);
         if (window.getSelection) {
             const selection = window.getSelection();
+            if (!selection) return;
             const range = document.createRange();
             range.selectNodeContents(node);
             selection.removeAllRanges();
@@ -97,7 +98,7 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
                                                 message: string;
                                             };
                                             const err =
-                                                document.getElementById('error');
+                                                document.getElementById('error')!;
                                             err.innerText =
                                                 data.message ?? 'Внутренняя ошибка';
                                             err.style.display = 'block';

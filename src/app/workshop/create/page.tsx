@@ -41,7 +41,7 @@ export default function Home() {
         }
     }, [logged]);
 
-    const client = useRef<Client>(null);
+    const client = useRef<Client>(undefined!);
 
     const beforeUnload = (e: BeforeUnloadEvent) => {
         const confirmationMessage =
@@ -75,7 +75,7 @@ export default function Home() {
                 <aside className={style.skin_parent}>
                     <SkinView3D
                         SKIN={SKIN}
-                        CAPE={null}
+                        CAPE={undefined}
                         slim={slim}
                         className={style.skinview}
                         pose={pose}
@@ -111,7 +111,7 @@ export default function Home() {
                             className={`react-select-container`}
                             classNamePrefix="react-select"
                             isSearchable={false}
-                            onChange={n => setPose(n.value)}
+                            onChange={n => setPose(n!.value)}
                             instanceId="select-1"
                             formatOptionLabel={nick_value => nick_value.label}
                         />
@@ -161,8 +161,8 @@ const Editor = ({
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [tags, setTags] = useState<string[]>([]);
-    const [base64, setBase64] = useState<string>(null);
-    const [base64Slim, setBase64Slim] = useState<string>(null);
+    const [base64, setBase64] = useState<string | null>(null);
+    const [base64Slim, setBase64Slim] = useState<string | null>(null);
     const [mutex, setMutex] = useState<boolean>(false);
     const [colorable, setColorable] = useState<boolean>(false);
     const [splitTypes, setSplitTypes] = useState<boolean>(false);
@@ -193,7 +193,7 @@ const Editor = ({
     useEffect(() => {
         const title_el = document.getElementById('title') as HTMLLabelElement;
         if (title_el) {
-            title_el.style.borderColor = null;
+            title_el.style.borderColor = '';
         }
         return;
     }, [title]);
@@ -439,6 +439,10 @@ const Selector = ({
                 }
 
                 const data = extractFromSkin(img, heightVal !== undefined);
+                if (!data) {
+                    setError('Не удалось определить повязку на скине');
+                    return;
+                }
 
                 if (heightVal != undefined && heightVal === -1) {
                     setError('Вначале загрузите основную повязку!');
@@ -460,8 +464,6 @@ const Selector = ({
                         });
                     onChange(data.img);
                 });
-                //if (onBandageChange) onBandageChange({ img: img, height: img.height });
-                //onChange(reader.result as string);
 
                 if (containerRef.current) {
                     containerRef.current.style.borderColor = '#576074';
@@ -480,7 +482,7 @@ const Selector = ({
         let bottom = -1; // Нижняя граница повязки
 
         const skinCanvas = document.createElement('canvas');
-        const skinContext = skinCanvas.getContext('2d');
+        const skinContext = skinCanvas.getContext('2d')!;
 
         skinContext.drawImage(skin, 0, 0);
 
@@ -519,7 +521,7 @@ const Selector = ({
         bandageCanvas.width = 16;
         bandageCanvas.height = height * 2;
 
-        const bandageContext = bandageCanvas.getContext('2d');
+        const bandageContext = bandageCanvas.getContext('2d')!;
         const bandageWidth = slim ? 14 : 16;
         bandageContext.drawImage(
             skin,
@@ -549,19 +551,21 @@ const Selector = ({
 
     const onChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const process = useOld ? getDataOld : getData;
-        process(evt.target?.files[0]);
+        if (evt.target?.files && evt.target.files[0]) {
+            process(evt.target.files[0]);
+        }
         evt.target.files = null;
     };
 
     const ondragover = (evt: React.DragEvent<HTMLLabelElement>) => {
         if (evt.dataTransfer?.items[0].type === 'image/png') {
             evt.preventDefault();
-            containerRef.current.style.borderStyle = 'solid';
+            containerRef.current!.style.borderStyle = 'solid';
         }
     };
 
     const ondragleave = () => {
-        containerRef.current.style.borderStyle = 'dashed';
+        containerRef.current!.style.borderStyle = 'dashed';
     };
 
     const ondrop = (evt: React.DragEvent<HTMLLabelElement>) => {
@@ -569,17 +573,17 @@ const Selector = ({
         process(evt.dataTransfer?.files[0]);
 
         evt.preventDefault();
-        containerRef.current.style.borderStyle = 'dashed';
+        containerRef.current!.style.borderStyle = 'dashed';
     };
 
     const setError = (err: string) => {
-        errorRef.current.innerText = err;
-        errorRef.current.style.display = 'block';
+        errorRef.current!.innerText = err;
+        errorRef.current!.style.display = 'block';
     };
 
     const clearError = () => {
-        errorRef.current.innerText = '';
-        errorRef.current.style.display = 'none';
+        errorRef.current!.innerText = '';
+        errorRef.current!.style.display = 'none';
     };
 
     return (
@@ -599,7 +603,7 @@ const Selector = ({
                         onChange={onChangeInput}
                         onClick={evt => {
                             const target = evt.target as HTMLInputElement;
-                            target.value = null;
+                            target.value = '';
                         }}
                     />
                     <span id="select_file">

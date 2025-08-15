@@ -9,7 +9,7 @@ const Home = async () => {
             validateStatus: () => true
         });
     } catch {}
-    return <HomeClient pong={pong?.status} />;
+    return <HomeClient pong={pong?.status ?? 500} />;
 };
 
 export default Home;

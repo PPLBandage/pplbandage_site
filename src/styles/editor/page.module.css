@@ -118,21 +118,6 @@
     gap: .5rem;
 }
 
-.author {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    margin: 0;
-    text-decoration: none;
-}
-
-.author:hover {
-    text-decoration: underline;
-}
-
-.author img {
-    width: 1.5rem;
-}
 
 .render_footer {
     width: 100%;
@@ -365,9 +350,6 @@
     transform: scale(1.05);
 }
 
-.username_private:hover {
-    text-decoration: none;
-}
 
 .bandage_raw_menu {
     position: absolute;

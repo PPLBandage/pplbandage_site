@@ -2,13 +2,17 @@ import type { Bandage, BandageResponse } from '@/types/global';
 import { doRequest, doRequestSimple } from './utils';
 import { AxiosResponse, GenericAbortSignal } from 'axios';
 
+export interface GetWorkshopInterface {
+    page?: number;
+    take?: number;
+    search?: string;
+    sort?: string;
+}
+
 /** Get workshop */
-export const getWorkshop = async (params: {
-    page: number;
-    take: number;
-    search: string;
-    sort: string;
-}): Promise<BandageResponse> => {
+export const getWorkshop = async (
+    params: GetWorkshopInterface
+): Promise<BandageResponse> => {
     return (
         await doRequestSimple({
             url: `/workshop`,
@@ -79,7 +83,7 @@ export const updateBandage = async (
     id: string,
     data: {
         title: string;
-        description: string;
+        description: string | null;
         tags: string[];
         access_level: number;
         colorable: boolean;
@@ -114,7 +118,7 @@ export const createBandage = async (data: {
     description: string;
     tags: string[];
     base64: string;
-    base64_slim: string;
+    base64_slim?: string;
     split_type: boolean;
     colorable: boolean;
 }): Promise<AxiosResponse> => {

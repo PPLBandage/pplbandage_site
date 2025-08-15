@@ -1,14 +1,16 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext } from 'react';
 
 export interface ConfigInterface {
-    page: number,
-    take: number,
-    search?: string,
-    filters?: string,
-    sort?: string,
-    totalCount: number,
-    scroll?: number
+    page?: number;
+    take?: number;
+    search?: string;
+    filters?: string;
+    sort?: string;
+    totalCount: number;
+    scroll?: number;
 }
 
-export const ConfigContext = createContext<{ lastConfig: ConfigInterface }>(null);
+export const ConfigContext = createContext<{ lastConfig: ConfigInterface } | null>(
+    null
+);
 export const useConfigContext = () => useContext(ConfigContext);

@@ -21,14 +21,11 @@ const Slider = ({
     };
 
     const calcPosition = (range: number, y: number, ival?: number) => {
-        const rect = document.getElementById('track').getBoundingClientRect();
+        const rect = document.getElementById('track')!.getBoundingClientRect();
         const realRange = (rect.height - 16) / range;
         const value =
             ival ??
-            Math.min(
-                Math.max(Math.floor((y - rect.top) / realRange), 0),
-                range
-            );
+            Math.min(Math.max(Math.floor((y - rect.top) / realRange), 0), range);
         const val = ((value * realRange) / rect.height) * 100;
         return {
             position: Math.min(val, ((rect.height - 16) / rect.height) * 100),

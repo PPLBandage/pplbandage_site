@@ -27,14 +27,14 @@ interface Settings {
 
 class Client {
     skin: string = '';
-    cape: string = '';
-    original_canvas: HTMLCanvasElement = null;
+    cape: string | null = null;
+    original_canvas: HTMLCanvasElement | null = null;
 
-    pepe_canvas: HTMLCanvasElement = null;
-    lining_canvas: HTMLCanvasElement = null;
+    pepe_canvas: HTMLCanvasElement | null = null;
+    lining_canvas: HTMLCanvasElement | null = null;
 
-    pepe_canvas_slim: HTMLCanvasElement = null;
-    lining_canvas_slim: HTMLCanvasElement = null;
+    pepe_canvas_slim: HTMLCanvasElement | null = null;
+    lining_canvas_slim: HTMLCanvasElement | null = null;
 
     body_part: number = 0;
     position: number = 4;
@@ -47,23 +47,25 @@ class Client {
     colorable: boolean = false;
     split_types: boolean = false;
 
-    onRendered: ({
-        skin,
-        cape,
-        slim
-    }: {
-        skin: string;
-        cape: string;
-        slim: boolean;
-    }) => void = undefined;
-    onInit: () => void = undefined;
+    onRendered:
+        | (({
+              skin,
+              cape,
+              slim
+          }: {
+              skin: string;
+              cape: string | null;
+              slim: boolean;
+          }) => void)
+        | undefined = undefined;
+    onInit: (() => void) | undefined = undefined;
 
-    private main_bandage: HTMLCanvasElement = null;
+    private main_bandage: HTMLCanvasElement | null = null;
 
     async loadBase() {
         // Грузим базовый скин в `original_canvas`
         const skin = await asyncImage('/static/workshop_base.png');
-        const context = this.original_canvas.getContext('2d');
+        const context = this.original_canvas!.getContext('2d');
         context!.drawImage(skin, 0, 0);
     }
 
@@ -114,7 +116,7 @@ class Client {
         if (slim !== undefined) this.slim = slim;
         this.setOriginalCanvas(skin_b64, () => {
             this.skin = skin_b64;
-            this.cape = cape;
+            this.cape = cape ?? null;
 
             this.rerender();
         });
@@ -125,7 +127,7 @@ class Client {
     Вызывает `callback` при успешной загрузке
     */
     private setOriginalCanvas(b64: string, callback: () => void) {
-        const context = this.original_canvas.getContext('2d');
+        const context = this.original_canvas!.getContext('2d');
         if (!context) {
             return;
         }
@@ -149,13 +151,13 @@ class Client {
 
         // Грузим первый слой повязки в канваз
         const first_layer = document.createElement('canvas');
-        const first_layer_ctx = first_layer.getContext('2d');
+        const first_layer_ctx = first_layer.getContext('2d')!;
         first_layer.width = 16;
         first_layer.height = height;
 
         // Грузим второй слой повязки в канваз
         const second_layer = document.createElement('canvas');
-        const second_layer_ctx = second_layer.getContext('2d');
+        const second_layer_ctx = second_layer.getContext('2d')!;
         second_layer.width = 16;
         second_layer.height = height;
 
@@ -214,11 +216,11 @@ class Client {
         // Результативный канваз
         const canvas_context = canvas.getContext('2d', {
             willReadFrequently: true
-        });
+        })!;
         canvas_context.clearRect(0, 0, canvas.width, canvas.height);
 
         // Рисуем базовый скин
-        if (render_original) canvas_context.drawImage(this.original_canvas, 0, 0);
+        if (render_original) canvas_context.drawImage(this.original_canvas!, 0, 0);
 
         const height = second_layer_canvas.height;
 
@@ -235,7 +237,7 @@ class Client {
         cropped_pepe.height = height;
         const ctx_pepe = cropped_pepe.getContext('2d', {
             willReadFrequently: true
-        });
+        })!;
 
         // Обрезаем первый слой
         let first_layer = this.crop_pepe(
@@ -250,7 +252,7 @@ class Client {
         cropped_lining.height = height;
         const ctx_lining = cropped_lining.getContext('2d', {
             willReadFrequently: true
-        });
+        })!;
 
         // Если повязка окрашиваемая - красим
         if (this.colorable) {
@@ -360,14 +362,14 @@ class Client {
                 ? body_part_y_overlay[this.body_part]
                 : body_part_y[this.body_part]) + this.position;
 
-        const skin_context = this.original_canvas.getContext('2d', {
+        const skin_context = this.original_canvas!.getContext('2d', {
             willReadFrequently: true
-        });
+        })!;
         const bandage_data = skin_context.getImageData(
             pos_x,
             pos_y,
-            this.main_bandage.width,
-            this.main_bandage.height
+            this.main_bandage!.width,
+            this.main_bandage!.height
         ).data;
 
         let r_avg = 0;
@@ -375,9 +377,9 @@ class Client {
         let b_avg = 0;
         let count = 0;
 
-        for (let y = 0; y < this.main_bandage.height; y++) {
+        for (let y = 0; y < this.main_bandage!.height; y++) {
             for (let x = 0; x < 16; x++) {
-                const index = (y * this.main_bandage.height + x) * 4;
+                const index = (y * this.main_bandage!.height + x) * 4;
                 const r = bandage_data[index];
                 const g = bandage_data[index + 1];
                 const b = bandage_data[index + 2];

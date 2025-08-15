@@ -23,7 +23,7 @@ export const generateMetadata = async ({
     );
 
     const data = meta.data.data as Interfaces.Bandage;
-    if (!data) return null;
+    if (!data) return {};
     const stars = numbersTxt(data.stars_count, ['звезда', 'звезды', 'звёзд']);
     return {
         title: `${data.title} · Повязки Pepeland`,

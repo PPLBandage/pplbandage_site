@@ -12,6 +12,8 @@ import InfoCard from '../../InfoCard';
 type ModerationType = { [key: string]: any };
 
 const Moderation = ({ moderation }: { moderation: Bandage['moderation'] }) => {
+    if (!moderation) return;
+
     const icon: ModerationType = {
         review: <IconHourglassHigh />,
         denied: <IconCircleDashedX />,

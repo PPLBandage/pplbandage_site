@@ -21,7 +21,7 @@ export const generateSkin = async (
     const position = 6 - Math.ceil(height / 2);
 
     const skin_canvas = document.createElement('canvas');
-    const skin_context = skin_canvas.getContext('2d');
+    const skin_context = skin_canvas.getContext('2d')!;
     skin_canvas.width = 64;
     skin_canvas.height = 64;
 

@@ -104,7 +104,8 @@ const EditConfirmation = ({
                                 onInput()
                                     .then(() => setExpanded(false))
                                     .catch(response => {
-                                        const err = document.getElementById('error');
+                                        const err =
+                                            document.getElementById('error')!;
                                         err.innerText = response;
                                         err.style.display = 'block';
                                     });

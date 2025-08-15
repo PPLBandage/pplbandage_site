@@ -8,7 +8,7 @@ import { CreateCard } from '@/components/workshop/Card';
 import { getMeWorks } from '@/lib/api/user';
 
 const Main = () => {
-    const [cards, setCards] = useState<JSX.Element[]>(null);
+    const [cards, setCards] = useState<JSX.Element[] | null>(null);
 
     useEffect(() => {
         getMeWorks()

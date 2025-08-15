@@ -11,7 +11,7 @@ import { formatDate } from '@/lib/time';
 import { getMeNotifications } from '@/lib/api/user';
 
 const Notifications = () => {
-    const [notifications, setNotifications] = useState<INotifications>(null);
+    const [notifications, setNotifications] = useState<INotifications | null>(null);
     const [page, setPage] = useState<number>(0);
 
     useEffect(() => {

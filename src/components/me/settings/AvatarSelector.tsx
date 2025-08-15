@@ -14,10 +14,10 @@ type AvailableAvatarType = {
     value: string;
 };
 
-const capitalize = (str: string) => str?.at?.(0).toUpperCase() + str.slice(1);
+const capitalize = (str: string) => str.at(0)?.toUpperCase() + str.slice(1);
 
 const AvatarSelector = () => {
-    const [selected, setSelected] = useState<AvailableAvatarType>(null);
+    const [selected, setSelected] = useState<AvailableAvatarType | null>(null);
     const [availableAvatars, setAvailableAvatars] = useState<AvailableAvatarType[]>(
         []
     );
@@ -31,7 +31,9 @@ const AvatarSelector = () => {
         label: (
             <span className={Style.avatars_providers}>
                 <Image
-                    src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/avatars/${data.userID}/${provider}`}
+                    src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/avatars/${
+                        data!.userID
+                    }/${provider}`}
                     alt="avatar"
                     width={24}
                     height={24}
@@ -58,7 +60,7 @@ const AvatarSelector = () => {
                 value={selected}
                 onChange={async evt => {
                     setSelected(evt);
-                    await setUserSetting({ preferred_avatar: evt.value });
+                    await setUserSetting({ preferred_avatar: evt!.value });
                 }}
                 className={`react-select-container`}
                 classNamePrefix="react-select"

@@ -22,7 +22,7 @@ export const generateMetadata = async ({
     });
 
     const data = meta.data as UsersType;
-    if (!data) return null;
+    if (!data) return {};
     const works = numbersTxt(data.works_count, ['работа', 'работы', 'работ']);
     const stars = numbersTxt(data.stars_count, ['звезда', 'звезды', 'звёзд']);
     return {

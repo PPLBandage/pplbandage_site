@@ -19,7 +19,7 @@ const useAccess = (): number[] => {
         .toString(2)
         .split('')
         .reverse()
-        .reduce((acc, curr, index) => {
+        .reduce((acc: number[], curr, index) => {
             if (curr === '1') acc.push(index);
             return acc;
         }, []);

@@ -13,7 +13,7 @@ const LoginWrapper = ({
     callback,
     redirect_to = '/me'
 }: {
-    code: string;
+    code: string | null;
     callback: (code: string) => Promise<void>;
     redirect_to?: string;
 }) => {
@@ -21,7 +21,10 @@ const LoginWrapper = ({
     const [loadingStatus, setLoadingStatus] = useState<string>('');
 
     useEffect(() => {
-        if (!code) router.replace(redirect_to);
+        if (!code) {
+            router.replace(redirect_to);
+            return;
+        }
 
         callback(code)
             .then(() => router.replace(redirect_to))

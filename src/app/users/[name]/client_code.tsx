@@ -8,7 +8,7 @@ import { renderSkin } from '@/lib/SkinCardRender';
 import { Users } from '@/types/global';
 
 const UsersClient = ({ user }: { user: Users }) => {
-    const [elements, setElements] = useState<JSX.Element[]>(null);
+    const [elements, setElements] = useState<JSX.Element[] | null>(null);
 
     useEffect(() => {
         renderSkin(user.works.reverse(), styles).then(setElements);

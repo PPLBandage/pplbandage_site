@@ -26,7 +26,7 @@ export const Minecraft = () => {
         async () => await getMeConnections()
     );
 
-    if (isLoading) return null;
+    if (isLoading || !data) return null;
     if (!data.minecraft) return <UnloggedMinecraft />;
 
     return (
@@ -60,7 +60,7 @@ export const Minecraft = () => {
                         mutate({
                             ...data,
                             minecraft: {
-                                ...data.minecraft,
+                                ...data.minecraft!,
                                 autoload: state
                             }
                         });
@@ -76,7 +76,7 @@ export const Minecraft = () => {
                         mutate({
                             ...data,
                             minecraft: {
-                                ...data.minecraft,
+                                ...data.minecraft!,
                                 autoload: state
                             }
                         });
@@ -130,7 +130,7 @@ const UnloggedMinecraft = () => {
 };
 
 const refreshMinecraft = () => {
-    const load_icon = document.getElementById('refresh');
+    const load_icon = document.getElementById('refresh')!;
     load_icon.setAttribute('class', Style.loading_class);
 
     purgeSkinCache()

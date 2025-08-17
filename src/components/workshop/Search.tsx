@@ -6,6 +6,7 @@ import Styles from '@/styles/search.module.css';
 import styleLink from '@/styles/tutorials/common.module.css';
 import Link from 'next/link';
 import { IconSearch } from '@tabler/icons-react';
+import { useWorkshopStore } from '@/lib/stores/workshop';
 
 const options_take: readonly { value: number; label: string }[] = [
     { value: 12, label: '12' },
@@ -22,23 +23,8 @@ const options_sortir: readonly { value: string; label: string }[] = [
     { value: 'name_up', label: 'По имени' }
 ];
 
-interface SearchProps {
-    onSearch(search: string): void;
-    onChangeTake(take: number): void;
-    onChangeSort(sort: string): void;
-    sort: string;
-    take: number;
-    search: string;
-}
-
-export const Search = ({
-    onSearch,
-    onChangeTake,
-    onChangeSort,
-    sort,
-    take,
-    search
-}: SearchProps) => {
+export const Search = () => {
+    const { search, sort, take, setSearch, setTake, setSort } = useWorkshopStore();
     const [_search, _setSearch] = useState<string>(search ?? '');
 
     return (
@@ -50,7 +36,7 @@ export const Search = ({
                             onChange={event => _setSearch(event.target.value)}
                             onKeyUp={e => {
                                 if (e.code == 'Enter' || e.code == 'NumpadEnter') {
-                                    onSearch(_search);
+                                    setSearch(_search);
                                 }
                             }}
                             className={Styles.search}
@@ -59,7 +45,7 @@ export const Search = ({
                         />
                         <div
                             className={Styles.search_loop}
-                            onClick={() => onSearch(_search)}
+                            onClick={() => setSearch(_search)}
                         >
                             <IconSearch
                                 className={Styles.search_loop_icon}
@@ -75,7 +61,7 @@ export const Search = ({
                             options={options_sortir}
                             className={`react-select-container ${Styles.select_sortir}`}
                             classNamePrefix="react-select"
-                            onChange={n => onChangeSort(n!.value)}
+                            onChange={n => setSort(n!.value)}
                             value={options_sortir.find(i => i.value === sort)}
                             isSearchable={false}
                             instanceId="select-1"
@@ -89,7 +75,7 @@ export const Search = ({
                             className={`react-select-container ${Styles.select_take}`}
                             classNamePrefix="react-select"
                             isSearchable={false}
-                            onChange={n => onChangeTake(n!.value)}
+                            onChange={n => setTake(n!.value)}
                             value={options_take.find(i => i.value === take)}
                             instanceId="select-2"
                         />

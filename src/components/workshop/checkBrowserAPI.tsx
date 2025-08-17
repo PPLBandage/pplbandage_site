@@ -1,8 +1,12 @@
+'use client';
+
 import AsyncImage from '@/lib/asyncImage';
 import { sha256 } from 'js-sha256';
 import style from '@/styles/browserAPINotification.module.css';
 import { IconX } from '@tabler/icons-react';
 import ReactCSSTransition from '@/components/CSSTransition';
+import { useEffect, useState } from 'react';
+import { getCookie, setCookie } from 'cookies-next';
 
 // idfk
 const image =
@@ -27,13 +31,22 @@ export const calcChecksum = async () => {
     return sha256(pixelString) === rightChecksum;
 };
 
-export const BrowserNotification = ({
-    expanded,
-    onClose
-}: {
-    expanded: boolean;
-    onClose(): void;
-}) => {
+export const BrowserNotification = () => {
+    const [expanded, setExpanded] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (!getCookie('warningAccepted')) {
+            calcChecksum().then(result => !result && setExpanded(true));
+        }
+    }, []);
+
+    const close = () => {
+        setCookie('warningAccepted', 'true', {
+            maxAge: 60 * 24 * 14
+        });
+        setExpanded(false);
+    };
+
     return (
         <ReactCSSTransition
             state={expanded}
@@ -54,7 +67,7 @@ export const BrowserNotification = ({
                         браузер.
                     </p>
                 </div>
-                <button onClick={onClose}>
+                <button onClick={close}>
                     <IconX />
                 </button>
             </div>

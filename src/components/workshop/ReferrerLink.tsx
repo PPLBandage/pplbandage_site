@@ -10,11 +10,7 @@ interface ReferrerLinkProps
     href: string;
 }
 
-const ReferrerLink: React.FC<ReferrerLinkProps> = ({
-    children,
-    href,
-    ...props
-}) => {
+const ReferrerLink: React.FC<ReferrerLinkProps> = ({ children, href, ...props }) => {
     const pathname = usePathname();
     const router = useRouter();
     const context = useConfigContext();
@@ -29,7 +25,7 @@ const ReferrerLink: React.FC<ReferrerLinkProps> = ({
             const scroll = window.scrollY || document.documentElement.scrollTop;
             window.sessionStorage.setItem(
                 'workshopState',
-                JSON.stringify({ ...context.lastConfig, scroll })
+                JSON.stringify({ scroll })
             );
         }
         router.push(href);

@@ -44,7 +44,20 @@
 }
 
 .animated {
-    transition: transform 300ms, opacity 300ms;
+    animation: animated_show 300ms;
+}
+
+
+@keyframes animated_show {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 @keyframes loading {

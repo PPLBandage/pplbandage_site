@@ -140,8 +140,7 @@ const AvatarHead = ({
     theme: number;
     color?: string;
 }) => {
-    const avatar =
-        process.env.NEXT_PUBLIC_DOMAIN + `/api/v1/avatars/${data?.userID}`;
+    const avatar = process.env.NEXT_PUBLIC_DOMAIN + `/api/v1/avatars/${data.userID}`;
 
     let used_color = undefined;
     let image = undefined;

@@ -136,16 +136,6 @@ const Users = () => {
                         defaultValue={Boolean(user.flags & 1)}
                         disabled={user.permissions !== 1}
                     />
-
-                    <SlideButton
-                        label="Пропустить проверку ролей"
-                        strict={true}
-                        loadable={true}
-                        defaultValue={getBitSet(user.flags, 1)}
-                        onChange={value =>
-                            userUpdate(user, { skip_ppl_check: value })
-                        }
-                    />
                 </div>
             </div>
         );

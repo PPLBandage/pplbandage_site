@@ -1,16 +1,18 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import ReactCSSTransition from '@/components/CSSTransition';
 
 import Styles from '@/styles/theme_selector.module.css';
 import { IconBucketDroplet, IconPalette, IconPhoto } from '@tabler/icons-react';
 import { setUserSetting } from '@/lib/api/user';
+import { debounce } from 'lodash';
 
 interface MenuProps {
     initialValue: number;
-    color_available?: boolean;
+    initialColor: string;
     onChange(val: number): void;
+    onColorChange(val: string): void;
 }
 
 const getIcon = (theme: number) => {
@@ -24,8 +26,14 @@ const getIcon = (theme: number) => {
     }
 };
 
-const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
+const Menu = ({
+    initialValue,
+    initialColor,
+    onChange,
+    onColorChange
+}: MenuProps) => {
     const [expanded, setExpanded] = useState<boolean>(false);
+    const colorRef = useRef<HTMLInputElement>(null);
 
     const [theme, setTheme] = useState<number>(initialValue);
     const [displayTheme, setDisplayTheme] = useState<number>(initialValue);
@@ -45,6 +53,26 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
             setOpacity(1);
         }, 200);
     };
+
+    const handleColorOpen = () => {
+        if (colorRef.current) {
+            colorRef.current.click();
+        }
+    };
+
+    const debouncedHandleColorChange = useCallback(
+        debounce(event => {
+            onColorChange(event.target.value);
+        }, 5),
+        []
+    );
+
+    const debouncedHandleColorSave = useCallback(
+        debounce(event => {
+            setUserSetting({ theme_color: event.target.value });
+        }, 750),
+        []
+    );
 
     return (
         <div className={Styles.main}>
@@ -77,14 +105,27 @@ const Menu = ({ initialValue, color_available, onChange }: MenuProps) => {
                     >
                         {getIcon(1)}
                     </button>
-                    {color_available && (
-                        <button
-                            className={`${theme === 2 && Styles.enabled}`}
-                            onClick={() => themeChanged(2)}
-                        >
-                            {getIcon(2)}
-                        </button>
-                    )}
+
+                    <button
+                        style={{ position: 'relative' }}
+                        className={`${theme === 2 && Styles.enabled}`}
+                        onClick={() => {
+                            themeChanged(2);
+                            handleColorOpen();
+                        }}
+                    >
+                        <input
+                            type="color"
+                            className={Styles.color_input}
+                            ref={colorRef}
+                            defaultValue={initialColor}
+                            onChange={e => {
+                                debouncedHandleColorChange(e);
+                                debouncedHandleColorSave(e);
+                            }}
+                        />
+                        {getIcon(2)}
+                    </button>
                 </div>
             </ReactCSSTransition>
         </div>

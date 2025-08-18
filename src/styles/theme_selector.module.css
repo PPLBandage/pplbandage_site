@@ -92,3 +92,10 @@
     align-items: center;
     justify-content: center;
 }
+
+.color_input {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    bottom: -.5rem;
+}

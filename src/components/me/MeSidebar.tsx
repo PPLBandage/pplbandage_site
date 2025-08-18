@@ -97,6 +97,7 @@ export const Me = ({
     self?: boolean;
 }) => {
     const [theme, setTheme] = useState<number>(data.profile_theme);
+    const [color, setColor] = useState<string>(data.banner_color);
 
     if (!data) return null;
 
@@ -109,14 +110,15 @@ export const Me = ({
                             <div style={{ position: 'relative' }}>
                                 <AvatarHead
                                     data={data}
-                                    color={data.banner_color}
+                                    color={color}
                                     theme={theme}
                                 />
                                 {self && (
                                     <Menu
                                         initialValue={data.profile_theme}
-                                        color_available={!!data.banner_color}
+                                        initialColor={color}
                                         onChange={setTheme}
+                                        onColorChange={setColor}
                                     />
                                 )}
                             </div>

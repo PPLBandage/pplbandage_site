@@ -3,6 +3,8 @@
     margin-right: 1rem;
     position: relative;
     z-index: 1;
+
+    opacity: .6;
 }
 
 .container {
@@ -41,7 +43,6 @@
 }
 
 .links_cont svg {
-    opacity: 0.6;
     text-decoration: none;
     transition: opacity 250ms;
 }

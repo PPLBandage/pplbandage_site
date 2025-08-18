@@ -31,7 +31,8 @@
         "sanitize-html": "^2.17.0",
         "sharp": "^0.34.3",
         "skinview3d": "^3.4.1",
-        "swr": "^2.3.4",
+        "skinview3d-blockbench": "^1.0.11",
+        "swr": "^2.3.6",
         "use-next-cookie": "^0.1.7",
         "zustand": "^5.0.7"
     },
@@ -39,7 +40,7 @@
         "@types/node": "^24",
         "@types/react": "^19",
         "@types/sanitize-html": "^2.16.0",
-        "eslint": "^9.32.0",
+        "eslint": "^9.33.0",
         "eslint-config-next": "^15.4.6",
         "typescript": "^5"
     }

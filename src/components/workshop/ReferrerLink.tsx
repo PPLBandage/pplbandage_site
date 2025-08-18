@@ -1,4 +1,3 @@
-import { useConfigContext } from '@/lib/ConfigContext';
 import Link, { LinkProps } from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
@@ -13,7 +12,6 @@ interface ReferrerLinkProps
 const ReferrerLink: React.FC<ReferrerLinkProps> = ({ children, href, ...props }) => {
     const pathname = usePathname();
     const router = useRouter();
-    const context = useConfigContext();
 
     const handleTransition = async (
         e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -21,13 +19,7 @@ const ReferrerLink: React.FC<ReferrerLinkProps> = ({ children, href, ...props })
         e.preventDefault();
         if (pathname.endsWith(href)) return;
         window.sessionStorage.setItem('referrer', pathname);
-        if (context && context.lastConfig) {
-            const scroll = window.scrollY || document.documentElement.scrollTop;
-            window.sessionStorage.setItem(
-                'workshopState',
-                JSON.stringify({ scroll })
-            );
-        }
+
         router.push(href);
     };
 

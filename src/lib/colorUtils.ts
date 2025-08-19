@@ -48,13 +48,19 @@ export const getAverageColor = async (url: string) => {
 
     return { r, g, b };
 };
+
 export const hexToRgb = (hex: string) => {
-    if (hex.startsWith('#')) {
-        hex = hex.slice(1);
+    hex = hex.trim().replace(/^#/, '').toLowerCase();
+
+    if (![3, 6].includes(hex.length)) {
+        throw new Error('Invalid hex color format');
     }
 
-    if (hex.length !== 6) {
-        throw new Error('Invalid hex color format');
+    if (hex.length === 3) {
+        hex = hex
+            .split('')
+            .map(ch => ch + ch)
+            .join('');
     }
 
     const r = parseInt(hex.substring(0, 2), 16);

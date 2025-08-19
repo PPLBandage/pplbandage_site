@@ -163,13 +163,16 @@ const AvatarHead = ({
     };
 
     useEffect(() => {
-        if (theme !== 1) return;
-        getAverageColor(optimized_avatar).then(setBrightColor);
-    }, [theme]);
-
-    useEffect(() => {
-        setBrightColor(hexToRgb(color));
-    }, [color, theme]);
+        if (theme === 0) {
+            setBright(true);
+        } else if (theme === 1) {
+            getAverageColor(optimized_avatar).then(setBrightColor);
+        } else if (theme === 2) {
+            const rgb = hexToRgb(color);
+            if (!rgb) return;
+            setBrightColor(rgb);
+        }
+    }, [theme, color]);
 
     return (
         <div

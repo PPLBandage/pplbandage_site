@@ -178,19 +178,19 @@ const AvatarHead = ({
                     ? style_sidebar.background_image_container
                     : style_sidebar.not_a_background_image_container
             }
-            style={
-                {
-                    ...image,
-                    '--avatar-text-color': bright ? '#fff' : '#101013'
-                } as CSSProperties
-            }
+            style={image}
         >
             <div
                 className={
                     `${style_sidebar.card} ` +
                     `${theme === 1 && style_sidebar.card_improved}`
                 }
-                style={used_color}
+                style={
+                    {
+                        ...used_color,
+                        '--avatar-text-color': bright ? '#fff' : '#101013'
+                    } as CSSProperties
+                }
             >
                 <div className={style_sidebar.avatar_container}>
                     {theme === 0 && (

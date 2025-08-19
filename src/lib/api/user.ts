@@ -107,6 +107,7 @@ type UserSettings = {
     minecraft_nick_searchable?: boolean;
     public_profile?: boolean;
     preferred_avatar?: string;
+    theme_color?: string;
 };
 
 /** Set user settings */

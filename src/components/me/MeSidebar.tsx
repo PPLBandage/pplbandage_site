@@ -1,6 +1,6 @@
 'use client';
 
-import { JSX, useState } from 'react';
+import { CSSProperties, JSX, useEffect, useState } from 'react';
 import style_sidebar from '@/styles/me/sidebar.module.css';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -19,6 +19,7 @@ import { TransitionLink } from '@/components/me/AnimatedLink';
 import { UserQuery, Users } from '@/types/global';
 import { useNextCookie } from 'use-next-cookie';
 import { subscribeTo, unsubscribeFrom } from '@/lib/api/user';
+import { getAverageColor, hexToRgb } from '@/lib/colorUtils';
 
 const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
     const logged = !!useNextCookie('sessionId');
@@ -97,6 +98,7 @@ export const Me = ({
     self?: boolean;
 }) => {
     const [theme, setTheme] = useState<number>(data.profile_theme);
+    const [color, setColor] = useState<string>(data.banner_color);
 
     if (!data) return null;
 
@@ -109,14 +111,15 @@ export const Me = ({
                             <div style={{ position: 'relative' }}>
                                 <AvatarHead
                                     data={data}
-                                    color={data.banner_color}
+                                    color={color}
                                     theme={theme}
                                 />
                                 {self && (
                                     <Menu
                                         initialValue={data.profile_theme}
-                                        color_available={!!data.banner_color}
+                                        initialColor={color}
                                         onChange={setTheme}
+                                        onColorChange={setColor}
                                     />
                                 )}
                             </div>
@@ -138,22 +141,35 @@ const AvatarHead = ({
 }: {
     data: UserQuery;
     theme: number;
-    color?: string;
+    color: string;
 }) => {
+    const [bright, setBright] = useState<boolean>(true);
     const avatar = process.env.NEXT_PUBLIC_DOMAIN + `/api/v1/avatars/${data.userID}`;
+    const optimized_avatar = `/_next/image?url=${encodeURI(avatar)}&w=256&q=75`;
 
     let used_color = undefined;
     let image = undefined;
     if (theme === 1) {
-        // Fuck this
-        const url = `/_next/image?url=${encodeURI(avatar)}&w=256&q=75`;
-        image = { backgroundImage: `url("${url}")` };
+        image = { backgroundImage: `url("${optimized_avatar}")` };
     } else {
         used_color = {
             backgroundColor: theme === 2 ? color : 'var(--main-card-color)'
         };
     }
     const last_accessed = new Date(data.last_accessed!);
+
+    const setBrightColor = ({ r, g, b }: { r: number; g: number; b: number }) => {
+        setBright(0.299 * r + 0.587 * g + 0.114 * b <= 128);
+    };
+
+    useEffect(() => {
+        if (theme !== 1) return;
+        getAverageColor(optimized_avatar).then(setBrightColor);
+    }, [theme]);
+
+    useEffect(() => {
+        setBrightColor(hexToRgb(color));
+    }, [color, theme]);
 
     return (
         <div
@@ -162,7 +178,12 @@ const AvatarHead = ({
                     ? style_sidebar.background_image_container
                     : style_sidebar.not_a_background_image_container
             }
-            style={image}
+            style={
+                {
+                    ...image,
+                    '--avatar-text-color': bright ? '#fff' : '#101013'
+                } as CSSProperties
+            }
         >
             <div
                 className={

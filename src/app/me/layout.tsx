@@ -1,7 +1,6 @@
-import { JSX } from 'react';
 import Wrapper from '@/components/me/Wrapper';
 
-const Layout = ({ children }: { children: JSX.Element }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
     return <Wrapper>{children}</Wrapper>;
 };
 

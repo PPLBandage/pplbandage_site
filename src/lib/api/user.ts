@@ -69,11 +69,15 @@ export const getMeWorks = async (): Promise<Bandage[]> => {
 };
 
 /** Get me stars */
-export const getMeStars = async (): Promise<Bandage[]> => {
+export const getMeStars = async (params: {
+    page: number;
+    take: number;
+}): Promise<{ data: Bandage[]; totalCount: number }> => {
     return (
         await doRequest({
             url: `/users/@me/stars`,
-            method: 'GET'
+            method: 'GET',
+            params
         })
     ).data;
 };

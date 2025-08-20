@@ -53,7 +53,7 @@ export const hexToRgb = (hex: string) => {
     hex = hex.trim().replace(/^#/, '').toLowerCase();
 
     if (![3, 6].includes(hex.length)) {
-        throw new Error('Invalid hex color format');
+        return;
     }
 
     if (hex.length === 3) {

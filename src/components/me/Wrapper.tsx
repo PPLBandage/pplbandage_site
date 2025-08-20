@@ -1,6 +1,6 @@
 'use client';
 
-import React, { JSX, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Me } from '@/components/me/MeSidebar';
 import { redirect, usePathname } from 'next/navigation';
 import { useNextCookie } from 'use-next-cookie';
@@ -9,7 +9,7 @@ import { Users } from '@/types/global';
 import { getMe } from '@/lib/api/user';
 import { Login } from './Login';
 
-const Wrapper = ({ children }: { children: JSX.Element }) => {
+const Wrapper = ({ children }: { children: React.ReactNode }) => {
     const pathname_full = usePathname();
     const pathname = pathname_full.split('/').reverse()[0];
     const session = useNextCookie('sessionId', 1000);
@@ -27,7 +27,7 @@ const Wrapper = ({ children }: { children: JSX.Element }) => {
     return <MeLoader>{children}</MeLoader>;
 };
 
-const MeLoader = ({ children }: { children: JSX.Element }) => {
+const MeLoader = ({ children }: { children: React.ReactNode }) => {
     const { data } = useSWR('me', () => getMe());
 
     if (!data) return null;

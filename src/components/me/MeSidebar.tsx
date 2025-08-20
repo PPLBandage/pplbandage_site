@@ -1,6 +1,6 @@
 'use client';
 
-import { CSSProperties, JSX, useEffect, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import style_sidebar from '@/styles/me/sidebar.module.css';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -93,7 +93,7 @@ export const Me = ({
     data,
     self
 }: {
-    children: JSX.Element;
+    children: React.ReactNode;
     data: Users;
     self?: boolean;
 }) => {

@@ -27,7 +27,6 @@ export const Paginator = ({ total_count, take, onChange, page }: PaginatorProps)
         _setTotalCount(total_count);
         _setTake(take);
         const pages_count = Math.ceil(total_count / take);
-        _setDisplay(pages_count != 0);
         if (_page + 2 > pages_count && pages_count != 0) {
             const page = Math.min(Math.max(0, _page - 1), pages_count - 1);
             _setPage(page);
@@ -77,22 +76,22 @@ export const Paginator = ({ total_count, take, onChange, page }: PaginatorProps)
     ));
 
     return (
-        <div className={Styles.container}>
-            <>
+        <div className={Styles.outer}>
+            <div className={Styles.container}>
                 <IconChevronLeft
-                    className={`${Styles.page} ${Styles.arrow}`}
+                    className={`${Styles.page} ${Styles.arrow_left}`}
                     onClick={() => updatePage(Math.max(0, _page - 1))}
                 />
                 {_display ? _pages : loadingPages}
                 <IconChevronRight
-                    className={`${Styles.page} ${Styles.arrow}`}
+                    className={`${Styles.page} ${Styles.arrow_right}`}
                     onClick={() =>
                         updatePage(
                             Math.min(_page + 1, Math.ceil(_totalCount / _take) - 1)
                         )
                     }
                 />
-            </>
+            </div>
         </div>
     );
 };

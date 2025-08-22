@@ -14,12 +14,17 @@ const ReactCSSTransition = (props: ReactCSSTransitionProps) => {
     const [state, setState] = useState<boolean>(props.state);
     const [animationClass, setAnimationClass] = useState<string>('');
     const [mounted, setMounted] = useState<boolean>(props.state);
+    const [firstRender, setFirstRender] = useState<boolean>(true);
 
     useEffect(() => {
         setState(props.state);
     }, [props.state]);
 
     useEffect(() => {
+        if (firstRender) {
+            setFirstRender(false);
+            return;
+        }
         let anim_request: number;
         let timeout: NodeJS.Timeout;
         if (state) {

@@ -57,12 +57,15 @@
     font-size: 1.25rem;
     color: var(--main-text-color);
     text-decoration: none;
+
+    margin-top: .3rem;
 }
 
 .description {
     margin-top: 5px;
     margin-bottom: 12px;
     font-size: 15px;
+    opacity: .6;
 }
 
 .read_more {

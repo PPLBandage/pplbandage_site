@@ -49,7 +49,9 @@ export const getMdContents = async (page: string): Promise<string> => {
     );
 
     if (!page_response.ok) throw new Error('Cannot fetch page contents!');
-    const markdown = (await page_response.text()).replace(
+
+    let markdown = await page_response.text();
+    markdown = markdown.replace(
         '/images',
         `https://raw.githubusercontent.com/${REPO_PATH}/main/images`
     );

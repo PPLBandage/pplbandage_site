@@ -70,38 +70,6 @@
             "description": "Ваши избранные работы"
         }
     },
-    "/tutorials/rules": {
-        "title": "Правила · Повязки Pepeland",
-        "description": "Правила использования сайта",
-        "openGraph": {
-            "title": "Правила · Повязки Pepeland",
-            "description": "Правила использования сайта"
-        }
-    },
-    "/tutorials": {
-        "title": "Туториалы · Повязки Pepeland",
-        "description": "Общее описание работы на сайте",
-        "openGraph": {
-            "title": "Туториалы · Повязки Pepeland",
-            "description": "Общее описание работы на сайте"
-        }
-    },
-    "/tutorials/bandage": {
-        "title": "Создание повязки · Повязки Pepeland",
-        "description": "Инструкция по созданию повязки",
-        "openGraph": {
-            "title": "Создание повязки · Повязки Pepeland",
-            "description": "Инструкция по созданию повязки"
-        }
-    },
-    "/tutorials/colorable": {
-        "title": "Создание окрашиваемой повязки · Повязки Pepeland",
-        "description": "Инструкция по созданию окрашиваемой повязки",
-        "openGraph": {
-            "title": "Создание окрашиваемой повязки · Повязки Pepeland",
-            "description": "Инструкция по созданию окрашиваемой повязки"
-        }
-    },
     "/workshop/create": {
         "title": "Создать · Повязки Pepeland",
         "description": "Создание повязки",
@@ -116,6 +84,14 @@
         "openGraph": {
             "title": "Контакты · Повязки Pepeland",
             "description": "Способы связи с администрацией"
+        }
+    },
+    "/blog": {
+        "title": "Блог · Повязки Pepeland",
+        "description": "Главная страница блога",
+        "openGraph": {
+            "title": "Блог · Повязки Pepeland",
+            "description": "Главная страница блога"
         }
     },
     "notFound": {

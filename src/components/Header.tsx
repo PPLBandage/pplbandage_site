@@ -16,8 +16,8 @@ import {
     IconChevronDown,
     IconMenu2,
     IconUserCog,
-    IconBooks,
-    IconAddressBook
+    IconAddressBook,
+    IconNews
 } from '@tabler/icons-react';
 import IconCropped from '@/resources/icon-cropped.svg';
 import ReactCSSTransition from './CSSTransition';
@@ -170,9 +170,9 @@ const LoggedMenu = () => {
                 <IconStack />
                 <span>Мастерская</span>
             </Link>
-            <Link className={styles.menu_element} href="/tutorials">
-                <IconBooks />
-                <span>Туториалы</span>
+            <Link className={styles.menu_element} href="/blog">
+                <IconNews />
+                <span>Блог</span>
             </Link>
             <Link className={styles.menu_element} href="/contacts">
                 <IconAddressBook />
@@ -208,9 +208,9 @@ const UnloggedMenu = () => {
                 <IconStack />
                 <span>Мастерская</span>
             </Link>
-            <Link className={styles.menu_element} href="/tutorials">
-                <IconBooks />
-                <span>Туториалы</span>
+            <Link className={styles.menu_element} href="/blog">
+                <IconNews />
+                <span>Блог</span>
             </Link>
             <Link className={styles.menu_element} href="/contacts">
                 <IconAddressBook />

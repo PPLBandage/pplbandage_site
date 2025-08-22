@@ -7,6 +7,9 @@ const Blog = async () => {
 
     return (
         <main className={style.main}>
+            <h2 style={{ marginTop: 0, marginBottom: '2rem' }}>
+                Последние новости проекта PPLBandage
+            </h2>
             <div className={style.grid}>
                 {Object.entries(articles)
                     .reverse()

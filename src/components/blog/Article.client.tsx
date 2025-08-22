@@ -4,23 +4,29 @@ import styles from '@/styles/blog/article.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArticleProps } from './Article.server';
+import { StaticTooltip } from '../Tooltip';
 
 const Authors = ({ names }: { names: string[] }) => {
     const authors = names.slice(-3);
     return (
         <div className={styles.avatars_container}>
             {authors.map((name, index) => (
-                <Image
-                    className={styles.avatars}
-                    style={{
-                        right: `-${12 * (authors.length - 1 - index)}px`
+                <StaticTooltip
+                    title={name}
+                    container_styles={{
+                        right: `-${13 * (authors.length - 1 - index)}px`
                     }}
+                    tooltip_styles={{ minWidth: 'max-content' }}
                     key={index}
-                    src={`https://github.com/${name}.png?size=30`}
-                    alt={name}
-                    width={24}
-                    height={24}
-                />
+                >
+                    <Image
+                        className={styles.avatars}
+                        src={`https://github.com/${name}.png?size=30`}
+                        alt={name}
+                        width={24}
+                        height={24}
+                    />
+                </StaticTooltip>
             ))}
             {authors.length < names.length && (
                 <div className={styles.avatars_plus}>

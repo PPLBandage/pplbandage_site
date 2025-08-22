@@ -3,7 +3,7 @@
 import React, { HTMLAttributeAnchorTarget, JSX, useState } from 'react';
 import Select from 'react-select';
 import Styles from '@/styles/search.module.css';
-import styleLink from '@/styles/tutorials/common.module.css';
+import styleLink from '@/styles/customLink.module.css';
 import Link from 'next/link';
 import { IconSearch } from '@tabler/icons-react';
 import { useWorkshopStore } from '@/lib/stores/workshop';

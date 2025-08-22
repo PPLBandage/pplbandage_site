@@ -15,11 +15,11 @@ import {
     IconStarFilled,
     IconUser
 } from '@tabler/icons-react';
-import { TransitionLink } from '@/components/me/AnimatedLink';
 import { UserQuery, Users } from '@/types/global';
 import { useNextCookie } from 'use-next-cookie';
 import { subscribeTo, unsubscribeFrom } from '@/lib/api/user';
 import { getAverageColor, hexToRgb } from '@/lib/colorUtils';
+import Link from 'next/link';
 
 const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
     const logged = !!useNextCookie('sessionId');
@@ -255,7 +255,7 @@ const Pages = ({ data }: { data: UserQuery }) => {
                 borderRadius: '10px'
             }}
         >
-            <TransitionLink
+            <Link
                 href="/me"
                 className={`${style_sidebar.side_butt} ${
                     path === 'me' && style_sidebar.active
@@ -263,8 +263,8 @@ const Pages = ({ data }: { data: UserQuery }) => {
             >
                 <IconList />
                 Мои работы
-            </TransitionLink>
-            <TransitionLink
+            </Link>
+            <Link
                 href="/me/stars"
                 className={`${style_sidebar.side_butt} ${
                     path === 'stars' && style_sidebar.active
@@ -272,8 +272,8 @@ const Pages = ({ data }: { data: UserQuery }) => {
             >
                 <IconStar />
                 Избранное
-            </TransitionLink>
-            <TransitionLink
+            </Link>
+            <Link
                 href="/me/notifications"
                 className={`${style_sidebar.side_butt} ${
                     path === 'notifications' && style_sidebar.active
@@ -287,8 +287,8 @@ const Pages = ({ data }: { data: UserQuery }) => {
                     }
                 />
                 Уведомления
-            </TransitionLink>
-            <TransitionLink
+            </Link>
+            <Link
                 href="/me/settings"
                 className={`${style_sidebar.side_butt} ${
                     path === 'settings' && style_sidebar.active
@@ -296,8 +296,8 @@ const Pages = ({ data }: { data: UserQuery }) => {
             >
                 <IconSettings />
                 Настройки
-            </TransitionLink>
-            <TransitionLink
+            </Link>
+            <Link
                 href="/me/accounts"
                 className={`${style_sidebar.side_butt} ${
                     path === 'accounts' && style_sidebar.active
@@ -305,7 +305,7 @@ const Pages = ({ data }: { data: UserQuery }) => {
             >
                 <IconUser />
                 Аккаунты
-            </TransitionLink>
+            </Link>
         </div>
     );
 };

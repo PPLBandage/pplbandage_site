@@ -19,7 +19,7 @@ const Main = () => {
     if (cards === null) return null;
     if (cards.length === 0) return <NoBandages />;
     return (
-        <div className={styles.cont} id="sidebar">
+        <div className={styles.cont}>
             <SimpleGrid>{[<CreateCard key="create" />, ...cards]}</SimpleGrid>
         </div>
     );
@@ -27,7 +27,7 @@ const Main = () => {
 
 const NoBandages = () => {
     return (
-        <div className={styles.cont} id="sidebar">
+        <div className={styles.cont}>
             <CreateCard key="create" first />
         </div>
     );

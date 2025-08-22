@@ -36,7 +36,6 @@ const Main = () => {
 
     return (
         <div
-            id="sidebar"
             className={`${style_sidebar.skins_container_2} ${style_sidebar.hidable}`}
         >
             <BottomPaginator

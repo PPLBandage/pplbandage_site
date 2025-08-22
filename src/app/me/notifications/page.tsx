@@ -22,7 +22,7 @@ const Notifications = () => {
     if (notifications === null) return null;
     if (notifications.data.length === 0) return <Placeholder />;
     return (
-        <div id="sidebar" className={`${Style.container} ${style_sidebar.hidable}`}>
+        <div className={`${Style.container} ${style_sidebar.hidable}`}>
             {notifications.total_count > 5 && (
                 <Paginator
                     total_count={notifications?.total_count}

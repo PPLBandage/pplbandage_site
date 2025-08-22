@@ -1,0 +1,15 @@
+.common_anim {
+    width: 100%;
+    transition: opacity 200ms,
+        transform 200ms;
+}
+
+.enter {
+    opacity: 0;
+    transform: translateY(50px)
+}
+
+.exit_active {
+    opacity: 0;
+    transform: translateY(50px)
+}

@@ -16,7 +16,7 @@ const Page = () => {
 
     if (isLoading || !data) return null;
     return (
-        <div id="sidebar" className={`${Style.main} ${style_sidebar.hidable}`}>
+        <div className={`${Style.main} ${style_sidebar.hidable}`}>
             <UserSettings />
             <Themes />
             <Safety />

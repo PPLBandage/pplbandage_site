@@ -1,7 +1,6 @@
 .main {
     flex-direction: column;
     display: flex;
-    transition: opacity 200ms, transform 200ms;
     width: 100%;
     align-items: stretch;
     gap: 1rem;

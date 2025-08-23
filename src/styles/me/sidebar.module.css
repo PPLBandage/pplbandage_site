@@ -160,7 +160,6 @@
 }
 
 .skins_container_2 {
-    transition: opacity 200ms, transform 200ms;
     width: 100%;
 
     display: flex;

@@ -259,7 +259,7 @@ const Editor = ({
             <h2 style={{ marginTop: 0, marginBottom: '.5rem' }}>Создать повязку</h2>
             <h3 style={{ margin: 0 }}>
                 Перед началом создания повязки прочитайте{' '}
-                <CustomLink href="/tutorials/bandage">туториал</CustomLink>
+                <CustomLink href="/blog/bandage">туториал</CustomLink>
             </h3>
 
             <SlideButton

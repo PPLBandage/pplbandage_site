@@ -89,7 +89,7 @@ export const CreateCard = ({ first }: { first?: boolean }) => {
                 </h2>
                 <p>
                     Не знаете как? Прочитайте{' '}
-                    <CustomLink href="/tutorials/bandage">наш туториал</CustomLink>
+                    <CustomLink href="/blog/bandage">наш туториал</CustomLink>
                 </p>
             </div>
         </article>

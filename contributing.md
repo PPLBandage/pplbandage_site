@@ -24,7 +24,7 @@ If you're unsure — it’s best to start a conversation in an **[issue](https:/
 
 Please do not add dependencies on third-party or personal APIs when submitting your PR. Pull requests that include them will likely be rejected.
 
-**DO NOT ADD MALICIOUS CODE** that violates our [Rules](https://pplbandage.ru/tutorials/rules) or [Privacy Policy](https://pplbandage.ru/tutorials/rules#PP)
+**DO NOT ADD MALICIOUS CODE** that violates our [Rules](https://pplbandage.ru/tos) or [Privacy Policy](https://pplbandage.ru/tos#PP)
 
 ## 🧾 Code Style
 

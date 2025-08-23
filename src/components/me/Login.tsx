@@ -97,11 +97,7 @@ export const Login = () => {
                 </div>
                 <p style={{ color: 'gray', marginBottom: 0 }}>
                     Регистрируясь на сайте вы соглашаетесь с настоящими{' '}
-                    <a
-                        className={styles.a}
-                        href="/tutorials/rules"
-                        style={{ color: 'gray' }}
-                    >
+                    <a className={styles.a} href="/tos" style={{ color: 'gray' }}>
                         условиями пользования
                     </a>
                 </p>

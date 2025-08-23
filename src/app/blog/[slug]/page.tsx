@@ -1,12 +1,14 @@
 import style from '@/styles/blog/main.module.css';
+import link_style from '@/styles/customLink.module.css';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { IconArrowNarrowRight } from '@tabler/icons-react';
 import { getLayoutContents, getMdContents } from '@/lib/blog/loader';
-import { Note, Tip, Warn } from '@/components/blog/page/Blocks';
+import { NextAnchor, Note, Tip, Warn } from '@/components/blog/page/Blocks';
 import Image from 'next/image';
 import { Metadata } from 'next';
+import { Emote } from '@/components/workshop/TextFormatter';
 
 export const generateMetadata = async ({
     params
@@ -68,7 +70,11 @@ const Post = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 </Link>
             </div>
             <h1 style={{ margin: 0 }}>{meta.title}</h1>
-            <p style={{ marginTop: '.5rem', opacity: 0.7 }}>{meta.description}</p>
+            {meta.description && (
+                <div className={`${style.description} ${link_style.link_cont}`}>
+                    <MDXRemote source={meta.description} />
+                </div>
+            )}
             <div className={style.posted_by}>
                 <p style={{ opacity: 0.5, marginTop: '1rem' }}>Опубликовали</p>
                 <div className={style.posted_by_cont}>
@@ -76,7 +82,12 @@ const Post = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 </div>
             </div>
             <hr />
-            <MDXRemote source={contents} components={{ Note, Warn, Tip }} />
+            <div className={`${style.contents} ${link_style.link_cont}`}>
+                <MDXRemote
+                    source={contents}
+                    components={{ Note, Warn, Tip, a: NextAnchor, Emote }}
+                />
+            </div>
         </main>
     );
 };

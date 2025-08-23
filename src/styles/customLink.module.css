@@ -6,3 +6,12 @@
 .CustomLink:hover {
     color: rgb(179, 250, 241);
 }
+
+.link_cont a {
+    color: rgba(12, 247, 215);
+    transition: color 150ms;
+}
+
+.link_cont a:hover {
+    color: rgb(179, 250, 241);
+}

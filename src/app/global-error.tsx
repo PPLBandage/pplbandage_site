@@ -3,8 +3,7 @@
 import '@/styles/404/style.css';
 import style from '@/styles/404/page.module.css';
 import { IconReload } from '@tabler/icons-react';
-import { getTheme } from '../components/root/providers';
-import { getCookie } from 'cookies-next/client';
+import themes from '@/app/themes';
 import { CSSProperties, useEffect } from 'react';
 import { Inter } from 'next/font/google';
 import { usePathname } from 'next/navigation';
@@ -17,7 +16,6 @@ type GlobalErrorProps = {
 };
 
 export default function GlobalError({ error }: GlobalErrorProps) {
-    const theme = getTheme(getCookie('theme_main') || 'amoled');
     const path = usePathname();
 
     useEffect(() => {
@@ -31,7 +29,7 @@ export default function GlobalError({ error }: GlobalErrorProps) {
 
     return (
         <html
-            style={theme.data as CSSProperties}
+            style={themes['amoled'].data as CSSProperties}
             lang="ru"
             className={inter.className}
         >
@@ -41,7 +39,13 @@ export default function GlobalError({ error }: GlobalErrorProps) {
                     <div className={`${style.circle} ${style.circle_2}`}></div>
                     <main className={style.main}>
                         <h2 style={{ fontSize: '2rem' }}>Client Error</h2>
-                        <h3 style={{ margin: '.78rem' }}>
+                        <h3
+                            style={{
+                                margin: '.78rem',
+                                marginLeft: '2rem',
+                                marginRight: '2rem'
+                            }}
+                        >
                             Произошла ошибка на стороне клиента ({error.message})
                         </h3>
                         <div>

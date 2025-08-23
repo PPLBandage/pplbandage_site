@@ -9,9 +9,14 @@
     background-color: color-mix(in hsl, var(--main-bg-color), white 3.1%);
 }
 
-.date {
+.date_cont {
     font-size: .9rem;
     opacity: .7;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .3rem;
 }
 
 .avatars {
@@ -66,6 +71,10 @@
     margin-bottom: 12px;
     font-size: 15px;
     opacity: .6;
+}
+
+.description p {
+    margin: 0;
 }
 
 .read_more {

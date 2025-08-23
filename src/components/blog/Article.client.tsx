@@ -1,10 +1,12 @@
 'use client';
 
 import styles from '@/styles/blog/article.module.css';
+import link_style from '@/styles/customLink.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArticleProps } from './Article.server';
 import { StaticTooltip } from '../Tooltip';
+import { IconPin } from '@tabler/icons-react';
 
 const Authors = ({ names }: { names: string[] }) => {
     const authors = names.slice(-3);
@@ -21,7 +23,7 @@ const Authors = ({ names }: { names: string[] }) => {
                 >
                     <Image
                         className={styles.avatars}
-                        src={`https://github.com/${name}.png?size=30`}
+                        src={`https://github.com/${name}.png?size=24`}
                         alt={name}
                         width={24}
                         height={24}
@@ -37,12 +39,24 @@ const Authors = ({ names }: { names: string[] }) => {
     );
 };
 
-const Article = (props: ArticleProps & { date: string }) => {
+const Article = (
+    props: ArticleProps & {
+        date: string;
+        rendered_description: React.ReactNode | null;
+    }
+) => {
     return (
         <article className={styles.article}>
             <div className={styles.body}>
                 <div className={styles.header}>
-                    <span className={styles.date}>{props.date}</span>
+                    <span className={styles.date_cont}>
+                        {props.article.pinned && (
+                            <StaticTooltip title="Закреплено">
+                                <IconPin width={20} height={20} />
+                            </StaticTooltip>
+                        )}
+                        {props.date}
+                    </span>
                     <Authors
                         names={[
                             ...props.article.collaborators,
@@ -53,7 +67,11 @@ const Article = (props: ArticleProps & { date: string }) => {
                 <Link className={styles.title} href={props.href}>
                     {props.article.title}
                 </Link>
-                <p className={styles.description}>{props.article.description}</p>
+                {props.article.description && (
+                    <div className={`${styles.description} ${link_style.link_cont}`}>
+                        {props.rendered_description}
+                    </div>
+                )}
             </div>
             <Link className={styles.read_more} href={props.href}>
                 Читать далее

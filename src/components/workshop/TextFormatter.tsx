@@ -46,7 +46,7 @@ const processEmotes = (input: string) => {
     return result;
 };
 
-const Emote = ({ name }: { name: string }) => {
+export const Emote = ({ name, height }: { name: string; height?: string }) => {
     const [failed, setFailed] = useState<boolean>(false);
     const imageRef = useRef<HTMLImageElement>(null);
 
@@ -69,11 +69,11 @@ const Emote = ({ name }: { name: string }) => {
         >
             <img
                 ref={imageRef}
-                alt={name}
+                alt={`:${name}:`}
                 onError={() => setFailed(true)}
                 style={{
                     width: 'auto',
-                    height: '1em',
+                    height: height || '1em',
                     verticalAlign: 'middle'
                 }}
             />

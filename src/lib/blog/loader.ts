@@ -12,14 +12,15 @@ const allowedTags = [
     'Note',
     'Warn',
     'Tip',
-    'Accent',
+    'Emote',
     'br'
 ];
 
 const commonProps = ['key', 'children'];
 const allowedProps: { [key: string]: string[] } = {
     a: ['href', 'target'].concat(commonProps),
-    img: ['src'].concat(commonProps)
+    img: ['src'].concat(commonProps),
+    Emote: ['name'].concat(commonProps)
 };
 
 export const getLayoutContents = async (): Promise<{

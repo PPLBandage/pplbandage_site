@@ -2,6 +2,7 @@ import { CSSProperties, JSX } from 'react';
 import { IconAlertTriangle, IconBulb, IconInfoCircle } from '@tabler/icons-react';
 import InfoCard from '@/components/InfoCard';
 import style from '@/styles/blog/main.module.css';
+import Link from 'next/link';
 
 const common_styles: CSSProperties = {
     display: 'flex',
@@ -61,5 +62,22 @@ export const Warn = ({ children }: { children: JSX.Element }) => {
                 {children}
             </InfoCard>
         </div>
+    );
+};
+
+export const NextAnchor = ({
+    href,
+    children,
+    ...props
+}: {
+    href: string;
+    children: JSX.Element;
+}) => {
+    return href?.startsWith('/') ? (
+        <Link href={href}>{children}</Link>
+    ) : (
+        <a href={href} target="_blank" rel="noreferrer" {...props}>
+            {children}
+        </a>
     );
 };

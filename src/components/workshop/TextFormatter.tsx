@@ -55,7 +55,7 @@ export const Emote = ({ name, height }: { name: string; height?: string }) => {
 
         // Знаете почему рефами? А потому что через обычный src проп браузер
         // не вызывает onError ивент. Почему? Ха! Спросите чего попроще
-        imageRef.current.src = `/static/emotes/${name}.png`;
+        imageRef.current.src = `${process.env.NEXT_PUBLIC_API_URL}emotes/search?q=${name}`;
     }, []);
 
     if (failed) return <>:{name}:</>;
@@ -69,11 +69,11 @@ export const Emote = ({ name, height }: { name: string; height?: string }) => {
         >
             <img
                 ref={imageRef}
-                alt={`:${name}:`}
+                alt=""
                 onError={() => setFailed(true)}
                 style={{
                     width: 'auto',
-                    height: height || '1em',
+                    height: height || '1.4em',
                     verticalAlign: 'middle'
                 }}
             />

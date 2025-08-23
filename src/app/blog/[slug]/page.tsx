@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { IconArrowNarrowRight } from '@tabler/icons-react';
 import { getLayoutContents, getMdContents } from '@/lib/blog/loader';
-import { NextAnchor, Note, Tip, Warn } from '@/components/blog/page/Blocks';
+import { Code, NextAnchor, Note, Tip, Warn } from '@/components/blog/page/Blocks';
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { Emote } from '@/components/workshop/TextFormatter';
@@ -82,10 +82,17 @@ const Post = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 </div>
             </div>
             <hr />
-            <div className={`${style.contents} ${link_style.link_cont}`}>
+            <div className={link_style.link_cont}>
                 <MDXRemote
                     source={contents}
-                    components={{ Note, Warn, Tip, a: NextAnchor, Emote }}
+                    components={{
+                        Note,
+                        Warn,
+                        Tip,
+                        a: NextAnchor,
+                        Emote,
+                        code: Code
+                    }}
                 />
             </div>
         </main>

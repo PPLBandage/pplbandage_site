@@ -81,3 +81,11 @@ export const NextAnchor = ({
         </a>
     );
 };
+
+export const Code = ({ children, ...props }: { children: JSX.Element }) => {
+    return (
+        <code className={style.code} {...props}>
+            {children}
+        </code>
+    );
+};

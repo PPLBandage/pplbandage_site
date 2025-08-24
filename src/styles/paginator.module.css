@@ -9,13 +9,12 @@
     align-items: center;
     justify-content: center;
 
-    border: 1px var(--main-element-color) solid;
     border-radius: 8px;
-    padding: .4rem;
+    padding: calc(.4rem + 1px);
     gap: .5rem;
     box-sizing: border-box;
 
-    background-color: color-mix(in hsl, var(--main-bg-color), white 3.1%);
+    background-color: var(--main-card-color);
 }
 
 .page {
@@ -31,20 +30,20 @@
 
     border-radius: 5px;
     border: 1px var(--main-element-color) solid;
-    background-color: color-mix(in hsl, var(--main-bg-color), white 3.1%);
+    background-color: var(--main-card-color);
 
     font-size: 1.2rem;
     user-select: none;
 }
 
 .page:hover {
-    background-color: var(--main-card-color);
+    background-color: color-mix(in hsl, var(--main-card-color), white 3%);
 }
 
 .page_loading {
     aspect-ratio: 1;
     cursor: default;
-    background-color: var(--main-card-color);
+    background-color: color-mix(in hsl, var(--main-card-color), white 3%);
     animation: loading 3s infinite ease-in-out;
 }
 

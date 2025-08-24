@@ -5,7 +5,14 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { IconArrowNarrowRight } from '@tabler/icons-react';
 import { getLayoutContents, getMdContents } from '@/lib/blog/loader';
-import { Code, NextAnchor, Note, Tip, Warn } from '@/components/blog/page/Blocks';
+import {
+    Code,
+    NextAnchor,
+    Note,
+    SImage,
+    Tip,
+    Warn
+} from '@/components/blog/page/Blocks';
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { Emote } from '@/components/workshop/TextFormatter';
@@ -91,7 +98,8 @@ const Post = async ({ params }: { params: Promise<{ slug: string }> }) => {
                         Tip,
                         a: NextAnchor,
                         Emote,
-                        code: Code
+                        code: Code,
+                        img: SImage
                     }}
                 />
             </div>

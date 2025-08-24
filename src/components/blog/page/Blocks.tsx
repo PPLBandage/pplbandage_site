@@ -89,3 +89,11 @@ export const Code = ({ children, ...props }: { children: JSX.Element }) => {
         </code>
     );
 };
+
+export const SImage = ({ children, ...props }: { children: JSX.Element }) => {
+    return (
+        <image style={{ maxWidth: '100%' }} {...props}>
+            {children}
+        </image>
+    );
+};

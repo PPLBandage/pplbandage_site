@@ -4,7 +4,6 @@ import { IconArrowBack } from '@tabler/icons-react';
 import Link from 'next/link';
 import IconSvgCropped from '@/resources/icon-cropped.svg';
 import styles from '@/styles/me/me.module.css';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { httpStatusCodes } from '@/lib/StatusCodes';
 
@@ -17,17 +16,18 @@ const LoginWrapper = ({
     callback: (code: string) => Promise<void>;
     redirect_to?: string;
 }) => {
-    const router = useRouter();
     const [loadingStatus, setLoadingStatus] = useState<string>('');
 
     useEffect(() => {
         if (!code) {
-            router.replace(redirect_to);
+            window.location.href = redirect_to;
             return;
         }
 
         callback(code)
-            .then(() => router.replace(redirect_to))
+            .then(() => {
+                window.location.href = redirect_to;
+            })
             .catch(response => {
                 setLoadingStatus(
                     `${response.status}: ${

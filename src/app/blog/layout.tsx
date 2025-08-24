@@ -39,7 +39,10 @@ const TransitionEffect = ({ children }: { children: React.ReactNode }) => {
             setKey(pathname);
         }, 400);
 
-        return () => clearTimeout(id);
+        return () => {
+            clearTimeout(id);
+            setVisible(true);
+        };
     }, [pathname]);
 
     return (

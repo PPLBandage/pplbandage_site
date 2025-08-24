@@ -65,7 +65,10 @@ const MeLoader = ({ children }: { children: React.ReactNode }) => {
             setKey(pathname);
         }, 200);
 
-        return () => clearTimeout(id);
+        return () => {
+            setVisible(true);
+            clearTimeout(id);
+        };
     }, [pathname]);
 
     if (!data) return null;

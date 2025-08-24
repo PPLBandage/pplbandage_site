@@ -70,7 +70,7 @@ const SkinView3D = ({
         });
         skinViewRef.current = view;
 
-        if (pose) setPose(pose);
+        if (pose !== undefined) setPose(pose);
         skinViewRef.current.controls.enablePan = true;
         skinViewRef.current.fov = 90;
         skinViewRef.current.globalLight.intensity = 2.5;
@@ -115,7 +115,7 @@ const SkinView3D = ({
     }, [CAPE]);
 
     useEffect(() => {
-        if (pose) setPose(pose);
+        if (pose !== undefined) setPose(pose);
     }, [pose]);
 
     return (

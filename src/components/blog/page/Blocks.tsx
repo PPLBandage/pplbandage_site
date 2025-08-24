@@ -92,8 +92,9 @@ export const Code = ({ children, ...props }: { children: JSX.Element }) => {
 
 export const SImage = ({ children, ...props }: { children: JSX.Element }) => {
     return (
-        <image style={{ maxWidth: '100%' }} {...props}>
+        // eslint-disable-next-line jsx-a11y/alt-text
+        <img style={{ maxWidth: '100%' }} {...props}>
             {children}
-        </image>
+        </img>
     );
 };

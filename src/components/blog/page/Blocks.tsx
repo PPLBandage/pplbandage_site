@@ -76,7 +76,7 @@ export const NextAnchor = ({
     return href?.startsWith('/') ? (
         <Link href={href}>{children}</Link>
     ) : (
-        <a href={href} target="_blank" rel="noreferrer" {...props}>
+        <a href={href} {...props}>
             {children}
         </a>
     );

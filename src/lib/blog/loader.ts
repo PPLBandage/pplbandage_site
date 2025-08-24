@@ -31,7 +31,8 @@ export const getLayoutContents = async (): Promise<{
         {
             cache: 'force-cache',
             next: { revalidate: 300 },
-            headers: { authorization: `Bearer ${process.env.GITHUB_TOKEN}` }
+            headers: { authorization: `Bearer ${process.env.GITHUB_TOKEN}` },
+            signal: AbortSignal.timeout(5000)
         }
     );
 
@@ -45,7 +46,8 @@ export const getMdContents = async (page: string): Promise<string> => {
         {
             cache: 'force-cache',
             next: { revalidate: 300 },
-            headers: { authorization: `Bearer ${process.env.GITHUB_TOKEN}` }
+            headers: { authorization: `Bearer ${process.env.GITHUB_TOKEN}` },
+            signal: AbortSignal.timeout(5000)
         }
     );
 

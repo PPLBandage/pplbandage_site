@@ -26,6 +26,8 @@ const LoginWrapper = ({
 
         callback(code)
             .then(() => {
+                // Использование нативных методов редиректа вместо useRouter
+                // позволяет принудительно перезагрузить куки-файлы на сервере
                 window.location.href = redirect_to;
             })
             .catch(response => {

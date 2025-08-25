@@ -67,9 +67,7 @@ const Moderation = ({ moderation }: { moderation: Bandage['moderation'] }) => {
                 marginRight: 'auto'
             }}
         >
-            <>
-                <TextFormatter text={message} />
-            </>
+            <TextFormatter text={message} />
         </InfoCard>
     );
 };

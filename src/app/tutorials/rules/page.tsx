@@ -4,3 +4,5 @@ export default function Rules() {
     // Backwards compatibility
     permanentRedirect('/tos');
 }
+
+export const dynamic = 'force-static';

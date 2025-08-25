@@ -66,6 +66,10 @@
     margin-top: .3rem;
 }
 
+.title:hover {
+    text-decoration: underline;
+}
+
 .description {
     margin-top: 5px;
     margin-bottom: 12px;

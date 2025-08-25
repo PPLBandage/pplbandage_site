@@ -29,7 +29,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const skinViewRef = useRef<SkinViewer>(null!);
     const posRef = useRef<number | null>(0);
-    const intervalRef = useRef<number>(0);
+    const rafRef = useRef<number>(0);
     const [grabbed, setGrabbed] = useState<boolean>(false);
 
     const lastTimeGrabbed = useRef<number>(0);
@@ -50,7 +50,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
             if (window.innerWidth <= 850) {
                 skinViewRef.current?.dispose?.();
                 setInited(false);
-                cancelAnimationFrame(intervalRef.current);
+                cancelAnimationFrame(rafRef.current);
             } else if (!skinViewRef.current || skinViewRef.current.disposed) {
                 initSkinViewer();
             }
@@ -60,7 +60,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
 
         return () => {
             if (skinViewRef.current) skinViewRef.current.dispose();
-            cancelAnimationFrame(intervalRef.current);
+            cancelAnimationFrame(rafRef.current);
             window.removeEventListener('resize', checkMobile);
         };
     }, []);
@@ -85,14 +85,20 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
         skinViewRef.current.scene.position.x = 0.3;
         skinViewRef.current.scene.position.y = -1.5;
 
-        skinViewRef.current.animation = new AnimationController({
-            animation,
-            animationName: 'initial'
+        skinViewRef.current.loadSkin(SKIN ? SKIN : skin).then(() => {
+            skinViewRef.current.animation = new AnimationController({
+                animation,
+                animationName: 'initial'
+            });
+
+            setInited(true);
         });
 
-        skinViewRef.current.loadSkin(SKIN ? SKIN : skin).then(() => setInited(true));
-
         const checkLastGrabbed = () => {
+            if (initialReturningData.current.grabbed) {
+                lastTimeGrabbed.current = Date.now();
+            }
+
             if (initialReturningData.current.running) {
                 const st = initialReturningData.current.start_time;
                 const et = initialReturningData.current.start_time + 500;
@@ -119,7 +125,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
                 );
                 initialReturningData.current.start_time = Date.now();
             }
-            intervalRef.current = requestAnimationFrame(checkLastGrabbed);
+            rafRef.current = requestAnimationFrame(checkLastGrabbed);
         };
 
         requestAnimationFrame(checkLastGrabbed);
@@ -139,13 +145,12 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
                 x = evt.clientX - rect.left;
             }
 
-            if (!posRef.current) posRef.current = x;
+            if (posRef.current === null) posRef.current = x;
 
             skinViewRef.current.playerWrapper.rotation.y +=
                 (x - posRef.current) / 100;
 
             posRef.current = x;
-            lastTimeGrabbed.current = Date.now();
         };
 
         const onMouseUp = () => {

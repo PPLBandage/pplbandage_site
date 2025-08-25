@@ -23,7 +23,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
             `%cЧувак, ты думал тут что-то будет?\n` +
                 `Ооо... Нееет...\n` +
                 `Давай, закрывай консоль и продолжай пользоваться сайтом :pwgood3:`,
-            'font-size: 1.5rem;'
+            'font-size: 1.3rem;'
         );
     }, []);
 

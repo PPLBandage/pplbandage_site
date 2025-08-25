@@ -1,11 +1,6 @@
 .body {
-    margin: 0;
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
+    position: fixed;
+    inset: 0;
     color: var(--main-text-color);
     animation: Load .5s;
 }

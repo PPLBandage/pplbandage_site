@@ -108,7 +108,7 @@ export default function Home() {
                         <Select
                             options={anims}
                             defaultValue={anims[pose]}
-                            className={`react-select-container`}
+                            className="react-select-container"
                             classNamePrefix="react-select"
                             isSearchable={false}
                             onChange={n => setPose(n!.value)}

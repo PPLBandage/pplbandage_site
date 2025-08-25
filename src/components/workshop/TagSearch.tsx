@@ -90,7 +90,7 @@ const TagSearch = ({
         <Select
             options={searchOptions}
             defaultValue={defaultValue.map(tag => ({ label: tag, value: tag }))}
-            className={`react-select-container`}
+            className="react-select-container"
             classNamePrefix="react-select"
             instanceId="select-68"
             onInputChange={(value, action) => {

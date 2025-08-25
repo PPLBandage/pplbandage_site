@@ -106,7 +106,7 @@ const Moderation = ({ data }: { data: Bandage }) => {
             <p className={style.hl2}>Действие</p>
             <Select
                 options={actions}
-                className={`react-select-container`}
+                className="react-select-container"
                 classNamePrefix="react-select"
                 instanceId="select-69"
                 onChange={setAction}

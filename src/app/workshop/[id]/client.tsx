@@ -192,7 +192,7 @@ export default function Home({
                             <Select
                                 options={anims}
                                 defaultValue={anims[pose]}
-                                className={`react-select-container`}
+                                className="react-select-container"
                                 classNamePrefix="react-select"
                                 isSearchable={false}
                                 onChange={n => setPose(n!.value)}
@@ -293,7 +293,7 @@ export default function Home({
                                     <Select
                                         options={body_part}
                                         defaultValue={body_part[0]}
-                                        className={`react-select-container`}
+                                        className="react-select-container"
                                         classNamePrefix="react-select"
                                         isSearchable={false}
                                         instanceId="select-2"
@@ -306,7 +306,7 @@ export default function Home({
                                     <Select
                                         options={layers}
                                         defaultValue={layers[0]}
-                                        className={`react-select-container`}
+                                        className="react-select-container"
                                         classNamePrefix="react-select"
                                         isSearchable={false}
                                         instanceId="select-3"

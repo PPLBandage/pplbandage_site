@@ -121,7 +121,7 @@ const Searcher = ({ onChange }: SearchProps) => {
         <Select
             value={nickValue}
             options={nicknames}
-            className={`react-select-container`}
+            className="react-select-container"
             classNamePrefix="react-select"
             isSearchable={true}
             onInputChange={n => onInput(n)}

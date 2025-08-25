@@ -5,16 +5,59 @@ export interface Option {
 }
 
 export interface UserQuery {
+    /**
+     * Unique user identifier
+     */
     userID: string;
+
+    /**
+     * A unique login, used in URL, etc.
+     */
     username: string;
+
+    /**
+     * Displayed user name
+     */
     name: string;
+
+    /**
+     * Date. when user registered account
+     */
     joined_at: Date;
+
+    /**
+     * Hex color of user profile background
+     */
     banner_color: string;
+
+    /**
+     * Boolean value, that indicates that user has unreaded notification
+     * Automatically sets to `false`, when user queries their notifications
+     */
     has_unreaded_notifications: boolean;
+
+    /**
+     * Theme of profile
+     *
+     * 0 - Default
+     * 1 - Avatar as background
+     * 2 - Solid color fill (`banner_color` value)
+     */
     profile_theme: number;
+
+    /**
+     * Number of stars, that user has on their works
+     */
     stars_count: number;
+
+    /**
+     * User' subscribers count
+     */
     subscribers_count: number;
-    roles: Category[];
+
+    /**
+     * [admin-only] The latest access date of user' session
+     */
     last_accessed?: Date;
 }
 

@@ -62,7 +62,7 @@ const AvatarSelector = () => {
                     setSelected(evt);
                     await setUserSetting({ preferred_avatar: evt!.value });
                 }}
-                className={`react-select-container`}
+                className="react-select-container"
                 classNamePrefix="react-select"
                 isLoading={isLoading}
                 isSearchable={false}

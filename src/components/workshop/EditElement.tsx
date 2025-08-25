@@ -129,7 +129,7 @@ const EditElement = ({
             <Select
                 options={access_level}
                 defaultValue={access_level[bandage.access_level]}
-                className={`react-select-container`}
+                className="react-select-container"
                 classNamePrefix="react-select"
                 isSearchable={false}
                 instanceId="select-1"

@@ -26,7 +26,7 @@ export const Discord = () => {
 
 const Connected = ({ data }: { data: ConnectionsResponse }) => {
     return (
-        <>
+        <div className={Style.not_connected_text}>
             <div className={Style.discord_container}>
                 {data.discord && (
                     <Image
@@ -56,7 +56,7 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
                     </button>
                 </DisconnectHelper>
             </div>
-        </>
+        </div>
     );
 };
 

@@ -30,7 +30,7 @@ export const Google = () => {
 
 const Connected = ({ data }: { data: ConnectionsResponse }) => {
     return (
-        <>
+        <div className={Style.not_connected_text}>
             <div className={Style.discord_container}>
                 <Image
                     src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/avatars/${data.userID}/google`}
@@ -57,7 +57,7 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
                     </button>
                 </DisconnectHelper>
             </div>
-        </>
+        </div>
     );
 };
 

@@ -74,7 +74,7 @@ const disconnect = () => {
 
 const NotConnected = () => {
     return (
-        <div>
+        <div className={Style.not_connected_text}>
             <span>
                 Подключите свой Google-аккаунт, чтобы использовать вход через Google.
             </span>

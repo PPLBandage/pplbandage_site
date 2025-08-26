@@ -27,6 +27,13 @@
     align-items: stretch;
 }
 
+.not_connected_text {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
 .avatars_providers {
     display: flex;
     align-items: center;

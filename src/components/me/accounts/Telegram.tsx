@@ -71,7 +71,7 @@ const disconnect = () => {
 
 const NotConnected = () => {
     return (
-        <div>
+        <div className={Style.not_connected_text}>
             <span>
                 Подключите свой Telegram-аккаунт, чтобы использовать вход через
                 Telegram.

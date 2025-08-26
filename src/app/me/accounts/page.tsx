@@ -18,11 +18,13 @@ const Page = () => {
     if (isLoading || !data) return null;
     return (
         <div className={Style.main}>
-            <Google />
-            <Discord />
-            <Twitch />
+            <div className={Style.accounts_grid}>
+                <Google />
+                <Discord />
+                <Twitch />
+                <Telegram />
+            </div>
             <Minecraft />
-            <Telegram />
         </div>
     );
 };

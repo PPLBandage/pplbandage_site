@@ -208,7 +208,6 @@
 .round_container {
     border-radius: 10px;
     overflow: hidden;
-    border: 1px solid var(--main-element-color);
     box-sizing: border-box;
 }
 

@@ -6,6 +6,15 @@
     gap: 1rem;
 }
 
+.accounts_grid {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+    gap: 1rem;
+    justify-content: center;
+}
+
 .container {
     flex-direction: column;
     background-color: var(--main-card-color);

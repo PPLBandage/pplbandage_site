@@ -2,7 +2,7 @@ import { CSSProperties, JSX, useEffect, useRef, useState } from 'react';
 import { SkinViewer } from 'skinview3d';
 import styles from '@/styles/root/page.module.css';
 
-import animation from '@/resources/1model.animation.json';
+import animation from '@/resources/model.animation.json';
 import skin from '@/resources/skin.png';
 import { AnimationController } from './AnimationController';
 
@@ -66,6 +66,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
     }, []);
 
     const initSkinViewer = () => {
+        setInited(false);
         skinViewRef.current = new SkinViewer({
             canvas: canvasRef.current!,
             width: width || 400,
@@ -145,7 +146,7 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
                 x = evt.clientX - rect.left;
             }
 
-            if (posRef.current === null) posRef.current = x;
+            if (!posRef.current) posRef.current = x;
 
             skinViewRef.current.playerWrapper.rotation.y +=
                 (x - posRef.current) / 100;

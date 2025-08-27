@@ -227,6 +227,12 @@
     opacity: .5;
 }
 
+@media(max-width: 1150px) {
+    .image_container {
+        margin: 0;
+    }
+}
+
 @media(max-width: 850px) {
     .image_container {
         display: none;

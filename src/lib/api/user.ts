@@ -109,6 +109,7 @@ type UserSettings = {
     profile_theme?: number;
     minecraft_skin_autoload?: boolean;
     minecraft_nick_searchable?: boolean;
+    minecraft_main_page_skin?: boolean;
     public_profile?: boolean;
     preferred_avatar?: string;
     theme_color?: string;

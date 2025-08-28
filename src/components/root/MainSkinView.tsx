@@ -3,7 +3,6 @@ import { SkinViewer } from 'skinview3d';
 import styles from '@/styles/root/page.module.css';
 
 import animation from '@/resources/model.animation.json';
-import skin from '@/resources/skin.png';
 import { AnimationController } from './AnimationController';
 
 interface SkinView3DOptions {
@@ -24,7 +23,7 @@ function normalizeAngle(angle: number) {
     return a;
 }
 
-const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => {
+const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
     const [inited, setInited] = useState<boolean>(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const skinViewRef = useRef<SkinViewer>(null!);
@@ -79,6 +78,8 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
 
         skinViewRef.current.camera.fov = 70;
 
+        // Советую не менять эти параметры
+        // Они подобраны с участием тарологов
         skinViewRef.current.camera.position.x = 15.69;
         skinViewRef.current.camera.position.y = 18.09;
         skinViewRef.current.camera.position.z = 32.03;
@@ -86,7 +87,10 @@ const SkinRender = ({ SKIN, width, height }: SkinView3DOptions): JSX.Element => 
         skinViewRef.current.scene.position.x = 0.3;
         skinViewRef.current.scene.position.y = -1.5;
 
-        skinViewRef.current.loadSkin(SKIN ? SKIN : skin).then(() => {
+        //skinViewRef.current.cameraLight.intensity = 5000;
+        //skinViewRef.current.globalLight.intensity = 0.5;
+
+        skinViewRef.current.loadSkin('/api/v1/minecraft/main-page-skin').then(() => {
             skinViewRef.current.animation = new AnimationController({
                 animation,
                 animationName: 'initial'

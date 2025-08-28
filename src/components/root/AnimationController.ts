@@ -49,7 +49,7 @@ export class AnimationController extends SkinViewBlockbench {
     };
 
     scheduleAnimation() {
-        this.scheduled_iterations = randint(2, 4);
+        this.scheduled_iterations = randint(1, 4);
 
         let anim_choice = choice(this.action_animations);
         while (anim_choice === this.latest_scheduled_anim) {

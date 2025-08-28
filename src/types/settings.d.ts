@@ -34,6 +34,7 @@ interface ConnectionsResponse {
         last_cached: number;
         valid: boolean;
         autoload: boolean;
+        minecraft_main_page_skin: boolean;
     } | null;
     telegram: {
         id: string;

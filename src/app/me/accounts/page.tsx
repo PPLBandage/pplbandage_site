@@ -3,6 +3,7 @@
 import { Discord } from '@/components/me/accounts/Discord';
 import { Minecraft } from '@/components/me/accounts/Minecraft';
 import Style from '@/styles/me/connections.module.css';
+import style_sidebar from '@/styles/me/sidebar.module.css';
 import useSWR from 'swr';
 import { Google } from '@/components/me/accounts/Google';
 import { Twitch } from '@/components/me/accounts/Twitch';
@@ -17,7 +18,7 @@ const Page = () => {
 
     if (isLoading || !data) return null;
     return (
-        <div className={Style.main}>
+        <div className={`${Style.main} ${style_sidebar.hidable}`}>
             <div className={Style.accounts_grid}>
                 <Google />
                 <Discord />

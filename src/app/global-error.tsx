@@ -3,7 +3,7 @@
 import '@/styles/404/style.css';
 import style from '@/styles/404/page.module.css';
 import { IconReload } from '@tabler/icons-react';
-import themes from '@/app/themes';
+import themes from '@/constants/themes';
 import { CSSProperties, useEffect } from 'react';
 import { Inter } from 'next/font/google';
 import { usePathname } from 'next/navigation';

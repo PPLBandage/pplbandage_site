@@ -265,6 +265,7 @@
 
     .texts {
         max-width: none;
+        margin-top: 0;
     }
 
     .h1 {

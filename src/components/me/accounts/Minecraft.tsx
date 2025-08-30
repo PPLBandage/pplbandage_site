@@ -53,6 +53,22 @@ export const Minecraft = () => {
             </div>
             <div className={Style.checkboxes}>
                 <SlideButton
+                    label="Показывать скин на главной странице"
+                    defaultValue={data.minecraft.minecraft_main_page_skin}
+                    onChange={async state => {
+                        await setUserSetting({ minecraft_main_page_skin: state });
+                        mutate({
+                            ...data,
+                            minecraft: {
+                                ...data.minecraft!,
+                                minecraft_main_page_skin: state
+                            }
+                        });
+                    }}
+                    strict
+                    loadable
+                />
+                <SlideButton
                     label="Отображать ник в поиске"
                     defaultValue={data.minecraft.valid}
                     onChange={async state => {

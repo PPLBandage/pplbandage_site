@@ -1,7 +1,7 @@
 {
     "base": {
         "title": "Повязки Pepeland",
-        "description": "Повязки Пепеленда для всех! Хотите себе на скин модную повязку Pepeland? Тогда вам сюда!",
+        "description": "Огромная библиотека повязок Пепеленда",
         "manifest": "/static/manifest.webmanifest",
         "icons": {
             "icon": "/static/icons/icon.svg",

@@ -118,7 +118,6 @@
     gap: .5rem;
 }
 
-
 .render_footer {
     width: 100%;
     background-color: var(--main-card-color);
@@ -349,7 +348,6 @@
 .archiveButton:hover svg {
     transform: scale(1.05);
 }
-
 
 .bandage_raw_menu {
     position: absolute;

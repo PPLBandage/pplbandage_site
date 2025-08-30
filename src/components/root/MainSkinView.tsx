@@ -6,6 +6,8 @@ import animation from '@/resources/model.animation.json';
 import { AnimationController } from './AnimationController';
 import axios from 'axios';
 import { b64Prefix } from '@/lib/bandageEngine';
+import { minecraftMono } from '@/fonts/Minecraft';
+import { ModelType } from 'skinview-utils';
 
 interface SkinView3DOptions {
     style?: CSSProperties;
@@ -20,6 +22,12 @@ interface InitialReturningData {
     grabbed: boolean;
 }
 
+interface HitRef {
+    type: string;
+    x: number;
+    y: number;
+}
+
 function easeInOutSine(x: number): number {
     return -(Math.cos(Math.PI * x) - 1) / 2;
 }
@@ -32,21 +40,23 @@ function normalizeAngle(angle: number) {
 }
 
 const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
-    const [inited, setInited] = useState<boolean>(false);
+    const [nickname, setNickname] = useState<string>('empty');
     const [grabbed, setGrabbed] = useState<boolean>(false);
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    const skinViewRef = useRef<SkinViewer>(null!);
-    const animationRef = useRef<AnimationController>(null!);
-    const posRef = useRef<number | null>(0);
-    const rafRef = useRef<number>(0);
-    const hitTypeRef = useRef<string | null>(null);
-    const lastTimeGrabbed = useRef<number>(0);
+    const [inited, setInited] = useState<boolean>(false);
+
     const initialReturningData = useRef<InitialReturningData>({
         start_pos: 0,
         start_time: 0,
         running: false,
         grabbed: false
     });
+    const animationRef = useRef<AnimationController>(null!);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const hitTypeRef = useRef<HitRef | null>(null);
+    const skinViewRef = useRef<SkinViewer>(null!);
+    const lastTimeGrabbed = useRef<number>(0);
+    const posRef = useRef<number | null>(0);
+    const rafRef = useRef<number>(0);
 
     useEffect(() => {
         const checkMobile = () => {
@@ -76,14 +86,11 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
             height: height || 400
         });
 
-        skinViewRef.current.controls.enableZoom = false;
-        skinViewRef.current.controls.enableRotate = false;
-        skinViewRef.current.controls.enablePan = false;
-
+        skinViewRef.current.controls.enabled = false;
         skinViewRef.current.camera.fov = 70;
 
         // Советую не менять эти параметры
-        // Они подобраны с участием тарологов
+        // Они подобраны с участием тарологов (зефирки)
         skinViewRef.current.camera.position.x = 16.6;
         skinViewRef.current.camera.position.y = 20.65;
         skinViewRef.current.camera.position.z = 40.02;
@@ -98,17 +105,28 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
         // Просто потому что я могу
         (async () => {
             const res = await axios.get('/api/v1/minecraft/main-page-skin', {
-                responseType: 'arraybuffer'
+                responseType: 'arraybuffer',
+                validateStatus: () => true
             });
 
             let b64: string;
+            let type: ModelType | 'auto-detect' = 'auto-detect';
             if (res.status === 200) {
                 b64 = b64Prefix + Buffer.from(res.data).toString('base64');
+                setNickname(decodeURIComponent(res.headers['x-name']));
+                switch (res.headers['x-slim']) {
+                    case 'true':
+                        type = 'slim';
+                        break;
+                    case 'false':
+                        type = 'default';
+                        break;
+                }
             } else {
                 b64 = '/static/workshop_base.png';
             }
 
-            await skinViewRef.current.loadSkin(b64);
+            await skinViewRef.current.loadSkin(b64, { model: type });
         })().then(() => {
             animationRef.current = new AnimationController({
                 animation,
@@ -163,28 +181,42 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
 
             const rect = canvasRef.current.getBoundingClientRect();
             let x: number;
+            let mouse_x: number;
+            let mouse_y: number;
 
             if (evt instanceof TouchEvent) {
                 if (evt.touches.length === 0) return;
                 x = evt.touches[0].clientX - rect.left;
+                mouse_x = evt.touches[0].clientX;
+                mouse_y = evt.touches[0].clientY;
             } else {
                 x = evt.clientX - rect.left;
+                mouse_x = evt.clientX;
+                mouse_y = evt.clientY;
             }
 
             if (!posRef.current) posRef.current = x;
-
             skinViewRef.current.playerWrapper.rotation.y +=
                 (x - posRef.current) / 100;
 
             posRef.current = x;
-            hitTypeRef.current = null;
+
+            if (hitTypeRef.current) {
+                // Create mouse move window (20x20px), when hit is still counted
+                if (
+                    Math.abs(mouse_x - hitTypeRef.current.x) >= 10 ||
+                    Math.abs(mouse_y - hitTypeRef.current.y) >= 10
+                ) {
+                    hitTypeRef.current = null;
+                }
+            }
         };
 
         const onMouseUp = () => {
             setGrabbed(false);
             posRef.current = null;
             if (hitTypeRef.current) {
-                animationRef.current.handleClick(hitTypeRef.current);
+                animationRef.current.handleClick(hitTypeRef.current.type);
                 hitTypeRef.current = null;
             }
         };
@@ -215,15 +247,25 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
         if (!canvasRef.current) return;
 
         let y: number;
+        let mouse_x: number;
+        let mouse_y: number;
         const rect = canvasRef.current.getBoundingClientRect();
         if ('touches' in evt) {
             if (evt.touches.length === 0) return;
             y = evt.touches[0].clientY - rect.top;
+            mouse_x = evt.touches[0].clientX;
+            mouse_y = evt.touches[0].clientY;
         } else {
             y = evt.clientY - rect.top;
+            mouse_x = evt.clientX;
+            mouse_y = evt.clientY;
         }
 
-        hitTypeRef.current = y < 260 ? 'head' : 'body';
+        hitTypeRef.current = {
+            type: y < 260 * (rect.height / (height ?? 400)) ? 'head' : 'body',
+            x: mouse_x,
+            y: mouse_y
+        };
         setGrabbed(true);
     };
 
@@ -235,6 +277,11 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
                 opacity: inited ? '1' : '0'
             }}
         >
+            <div className={styles.nickname_container}>
+                <span className={styles.nickname} style={minecraftMono.style}>
+                    {nickname}
+                </span>
+            </div>
             <canvas
                 width={width}
                 height={height}

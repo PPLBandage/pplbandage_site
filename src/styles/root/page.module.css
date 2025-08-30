@@ -229,6 +229,28 @@
     opacity: .5;
 }
 
+.nickname_container {
+    position: absolute;
+    z-index: 6;
+    top: 1.8rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.nickname {
+    opacity: .8;
+    font-size: 1.6rem;
+    background-color: color-mix(in hsl, var(--main-element-color), transparent 10%);
+    padding: .2rem .5rem .3rem .5rem;
+    border-radius: 5px;
+
+    cursor: auto;
+    user-select: none;
+}
+
 @media(max-width: 1150px) {
     .image_container {
         margin: 0;

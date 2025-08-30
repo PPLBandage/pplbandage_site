@@ -84,8 +84,9 @@ export class AnimationController extends SkinViewBlockbench {
                 break;
         }
 
+        this.log(`Setting "${anim_name!}" animation on click event`);
         this.setAnimation(anim_name!);
-        this.speed = 1.5;
+        this.speed = 1.8;
     }
 
     log(message: string) {

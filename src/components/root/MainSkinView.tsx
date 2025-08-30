@@ -184,7 +184,7 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
             let mouse_x: number;
             let mouse_y: number;
 
-            if (evt instanceof TouchEvent) {
+            if ('touches' in evt) {
                 if (evt.touches.length === 0) return;
                 x = evt.touches[0].clientX - rect.left;
                 mouse_x = evt.touches[0].clientX;

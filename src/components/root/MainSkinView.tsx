@@ -3,7 +3,7 @@ import { SkinViewer } from 'skinview3d';
 import styles from '@/styles/root/page.module.css';
 
 import animation from '@/resources/model.animation.json';
-import { AnimationController } from './AnimationController';
+import { AnimationController } from '@/lib/root/AnimationController';
 import axios from 'axios';
 import { b64Prefix } from '@/lib/bandageEngine';
 import { minecraftMono } from '@/fonts/Minecraft';

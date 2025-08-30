@@ -39,7 +39,7 @@ const HomeClient = () => {
                             <Link href={'https://andcool.ru'}>AndcoolSystems</Link>
                         </p>
                     </div>
-                    <SkinRender width={400} height={545} />
+                    <SkinRender width={600} height={650} />
                 </div>
             </div>
             <footer className={styles.footer}>

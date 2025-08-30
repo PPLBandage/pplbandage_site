@@ -12,7 +12,8 @@ function choice<T>(arr: T[]): T {
 }
 
 export class AnimationController extends SkinViewBlockbench {
-    action_animations = ['hand_view', 'leg_view', 'side_view'];
+    action_animations = ['hand_view', 'leg_view', 'side_view', 'fly'];
+    interactive_animations = ['hit', 'bottom_hit'];
 
     latest_scheduled_anim = '';
     scheduled_animation = '';
@@ -35,6 +36,7 @@ export class AnimationController extends SkinViewBlockbench {
     };
 
     onFinish = () => {
+        this.speed = 1;
         if (this.animationName === 'initial') {
             this.log('Initial animation finished, setting "idle" animation');
 
@@ -42,7 +44,10 @@ export class AnimationController extends SkinViewBlockbench {
             this.scheduleAnimation();
         }
 
-        if (this.action_animations.includes(this.animationName)) {
+        if (
+            this.action_animations.includes(this.animationName) ||
+            this.interactive_animations.includes(this.animationName)
+        ) {
             this.setAnimation('idle');
             this.scheduleAnimation();
         }
@@ -52,7 +57,10 @@ export class AnimationController extends SkinViewBlockbench {
         this.scheduled_iterations = randint(1, 4);
 
         let anim_choice = choice(this.action_animations);
-        while (anim_choice === this.latest_scheduled_anim) {
+        while (
+            anim_choice === this.latest_scheduled_anim &&
+            this.action_animations.length > 1
+        ) {
             anim_choice = choice(this.action_animations);
         }
         this.scheduled_animation = anim_choice;
@@ -61,6 +69,23 @@ export class AnimationController extends SkinViewBlockbench {
         this.log(
             `Scheduled animation "${anim_choice}" in ${this.scheduled_iterations} iterations`
         );
+    }
+
+    handleClick(type: string) {
+        if (this.action_animations.includes(this.animationName)) return;
+
+        let anim_name: string;
+        switch (type) {
+            case 'head':
+                anim_name = 'hit';
+                break;
+            case 'body':
+                anim_name = 'bottom_hit';
+                break;
+        }
+
+        this.setAnimation(anim_name!);
+        this.speed = 1.5;
     }
 
     log(message: string) {

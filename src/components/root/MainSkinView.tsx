@@ -4,12 +4,20 @@ import styles from '@/styles/root/page.module.css';
 
 import animation from '@/resources/model.animation.json';
 import { AnimationController } from './AnimationController';
+import axios from 'axios';
+import { b64Prefix } from '@/lib/bandageEngine';
 
 interface SkinView3DOptions {
-    SKIN?: string;
     style?: CSSProperties;
     width?: number;
     height?: number;
+}
+
+interface InitialReturningData {
+    start_pos: number;
+    start_time: number;
+    running: boolean;
+    grabbed: boolean;
 }
 
 function easeInOutSine(x: number): number {
@@ -25,19 +33,15 @@ function normalizeAngle(angle: number) {
 
 const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
     const [inited, setInited] = useState<boolean>(false);
+    const [grabbed, setGrabbed] = useState<boolean>(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const skinViewRef = useRef<SkinViewer>(null!);
+    const animationRef = useRef<AnimationController>(null!);
     const posRef = useRef<number | null>(0);
     const rafRef = useRef<number>(0);
-    const [grabbed, setGrabbed] = useState<boolean>(false);
-
+    const hitTypeRef = useRef<string | null>(null);
     const lastTimeGrabbed = useRef<number>(0);
-    const initialReturningData = useRef<{
-        start_pos: number;
-        start_time: number;
-        running: boolean;
-        grabbed: boolean;
-    }>({
+    const initialReturningData = useRef<InitialReturningData>({
         start_pos: 0,
         start_time: 0,
         running: false,
@@ -80,21 +84,38 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
 
         // Советую не менять эти параметры
         // Они подобраны с участием тарологов
-        skinViewRef.current.camera.position.x = 15.69;
-        skinViewRef.current.camera.position.y = 18.09;
-        skinViewRef.current.camera.position.z = 32.03;
+        skinViewRef.current.camera.position.x = 16.6;
+        skinViewRef.current.camera.position.y = 20.65;
+        skinViewRef.current.camera.position.z = 40.02;
 
         skinViewRef.current.scene.position.x = 0.3;
         skinViewRef.current.scene.position.y = -1.5;
 
-        //skinViewRef.current.cameraLight.intensity = 5000;
-        //skinViewRef.current.globalLight.intensity = 0.5;
+        skinViewRef.current.cameraLight.intensity = 1400;
+        skinViewRef.current.globalLight.intensity = 1.9;
 
-        skinViewRef.current.loadSkin('/api/v1/minecraft/main-page-skin').then(() => {
-            skinViewRef.current.animation = new AnimationController({
-                animation,
-                animationName: 'initial'
+        // Да, чуваки, это асинхронный IIFE
+        // Просто потому что я могу
+        (async () => {
+            const res = await axios.get('/api/v1/minecraft/main-page-skin', {
+                responseType: 'arraybuffer'
             });
+
+            let b64: string;
+            if (res.status === 200) {
+                b64 = b64Prefix + Buffer.from(res.data).toString('base64');
+            } else {
+                b64 = '/static/workshop_base.png';
+            }
+
+            await skinViewRef.current.loadSkin(b64);
+        })().then(() => {
+            animationRef.current = new AnimationController({
+                animation,
+                animationName: 'initial',
+                connectCape: true
+            });
+            skinViewRef.current.animation = animationRef.current;
 
             setInited(true);
         });
@@ -156,11 +177,16 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
                 (x - posRef.current) / 100;
 
             posRef.current = x;
+            hitTypeRef.current = null;
         };
 
         const onMouseUp = () => {
             setGrabbed(false);
             posRef.current = null;
+            if (hitTypeRef.current) {
+                animationRef.current.handleClick(hitTypeRef.current);
+                hitTypeRef.current = null;
+            }
         };
 
         window.addEventListener('mousemove', onMouseMove);
@@ -181,6 +207,26 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
         };
     }, [grabbed]);
 
+    const handleClick = (
+        evt:
+            | React.MouseEvent<HTMLCanvasElement, MouseEvent>
+            | React.TouchEvent<HTMLCanvasElement>
+    ) => {
+        if (!canvasRef.current) return;
+
+        let y: number;
+        const rect = canvasRef.current.getBoundingClientRect();
+        if ('touches' in evt) {
+            if (evt.touches.length === 0) return;
+            y = evt.touches[0].clientY - rect.top;
+        } else {
+            y = evt.clientY - rect.top;
+        }
+
+        hitTypeRef.current = y < 260 ? 'head' : 'body';
+        setGrabbed(true);
+    };
+
     return (
         <div
             className={styles.image_container}
@@ -194,8 +240,8 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
                 height={height}
                 ref={canvasRef}
                 className={styles.skin_render}
-                onMouseDown={() => setGrabbed(true)}
-                onTouchStart={() => setGrabbed(true)}
+                onMouseDown={handleClick}
+                onTouchStart={handleClick}
             />
             <svg
                 width="250"

@@ -304,7 +304,7 @@ const Editor = ({
                     />
                 </>
             )}
-            <p style={{ margin: 0, color: '#dc2626' }}>{error}</p>
+            {error && <p style={{ margin: 0, color: '#dc2626' }}>{error}</p>}
             <input
                 maxLength={50}
                 id="title"
@@ -347,7 +347,7 @@ const Editor = ({
             <p style={{ margin: 0, marginTop: '.5rem' }}>Выберите теги</p>
             <TagSearch defaultValue={[]} onChange={setTags} />
 
-            <label style={{ margin: 0, color: '#dc2626' }}>{createError}</label>
+            {createError && <label style={{ margin: 0, color: '#dc2626' }}>{createError}</label>}
             <button onClick={create} className={style.skin_load}>
                 Создать
             </button>

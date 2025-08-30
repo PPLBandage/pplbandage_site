@@ -7,7 +7,8 @@ export const generatePath = (
         workshop: { name: 'Мастерская', url: '/workshop' },
         me: { name: 'Личный кабинет', url: '/me' },
         stars: { name: 'Избранное', url: '/me/stars' },
-        notifications: { name: 'Уведомления', url: '/me/notifications' }
+        notifications: { name: 'Уведомления', url: '/me/notifications' },
+        moderation: { name: 'Админ-панель', url: '/admin/moderation' }
     };
 
     const default_path = [

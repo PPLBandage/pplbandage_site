@@ -5,10 +5,10 @@ import {
     IconX
 } from '@tabler/icons-react';
 import useSWR, { mutate } from 'swr';
-import Image from 'next/image';
 import { formatDateHuman } from '@/lib/time';
 import DisconnectHelper from './DisconnectHelper';
 import { disconnectGoogle, getMeConnections } from '@/lib/api/connections';
+import { Avatar } from './Avatar';
 
 export const Google = () => {
     const { data, isLoading } = useSWR(
@@ -32,7 +32,7 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
     return (
         <div className={Style.not_connected_text}>
             <div className={Style.discord_container}>
-                <Image
+                <Avatar
                     src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/avatars/${data.userID}/google`}
                     alt="avatar"
                     width={64}

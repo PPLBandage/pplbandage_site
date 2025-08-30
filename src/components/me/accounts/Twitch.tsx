@@ -1,10 +1,10 @@
 import Style from '@/styles/me/connections.module.css';
 import { IconBrandTwitch, IconPlugConnected, IconX } from '@tabler/icons-react';
 import useSWR, { mutate } from 'swr';
-import Image from 'next/image';
 import { formatDateHuman } from '@/lib/time';
 import DisconnectHelper from './DisconnectHelper';
 import { disconnectTwitch, getMeConnections } from '@/lib/api/connections';
+import { Avatar } from './Avatar';
 
 export const Twitch = () => {
     const { data, isLoading } = useSWR(
@@ -28,12 +28,12 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
     return (
         <div className={Style.not_connected_text}>
             <div className={Style.discord_container}>
-                <Image
+                <Avatar
                     src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/avatars/${data.userID}/twitch`}
                     alt="avatar"
                     width={64}
                     height={64}
-                    style={{ borderRadius: '50%' }}
+                    style={{ borderRadius: '50%', width: '64px', height: '64px' }}
                 />
                 <div className={Style.discord_name_container}>
                     <h1>{data.twitch!.name}</h1>

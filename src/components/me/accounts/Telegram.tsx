@@ -4,7 +4,7 @@ import useSWR, { mutate } from 'swr';
 import { formatDateHuman } from '@/lib/time';
 import DisconnectHelper from './DisconnectHelper';
 import { disconnectTelegram, getMeConnections } from '@/lib/api/connections';
-import Image from 'next/image';
+import { Avatar } from './Avatar';
 
 export const Telegram = () => {
     const { data, isLoading } = useSWR(
@@ -28,7 +28,7 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
     return (
         <div className={Style.not_connected_text}>
             <div className={Style.discord_container}>
-                <Image
+                <Avatar
                     src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/avatars/${data.userID}/telegram`}
                     alt="avatar"
                     width={64}

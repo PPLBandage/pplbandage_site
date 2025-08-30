@@ -1,10 +1,10 @@
 import Style from '@/styles/me/connections.module.css';
 import { IconBrandDiscord, IconPlugConnected, IconX } from '@tabler/icons-react';
 import useSWR, { mutate } from 'swr';
-import Image from 'next/image';
 import { formatDateHuman } from '@/lib/time';
 import DisconnectHelper from './DisconnectHelper';
 import { disconnectDiscord, getMeConnections } from '@/lib/api/connections';
+import { Avatar } from './Avatar';
 
 export const Discord = () => {
     const { data, isLoading } = useSWR(
@@ -29,7 +29,7 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
         <div className={Style.not_connected_text}>
             <div className={Style.discord_container}>
                 {data.discord && (
-                    <Image
+                    <Avatar
                         src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/avatars/${data.userID}/discord`}
                         alt="avatar"
                         width={64}

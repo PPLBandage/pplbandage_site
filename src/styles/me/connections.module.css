@@ -156,6 +156,29 @@
     animation: loading infinite 1s reverse ease-in-out;
 }
 
+@keyframes plshdrs {
+
+    0%,
+    50%,
+    100% {
+        background-color: var(--main-element-color);
+    }
+
+    25%,
+    75% {
+        background-color: var(--main-card-color);
+    }
+}
+
+.placeholders {
+    animation: plshdrs 2s ease-in-out infinite;
+}
+
+.placeholders_out img {
+    opacity: 1;
+    transition: opacity 250ms;
+}
+
 @keyframes loading {
     0% {
         transform: rotate(0deg);

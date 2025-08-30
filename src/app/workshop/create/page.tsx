@@ -17,6 +17,7 @@ import SlideButton from '@/components/SlideButton';
 import { useNextCookie } from 'use-next-cookie';
 import TagSearch from '@/components/workshop/TagSearch';
 import { createBandage } from '@/lib/api/workshop';
+import Link from 'next/link';
 const fira = Fira_Code({ subsets: ['latin'] });
 
 const capitalize = (string: string) =>
@@ -341,6 +342,7 @@ const Editor = ({
                             Предпросмотр цвета
                         </label>
                     </div>
+                    <span>Подробнее об окрашиваемых повязках можно прочитать <Link href={"/blog/colorable"}>здесь</Link></span>
                 </InfoCard>
             )}
 

@@ -103,6 +103,7 @@ const TagSearch = ({
             isOptionDisabled={() => selectedTags.length >= 10}
             isMulti
             isSearchable
+            placeholder={"Теги не выбраны..."}
         />
     );
 };

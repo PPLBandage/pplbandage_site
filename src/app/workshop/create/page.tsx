@@ -305,7 +305,7 @@ const Editor = ({
                 </>
             )}
             <p style={{ margin: 0, color: '#dc2626' }}>{error}</p>
-            <textarea
+            <input
                 maxLength={50}
                 id="title"
                 placeholder="Заголовок"
@@ -319,6 +319,7 @@ const Editor = ({
                 maxLength={300}
                 placeholder="Описание"
                 className={style.textarea}
+                style={{minHeight: "2rem"}}
                 onInput={ev =>
                     setDescription(lstrip((ev.target as HTMLTextAreaElement).value))
                 }

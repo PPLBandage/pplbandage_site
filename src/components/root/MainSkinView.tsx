@@ -145,7 +145,7 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
 
             if (initialReturningData.current.running) {
                 const st = initialReturningData.current.start_time;
-                const et = initialReturningData.current.start_time + 500;
+                const et = st + 500;
                 const progress = (Date.now() - st) / (et - st);
 
                 if (progress >= 1) {

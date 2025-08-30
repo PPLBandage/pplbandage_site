@@ -37,14 +37,8 @@ export class AnimationController extends SkinViewBlockbench {
 
     onFinish = () => {
         this.speed = 1;
-        if (this.animationName === 'initial') {
-            this.log('Initial animation finished, setting "idle" animation');
-
-            this.setAnimation('idle');
-            this.scheduleAnimation();
-        }
-
         if (
+            this.animationName === 'initial' ||
             this.action_animations.includes(this.animationName) ||
             this.interactive_animations.includes(this.animationName)
         ) {
@@ -86,7 +80,7 @@ export class AnimationController extends SkinViewBlockbench {
 
         this.log(`Setting "${anim_name!}" animation on click event`);
         this.setAnimation(anim_name!);
-        this.speed = 1.8;
+        this.speed = 1.5;
     }
 
     log(message: string) {

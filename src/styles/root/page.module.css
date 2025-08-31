@@ -1,7 +1,6 @@
 .main_container {
     position: fixed;
     inset: 0;
-
     display: flex;
 
     margin-left: 2rem;
@@ -207,16 +206,15 @@
 }
 
 .footer {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
     justify-content: space-between;
     box-sizing: border-box;
 
-    width: calc(100% - 2rem);
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .footer p {
@@ -274,5 +272,11 @@
 
     .description {
         font-size: 1rem;
+    }
+}
+
+@media(max-height: 700px) and (min-width: 850px) {
+    .main_container {
+        position: relative;
     }
 }

@@ -11,7 +11,7 @@ import SkinRender from '@/components/root/MainSkinView';
 
 const HomeClient = () => {
     return (
-        <div>
+        <div style={{ overflowX: 'hidden' }}>
             <div className={styles.background} />
             <div
                 className={`${styles.background_icons} ${styles.background_icons_blur}`}
@@ -42,19 +42,6 @@ const HomeClient = () => {
                     <SkinRender width={600} height={650} />
                 </div>
             </div>
-            <footer className={styles.footer}>
-                <p>
-                    Сайт pplbandage.ru не является официальной частью сети серверов{' '}
-                    <Link href="https://pepeland.net" target="_blank">
-                        PepeLand
-                    </Link>
-                    .
-                    <Link href="/tutorials/rules#PP" style={{ marginLeft: '.5rem' }}>
-                        Privacy Policy
-                    </Link>
-                </p>
-                <IconCropped width={24} height={24} className={styles.logo} />
-            </footer>
         </div>
     );
 };

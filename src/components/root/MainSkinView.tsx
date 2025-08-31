@@ -3,7 +3,7 @@ import { SkinViewer } from 'skinview3d';
 import styles from '@/styles/root/page.module.css';
 
 import animation from '@/resources/model.animation.json';
-import { AnimationController } from './AnimationController';
+import { AnimationController } from '@/lib/root/AnimationController';
 import axios from 'axios';
 import { b64Prefix } from '@/lib/bandageEngine';
 import { minecraftMono } from '@/fonts/Minecraft';
@@ -61,6 +61,7 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
     useEffect(() => {
         const checkMobile = () => {
             if (window.innerWidth <= 850) {
+                if (skinViewRef.current?.disposed) return;
                 skinViewRef.current?.dispose?.();
                 setInited(false);
                 cancelAnimationFrame(rafRef.current);
@@ -145,7 +146,7 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
 
             if (initialReturningData.current.running) {
                 const st = initialReturningData.current.start_time;
-                const et = initialReturningData.current.start_time + 500;
+                const et = st + 500;
                 const progress = (Date.now() - st) / (et - st);
 
                 if (progress >= 1) {

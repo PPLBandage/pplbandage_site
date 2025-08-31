@@ -11,6 +11,7 @@ import { IconAddressBook, IconBrandGithub, IconPalette } from '@tabler/icons-rea
 
 import IconPepe from '@/resources/icon.svg';
 import { StaticTooltip } from './Tooltip';
+import { MainPageFooter } from './MainPageFooter';
 
 const getYearByTimeZone = (timeZone: string) => {
     return new Intl.DateTimeFormat('en-US', {
@@ -39,7 +40,7 @@ const Footer = () => {
         setTheme(themesKeys[theme]);
     }, [theme]);
 
-    if (path === '/') return null;
+    if (path === '/') return <MainPageFooter />;
 
     return (
         <footer className={style.footer}>

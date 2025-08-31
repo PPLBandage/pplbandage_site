@@ -11,7 +11,7 @@ import SkinRender from '@/components/root/MainSkinView';
 
 const HomeClient = () => {
     return (
-        <div style={{ overflowX: 'hidden' }}>
+        <div>
             <div className={styles.background} />
             <div
                 className={`${styles.background_icons} ${styles.background_icons_blur}`}

@@ -8,6 +8,7 @@ import { useNextCookie } from 'use-next-cookie';
 import { stringTimeDelta } from '@/lib/time';
 import { deleteCookie, setCookie } from 'cookies-next';
 import axios from 'axios';
+import SlideButton from '@/components/SlideButton';
 
 export const Feedback_client = ({
     feedback_available
@@ -25,7 +26,9 @@ export const Feedback_client = ({
 };
 
 const Available = () => {
+    const logged = !!useNextCookie('sessionId');
     const [content, setContent] = useState<string>('');
+    const [anonym, setAnonym] = useState<boolean>(true);
 
     const send = async () => {
         if (content.length === 0) return;
@@ -33,7 +36,8 @@ const Available = () => {
         const response = await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}feedback`,
             {
-                content
+                content,
+                anonym
             },
             { validateStatus: () => true }
         );
@@ -48,9 +52,7 @@ const Available = () => {
             setCookie('feedback_retry', new Date().getTime() + retry);
             setCookie('feedback_error', 'true');
         } else {
-            alert(
-                `Ой! Произошла непредвиденная ошибка! Код: ${response.status}`
-            );
+            alert(`Ой! Произошла непредвиденная ошибка! Код: ${response.status}`);
         }
     };
 
@@ -62,9 +64,8 @@ const Available = () => {
                     <h3>Оставить фидбек</h3>
                 </div>
                 <p>
-                    Поделитесь анонимным отзывом о сайте — нам важно ваше
-                    мнение. Предложения, замечания и найденные баги помогут нам
-                    стать лучше!
+                    Поделитесь своим отзывом о сайте — нам важно ваше мнение.
+                    Предложения, замечания и найденные баги помогут нам стать лучше!
                 </p>
             </div>
 
@@ -74,6 +75,13 @@ const Available = () => {
                 onChange={e => setContent(e.target.value)}
                 maxLength={1500}
             />
+            {logged && (
+                <SlideButton
+                    label="Отправить анонимно"
+                    defaultValue={anonym}
+                    onChange={setAnonym}
+                />
+            )}
             <button className={style.send} onClick={send}>
                 Отправить
             </button>
@@ -109,9 +117,7 @@ const Unavailable = () => {
         return () => clearInterval(interval);
     }, [feedback_retry]);
 
-    const image_url = feedback_error
-        ? '/static/sadge.png'
-        : '/static/peepoLove.png';
+    const image_url = feedback_error ? '/static/sadge.png' : '/static/peepoLove.png';
 
     const head_text = feedback_error
         ? 'Ой, что-то пошло не так'

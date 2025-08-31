@@ -81,9 +81,8 @@ jobs:
                   sshpass -e ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << 'EOF'
                     set -e
                     cd /home/andcoolsystems/pplbandage_site
-                    git fetch
-                    git stash
-                    git merge '@{u}'
+                    git fetch origin
+                    git reset --hard origin/master
                     chmod +x production_build/update_hash.sh
                     ./production_build/update_hash.sh NEXT_PUBLIC_COMMIT_SHA ${{ github.sha }}
                     docker compose build

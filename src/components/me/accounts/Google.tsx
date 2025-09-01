@@ -37,7 +37,7 @@ const Connected = ({ data }: { data: ConnectionsResponse }) => {
                     alt="avatar"
                     width={64}
                     height={64}
-                    style={{ borderRadius: '50%' }}
+                    style={{ borderRadius: '50%', width: '64px', height: '64px' }}
                 />
                 <div className={Style.discord_name_container}>
                     <h1>{data.google!.name}</h1>

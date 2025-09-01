@@ -120,7 +120,8 @@ const AccountDeletionDialog = ({
                             />
                         </div>
                         <p className={style_base.instruct_connect}>
-                            Это действие имеет необратимый характер!
+                            Это действие необратимо и удалит все ваши повязки, лайки
+                            и сам аккаунт!
                         </p>
                         <p className={style.code_container}>
                             Для продолжения введите `<b>{confirm_code}</b>` ниже:

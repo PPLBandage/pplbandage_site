@@ -9,9 +9,10 @@ export const Avatar = (props: ImageProps) => {
     const [error, setError] = useState<boolean>(false);
     return (
         <div
-            className={`${styles.placeholders} ${
-                !loading && styles.placeholders_out
-            }`}
+            className={
+                `${loading && styles.placeholders}` +
+                `${!loading && styles.placeholders_out}`
+            }
             style={props.style}
         >
             {!error && (

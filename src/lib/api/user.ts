@@ -169,3 +169,11 @@ export const unsubscribeFrom = async (username: string): Promise<number> => {
         })
     ).data.count;
 };
+
+/** Delete user account */
+export const deleteAccount = async (): Promise<void> => {
+    await doRequest({
+        url: `/users/@me/delete`,
+        method: 'DELETE'
+    });
+};

@@ -195,7 +195,6 @@ const Editor = ({
         if (title_el) {
             title_el.style.borderColor = '';
         }
-        return;
     }, [title]);
 
     useEffect(() => {

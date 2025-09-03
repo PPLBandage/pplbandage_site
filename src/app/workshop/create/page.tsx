@@ -17,6 +17,7 @@ import SlideButton from '@/components/SlideButton';
 import { useNextCookie } from 'use-next-cookie';
 import TagSearch from '@/components/workshop/TagSearch';
 import { createBandage } from '@/lib/api/workshop';
+import Link from 'next/link';
 const fira = Fira_Code({ subsets: ['latin'] });
 
 const capitalize = (string: string) =>
@@ -349,6 +350,10 @@ const Editor = ({
             <button onClick={create} className={style.skin_load}>
                 Создать
             </button>
+            <span style={{ opacity: 0.5, fontStyle: 'italic', fontSize: '.9rem' }}>
+                Создавая повязку Вы подтверждаете, что она не нарушает{' '}
+                <Link href="/tos">правила сайта</Link>
+            </span>
         </div>
     );
 };

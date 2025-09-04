@@ -10,6 +10,7 @@ import {
     NextAnchor,
     Note,
     SImage,
+    SVideo,
     Tip,
     Warn
 } from '@/components/blog/page/Blocks';
@@ -99,7 +100,8 @@ const Post = async ({ params }: { params: Promise<{ slug: string }> }) => {
                         a: NextAnchor,
                         Emote,
                         code: Code,
-                        img: SImage
+                        img: SImage,
+                        video: SVideo
                     }}
                 />
             </div>

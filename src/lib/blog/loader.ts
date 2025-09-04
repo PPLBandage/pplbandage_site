@@ -21,7 +21,7 @@ const commonProps = ['key', 'children'];
 const allowedProps: { [key: string]: string[] } = {
     a: ['href', 'target'].concat(commonProps),
     img: ['src'].concat(commonProps),
-    video: ['src', 'type', 'width'].concat(commonProps),
+    video: ['src', 'type', 'width', 'controls'].concat(commonProps),
     Emote: ['name'].concat(commonProps)
 };
 

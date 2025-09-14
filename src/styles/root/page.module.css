@@ -186,6 +186,10 @@
     margin: 0;
     font-size: .8rem;
     font-weight: 300;
+
+    display: flex;
+    gap: .4rem;
+    align-items: center;
 }
 
 .by_andcool svg {

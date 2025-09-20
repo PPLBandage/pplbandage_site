@@ -40,7 +40,7 @@ function normalizeAngle(angle: number) {
 }
 
 const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
-    const [nickname, setNickname] = useState<string>('empty');
+    const [nickname, setNickname] = useState<string>('Unknown');
     const [grabbed, setGrabbed] = useState<boolean>(false);
     const [inited, setInited] = useState<boolean>(false);
 

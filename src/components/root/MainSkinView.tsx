@@ -91,7 +91,7 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
         skinViewRef.current.camera.fov = 70;
 
         // Советую не менять эти параметры
-        // Они подобраны с участием тарологов (зефирки)
+        // Они подобраны с участием тарологов
         skinViewRef.current.camera.position.x = 16.6;
         skinViewRef.current.camera.position.y = 20.65;
         skinViewRef.current.camera.position.z = 40.02;

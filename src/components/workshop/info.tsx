@@ -38,7 +38,9 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
                     <TextFormatter text={el.description} />
                 </p>
             )}
-            <div className={style.tags_container}>{tags}</div>
+            {el.tags.length !== 0 && (
+                <div className={style.tags_container}>{tags}</div>
+            )}
             <span className={style.author_cont}>
                 <AuthorLink author={el.author} />
                 <span style={{ opacity: '.8' }}>•</span>

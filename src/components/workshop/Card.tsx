@@ -105,6 +105,9 @@ export const Card = ({
     base64: string;
     className?: { readonly [key: string]: string };
 }) => {
+    if (el.tags.includes('Официальные'))
+        el.tags = ['Официальные', ...el.tags.filter(el => el !== 'Официальные')];
+
     const tagsEl = el.tags.map(tag => <TagElement title={tag} key={tag} />);
 
     return (

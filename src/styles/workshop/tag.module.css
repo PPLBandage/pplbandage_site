@@ -6,10 +6,31 @@
     flex-grow: 0;
     flex-shrink: 0;
     transition: border .15s;
+
+    --official-color: #fdc700;
 }
 
 .container p {
     margin: 0;
     font-size: .9rem;
     color: var(--main-text-color);
+}
+
+.official {
+    background-color: color-mix(in srgb, var(--official-color), var(--main-element-color) 80%);
+    border-color: color-mix(in srgb, var(--official-color), var(--main-element-color) 20%);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .4rem;
+}
+
+.official p {
+    color: var(--official-color)
+}
+
+.official svg {
+    width: auto;
+    height: 1em;
 }

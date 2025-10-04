@@ -36,9 +36,9 @@ const processEmotes = (input: string) => {
         if (part.startsWith(':') && part.endsWith(':')) {
             const name = part.replaceAll(':', '').toLowerCase();
 
-            result.push(<Emote key={`emoji-${key_i}`} name={name} />);
+            result.push(<Emote key={`emoji-${key_i}-${input}`} name={name} />);
         } else {
-            result.push(<span key={key_i}>{part}</span>);
+            result.push(<span key={`key-${key_i}-${input}`}>{part}</span>);
         }
         key_i++;
     }

@@ -4,7 +4,7 @@ import { setTheme } from '@/lib/setTheme';
 import style from '@/styles/footer.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import themes from '@/constants/themes';
 import { useCookiesServer } from 'use-next-cookie';
 import { IconAddressBook, IconBrandGithub, IconPalette } from '@tabler/icons-react';
@@ -12,6 +12,7 @@ import { IconAddressBook, IconBrandGithub, IconPalette } from '@tabler/icons-rea
 import IconPepe from '@/resources/icon.svg';
 import { StaticTooltip } from './Tooltip';
 import { MainPageFooter } from './MainPageFooter';
+import { flushSync } from 'react-dom';
 
 const getYearByTimeZone = (timeZone: string) => {
     return new Intl.DateTimeFormat('en-US', {
@@ -31,14 +32,36 @@ const Footer = () => {
         initialThemeIndex !== -1 ? initialThemeIndex : 0
     );
 
-    useEffect(() => {
-        if (theme > themesKeys.length - 1) {
-            setTheme_(0);
+    const toggleTheme = useCallback(async (x: number, y: number, theme: string) => {
+        if (!('startViewTransition' in document)) {
+            setTheme(theme);
             return;
         }
 
-        setTheme(themesKeys[theme]);
-    }, [theme]);
+        await document.startViewTransition(() => {
+            flushSync(() => {
+                setTheme(theme);
+            });
+        }).ready;
+
+        const maxRadius = Math.hypot(
+            Math.max(x, window.innerWidth - x),
+            Math.max(y, window.innerHeight - y)
+        );
+        document.documentElement.animate(
+            {
+                clipPath: [
+                    `circle(0px at ${x}px ${y}px)`,
+                    `circle(${maxRadius}px at ${x}px ${y}px)`
+                ]
+            },
+            {
+                duration: 500,
+                easing: 'ease-in-out',
+                pseudoElement: '::view-transition-new(root)'
+            }
+        );
+    }, []);
 
     if (path === '/') return <MainPageFooter />;
 
@@ -76,7 +99,13 @@ const Footer = () => {
                     <hr />
                     <button
                         className={style.theme_switcher}
-                        onClick={() => setTheme_(prev => prev + 1)}
+                        onClick={e => {
+                            let _theme = theme + 1;
+                            if (_theme > themesKeys.length - 1) _theme = 0;
+
+                            setTheme_(_theme);
+                            toggleTheme(e.clientX, e.clientY, themesKeys[_theme]);
+                        }}
                     >
                         <StaticTooltip title="Сменить тему">
                             <IconPalette />

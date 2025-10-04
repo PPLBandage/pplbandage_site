@@ -1,10 +1,10 @@
 'use client';
 
-import { setTheme } from '@/lib/setTheme';
+import { setTheme, toggleTheme } from '@/lib/setTheme';
 import style from '@/styles/footer.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import themes from '@/constants/themes';
 import { useCookiesServer } from 'use-next-cookie';
 import { IconAddressBook, IconBrandGithub, IconPalette } from '@tabler/icons-react';
@@ -12,7 +12,6 @@ import { IconAddressBook, IconBrandGithub, IconPalette } from '@tabler/icons-rea
 import IconPepe from '@/resources/icon.svg';
 import { StaticTooltip } from './Tooltip';
 import { MainPageFooter } from './MainPageFooter';
-import { flushSync } from 'react-dom';
 
 const getYearByTimeZone = (timeZone: string) => {
     return new Intl.DateTimeFormat('en-US', {
@@ -31,37 +30,6 @@ const Footer = () => {
     const [theme, setTheme_] = useState<number>(
         initialThemeIndex !== -1 ? initialThemeIndex : 0
     );
-
-    const toggleTheme = useCallback(async (x: number, y: number, theme: string) => {
-        if (!('startViewTransition' in document)) {
-            setTheme(theme);
-            return;
-        }
-
-        await document.startViewTransition(() => {
-            flushSync(() => {
-                setTheme(theme);
-            });
-        }).ready;
-
-        const maxRadius = Math.hypot(
-            Math.max(x, window.innerWidth - x),
-            Math.max(y, window.innerHeight - y)
-        );
-        document.documentElement.animate(
-            {
-                clipPath: [
-                    `circle(0px at ${x}px ${y}px)`,
-                    `circle(${maxRadius}px at ${x}px ${y}px)`
-                ]
-            },
-            {
-                duration: 500,
-                easing: 'ease-in-out',
-                pseudoElement: '::view-transition-new(root)'
-            }
-        );
-    }, []);
 
     if (path === '/') return <MainPageFooter />;
 
@@ -99,12 +67,21 @@ const Footer = () => {
                     <hr />
                     <button
                         className={style.theme_switcher}
-                        onClick={e => {
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                             let _theme = theme + 1;
                             if (_theme > themesKeys.length - 1) _theme = 0;
 
                             setTheme_(_theme);
-                            toggleTheme(e.clientX, e.clientY, themesKeys[_theme]);
+
+                            const { top, left, width, height } = (
+                                e.target as HTMLButtonElement
+                            ).getBoundingClientRect();
+                            toggleTheme(
+                                left + width / 2,
+                                top + height / 2,
+                                themesKeys[_theme],
+                                setTheme
+                            );
                         }}
                     >
                         <StaticTooltip title="Сменить тему">

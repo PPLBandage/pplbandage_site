@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNextCookie } from 'use-next-cookie';
-import { setTheme } from '@/lib/setTheme';
+import { setTheme, toggleTheme } from '@/lib/setTheme';
 import Style from '@/styles/me/connections.module.css';
 import themes from '@/constants/themes';
 import { IconPalette } from '@tabler/icons-react';
 import Style_themes from '@/styles/me/themes.module.css';
-import { flushSync } from 'react-dom';
 
 export const Themes = () => {
     const themeCookie = useNextCookie('theme_main', 1000);
@@ -61,47 +60,28 @@ const Theme = ({
     theme: string;
     onChange(val: string): void;
 }) => {
-    const changeTheme = (name: string) => {
-        setTheme(name);
-        onChange(name);
-    };
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    const toggleTheme = useCallback(async (x: number, y: number) => {
-        if (!('startViewTransition' in document)) {
-            changeTheme(data.name);
-            return;
-        }
+    const changeTheme = () => {
+        if (!inputRef.current) return;
+        if (theme === data.name) return;
 
-        await document.startViewTransition(() => {
-            flushSync(() => {
-                changeTheme(data.name);
-            });
-        }).ready;
-
-        const maxRadius = Math.hypot(
-            Math.max(x, window.innerWidth - x),
-            Math.max(y, window.innerHeight - y)
-        );
-        document.documentElement.animate(
-            {
-                clipPath: [
-                    `circle(0px at ${x}px ${y}px)`,
-                    `circle(${maxRadius}px at ${x}px ${y}px)`
-                ]
-            },
-            {
-                duration: 500,
-                easing: 'ease-in-out',
-                pseudoElement: '::view-transition-new(root)'
+        const { left, top, width, height } =
+            inputRef.current.getBoundingClientRect();
+        toggleTheme(
+            left + width / 2,
+            top + height / 2,
+            data.name,
+            (name: string) => {
+                setTheme(name);
+                onChange(name);
             }
         );
-    }, []);
+    };
 
     return (
         <div
-            onClick={evt => {
-                toggleTheme(evt.clientX, evt.clientY);
-            }}
+            onClick={changeTheme}
             style={{ cursor: 'pointer' }}
             className={Style_themes.clickable}
         >
@@ -136,6 +116,7 @@ const Theme = ({
             </div>
             <div className={Style_themes.footer}>
                 <input
+                    ref={inputRef}
                     type="radio"
                     name="theme"
                     id={data.name}
@@ -143,7 +124,7 @@ const Theme = ({
                     onChange={() => {}}
                     onClick={e => {
                         e.stopPropagation();
-                        toggleTheme(e.clientX, e.clientY);
+                        changeTheme();
                     }}
                 />
                 <label htmlFor={data.name} onClick={e => e.stopPropagation()}>

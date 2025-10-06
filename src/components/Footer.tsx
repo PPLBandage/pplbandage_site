@@ -1,10 +1,10 @@
 'use client';
 
-import { setTheme } from '@/lib/setTheme';
+import { setTheme, toggleTheme } from '@/lib/setTheme';
 import style from '@/styles/footer.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import themes from '@/constants/themes';
 import { useCookiesServer } from 'use-next-cookie';
 import { IconAddressBook, IconBrandGithub, IconPalette } from '@tabler/icons-react';
@@ -30,15 +30,6 @@ const Footer = () => {
     const [theme, setTheme_] = useState<number>(
         initialThemeIndex !== -1 ? initialThemeIndex : 0
     );
-
-    useEffect(() => {
-        if (theme > themesKeys.length - 1) {
-            setTheme_(0);
-            return;
-        }
-
-        setTheme(themesKeys[theme]);
-    }, [theme]);
 
     if (path === '/') return <MainPageFooter />;
 
@@ -76,7 +67,22 @@ const Footer = () => {
                     <hr />
                     <button
                         className={style.theme_switcher}
-                        onClick={() => setTheme_(prev => prev + 1)}
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                            let _theme = theme + 1;
+                            if (_theme > themesKeys.length - 1) _theme = 0;
+
+                            setTheme_(_theme);
+
+                            const { top, left, width, height } = (
+                                e.target as HTMLButtonElement
+                            ).getBoundingClientRect();
+                            toggleTheme(
+                                left + width / 2,
+                                top + height / 2,
+                                themesKeys[_theme],
+                                setTheme
+                            );
+                        }}
                     >
                         <StaticTooltip title="Сменить тему">
                             <IconPalette />

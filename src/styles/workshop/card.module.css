@@ -84,6 +84,7 @@
 .tags {
     display: flex;
     flex-wrap: nowrap;
+    align-items: center;
     overflow: hidden;
     gap: 4px;
 

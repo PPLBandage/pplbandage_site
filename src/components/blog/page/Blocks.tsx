@@ -98,3 +98,11 @@ export const SImage = ({ children, ...props }: { children: JSX.Element }) => {
         </img>
     );
 };
+
+export const SVideo = ({ children, ...props }: { children: JSX.Element }) => {
+    return (
+        <video style={{ maxWidth: '100%' }} {...props} controls>
+            {children}
+        </video>
+    );
+};

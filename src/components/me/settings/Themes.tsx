@@ -1,6 +1,6 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNextCookie } from 'use-next-cookie';
-import { setTheme } from '@/lib/setTheme';
+import { setTheme, toggleTheme } from '@/lib/setTheme';
 import Style from '@/styles/me/connections.module.css';
 import themes from '@/constants/themes';
 import { IconPalette } from '@tabler/icons-react';
@@ -14,7 +14,6 @@ export const Themes = () => {
 
     const change_theme = (name: string) => {
         setThemeState(name);
-        setTheme(name);
     };
 
     const themesEl = Object.entries(themes).map(entry => (
@@ -61,14 +60,28 @@ const Theme = ({
     theme: string;
     onChange(val: string): void;
 }) => {
-    const change = (evt: ChangeEvent) => {
-        const target = evt.target as HTMLInputElement;
-        if (target.checked) onChange(data.name);
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const changeTheme = () => {
+        if (!inputRef.current) return;
+        if (theme === data.name) return;
+
+        const { left, top, width, height } =
+            inputRef.current.getBoundingClientRect();
+        toggleTheme(
+            left + width / 2,
+            top + height / 2,
+            data.name,
+            (name: string) => {
+                setTheme(name);
+                onChange(name);
+            }
+        );
     };
 
     return (
         <div
-            onClick={() => onChange(data.name)}
+            onClick={changeTheme}
             style={{ cursor: 'pointer' }}
             className={Style_themes.clickable}
         >
@@ -103,13 +116,20 @@ const Theme = ({
             </div>
             <div className={Style_themes.footer}>
                 <input
+                    ref={inputRef}
                     type="radio"
                     name="theme"
                     id={data.name}
                     checked={theme === data.name}
-                    onChange={change}
+                    onChange={() => {}}
+                    onClick={e => {
+                        e.stopPropagation();
+                        changeTheme();
+                    }}
                 />
-                <label htmlFor={data.name}>{data.title}</label>
+                <label htmlFor={data.name} onClick={e => e.stopPropagation()}>
+                    {data.title}
+                </label>
             </div>
         </div>
     );

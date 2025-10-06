@@ -16,6 +16,9 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
         setDate(formatDate(new Date(el.creation_date)));
     }, []);
 
+    if (el.tags.includes('Официальные'))
+        el.tags = ['Официальные', ...el.tags.filter(el => el !== 'Официальные')];
+
     const tags = el.tags.map((tag, index) => <TagElement key={index} title={tag} />);
     return (
         <div className={style.info_container}>
@@ -38,7 +41,9 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
                     <TextFormatter text={el.description} />
                 </p>
             )}
-            <div className={style.tags_container}>{tags}</div>
+            {el.tags.length !== 0 && (
+                <div className={style.tags_container}>{tags}</div>
+            )}
             <span className={style.author_cont}>
                 <AuthorLink author={el.author} />
                 <span style={{ opacity: '.8' }}>•</span>

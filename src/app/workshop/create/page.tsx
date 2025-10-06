@@ -196,7 +196,6 @@ const Editor = ({
         if (title_el) {
             title_el.style.borderColor = '';
         }
-        return;
     }, [title]);
 
     useEffect(() => {
@@ -353,6 +352,10 @@ const Editor = ({
             <button onClick={create} className={style.skin_load}>
                 Создать
             </button>
+            <span style={{ opacity: 0.5, fontStyle: 'italic', fontSize: '.9rem' }}>
+                Создавая повязку Вы подтверждаете, что она не нарушает{' '}
+                <Link href="/tos">правила сайта</Link>
+            </span>
         </div>
     );
 };

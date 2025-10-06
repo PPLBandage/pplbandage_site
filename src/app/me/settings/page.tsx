@@ -7,6 +7,7 @@ import { UserSettings } from '@/components/me/settings/UserSettings';
 import { Safety } from '@/components/me/settings/Safety';
 import useSWR from 'swr';
 import { getMeSettings } from '@/lib/api/user';
+import AccountDeletion from '@/components/me/settings/DeleteAccount';
 
 const Page = () => {
     const { data, isLoading } = useSWR(
@@ -20,6 +21,7 @@ const Page = () => {
             <UserSettings />
             <Themes />
             <Safety />
+            <AccountDeletion />
         </div>
     );
 };

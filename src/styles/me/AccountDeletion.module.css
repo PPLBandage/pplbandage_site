@@ -1,0 +1,68 @@
+.code_container {
+    margin: 0;
+    user-select: none;
+    margin-top: .5rem;
+}
+
+.button {
+    color: var(--main-text-color);
+    background-color: var(--main-card-color);
+    border-radius: 10px;
+    border: 1px var(--main-element-color) solid;
+    height: 2.4rem;
+    box-sizing: border-box;
+    cursor: auto;
+    transition: background-color 250ms, border 150ms;
+    font-weight: 600;
+    font-family: inherit;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.available {
+    cursor: pointer;
+}
+
+.available:hover {
+    background-color: #ED4245;
+}
+
+.delete_background {
+    background: linear-gradient(180deg, #fd2d3114 0%, #b51e20b3 100%);
+}
+
+.open_button {
+    background-color: var(--main-card-color);
+    border: 1px var(--main-element-color) solid;
+    border-radius: 10px;
+    height: 2.4rem;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+
+    transition: background-color 150ms;
+}
+
+.open_button:hover {
+    background-color: var(--main-element-color);
+}
+
+.danger_zone {
+    border: #ED4245 1px solid;
+}
+
+.peepo {
+    border-radius: 0 !important;
+    position: absolute;
+    top: -90px;
+    left: 2rem;
+
+    z-index: -1;
+}

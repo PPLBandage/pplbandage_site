@@ -1,9 +1,8 @@
 import Style from '@/styles/info.module.css';
-import { CSSProperties, JSX } from 'react';
+import { CSSProperties, JSX, PropsWithChildren } from 'react';
 
-interface InfoCardProps {
+interface InfoCardProps extends PropsWithChildren {
     title: JSX.Element | string;
-    children: JSX.Element | string;
     style?: CSSProperties;
     color?: string;
 }

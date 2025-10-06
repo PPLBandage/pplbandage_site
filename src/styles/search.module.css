@@ -47,6 +47,7 @@
     overflow: visible;
     outline: none;
     transition: border .15s;
+    font-weight: 600;
 }
 
 .search:focus {

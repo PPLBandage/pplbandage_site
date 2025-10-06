@@ -341,7 +341,7 @@ const Editor = ({
                             Предпросмотр цвета
                         </label>
                     </div>
-                    <span>Подробнее об окрашиваемых повязках можно прочитать <Link href={"/blog/colorable"}>здесь</Link></span>
+                    <span>Подробнее об окрашиваемых повязках можно прочитать <CustomLink href={"/blog/colorable"}>здесь</CustomLink></span>
                 </InfoCard>
             )}
 

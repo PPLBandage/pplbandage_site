@@ -40,7 +40,7 @@ export const Search = () => {
                                 }
                             }}
                             className={Styles.search}
-                            placeholder="Введите название/автора/id"
+                            placeholder="Поиск по названию/автору/id"
                             defaultValue={search}
                         />
                         <div

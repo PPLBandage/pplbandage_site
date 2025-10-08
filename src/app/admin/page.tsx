@@ -15,8 +15,9 @@ const Admin = () => {
     const superAdmin = access.includes(5);
     const updateUsers = superAdmin || access.includes(3);
     const manageBandages = superAdmin || access.includes(1);
+    const manageKV = superAdmin || access.includes(6);
 
-    if (!updateUsers && !manageBandages) {
+    if (!updateUsers && !manageBandages && !manageKV) {
         notFound();
     }
     return (
@@ -40,7 +41,7 @@ const Admin = () => {
                         Модерация
                     </Link>
                 )}
-                {superAdmin && (
+                {manageKV && (
                     <Link href="/admin/kv" className={style_root.root_button}>
                         <IconKey />
                         KV База данных

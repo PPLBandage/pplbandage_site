@@ -179,7 +179,7 @@ const Page = () => {
     }
 
     const superAdmin = access.includes(5);
-    if (!superAdmin) {
+    if (!superAdmin && !access.includes(6)) {
         notFound();
     }
 

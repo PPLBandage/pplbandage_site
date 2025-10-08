@@ -6,6 +6,7 @@ import { b64Prefix, fillPepe } from '@/lib/bandageEngine';
 import { JSX } from 'react';
 // import { rgbToHex } from './colorUtils';
 import { idbGet, idbSet } from './stores/idb';
+import { sha256 } from 'js-sha256';
 
 const randint = (min: number, max: number): number => {
     return Math.random() * (max - min) + min;
@@ -62,7 +63,8 @@ export const render = (
 ): Promise<JSX.Element[]> =>
     Promise.all(
         data.map(async el => {
-            let base64 = await idbGet('skins', `skin-forward:${el.external_id}`);
+            const hash = sha256(el.base64);
+            let base64 = await idbGet('skins', `skin-forward:${hash}`);
 
             if (!base64) {
                 const colorable = el.flags & 1;
@@ -92,7 +94,7 @@ export const render = (
                 */
 
                 base64 = skinViewer.canvas.toDataURL();
-                void idbSet('skins', `skin-forward:${el.external_id}`, base64);
+                void idbSet('skins', `skin-forward:${hash}`, base64);
             }
 
             return <Card el={el} base64={base64} key={el.id} className={styles} />;

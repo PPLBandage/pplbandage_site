@@ -4,7 +4,8 @@ import { SkinViewer } from 'skinview3d';
 import asyncImage from '@/lib/asyncImage';
 import { b64Prefix, fillPepe } from '@/lib/bandageEngine';
 import { JSX } from 'react';
-import { rgbToHex } from './colorUtils';
+// import { rgbToHex } from './colorUtils';
+import { idbGet, idbSet } from './stores/idb';
 
 const randint = (min: number, max: number): number => {
     return Math.random() * (max - min) + min;
@@ -61,34 +62,40 @@ export const render = (
 ): Promise<JSX.Element[]> =>
     Promise.all(
         data.map(async el => {
-            const colorable = el.flags & 1;
-            const random_color = [randint(0, 255), randint(0, 255), randint(0, 255)];
+            let base64 = await idbGet('skins', `skin-forward:${el.external_id}`);
 
-            const result = await generateSkin(
-                el.base64,
-                base_skin,
-                colorable ? random_color : undefined
-            );
+            if (!base64) {
+                const colorable = el.flags & 1;
+                const random_color = [
+                    randint(0, 255),
+                    randint(0, 255),
+                    randint(0, 255)
+                ];
 
-            skinViewer.loadSkin(result, { model: 'default' });
-            skinViewer.render();
-
-            if (colorable) {
-                el.accent_color = rgbToHex(
-                    ~~random_color[0],
-                    ~~random_color[1],
-                    ~~random_color[2]
+                const result = await generateSkin(
+                    el.base64,
+                    base_skin,
+                    colorable ? random_color : undefined
                 );
+
+                skinViewer.loadSkin(result, { model: 'default' });
+                skinViewer.render();
+
+                /* TODO: Make this cachy))
+                if (colorable) {
+                    el.accent_color = rgbToHex(
+                        ~~random_color[0],
+                        ~~random_color[1],
+                        ~~random_color[2]
+                    );
+                }
+                */
+
+                base64 = skinViewer.canvas.toDataURL();
+                void idbSet('skins', `skin-forward:${el.external_id}`, base64);
             }
 
-            return (
-                <Card
-                    el={el}
-                    base64={skinViewer.canvas.toDataURL()}
-                    key={el.id}
-                    className={styles}
-                />
-            );
+            return <Card el={el} base64={base64} key={el.id} className={styles} />;
         })
     );
 

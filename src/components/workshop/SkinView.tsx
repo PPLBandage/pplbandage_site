@@ -1,5 +1,6 @@
 import { CSSProperties, JSX, useEffect, useRef } from 'react';
 import {
+    IdleAnimation,
     PlayerAnimation,
     PlayerObject,
     SkinViewer,
@@ -50,7 +51,7 @@ const SkinView3D = ({
     const setPose = (pose: number) => {
         switch (pose) {
             case 0:
-                skinViewRef.current.animation = null;
+                skinViewRef.current.animation = new IdleAnimation();
                 break;
             case 1:
                 skinViewRef.current.animation = new WalkingAnimation();
@@ -72,16 +73,12 @@ const SkinView3D = ({
 
         if (pose !== undefined) setPose(pose);
         skinViewRef.current.controls.enablePan = true;
-        skinViewRef.current.fov = 90;
+        skinViewRef.current.fov = 70;
         skinViewRef.current.globalLight.intensity = 2.5;
         skinViewRef.current.camera.zoom = 0.9;
 
-        skinViewRef.current.camera.rotation.x = -0.36;
-        skinViewRef.current.camera.rotation.y = 0.73;
-        skinViewRef.current.camera.rotation.z = 0.24;
-        skinViewRef.current.camera.position.x = 14.6;
-        skinViewRef.current.camera.position.y = 7;
-        skinViewRef.current.camera.position.z = 15;
+        skinViewRef.current.camera.position.set(15.63, 7.76, 20.66);
+        skinViewRef.current.controls.target.set(0, -0.37, 0);
 
         skinViewRef.current.scene.position.y = -2.5;
         if (background) skinViewRef.current.loadBackground(background);
@@ -99,6 +96,15 @@ const SkinView3D = ({
         });
 
         resizeObserver.observe(document.getElementById(id) as HTMLDivElement);
+
+        /*
+        setInterval(() => {
+            console.log(
+                skinViewRef.current.camera.position,
+                skinViewRef.current.controls.target
+            );
+        }, 100);
+        */
 
         return () => {
             if (skinViewRef.current) skinViewRef.current.dispose();

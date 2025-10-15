@@ -15,7 +15,13 @@ import NavigatorEl from '@/components/workshop/Navigator';
 import { anims } from '@/lib/poses';
 import asyncImage from '@/lib/asyncImage';
 
-import { IconDownload, IconPlus } from '@tabler/icons-react';
+import {
+    IconArrowsVertical,
+    IconDownload,
+    IconEyeCog,
+    IconHelpCircleFilled,
+    IconPlus
+} from '@tabler/icons-react';
 import Slider from '@/components/workshop/Slider';
 import SlideButton from '@/components/SlideButton';
 import SkinLoad from '@/components/workshop/SkinLoad';
@@ -27,6 +33,7 @@ import { getRandomColor, rgbToHex } from '@/lib/colorUtils';
 import { generatePath } from '@/lib/workshopPath';
 import StarElement from '@/components/workshop/Star';
 import Info from '@/components/workshop/info';
+import { StaticTooltip } from '@/components/Tooltip';
 
 const body_part: readonly { value: number; label: string }[] = [
     { value: 0, label: 'Левая рука' },
@@ -227,39 +234,104 @@ export default function Home({
                         )}
                         <hr />
                         <div className={style.parameters_cont}>
-                            {client.current?.colorable && (
-                                <div className={style.colorable_cont}>
-                                    <button
-                                        onClick={adjustColor}
-                                        className={style.adjust_color}
-                                    >
-                                        Подобрать цвет
-                                    </button>
-                                    <div className={style.colorable_selector_cont}>
-                                        <input
-                                            type="color"
-                                            id="color_select"
-                                            defaultValue={randomColor}
-                                            onInput={debouncedHandleColorChange}
-                                            style={{ cursor: 'pointer' }}
-                                        />
-                                        <p className={style.colorable_p}>
-                                            Выберите цвет
-                                        </p>
+                            <div className={style.parameters}>
+                                <h3>
+                                    <IconArrowsVertical />
+                                    Расположение
+                                </h3>
+                                <div className={style.parameters_pos_body}>
+                                    <span className={style.bandage_height_span}>
+                                        Высота повязки
+                                    </span>
+                                    <Slider
+                                        initial={rangeProps.value}
+                                        range={rangeProps.max}
+                                        onChange={val =>
+                                            client.current?.setParams({
+                                                position: val
+                                            })
+                                        }
+                                    />
+                                    <hr />
+                                    <div className={style.parameters_pos_selects}>
+                                        <div
+                                            className={
+                                                style.parameters_pos_selects_container
+                                            }
+                                        >
+                                            <span>Часть тела</span>
+                                            <Select
+                                                options={body_part}
+                                                defaultValue={body_part[0]}
+                                                className="react-select-container"
+                                                classNamePrefix="react-select"
+                                                isSearchable={false}
+                                                instanceId="select-2"
+                                                onChange={n =>
+                                                    client.current?.setParams({
+                                                        body_part: n!.value
+                                                    })
+                                                }
+                                            />
+                                        </div>
+
+                                        <div
+                                            className={
+                                                style.parameters_pos_selects_container
+                                            }
+                                        >
+                                            <span>Расположение на слоях</span>
+                                            <Select
+                                                options={layers}
+                                                defaultValue={layers[0]}
+                                                className="react-select-container"
+                                                classNamePrefix="react-select"
+                                                isSearchable={false}
+                                                instanceId="select-3"
+                                                onChange={n =>
+                                                    client.current?.setParams({
+                                                        layers: n!.value
+                                                    })
+                                                }
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-                            )}
-                            <div className={style.settings_slider}>
-                                <Slider
-                                    initial={rangeProps.value}
-                                    range={rangeProps.max}
-                                    onChange={val =>
-                                        client.current?.setParams({
-                                            position: val
-                                        })
-                                    }
-                                />
-                                <div className={style.settings_slider_1}>
+                            </div>
+                            <div className={style.parameters}>
+                                <h3>
+                                    <IconEyeCog />
+                                    Отображение
+                                </h3>
+                                <div className={style.parameters_view_body}>
+                                    {client.current?.colorable && (
+                                        <div className={style.colorable_cont}>
+                                            <button
+                                                onClick={adjustColor}
+                                                className={style.adjust_color}
+                                            >
+                                                Подобрать цвет
+                                            </button>
+                                            <div
+                                                className={
+                                                    style.colorable_selector_cont
+                                                }
+                                            >
+                                                <input
+                                                    type="color"
+                                                    id="color_select"
+                                                    defaultValue={randomColor}
+                                                    onInput={
+                                                        debouncedHandleColorChange
+                                                    }
+                                                    style={{ cursor: 'pointer' }}
+                                                />
+                                                <p className={style.colorable_p}>
+                                                    Выберите цвет
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
                                     <SlideButton
                                         onChange={val =>
                                             client.current?.setParams({
@@ -280,42 +352,28 @@ export default function Home({
                                         label="Второй слой"
                                     />
 
-                                    <SlideButton
-                                        onChange={val =>
-                                            client.current?.setParams({
-                                                clear_pix: val
-                                            })
-                                        }
-                                        defaultValue={true}
-                                        label="Очищать пиксели на втором слое"
-                                    />
-
-                                    <Select
-                                        options={body_part}
-                                        defaultValue={body_part[0]}
-                                        className="react-select-container"
-                                        classNamePrefix="react-select"
-                                        isSearchable={false}
-                                        instanceId="select-2"
-                                        onChange={n =>
-                                            client.current?.setParams({
-                                                body_part: n!.value
-                                            })
-                                        }
-                                    />
-                                    <Select
-                                        options={layers}
-                                        defaultValue={layers[0]}
-                                        className="react-select-container"
-                                        classNamePrefix="react-select"
-                                        isSearchable={false}
-                                        instanceId="select-3"
-                                        onChange={n =>
-                                            client.current?.setParams({
-                                                layers: n!.value
-                                            })
-                                        }
-                                    />
+                                    <div className={style.clear_pixels_cont}>
+                                        <SlideButton
+                                            onChange={val =>
+                                                client.current?.setParams({
+                                                    clear_pix: val
+                                                })
+                                            }
+                                            defaultValue={true}
+                                            label="Очищать пиксели на втором слое"
+                                        />
+                                        <StaticTooltip
+                                            title="Если на месте повязки на втором слое скина есть непрозрачные пиксели, они будут удалены"
+                                            container_styles={{ display: 'flex' }}
+                                            tooltip_styles={{ minWidth: '13rem' }}
+                                        >
+                                            <IconHelpCircleFilled
+                                                width={16}
+                                                height={16}
+                                                opacity={0.6}
+                                            />
+                                        </StaticTooltip>
+                                    </div>
                                 </div>
                             </div>
                         </div>

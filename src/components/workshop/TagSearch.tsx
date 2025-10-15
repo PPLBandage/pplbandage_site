@@ -21,6 +21,7 @@ const TagSearch = ({
         (OptionSingle | GroupBase<OptionSingle>)[]
     >([]);
     const [selectedTags, setSelectedTags] = useState<string[]>(defaultValue);
+    const [inputValue, setInputValue] = useState<string>('');
     const abortController = useRef<AbortController>(null);
     const tagsCache = useRef<Record<string, string[]>>({});
 
@@ -96,14 +97,16 @@ const TagSearch = ({
             onInputChange={(value, action) => {
                 if (action.action === 'input-change') {
                     debouncedFetch(value);
+                    setInputValue(value.slice(0, 20));
                 }
             }}
+            inputValue={inputValue}
             onMenuOpen={debouncedFetch}
             onChange={evt => setSelectedTags(evt.map(tag => tag.value))}
             isOptionDisabled={() => selectedTags.length >= 10}
             isMulti
             isSearchable
-            placeholder={"Теги не выбраны..."}
+            placeholder={'Теги не выбраны...'}
         />
     );
 };

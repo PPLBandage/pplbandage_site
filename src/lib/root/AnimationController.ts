@@ -12,6 +12,7 @@ function choice<T>(arr: T[]): T {
 }
 
 export class AnimationController extends SkinViewBlockbench {
+    initial_animations = ['initial'];
     action_animations = ['hand_view', 'leg_view', 'side_view', 'fly'];
     interactive_animations = ['hit', 'bottom_hit'];
 
@@ -38,7 +39,7 @@ export class AnimationController extends SkinViewBlockbench {
     onFinish = () => {
         this.speed = 1;
         if (
-            this.animationName === 'initial' ||
+            this.initial_animations.includes(this.animationName) ||
             this.action_animations.includes(this.animationName) ||
             this.interactive_animations.includes(this.animationName)
         ) {
@@ -66,7 +67,11 @@ export class AnimationController extends SkinViewBlockbench {
     }
 
     handleClick(type: string) {
-        if (this.action_animations.includes(this.animationName)) return;
+        if (
+            this.initial_animations.includes(this.animationName) ||
+            this.action_animations.includes(this.animationName)
+        )
+            return;
 
         let anim_name: string;
         switch (type) {

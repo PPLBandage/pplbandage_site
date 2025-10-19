@@ -6,13 +6,8 @@
 
     padding-right: 2rem;
     padding-left: 2rem;
-    
-    font-weight: 300;
 }
 
-.main b {
-    font-weight: 500;
-}
 
 .back_to_blog {
     display: flex;

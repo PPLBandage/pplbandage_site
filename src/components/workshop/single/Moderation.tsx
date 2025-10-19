@@ -7,6 +7,7 @@ import {
 } from '@tabler/icons-react';
 import { TextFormatter } from '../TextFormatter';
 import InfoCard from '../../InfoCard';
+import Link from 'next/link';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ModerationType = { [key: string]: any };
@@ -43,7 +44,10 @@ const Moderation = ({ moderation }: { moderation: Bandage['moderation'] }) => {
                 {icon[moderation.type]} {head[moderation.type]}
             </span>
             <span className={styles.issuer}>
-                {issuer_title[moderation.type]} {moderation.issuer.name}
+                {issuer_title[moderation.type]}{' '}
+                <Link href={`/users/${moderation.issuer.username}`}>
+                    {moderation.issuer.name}
+                </Link>
             </span>
         </h1>
     );

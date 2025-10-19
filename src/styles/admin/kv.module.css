@@ -1,0 +1,62 @@
+.table {
+    margin-top: 1rem;
+
+    min-width: 50%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border: 1px solid var(--hr-color);
+    padding: 10px;
+    text-align: left;
+}
+
+.table th {
+    background-color: var(--main-card-color);
+    font-weight: bold;
+}
+
+.table tr:nth-child(even) {
+    background-color: var(--main-element-color);
+}
+
+.table tr:nth-child(odd) {
+    background-color: var(--main-card-color);
+}
+
+.td_with_input {
+    padding: 0 !important;
+}
+
+.table input {
+    border: none;
+    background-color: transparent;
+
+    height: 100%;
+    padding: 10px;
+}
+
+.table input:is(:-webkit-autofill, :autofill) {
+    background-color: transparent !important;
+}
+
+.td_button {
+    background-color: transparent;
+    border: none;
+}
+
+
+.td_button svg {
+    transition: filter 150ms;
+    cursor: pointer;
+}
+
+.td_button:disabled svg {
+    filter: brightness(.8);
+    cursor: not-allowed;
+}
+
+.td_button:enabled svg:hover {
+    filter: brightness(.8);
+}

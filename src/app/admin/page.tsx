@@ -3,7 +3,7 @@
 import style_root from '@/styles/admin/page.module.css';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { IconCircleDashedCheck, IconUser } from '@tabler/icons-react';
+import { IconCircleDashedCheck, IconKey, IconUser } from '@tabler/icons-react';
 import useAccess from '@/lib/useAccess';
 
 const Admin = () => {
@@ -15,8 +15,9 @@ const Admin = () => {
     const superAdmin = access.includes(5);
     const updateUsers = superAdmin || access.includes(3);
     const manageBandages = superAdmin || access.includes(1);
+    const manageKV = superAdmin || access.includes(6);
 
-    if (!updateUsers && !manageBandages) {
+    if (!updateUsers && !manageBandages && !manageKV) {
         notFound();
     }
     return (
@@ -26,10 +27,7 @@ const Admin = () => {
                 style={{ alignItems: 'flex-start', gap: '1rem' }}
             >
                 {updateUsers && (
-                    <Link
-                        href="/admin/users"
-                        className={style_root.root_button}
-                    >
+                    <Link href="/admin/users" className={style_root.root_button}>
                         <IconUser />
                         Пользователи
                     </Link>
@@ -41,6 +39,12 @@ const Admin = () => {
                     >
                         <IconCircleDashedCheck />
                         Модерация
+                    </Link>
+                )}
+                {manageKV && (
+                    <Link href="/admin/kv" className={style_root.root_button}>
+                        <IconKey />
+                        KV База данных
                     </Link>
                 )}
             </div>

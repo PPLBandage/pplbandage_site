@@ -7,6 +7,7 @@
 }
 
 .track {
+    position: relative;
     width: 0.5rem;
     border-radius: 5px;
     border: 1px var(--main-element-color) solid;
@@ -34,4 +35,25 @@
 
 .thumb:active {
     cursor: grabbing;
+}
+
+.notches_cont {
+    position: absolute;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+
+    top: 0;
+    left: calc(0.25rem - 15.px);
+}
+
+.notches_cont hr {
+    width: 4px;
+    height: 2px;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--main-element-color);
+    margin: 0;
 }

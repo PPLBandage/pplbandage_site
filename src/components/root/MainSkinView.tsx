@@ -1,5 +1,6 @@
-import { CSSProperties, JSX, useEffect, useRef, useState } from 'react';
+import { JSX, useEffect, useRef, useState } from 'react';
 import { SkinViewer } from 'skinview3d';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import styles from '@/styles/root/page.module.css';
 
 import animation from '@/resources/model.animation.json';
@@ -8,25 +9,9 @@ import axios from 'axios';
 import { b64Prefix } from '@/lib/bandageEngine';
 import { minecraftMono } from '@/fonts/Minecraft';
 import { ModelType } from 'skinview-utils';
-
-interface SkinView3DOptions {
-    style?: CSSProperties;
-    width?: number;
-    height?: number;
-}
-
-interface InitialReturningData {
-    start_pos: number;
-    start_time: number;
-    running: boolean;
-    grabbed: boolean;
-}
-
-interface HitRef {
-    type: string;
-    x: number;
-    y: number;
-}
+import { getCurrentEvent } from '@/lib/root/events';
+import { degToRad } from 'three/src/math/MathUtils.js';
+import { Object3D, Plane, Vector3 } from 'three';
 
 function easeInOutSine(x: number): number {
     return -(Math.cos(Math.PI * x) - 1) / 2;
@@ -72,6 +57,15 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
         checkMobile();
         window.addEventListener('resize', checkMobile);
 
+        /*
+        setInterval(() => {
+            console.log(
+                skinViewRef.current.camera.position,
+                skinViewRef.current.controls.target
+            );
+        }, 150);
+        */
+
         return () => {
             if (skinViewRef.current) skinViewRef.current.dispose();
             cancelAnimationFrame(rafRef.current);
@@ -88,23 +82,43 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
         });
 
         skinViewRef.current.controls.enabled = false;
+        //skinViewRef.current.controls.enablePan = true;
         skinViewRef.current.camera.fov = 70;
 
         // Советую не менять эти параметры
         // Они подобраны с участием тарологов
-        skinViewRef.current.camera.position.x = 16.6;
-        skinViewRef.current.camera.position.y = 20.65;
-        skinViewRef.current.camera.position.z = 40.02;
+        skinViewRef.current.camera.position.set(24.55, 20.85, 57.84);
+        skinViewRef.current.controls.target.set(-0.69, 3.91, -3.61);
 
-        skinViewRef.current.scene.position.x = 0.3;
+        skinViewRef.current.scene.position.x = 0.8;
         skinViewRef.current.scene.position.y = -1.5;
 
         skinViewRef.current.cameraLight.intensity = 1400;
-        skinViewRef.current.globalLight.intensity = 1.9;
+        skinViewRef.current.globalLight.intensity = 2.2;
 
-        // Да, чуваки, это асинхронный IIFE
-        // Просто потому что я могу
-        (async () => {
+        // Отсечение модели ниже земли
+        const clipPlane = new Plane(new Vector3(0, 1, 0), 17.5);
+        skinViewRef.current.renderer.clippingPlanes = [clipPlane];
+        skinViewRef.current.renderer.localClippingEnabled = true;
+
+        const loadData = async () => {
+            // Загрузить текущее событие и шапку для него
+            const event = getCurrentEvent();
+            if (event) {
+                const gltf = await new GLTFLoader().loadAsync(event.gltf);
+                const hat = gltf.scene;
+
+                type ParamsArr = [number, number, number];
+                hat.scale.set(...(event.scale as ParamsArr));
+                hat.position.set(...(event.position as ParamsArr));
+                hat.rotation.set(...(event.rotation.map(degToRad) as ParamsArr));
+
+                const bodyPart = skinViewRef.current.playerObject.skin[
+                    event.body_part as keyof typeof skinViewRef.current.playerObject.skin
+                ] as Object3D;
+                bodyPart.add(hat);
+            }
+
             const res = await axios.get('/api/v1/minecraft/main-page-skin', {
                 responseType: 'arraybuffer',
                 validateStatus: () => true
@@ -127,17 +141,22 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
                 b64 = '/static/workshop_base.png';
             }
 
-            await skinViewRef.current.loadSkin(b64, { model: type });
-        })().then(() => {
+            await skinViewRef.current.loadSkin(b64, {
+                model: type
+            });
+
             animationRef.current = new AnimationController({
                 animation,
-                animationName: 'initial',
+                animationName:
+                    event?.name === 'halloween' ? 'initial_halloween' : 'initial',
                 connectCape: true
             });
             skinViewRef.current.animation = animationRef.current;
 
             setInited(true);
-        });
+        };
+
+        void loadData();
 
         const checkLastGrabbed = () => {
             if (initialReturningData.current.grabbed) {
@@ -263,7 +282,7 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
         }
 
         hitTypeRef.current = {
-            type: y < 260 * (rect.height / (height ?? 400)) ? 'head' : 'body',
+            type: y < 470 * (rect.height / (height ?? 400)) ? 'head' : 'body',
             x: mouse_x,
             y: mouse_y
         };

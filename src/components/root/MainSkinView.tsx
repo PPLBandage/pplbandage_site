@@ -9,7 +9,7 @@ import axios from 'axios';
 import { b64Prefix } from '@/lib/bandageEngine';
 import { minecraftMono } from '@/fonts/Minecraft';
 import { ModelType } from 'skinview-utils';
-import { getCurrentEvent } from '@/lib/root/events';
+import { getCurrentEvent, Vector3Array } from '@/lib/root/events';
 import { degToRad } from 'three/src/math/MathUtils.js';
 import { Object3D, Plane, Vector3 } from 'three';
 
@@ -110,7 +110,7 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
 
                 hat.scale.set(...event.scale);
                 hat.position.set(...event.position);
-                hat.rotation.set(...event.rotation.map(degToRad));
+                hat.rotation.set(...event.rotation.map(degToRad) as Vector3Array);
 
                 const bodyPart = skinViewRef.current.playerObject.skin[event.bodyPart] as Object3D;
                 bodyPart.add(hat);

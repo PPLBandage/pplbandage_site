@@ -9,7 +9,7 @@ const parseWithoutYear = (s: string, baseYear: number) => {
     return new Date(baseYear, Number(month) - 1, Number(day), h, m, sec);
 };
 
-type Vector3Array = [number, number, number];
+export type Vector3Array = [number, number, number];
 
 type Event = {
     name: string,

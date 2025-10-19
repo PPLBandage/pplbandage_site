@@ -1,7 +1,6 @@
 {
-    "12-30T00:00:00&01-03T00:00:00": {
-        "name": "christmas",
-        "force": false,
+    "christmas": {
+        "time_period": "12-30T00:00:00&01-03T00:00:00",
         "gltf": "/static/gltf/santa_hat.gltf",
         "body_part": "head",
         "position": [
@@ -20,9 +19,8 @@
             18.5
         ]
     },
-    "07-09T00:00:00&07-09T23:59:59": {
-        "name": "birthday",
-        "force": false,
+    "birthday": {
+        "time_period": "07-09T00:00:00&07-09T23:59:59",
         "gltf": "/static/gltf/party_hat.gltf",
         "body_part": "head",
         "position": [
@@ -41,9 +39,8 @@
             20
         ]
     },
-    "03-01T00:00:00&03-01T23:59:59": {
-        "name": "april",
-        "force": false,
+    "april_fools": {
+        "time_period": "03-01T00:00:00&03-01T23:59:59",
         "gltf": "/static/gltf/clown_hair.gltf",
         "body_part": "head",
         "position": [
@@ -62,10 +59,11 @@
             16
         ]
     },
-    "10-31T00:00:00&10-31T23:59:59": {
-        "name": "halloween",
-        "force": false,
+    "halloween": {
+        "time_period": "10-31T00:00:00&10-31T23:59:59",
         "gltf": "/static/gltf/pump.gltf",
+        "initial_animation": "initial_halloween",
+        "force": true,
         "body_part": "head",
         "position": [
             8,

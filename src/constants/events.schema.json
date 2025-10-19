@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "patternProperties": {
+    "^\\S+$": {
+      "type": "object",
+      "properties": {
+        "time_period": {
+          "type": "string",
+          "pattern": "^\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d&\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d$"
+        },
+        "initial_animation": {"type": "string"},
+        "force": {"type": "boolean"},
+        "gltf": {
+          "type": "string",
+          "pattern": "^\\S*\\.gltf$"
+        },
+        "body_part": {
+          "type": "string",
+          "enum": ["head", "body", "leftLeg", "leftArm", "rightLeg", "rightArm", "torso"]
+        },
+        "position": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minLength": 3,
+          "maxLength": 3
+        },
+        "rotation": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minLength": 3,
+          "maxLength": 3
+        },
+        "scale": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minLength": 3,
+          "maxLength": 3
+        }
+      },
+      "required": ["time_period", "gltf", "body_part", "position", "rotation", "scale"]
+    }
+  }
+}

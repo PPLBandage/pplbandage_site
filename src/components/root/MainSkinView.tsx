@@ -108,14 +108,11 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
                 const gltf = await new GLTFLoader().loadAsync(event.gltf);
                 const hat = gltf.scene;
 
-                type ParamsArr = [number, number, number];
-                hat.scale.set(...(event.scale as ParamsArr));
-                hat.position.set(...(event.position as ParamsArr));
-                hat.rotation.set(...(event.rotation.map(degToRad) as ParamsArr));
+                hat.scale.set(...event.scale);
+                hat.position.set(...event.position);
+                hat.rotation.set(...event.rotation.map(degToRad));
 
-                const bodyPart = skinViewRef.current.playerObject.skin[
-                    event.body_part as keyof typeof skinViewRef.current.playerObject.skin
-                ] as Object3D;
+                const bodyPart = skinViewRef.current.playerObject.skin[event.bodyPart] as Object3D;
                 bodyPart.add(hat);
             }
 
@@ -148,7 +145,7 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
             animationRef.current = new AnimationController({
                 animation,
                 animationName:
-                    event?.name === 'halloween' ? 'initial_halloween' : 'initial',
+                    event?.initialAnimation ?? "initial",
                 connectCape: true
             });
             skinViewRef.current.animation = animationRef.current;

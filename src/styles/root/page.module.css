@@ -100,7 +100,7 @@
 
 .image_container {
     position: relative;
-    transform: translate(-5px, -40%);
+    transform: translate(-5px, -30%);
 
     width: auto;
     margin-right: 1.5%;
@@ -173,7 +173,7 @@
 .shadow {
     position: absolute;
     left: 50%;
-    bottom: -.5rem;
+    bottom: 5.5rem;
 
     transform: translateX(-50%);
 
@@ -234,7 +234,7 @@
 .nickname_container {
     position: absolute;
     z-index: 6;
-    top: 21em;
+    top: 14.5rem;
 
     display: flex;
     align-items: center;
@@ -256,7 +256,7 @@
 @media(max-width: 1150px) {
     .image_container {
         margin: 0;
-        transform: scale(.75) translate(-5px, -50%);
+        transform: scale(.75) translate(-5px, -38%);
     }
 }
 

@@ -57,6 +57,15 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
         checkMobile();
         window.addEventListener('resize', checkMobile);
 
+        /*
+        setInterval(() => {
+            console.log(
+                skinViewRef.current.camera.position,
+                skinViewRef.current.controls.target
+            );
+        }, 150);
+        */
+
         return () => {
             if (skinViewRef.current) skinViewRef.current.dispose();
             cancelAnimationFrame(rafRef.current);
@@ -73,18 +82,19 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
         });
 
         skinViewRef.current.controls.enabled = false;
+        //skinViewRef.current.controls.enablePan = true;
         skinViewRef.current.camera.fov = 70;
 
         // Советую не менять эти параметры
         // Они подобраны с участием тарологов
-        skinViewRef.current.camera.position.set(24.24, 23.87, 57.08);
-        skinViewRef.current.controls.target.set(-0.69, 10, -3.71);
+        skinViewRef.current.camera.position.set(24.55, 20.85, 57.84);
+        skinViewRef.current.controls.target.set(-0.69, 3.91, -3.61);
 
         skinViewRef.current.scene.position.x = 0.8;
         skinViewRef.current.scene.position.y = -1.5;
 
         skinViewRef.current.cameraLight.intensity = 1400;
-        skinViewRef.current.globalLight.intensity = 2.5;
+        skinViewRef.current.globalLight.intensity = 2.2;
 
         // Отсечение модели ниже земли
         const clipPlane = new Plane(new Vector3(0, 1, 0), 17.5);
@@ -137,7 +147,8 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
 
             animationRef.current = new AnimationController({
                 animation,
-                animationName: 'initial',
+                animationName:
+                    event?.name === 'halloween' ? 'initial_halloween' : 'initial',
                 connectCape: true
             });
             skinViewRef.current.animation = animationRef.current;
@@ -271,7 +282,7 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
         }
 
         hitTypeRef.current = {
-            type: y < 560 * (rect.height / (height ?? 400)) ? 'head' : 'body',
+            type: y < 470 * (rect.height / (height ?? 400)) ? 'head' : 'body',
             x: mouse_x,
             y: mouse_y
         };

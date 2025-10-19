@@ -1,4 +1,4 @@
-import hats from '@/constants/hats.json';
+import hats from '@/constants/events.json';
 
 const parseWithoutYear = (s: string, baseYear: number) => {
     const [month, rest] = s.split('-');

@@ -12,7 +12,7 @@ function choice<T>(arr: T[]): T {
 }
 
 export class AnimationController extends SkinViewBlockbench {
-    initial_animations = ['initial'];
+    initial_animations = ['initial', 'initial_halloween'];
     action_animations = ['hand_view', 'leg_view', 'side_view', 'fly'];
     interactive_animations = ['hit', 'bottom_hit'];
 

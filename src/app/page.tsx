@@ -22,7 +22,12 @@ const HomeClient = () => {
                     <div className={styles.texts}>
                         <h1 className={`${styles.h1} ${GeistSans.className}`}>
                             Огромная библиотека повязок{' '}
-                            <span className={styles.pepeland}>Пепеленда</span>
+                            <Link
+                                href="https://pepeland.net"
+                                className={styles.pepeland}
+                            >
+                                Пепеленда
+                            </Link>
                         </h1>
                         <p className={styles.description}>
                             Место, где любой найдет дизайн по вкусу.
@@ -39,7 +44,7 @@ const HomeClient = () => {
                             <Link href={'https://andcool.ru'}>AndcoolSystems</Link>
                         </p>
                     </div>
-                    <SkinRender width={600} height={650} />
+                    <SkinRender width={600} height={950} />
                 </div>
             </div>
         </div>

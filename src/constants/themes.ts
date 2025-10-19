@@ -28,7 +28,7 @@ const themes: ThemeType = {
             '--hr-color': '#596172',
             '--focus-color': '#717b91',
             '--category-color': '#717b91',
-            '--main-text-color': '#ffffff',
+            '--main-text-color': '#eeeeee',
             '--main-shadow-color': '#1d2025',
             '--card-background-image':
                 "url('/static/backgrounds/background_default.svg')"
@@ -46,7 +46,7 @@ const themes: ThemeType = {
             '--hr-color': '#292c33',
             '--focus-color': '#717b91',
             '--category-color': '#333845',
-            '--main-text-color': '#ffffff',
+            '--main-text-color': '#eeeeee',
             '--main-shadow-color': '#121212',
             '--card-background-image':
                 "url('/static/backgrounds/background_amoled.svg')"

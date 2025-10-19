@@ -68,6 +68,8 @@ const Slider = ({
         setPosition(calcPosition(range, 0, initial).position);
     }, [initial, range]);
 
+    const notches = Array.from({ length: range + 1 }).map((_, i) => <hr key={i} />);
+
     return (
         <>
             {isDragging && (
@@ -87,6 +89,7 @@ const Slider = ({
                 onTouchMove={mouseMove}
                 onMouseDown={mouseDown}
             >
+                <div className={Style.notches_cont}>{notches}</div>
                 <div
                     className={Style.thumb}
                     id="slider_thumb"

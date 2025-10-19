@@ -12,6 +12,7 @@ import { ModelType } from 'skinview-utils';
 import { getCurrentEvent } from '@/lib/root/events';
 import { degToRad } from 'three/src/math/MathUtils.js';
 import { Object3D, Plane, Vector3 } from 'three';
+import { getCssGradientString } from '@/lib/root/names_gradients';
 
 function easeInOutSine(x: number): number {
     return -(Math.cos(Math.PI * x) - 1) / 2;
@@ -298,8 +299,16 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
             }}
         >
             <div className={styles.nickname_container}>
-                <span className={styles.nickname} style={minecraftMono.style}>
-                    {nickname}
+                <span className={styles.nickname}>
+                    <span
+                        className={styles.nickname_gradient}
+                        style={{
+                            ...minecraftMono.style,
+                            background: getCssGradientString(nickname)
+                        }}
+                    >
+                        {nickname}
+                    </span>
                 </span>
             </div>
             <canvas

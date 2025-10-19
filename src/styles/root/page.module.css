@@ -234,7 +234,7 @@
 .nickname_container {
     position: absolute;
     z-index: 6;
-    top: 14.5rem;
+    top: 15.5rem;
 
     display: flex;
     align-items: center;
@@ -251,6 +251,11 @@
 
     cursor: auto;
     user-select: none;
+}
+
+.nickname_gradient {
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent;
 }
 
 @media(max-width: 1150px) {

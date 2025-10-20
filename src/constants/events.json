@@ -1,36 +1,86 @@
 {
-    "christmas": {
-        "time_period": "12-30T00:00:00&01-03T00:00:00",
+    "12-30T00:00:00&01-03T00:00:00": {
+        "name": "christmas",
+        "force": false,
         "gltf": "/static/gltf/santa_hat.gltf",
         "body_part": "head",
-        "position": [9.25, -5.5, 9.25],
-        "rotation": [0, 180, 0],
-        "scale": [18.5, 18.5, 18.5]
+        "position": [
+            9.25,
+            -5.5,
+            9.25
+        ],
+        "rotation": [
+            0,
+            180,
+            0
+        ],
+        "scale": [
+            18.5,
+            18.5,
+            18.5
+        ]
     },
-    "birthday": {
-        "time_period": "07-09T00:00:00&07-09T23:59:59",
+    "07-09T00:00:00&07-09T23:59:59": {
+        "name": "birthday",
+        "force": false,
         "gltf": "/static/gltf/party_hat.gltf",
         "body_part": "head",
-        "position": [10, 7, -10],
-        "rotation": [0, -90, 0],
-        "scale": [20, 20, 20]
+        "position": [
+            10,
+            7,
+            -10
+        ],
+        "rotation": [
+            0,
+            -90,
+            0
+        ],
+        "scale": [
+            20,
+            20,
+            20
+        ]
     },
-    "april_fools": {
-        "time_period": "03-01T00:00:00&03-01T23:59:59",
+    "03-01T00:00:00&03-01T23:59:59": {
+        "name": "april",
+        "force": false,
         "gltf": "/static/gltf/clown_hair.gltf",
         "body_part": "head",
-        "position": [8, -1, 8],
-        "rotation": [0, 180, 0],
-        "scale": [16, 16, 16]
+        "position": [
+            8,
+            -1,
+            8
+        ],
+        "rotation": [
+            0,
+            180,
+            0
+        ],
+        "scale": [
+            16,
+            16,
+            16
+        ]
     },
-    "halloween": {
-        "time_period": "10-31T00:00:00&10-31T23:59:59",
+    "10-31T00:00:00&10-31T23:59:59": {
+        "name": "halloween",
+        "force": false,
         "gltf": "/static/gltf/pump.gltf",
-        "initial_animation": "initial_halloween",
-        "force": true,
         "body_part": "head",
-        "position": [8, -1, 8],
-        "rotation": [0, 180, 0],
-        "scale": [16, 16, 16]
+        "position": [
+            8,
+            -1,
+            8
+        ],
+        "rotation": [
+            0,
+            180,
+            0
+        ],
+        "scale": [
+            16,
+            16,
+            16
+        ]
     }
 }

@@ -319,7 +319,7 @@ const Editor = ({
                 maxLength={300}
                 placeholder="Описание"
                 className={style.textarea}
-                style={{ minHeight: '2rem' }}
+                style={{minHeight: "2rem"}}
                 onInput={ev =>
                     setDescription(lstrip((ev.target as HTMLTextAreaElement).value))
                 }
@@ -341,19 +341,14 @@ const Editor = ({
                             Предпросмотр цвета
                         </label>
                     </div>
-                    <span>
-                        Подробнее об окрашиваемых повязках можно прочитать{' '}
-                        <CustomLink href={'/blog/colorable'}>здесь</CustomLink>
-                    </span>
+                    <span>Подробнее об окрашиваемых повязках можно прочитать <CustomLink href={"/blog/colorable"}>здесь</CustomLink></span>
                 </InfoCard>
             )}
 
             <p style={{ margin: 0, marginTop: '.5rem' }}>Выберите теги</p>
             <TagSearch defaultValue={[]} onChange={setTags} />
 
-            {createError && (
-                <label style={{ margin: 0, color: '#dc2626' }}>{createError}</label>
-            )}
+            {createError && <label style={{ margin: 0, color: '#dc2626' }}>{createError}</label>}
             <button onClick={create} className={style.skin_load}>
                 Создать
             </button>

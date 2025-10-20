@@ -1,9 +1,3 @@
-export type RepoContents = {
-    name: string;
-    path: string;
-    download_url: string;
-}[];
-
 export type LayoutContent = {
     title: string;
     description?: string;

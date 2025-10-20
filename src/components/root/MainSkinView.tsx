@@ -9,7 +9,7 @@ import axios from 'axios';
 import { b64Prefix } from '@/lib/bandageEngine';
 import { minecraftMono } from '@/fonts/Minecraft';
 import { ModelType } from 'skinview-utils';
-import { getCurrentEvent } from '@/lib/root/events';
+import { getCurrentEvent, Vector3Array } from '@/lib/root/events';
 import { degToRad } from 'three/src/math/MathUtils.js';
 import { Object3D, Plane, Vector3 } from 'three';
 import { getCssGradientString } from '@/lib/root/names_gradients';
@@ -109,13 +109,12 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
                 const gltf = await new GLTFLoader().loadAsync(event.gltf);
                 const hat = gltf.scene;
 
-                type ParamsArr = [number, number, number];
-                hat.scale.set(...(event.scale as ParamsArr));
-                hat.position.set(...(event.position as ParamsArr));
-                hat.rotation.set(...(event.rotation.map(degToRad) as ParamsArr));
+                hat.scale.set(...event.scale);
+                hat.position.set(...event.position);
+                hat.rotation.set(...(event.rotation.map(degToRad) as Vector3Array));
 
                 const bodyPart = skinViewRef.current.playerObject.skin[
-                    event.body_part as keyof typeof skinViewRef.current.playerObject.skin
+                    event.bodyPart
                 ] as Object3D;
                 bodyPart.add(hat);
             }
@@ -148,8 +147,7 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
 
             animationRef.current = new AnimationController({
                 animation,
-                animationName:
-                    event?.name === 'halloween' ? 'initial_halloween' : 'initial',
+                animationName: event?.initialAnimation ?? 'initial',
                 connectCape: true
             });
             skinViewRef.current.animation = animationRef.current;

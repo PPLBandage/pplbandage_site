@@ -1,4 +1,5 @@
-import hats from '@/constants/events.json';
+import events from '@/constants/events.json';
+import { SkinObject } from 'skinview3d';
 
 const parseWithoutYear = (s: string, baseYear: number) => {
     const [month, rest] = s.split('-');
@@ -8,10 +9,25 @@ const parseWithoutYear = (s: string, baseYear: number) => {
     return new Date(baseYear, Number(month) - 1, Number(day), h, m, sec);
 };
 
-export const getCurrentEvent = () => {
-    for (const [k, v] of Object.entries(hats)) {
-        if (v.force) return v;
-        const [startStr, endStr] = k.split('&');
+export type Vector3Array = [number, number, number];
+
+type Event = {
+    name: string;
+    force: boolean;
+    dateStart: Date;
+    dateEnd: Date;
+    gltf: string;
+    initialAnimation?: string;
+    bodyPart: keyof SkinObject;
+    position: Vector3Array;
+    rotation: Vector3Array;
+    scale: Vector3Array;
+};
+
+export const getCurrentEvent = (): Event | null => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    for (const [k, v] of Object.entries(events) as [string, any][]) {
+        const [startStr, endStr] = v.time_period.split('&');
 
         const now = new Date();
         const start = parseWithoutYear(startStr, now.getFullYear());
@@ -21,7 +37,19 @@ export const getCurrentEvent = () => {
             end = parseWithoutYear(endStr, now.getFullYear() + 1);
         }
 
-        if (now >= start && now <= end) return v;
+        if (v.force || (now >= start && now <= end))
+            return {
+                name: k,
+                force: v.force ?? false,
+                dateStart: start,
+                dateEnd: end,
+                gltf: v.gltf,
+                bodyPart: v.body_part,
+                position: v.position,
+                rotation: v.rotation,
+                scale: v.scale,
+                initialAnimation: v.initial_animation
+            };
     }
 
     return null;

@@ -27,7 +27,6 @@
         "time_period": "10-31T00:00:00&10-31T23:59:59",
         "gltf": "/static/gltf/pump.gltf",
         "initial_animation": "initial_halloween",
-        "force": true,
         "body_part": "head",
         "position": [8, -1, 8],
         "rotation": [0, 180, 0],

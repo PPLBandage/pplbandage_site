@@ -12,17 +12,17 @@ const parseWithoutYear = (s: string, baseYear: number) => {
 export type Vector3Array = [number, number, number];
 
 type Event = {
-    name: string,
-    force: boolean,
-    dateStart: Date,
-    dateEnd: Date,
-    gltf: string,
-    initialAnimation?: string,
-    bodyPart: keyof SkinObject,
-    position: Vector3Array,
-    rotation: Vector3Array,
-    scale: Vector3Array
-}
+    name: string;
+    force: boolean;
+    dateStart: Date;
+    dateEnd: Date;
+    gltf: string;
+    initialAnimation?: string;
+    bodyPart: keyof SkinObject;
+    position: Vector3Array;
+    rotation: Vector3Array;
+    scale: Vector3Array;
+};
 
 export const getCurrentEvent = (): Event | null => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,18 +37,19 @@ export const getCurrentEvent = (): Event | null => {
             end = parseWithoutYear(endStr, now.getFullYear() + 1);
         }
 
-        if (v.force || now >= start && now <= end) return {
-            name: k,
-            force: v.force ?? false,
-            dateStart: start,
-            dateEnd: end,
-            gltf: v.gltf,
-            bodyPart: v.body_part,
-            position: v.position,
-            rotation: v.rotation,
-            scale: v.scale,
-            initialAnimation: v.initial_animation
-        };
+        if (v.force || (now >= start && now <= end))
+            return {
+                name: k,
+                force: v.force ?? false,
+                dateStart: start,
+                dateEnd: end,
+                gltf: v.gltf,
+                bodyPart: v.body_part,
+                position: v.position,
+                rotation: v.rotation,
+                scale: v.scale,
+                initialAnimation: v.initial_animation
+            };
     }
 
     return null;

@@ -110,9 +110,11 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
 
                 hat.scale.set(...event.scale);
                 hat.position.set(...event.position);
-                hat.rotation.set(...event.rotation.map(degToRad) as Vector3Array);
+                hat.rotation.set(...(event.rotation.map(degToRad) as Vector3Array));
 
-                const bodyPart = skinViewRef.current.playerObject.skin[event.bodyPart] as Object3D;
+                const bodyPart = skinViewRef.current.playerObject.skin[
+                    event.bodyPart
+                ] as Object3D;
                 bodyPart.add(hat);
             }
 
@@ -144,8 +146,7 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
 
             animationRef.current = new AnimationController({
                 animation,
-                animationName:
-                    event?.initialAnimation ?? "initial",
+                animationName: event?.initialAnimation ?? 'initial',
                 connectCape: true
             });
             skinViewRef.current.animation = animationRef.current;

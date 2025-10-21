@@ -11,7 +11,7 @@ import { minecraftMono } from '@/fonts/Minecraft';
 import { ModelType } from 'skinview-utils';
 import { getCurrentEvent } from '@/lib/root/events';
 import { degToRad } from 'three/src/math/MathUtils.js';
-import { Object3D, Plane, Vector3 } from 'three';
+import { Object3D, Plane, Raycaster, Vector2, Vector3 } from 'three';
 import { getCssGradientString } from '@/lib/root/names_gradients';
 
 function easeInOutSine(x: number): number {
@@ -267,26 +267,59 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
     ) => {
         if (!canvasRef.current) return;
 
+        let x: number;
         let y: number;
         let mouse_x: number;
         let mouse_y: number;
         const rect = canvasRef.current.getBoundingClientRect();
         if ('touches' in evt) {
             if (evt.touches.length === 0) return;
+            x = evt.touches[0].clientX - rect.left;
             y = evt.touches[0].clientY - rect.top;
             mouse_x = evt.touches[0].clientX;
             mouse_y = evt.touches[0].clientY;
         } else {
+            x = evt.clientX - rect.left;
             y = evt.clientY - rect.top;
             mouse_x = evt.clientX;
             mouse_y = evt.clientY;
         }
 
-        hitTypeRef.current = {
-            type: y < 470 * (rect.height / (height ?? 400)) ? 'head' : 'body',
-            x: mouse_x,
-            y: mouse_y
-        };
+        const ndcX = (x / rect.width) * 2 - 1;
+        const ndcY = -(y / rect.height) * 2 + 1;
+        const body_parts_names = [
+            'head',
+            'body',
+            'leftArm',
+            'rightArm',
+            'leftLeg',
+            'rightLeg'
+        ];
+
+        const raycaster = new Raycaster();
+        raycaster.setFromCamera(new Vector2(ndcX, ndcY), skinViewRef.current.camera);
+        const intersects = raycaster.intersectObjects(
+            skinViewRef.current.scene.children
+        );
+
+        if (intersects.length !== 0) {
+            const intersected = intersects[0].object;
+
+            const recursive_find = (obj: Object3D, f_list: string[]) => {
+                if (f_list.includes(obj.name)) return obj.name;
+                if (!obj.parent) return null;
+                return recursive_find(obj.parent, f_list);
+            };
+
+            const intersected_name = recursive_find(intersected, body_parts_names);
+            const hit_type = intersected_name === 'head' ? 'head' : 'body';
+
+            hitTypeRef.current = {
+                type: hit_type,
+                x: mouse_x,
+                y: mouse_y
+            };
+        }
         setGrabbed(true);
     };
 

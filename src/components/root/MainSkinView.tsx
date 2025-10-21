@@ -312,13 +312,15 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
             };
 
             const intersected_name = recursive_find(intersected, body_parts_names);
-            const hit_type = intersected_name === 'head' ? 'head' : 'body';
+            if (intersected_name !== null) {
+                const hit_type = intersected_name === 'head' ? 'head' : 'body';
 
-            hitTypeRef.current = {
-                type: hit_type,
-                x: mouse_x,
-                y: mouse_y
-            };
+                hitTypeRef.current = {
+                    type: hit_type,
+                    x: mouse_x,
+                    y: mouse_y
+                };
+            }
         }
         setGrabbed(true);
     };

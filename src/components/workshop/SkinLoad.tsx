@@ -23,12 +23,11 @@ type DataType = {
 
 const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
     const [data, setData] = useState<DataType | null>(null);
-    const [loaded, setLoaded] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [dropActive, setDropActive] = useState<boolean>(false);
 
+    const loaded = !!data;
     useEffect(() => {
-        setLoaded(false);
         setData(null);
         setDropActive(false);
     }, [expanded]);
@@ -52,12 +51,10 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                     slim: data.slim,
                     cape: data.cape
                 });
-                setLoaded(true);
                 setDropActive(false);
             })
             .catch((err: Error | AxiosError) => {
                 setData(null);
-                setLoaded(false);
 
                 if (!axios.isAxiosError(err)) {
                     setError(`Не удалось получить скин, смотри консоль`);
@@ -99,7 +96,6 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
                     data: reader.result as string,
                     slim: isSlim(img)
                 });
-                setLoaded(true);
             });
         };
         reader.readAsDataURL(file);

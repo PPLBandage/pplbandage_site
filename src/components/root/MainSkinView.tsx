@@ -44,36 +44,6 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
     const posRef = useRef<number | null>(0);
     const rafRef = useRef<number>(0);
 
-    useEffect(() => {
-        const checkMobile = () => {
-            if (window.innerWidth <= 850) {
-                if (skinViewRef.current?.disposed) return;
-                skinViewRef.current?.dispose?.();
-                setInited(false);
-                cancelAnimationFrame(rafRef.current);
-            } else if (!skinViewRef.current || skinViewRef.current.disposed) {
-                initSkinViewer();
-            }
-        };
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-
-        /*
-        setInterval(() => {
-            console.log(
-                skinViewRef.current.camera.position,
-                skinViewRef.current.controls.target
-            );
-        }, 150);
-        */
-
-        return () => {
-            if (skinViewRef.current) skinViewRef.current.dispose();
-            cancelAnimationFrame(rafRef.current);
-            window.removeEventListener('resize', checkMobile);
-        };
-    }, []);
-
     const initSkinViewer = () => {
         setInited(false);
         skinViewRef.current = new SkinViewer({
@@ -195,6 +165,36 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
 
         requestAnimationFrame(checkLastGrabbed);
     };
+
+    useEffect(() => {
+        const checkMobile = () => {
+            if (window.innerWidth <= 850) {
+                if (skinViewRef.current?.disposed) return;
+                skinViewRef.current?.dispose?.();
+                setInited(false);
+                cancelAnimationFrame(rafRef.current);
+            } else if (!skinViewRef.current || skinViewRef.current.disposed) {
+                initSkinViewer();
+            }
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
+        /*
+        setInterval(() => {
+            console.log(
+                skinViewRef.current.camera.position,
+                skinViewRef.current.controls.target
+            );
+        }, 150);
+        */
+
+        return () => {
+            if (skinViewRef.current) skinViewRef.current.dispose();
+            cancelAnimationFrame(rafRef.current);
+            window.removeEventListener('resize', checkMobile);
+        };
+    }, []);
 
     useEffect(() => {
         const onMouseMove = (evt: MouseEvent | TouchEvent) => {

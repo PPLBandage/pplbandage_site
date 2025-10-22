@@ -1,4 +1,4 @@
-import { cloneElement, JSX, useEffect, useState } from 'react';
+import { cloneElement, JSX, useEffect, useRef, useState } from 'react';
 
 interface ReactCSSTransitionProps {
     timeout: number;
@@ -11,23 +11,18 @@ interface ReactCSSTransitionProps {
 }
 
 const ReactCSSTransition = (props: ReactCSSTransitionProps) => {
-    const [state, setState] = useState<boolean>(props.state);
     const [animationClass, setAnimationClass] = useState<string>('');
     const [mounted, setMounted] = useState<boolean>(props.state);
-    const [firstRender, setFirstRender] = useState<boolean>(true);
+    const firstRender = useRef<boolean>(true);
 
     useEffect(() => {
-        setState(props.state);
-    }, [props.state]);
-
-    useEffect(() => {
-        if (firstRender) {
-            setFirstRender(false);
+        if (firstRender.current) {
+            firstRender.current = false;
             return;
         }
         let anim_request: number;
         let timeout: NodeJS.Timeout;
-        if (state) {
+        if (props.state) {
             setMounted(true);
             setAnimationClass(props.classNames.enter);
 
@@ -52,7 +47,7 @@ const ReactCSSTransition = (props: ReactCSSTransitionProps) => {
             cancelAnimationFrame(anim_request);
             clearTimeout(timeout);
         };
-    }, [state]);
+    }, [props.state]);
 
     if (!mounted) return null;
     return cloneElement(props.children, {

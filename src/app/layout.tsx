@@ -20,7 +20,9 @@ export const generateMetadata = async (): Promise<Metadata | undefined> => {
 
 export const viewport: Viewport = {
     width: 'device-width',
-    initialScale: 0.9
+    initialScale: 0.9,
+    maximumScale: 5,
+    userScalable: true
 };
 
 export default function RootLayout({

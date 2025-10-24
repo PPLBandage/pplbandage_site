@@ -104,6 +104,7 @@ export interface Bandage {
             name: string;
             username: string;
         };
+        issue_date: Date;
     } | null;
     access_level: number;
     accent_color: string;

@@ -1,0 +1,72 @@
+.main_container {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    justify-content: center;
+    gap: 1rem;
+    display: grid;
+}
+
+.container {
+    background-color: var(--main-card-color);
+    border-radius: 10px;
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header h3 {
+    margin: 0;
+}
+
+.header svg {
+    cursor: pointer;
+    transition: opacity 150ms;
+}
+
+.header svg:hover {
+    opacity: .7;
+}
+
+.card_children {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+}
+
+.card_children span {
+    opacity: .8;
+    font-style: italic;
+}
+
+.card_children input {
+    border: none;
+    padding: .5rem;
+    border-radius: 5px;
+    background-color: var(--main-element-color);
+    font-family: inherit;
+}
+
+.save_btn {
+    background-color: var(--main-element-color);
+    border: none;
+    padding: .5rem;
+    border-radius: 5px;
+    cursor: pointer;
+
+    font-family: inherit;
+
+    transition: background-color 150ms;
+}
+
+.save_btn:hover {
+    background-color: var(--category-color);
+}

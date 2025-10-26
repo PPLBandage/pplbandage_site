@@ -3,7 +3,12 @@
 import style_root from '@/styles/admin/page.module.css';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { IconCircleDashedCheck, IconKey, IconUser } from '@tabler/icons-react';
+import {
+    IconCalendarClock,
+    IconCircleDashedCheck,
+    IconKey,
+    IconUser
+} from '@tabler/icons-react';
 import useAccess from '@/lib/useAccess';
 
 const Admin = () => {
@@ -16,6 +21,7 @@ const Admin = () => {
     const updateUsers = superAdmin || access.includes(3);
     const manageBandages = superAdmin || access.includes(1);
     const manageKV = superAdmin || access.includes(6);
+    const manageEvents = superAdmin || access.includes(7);
 
     if (!updateUsers && !manageBandages && !manageKV) {
         notFound();
@@ -45,6 +51,12 @@ const Admin = () => {
                     <Link href="/admin/kv" className={style_root.root_button}>
                         <IconKey />
                         KV База данных
+                    </Link>
+                )}
+                {manageEvents && (
+                    <Link href="/admin/events" className={style_root.root_button}>
+                        <IconCalendarClock />
+                        Управление событиями
                     </Link>
                 )}
             </div>

@@ -9,7 +9,7 @@ import IconHeart from '@/resources/heart.svg';
 import { IconX } from '@tabler/icons-react';
 import Link from 'next/link';
 
-const SHOW_TIME = 300;
+const SHOW_TIME = 60 * 3;
 const maxAge = 60 * 24 * 365 * 10;
 
 /** О НЕТ! ЖАДНЫЕ КАПИТАЛИСТЫ ВНЕДРИЛИ ВРЕДОНОСНЫЙ КОД В САЙТ ПРОЕКТА */

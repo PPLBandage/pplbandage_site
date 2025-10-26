@@ -165,6 +165,14 @@ const Page = () => {
     return (
         <main className={style_root.main}>
             <div className={style_root.main_container}>
+                <h1 style={{ margin: 0 }}>Ивенты</h1>
+                <p>
+                    <i>
+                        Ивенты — это периоды, во время которых повязки с
+                        определёнными тегами получают бонус, позволяющий им
+                        подниматься выше в рейтинге мастерской.
+                    </i>
+                </p>
                 <Events />
             </div>
         </main>

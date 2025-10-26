@@ -75,7 +75,7 @@ const EventCard = (data: EventType & { new?: boolean }) => {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h3>{data.new ? 'Новый ивент' : data.id}</h3>
+                <h3>{data.new ? 'Новый ивент' : `ID: ${data.id}`}</h3>
                 {!data.new && <IconTrash onClick={deleteEvent} />}
             </div>
             <div className={styles.card_children}>

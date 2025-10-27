@@ -62,7 +62,7 @@
             16
         ]
     },
-    "10-31T00:00:00&10-31T23:59:59": {
+    "10-30T00:00:00&10-31T23:59:59": {
         "name": "halloween",
         "force": false,
         "gltf": "/static/gltf/pump.gltf",

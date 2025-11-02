@@ -60,7 +60,7 @@ const Footer = () => {
                     </Link>
                     <hr />
                     <Link href="https://github.com/PPLBandage" target="_blank">
-                        <StaticTooltip title="GitHub">
+                        <StaticTooltip title="Исходный код">
                             <IconBrandGithub />
                         </StaticTooltip>
                     </Link>

@@ -13,7 +13,7 @@ type SingleThemeType = {
     '--card-background-image': string;
 };
 
-type ThemeType = { [key: string]: { title: string; data: SingleThemeType } };
+type ThemeType = Record<string, { title: string; data: SingleThemeType }>;
 
 const themes: ThemeType = {
     default: {

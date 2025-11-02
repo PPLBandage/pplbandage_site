@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import styles from '@/styles/root/page.module.css';
 import Link from 'next/link';
 

@@ -2,7 +2,7 @@
 
 import { SkinViewer } from 'skinview3d';
 import asyncImage from '../asyncImage';
-import { b64Prefix, fillPepe } from '../bandageEngine';
+import Client, { b64Prefix } from '../bandageEngine';
 
 type TaskDTO = {
     b64: string;
@@ -26,25 +26,32 @@ export class RenderingQueue {
     private viewer!: SkinViewer | null;
     private disposed: boolean = false;
     private disposeTimer: NodeJS.Timeout | null = null;
-    private baseSkin!: HTMLImageElement;
+    private engine!: Client;
 
     constructor() {
-        this.loadSkin().then(() => this.init());
-    }
-
-    private async loadSkin() {
-        this.baseSkin = await asyncImage('/static/workshop_base.png');
+        this.init();
     }
 
     init() {
         if (typeof document === 'undefined') return;
         this.viewer = new SkinViewer({
-            width: 400,
-            height: 400,
+            width: 300,
+            height: 300,
             renderPaused: true
         });
 
+        this.viewer.camera.rotation.x = -0.4;
+        this.viewer.camera.rotation.y = 0.8;
+        this.viewer.camera.rotation.z = 0.29;
+        this.viewer.camera.position.x = 17;
+        this.viewer.camera.position.y = 6.5;
+        this.viewer.camera.position.z = 11;
+
+        this.viewer.render();
+
         this.disposed = false;
+        this.engine = new Client();
+        this.engine.init();
     }
 
     async enqueue(task: TaskDTO): Promise<string> {
@@ -56,49 +63,6 @@ export class RenderingQueue {
             });
             this.process();
         });
-    }
-
-    private async generateSkin(
-        b64: string,
-        base_skin: HTMLImageElement,
-        color?: number[]
-    ): Promise<HTMLCanvasElement> {
-        const bandage = await asyncImage(b64Prefix + b64);
-
-        const height = Math.floor(bandage.height / 2);
-        const position = 6 - Math.ceil(height / 2);
-
-        const skin_canvas = document.createElement('canvas');
-        const skin_context = skin_canvas.getContext('2d')!;
-        skin_canvas.width = 64;
-        skin_canvas.height = 64;
-
-        const bandage_new = color ? fillPepe(bandage, color) : bandage;
-        skin_context.drawImage(base_skin, 0, 0);
-        skin_context.drawImage(
-            bandage_new,
-            0,
-            0,
-            16,
-            height,
-            48,
-            52 + position,
-            16,
-            height
-        );
-        skin_context.drawImage(
-            bandage_new,
-            0,
-            height,
-            16,
-            height,
-            32,
-            52 + position,
-            16,
-            height
-        );
-
-        return skin_canvas;
     }
 
     private async process() {
@@ -131,16 +95,24 @@ export class RenderingQueue {
         this.working = true;
 
         try {
-            const colorable = task.data.flags & 1;
-            const random_color = [randint(0, 255), randint(0, 255), randint(0, 255)];
-
-            const result = await this.generateSkin(
-                task.data.b64,
-                this.baseSkin,
-                colorable ? random_color : undefined
-            );
-
-            this.viewer!.loadSkin(result, { model: 'default' });
+            const bandage_img = await asyncImage(b64Prefix + task.data.b64);
+            if (task.data.flags & 1) {
+                const [r, g, b] = [
+                    randint(0, 255),
+                    randint(0, 255),
+                    randint(0, 255)
+                ];
+                this.engine.setParams({
+                    colorable: true,
+                    color:
+                        '#' +
+                        ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)
+                });
+            }
+            this.engine.loadFromImage(bandage_img);
+            // После загрузки повязки движок сам ререндерит повязку
+            await new Promise(resolve => setTimeout(resolve, 100));
+            await this.viewer!.loadSkin(this.engine.skin, { model: 'default' });
             this.viewer!.render();
 
             const dataURL = this.viewer!.canvas.toDataURL();
@@ -149,7 +121,7 @@ export class RenderingQueue {
             task.reject(e);
         } finally {
             this.working = false;
-            queueMicrotask(() => this.process());
+            await this.process();
         }
     }
 }

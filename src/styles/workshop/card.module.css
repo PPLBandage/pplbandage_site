@@ -27,13 +27,15 @@
     height: auto;
     box-sizing: border-box;
 
-    transition: transform 200ms ease-in-out;
+    transition:
+        transform 300ms ease-in-out,
+        opacity 300ms;
 }
 
-.skin:hover {
-    transform: scale(1.01);
+.skin_loading {
+    opacity: 0;
+    transform: translateY(5px) scale(0.95);
 }
-
 
 .gradient_background {
     border: 1px solid var(--main-element-color);

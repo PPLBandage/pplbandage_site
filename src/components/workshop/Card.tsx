@@ -2,7 +2,7 @@ import { Bandage } from '@/types/global.d';
 import style_card from '@/styles/workshop/card.module.css';
 import NextImage from 'next/image';
 import Link from 'next/link';
-import { CSSProperties } from 'react';
+import { CSSProperties, useEffect, useRef, useState } from 'react';
 
 import {
     IconCircleDashedX,
@@ -21,6 +21,7 @@ import ReferrerLink from './ReferrerLink';
 import TagElement from './TagElement';
 import StarElement from './Star';
 import { AuthorLink } from './AuthorLink';
+import { renderQueue } from '@/lib/workshop/RenderingQueue';
 
 const ExtraParams = ({
     flags,
@@ -96,13 +97,39 @@ export const CreateCard = ({ first }: { first?: boolean }) => {
     );
 };
 
+const QueuedSkinImage = ({ data }: { data: Bandage }) => {
+    const imageRef = useRef<HTMLImageElement>(null);
+    const [rendered, setRendered] = useState<boolean>(false);
+
+    async function render() {
+        if (!imageRef.current) return;
+        imageRef.current.src = await renderQueue.enqueue({
+            b64: data.base64,
+            flags: data.flags
+        });
+        setRendered(true);
+    }
+
+    useEffect(() => {
+        void render();
+    }, []);
+    return (
+        <img
+            ref={imageRef}
+            className={`${style_card.skin} ${!rendered && style_card.skin_loading}`}
+            alt={data.external_id}
+            width={300}
+            height={300}
+            draggable="false"
+        />
+    );
+};
+
 export const Card = ({
     el,
-    base64,
     className
 }: {
     el: Bandage;
-    base64: string;
     className?: { readonly [key: string]: string };
 }) => {
     let el_tags = el.tags;
@@ -132,14 +159,7 @@ export const Card = ({
                     href={`/workshop/${el.external_id}`}
                     style={{ display: 'flex', overflow: 'hidden' }}
                 >
-                    <NextImage
-                        src={base64}
-                        className={style_card.skin}
-                        alt={el.external_id}
-                        width={300}
-                        height={300}
-                        draggable="false"
-                    />
+                    <QueuedSkinImage key={el.id} data={el} />
                 </ReferrerLink>
                 <div className={style_card.tags}>{tagsEl}</div>
             </div>

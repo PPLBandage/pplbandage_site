@@ -32,7 +32,7 @@ export class RenderingQueue {
     private viewer!: SkinViewer | null;
     private disposed: boolean = false;
     private disposeTimer: NodeJS.Timeout | null = null;
-    private engine!: Client;
+    private engine!: Client | null;
 
     private initPromise: Promise<void> | null = null;
 
@@ -64,7 +64,7 @@ export class RenderingQueue {
         this.engine = new Client();
 
         this.initPromise = new Promise(resolve => {
-            this.engine.onInit = resolve;
+            this.engine!.onInit = resolve;
         });
         this.engine.init();
     }
@@ -115,6 +115,7 @@ export class RenderingQueue {
                     this.disposed = true;
                     this.disposeTimer = null;
                     this.viewer = null;
+                    this.engine = null;
 
                     console.log('Renderer disposed');
                 }
@@ -124,6 +125,10 @@ export class RenderingQueue {
 
         if (this.disposed) {
             this.init();
+            if (this.initPromise) {
+                await this.initPromise;
+                this.initPromise = null;
+            }
         }
 
         if (this.disposeTimer) {
@@ -141,16 +146,16 @@ export class RenderingQueue {
                     randint(0, 255),
                     randint(0, 255)
                 ];
-                this.engine.setParams({
+                this.engine!.setParams({
                     colorable: true,
                     color:
                         '#' +
                         ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)
                 });
             } else {
-                this.engine.setParams({ colorable: false });
+                this.engine!.setParams({ colorable: false });
             }
-            this.engine.loadFromImage(bandage_img);
+            this.engine!.loadFromImage(bandage_img);
             if (this.viewer)
                 if (!task.data.back) {
                     this.viewer.camera.position.set(
@@ -169,7 +174,7 @@ export class RenderingQueue {
                 }
             this.viewer?.controls.update();
 
-            await this.viewer!.loadSkin(this.engine.skin, { model: 'default' });
+            await this.viewer!.loadSkin(this.engine!.skin, { model: 'default' });
             this.viewer!.render();
 
             const dataURL = this.viewer!.canvas.toDataURL();

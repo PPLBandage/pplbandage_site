@@ -11,7 +11,7 @@ import { setCookie } from 'cookies-next';
 const maxAge = 60 * 24 * 365 * 10;
 export const Appearance = () => {
     const themeCookie = useNextCookie('theme_main', 1000);
-    const useFlipRenders = useNextCookie('use-flip-renders') === 'true';
+    const useFlipRenders = useNextCookie('use-flip-renders', 1000) === 'true';
     const [themeState, setThemeState] = useState<string>(themeCookie || 'amoled');
 
     useEffect(() => setThemeState(themeCookie ?? 'amoled'), [themeCookie]);
@@ -41,12 +41,13 @@ export const Appearance = () => {
             </h3>
             <div className={Style_themes.parent}>{themesEl}</div>
             <SlideButton
+                label="Использовать 3D карточки повязок в мастерской"
                 defaultValue={useFlipRenders}
                 onChange={async state => {
                     return setCookie('use-flip-renders', state, { maxAge });
                 }}
                 loadable
-                label="Использовать 3D карточки повязок в мастерской"
+                strict
             />
         </div>
     );

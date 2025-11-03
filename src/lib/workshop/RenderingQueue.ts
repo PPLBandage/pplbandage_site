@@ -34,6 +34,8 @@ export class RenderingQueue {
     private disposeTimer: NodeJS.Timeout | null = null;
     private engine!: Client;
 
+    private initPromise: Promise<void> | null = null;
+
     params_front = {
         camera_pos: [13.89, 3.9, 10.37],
         target: [3.18, 1.28, -3]
@@ -60,6 +62,10 @@ export class RenderingQueue {
 
         this.disposed = false;
         this.engine = new Client();
+
+        this.initPromise = new Promise(resolve => {
+            this.engine.onInit = resolve;
+        });
         this.engine.init();
     }
 
@@ -93,6 +99,12 @@ export class RenderingQueue {
     }
 
     private async process() {
+        // Ожидаем инициализации движка
+        if (this.initPromise) {
+            await this.initPromise;
+            this.initPromise = null;
+        }
+
         if (this.working) return;
         const task = this.queue.shift();
         if (!task) {

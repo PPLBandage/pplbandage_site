@@ -42,7 +42,7 @@ export const Appearance = () => {
             <div className={Style_themes.parent}>{themesEl}</div>
             <SlideButton
                 label="Использовать 3D карточки повязок в мастерской"
-                defaultValue={useFlipRenders}
+                value={useFlipRenders}
                 onChange={async state => {
                     return setCookie('use-flip-renders', state, { maxAge });
                 }}

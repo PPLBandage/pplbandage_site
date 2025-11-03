@@ -56,6 +56,7 @@ export class RenderingQueue {
             width: 300,
             height: 300,
             renderPaused: true,
+            pixelRatio: 1,
             fov: 65
         });
         this.viewer.render();

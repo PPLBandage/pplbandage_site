@@ -22,6 +22,8 @@ import TagElement from './TagElement';
 import StarElement from './Star';
 import { AuthorLink } from './AuthorLink';
 import { renderQueue } from '@/lib/workshop/RenderingQueue';
+import { sha256 } from 'js-sha256';
+import { idbGet, idbSet } from '@/lib/stores/idb';
 
 const ExtraParams = ({
     flags,
@@ -97,21 +99,49 @@ export const CreateCard = ({ first }: { first?: boolean }) => {
     );
 };
 
-const QueuedSkinImage = ({ data }: { data: Bandage }) => {
+const QueuedSkinImage = ({ data, back }: { data: Bandage; back?: boolean }) => {
     const imageRef = useRef<HTMLImageElement>(null);
     const [rendered, setRendered] = useState<boolean>(false);
+    const taskIdRef = useRef<number | null>(null);
+    const renderedRef = useRef<boolean>(false);
 
     async function render() {
         if (!imageRef.current) return;
-        imageRef.current.src = await renderQueue.enqueue({
-            b64: data.base64,
-            flags: data.flags
-        });
+        const hash = sha256(data.base64);
+        let base64 = await idbGet('skins', `skin-${back ?? false}:${hash}`);
+
+        if (!base64) {
+            const { result, taskId } = await renderQueue.enqueue({
+                b64: data.base64,
+                flags: data.flags,
+                back: back ?? false
+            });
+            taskIdRef.current = taskId;
+
+            try {
+                base64 = await result;
+                renderedRef.current = true;
+            } catch (error) {
+                if (error instanceof Error && error.message === 'Task cancelled') {
+                    console.log('Render task cancelled for', data.external_id);
+                }
+            }
+
+            void idbSet('skins', `skin-${back ?? false}:${hash}`, base64);
+        }
+
+        imageRef.current.src = base64!;
         setRendered(true);
     }
 
     useEffect(() => {
         void render();
+
+        return () => {
+            if (taskIdRef.current !== null && !renderedRef.current) {
+                renderQueue.cancel(taskIdRef.current);
+            }
+        };
     }, []);
     return (
         <img
@@ -140,6 +170,7 @@ export const Card = ({
 
     return (
         <article
+            key={`article_${el.external_id}`}
             className={`${style_card.card} ${className?.skin_description_props}`}
         >
             <div className={style_card.head_container}>
@@ -157,9 +188,16 @@ export const Card = ({
             >
                 <ReferrerLink
                     href={`/workshop/${el.external_id}`}
-                    style={{ display: 'flex', overflow: 'hidden' }}
+                    className={style_card.flip_container}
                 >
-                    <QueuedSkinImage key={el.id} data={el} />
+                    <div className={style_card.flip_inner}>
+                        <div className={style_card.flip_front}>
+                            <QueuedSkinImage data={el} />
+                        </div>
+                        <div className={style_card.flip_back}>
+                            <QueuedSkinImage data={el} back />
+                        </div>
+                    </div>
                 </ReferrerLink>
                 <div className={style_card.tags}>{tagsEl}</div>
             </div>

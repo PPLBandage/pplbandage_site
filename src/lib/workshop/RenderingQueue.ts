@@ -4,15 +4,20 @@ import { SkinViewer } from 'skinview3d';
 import asyncImage from '../asyncImage';
 import Client, { b64Prefix } from '../bandageEngine';
 
+type Vector3Array = [number, number, number];
+
 type TaskDTO = {
     b64: string;
     flags: number;
+    back: boolean;
 };
 
 type Task = {
+    id: number;
     data: TaskDTO;
     resolve: (value: string) => void;
     reject: (err: unknown) => void;
+    cancelled: boolean;
 };
 
 const randint = (min: number, max: number): number => {
@@ -22,11 +27,22 @@ const randint = (min: number, max: number): number => {
 export class RenderingQueue {
     private queue: Task[] = [];
     private working: boolean = false;
+    private taskIdCounter: number = 0;
 
     private viewer!: SkinViewer | null;
     private disposed: boolean = false;
     private disposeTimer: NodeJS.Timeout | null = null;
     private engine!: Client;
+
+    params_front = {
+        camera_pos: [13.89, 3.9, 10.37],
+        target: [3.18, 1.28, -3]
+    };
+
+    params_back = {
+        camera_pos: [13.89, 3.9, -10.37],
+        target: [6.45, 2.29, -0.6]
+    };
 
     constructor() {
         this.init();
@@ -37,16 +53,9 @@ export class RenderingQueue {
         this.viewer = new SkinViewer({
             width: 300,
             height: 300,
-            renderPaused: true
+            renderPaused: true,
+            fov: 65
         });
-
-        this.viewer.camera.rotation.x = -0.4;
-        this.viewer.camera.rotation.y = 0.8;
-        this.viewer.camera.rotation.z = 0.29;
-        this.viewer.camera.position.x = 17;
-        this.viewer.camera.position.y = 6.5;
-        this.viewer.camera.position.z = 11;
-
         this.viewer.render();
 
         this.disposed = false;
@@ -54,15 +63,33 @@ export class RenderingQueue {
         this.engine.init();
     }
 
-    async enqueue(task: TaskDTO): Promise<string> {
-        return new Promise((resolve, reject) => {
+    async enqueue(
+        task: TaskDTO
+    ): Promise<{ result: Promise<string>; taskId: number }> {
+        const taskId = this.taskIdCounter++;
+        const result = new Promise<string>((resolve, reject) => {
             this.queue.push({
+                id: taskId,
                 resolve,
                 reject,
-                data: task
+                data: task,
+                cancelled: false
             });
             this.process();
         });
+        return { result, taskId };
+    }
+
+    cancel(taskId: number): boolean {
+        const taskIndex = this.queue.findIndex(t => t.id === taskId);
+        if (taskIndex !== -1) {
+            const task = this.queue[taskIndex];
+            task.cancelled = true;
+            this.queue.splice(taskIndex, 1);
+            task.reject(new Error('Task cancelled'));
+            return true;
+        }
+        return false;
     }
 
     private async process() {
@@ -108,10 +135,28 @@ export class RenderingQueue {
                         '#' +
                         ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)
                 });
+            } else {
+                this.engine.setParams({ colorable: false });
             }
             this.engine.loadFromImage(bandage_img);
-            // После загрузки повязки движок сам ререндерит повязку
-            await new Promise(resolve => setTimeout(resolve, 100));
+            if (this.viewer)
+                if (!task.data.back) {
+                    this.viewer.camera.position.set(
+                        ...(this.params_front.camera_pos as Vector3Array)
+                    );
+                    this.viewer.controls.target.set(
+                        ...(this.params_front.target as Vector3Array)
+                    );
+                } else {
+                    this.viewer.camera.position.set(
+                        ...(this.params_back.camera_pos as Vector3Array)
+                    );
+                    this.viewer.controls.target.set(
+                        ...(this.params_back.target as Vector3Array)
+                    );
+                }
+            this.viewer?.controls.update();
+
             await this.viewer!.loadSkin(this.engine.skin, { model: 'default' });
             this.viewer!.render();
 

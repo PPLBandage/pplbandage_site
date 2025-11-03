@@ -5,9 +5,13 @@ import Style from '@/styles/me/connections.module.css';
 import themes from '@/constants/themes';
 import { IconPalette } from '@tabler/icons-react';
 import Style_themes from '@/styles/me/themes.module.css';
+import SlideButton from '@/components/SlideButton';
+import { setCookie } from 'cookies-next';
 
-export const Themes = () => {
+const maxAge = 60 * 24 * 365 * 10;
+export const Appearance = () => {
     const themeCookie = useNextCookie('theme_main', 1000);
+    const useFlipRenders = useNextCookie('use-flip-renders') === 'true';
     const [themeState, setThemeState] = useState<string>(themeCookie || 'amoled');
 
     useEffect(() => setThemeState(themeCookie ?? 'amoled'), [themeCookie]);
@@ -30,15 +34,20 @@ export const Themes = () => {
     ));
 
     return (
-        <div
-            className={Style.container}
-            style={{ paddingBottom: 'calc(1rem - 10px)' }}
-        >
+        <div className={Style.container}>
             <h3>
                 <IconPalette />
                 Внешний вид
             </h3>
             <div className={Style_themes.parent}>{themesEl}</div>
+            <SlideButton
+                defaultValue={useFlipRenders}
+                onChange={async state => {
+                    return setCookie('use-flip-renders', state, { maxAge });
+                }}
+                loadable
+                label="Использовать 3D карточки повязок в мастерской"
+            />
         </div>
     );
 };

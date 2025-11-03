@@ -54,12 +54,21 @@
 }
 
 .flip_container {
-    perspective: -1000px;
     width: 100%;
-    display: block;
+    display: flex;
     text-decoration: none;
     border-radius: 10px;
     overflow: hidden;
+}
+
+.unflip_container {
+    width: 100%;
+    display: flex;
+    transition: transform .2s ease-in-out;
+}
+
+.unflip_container:hover {
+    transform: scale(1.01);
 }
 
 .flip_inner {
@@ -69,8 +78,6 @@
     transform-style: preserve-3d;
     display: grid;
     border-radius: 10px;
-
-
 }
 
 .flip_container:hover .flip_inner {

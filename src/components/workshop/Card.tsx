@@ -24,6 +24,7 @@ import { AuthorLink } from './AuthorLink';
 import { renderQueue } from '@/lib/workshop/RenderingQueue';
 import { sha256 } from 'js-sha256';
 import { idbGet, idbSet } from '@/lib/stores/idb';
+import { useNextCookie } from 'use-next-cookie';
 
 const ExtraParams = ({
     flags,
@@ -130,8 +131,10 @@ const QueuedSkinImage = ({ data, back }: { data: Bandage; back?: boolean }) => {
             void idbSet('skins', `skin-${back ?? false}:${hash}`, base64);
         }
 
-        imageRef.current.src = base64!;
-        setRendered(true);
+        if (imageRef.current) {
+            imageRef.current.src = base64;
+            setRendered(true);
+        }
     }
 
     useEffect(() => {
@@ -162,6 +165,8 @@ export const Card = ({
     el: Bandage;
     className?: { readonly [key: string]: string };
 }) => {
+    const useFlipRenders = useNextCookie('use-flip-renders') === 'true';
+
     let el_tags = el.tags;
     if (el_tags.includes('Официальные'))
         el_tags = ['Официальные', ...el_tags.filter(el => el !== 'Официальные')];
@@ -190,14 +195,20 @@ export const Card = ({
                     href={`/workshop/${el.external_id}`}
                     className={style_card.flip_container}
                 >
-                    <div className={style_card.flip_inner}>
-                        <div className={style_card.flip_front}>
+                    {useFlipRenders ? (
+                        <div className={style_card.flip_inner}>
+                            <div className={style_card.flip_front}>
+                                <QueuedSkinImage data={el} />
+                            </div>
+                            <div className={style_card.flip_back}>
+                                <QueuedSkinImage data={el} back />
+                            </div>
+                        </div>
+                    ) : (
+                        <div className={style_card.unflip_container}>
                             <QueuedSkinImage data={el} />
                         </div>
-                        <div className={style_card.flip_back}>
-                            <QueuedSkinImage data={el} back />
-                        </div>
-                    </div>
+                    )}
                 </ReferrerLink>
                 <div className={style_card.tags}>{tagsEl}</div>
             </div>

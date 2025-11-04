@@ -130,7 +130,7 @@
 
 .code {
     background-color: var(--main-card-color);
-    padding: .1rem .3rem .1rem .3rem;
+    padding: .1rem .3rem;
 
     border: 1px var(--hr-color) solid;
     border-radius: 5px;

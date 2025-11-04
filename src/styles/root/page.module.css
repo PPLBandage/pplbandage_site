@@ -246,7 +246,7 @@
     opacity: .8;
     font-size: 1.6rem;
     background-color: color-mix(in hsl, var(--main-element-color), transparent 10%);
-    padding: .2rem .5rem .3rem .5rem;
+    padding: .2rem .5rem .3rem;
     border-radius: 5px;
 
     cursor: auto;

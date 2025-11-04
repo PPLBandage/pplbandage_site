@@ -178,7 +178,7 @@
     transform: translateX(-50%);
 
     fill: #00000050;
-    filter: blur(2px);
+    filter: blur(10px);
 }
 
 .by_andcool {

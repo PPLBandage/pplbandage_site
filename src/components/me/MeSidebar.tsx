@@ -13,7 +13,8 @@ import {
     IconStar,
     IconList,
     IconStarFilled,
-    IconUser
+    IconUser,
+    IconUserHeart
 } from '@tabler/icons-react';
 import { UserQuery, Users } from '@/types/global';
 import { useNextCookie } from 'use-next-cookie';
@@ -272,6 +273,15 @@ const Pages = ({ data }: { data: UserQuery }) => {
             >
                 <IconStar />
                 Избранное
+            </Link>
+            <Link
+                href="/me/subscriptions"
+                className={`${style_sidebar.side_butt} ${
+                    path === 'subscriptions' && style_sidebar.active
+                }`}
+            >
+                <IconUserHeart />
+                Подписки
             </Link>
             <Link
                 href="/me/notifications"

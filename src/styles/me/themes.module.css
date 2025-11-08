@@ -3,6 +3,10 @@
     height: 100px;
     border-radius: 10px;
 
+    background: linear-gradient(#ffffff08 0% 100%) 50% / cover,
+        linear-gradient(90deg, #0000 29px, #ffffff08 30px, #0000 31px) 0 0 / 30px 30px,
+        linear-gradient(#0000 29px, #ffffff08 30px, #0000 31px) 0 0 / 30px 30px;
+
     display: flex;
     align-items: center;
     justify-content: center;

@@ -144,6 +144,7 @@ const AvatarHead = ({
     theme: number;
     color: string;
 }) => {
+    const [mounted, setMounted] = useState(false);
     const [bright, setBright] = useState<boolean>(true);
     const avatar = process.env.NEXT_PUBLIC_DOMAIN + `/api/v1/avatars/${data.userID}`;
     const optimized_avatar = `/_next/image?url=${encodeURI(avatar)}&w=256&q=75`;
@@ -164,6 +165,12 @@ const AvatarHead = ({
     };
 
     useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) return;
+
         if (theme === 0) {
             setBright(true);
         } else if (theme === 1) {
@@ -173,7 +180,7 @@ const AvatarHead = ({
             if (!rgb) return;
             setBrightColor(rgb);
         }
-    }, [theme, color]);
+    }, [theme, color, mounted]);
 
     return (
         <div

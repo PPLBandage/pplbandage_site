@@ -21,6 +21,7 @@ import { useNextCookie } from 'use-next-cookie';
 import { subscribeTo, unsubscribeFrom } from '@/lib/api/user';
 import { getAverageColor, hexToRgb } from '@/lib/colorUtils';
 import Link from 'next/link';
+import Badges from './Badges';
 
 const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
     const logged = !!useNextCookie('sessionId');
@@ -152,7 +153,7 @@ const AvatarHead = ({
     let used_color = undefined;
     let image = undefined;
     if (theme === 1) {
-        image = { backgroundImage: `url("${optimized_avatar}")` };
+        image = { '--avatar-url': `url("${optimized_avatar}")` } as CSSProperties;
     } else {
         used_color = {
             backgroundColor: theme === 2 ? color : 'var(--main-card-color)'
@@ -233,6 +234,7 @@ const AvatarHead = ({
                         </span>
                     )}
                 </p>
+                <Badges badges={data.badges} />
 
                 <p className={style_sidebar.total_stars}>
                     Звёзд: {data.stars_count}

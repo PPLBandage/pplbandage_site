@@ -127,6 +127,8 @@ export class RenderingQueue {
         if (this.disposed) {
             this.init();
             if (this.initPromise) {
+                // TS тут пиздит
+                // await нужен, потому что после init у нас все сбрасывается
                 await this.initPromise;
                 this.initPromise = null;
             }

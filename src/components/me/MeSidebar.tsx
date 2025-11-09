@@ -46,7 +46,8 @@ const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
             style={{
                 gap: '.5rem',
                 alignItems: 'stretch',
-                boxShadow: '0px 13px 8px 0px var(--me-card-shadow-color) inset'
+                boxShadow: '0px 13px 8px 0px var(--me-card-shadow-color) inset',
+                borderRadius: '0 0 10px 10px'
             }}
         >
             <div className={style_sidebar.subscribe_container}>
@@ -200,7 +201,8 @@ const AvatarHead = ({
                 style={
                     {
                         ...used_color,
-                        '--avatar-text-color': bright ? '#fff' : '#101013'
+                        '--avatar-text-color': bright ? '#fff' : '#101013',
+                        borderRadius: '10px 10px 0 0'
                     } as CSSProperties
                 }
             >

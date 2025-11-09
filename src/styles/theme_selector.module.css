@@ -21,6 +21,7 @@
     top: -1rem;
     padding-top: 1.1rem;
     gap: 1px;
+    z-index: 2;
 
     overflow: hidden;
     transition: opacity 150ms, transform 150ms;

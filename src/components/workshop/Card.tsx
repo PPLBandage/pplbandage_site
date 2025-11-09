@@ -165,7 +165,12 @@ export const Card = ({
     el: Bandage;
     className?: { readonly [key: string]: string };
 }) => {
+    const [mounted, setMounted] = useState<boolean>(false);
     const useFlipRenders = useNextCookie('use-flip-renders') === 'true';
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     let el_tags = el.tags;
     if (el_tags.includes('Официальные'))
@@ -228,7 +233,9 @@ export const Card = ({
                 <div>
                     <AuthorLink author={el.author} />
                     <p className={style_card.creation_date}>
-                        {formatDate(new Date(el.creation_date))}
+                        {mounted
+                            ? formatDate(new Date(el.creation_date))
+                            : 'Загрузка...'}
                     </p>
                 </div>
             </div>

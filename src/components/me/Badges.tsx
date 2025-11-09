@@ -7,7 +7,7 @@ import {
     IconBeta,
     IconQuestionMark
 } from '@tabler/icons-react';
-import { JSX } from 'react';
+import { CSSProperties, JSX } from 'react';
 import { StaticTooltip } from '../Tooltip';
 
 const badgesIcons: Record<
@@ -16,7 +16,8 @@ const badgesIcons: Record<
 > = {
     0: {
         icon: IconShieldFilled,
-        name: 'Модератор'
+        name: 'Модератор',
+        color: 'oklch(68.5% 0.169 237.323)'
     },
     1: {
         icon: IconBugFilled,
@@ -30,11 +31,13 @@ const badgesIcons: Record<
     },
     3: {
         icon: IconGitMerge,
-        name: 'Контрибьютор'
+        name: 'Контрибьютор',
+        color: 'oklch(70.2% 0.183 293.541)'
     },
     4: {
         icon: IconBeta,
-        name: 'Бета-тестер'
+        name: 'Бета-тестер',
+        color: 'oklch(68.5% 0.169 237.323)'
     },
     10: {
         icon: IconQuestionMark,
@@ -60,7 +63,12 @@ const Badges = ({ badges }: { badges: number }) => {
                         container_styles={{ display: 'flex' }}
                         tooltip_styles={{ minWidth: 'max-content' }}
                     >
-                        <El.icon width={16} height={16} color={El.color} />
+                        <El.icon
+                            width={16}
+                            height={16}
+                            style={{ '--color': El.color } as CSSProperties}
+                            className={styles.icon}
+                        />
                     </StaticTooltip>
                 );
             }

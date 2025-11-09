@@ -6,12 +6,17 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: .4rem;
+    gap: .3rem;
     flex-wrap: wrap;
-    padding: .4rem;
+    padding: .3rem;
     border-radius: 5px;
 }
 
-.container svg {
+.icon {
     cursor: pointer;
+    background-color: var(--color, #fff);
+
+    color: var(--main-element-color);
+    padding: .1rem;
+    border-radius: 4px;
 }

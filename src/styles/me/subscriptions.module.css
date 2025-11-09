@@ -35,6 +35,7 @@
 }
 
 .name_container h3 {
+    color: var(--main-text-color);
     margin: 0;
 }
 

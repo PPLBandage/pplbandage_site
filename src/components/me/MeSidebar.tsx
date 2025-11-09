@@ -45,7 +45,7 @@ const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
             style={{
                 gap: '.5rem',
                 alignItems: 'stretch',
-                boxShadow: '0px 13px 8px 0px rgb(0 0 0 / 20%) inset'
+                boxShadow: '0px 13px 8px 0px var(--me-card-shadow-color) inset'
             }}
         >
             <div className={style_sidebar.subscribe_container}>

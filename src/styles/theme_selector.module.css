@@ -45,6 +45,7 @@
 
     background-color: var(--main-card-color);
     border: 1px var(--main-element-color) solid;
+    color: inherit;
 
     position: relative;
     z-index: 5;

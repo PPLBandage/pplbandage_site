@@ -1,17 +1,17 @@
 .CustomLink {
-    color: rgba(12, 247, 215);
+    color: var(--main-action-color);
     transition: color 150ms;
 }
 
 .CustomLink:hover {
-    color: rgb(179, 250, 241);
+    color: color-mix(in srgb, var(--main-action-color) 80%, white 20%);
 }
 
 .link_cont a {
-    color: rgba(12, 247, 215);
+    color: var(--main-action-color);
     transition: color 150ms;
 }
 
 .link_cont a:hover {
-    color: rgb(179, 250, 241);
+    color: color-mix(in srgb, var(--main-action-color) 80%, white 20%);
 }

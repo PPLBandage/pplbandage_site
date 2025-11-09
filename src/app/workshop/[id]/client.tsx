@@ -241,7 +241,7 @@ export default function Home({
                                 </h3>
                                 <div className={style.parameters_pos_body}>
                                     <span className={style.bandage_height_span}>
-                                        Высота повязки
+                                        Позиция повязки
                                     </span>
                                     <Slider
                                         initial={rangeProps.value}

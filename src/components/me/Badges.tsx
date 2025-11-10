@@ -5,7 +5,8 @@ import {
     IconBugFilled,
     IconGitMerge,
     IconBeta,
-    IconQuestionMark
+    IconQuestionMark,
+    IconHeartDollar
 } from '@tabler/icons-react';
 import { CSSProperties, JSX } from 'react';
 import { StaticTooltip } from '../Tooltip';
@@ -38,6 +39,11 @@ const badgesIcons: Record<
         icon: IconBeta,
         name: 'Бета-тестер',
         color: 'oklch(68.5% 0.169 237.323)'
+    },
+    5: {
+        icon: IconHeartDollar,
+        name: 'Спонсор',
+        color: 'oklch(79.5% 0.184 86.047)'
     },
     10: {
         icon: IconQuestionMark,

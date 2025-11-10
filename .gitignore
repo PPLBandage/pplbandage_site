@@ -39,3 +39,6 @@ next-env.d.ts
 
 .vscode
 certificates
+
+/CLAUDE.md
+.claude

@@ -1,6 +1,24 @@
 html {
 	height: 100%;
 	overflow-y: scroll;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* Устранение задержки тапов на мобильных устройствах */
+button,
+a,
+input,
+select,
+textarea,
+label,
+[role="button"],
+[onclick],
+[class*="button"],
+[class*="Button"],
+[class*="card"],
+[class*="Card"] {
+	touch-action: manipulation;
+	-webkit-tap-highlight-color: transparent;
 }
 
 body {

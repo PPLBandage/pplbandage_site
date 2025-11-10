@@ -59,6 +59,11 @@ export interface UserQuery {
      * [admin-only] The latest access date of user' session
      */
     last_accessed?: Date;
+
+    /**
+     * Bit-set of user badges
+     */
+    badges: number;
 }
 
 export interface Users extends UserQuery {
@@ -104,6 +109,7 @@ export interface Bandage {
             name: string;
             username: string;
         };
+        issue_date: Date;
     } | null;
     access_level: number;
     accent_color: string;

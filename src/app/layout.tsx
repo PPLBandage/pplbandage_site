@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import type { Viewport } from 'next';
 import { CookieProvider } from 'use-next-cookie';
+import SupportProjectHeader from '@/components/root/SupportProjectHeader';
 
 export const generateMetadata = async (): Promise<Metadata | undefined> => {
     const headersList = await headers();
@@ -20,7 +21,9 @@ export const generateMetadata = async (): Promise<Metadata | undefined> => {
 
 export const viewport: Viewport = {
     width: 'device-width',
-    initialScale: 0.9
+    initialScale: 0.9,
+    maximumScale: 5,
+    userScalable: true
 };
 
 export default function RootLayout({
@@ -31,6 +34,7 @@ export default function RootLayout({
             <Providers>
                 <body>
                     <div>
+                        <SupportProjectHeader />
                         <Header />
                         {children}
                     </div>

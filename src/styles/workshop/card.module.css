@@ -27,13 +27,15 @@
     height: auto;
     box-sizing: border-box;
 
-    transition: transform 200ms ease-in-out;
+    transition:
+        transform 300ms ease-in-out,
+        opacity 300ms;
 }
 
-.skin:hover {
-    transform: scale(1.01);
+.skin_loading {
+    opacity: 0;
+    transform: translateY(5px) scale(0.95);
 }
-
 
 .gradient_background {
     border: 1px solid var(--main-element-color);
@@ -44,10 +46,57 @@
     background-repeat: no-repeat;
     background-position: bottom;
     transition: background-size 200ms ease-in-out;
+    isolation: isolate;
 }
 
 .gradient_background:hover {
     background-size: 100% 130%;
+}
+
+.flip_container {
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.unflip_container {
+    width: 100%;
+    display: flex;
+    transition: transform .2s ease-in-out;
+}
+
+.unflip_container:hover {
+    transform: scale(1.01);
+}
+
+.flip_inner {
+    position: relative;
+    width: 100%;
+    transition: transform 0.4s ease-out;
+    transform-style: preserve-3d;
+    display: grid;
+    border-radius: 10px;
+}
+
+.flip_container:hover .flip_inner {
+    transform: rotateY(-180deg);
+}
+
+.flip_front,
+.flip_back {
+    grid-area: 1 / 1;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.flip_back {
+    transform: rotateY(180deg);
 }
 
 .about {
@@ -76,7 +125,7 @@
 .description {
     margin: 0;
     margin-top: .3rem;
-    color: #d8d8d8;
+    opacity: .7;
     overflow-wrap: anywhere;
     margin-bottom: 1rem;
 }

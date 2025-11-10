@@ -178,7 +178,7 @@
     transform: translateX(-50%);
 
     fill: #00000050;
-    filter: blur(2px);
+    filter: blur(10px);
 }
 
 .by_andcool {
@@ -234,7 +234,7 @@
 .nickname_container {
     position: absolute;
     z-index: 6;
-    top: 14.5rem;
+    top: 15.5rem;
 
     display: flex;
     align-items: center;
@@ -246,11 +246,16 @@
     opacity: .8;
     font-size: 1.6rem;
     background-color: color-mix(in hsl, var(--main-element-color), transparent 10%);
-    padding: .2rem .5rem .3rem .5rem;
+    padding: .2rem .5rem .3rem;
     border-radius: 5px;
 
     cursor: auto;
     user-select: none;
+}
+
+.nickname_gradient {
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent;
 }
 
 @media(max-width: 1150px) {

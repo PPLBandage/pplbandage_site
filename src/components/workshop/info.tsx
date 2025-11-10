@@ -16,10 +16,11 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
         setDate(formatDate(new Date(el.creation_date)));
     }, []);
 
-    if (el.tags.includes('Официальные'))
-        el.tags = ['Официальные', ...el.tags.filter(el => el !== 'Официальные')];
+    let el_tags = el.tags;
+    if (el_tags.includes('Официальные'))
+        el_tags = ['Официальные', ...el_tags.filter(el => el !== 'Официальные')];
 
-    const tags = el.tags.map((tag, index) => <TagElement key={index} title={tag} />);
+    const tags = el_tags.map((tag, index) => <TagElement key={index} title={tag} />);
     return (
         <div className={style.info_container}>
             <h2

@@ -1,23 +1,20 @@
 'use client';
 
-import { JSX, useEffect, useState } from 'react';
 import styles from '@/styles/me/me.module.css';
 import style_sidebar from '@/styles/me/sidebar.module.css';
 import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
-import { renderSkin } from '@/lib/SkinCardRender';
 import { Users } from '@/types/global';
+import { Card } from '@/components/workshop/Card';
 
 const UsersClient = ({ user }: { user: Users }) => {
-    const [elements, setElements] = useState<JSX.Element[] | null>(null);
+    if (user.works.length === 0) return null;
 
-    useEffect(() => {
-        renderSkin(user.works.reverse(), styles).then(setElements);
-    }, []);
-
-    if (!elements || elements.length === 0) return null;
+    const cards = user.works.map((bandage, i) => (
+        <Card key={i} el={bandage} className={styles} />
+    ));
     return (
         <div className={`${styles.cont} ${style_sidebar.hidable}`}>
-            <SimpleGrid>{elements}</SimpleGrid>
+            <SimpleGrid>{cards}</SimpleGrid>
         </div>
     );
 };

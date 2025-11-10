@@ -3,28 +3,27 @@
 import useAccess from '@/lib/useAccess';
 import { notFound } from 'next/navigation';
 import style_root from '@/styles/admin/page.module.css';
-import { JSX, useEffect, useState } from 'react';
-import { Bandage } from '@/types/global';
-import { renderSkin } from '@/lib/SkinCardRender';
 import styles_card from '@/styles/me/me.module.css';
 import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
 import { getUnderModerationBandages } from '@/lib/api/workshop';
+import useSWR from 'swr';
+import { Card } from '@/components/workshop/Card';
 
 const ModerationBandages = () => {
-    const [elements, setElements] = useState<JSX.Element[]>([]);
+    const { data } = useSWR(
+        'moderationBandages',
+        async () => await getUnderModerationBandages()
+    );
 
-    const render_skins = (data: Bandage[]) => {
-        renderSkin(data, styles_card).then(setElements);
-    };
+    if (!data) return null;
 
-    useEffect(() => {
-        getUnderModerationBandages().then(render_skins).catch(console.error);
-    }, []);
-
+    const cards = data.map((bandage, i) => (
+        <Card key={i} el={bandage} className={styles_card} />
+    ));
     return (
         <div className={style_root.users_container} style={{ marginBottom: '1rem' }}>
             <h2 style={{ margin: 0 }}>Повязки на модерации</h2>
-            <SimpleGrid>{elements}</SimpleGrid>
+            <SimpleGrid>{cards}</SimpleGrid>
         </div>
     );
 };

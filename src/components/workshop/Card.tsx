@@ -2,7 +2,7 @@ import { Bandage } from '@/types/global.d';
 import style_card from '@/styles/workshop/card.module.css';
 import NextImage from 'next/image';
 import Link from 'next/link';
-import { CSSProperties } from 'react';
+import { CSSProperties, useEffect, useRef, useState } from 'react';
 
 import {
     IconCircleDashedX,
@@ -21,6 +21,10 @@ import ReferrerLink from './ReferrerLink';
 import TagElement from './TagElement';
 import StarElement from './Star';
 import { AuthorLink } from './AuthorLink';
+import { renderQueue } from '@/lib/workshop/RenderingQueue';
+import { sha256 } from 'js-sha256';
+import { idbGet, idbSet } from '@/lib/stores/idb';
+import { useNextCookie } from 'use-next-cookie';
 
 const ExtraParams = ({
     flags,
@@ -96,22 +100,87 @@ export const CreateCard = ({ first }: { first?: boolean }) => {
     );
 };
 
+const QueuedSkinImage = ({ data, back }: { data: Bandage; back?: boolean }) => {
+    const imageRef = useRef<HTMLImageElement>(null);
+    const [rendered, setRendered] = useState<boolean>(false);
+    const taskIdRef = useRef<number | null>(null);
+    const renderedRef = useRef<boolean>(false);
+
+    async function render() {
+        if (!imageRef.current) return;
+        const hash = sha256(data.base64);
+        let base64 = await idbGet('skins', `v3-skin-${back ?? false}:${hash}`);
+
+        if (!base64) {
+            const { result, taskId } = await renderQueue.enqueue({
+                b64: data.base64,
+                flags: data.flags,
+                back: back ?? false
+            });
+            taskIdRef.current = taskId;
+
+            try {
+                base64 = await result;
+                renderedRef.current = true;
+            } catch (error) {
+                if (error instanceof Error && error.message === 'Task cancelled') {
+                    console.log('Render task cancelled for', data.external_id);
+                }
+            }
+
+            void idbSet('skins', `v3-skin-${back ?? false}:${hash}`, base64);
+        }
+
+        if (imageRef.current) {
+            imageRef.current.src = base64;
+            setRendered(true);
+        }
+    }
+
+    useEffect(() => {
+        void render();
+
+        return () => {
+            if (taskIdRef.current !== null && !renderedRef.current) {
+                renderQueue.cancel(taskIdRef.current);
+            }
+        };
+    }, []);
+    return (
+        <img
+            ref={imageRef}
+            className={`${style_card.skin} ${!rendered && style_card.skin_loading}`}
+            alt={data.external_id}
+            width={300}
+            height={300}
+            draggable="false"
+        />
+    );
+};
+
 export const Card = ({
     el,
-    base64,
     className
 }: {
     el: Bandage;
-    base64: string;
     className?: { readonly [key: string]: string };
 }) => {
-    if (el.tags.includes('Официальные'))
-        el.tags = ['Официальные', ...el.tags.filter(el => el !== 'Официальные')];
+    const [mounted, setMounted] = useState<boolean>(false);
+    const useFlipRenders = useNextCookie('use-flip-renders') === 'true';
 
-    const tagsEl = el.tags.map(tag => <TagElement title={tag} key={tag} />);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    let el_tags = el.tags;
+    if (el_tags.includes('Официальные'))
+        el_tags = ['Официальные', ...el_tags.filter(el => el !== 'Официальные')];
+
+    const tagsEl = el_tags.map(tag => <TagElement title={tag} key={tag} />);
 
     return (
         <article
+            key={`article_${el.external_id}`}
             className={`${style_card.card} ${className?.skin_description_props}`}
         >
             <div className={style_card.head_container}>
@@ -129,16 +198,22 @@ export const Card = ({
             >
                 <ReferrerLink
                     href={`/workshop/${el.external_id}`}
-                    style={{ display: 'flex', overflow: 'hidden' }}
+                    className={style_card.flip_container}
                 >
-                    <NextImage
-                        src={base64}
-                        className={style_card.skin}
-                        alt={el.external_id}
-                        width={300}
-                        height={300}
-                        draggable="false"
-                    />
+                    {useFlipRenders ? (
+                        <div className={style_card.flip_inner}>
+                            <div className={style_card.flip_front}>
+                                <QueuedSkinImage data={el} />
+                            </div>
+                            <div className={style_card.flip_back}>
+                                <QueuedSkinImage data={el} back />
+                            </div>
+                        </div>
+                    ) : (
+                        <div className={style_card.unflip_container}>
+                            <QueuedSkinImage data={el} />
+                        </div>
+                    )}
                 </ReferrerLink>
                 <div className={style_card.tags}>{tagsEl}</div>
             </div>
@@ -158,7 +233,9 @@ export const Card = ({
                 <div>
                     <AuthorLink author={el.author} />
                     <p className={style_card.creation_date}>
-                        {formatDate(new Date(el.creation_date))}
+                        {mounted
+                            ? formatDate(new Date(el.creation_date))
+                            : 'Загрузка...'}
                     </p>
                 </div>
             </div>

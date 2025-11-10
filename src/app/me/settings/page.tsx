@@ -2,7 +2,7 @@
 
 import Style from '@/styles/me/connections.module.css';
 import style_sidebar from '@/styles/me/sidebar.module.css';
-import { Themes } from '@/components/me/settings/Themes';
+import { Appearance } from '@/components/me/settings/Appearance';
 import { UserSettings } from '@/components/me/settings/UserSettings';
 import { Safety } from '@/components/me/settings/Safety';
 import useSWR from 'swr';
@@ -19,7 +19,7 @@ const Page = () => {
     return (
         <div className={`${Style.main} ${style_sidebar.hidable}`}>
             <UserSettings />
-            <Themes />
+            <Appearance />
             <Safety />
             <AccountDeletion />
         </div>

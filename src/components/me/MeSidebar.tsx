@@ -13,13 +13,15 @@ import {
     IconStar,
     IconList,
     IconStarFilled,
-    IconUser
+    IconUser,
+    IconUserHeart
 } from '@tabler/icons-react';
 import { UserQuery, Users } from '@/types/global';
 import { useNextCookie } from 'use-next-cookie';
 import { subscribeTo, unsubscribeFrom } from '@/lib/api/user';
 import { getAverageColor, hexToRgb } from '@/lib/colorUtils';
 import Link from 'next/link';
+import Badges from './Badges';
 
 const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
     const logged = !!useNextCookie('sessionId');
@@ -44,7 +46,8 @@ const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
             style={{
                 gap: '.5rem',
                 alignItems: 'stretch',
-                boxShadow: '0px 13px 8px 0px rgb(0 0 0 / 20%) inset'
+                boxShadow: '0px 13px 8px 0px var(--me-card-shadow-color) inset',
+                borderRadius: '0 0 10px 10px'
             }}
         >
             <div className={style_sidebar.subscribe_container}>
@@ -143,6 +146,7 @@ const AvatarHead = ({
     theme: number;
     color: string;
 }) => {
+    const [mounted, setMounted] = useState(false);
     const [bright, setBright] = useState<boolean>(true);
     const avatar = process.env.NEXT_PUBLIC_DOMAIN + `/api/v1/avatars/${data.userID}`;
     const optimized_avatar = `/_next/image?url=${encodeURI(avatar)}&w=256&q=75`;
@@ -150,7 +154,7 @@ const AvatarHead = ({
     let used_color = undefined;
     let image = undefined;
     if (theme === 1) {
-        image = { backgroundImage: `url("${optimized_avatar}")` };
+        image = { '--avatar-url': `url("${optimized_avatar}")` } as CSSProperties;
     } else {
         used_color = {
             backgroundColor: theme === 2 ? color : 'var(--main-card-color)'
@@ -163,6 +167,12 @@ const AvatarHead = ({
     };
 
     useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) return;
+
         if (theme === 0) {
             setBright(true);
         } else if (theme === 1) {
@@ -172,7 +182,7 @@ const AvatarHead = ({
             if (!rgb) return;
             setBrightColor(rgb);
         }
-    }, [theme, color]);
+    }, [theme, color, mounted]);
 
     return (
         <div
@@ -191,7 +201,8 @@ const AvatarHead = ({
                 style={
                     {
                         ...used_color,
-                        '--avatar-text-color': bright ? '#fff' : '#101013'
+                        '--avatar-text-color': bright ? '#fff' : '#101013',
+                        borderRadius: '10px 10px 0 0'
                     } as CSSProperties
                 }
             >
@@ -225,6 +236,7 @@ const AvatarHead = ({
                         </span>
                     )}
                 </p>
+                <Badges badges={data.badges} />
 
                 <p className={style_sidebar.total_stars}>
                     Звёзд: {data.stars_count}
@@ -272,6 +284,15 @@ const Pages = ({ data }: { data: UserQuery }) => {
             >
                 <IconStar />
                 Избранное
+            </Link>
+            <Link
+                href="/me/subscriptions"
+                className={`${style_sidebar.side_butt} ${
+                    path === 'subscriptions' && style_sidebar.active
+                }`}
+            >
+                <IconUserHeart />
+                Подписки
             </Link>
             <Link
                 href="/me/notifications"

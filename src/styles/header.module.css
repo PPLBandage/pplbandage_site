@@ -23,6 +23,7 @@
 }
 
 .root_anchor {
+    color: inherit;
     display: flex;
     align-items: center;
     text-decoration: none;

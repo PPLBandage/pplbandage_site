@@ -1,0 +1,57 @@
+.container {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    padding: 0 1rem;
+    background: linear-gradient(90deg, #00000000 0%, oklch(71.8% 0.202 349.761) 100%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
+    overflow: hidden;
+    height: 45px;
+    transition: height 400ms;
+}
+
+.exit {
+    height: 0px;
+}
+
+.text {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.text:hover {
+    text-decoration: underline;
+}
+
+.heart {
+    width: 1.3em;
+    transform: scale(1);
+    transition: all 250ms;
+}
+
+.text:hover .heart {
+    transform: scale(1.1);
+}
+
+.close {
+    position: absolute;
+    right: 1rem;
+    cursor: pointer;
+
+    transition: opacity 150ms;
+}
+
+.close:hover {
+    opacity: .8;
+}

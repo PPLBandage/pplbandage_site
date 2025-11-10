@@ -27,7 +27,7 @@
 .date_container p {
     margin: 0;
     font-size: .8rem;
-    color: gray;
+    opacity: .7;
 }
 
 .notification_container {
@@ -46,12 +46,12 @@
 }
 
 .content a {
-    color: rgba(12, 247, 215);
+    color: var(--main-action-color);
     transition: color 150ms;
 }
 
 .content a:hover {
-    color: rgb(179, 250, 241);
+    color: color-mix(in srgb, var(--main-action-color) 80%, white 20%);
 }
 
 .pass {

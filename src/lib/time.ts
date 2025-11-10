@@ -21,11 +21,7 @@ export const stringTimeDelta = (delta: number) => {
     if (delta < 60) {
         return numbersTxt(Math.floor(delta), ['секунду', 'секунды', 'секунд']);
     } else if (delta < 3600) {
-        return numbersTxt(Math.floor(delta / 60), [
-            'минуту',
-            'минуты',
-            'минут'
-        ]);
+        return numbersTxt(Math.floor(delta / 60), ['минуту', 'минуты', 'минут']);
     } else if (delta < 86400) {
         return numbersTxt(Math.floor(delta / 3600), ['час', 'часа', 'часов']);
     } else if (delta < 2592000) {

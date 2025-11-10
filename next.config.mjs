@@ -10,6 +10,7 @@ const nextConfig = {
 	allowedDevOrigins: ['192.168.0.53'],
 	reactStrictMode: false,
 	images: {
+		dangerouslyAllowLocalIP: true,
 		remotePatterns: [
 			{
 				protocol: "http",

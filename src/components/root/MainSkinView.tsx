@@ -9,9 +9,10 @@ import axios from 'axios';
 import { b64Prefix } from '@/lib/bandageEngine';
 import { minecraftMono } from '@/fonts/Minecraft';
 import { ModelType } from 'skinview-utils';
-import { getCurrentEvent, Vector3Array } from '@/lib/root/events';
+import { getCurrentEvent } from '@/lib/root/events';
 import { degToRad } from 'three/src/math/MathUtils.js';
-import { Object3D, Plane, Vector3 } from 'three';
+import { Object3D, Plane, Raycaster, Vector2, Vector3 } from 'three';
+import { getCssGradientString } from '@/lib/root/names_gradients';
 
 function easeInOutSine(x: number): number {
     return -(Math.cos(Math.PI * x) - 1) / 2;
@@ -42,36 +43,6 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
     const lastTimeGrabbed = useRef<number>(0);
     const posRef = useRef<number | null>(0);
     const rafRef = useRef<number>(0);
-
-    useEffect(() => {
-        const checkMobile = () => {
-            if (window.innerWidth <= 850) {
-                if (skinViewRef.current?.disposed) return;
-                skinViewRef.current?.dispose?.();
-                setInited(false);
-                cancelAnimationFrame(rafRef.current);
-            } else if (!skinViewRef.current || skinViewRef.current.disposed) {
-                initSkinViewer();
-            }
-        };
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-
-        /*
-        setInterval(() => {
-            console.log(
-                skinViewRef.current.camera.position,
-                skinViewRef.current.controls.target
-            );
-        }, 150);
-        */
-
-        return () => {
-            if (skinViewRef.current) skinViewRef.current.dispose();
-            cancelAnimationFrame(rafRef.current);
-            window.removeEventListener('resize', checkMobile);
-        };
-    }, []);
 
     const initSkinViewer = () => {
         setInited(false);
@@ -108,12 +79,13 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
                 const gltf = await new GLTFLoader().loadAsync(event.gltf);
                 const hat = gltf.scene;
 
-                hat.scale.set(...event.scale);
-                hat.position.set(...event.position);
-                hat.rotation.set(...(event.rotation.map(degToRad) as Vector3Array));
+                type ParamsArr = [number, number, number];
+                hat.scale.set(...(event.scale as ParamsArr));
+                hat.position.set(...(event.position as ParamsArr));
+                hat.rotation.set(...(event.rotation.map(degToRad) as ParamsArr));
 
                 const bodyPart = skinViewRef.current.playerObject.skin[
-                    event.bodyPart
+                    event.body_part as keyof typeof skinViewRef.current.playerObject.skin
                 ] as Object3D;
                 bodyPart.add(hat);
             }
@@ -146,7 +118,8 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
 
             animationRef.current = new AnimationController({
                 animation,
-                animationName: event?.initialAnimation ?? 'initial',
+                animationName:
+                    event?.name === 'halloween' ? 'initial_halloween' : 'initial',
                 connectCape: true
             });
             skinViewRef.current.animation = animationRef.current;
@@ -192,6 +165,36 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
 
         requestAnimationFrame(checkLastGrabbed);
     };
+
+    useEffect(() => {
+        const checkMobile = () => {
+            if (window.innerWidth <= 850) {
+                if (skinViewRef.current?.disposed) return;
+                skinViewRef.current?.dispose?.();
+                setInited(false);
+                cancelAnimationFrame(rafRef.current);
+            } else if (!skinViewRef.current || skinViewRef.current.disposed) {
+                initSkinViewer();
+            }
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
+        /*
+        setInterval(() => {
+            console.log(
+                skinViewRef.current.camera.position,
+                skinViewRef.current.controls.target
+            );
+        }, 150);
+        */
+
+        return () => {
+            if (skinViewRef.current) skinViewRef.current.dispose();
+            cancelAnimationFrame(rafRef.current);
+            window.removeEventListener('resize', checkMobile);
+        };
+    }, []);
 
     useEffect(() => {
         const onMouseMove = (evt: MouseEvent | TouchEvent) => {
@@ -264,26 +267,61 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
     ) => {
         if (!canvasRef.current) return;
 
+        let x: number;
         let y: number;
         let mouse_x: number;
         let mouse_y: number;
         const rect = canvasRef.current.getBoundingClientRect();
         if ('touches' in evt) {
             if (evt.touches.length === 0) return;
+            x = evt.touches[0].clientX - rect.left;
             y = evt.touches[0].clientY - rect.top;
             mouse_x = evt.touches[0].clientX;
             mouse_y = evt.touches[0].clientY;
         } else {
+            x = evt.clientX - rect.left;
             y = evt.clientY - rect.top;
             mouse_x = evt.clientX;
             mouse_y = evt.clientY;
         }
 
-        hitTypeRef.current = {
-            type: y < 470 * (rect.height / (height ?? 400)) ? 'head' : 'body',
-            x: mouse_x,
-            y: mouse_y
-        };
+        const ndcX = (x / rect.width) * 2 - 1;
+        const ndcY = -(y / rect.height) * 2 + 1;
+        const body_parts_names = [
+            'head',
+            'body',
+            'leftArm',
+            'rightArm',
+            'leftLeg',
+            'rightLeg'
+        ];
+
+        const raycaster = new Raycaster();
+        raycaster.setFromCamera(new Vector2(ndcX, ndcY), skinViewRef.current.camera);
+        const intersects = raycaster.intersectObjects(
+            skinViewRef.current.scene.children
+        );
+
+        if (intersects.length !== 0) {
+            const intersected = intersects[0].object;
+
+            const recursive_find = (obj: Object3D, f_list: string[]) => {
+                if (f_list.includes(obj.name)) return obj.name;
+                if (!obj.parent) return null;
+                return recursive_find(obj.parent, f_list);
+            };
+
+            const intersected_name = recursive_find(intersected, body_parts_names);
+            if (intersected_name !== null) {
+                const hit_type = intersected_name === 'head' ? 'head' : 'body';
+
+                hitTypeRef.current = {
+                    type: hit_type,
+                    x: mouse_x,
+                    y: mouse_y
+                };
+            }
+        }
         setGrabbed(true);
     };
 
@@ -296,8 +334,16 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
             }}
         >
             <div className={styles.nickname_container}>
-                <span className={styles.nickname} style={minecraftMono.style}>
-                    {nickname}
+                <span className={styles.nickname}>
+                    <span
+                        className={styles.nickname_gradient}
+                        style={{
+                            ...minecraftMono.style,
+                            background: getCssGradientString(nickname)
+                        }}
+                    >
+                        {nickname}
+                    </span>
                 </span>
             </div>
             <canvas

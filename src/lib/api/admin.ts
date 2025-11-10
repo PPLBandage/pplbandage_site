@@ -32,3 +32,61 @@ export const deleteKv = async (key: string): Promise<void> => {
         data: { key }
     });
 };
+
+export type EventType = {
+    id: number;
+    name: string;
+    start: string;
+    end: string;
+    boost_amount: number;
+    tags: string[];
+};
+
+/** Get all events */
+export const getEvents = async (): Promise<EventType[]> => {
+    return (
+        await doRequest({
+            url: '/admin/events',
+            method: 'GET'
+        })
+    ).data;
+};
+
+type UpdateEvent = {
+    id?: number;
+    name: string;
+    start_date: string;
+    end_date: string;
+    tags: string[];
+    boost_amount: number;
+};
+
+export const updateEvent = async (data: UpdateEvent): Promise<void> => {
+    return (
+        await doRequest({
+            url: '/admin/events',
+            method: 'PUT',
+            data
+        })
+    ).data;
+};
+
+export const createEvent = async (data: Omit<UpdateEvent, 'id'>): Promise<void> => {
+    return (
+        await doRequest({
+            url: '/admin/events',
+            method: 'POST',
+            data
+        })
+    ).data;
+};
+
+export const deleteEvent = async (data: { id: number }): Promise<void> => {
+    return (
+        await doRequest({
+            url: '/admin/events',
+            method: 'DELETE',
+            data
+        })
+    ).data;
+};

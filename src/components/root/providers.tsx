@@ -2,7 +2,6 @@
 
 import { Inter } from 'next/font/google';
 import { CSSProperties, useEffect } from 'react';
-import WorkshopCacheListener from '@/lib/workshopCacheListener';
 import themes from '@/constants/themes';
 import { useCookiesServer } from 'use-next-cookie';
 const inter = Inter({ subsets: ['latin'] });
@@ -33,7 +32,6 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
             className={inter.className}
             style={theme.data as CSSProperties}
         >
-            <WorkshopCacheListener />
             {children}
         </html>
     );

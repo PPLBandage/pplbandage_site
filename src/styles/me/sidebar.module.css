@@ -38,7 +38,6 @@
     width: 300px;
     align-items: flex-start;
     box-sizing: border-box;
-    overflow: hidden;
 }
 
 .subscribe_container {
@@ -97,7 +96,7 @@
     margin: 0;
     opacity: .8;
     overflow-wrap: anywhere;
-    margin-bottom: 1rem;
+    margin-bottom: .2rem;
 }
 
 .card h3 {
@@ -178,10 +177,10 @@
 .card_improved {
     background: none;
     backdrop-filter: blur(7px);
+    border-radius: 10px 10px 0 0;
 }
 
 .background_image_container {
-    overflow: hidden;
     position: relative;
     border-radius: 10px;
 
@@ -189,8 +188,22 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: center;
-    background-position: center;
-    background-size: cover;
+}
+
+.background_image_container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--avatar-url) center/cover;
+    border-radius: 10px;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.background_image_container>* {
+    position: relative;
+    z-index: 1;
 }
 
 .not_a_background_image_container {
@@ -203,11 +216,12 @@
     gap: .15rem;
     margin: 0;
     margin-bottom: .3rem;
+
+    margin-top: 1rem;
 }
 
 .round_container {
     border-radius: 10px;
-    overflow: hidden;
     box-sizing: border-box;
 }
 

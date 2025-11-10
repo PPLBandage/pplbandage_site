@@ -1,0 +1,22 @@
+.container {
+    position: relative;
+    color: var(--main-text-color);
+    background-color: var(--main-element-color);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .3rem;
+    flex-wrap: wrap;
+    padding: .3rem;
+    border-radius: 5px;
+}
+
+.icon {
+    cursor: pointer;
+    background-color: var(--color, #fff);
+
+    color: var(--main-element-color);
+    padding: .1rem;
+    border-radius: 4px;
+}

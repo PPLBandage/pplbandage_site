@@ -177,3 +177,20 @@ export const deleteAccount = async (): Promise<void> => {
         method: 'DELETE'
     });
 };
+
+export type SubscriptionsType = {
+    id: string;
+    name: string;
+    username: string;
+    joined_at: Date;
+};
+
+/** Get me subscriptions */
+export const getSubscriptions = async (): Promise<SubscriptionsType[]> => {
+    return (
+        await doRequest({
+            url: `/users/@me/subscriptions`,
+            method: 'GET'
+        })
+    ).data;
+};

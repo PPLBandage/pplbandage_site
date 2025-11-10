@@ -1,6 +1,5 @@
 'use client';
 
-import React, { JSX, useState } from 'react';
 import { useEffect } from 'react';
 import Style from '@/styles/workshop/page.module.css';
 
@@ -10,15 +9,15 @@ import Image from 'next/image';
 import styles_card from '@/styles/me/me.module.css';
 import IconSvg from '@/resources/icon.svg';
 import { BrowserNotification } from '@/components/workshop/checkBrowserAPI';
-import { renderSkin } from '@/lib/SkinCardRender';
 import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
 import { getWorkshop } from '@/lib/api/workshop';
 import useSWR from 'swr';
 import { useWorkshopStore } from '@/lib/stores/workshop';
 import { BottomPaginator } from '@/components/workshop/BottomPaginator';
+import { Bandage } from '@/types/global';
+import { Card } from '@/components/workshop/Card';
 
 export default function Home() {
-    const [elements, setElements] = useState<JSX.Element[] | null>(null);
     const { page, take, search, sort, totalCount, setPage, setTotalCount } =
         useWorkshopStore();
 
@@ -39,7 +38,6 @@ export default function Home() {
 
     useEffect(() => {
         if (!data) return;
-        renderSkin(data.data, styles_card).then(setElements);
         setTotalCount(data.totalCount);
     }, [data]);
 
@@ -60,14 +58,14 @@ export default function Home() {
                         onChange={setPage}
                     />
 
-                    <CardsContainer elements={elements} />
+                    <CardsContainer data={data?.data} />
 
                     <BottomPaginator
                         total_count={totalCount}
                         take={take}
                         page={page}
                         onChange={setPage}
-                        elements={elements}
+                        elements={data?.data}
                     />
                 </div>
             </main>
@@ -75,11 +73,11 @@ export default function Home() {
     );
 }
 
-const CardsContainer = ({ elements }: { elements: JSX.Element[] | null }) => {
-    if (elements === null)
+const CardsContainer = ({ data }: { data: Bandage[] | undefined }) => {
+    if (data === undefined)
         return <IconSvg width={86} height={86} className={Style.loading} />;
 
-    if (elements.length === 0) {
+    if (data.length === 0) {
         return (
             <p className={Style.theres_nothing_p}>
                 <Image
@@ -94,9 +92,12 @@ const CardsContainer = ({ elements }: { elements: JSX.Element[] | null }) => {
         );
     }
 
+    const cards = data.map((bandage, i) => (
+        <Card key={i} el={bandage} className={styles_card} />
+    ));
     return (
         <div className={Style.animated}>
-            <SimpleGrid>{elements}</SimpleGrid>
+            <SimpleGrid>{cards}</SimpleGrid>
         </div>
     );
 };

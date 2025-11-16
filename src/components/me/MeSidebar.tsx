@@ -22,6 +22,7 @@ import { subscribeTo, unsubscribeFrom } from '@/lib/api/user';
 import { getAverageColor, hexToRgb } from '@/lib/colorUtils';
 import Link from 'next/link';
 import Badges from './Badges';
+import { Bubble } from './Bubble';
 
 const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
     const logged = !!useNextCookie('sessionId');
@@ -226,6 +227,20 @@ const AvatarHead = ({
                         priority={true}
                         draggable={false}
                     />
+                    {data.username === 'andcoolsystems' && (
+                        <Bubble
+                            colors={['#ff0000', '#00ff00', '#0000ff']}
+                            styles={{
+                                width: 'calc(100% + 33px)',
+                                position: 'absolute',
+                                left: '50%',
+                                top: '50%',
+                                transform: ' translate(-50%, -50%)'
+                            }}
+                            width={150}
+                            height={150}
+                        />
+                    )}
                 </div>
                 <h3>{data.name}</h3>
                 <p className={style_sidebar.username}>
@@ -269,36 +284,40 @@ const Pages = ({ data }: { data: UserQuery }) => {
         >
             <Link
                 href="/me"
-                className={`${style_sidebar.side_butt} ${
-                    path === 'me' && style_sidebar.active
-                }`}
+                className={
+                    `${style_sidebar.side_butt} ` +
+                    `${path === 'me' && style_sidebar.active}`
+                }
             >
                 <IconList />
                 Мои работы
             </Link>
             <Link
                 href="/me/stars"
-                className={`${style_sidebar.side_butt} ${
-                    path === 'stars' && style_sidebar.active
-                }`}
+                className={
+                    `${style_sidebar.side_butt} ` +
+                    `${path === 'stars' && style_sidebar.active}`
+                }
             >
                 <IconStar />
                 Избранное
             </Link>
             <Link
                 href="/me/subscriptions"
-                className={`${style_sidebar.side_butt} ${
-                    path === 'subscriptions' && style_sidebar.active
-                }`}
+                className={
+                    `${style_sidebar.side_butt} ` +
+                    `${path === 'subscriptions' && style_sidebar.active}`
+                }
             >
                 <IconUserHeart />
                 Подписки
             </Link>
             <Link
                 href="/me/notifications"
-                className={`${style_sidebar.side_butt} ${
-                    path === 'notifications' && style_sidebar.active
-                }`}
+                className={
+                    `${style_sidebar.side_butt} ` +
+                    `${path === 'notifications' && style_sidebar.active}`
+                }
             >
                 <IconBell
                     fill={
@@ -311,18 +330,20 @@ const Pages = ({ data }: { data: UserQuery }) => {
             </Link>
             <Link
                 href="/me/settings"
-                className={`${style_sidebar.side_butt} ${
-                    path === 'settings' && style_sidebar.active
-                }`}
+                className={
+                    `${style_sidebar.side_butt} ` +
+                    `${path === 'settings' && style_sidebar.active}`
+                }
             >
                 <IconSettings />
                 Настройки
             </Link>
             <Link
                 href="/me/accounts"
-                className={`${style_sidebar.side_butt} ${
-                    path === 'accounts' && style_sidebar.active
-                }`}
+                className={
+                    `${style_sidebar.side_butt} ` +
+                    `${path === 'accounts' && style_sidebar.active}`
+                }
             >
                 <IconUser />
                 Аккаунты

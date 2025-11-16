@@ -3,7 +3,8 @@ import type {
     INotifications,
     Session,
     UserAdmins,
-    UserQuery
+    UserQuery,
+    Users as UsersType
 } from '@/types/global';
 import { doRequest } from './utils';
 
@@ -23,6 +24,15 @@ export const logout = async (): Promise<void> => {
         url: '/users/@me',
         method: 'DELETE'
     });
+};
+
+export const getUser = async (name: string): Promise<UsersType> => {
+    return (
+        await doRequest({
+            url: `/users/${name}`,
+            method: 'GET'
+        })
+    ).data;
 };
 
 /** Get users (admin) */

@@ -135,3 +135,55 @@
     border: 1px var(--hr-color) solid;
     border-radius: 5px;
 }
+
+.main table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background-color: var(--main-card-color);
+    border: 1px solid var(--hr-color);
+    border-radius: 5px;
+    overflow: hidden;
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.main table thead {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.main table th,
+.main table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--hr-color);
+}
+
+.main table th {
+    font-weight: 600;
+    color: var(--main-text-color);
+}
+
+.main table td {
+    color: var(--main-text-color);
+    opacity: 0.9;
+}
+
+.main table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.main table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.main table th[align="center"],
+.main table td[align="center"] {
+    text-align: center;
+}
+
+.main table th[align="right"],
+.main table td[align="right"] {
+    text-align: right;
+}

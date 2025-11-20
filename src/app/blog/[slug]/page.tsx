@@ -17,6 +17,7 @@ import {
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { Emote } from '@/components/workshop/TextFormatter';
+import remarkGfm from 'remark-gfm';
 
 export const generateMetadata = async ({
     params
@@ -80,7 +81,14 @@ const Post = async ({ params }: { params: Promise<{ slug: string }> }) => {
             <h1 style={{ margin: 0 }}>{meta.title}</h1>
             {meta.description && (
                 <div className={`${style.description} ${link_style.link_cont}`}>
-                    <MDXRemote source={meta.description} />
+                    <MDXRemote
+                        source={meta.description}
+                        options={{
+                            mdxOptions: {
+                                remarkPlugins: [remarkGfm]
+                            }
+                        }}
+                    />
                 </div>
             )}
             <div className={style.posted_by}>
@@ -93,6 +101,11 @@ const Post = async ({ params }: { params: Promise<{ slug: string }> }) => {
             <div className={link_style.link_cont}>
                 <MDXRemote
                     source={contents}
+                    options={{
+                        mdxOptions: {
+                            remarkPlugins: [remarkGfm]
+                        }
+                    }}
                     components={{
                         Note,
                         Warn,

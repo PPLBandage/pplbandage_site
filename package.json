@@ -30,6 +30,7 @@
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
         "react-select": "^5.10.2",
+        "remark-gfm": "^4.0.1",
         "sanitize-html": "^2.17.0",
         "sharp": "^0.34.4",
         "skinview3d": "^3.4.1",

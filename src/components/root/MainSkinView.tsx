@@ -293,7 +293,8 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
             'leftArm',
             'rightArm',
             'leftLeg',
-            'rightLeg'
+            'rightLeg',
+            'elytra'
         ];
 
         const raycaster = new Raycaster();

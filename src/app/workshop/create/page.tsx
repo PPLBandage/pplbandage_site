@@ -18,6 +18,7 @@ import { useNextCookie } from 'use-next-cookie';
 import TagSearch from '@/components/workshop/TagSearch';
 import { createBandage } from '@/lib/api/workshop';
 import Link from 'next/link';
+import { IconBulb } from '@tabler/icons-react';
 const fira = Fira_Code({ subsets: ['latin'] });
 
 const capitalize = (string: string) =>
@@ -256,11 +257,29 @@ const Editor = ({
 
     return (
         <div className={style.editor_div}>
-            <h2 style={{ marginTop: 0, marginBottom: '.5rem' }}>Создать повязку</h2>
-            <h3 style={{ margin: 0 }}>
-                Перед началом создания повязки прочитайте{' '}
-                <CustomLink href="/blog/bandage">туториал</CustomLink>
-            </h3>
+            <h2 style={{ marginTop: 0, marginBottom: '.2rem' }}>Создать повязку</h2>
+            <InfoCard
+                color="#3FB950"
+                style={{ marginBottom: '1rem' }}
+                title={
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            gap: '.5rem'
+                        }}
+                    >
+                        <IconBulb width={24} height={24} />
+                        <p style={{ margin: 0 }}>Заметка</p>
+                    </div>
+                }
+            >
+                <p style={{ margin: 0 }}>
+                    Не знаете или сомневаетесь, как создать повязку? Прочитайте наш{' '}
+                    <CustomLink href="/blog/bandage">туториал</CustomLink>!
+                </p>
+            </InfoCard>
 
             <SlideButton
                 onChange={setUseOldMethod}
@@ -319,7 +338,7 @@ const Editor = ({
                 maxLength={300}
                 placeholder="Описание"
                 className={style.textarea}
-                style={{minHeight: "2rem"}}
+                style={{ minHeight: '2rem' }}
                 onInput={ev =>
                     setDescription(lstrip((ev.target as HTMLTextAreaElement).value))
                 }
@@ -341,14 +360,19 @@ const Editor = ({
                             Предпросмотр цвета
                         </label>
                     </div>
-                    <span>Подробнее об окрашиваемых повязках можно прочитать <CustomLink href={"/blog/colorable"}>здесь</CustomLink></span>
+                    <span>
+                        Подробнее об окрашиваемых повязках можно прочитать{' '}
+                        <CustomLink href={'/blog/colorable'}>здесь</CustomLink>
+                    </span>
                 </InfoCard>
             )}
 
             <p style={{ margin: 0, marginTop: '.5rem' }}>Выберите теги</p>
             <TagSearch defaultValue={[]} onChange={setTags} />
 
-            {createError && <label style={{ margin: 0, color: '#dc2626' }}>{createError}</label>}
+            {createError && (
+                <label style={{ margin: 0, color: '#dc2626' }}>{createError}</label>
+            )}
             <button onClick={create} className={style.skin_load}>
                 Создать
             </button>

@@ -38,8 +38,10 @@ export class AnimationController extends SkinViewBlockbench {
 
     onFinish = () => {
         this.speed = 1;
-        if (
-            this.initial_animations.includes(this.animationName) ||
+
+        if (this.initial_animations.includes(this.animationName)) {
+            this.setAnimation(this.getRandomActionAnim());
+        } else if (
             this.action_animations.includes(this.animationName) ||
             this.interactive_animations.includes(this.animationName)
         ) {
@@ -48,9 +50,7 @@ export class AnimationController extends SkinViewBlockbench {
         }
     };
 
-    scheduleAnimation() {
-        this.scheduled_iterations = randint(1, 4);
-
+    getRandomActionAnim() {
         let anim_choice = choice(this.action_animations);
         while (
             anim_choice === this.latest_scheduled_anim &&
@@ -58,6 +58,14 @@ export class AnimationController extends SkinViewBlockbench {
         ) {
             anim_choice = choice(this.action_animations);
         }
+
+        return anim_choice;
+    }
+
+    scheduleAnimation() {
+        this.scheduled_iterations = randint(1, 4);
+
+        const anim_choice = this.getRandomActionAnim();
         this.scheduled_animation = anim_choice;
         this.latest_scheduled_anim = anim_choice;
 

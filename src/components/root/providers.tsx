@@ -26,6 +26,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         );
     }, []);
 
+    // no providers ((((
     return (
         <html
             lang="ru"

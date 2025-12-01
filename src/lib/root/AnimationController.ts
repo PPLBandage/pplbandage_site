@@ -81,7 +81,7 @@ export class AnimationController extends SkinViewBlockbench {
         )
             return;
 
-        let anim_name: string;
+        let anim_name: string = 'bottom_hit';
         switch (type) {
             case 'head':
                 anim_name = 'hit';
@@ -91,12 +91,12 @@ export class AnimationController extends SkinViewBlockbench {
                 break;
         }
 
-        this.log(`Setting "${anim_name!}" animation on click event`);
-        this.setAnimation(anim_name!);
+        this.log(`Setting "${anim_name}" animation on click event`);
+        this.setAnimation(anim_name);
         this.speed = 1.5;
     }
 
     log(message: string) {
-        console.log(`[AnimationController] ${message}`);
+        console.log(`[${AnimationController.name}] ${message}`);
     }
 }

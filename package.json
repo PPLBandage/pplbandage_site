@@ -36,7 +36,7 @@
         "skinview3d": "^3.4.1",
         "skinview3d-blockbench": "^1.0.19",
         "swr": "^2.3.7",
-        "use-next-cookie": "^0.1.7",
+        "use-next-cookie": "^0.1.8",
         "zustand": "^5.0.9"
     },
     "devDependencies": {
@@ -44,7 +44,7 @@
         "@types/react": "^19",
         "@types/react-dom": "^19.2.3",
         "@types/sanitize-html": "^2.16.0",
-        "baseline-browser-mapping": "^2.9.0",
+        "baseline-browser-mapping": "^2.9.3",
         "eslint": "^9.39.1",
         "eslint-config-next": "^16.0.7",
         "typescript": "^5"

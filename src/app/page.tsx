@@ -47,7 +47,7 @@ const HomeClient = () => {
                     <SkinRender width={600} height={950} />
                 </div>
             </div>
-            {/* Не забыть это убрать после нг */}
+            {/* TODO: Не забыть это убрать после нг */}
             <Snowfall snowflakeCount={100} />
         </div>
     );

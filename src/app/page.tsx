@@ -7,7 +7,6 @@ import IconCropped from '@/resources/icon-cropped.svg';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import SkinRender from '@/components/root/MainSkinView';
-import Snowfall from 'react-snowfall';
 
 const HomeClient = () => {
     return (
@@ -47,8 +46,6 @@ const HomeClient = () => {
                     <SkinRender width={600} height={950} />
                 </div>
             </div>
-            {/* Не забыть это убрать после нг */}
-            <Snowfall snowflakeCount={100} />
         </div>
     );
 };

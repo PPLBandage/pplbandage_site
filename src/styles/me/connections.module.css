@@ -12,7 +12,6 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
     gap: 1rem;
-    justify-content: center;
 }
 
 .container {
@@ -208,5 +207,9 @@
 
     .name {
         font-size: 1.1rem;
+    }
+
+    .accounts_grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 }

@@ -14,7 +14,6 @@ import { getCurrentEvent } from '@/lib/root/events';
 import { degToRad } from 'three/src/math/MathUtils.js';
 import { Object3D, Plane, Raycaster, Vector2, Vector3 } from 'three';
 import { getCssGradientString } from '@/lib/root/names_gradients';
-import Snowfall from 'react-snowfall';
 
 function easeInOutSine(x: number): number {
     return -(Math.cos(Math.PI * x) - 1) / 2;
@@ -31,7 +30,6 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
     const [nickname, setNickname] = useState<string>('Unknown');
     const [grabbed, setGrabbed] = useState<boolean>(false);
     const [inited, setInited] = useState<boolean>(false);
-    const [currentEvent, setCurrentEvent] = useState<string | null>(null);
 
     const initialReturningData = useRef<InitialReturningData>({
         start_pos: 0,
@@ -124,7 +122,6 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
                     event.body_part as keyof typeof skinViewRef.current.playerObject.skin
                 ] as Object3D;
                 bodyPart.add(hat);
-                setCurrentEvent(event.name);
             }
 
             const res = await axios.get('/api/v1/minecraft/main-page-skin', {
@@ -331,46 +328,43 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
     };
 
     return (
-        <>
-            <div
-                className={styles.image_container}
-                style={{
-                    cursor: grabbed ? 'grabbing' : 'grab',
-                    opacity: inited ? '1' : '0'
-                }}
-            >
-                <div className={styles.nickname_container}>
-                    <span className={styles.nickname}>
-                        <span
-                            className={styles.nickname_gradient}
-                            style={{
-                                ...minecraftMono.style,
-                                background: getCssGradientString(nickname)
-                            }}
-                        >
-                            {nickname}
-                        </span>
+        <div
+            className={styles.image_container}
+            style={{
+                cursor: grabbed ? 'grabbing' : 'grab',
+                opacity: inited ? '1' : '0'
+            }}
+        >
+            <div className={styles.nickname_container}>
+                <span className={styles.nickname}>
+                    <span
+                        className={styles.nickname_gradient}
+                        style={{
+                            ...minecraftMono.style,
+                            background: getCssGradientString(nickname)
+                        }}
+                    >
+                        {nickname}
                     </span>
-                </div>
-                <canvas
-                    width={width}
-                    height={height}
-                    ref={canvasRef}
-                    className={styles.skin_render}
-                    onMouseDown={handleClick}
-                    onTouchStart={handleClick}
-                />
-                <svg
-                    width="250"
-                    height="120"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={styles.shadow}
-                >
-                    <ellipse rx="125" ry="60" cx="125" cy="60" />
-                </svg>
+                </span>
             </div>
-            {currentEvent === 'christmas' && <Snowfall snowflakeCount={100} />}
-        </>
+            <canvas
+                width={width}
+                height={height}
+                ref={canvasRef}
+                className={styles.skin_render}
+                onMouseDown={handleClick}
+                onTouchStart={handleClick}
+            />
+            <svg
+                width="250"
+                height="120"
+                xmlns="http://www.w3.org/2000/svg"
+                className={styles.shadow}
+            >
+                <ellipse rx="125" ry="60" cx="125" cy="60" />
+            </svg>
+        </div>
     );
 };
 

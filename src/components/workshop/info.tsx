@@ -46,7 +46,7 @@ const Info = ({ el, onClick }: { el: Interfaces.Bandage; onClick(): void }) => {
                 <div className={style.tags_container}>{tags}</div>
             )}
             <span className={style.author_cont}>
-                <AuthorLink author={el.author} />
+                <AuthorLink author={el.author} renderAvatar />
                 <span style={{ opacity: '.8' }}>•</span>
                 <span style={{ opacity: '.8', fontSize: '1rem' }}>{date}</span>
             </span>

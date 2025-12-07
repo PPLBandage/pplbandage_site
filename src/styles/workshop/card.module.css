@@ -156,10 +156,16 @@
     margin-bottom: 0;
     color: var(--main-text-color);
     text-decoration: none;
+    gap: .3rem;
 }
 
 .username:hover {
     text-decoration: underline;
+}
+
+.avatar {
+    border-radius: 999px;
+    border: 1.5px solid var(--category-color)
 }
 
 .username_private:hover {

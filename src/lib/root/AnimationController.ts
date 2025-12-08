@@ -58,19 +58,16 @@ export class AnimationController extends SkinViewBlockbench {
         ) {
             anim_choice = choice(this.action_animations);
         }
-
+        this.latest_scheduled_anim = anim_choice;
         return anim_choice;
     }
 
     scheduleAnimation() {
         this.scheduled_iterations = randint(1, 4);
-
-        const anim_choice = this.getRandomActionAnim();
-        this.scheduled_animation = anim_choice;
-        this.latest_scheduled_anim = anim_choice;
+        this.scheduled_animation = this.getRandomActionAnim();
 
         this.log(
-            `Scheduled animation "${anim_choice}" in ${this.scheduled_iterations} iterations`
+            `Scheduled animation "${this.scheduled_animation}" in ${this.scheduled_iterations} iterations`
         );
     }
 

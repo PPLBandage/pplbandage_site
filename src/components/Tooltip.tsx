@@ -6,7 +6,7 @@ import ReactCSSTransition from './CSSTransition';
 
 export type StaticTooltipProps = {
     children: JSX.Element;
-    title: string;
+    title: string | JSX.Element | JSX.Element[];
     use_span?: boolean;
     disabled?: boolean;
     container_styles?: CSSProperties;

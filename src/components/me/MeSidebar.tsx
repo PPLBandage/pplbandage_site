@@ -236,7 +236,7 @@ const AvatarHead = ({
                         </span>
                     )}
                 </p>
-                <Badges badges={data.badges} />
+                <Badges user={data} />
 
                 <p className={style_sidebar.total_stars}>
                     Звёзд: {data.stars_count}

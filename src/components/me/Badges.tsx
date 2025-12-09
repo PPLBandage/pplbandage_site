@@ -6,14 +6,16 @@ import {
     IconGitMerge,
     IconBeta,
     IconQuestionMark,
-    IconHeartDollar
+    IconHeartDollar,
+    IconFlame
 } from '@tabler/icons-react';
 import { CSSProperties, JSX } from 'react';
 import { StaticTooltip } from '../Tooltip';
+import { UserQuery } from '@/types/global';
 
 const badgesIcons: Record<
     number,
-    { icon: typeof IconShieldFilled; name: string; color?: string }
+    { icon: typeof IconShieldFilled; name: string; color?: string | string[] }
 > = {
     0: {
         icon: IconShieldFilled,
@@ -45,16 +47,21 @@ const badgesIcons: Record<
         name: 'Спонсор',
         color: 'oklch(79.5% 0.184 86.047)'
     },
+    6: {
+        icon: IconFlame,
+        name: 'Эксклюзивный бадж: {name}',
+        color: ['#F37335', '#FDC830']
+    },
     10: {
         icon: IconQuestionMark,
         name: 'Начал стал людям меньше'
     }
 };
 
-const Badges = ({ badges }: { badges: number }) => {
-    if (badges === 0 || badges === undefined) return undefined;
+const Badges = ({ user }: { user: UserQuery }) => {
+    if (user.badges === 0 || user.badges === undefined) return undefined;
 
-    const badgesArr = badges
+    const badgesArr = user.badges
         .toString(2)
         .split('')
         .reverse()
@@ -62,17 +69,31 @@ const Badges = ({ badges }: { badges: number }) => {
             if (v === '1') {
                 const El = badgesIcons[i];
                 if (El == undefined) return acc;
+                let color_style: CSSProperties = {};
+                if (Array.isArray(El.color)) {
+                    const length = El.color.length - 1;
+                    const gradient_colors = El.color
+                        .map((color, index) => `${color} ${(index / length) * 100}%`)
+                        .join(', ');
+                    color_style = {
+                        background: `linear-gradient(326deg, ${gradient_colors})`
+                    };
+                } else {
+                    color_style = { backgroundColor: El.color ?? '#fff' };
+                }
+
+                const name = El.name.replaceAll('{name}', user.name);
                 acc.push(
                     <StaticTooltip
                         key={i}
-                        title={El.name}
+                        title={name}
                         container_styles={{ display: 'flex' }}
                         tooltip_styles={{ minWidth: 'max-content' }}
                     >
                         <El.icon
                             width={16}
                             height={16}
-                            style={{ '--color': El.color } as CSSProperties}
+                            style={color_style}
                             className={styles.icon}
                         />
                     </StaticTooltip>

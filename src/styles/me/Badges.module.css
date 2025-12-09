@@ -14,7 +14,6 @@
 
 .icon {
     cursor: pointer;
-    background-color: var(--color, #fff);
 
     color: var(--main-element-color);
     padding: .1rem;

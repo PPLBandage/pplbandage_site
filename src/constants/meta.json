@@ -46,6 +46,14 @@
             "description": "Ваши уведомления"
         }
     },
+    "/me/subscriptions": {
+        "title": "Подписки · Повязки Pepeland",
+        "description": "Ваши подписки",
+        "openGraph": {
+            "title": "Подписки · Повязки Pepeland",
+            "description": "Ваши подписки"
+        }
+    },
     "/me/settings": {
         "title": "Настройки · Повязки Pepeland",
         "description": "Настройте свой аккаунт здесь",

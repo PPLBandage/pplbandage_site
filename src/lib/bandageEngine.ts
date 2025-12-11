@@ -1,5 +1,6 @@
 import asyncImage, { base64Encode } from '@/lib/asyncImage';
 import { getSkin } from './api/minecraft';
+import { hexToRgb } from './colorUtils';
 
 export interface SkinResponse {
     skin: string;
@@ -43,7 +44,7 @@ class Client {
     second_layer: boolean = true;
     layers: string = '0';
     slim: boolean = false;
-    color: string = '';
+    color: string = '#ffffff';
     colorable: boolean = false;
     split_types: boolean = false;
 
@@ -257,7 +258,7 @@ class Client {
 
         // Если повязка окрашиваемая - красим
         if (this.colorable) {
-            const rgb = hex2rgb(this.color);
+            const rgb = Object.values(hexToRgb(this.color) as object);
             second_layer = fillPepe(second_layer, rgb);
             first_layer = fillPepe(first_layer, rgb);
         }
@@ -528,13 +529,4 @@ export const fillPepe = (
     context.putImageData(imageData, 0, 0);
     return canvas;
 };
-
-const hex2rgb = (hex: string) => {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-
-    return [r, g, b];
-};
-
 export default Client;

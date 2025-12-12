@@ -28,6 +28,7 @@
 .avatars_container {
     display: flex;
     position: relative;
+    z-index: 2;
 }
 
 .avatars_plus {
@@ -91,7 +92,7 @@
 
     padding: .5rem;
     box-sizing: border-box;
-    color: rgb(175, 175, 175);
+    color: white;
     text-decoration: none;
     transition: background 150ms, color 150ms;
 }
@@ -99,6 +100,25 @@
 .read_more:hover {
     color: var(--main-text-color);
     background-color: color-mix(in srgb, var(--main-element-color) 95%, white);
+}
+
+.authors_category_container {
+    display: flex;
+    align-items: stretch;
+}
+
+.category_container {
+    font-size: .80rem;
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    background-color: var(--main-element-color);
+
+    display: flex;
+    align-items: center;
+    padding-right: .6rem;
+    padding-left: calc(13px + .2rem);
+    border-radius: 0 99px 99px 0;
 }
 
 

@@ -1,6 +1,6 @@
 import asyncImage, { base64Encode } from '@/lib/asyncImage';
-import { getSkin } from './api/minecraft';
-import { hexToRgb } from './colorUtils';
+import { getSkin } from '@/lib/api/minecraft';
+import { hexToRgb } from '@/lib/colorUtils';
 
 export interface SkinResponse {
     skin: string;

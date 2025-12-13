@@ -3,10 +3,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import style from '@/styles/workshop/create/page.module.css';
 import SkinView3D from '@/components/workshop/SkinView';
-import { anims } from '@/lib/poses';
+import { anims } from '@/lib/workshop/poses';
 import { useRouter } from 'next/navigation';
 import Select from 'react-select';
-import Client, { b64Prefix } from '@/lib/bandageEngine';
+import Client, { b64Prefix } from '@/lib/workshop/bandageEngine';
 import debounce from 'lodash.debounce';
 import InfoCard from '@/components/InfoCard';
 import { redirect } from 'next/navigation';

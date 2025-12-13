@@ -5,7 +5,7 @@ import style_sidebar from '@/styles/me/sidebar.module.css';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { formatDate, numbersTxt, timeStamp } from '@/lib/time';
-import Menu from '../ThemeSelect';
+import Menu from './ThemeSelect';
 
 import {
     IconSettings,

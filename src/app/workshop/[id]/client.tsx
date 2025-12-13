@@ -6,13 +6,13 @@ import { useEffect, useState, useRef } from 'react';
 import style from '@/styles/editor/page.module.css';
 import * as Interfaces from '@/types/global.d';
 
-import Client, { b64Prefix } from '@/lib/bandageEngine';
+import Client, { b64Prefix } from '@/lib/workshop/bandageEngine';
 import SkinView3D from '@/components/workshop/SkinView';
 
 import Select from 'react-select';
 import debounce from 'lodash.debounce';
 import NavigatorEl from '@/components/workshop/Navigator';
-import { anims } from '@/lib/poses';
+import { anims } from '@/lib/workshop/poses';
 import asyncImage from '@/lib/asyncImage';
 
 import {
@@ -30,7 +30,7 @@ import RawBandageDownload from '@/components/workshop/RawBandageDownload';
 import Moderation from '@/components/workshop/single/Moderation';
 import ModeratorActions from '@/components/workshop/single/ModerationActions';
 import { getRandomColor, rgbToHex } from '@/lib/colorUtils';
-import { generatePath } from '@/lib/workshopPath';
+import { generatePath } from '@/lib/workshop/workshopPath';
 import StarElement from '@/components/workshop/Star';
 import Info from '@/components/workshop/info';
 import { StaticTooltip } from '@/components/Tooltip';

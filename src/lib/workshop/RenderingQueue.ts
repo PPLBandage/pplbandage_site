@@ -2,7 +2,7 @@
 
 import { SkinViewer } from 'skinview3d';
 import asyncImage from '../asyncImage';
-import Client, { b64Prefix } from '../bandageEngine';
+import Client, { b64Prefix } from '@/lib/workshop/bandageEngine';
 
 type Vector3Array = [number, number, number];
 

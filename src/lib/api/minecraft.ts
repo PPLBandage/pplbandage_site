@@ -1,7 +1,7 @@
 import { AxiosResponse, GenericAbortSignal } from 'axios';
 import { doRequest, doRequestSimple } from './utils';
 import type { SearchResponse } from '@/components/workshop/NickSearch';
-import type { SkinResponse } from '../bandageEngine';
+import type { SkinResponse } from '@/lib/workshop/bandageEngine';
 
 /** Purge skin cache */
 export const purgeSkinCache = async (): Promise<AxiosResponse> => {

@@ -7,7 +7,7 @@ import AsyncImage from '@/lib/asyncImage';
 import Searcher from '@/components/workshop/NickSearch';
 import axios, { AxiosError } from 'axios';
 import ReactCSSTransition from '@/components/CSSTransition';
-import { b64Prefix } from '@/lib/bandageEngine';
+import { b64Prefix } from '@/lib/workshop/bandageEngine';
 import { getSkin } from '@/lib/api/minecraft';
 
 type SkinLoadProps = {

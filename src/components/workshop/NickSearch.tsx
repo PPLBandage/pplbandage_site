@@ -4,7 +4,7 @@ import { useCallback, useRef, useState } from 'react';
 import Style from '@/styles/nick_search.module.css';
 import { debounce } from 'lodash';
 import Image from 'next/image';
-import { b64Prefix } from '@/lib/bandageEngine';
+import { b64Prefix } from '@/lib/workshop/bandageEngine';
 import { searchNicks } from '@/lib/api/minecraft';
 
 export interface SearchResponse {

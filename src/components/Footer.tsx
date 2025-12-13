@@ -11,7 +11,7 @@ import { IconAddressBook, IconBrandGithub, IconPalette } from '@tabler/icons-rea
 
 import IconPepe from '@/resources/icon.svg';
 import { StaticTooltip } from './Tooltip';
-import { MainPageFooter } from './MainPageFooter';
+import { MainPageFooter } from './root/MainPageFooter';
 
 const getYearByTimeZone = (timeZone: string) => {
     return new Intl.DateTimeFormat('en-US', {

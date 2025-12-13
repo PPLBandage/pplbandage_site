@@ -7,7 +7,7 @@ import styles from '@/styles/root/page.module.css';
 import animation from '@/resources/model.animation.json';
 import { AnimationController } from '@/lib/root/AnimationController';
 import axios from 'axios';
-import { b64Prefix } from '@/lib/bandageEngine';
+import { b64Prefix } from '@/lib/workshop/bandageEngine';
 import { minecraftMono } from '@/fonts/Minecraft';
 import { ModelType } from 'skinview-utils';
 import { getCurrentEvent } from '@/lib/root/events';

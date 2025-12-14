@@ -115,7 +115,7 @@ export interface Bandage {
     accent_color: string;
     star_type: number;
     archived: boolean;
-    relevance_modifier?: number;
+    views: number;
 }
 
 export interface BandageResponse {

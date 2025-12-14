@@ -18,6 +18,7 @@ import asyncImage from '@/lib/asyncImage';
 import {
     IconArrowsVertical,
     IconDownload,
+    IconEye,
     IconEyeCog,
     IconHelpCircleFilled,
     IconPlus
@@ -218,6 +219,9 @@ export default function Home({
                                 bandage={slim ? data.base64_slim! : data.base64}
                             />
                         </div>
+                        <span className={style.views}>
+                            <IconEye width={16} height={16} /> {data.views}
+                        </span>
                     </div>
                     <div style={{ width: '100%' }}>
                         {!edit ? (

@@ -463,6 +463,15 @@
     gap: .4rem;
 }
 
+.views {
+    font-size: .8rem;
+    display: flex;
+    align-items: center;
+    gap: .15rem;
+    opacity: .5;
+    width: 100%;
+}
+
 @media(max-width: 925px) {
     .main_container {
         flex-direction: column;

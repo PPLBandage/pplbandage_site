@@ -5,6 +5,7 @@
     border: 1px var(--category-color) solid;
     flex-grow: 0;
     flex-shrink: 0;
+    text-wrap: nowrap;
     transition: border .15s;
 
     --official-color: #fdc700;

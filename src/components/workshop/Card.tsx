@@ -18,13 +18,13 @@ import { formatDate } from '@/lib/time';
 import { removeLink } from '@/components/workshop/TextFormatter';
 import { constrainedText } from '@/lib/textUtils';
 import ReferrerLink from './ReferrerLink';
-import TagElement from './TagElement';
 import StarElement from './Star';
 import { AuthorLink } from './AuthorLink';
 import { renderQueue } from '@/lib/workshop/RenderingQueue';
 import { sha256 } from 'js-sha256';
 import { idbGet, idbSet } from '@/lib/stores/idb';
 import { useNextCookie } from 'use-next-cookie';
+import TagsElement from './TagsElement';
 
 const ExtraParams = ({
     flags,
@@ -172,12 +172,6 @@ export const Card = ({
         setMounted(true);
     }, []);
 
-    let el_tags = el.tags;
-    if (el_tags.includes('Официальные'))
-        el_tags = ['Официальные', ...el_tags.filter(el => el !== 'Официальные')];
-
-    const tagsEl = el_tags.map(tag => <TagElement title={tag} key={tag} />);
-
     return (
         <article
             key={`article_${el.external_id}`}
@@ -215,7 +209,7 @@ export const Card = ({
                         </div>
                     )}
                 </ReferrerLink>
-                <div className={style_card.tags}>{tagsEl}</div>
+                <TagsElement tags={el.tags} />
             </div>
             <div className={style_card.about}>
                 <div>

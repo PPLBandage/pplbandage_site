@@ -130,24 +130,28 @@
     margin-bottom: 1rem;
 }
 
-.tags {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    overflow: hidden;
-    gap: 4px;
-
+.tags_cont {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-
     padding: .5rem;
+    cursor: ew-resize;
 
+    overflow: hidden;
     mask-size: 100% 100%;
     mask-image: linear-gradient(90deg,
             black 85%,
             transparent 100%);
+}
+
+.tags {
+    display: inline-grid;
+    grid-auto-flow: column;
+    align-items: center;
+    gap: 4px;
+
+    position: relative;
 }
 
 .username {

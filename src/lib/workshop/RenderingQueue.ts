@@ -70,9 +70,7 @@ export class RenderingQueue {
         this.engine.init();
     }
 
-    async enqueue(
-        task: TaskDTO
-    ): Promise<{ result: Promise<string>; taskId: number }> {
+    enqueue(task: TaskDTO): { result: Promise<string>; taskId: number } {
         const taskId = this.taskIdCounter++;
         const result = new Promise<string>((resolve, reject) => {
             this.queue.push({

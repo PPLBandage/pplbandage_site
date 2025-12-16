@@ -12,15 +12,15 @@ const TagsElement = ({ tags }: { tags: string[] }) => {
 
         const onWheel = (e: WheelEvent) => {
             if (!movingContRef.current) return;
-
-            e.preventDefault();
             const max_scroll = movingContRef.current!.clientWidth;
             const cont_width = ref.current!.clientWidth - 16;
+            if (max_scroll < cont_width) return;
+
+            e.preventDefault();
             const current_scroll = parseInt(
                 movingContRef.current!.style.left.slice(0, -2) || '0'
             );
 
-            if (max_scroll < cont_width) return;
             if (e.deltaY > 0) {
                 const new_val = Math.max(
                     current_scroll - 20,

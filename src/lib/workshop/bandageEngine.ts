@@ -76,11 +76,6 @@ class Client {
         this.original_canvas.width = 64;
         this.original_canvas.height = 64;
 
-        // Вешаем ивентлистенеры на колорпикер
-        const color_picker = document.getElementById('color_picker');
-        if (color_picker)
-            color_picker.addEventListener('input', () => this.rerender());
-
         // Грузим базовый скин и вызываем колбек на инициализацию
         this.loadBase().then(() => this.onInit?.());
     }

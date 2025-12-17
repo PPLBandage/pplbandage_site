@@ -37,6 +37,17 @@
     transform: translateY(5px) scale(0.95);
 }
 
+.skin_error_container {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .gradient_background {
     border: 1px solid var(--main-element-color);
     box-shadow: var(--main-shadow-color) 0 0px 5px 0px;

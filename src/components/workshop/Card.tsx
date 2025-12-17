@@ -25,6 +25,7 @@ import { sha256 } from 'js-sha256';
 import { idbGet, idbSet } from '@/lib/stores/idb';
 import { useNextCookie } from 'use-next-cookie';
 import TagsElement from './TagsElement';
+import Image from 'next/image';
 
 const ExtraParams = ({
     flags,
@@ -103,6 +104,7 @@ export const CreateCard = ({ first }: { first?: boolean }) => {
 const QueuedSkinImage = ({ data, back }: { data: Bandage; back?: boolean }) => {
     const imageRef = useRef<HTMLImageElement>(null);
     const [rendered, setRendered] = useState<boolean>(false);
+    const [isError, setIsError] = useState<boolean>(false);
     const taskIdRef = useRef<number | null>(null);
     const renderedRef = useRef<boolean>(false);
 
@@ -125,7 +127,11 @@ const QueuedSkinImage = ({ data, back }: { data: Bandage; back?: boolean }) => {
             } catch (error) {
                 if (error instanceof Error && error.message === 'Task cancelled') {
                     console.log('Render task cancelled for', data.external_id);
+                } else {
+                    setIsError(true);
+                    console.error(error);
                 }
+                return;
             }
 
             void idbSet('skins', `v3-skin-${back ?? false}:${hash}`, base64);
@@ -146,6 +152,15 @@ const QueuedSkinImage = ({ data, back }: { data: Bandage; back?: boolean }) => {
             }
         };
     }, []);
+
+    if (isError)
+        return (
+            <div className={style_card.skin_error_container}>
+                <Image src="/static/sadge.png" alt="sadge" width={80} height={80} />
+                <h3>Ошибка генерации превью</h3>
+            </div>
+        );
+
     return (
         <img
             ref={imageRef}

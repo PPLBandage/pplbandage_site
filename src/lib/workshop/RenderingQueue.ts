@@ -3,6 +3,7 @@
 import { SkinViewer } from 'skinview3d';
 import asyncImage from '../asyncImage';
 import Client, { b64Prefix } from '@/lib/workshop/bandageEngine';
+import { rgbToHex } from '../colorUtils';
 
 type Vector3Array = [number, number, number];
 
@@ -21,7 +22,7 @@ type Task = {
 };
 
 const randint = (min: number, max: number): number => {
-    return Math.random() * (max - min) + min;
+    return Math.round(Math.random() * (max - min) + min);
 };
 
 export class RenderingQueue {
@@ -142,20 +143,18 @@ export class RenderingQueue {
         try {
             const bandage_img = await asyncImage(b64Prefix + task.data.b64);
             if (task.data.flags & 1) {
-                const [r, g, b] = [
-                    randint(0, 255),
-                    randint(0, 255),
-                    randint(0, 255)
-                ];
                 this.engine!.setParams({
                     colorable: true,
-                    color:
-                        '#' +
-                        ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)
+                    color: rgbToHex(
+                        randint(0, 255),
+                        randint(0, 255),
+                        randint(0, 255)
+                    )
                 });
             } else {
                 this.engine!.setParams({ colorable: false });
             }
+
             this.engine!.loadFromImage(bandage_img);
             if (this.viewer)
                 if (!task.data.back) {

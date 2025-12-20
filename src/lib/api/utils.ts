@@ -7,6 +7,7 @@ type RequestProps = {
     data?: unknown;
     params?: unknown;
     signal?: GenericAbortSignal;
+    headers?: Record<string, string>;
 };
 
 /** Do HTTP request */
@@ -14,7 +15,8 @@ export const doRequest = async ({
     url,
     method,
     data,
-    params
+    params,
+    headers
 }: // eslint-disable-next-line @typescript-eslint/no-explicit-any
 RequestProps): Promise<AxiosResponse<any, unknown>> => {
     const response = await authApi.request({
@@ -22,7 +24,7 @@ RequestProps): Promise<AxiosResponse<any, unknown>> => {
         method,
         data,
         params,
-        headers: { 'accept-language': 'ru' }
+        headers: { ...headers, 'accept-language': 'ru' }
     });
     if (response.status >= 400) throw response;
 

@@ -35,6 +35,7 @@ import { generatePath } from '@/lib/workshop/workshopPath';
 import StarElement from '@/components/workshop/Star';
 import Info from '@/components/workshop/info';
 import { StaticTooltip } from '@/components/Tooltip';
+import useRenderThumbnail from '@/lib/workshop/adminRenderThumbnail';
 
 const body_part: readonly { value: number; label: string }[] = [
     { value: 0, label: 'Левая рука' },
@@ -49,13 +50,14 @@ const layers: readonly { value: string; label: string }[] = [
     { value: '2', label: 'Только на втором слое' }
 ];
 
-export default function Home({
+export default function Bandage({
     data,
     referrer
 }: {
     data: Interfaces.Bandage;
     referrer: string | null;
 }) {
+    useRenderThumbnail(data);
     const [loaded, setLoaded] = useState<boolean>(false);
     const [navPath, setNavPath] = useState<{ name: string; url: string }[]>([]);
 

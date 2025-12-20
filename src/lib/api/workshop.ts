@@ -128,3 +128,23 @@ export const createBandage = async (data: {
         data
     });
 };
+
+export const hasThumbnail = async (id: string): Promise<boolean> => {
+    return (
+        await doRequest({
+            url: `/workshop/${id}/has_thumbnail`,
+            method: 'GET'
+        })
+    ).data;
+};
+
+export const uploadThumbnail = async (id: string, body: FormData): Promise<void> => {
+    await doRequest({
+        url: `/workshop/${id}/upload_thumbnail`,
+        method: 'POST',
+        data: body,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+};

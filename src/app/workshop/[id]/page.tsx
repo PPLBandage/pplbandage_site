@@ -33,7 +33,7 @@ export const generateMetadata = async ({
             description: `${data.description} – ${stars}`,
             url: `https://pplbandage.ru/workshop/${data.external_id}`,
             siteName: 'Повязки Pepeland',
-            images: `${process.env.API_URL}/workshop/${data.external_id}/og`
+            images: `${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/workshop/${data.external_id}/og`
         },
         twitter: {
             card: 'summary_large_image'

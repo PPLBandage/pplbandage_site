@@ -7,12 +7,28 @@ import {
     IconBeta,
     IconQuestionMark,
     IconHeartDollar,
-    IconFlame
+    IconFlameFilled,
+    IconApple,
+    IconLeaf,
+    IconMusic,
+    IconSnowflake,
+    IconSparkles,
+    IconSparkles2,
+    IconStarFilled,
+    IconBoltFilled,
+    IconBulbFilled,
+    IconPaletteFilled,
+    IconSunFilled,
+    IconMoonFilled,
+    IconConfettiFilled,
+    IconPawFilled,
+    IconChristmasTreeFilled
 } from '@tabler/icons-react';
 import { CSSProperties, JSX } from 'react';
 import { StaticTooltip } from '../Tooltip';
 import { UserQuery } from '@/types/global';
-import { generateTwoColors } from '@/lib/randomThings';
+import IconCropped from '@/resources/icon.svg';
+import { hashString, mulberry32, randomHex } from '@/lib/randomThings';
 
 const badgesIcons: Record<
     number,
@@ -49,7 +65,7 @@ const badgesIcons: Record<
         color: 'oklch(79.5% 0.184 86.047)'
     },
     6: {
-        icon: IconFlame,
+        icon: IconFlameFilled,
         name: 'Эксклюзивный бадж: {name}',
         color: []
     },
@@ -58,6 +74,26 @@ const badgesIcons: Record<
         name: 'Начал стал людям меньше'
     }
 };
+
+const ExclusiveBadgeIcons = [
+    IconStarFilled,
+    IconBoltFilled,
+    IconBulbFilled,
+    IconPaletteFilled,
+    IconSparkles,
+    IconSparkles2,
+    IconCropped,
+    IconFlameFilled,
+    IconSunFilled,
+    IconMoonFilled,
+    IconLeaf,
+    IconMusic,
+    IconConfettiFilled,
+    IconPawFilled,
+    IconSnowflake,
+    IconChristmasTreeFilled,
+    IconApple
+];
 
 const Badges = ({ user }: { user: UserQuery }) => {
     if (user.badges === 0 || user.badges === undefined) return undefined;
@@ -71,12 +107,19 @@ const Badges = ({ user }: { user: UserQuery }) => {
                 const El = badgesIcons[i];
                 if (El == undefined) return acc;
                 let color_style: CSSProperties = {};
+                let Icon = El.icon;
                 if (Array.isArray(El.color)) {
                     let colors = El.color;
                     if (i === 6) {
-                        colors = generateTwoColors(user.name);
+                        const seed = hashString(user.name);
+                        const rng = mulberry32(seed);
+
+                        colors = [randomHex(rng), randomHex(rng)];
+                        Icon =
+                            ExclusiveBadgeIcons[
+                                Math.floor(rng() * ExclusiveBadgeIcons.length)
+                            ];
                     }
-                    console.log(colors);
                     const length = colors.length - 1;
                     const gradient_colors = colors
                         .map((color, index) => `${color} ${(index / length) * 100}%`)
@@ -96,7 +139,7 @@ const Badges = ({ user }: { user: UserQuery }) => {
                         container_styles={{ display: 'flex' }}
                         tooltip_styles={{ minWidth: 'max-content' }}
                     >
-                        <El.icon
+                        <Icon
                             width={16}
                             height={16}
                             style={color_style}

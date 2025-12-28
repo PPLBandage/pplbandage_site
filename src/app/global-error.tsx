@@ -43,7 +43,8 @@ export default function GlobalError({ error }: GlobalErrorProps) {
                             style={{
                                 margin: '.78rem',
                                 marginLeft: '2rem',
-                                marginRight: '2rem'
+                                marginRight: '2rem',
+                                maxWidth: '70%'
                             }}
                         >
                             Произошла ошибка на стороне клиента ({error.message})

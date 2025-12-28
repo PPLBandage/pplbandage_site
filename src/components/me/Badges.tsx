@@ -12,6 +12,7 @@ import {
 import { CSSProperties, JSX } from 'react';
 import { StaticTooltip } from '../Tooltip';
 import { UserQuery } from '@/types/global';
+import { generateTwoColors } from '@/lib/randomThings';
 
 const badgesIcons: Record<
     number,
@@ -50,7 +51,7 @@ const badgesIcons: Record<
     6: {
         icon: IconFlame,
         name: 'Эксклюзивный бадж: {name}',
-        color: ['#F37335', '#FDC830']
+        color: []
     },
     10: {
         icon: IconQuestionMark,
@@ -71,8 +72,13 @@ const Badges = ({ user }: { user: UserQuery }) => {
                 if (El == undefined) return acc;
                 let color_style: CSSProperties = {};
                 if (Array.isArray(El.color)) {
-                    const length = El.color.length - 1;
-                    const gradient_colors = El.color
+                    let colors = El.color;
+                    if (i === 6) {
+                        colors = generateTwoColors(user.name);
+                    }
+                    console.log(colors);
+                    const length = colors.length - 1;
+                    const gradient_colors = colors
                         .map((color, index) => `${color} ${(index / length) * 100}%`)
                         .join(', ');
                     color_style = {

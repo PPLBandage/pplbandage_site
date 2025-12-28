@@ -66,13 +66,13 @@ const months = [
 
 export const formatDateHuman = (date: Date, include_time?: boolean) => {
     if (isNaN(date.getDay())) return '';
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
     const day = date.getDate().toString();
     const month = months[date.getMonth()];
     const year = date.getFullYear().toString();
 
     if (include_time) {
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
         return `${day} ${month} ${year} г. в ${hours}:${minutes}`;
     }
     return `${day} ${month} ${year} г.`;

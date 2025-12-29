@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { Me } from '@/components/me/MeSidebar';
 import { Users as UsersType } from '@/types/global';
+import meta from '@/constants/meta.json';
 
 export const generateMetadata = async ({
     params
@@ -16,12 +17,16 @@ export const generateMetadata = async ({
     const props = await params;
     const headers_obj = Object.fromEntries((await headers()).entries());
 
-    const meta = await axios.get(`${process.env.API_URL}/users/${props.name}/og`, {
-        validateStatus: () => true,
-        headers: { ...headers_obj, 'Unique-Access': process.env.TOKEN }
-    });
+    const metaData = await axios.get(
+        `${process.env.API_URL}/users/${props.name}/og`,
+        {
+            validateStatus: () => true,
+            headers: { ...headers_obj, 'Unique-Access': process.env.TOKEN }
+        }
+    );
+    if (metaData.status !== 200) return meta['notFound'];
 
-    const data = meta.data as UsersType;
+    const data = metaData.data as UsersType;
     if (!data) return {};
     const works = numbersTxt(data.works_count, ['работа', 'работы', 'работ']);
     const stars = numbersTxt(data.stars_count, ['звезда', 'звезды', 'звёзд']);

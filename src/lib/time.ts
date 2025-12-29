@@ -19,21 +19,21 @@ export const numbersTxt = (
 
 export const stringTimeDelta = (delta: number) => {
     if (delta < 60) {
-        return numbersTxt(Math.floor(delta), ['секунду', 'секунды', 'секунд']);
+        return numbersTxt(Math.round(delta), ['секунду', 'секунды', 'секунд']);
     } else if (delta < 3600) {
-        return numbersTxt(Math.floor(delta / 60), ['минуту', 'минуты', 'минут']);
+        return numbersTxt(Math.round(delta / 60), ['минуту', 'минуты', 'минут']);
     } else if (delta < 86400) {
-        return numbersTxt(Math.floor(delta / 3600), ['час', 'часа', 'часов']);
+        return numbersTxt(Math.round(delta / 3600), ['час', 'часа', 'часов']);
     } else if (delta < 2592000) {
-        return numbersTxt(Math.floor(delta / 86400), ['день', 'дня', 'дней']);
+        return numbersTxt(Math.round(delta / 86400), ['день', 'дня', 'дней']);
     } else if (delta < 31104000) {
-        return numbersTxt(Math.floor(delta / 2592000), [
+        return numbersTxt(Math.round(delta / 2592000), [
             'месяц',
             'месяца',
             'месяцев'
         ]);
     } else {
-        return numbersTxt(Math.floor(delta / 31104000), ['год', 'года', 'лет']);
+        return numbersTxt(Math.round(delta / 31104000), ['год', 'года', 'лет']);
     }
 };
 

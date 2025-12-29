@@ -109,7 +109,7 @@ export default function Bandage({
         };
 
         client.current.onInit = () => {
-            if (data.me_profile) client.current.loadSkin(data.me_profile.uuid);
+            client.current.loadSkinUrl('/api/v1/users/@me/autoload-skin');
 
             asyncImage(b64Prefix + data.base64).then(bandage => {
                 client.current.loadFromImage(bandage);

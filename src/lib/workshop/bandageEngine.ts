@@ -105,7 +105,7 @@ class Client {
                     this.rerender();
                 });
             })
-            .catch(console.error);
+            .catch(e => console.error(`Cannot load skin ${url}:`, e));
     }
 
     /** Загрузить скин из base64 */

@@ -77,7 +77,6 @@ export default function Home() {
                 <aside className={style.skin_parent}>
                     <SkinView3D
                         SKIN={SKIN}
-                        CAPE={undefined}
                         slim={slim}
                         className={style.skinview}
                         pose={pose}
@@ -475,7 +474,7 @@ const Selector = ({
                 }
 
                 if (heightVal != undefined && heightVal === -1) {
-                    setError('Вначале загрузите основную повязку!');
+                    setError('Сначала загрузите основную повязку!');
                     return;
                 }
 

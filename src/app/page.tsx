@@ -8,8 +8,21 @@ import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import SkinRender from '@/components/root/MainSkinView';
 import Snowfall from 'react-snowfall';
+import { useEffect, useState } from 'react';
 
 const HomeClient = () => {
+    const [images, setImages] = useState<HTMLImageElement[]>([]);
+
+    useEffect(() => {
+        setImages(
+            Array.from({ length: 4 }).map((_, i) => {
+                const image = document.createElement('img');
+                image.src = `/static/snowflakes/${i}.png`;
+                return image;
+            })
+        );
+    }, []);
+
     return (
         <div>
             <div className={styles.background} />
@@ -48,7 +61,7 @@ const HomeClient = () => {
                 </div>
             </div>
             {/* TODO: Не забыть это убрать после нг */}
-            <Snowfall snowflakeCount={100} />
+            <Snowfall snowflakeCount={100} images={images} radius={[7, 7]} />
         </div>
     );
 };

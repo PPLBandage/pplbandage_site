@@ -61,7 +61,12 @@ const HomeClient = () => {
                 </div>
             </div>
             {/* TODO: Не забыть это убрать после нг */}
-            <Snowfall snowflakeCount={100} images={images} radius={[7, 7]} />
+            <Snowfall
+                snowflakeCount={100}
+                images={images}
+                radius={[5, 7]}
+                speed={[1, 1.5]}
+            />
         </div>
     );
 };

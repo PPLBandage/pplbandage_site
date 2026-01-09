@@ -1,6 +1,6 @@
 'use client';
 
-import React, { HTMLAttributeAnchorTarget, JSX, useState } from 'react';
+import { HTMLAttributeAnchorTarget, JSX, useState } from 'react';
 import Select from 'react-select';
 import Styles from '@/styles/search.module.css';
 import styleLink from '@/styles/customLink.module.css';

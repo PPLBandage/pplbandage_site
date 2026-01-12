@@ -33,12 +33,14 @@ export default function RootLayout({
         <CookieProvider>
             <Providers>
                 <body>
-                    <div>
-                        <SupportProjectHeader />
-                        <Header />
-                        {children}
+                    <div className="body_wrapped_div">
+                        <div>
+                            <SupportProjectHeader />
+                            <Header />
+                            {children}
+                        </div>
+                        <Footer />
                     </div>
-                    <Footer />
                 </body>
             </Providers>
         </CookieProvider>

@@ -149,6 +149,27 @@
     margin-right: .3rem;
 }
 
+.side_butt_second {
+    margin-left: calc(.3rem + 9px);
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: .3rem
+}
+
+.side_butt_corner {
+    opacity: .5;
+    width: 1rem;
+    height: auto;
+    position: relative;
+    top: -4px;
+}
+
+.side_butt_corner+.side_butt {
+    flex: 1;
+}
+
 .side {
     display: flex;
     flex-direction: column;

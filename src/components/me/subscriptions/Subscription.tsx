@@ -1,12 +1,16 @@
-import { SubscriptionsType, unsubscribeFrom } from '@/lib/api/user';
+import { subscribeTo, SubscriptionsType, unsubscribeFrom } from '@/lib/api/user';
 import { formatDateHuman } from '@/lib/time';
 import Image from 'next/image';
 import styles from '@/styles/me/subscriptions.module.css';
 import Link from 'next/link';
-import { IconUserX } from '@tabler/icons-react';
+import { IconUserPlus, IconUserX } from '@tabler/icons-react';
 import { mutate } from 'swr';
 
-export const Subscription = (props: SubscriptionsType) => {
+export const Subscription = (props: SubscriptionsType & { mutate_key: string }) => {
+    const Icon = (props.subscribed ?? true) ? IconUserX : IconUserPlus;
+    const action = (props.subscribed ?? true) ? unsubscribeFrom : subscribeTo;
+    const text = (props.subscribed ?? true) ? 'Отписаться' : 'Подписаться';
+
     return (
         <div className={styles.container}>
             <div className={styles.container_2}>
@@ -26,15 +30,13 @@ export const Subscription = (props: SubscriptionsType) => {
                     <p>На сайте с {formatDateHuman(new Date(props.joined_at))}</p>
                 </div>
             </div>
-            <div className={styles.unsubscribe}>
-                <IconUserX
+            <div className={styles.unsubscribe} title={text}>
+                <Icon
                     onClick={() =>
-                        unsubscribeFrom(props.username).then(() =>
-                            mutate('me-subscriptions')
-                        )
+                        action(props.username).then(() => mutate(props.mutate_key))
                     }
                 />
-                <span className={styles.unsubscribe_text}>Отписаться</span>
+                <span className={styles.unsubscribe_text}>{text}</span>
             </div>
         </div>
     );

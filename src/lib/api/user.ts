@@ -183,6 +183,7 @@ export type SubscriptionsType = {
     name: string;
     username: string;
     joined_at: Date;
+    subscribed?: boolean;
 };
 
 /** Get me subscriptions */
@@ -190,6 +191,16 @@ export const getSubscriptions = async (): Promise<SubscriptionsType[]> => {
     return (
         await doRequest({
             url: `/users/@me/subscriptions`,
+            method: 'GET'
+        })
+    ).data;
+};
+
+/** Get me subscribers */
+export const getSubscribers = async (): Promise<SubscriptionsType[]> => {
+    return (
+        await doRequest({
+            url: `/users/@me/subscribers`,
             method: 'GET'
         })
     ).data;

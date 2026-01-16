@@ -14,7 +14,9 @@ import {
     IconList,
     IconStarFilled,
     IconUser,
-    IconUserHeart
+    IconUserHeart,
+    IconRadiusBottomLeft,
+    IconUserBolt
 } from '@tabler/icons-react';
 import { UserQuery, Users } from '@/types/global';
 import { useNextCookie } from 'use-next-cookie';
@@ -269,36 +271,58 @@ const Pages = ({ data }: { data: UserQuery }) => {
         >
             <Link
                 href="/me"
-                className={`${style_sidebar.side_butt} ${
-                    path === 'me' && style_sidebar.active
-                }`}
+                className={
+                    `${style_sidebar.side_butt} ` +
+                    `${path === 'me' && style_sidebar.active}`
+                }
             >
                 <IconList />
                 Мои работы
             </Link>
             <Link
                 href="/me/stars"
-                className={`${style_sidebar.side_butt} ${
-                    path === 'stars' && style_sidebar.active
-                }`}
+                className={
+                    `${style_sidebar.side_butt} ` +
+                    `${path === 'stars' && style_sidebar.active}`
+                }
             >
                 <IconStar />
                 Избранное
             </Link>
             <Link
                 href="/me/subscriptions"
-                className={`${style_sidebar.side_butt} ${
-                    path === 'subscriptions' && style_sidebar.active
-                }`}
+                className={
+                    `${style_sidebar.side_butt} ` +
+                    `${path === 'subscriptions' && style_sidebar.active}`
+                }
             >
                 <IconUserHeart />
                 Подписки
             </Link>
+            {['subscriptions', 'subscribers'].includes(path) && (
+                <div className={style_sidebar.side_butt_second}>
+                    <IconRadiusBottomLeft
+                        stroke={3}
+                        className={style_sidebar.side_butt_corner}
+                    />
+                    <Link
+                        href="/me/subscribers"
+                        className={
+                            `${style_sidebar.side_butt} ` +
+                            `${path === 'subscribers' && style_sidebar.active}`
+                        }
+                    >
+                        <IconUserBolt />
+                        Подписчики
+                    </Link>
+                </div>
+            )}
             <Link
                 href="/me/notifications"
-                className={`${style_sidebar.side_butt} ${
-                    path === 'notifications' && style_sidebar.active
-                }`}
+                className={
+                    `${style_sidebar.side_butt} ` +
+                    `${path === 'notifications' && style_sidebar.active}`
+                }
             >
                 <IconBell
                     fill={
@@ -311,18 +335,20 @@ const Pages = ({ data }: { data: UserQuery }) => {
             </Link>
             <Link
                 href="/me/settings"
-                className={`${style_sidebar.side_butt} ${
-                    path === 'settings' && style_sidebar.active
-                }`}
+                className={
+                    `${style_sidebar.side_butt} ` +
+                    `${path === 'settings' && style_sidebar.active}`
+                }
             >
                 <IconSettings />
                 Настройки
             </Link>
             <Link
                 href="/me/accounts"
-                className={`${style_sidebar.side_butt} ${
-                    path === 'accounts' && style_sidebar.active
-                }`}
+                className={
+                    `${style_sidebar.side_butt} ` +
+                    `${path === 'accounts' && style_sidebar.active}`
+                }
             >
                 <IconUser />
                 Аккаунты

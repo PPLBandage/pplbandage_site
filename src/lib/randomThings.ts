@@ -24,3 +24,11 @@ export const randomHex = (rng: () => number) => {
     const color = Math.floor(rng() * 0xffffff);
     return '#' + color.toString(16).padStart(6, '0');
 };
+
+export const isBotByUserAgent = (ua: string) => {
+    if (!ua) return true;
+
+    return /bot|crawler|spider|crawl|slurp|curl|wget|python|java|go-http-client|httpclient|axios|node-fetch|undici/i.test(
+        ua
+    );
+};

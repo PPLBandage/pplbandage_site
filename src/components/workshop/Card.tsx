@@ -23,9 +23,10 @@ import { AuthorLink } from './AuthorLink';
 import { renderQueue } from '@/lib/workshop/RenderingQueue';
 import { sha256 } from 'js-sha256';
 import { idbGet, idbSet } from '@/lib/stores/idb';
-import { useNextCookie } from 'use-next-cookie';
+import { useCookiesServer, useNextCookie } from 'use-next-cookie';
 import TagsElement from './TagsElement';
 import Image from 'next/image';
+import { isBotByUserAgent } from '@/lib/randomThings';
 
 const ExtraParams = ({
     flags,
@@ -102,6 +103,7 @@ export const CreateCard = ({ first }: { first?: boolean }) => {
 };
 
 const QueuedSkinImage = ({ data, back }: { data: Bandage; back?: boolean }) => {
+    const bot = isBotByUserAgent(useCookiesServer().get('UA') ?? '');
     const imageRef = useRef<HTMLImageElement>(null);
     const [rendered, setRendered] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
@@ -144,6 +146,7 @@ const QueuedSkinImage = ({ data, back }: { data: Bandage; back?: boolean }) => {
     }
 
     useEffect(() => {
+        if (bot) return;
         void render();
 
         return () => {
@@ -160,6 +163,16 @@ const QueuedSkinImage = ({ data, back }: { data: Bandage; back?: boolean }) => {
                 <h3>Ошибка генерации превью</h3>
             </div>
         );
+
+    // Used for better SEO
+    if (bot) {
+        return (
+            <img
+                src={`${process.env.NEXT_PUBLIC_DOMAIN}/api/v1/workshop/${data.external_id}/og`}
+                alt={data.title}
+            />
+        );
+    }
 
     return (
         <img

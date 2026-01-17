@@ -9,7 +9,7 @@ export default function TOS() {
     return (
         <div className={style.main}>
             <h2 style={{ marginTop: 0 }}>Правила сайта</h2>
-            <ol start={0}>
+            <ol start={0} style={{ paddingLeft: '20px' }}>
                 <li>
                     <h3>Терминология</h3>
                     <ol>
@@ -167,7 +167,7 @@ export default function TOS() {
             <h2 style={{ marginTop: '1rem' }} id="PP">
                 Политика конфиденциальности
             </h2>
-            <ol>
+            <ol style={{ paddingLeft: '20px' }}>
                 <li>
                     <h3>Сбор информации</h3>
                     <ol>

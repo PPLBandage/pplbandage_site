@@ -67,6 +67,7 @@
     align-items: center;
     justify-content: center;
     gap: .5rem;
+    box-sizing: border-box;
 
     transition: filter 150ms;
 }
@@ -80,6 +81,7 @@
     display: none;
 }
 
+
 @media(max-width: 450px) {
     .parent {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -91,5 +93,10 @@
 
     .unsubscribe_text {
         display: block;
+    }
+
+    /* css-lint-disable-rule unused-class */
+    .tooltip_container {
+        width: 100%;
     }
 }

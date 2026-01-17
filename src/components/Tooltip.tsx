@@ -1,6 +1,6 @@
 'use client';
 
-import React, { CSSProperties, JSX, useState } from 'react';
+import { CSSProperties, JSX, useState } from 'react';
 import Style from '@/styles/tooltip.module.css';
 import ReactCSSTransition from './CSSTransition';
 
@@ -11,6 +11,8 @@ export type StaticTooltipProps = {
     disabled?: boolean;
     container_styles?: CSSProperties;
     tooltip_styles?: CSSProperties;
+
+    styles?: Record<string, string>;
 };
 
 export const StaticTooltip = (props: StaticTooltipProps) => {
@@ -24,6 +26,7 @@ export const StaticTooltip = (props: StaticTooltipProps) => {
             onMouseEnter={() => setDisplayed(true)}
             onMouseLeave={() => setDisplayed(false)}
             style={{ position: 'relative', ...props.container_styles }}
+            className={props.styles?.tooltip_container}
         >
             <ReactCSSTransition
                 state={displayed}
@@ -33,7 +36,10 @@ export const StaticTooltip = (props: StaticTooltipProps) => {
                     exitActive: Style.staticTooltipEnter
                 }}
             >
-                <span className={Style.staticTooltip} style={props.tooltip_styles}>
+                <span
+                    className={`${Style.staticTooltip} ${props.styles?.tooltip_tooltip}`}
+                    style={props.tooltip_styles}
+                >
                     {props.title}
                     <span className={Style.pointer} />
                 </span>

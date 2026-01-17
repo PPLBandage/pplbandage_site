@@ -5,6 +5,7 @@ import styles from '@/styles/me/subscriptions.module.css';
 import Link from 'next/link';
 import { IconUserPlus, IconUserX } from '@tabler/icons-react';
 import { mutate } from 'swr';
+import { StaticTooltip } from '@/components/Tooltip';
 
 export const Subscription = (props: SubscriptionsType & { mutate_key: string }) => {
     const Icon = (props.subscribed ?? true) ? IconUserX : IconUserPlus;
@@ -30,14 +31,18 @@ export const Subscription = (props: SubscriptionsType & { mutate_key: string }) 
                     <p>На сайте с {formatDateHuman(new Date(props.joined_at))}</p>
                 </div>
             </div>
-            <div className={styles.unsubscribe} title={text}>
-                <Icon
-                    onClick={() =>
-                        action(props.username).then(() => mutate(props.mutate_key))
-                    }
-                />
-                <span className={styles.unsubscribe_text}>{text}</span>
-            </div>
+            <StaticTooltip title={text} styles={styles}>
+                <div className={styles.unsubscribe}>
+                    <Icon
+                        onClick={() =>
+                            action(props.username).then(() =>
+                                mutate(props.mutate_key)
+                            )
+                        }
+                    />
+                    <span className={styles.unsubscribe_text}>{text}</span>
+                </div>
+            </StaticTooltip>
         </div>
     );
 };

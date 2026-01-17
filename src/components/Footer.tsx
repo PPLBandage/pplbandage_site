@@ -7,7 +7,12 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import themes from '@/constants/themes';
 import { useCookiesServer } from 'use-next-cookie';
-import { IconAddressBook, IconBrandGithub, IconPalette } from '@tabler/icons-react';
+import {
+    IconAddressBook,
+    IconBrandGithub,
+    IconGavel,
+    IconPalette
+} from '@tabler/icons-react';
 
 import IconPepe from '@/resources/icon.svg';
 import { StaticTooltip } from './Tooltip';
@@ -56,6 +61,12 @@ const Footer = () => {
                     <Link href="/contacts">
                         <StaticTooltip title="Контакты">
                             <IconAddressBook />
+                        </StaticTooltip>
+                    </Link>
+                    <hr />
+                    <Link href="/tos">
+                        <StaticTooltip title="Правила сайта">
+                            <IconGavel />
                         </StaticTooltip>
                     </Link>
                     <hr />

@@ -343,16 +343,24 @@ const Pages = ({ data }: { data: UserQuery }) => {
                 <IconSettings />
                 Настройки
             </Link>
-            <Link
-                href="/me/accounts"
-                className={
-                    `${style_sidebar.side_butt} ` +
-                    `${path === 'accounts' && style_sidebar.active}`
-                }
-            >
-                <IconUser />
-                Аккаунты
-            </Link>
+            {['settings', 'accounts'].includes(path) && (
+                <div className={style_sidebar.side_butt_second}>
+                    <IconRadiusBottomLeft
+                        stroke={3}
+                        className={style_sidebar.side_butt_corner}
+                    />
+                    <Link
+                        href="/me/accounts"
+                        className={
+                            `${style_sidebar.side_butt} ` +
+                            `${path === 'accounts' && style_sidebar.active}`
+                        }
+                    >
+                        <IconUser />
+                        Аккаунты
+                    </Link>
+                </div>
+            )}
         </div>
     );
 };

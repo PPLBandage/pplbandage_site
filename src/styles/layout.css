@@ -40,7 +40,6 @@ body {
 
 	display: flex;
 	flex-direction: column;
-	margin: 0;
 }
 
 .body_wrapped_div {

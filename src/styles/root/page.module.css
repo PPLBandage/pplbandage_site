@@ -53,6 +53,7 @@
     background: linear-gradient(to top, #2dd4bf 0%, #b8e2dd 100%);
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-decoration: none;
 }
 
 .description {

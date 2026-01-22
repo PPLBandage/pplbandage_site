@@ -16,10 +16,22 @@ import { useWorkshopStore } from '@/lib/stores/workshop';
 import { BottomPaginator } from '@/components/workshop/BottomPaginator';
 import { Bandage } from '@/types/global';
 import { Card } from '@/components/workshop/Card';
+import { useSearchParams } from 'next/navigation';
 
 export default function Home() {
-    const { page, take, search, sort, totalCount, setPage, setTotalCount } =
-        useWorkshopStore();
+    const query = useSearchParams();
+    const {
+        page,
+        take,
+        search,
+        sort,
+        totalCount,
+        setPage,
+        setTotalCount,
+        setTake,
+        setSearch,
+        setSort
+    } = useWorkshopStore();
 
     const { data } = useSWR(
         `workshop/${page}/${take}/${search}/${sort}`,
@@ -44,6 +56,13 @@ export default function Home() {
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [page]);
+
+    useEffect(() => {
+        setPage(Number(query.get('page')) || 0);
+        setTake(Number(query.get('take')) || 12);
+        setSearch(query.get('search') || '');
+        setSort(query.get('sort') || 'relevant_up');
+    }, []);
 
     return (
         <>

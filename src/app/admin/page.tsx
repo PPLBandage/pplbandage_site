@@ -10,9 +10,18 @@ import {
     IconUser
 } from '@tabler/icons-react';
 import useAccess from '@/lib/useAccess';
+import { useNextCookie } from 'use-next-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 const Admin = () => {
     const access = useAccess();
+    const sessionId = useNextCookie('sessionId');
+
+    let username = '...';
+    if (sessionId) {
+        username = (jwtDecode(sessionId) as { username?: string }).username ?? '...';
+    }
+
     if (!access.length) {
         notFound();
     }
@@ -32,6 +41,7 @@ const Admin = () => {
                 className={style_root.main_container}
                 style={{ alignItems: 'flex-start', gap: '1rem' }}
             >
+                <h2 style={{ marginTop: 0 }}>Добро пожаловать, {username} 👋</h2>
                 {updateUsers && (
                     <Link href="/admin/users" className={style_root.root_button}>
                         <IconUser />

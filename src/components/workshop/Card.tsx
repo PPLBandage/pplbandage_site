@@ -15,7 +15,7 @@ import {
 import { StaticTooltip } from '@/components/Tooltip';
 import { CustomLink } from '@/components/workshop/Search';
 import { formatDate } from '@/lib/time';
-import { removeLink } from '@/components/workshop/TextFormatter';
+import { processEmotes, removeLink } from '@/components/workshop/TextFormatter';
 import { constrainedText } from '@/lib/textUtils';
 import ReferrerLink from './ReferrerLink';
 import StarElement from './Star';
@@ -248,7 +248,9 @@ export const Card = ({
                         {el.title}
                     </ReferrerLink>
                     <p className={style_card.description}>
-                        {removeLink(constrainedText(el.description ?? '', 50))}
+                        {processEmotes(
+                            removeLink(constrainedText(el.description ?? '', 50))
+                        )}
                     </p>
                 </div>
 

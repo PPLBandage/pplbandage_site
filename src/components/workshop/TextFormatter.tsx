@@ -27,7 +27,7 @@ export const TextFormatter = ({ text }: { text: string }) => {
     return <span>{jsx}</span>;
 };
 
-const processEmotes = (input: string) => {
+export const processEmotes = (input: string) => {
     const parts = input.split(/(:[a-zA-Z0-9_+-]+:)/g);
     const result: JSX.Element[] = [];
     let key_i = 0;
@@ -83,5 +83,5 @@ export const Emote = ({ name, height }: { name: string; height?: string }) => {
 
 export const removeLink = (text: string) => {
     const linkRegex = /https?:\/\/[^\s]+/g;
-    return processEmotes(text?.replaceAll(linkRegex, '<link>'));
+    return text?.replaceAll(linkRegex, '<link>');
 };

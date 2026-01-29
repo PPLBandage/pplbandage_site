@@ -136,7 +136,7 @@
 .description {
     margin: 0;
     margin-top: .3rem;
-    opacity: .7;
+    color: color-mix(in srgb, var(--main-text-color) 80%, transparent 20%);
     overflow-wrap: anywhere;
     margin-bottom: 1rem;
 }

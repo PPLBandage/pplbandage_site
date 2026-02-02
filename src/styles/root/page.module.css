@@ -37,14 +37,9 @@
 }
 
 .h1 {
-    font-size: 2.7rem;
+    font-size: 3rem;
     text-align: left;
-
-    background: #b9b9b9;
-    background: linear-gradient(to top, #b9b9b9 0%, var(--main-text-color) 100%);
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-
+    line-height: 1.3;
     margin: 0;
 }
 
@@ -57,12 +52,17 @@
 }
 
 .description {
-    font-size: 1.2rem;
-    font-weight: 400;
-    color: #d6d6d6;
+    font-size: 1.3rem;
+    font-weight: 600;
+
+
+    background: linear-gradient(to top, #cacaca 0%, var(--main-text-color) 100%);
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 
     margin: 0;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1.3rem;
 }
 
 .container {
@@ -82,7 +82,6 @@
 
     display: flex;
     flex-direction: column;
-    gap: .8rem;
 
     animation: texts_show .8s forwards;
 }
@@ -138,6 +137,7 @@
     flex-direction: row;
 
     gap: .8rem;
+    margin-bottom: .6rem;
 }
 
 .links a {

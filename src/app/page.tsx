@@ -4,9 +4,11 @@ import styles from '@/styles/root/page.module.css';
 import Link from 'next/link';
 
 import IconCropped from '@/resources/icon-cropped.svg';
-import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import SkinRender from '@/components/root/MainSkinView';
+import { Onest } from 'next/font/google';
+
+const onestFont = Onest({ subsets: ['cyrillic'] });
 
 const HomeClient = () => {
     return (
@@ -19,7 +21,7 @@ const HomeClient = () => {
             <div className={styles.main_container}>
                 <div className={styles.container}>
                     <div className={styles.texts}>
-                        <h1 className={`${styles.h1} ${GeistSans.className}`}>
+                        <h1 className={`${styles.h1} ${onestFont.className}`}>
                             Огромная библиотека повязок{' '}
                             <Link
                                 href="https://pepeland.net"
@@ -29,7 +31,7 @@ const HomeClient = () => {
                             </Link>
                         </h1>
                         <p className={styles.description}>
-                            Место, где любой найдет дизайн по вкусу.
+                            Место, где любой найдет дизайн по вкусу
                         </p>
                         <div className={styles.links}>
                             <Link href="/workshop" className={styles.links_workshop}>

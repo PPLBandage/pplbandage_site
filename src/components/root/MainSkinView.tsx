@@ -14,6 +14,7 @@ import { getCurrentEvent } from '@/lib/root/events';
 import { degToRad } from 'three/src/math/MathUtils.js';
 import { Object3D, Plane, Raycaster, Vector2, Vector3 } from 'three';
 import { getCssGradientString } from '@/lib/root/names_gradients';
+import { applyMinecraftShader } from '@/lib/shaders/apply-minecraft-shader';
 
 function easeInOutSine(x: number): number {
     return -(Math.cos(Math.PI * x) - 1) / 2;
@@ -98,8 +99,10 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
         skinViewRef.current.scene.position.x = 0.8;
         skinViewRef.current.scene.position.y = -1.5;
 
-        skinViewRef.current.cameraLight.intensity = 1400;
-        skinViewRef.current.globalLight.intensity = 2.2;
+        skinViewRef.current.scene.remove(
+            skinViewRef.current.cameraLight,
+            skinViewRef.current.globalLight
+        );
 
         // Отсечение модели ниже земли
         const clipPlane = new Plane(new Vector3(0, 1, 0), 17.5);
@@ -158,6 +161,7 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
             });
             skinViewRef.current.animation = animationRef.current;
 
+            applyMinecraftShader(skinViewRef.current.playerObject);
             setInited(true);
         };
 

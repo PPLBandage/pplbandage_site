@@ -189,7 +189,7 @@ export default function Bandage({
                                 className={style.skin_load}
                                 onClick={() => setLoadExpanded(true)}
                             >
-                                <IconPlus width={24} height={24} />
+                                <IconPlus size={22} />
                                 Загрузить скин
                             </button>
                             <SlideButton
@@ -211,7 +211,7 @@ export default function Bandage({
                                 className={style.skin_load}
                                 onClick={() => client.current?.download?.()}
                             >
-                                <IconDownload width={24} height={24} />
+                                <IconDownload size={22} />
                                 Скачать скин
                             </button>
                             <RawBandageDownload

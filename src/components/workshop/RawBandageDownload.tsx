@@ -22,12 +22,10 @@ const RawBandageDownload = ({
             >
                 Скачать повязку
                 <IconChevronDown
-                    width={24}
-                    height={24}
+                    size={22}
                     style={{
                         transform: `rotate(${expanded ? '180deg' : '0deg'})`,
-                        transition: 'transform 250ms',
-                        marginLeft: '.2rem'
+                        transition: 'transform 250ms'
                     }}
                 />
             </button>

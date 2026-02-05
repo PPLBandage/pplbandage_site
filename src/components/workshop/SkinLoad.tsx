@@ -9,6 +9,7 @@ import axios, { AxiosError } from 'axios';
 import ReactCSSTransition from '@/components/CSSTransition';
 import { b64Prefix } from '@/lib/workshop/bandageEngine';
 import { getSkin } from '@/lib/api/minecraft';
+import { disableScroll, enableScroll } from '@/lib/scroll-utils';
 
 type SkinLoadProps = {
     onChange(data: { data: string; slim: boolean; cape?: string } | null): void;
@@ -30,6 +31,8 @@ const SkinLoad = ({ expanded, onChange }: SkinLoadProps) => {
     useEffect(() => {
         setData(null);
         setDropActive(false);
+
+        (expanded ? disableScroll : enableScroll)();
     }, [expanded]);
 
     const isSlim = (img: HTMLImageElement): boolean => {

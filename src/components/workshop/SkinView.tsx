@@ -97,15 +97,6 @@ const SkinView3D = ({
 
         resizeObserver.observe(document.getElementById(id) as HTMLDivElement);
 
-        /*
-        setInterval(() => {
-            console.log(
-                skinViewRef.current.camera.position,
-                skinViewRef.current.controls.target
-            );
-        }, 100);
-        */
-
         return () => {
             if (skinViewRef.current) skinViewRef.current.dispose();
             resizeObserver.disconnect();

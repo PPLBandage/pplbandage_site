@@ -14,6 +14,7 @@ import { getCurrentEvent } from '@/lib/root/events';
 import { degToRad } from 'three/src/math/MathUtils.js';
 import { Object3D, Plane, Raycaster, Vector2, Vector3 } from 'three';
 import { getCssGradientString } from '@/lib/root/names_gradients';
+import { applyMinecraftShaderToGLTF } from '@/lib/root/shaders';
 
 function easeInOutSine(x: number): number {
     return -(Math.cos(Math.PI * x) - 1) / 2;
@@ -117,6 +118,7 @@ const SkinRender = ({ width, height }: SkinView3DOptions): JSX.Element => {
                 hat.scale.set(...(event.scale as ParamsArr));
                 hat.position.set(...(event.position as ParamsArr));
                 hat.rotation.set(...(event.rotation.map(degToRad) as ParamsArr));
+                applyMinecraftShaderToGLTF(hat);
 
                 const bodyPart = skinViewRef.current.playerObject.skin[
                     event.body_part as keyof typeof skinViewRef.current.playerObject.skin

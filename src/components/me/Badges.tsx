@@ -22,7 +22,8 @@ import {
     IconMoonFilled,
     IconConfettiFilled,
     IconPawFilled,
-    IconChristmasTreeFilled
+    IconChristmasTreeFilled,
+    IconFishHook
 } from '@tabler/icons-react';
 import { CSSProperties, JSX } from 'react';
 import { StaticTooltip } from '../Tooltip';
@@ -32,7 +33,11 @@ import { hashString, mulberry32, randomHex } from '@/lib/randomThings';
 
 const badgesIcons: Record<
     number,
-    { icon: typeof IconShieldFilled; name: string; color?: string | string[] }
+    {
+        icon: typeof IconShieldFilled | null;
+        name: string;
+        color?: string | string[] | null;
+    }
 > = {
     0: {
         icon: IconShieldFilled,
@@ -65,9 +70,14 @@ const badgesIcons: Record<
         color: 'oklch(79.5% 0.184 86.047)'
     },
     6: {
-        icon: IconFlameFilled,
+        icon: null,
         name: 'Эксклюзивный бадж: {name}',
-        color: []
+        color: null
+    },
+    7: {
+        icon: IconFishHook,
+        name: 'Преданный рыбак',
+        color: ['#1e6121', '#32aae1']
     },
     10: {
         icon: IconQuestionMark,
@@ -75,7 +85,7 @@ const badgesIcons: Record<
     }
 };
 
-const ExclusiveBadgeIcons = [
+const ExclusiveBadgeIcons: (typeof IconApple)[] = [
     IconStarFilled,
     IconBoltFilled,
     IconBulbFilled,
@@ -98,56 +108,61 @@ const ExclusiveBadgeIcons = [
 const Badges = ({ user }: { user: UserQuery }) => {
     if (user.badges === 0 || user.badges === undefined) return undefined;
 
+    const seed = hashString(user.name);
+    const rng = mulberry32(seed);
+
     const badgesArr = user.badges
         .toString(2)
         .split('')
         .reverse()
         .reduce((acc: JSX.Element[], v, i) => {
-            if (v === '1') {
-                const El = badgesIcons[i];
-                if (El == undefined) return acc;
-                let color_style: CSSProperties = {};
-                let Icon = El.icon;
-                if (Array.isArray(El.color)) {
-                    let colors = El.color;
-                    if (i === 6) {
-                        const seed = hashString(user.name);
-                        const rng = mulberry32(seed);
+            if (v === '0') return acc;
+            const El = badgesIcons[i];
+            if (El == undefined) return acc;
 
-                        colors = [randomHex(rng), randomHex(rng)];
-                        Icon =
-                            ExclusiveBadgeIcons[
-                                Math.floor(rng() * ExclusiveBadgeIcons.length)
-                            ];
-                    }
-                    const length = colors.length - 1;
-                    const gradient_colors = colors
-                        .map((color, index) => `${color} ${(index / length) * 100}%`)
-                        .join(', ');
-                    color_style = {
-                        background: `linear-gradient(326deg, ${gradient_colors})`
-                    };
-                } else {
-                    color_style = { backgroundColor: El.color ?? '#fff' };
+            let color_style: CSSProperties = {};
+            let Icon = El.icon;
+
+            if (Array.isArray(El.color) || El.color === null) {
+                let colors = El.color as string[];
+                if (El.color === null) {
+                    colors = [randomHex(rng), randomHex(rng)];
                 }
 
-                const name = El.name.replaceAll('{name}', user.name);
-                acc.push(
-                    <StaticTooltip
-                        key={i}
-                        title={name}
-                        container_styles={{ display: 'flex' }}
-                        tooltip_styles={{ minWidth: 'max-content' }}
-                    >
-                        <Icon
-                            width={16}
-                            height={16}
-                            style={color_style}
-                            className={styles.icon}
-                        />
-                    </StaticTooltip>
-                );
+                const length = colors.length - 1;
+                const gradient_colors = colors
+                    .map((color, index) => `${color} ${(index / length) * 100}%`)
+                    .join(', ');
+                color_style = {
+                    background: `linear-gradient(326deg, ${gradient_colors})`
+                };
+            } else {
+                color_style = { backgroundColor: El.color ?? '#fff' };
             }
+
+            if (Icon === null) {
+                Icon =
+                    ExclusiveBadgeIcons[
+                        Math.floor(rng() * ExclusiveBadgeIcons.length)
+                    ];
+            }
+
+            const name = El.name.replaceAll('{name}', user.name);
+            acc.push(
+                <StaticTooltip
+                    key={i}
+                    title={name}
+                    container_styles={{ display: 'flex' }}
+                    tooltip_styles={{ minWidth: 'max-content' }}
+                >
+                    <Icon
+                        width={16}
+                        height={16}
+                        style={color_style}
+                        className={styles.icon}
+                    />
+                </StaticTooltip>
+            );
             return acc;
         }, []);
 

@@ -1,6 +1,5 @@
 'use client';
 
-import '@/styles/404/style.css';
 import style from '@/styles/404/page.module.css';
 import { IconReload } from '@tabler/icons-react';
 import themes from '@/constants/themes';

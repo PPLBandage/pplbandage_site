@@ -68,6 +68,17 @@
     border: 2px rgba(12, 247, 215) dashed;
 }
 
+.h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1%;
+}
+
+@media(max-width: 767px) {
+    .h1 {
+        font-size: 3rem;
+    }
+}
+
 @keyframes Load {
     0% {
         transform: translateY(100px) scale(.8);

@@ -15,6 +15,7 @@ import {
 import { useState } from 'react';
 import { IconTrash } from '@tabler/icons-react';
 import TagSearch from '@/components/workshop/TagSearch';
+import { MoveBack } from '@/components/admin/MoveBack';
 
 const convertDateTime = (iso: string) => {
     const date = new Date(iso);
@@ -165,7 +166,8 @@ const Page = () => {
     return (
         <main className={style_root.main}>
             <div className={style_root.main_container}>
-                <h1 style={{ margin: 0 }}>Ивенты</h1>
+                <h1 style={{ margin: 0, marginBottom: '1rem' }}>Ивенты</h1>
+                <MoveBack />
                 <p>
                     <i>
                         Ивенты — это периоды, во время которых повязки с

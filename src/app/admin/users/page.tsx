@@ -20,6 +20,7 @@ import { notFound } from 'next/navigation';
 import useAccess from '@/lib/useAccess';
 import { getUsers, updateUser } from '@/lib/api/user';
 import { StaticTooltip } from '@/components/Tooltip';
+import { MoveBack } from '@/components/admin/MoveBack';
 
 const fira = Fira_Code({ subsets: ['latin'] });
 
@@ -144,13 +145,16 @@ const Users = () => {
     return (
         <div className={style_root.users_container}>
             <h2 style={{ margin: 0 }}>Пользователи ({totalCount})</h2>
-            <Search onSearch={setQuery} />
-            <Paginator
-                total_count={totalCount}
-                take={48}
-                page={page}
-                onChange={setPage}
-            />
+            <MoveBack />
+            <div className={style_root.filters_cont}>
+                <Search onSearch={setQuery} />
+                <Paginator
+                    total_count={totalCount}
+                    take={48}
+                    page={page}
+                    onChange={setPage}
+                />
+            </div>
             <SimpleGrid>{usersEl}</SimpleGrid>
             <Paginator
                 total_count={totalCount}

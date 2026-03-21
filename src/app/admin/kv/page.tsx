@@ -9,6 +9,7 @@ import { deleteKv, getKv, KvRecordType, setKv } from '@/lib/api/admin';
 import { formatDate } from '@/lib/time';
 import { useState } from 'react';
 import { IconDeviceFloppy, IconTrash } from '@tabler/icons-react';
+import { MoveBack } from '@/components/admin/MoveBack';
 
 const Tr = (props: { key_: string; data: KvRecordType[keyof KvRecordType] }) => {
     const [isDirty, setIsDirty] = useState<boolean>(false);
@@ -149,8 +150,9 @@ const KV = () => {
     ));
 
     return (
-        <div>
+        <div className={style.container}>
             <h2 style={{ margin: 0 }}>KV База данных</h2>
+            <MoveBack />
             <table className={style.table}>
                 <thead>
                     <tr>

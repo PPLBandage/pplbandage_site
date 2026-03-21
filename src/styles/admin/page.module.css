@@ -11,6 +11,12 @@
     justify-content: space-between;
 }
 
+.filters_cont {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .main_name_container svg {
     cursor: pointer;
 }

@@ -8,6 +8,7 @@ import { SimpleGrid } from '@/components/workshop/AdaptiveGrid';
 import { getUnderModerationBandages } from '@/lib/api/workshop';
 import useSWR from 'swr';
 import { Card } from '@/components/workshop/Card';
+import { MoveBack } from '@/components/admin/MoveBack';
 
 const ModerationBandages = () => {
     const { data } = useSWR(
@@ -23,6 +24,7 @@ const ModerationBandages = () => {
     return (
         <div className={style_root.users_container} style={{ marginBottom: '1rem' }}>
             <h2 style={{ margin: 0 }}>Повязки на модерации</h2>
+            <MoveBack />
             <SimpleGrid>{cards}</SimpleGrid>
         </div>
     );

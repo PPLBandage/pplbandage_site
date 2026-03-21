@@ -17,6 +17,7 @@
     justify-content: space-between;
 
     flex-wrap: wrap;
+    gap: .5rem;
 }
 
 .main_name_container svg {

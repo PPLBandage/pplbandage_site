@@ -26,13 +26,17 @@ export class AnimationController extends SkinViewBlockbench {
         this.log(`Controller inited. Setting "${props.animationName}" animation`);
     }
 
+    setAnimationLogged(name: string) {
+        this.setAnimation(name);
+        this.log(`Setting animation "${name}"`);
+    }
+
     onLoopEnd = () => {
         if (
             this.animationName === 'idle' &&
             this.animationIteration >= this.scheduled_iterations
         ) {
-            this.setAnimation(this.scheduled_animation);
-            this.log(`Setting scheduled animation "${this.scheduled_animation}"`);
+            this.setAnimationLogged(this.scheduled_animation);
         }
     };
 
@@ -40,12 +44,12 @@ export class AnimationController extends SkinViewBlockbench {
         this.speed = 1;
 
         if (this.initial_animations.includes(this.animationName)) {
-            this.setAnimation(this.getRandomActionAnim());
+            this.setAnimationLogged(this.getRandomActionAnim());
         } else if (
             this.action_animations.includes(this.animationName) ||
             this.interactive_animations.includes(this.animationName)
         ) {
-            this.setAnimation('idle');
+            this.setAnimationLogged('idle');
             this.scheduleAnimation();
         }
     };
@@ -94,6 +98,6 @@ export class AnimationController extends SkinViewBlockbench {
     }
 
     log(message: string) {
-        console.log(`[${AnimationController.name}] ${message}`);
+        console.log(`[AnimationController] ${message}`);
     }
 }

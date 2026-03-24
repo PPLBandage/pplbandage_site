@@ -188,7 +188,7 @@ const EditElement = ({
                 <button
                     className={style.skin_load}
                     onClick={onClose}
-                    style={{ padding: '.4rem', aspectRatio: 1 }}
+                    style={{ padding: '.4rem', aspectRatio: 1, width: 'auto' }}
                 >
                     <IconX />
                 </button>

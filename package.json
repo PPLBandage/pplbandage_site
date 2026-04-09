@@ -45,8 +45,8 @@
         "@types/react-dom": "^19.2.3",
         "@types/sanitize-html": "^2.16.1",
         "baseline-browser-mapping": "^2.10.16",
-        "eslint": "^10.2.0",
-        "eslint-config-next": "^16.2.3",
+        "eslint": "^9.39.2",
+        "eslint-config-next": "^16.1.5",
         "typescript": "^6"
     }
 }

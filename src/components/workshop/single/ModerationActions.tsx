@@ -68,6 +68,17 @@ const actions: ActionsType[] = [
     }
 ];
 
+const suggestions: { label: string; value: null }[] = [
+    { label: 'Неправильные размеры повязки', value: null },
+    { label: 'Некорректная развертка повязки', value: null },
+    { label: 'Некорректное название и описание повязки', value: null },
+    { label: 'Дубликат повязки', value: null },
+    { label: 'Некорректное использование функции окрашивания', value: null },
+    { label: 'Повязка нарушает правила сайта', value: null },
+    { label: 'Название и описание повязки нарушают правила сайта', value: null },
+    { label: 'Отклонено по требованию модерации PepeLand', value: null }
+];
+
 const Moderation = ({ data }: { data: Bandage }) => {
     const [action, setAction] = useState<ActionsType | null>(null);
     const [message, setMessage] = useState<string>('');
@@ -98,6 +109,7 @@ const Moderation = ({ data }: { data: Bandage }) => {
     }, [action]);
 
     const need_message = action?.need_message ?? false;
+    const suggestions_show = action?.value === 'denied';
     return (
         <div className={style.container}>
             <h3 className={style.header}>
@@ -109,12 +121,27 @@ const Moderation = ({ data }: { data: Bandage }) => {
                 className="react-select-container"
                 classNamePrefix="react-select"
                 instanceId="select-69"
+                isSearchable={false}
+                placeholder="Выберите действие..."
                 onChange={setAction}
             />
 
             {need_message && (
+                <i style={{ marginTop: '1rem' }}>Сообщение модератора</i>
+            )}
+            {suggestions_show && (
+                <Select
+                    options={suggestions}
+                    className="react-select-container"
+                    classNamePrefix="react-select"
+                    instanceId="select-67"
+                    placeholder="Заготовленные сообщения"
+                    isSearchable={false}
+                    onChange={e => setMessage(e?.label || '')}
+                />
+            )}
+            {need_message && (
                 <>
-                    <p className={style.hl2}>Сообщение</p>
                     <textarea
                         maxLength={200}
                         id="message"

@@ -149,6 +149,18 @@
     margin-right: .3rem;
 }
 
+.pages_expandable_cont {
+    transform: none;
+    transition: height 200ms;
+    height: 34px;
+    overflow: hidden;
+}
+
+.pages_expandable_cont_enter {
+    height: 0;
+    margin-bottom: -.5rem;
+}
+
 .side_butt_second {
     margin-left: calc(.3rem + 9px);
 

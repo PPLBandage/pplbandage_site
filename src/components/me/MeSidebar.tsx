@@ -1,6 +1,6 @@
 'use client';
 
-import { CSSProperties, useEffect, useState } from 'react';
+import { CSSProperties, JSX, useEffect, useState } from 'react';
 import style_sidebar from '@/styles/me/sidebar.module.css';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -24,6 +24,7 @@ import { subscribeTo, unsubscribeFrom } from '@/lib/api/user';
 import { getAverageColor, hexToRgb } from '@/lib/colorUtils';
 import Link from 'next/link';
 import Badges from './Badges';
+import ReactCSSTransition from '../CSSTransition';
 
 const Subscribers = ({ user, isSelf }: { user: Users; isSelf: boolean }) => {
     const logged = !!useNextCookie('sessionId');
@@ -299,7 +300,9 @@ const Pages = ({ data }: { data: UserQuery }) => {
                 <IconUserHeart />
                 Подписки
             </Link>
-            {['subscriptions', 'subscribers'].includes(path) && (
+            <PagesExpandableEl
+                expanded={['subscriptions', 'subscribers'].includes(path)}
+            >
                 <div className={style_sidebar.side_butt_second}>
                     <IconRadiusBottomLeft
                         stroke={3}
@@ -316,7 +319,7 @@ const Pages = ({ data }: { data: UserQuery }) => {
                         Подписчики
                     </Link>
                 </div>
-            )}
+            </PagesExpandableEl>
             <Link
                 href="/me/notifications"
                 className={
@@ -343,7 +346,8 @@ const Pages = ({ data }: { data: UserQuery }) => {
                 <IconSettings />
                 Настройки
             </Link>
-            {['settings', 'accounts'].includes(path) && (
+
+            <PagesExpandableEl expanded={['settings', 'accounts'].includes(path)}>
                 <div className={style_sidebar.side_butt_second}>
                     <IconRadiusBottomLeft
                         stroke={3}
@@ -360,7 +364,28 @@ const Pages = ({ data }: { data: UserQuery }) => {
                         Аккаунты
                     </Link>
                 </div>
-            )}
+            </PagesExpandableEl>
         </div>
+    );
+};
+
+const PagesExpandableEl = ({
+    children,
+    expanded
+}: {
+    children: JSX.Element;
+    expanded: boolean;
+}) => {
+    return (
+        <ReactCSSTransition
+            state={expanded}
+            timeout={200}
+            classNames={{
+                enter: style_sidebar.pages_expandable_cont_enter,
+                exitActive: style_sidebar.pages_expandable_cont_enter
+            }}
+        >
+            <div className={style_sidebar.pages_expandable_cont}>{children}</div>
+        </ReactCSSTransition>
     );
 };

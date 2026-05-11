@@ -37,7 +37,7 @@ export const BrowserNotification = () => {
     useEffect(() => {
         if (!getCookie('warning_accepted')) {
             calcChecksum().then(result => {
-                if (result) {
+                if (!result) {
                     setExpanded(true);
                     fetch('/api/v1/error-report', {
                         body: JSON.stringify({

@@ -35,13 +35,27 @@ export const BrowserNotification = () => {
     const [expanded, setExpanded] = useState<boolean>(false);
 
     useEffect(() => {
-        if (!getCookie('warningAccepted')) {
-            calcChecksum().then(result => !result && setExpanded(true));
+        if (!getCookie('warning_accepted')) {
+            calcChecksum().then(result => {
+                if (result) {
+                    setExpanded(true);
+                    fetch('/api/v1/error-report', {
+                        body: JSON.stringify({
+                            content:
+                                'User agent report regarding incorrect Canvas API behavior'
+                        }),
+                        method: 'POST',
+                        headers: { 'content-type': 'application/json' }
+                    }).then(() =>
+                        console.info('System has been reported about your issue')
+                    );
+                }
+            });
         }
     }, []);
 
     const close = () => {
-        setCookie('warningAccepted', 'true', {
+        setCookie('warning_accepted', 'true', {
             maxAge: 60 * 24 * 14
         });
         setExpanded(false);

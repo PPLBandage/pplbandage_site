@@ -9,11 +9,19 @@ import { TextFormatter } from '@/components/workshop/TextFormatter';
 import InfoCard from '@/components/InfoCard';
 import Link from 'next/link';
 import { formatDateHuman } from '@/lib/time';
+import { useEffect, useState } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ModerationType = { [key: string]: any };
 
 const Moderation = ({ moderation }: { moderation: Bandage['moderation'] }) => {
+    const [date, setDate] = useState<string>('');
+
+    useEffect(() => {
+        if (!moderation) return;
+        setDate(formatDateHuman(new Date(moderation.issue_date), true));
+    }, []);
+
     if (!moderation) return;
 
     const icon: ModerationType = {
@@ -51,7 +59,7 @@ const Moderation = ({ moderation }: { moderation: Bandage['moderation'] }) => {
                         {moderation.issuer.name}
                     </Link>
                 </span>
-                <span>{formatDateHuman(new Date(moderation.issue_date), true)}</span>
+                <span>{date}</span>
             </span>
         </h1>
     );

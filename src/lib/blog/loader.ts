@@ -61,16 +61,13 @@ export const getMdContents = async (page: string): Promise<string> => {
         `https://raw.githubusercontent.com/${REPO_PATH}/main/images`
     );
 
-    let cleanString = sanitizeHtml(markdown, {
+    // Уязвимость нулевого дня в sanitizeHtml
+    const dirty = markdown.replace(/<\/?xmp[^>]*>/gi, '');
+    return sanitizeHtml(dirty, {
         allowedTags: allowedTags,
         allowedAttributes: allowedProps,
         parser: {
             lowerCaseTags: false
         }
     });
-
-    // Уязвимость нулевого дня в sanitizeHtml
-    cleanString = cleanString.replace(/<\/?xmp[^>]*>/gi, '');
-
-    return cleanString;
 };

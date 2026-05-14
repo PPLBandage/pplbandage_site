@@ -48,15 +48,14 @@ const generateNotifications = (notifications: INotifications) => {
                 break;
         }
 
-        let cleanString = sanitizeHtml(notification.content, {
+        // Уязвимость нулевого дня в sanitizeHtml
+        const dirty = notification.content.replace(/<\/?xmp[^>]*>/gi, '');
+        const cleanString = sanitizeHtml(dirty, {
             allowedTags: ['p', 'b', 'i', 'em', 'strong', 'a'],
             allowedAttributes: {
                 a: ['href']
             }
         });
-
-        // Уязвимость нулевого дня в sanitizeHtml
-        cleanString = cleanString.replace(/<\/?xmp[^>]*>/gi, '');
         return (
             <div
                 key={notification.id}

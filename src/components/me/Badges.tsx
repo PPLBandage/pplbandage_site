@@ -30,6 +30,7 @@ import { StaticTooltip } from '../Tooltip';
 import { UserQuery } from '@/types/global';
 import IconCropped from '@/resources/icon.svg';
 import { hashString, mulberry32, randomHex } from '@/lib/randomThings';
+import { useRouter } from 'next/navigation';
 
 const badgesIcons: Record<
     number,
@@ -37,6 +38,7 @@ const badgesIcons: Record<
         icon: typeof IconShieldFilled | null;
         name: string;
         color?: string | string[] | null;
+        link?: string;
     }
 > = {
     0: {
@@ -57,7 +59,8 @@ const badgesIcons: Record<
     3: {
         icon: IconGitMerge,
         name: 'Контрибьютор',
-        color: 'oklch(70.2% 0.183 293.541)'
+        color: 'oklch(70.2% 0.183 293.541)',
+        link: 'https://github.com/PPLBandage'
     },
     4: {
         icon: IconBeta,
@@ -67,7 +70,8 @@ const badgesIcons: Record<
     5: {
         icon: IconHeartDollar,
         name: 'Спонсор',
-        color: 'oklch(79.5% 0.184 86.047)'
+        color: 'oklch(79.5% 0.184 86.047)',
+        link: 'https://dalink.to/andcool_systems'
     },
     6: {
         icon: null,
@@ -77,7 +81,8 @@ const badgesIcons: Record<
     7: {
         icon: IconFishHook,
         name: 'Преданный рыбак',
-        color: ['#1e6121', '#32aae1']
+        color: ['#1e6121', '#32aae1'],
+        link: '/blog/two-year-anniversary'
     },
     10: {
         icon: IconQuestionMark,
@@ -106,6 +111,7 @@ const ExclusiveBadgeIcons: (typeof IconApple)[] = [
 ];
 
 const Badges = ({ user }: { user: UserQuery }) => {
+    const router = useRouter();
     if (user.badges === 0 || user.badges === undefined) return undefined;
 
     const seed = hashString(user.name);
@@ -160,6 +166,11 @@ const Badges = ({ user }: { user: UserQuery }) => {
                         height={16}
                         style={color_style}
                         className={styles.icon}
+                        onClick={() => {
+                            if (El.link) {
+                                router.push(El.link);
+                            }
+                        }}
                     />
                 </StaticTooltip>
             );

@@ -31,7 +31,7 @@
         "react-dom": "^19.2.6",
         "react-select": "^5.10.2",
         "remark-gfm": "^4.0.1",
-        "sanitize-html": "^2.17.3",
+        "sanitize-html": "^2.17.4",
         "sharp": "^0.34.5",
         "skinview3d": "^3.4.2",
         "skinview3d-blockbench": "^1.0.19",

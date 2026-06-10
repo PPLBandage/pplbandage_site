@@ -3,7 +3,7 @@
 
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Me } from '@/components/me/MeSidebar';
-import { redirect, usePathname } from 'next/navigation';
+import { redirect, usePathname, useRouter } from 'next/navigation';
 import { useNextCookie } from 'use-next-cookie';
 import useSWR from 'swr';
 import { Users } from '@/types/global';
@@ -28,6 +28,8 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
     if (pathname !== 'me' && !isLogged) redirect('/me');
     if (!isLogged) return <Login />;
 
+    if (pathname === 'username-set') return children;
+
     return <MeLoader>{children}</MeLoader>;
 };
 
@@ -48,6 +50,7 @@ function FrozenRouter(props: { children: React.ReactNode }) {
 
 const MeLoader = ({ children }: { children: React.ReactNode }) => {
     const { data } = useSWR('me', () => getMe());
+    const router = useRouter();
 
     const pathname = usePathname();
     const [firstRender, setFirstRender] = useState<boolean>(true);
@@ -71,6 +74,11 @@ const MeLoader = ({ children }: { children: React.ReactNode }) => {
             clearTimeout(id);
         };
     }, [pathname]);
+
+    useEffect(() => {
+        if (!data) return;
+        if (data.name_conflict) router.push('/me/username-set');
+    }, [data]);
 
     if (!data) return null;
     return (

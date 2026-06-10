@@ -205,3 +205,14 @@ export const getSubscribers = async (): Promise<SubscriptionsType[]> => {
         })
     ).data;
 };
+
+/** Set username */
+export const setUsername = async (name: string) => {
+    return (
+        await doRequest({
+            url: `/users/@me/username`,
+            method: 'PATCH',
+            data: { name }
+        })
+    ).data;
+};

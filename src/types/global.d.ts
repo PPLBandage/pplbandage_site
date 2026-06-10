@@ -64,6 +64,11 @@ export interface UserQuery {
      * Bit-set of user badges
      */
     badges: number;
+
+    /**
+     * Whatever username conflicts
+     */
+    name_conflict?: boolean;
 }
 
 export interface Users extends UserQuery {

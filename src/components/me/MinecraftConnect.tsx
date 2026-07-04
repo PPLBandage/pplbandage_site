@@ -117,7 +117,7 @@ const MinecraftConnect = ({ login, children, onInput }: MinecraftConnectProps) =
                                     Получим доступ к вашему никнейму и UUID
                                 </p>
                                 <p>
-                                    <IconX width={15} height={15} />
+                                    <IconCheck width={15} height={15} />
                                     Не сможем получить доступ к вашему аккаунту
                                     Mojang или Microsoft
                                 </p>

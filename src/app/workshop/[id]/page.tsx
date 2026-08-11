@@ -23,6 +23,8 @@ export const generateMetadata = async ({
     );
 
     const data = meta.data.data as Interfaces.Bandage;
+
+    console.log(data);
     if (!data) return {};
     const stars = numbersTxt(data.stars_count, ['звезда', 'звезды', 'звёзд']);
     return {

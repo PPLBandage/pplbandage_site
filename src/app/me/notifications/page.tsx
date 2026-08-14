@@ -16,17 +16,19 @@ const Notifications = () => {
 
     useEffect(() => {
         if (page < 0) return;
-        getMeNotifications({ page }).then(setNotifications).catch(console.error);
+        getMeNotifications({ page, take: 6 })
+            .then(setNotifications)
+            .catch(console.error);
     }, [page]);
 
     if (notifications === null) return null;
     if (notifications.data.length === 0) return <Placeholder />;
     return (
         <div className={`${Style.container} ${style_sidebar.hidable}`}>
-            {notifications.total_count > 5 && (
+            {notifications.total_count > 6 && (
                 <Paginator
                     total_count={notifications?.total_count}
-                    take={5}
+                    take={6}
                     onChange={page => setPage(page || 0)}
                     page={page}
                 />

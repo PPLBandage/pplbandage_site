@@ -38,7 +38,9 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: .5rem;
+    gap: 1rem;
+
+    border-left: 4px solid var(--main-element-color);
 }
 
 .notification_container p {
@@ -55,11 +57,11 @@
 }
 
 .pass {
-    border-color: #4493F8;
+    border-left: 4px solid #4493F8;
     background-color: #4493f84a;
 }
 
 .denied {
-    border-color: #F85149;
+    border-left: 4px solid #F85149;
     background-color: #F851494a;
 }

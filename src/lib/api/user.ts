@@ -85,6 +85,7 @@ export const getMeStars = async (params: {
 /** Get me notifications */
 export const getMeNotifications = async (params: {
     page: number;
+    take?: number;
 }): Promise<INotifications> => {
     return (
         await doRequest({

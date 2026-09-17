@@ -2,15 +2,23 @@
 
 import LoginWrapper from '@/components/me/accounts/LoginWrapper';
 import { loginTelegram } from '@/lib/api/auth';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const Page = () => {
+    const router = useRouter();
     const [code, setCode] = useState<string | null>(null);
 
     useEffect(() => {
         const fragment = window.location.hash.substring(1);
         const params = new URLSearchParams(fragment);
-        setCode(params.get('tgAuthResult'));
+        const code = params.get('tgAuthResult');
+
+        if (!code) {
+            router.push('/me');
+        }
+
+        setCode(code);
     }, []);
 
     if (!code) return null;

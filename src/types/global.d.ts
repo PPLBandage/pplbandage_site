@@ -121,6 +121,8 @@ export interface Bandage {
     star_type: number;
     archived: boolean;
     views: number;
+
+    dark_preview: boolean
 }
 
 export interface BandageResponse {

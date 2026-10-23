@@ -40,13 +40,16 @@ const EditElement = ({
     const [tags, setTags] = useState<string[]>(bandage.tags);
     const [colorable, setColorable] = useState<boolean>(Boolean(bandage.flags & 1));
 
+    const [darkPrev, setDarkPrev] = useState<boolean>(bandage.dark_preview);
+
     const save = () => {
         updateBandage(bandage.external_id, {
             title: title,
             description: description || null,
             tags: tags,
             access_level: accessLevel,
-            colorable
+            colorable,
+            dark_preview: darkPrev
         })
             .then(onDone)
             .catch(response => {
@@ -184,6 +187,11 @@ const EditElement = ({
                     <p style={{ margin: 0 }}>Архивировать</p>
                 </div>
             </div>
+            <SlideButton
+                onChange={setDarkPrev}
+                label="Использовать тёмный скин для превью"
+                defaultValue={bandage.dark_preview}
+            />
             <div style={{ display: 'flex', gap: '.5rem' }}>
                 <button
                     className={style.skin_load}

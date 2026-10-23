@@ -47,6 +47,7 @@ class Client {
     color: string = '#ffffff';
     colorable: boolean = false;
     split_types: boolean = false;
+    dark = false;
 
     onRendered:
         | (({
@@ -63,9 +64,14 @@ class Client {
 
     private main_bandage: HTMLCanvasElement | null = null;
 
+    async setBaseSkinDark(d: boolean) {
+        this.dark = d;
+        await this.loadBase();
+    }
+
     async loadBase() {
         // Грузим базовый скин в `original_canvas`
-        const skin = await asyncImage('/static/workshop_base.png');
+        const skin = await asyncImage(`/static/workshop_base${this.dark ? '_dark' : ''}.png`);
         const context = this.original_canvas!.getContext('2d');
         context!.drawImage(skin, 0, 0);
     }
@@ -96,16 +102,15 @@ class Client {
     }
 
     /** Загрузка скина с URL */
-    loadSkinUrl(url: string) {
-        asyncImage(url)
-            .then(img => {
-                const base64 = base64Encode(img);
-                this.setOriginalCanvas(base64, () => {
-                    this.skin = base64;
-                    this.rerender();
-                });
-            })
-            .catch(e => console.error(`Cannot load skin ${url}:`, e));
+    async loadSkinUrl(url: string) {
+        const img = await asyncImage(url);
+            
+        const base64 = base64Encode(img);
+        this.setOriginalCanvas(base64, () => {
+            this.skin = base64;
+            this.rerender();
+        });
+            
     }
 
     /** Загрузить скин из base64 */

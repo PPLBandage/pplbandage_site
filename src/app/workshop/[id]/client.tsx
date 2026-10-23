@@ -107,7 +107,14 @@ export default function Bandage({
         };
 
         client.current.onInit = () => {
-            client.current.loadSkinUrl('/api/v1/users/@me/autoload-skin');
+            client.current
+                .loadSkinUrl('/api/v1/users/@me/autoload-skin')
+                .catch(e => {
+                    console.error(e);
+                    client.current.setBaseSkinDark(data.dark_preview).then(() => {
+                        client.current.rerender();
+                    });
+                });
 
             asyncImage(b64Prefix + data.base64).then(bandage => {
                 client.current.loadFromImage(bandage);

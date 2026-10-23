@@ -11,6 +11,7 @@ type TaskDTO = {
     b64: string;
     flags: number;
     back: boolean;
+    preview_dark: boolean
 };
 
 type Task = {
@@ -154,6 +155,8 @@ export class RenderingQueue {
             } else {
                 this.engine!.setParams({ colorable: false });
             }
+
+            await this.engine!.setBaseSkinDark(task.data.preview_dark);
 
             this.engine!.loadFromImage(bandage_img);
             if (this.viewer)

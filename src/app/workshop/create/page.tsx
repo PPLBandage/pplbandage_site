@@ -135,6 +135,19 @@ export default function Home() {
                         client.current?.setParams({ split_types: split });
                     }}
                     onHeightChange={setHeight}
+                    onDarkChange={d => {
+                        if (!client.current) return;
+                        client.current.setBaseSkinDark(d).then(() => {
+                            client.current.rerender();
+
+                            if (
+                                !client.current.pepe_canvas &&
+                                !client.current.lining_canvas
+                            ) {
+                                setSKIN(client.current.original_canvas!.toDataURL());
+                            }
+                        });
+                    }}
                 />
             </div>
         </main>
@@ -148,6 +161,7 @@ interface EditorProps {
     onColorableChange(colorable: boolean): void;
     onChangeSplitTypes(evt: boolean): void;
     onHeightChange(evt: number): void;
+    onDarkChange(d: boolean): void;
 }
 
 const Editor = ({
@@ -156,7 +170,8 @@ const Editor = ({
     onColorableChange,
     onBandageChangeSlim,
     onChangeSplitTypes,
-    onHeightChange
+    onHeightChange,
+    onDarkChange
 }: EditorProps) => {
     const router = useRouter();
     const [title, setTitle] = useState<string>('');
@@ -171,6 +186,8 @@ const Editor = ({
     const [useOldMethod, setUseOldMethod] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [createError, setCreateError] = useState<string>('');
+
+    const [darkPreview, setDarkPreview] = useState<boolean>(false);
 
     useEffect(() => {
         if (window.location.hash === '#colorable') {
@@ -233,7 +250,8 @@ const Editor = ({
             base64: base64.replace(b64Prefix, ''),
             base64_slim: base64Slim?.replace(b64Prefix, ''),
             split_type: splitTypes,
-            colorable
+            colorable,
+            dark_preview: darkPreview
         })
             .then(response =>
                 router.replace(`/workshop/${response.data.external_id}`)
@@ -368,6 +386,16 @@ const Editor = ({
 
             <p style={{ margin: 0, marginTop: '.5rem' }}>Выберите теги</p>
             <TagSearch defaultValue={[]} onChange={setTags} />
+
+            <div style={{ marginTop: '1rem' }}>
+                <SlideButton
+                    onChange={d => {
+                        onDarkChange(d);
+                        setDarkPreview(d);
+                    }}
+                    label="Использовать тёмный скин для превью"
+                />
+            </div>
 
             {createError && (
                 <label style={{ margin: 0, color: '#dc2626' }}>{createError}</label>

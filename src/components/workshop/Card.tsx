@@ -113,13 +113,17 @@ const QueuedSkinImage = ({ data, back }: { data: Bandage; back?: boolean }) => {
     async function render() {
         if (!imageRef.current) return;
         const hash = sha256(data.base64);
-        let base64 = await idbGet('skins', `v3-skin-${back ?? false}:${hash}`);
+        let base64 = await idbGet(
+            'skins',
+            `v3-skin-${back ?? false}:${hash}:${data.dark_preview}`
+        );
 
         if (!base64) {
             const { result, taskId } = renderQueue.enqueue({
                 b64: data.base64,
                 flags: data.flags,
-                back: back ?? false
+                back: back ?? false,
+                preview_dark: data.dark_preview
             });
             taskIdRef.current = taskId;
 

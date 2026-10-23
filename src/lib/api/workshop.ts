@@ -87,6 +87,7 @@ export const updateBandage = async (
         tags: string[];
         access_level: number;
         colorable: boolean;
+        dark_preview: boolean
     }
 ): Promise<void> => {
     await doRequest({
@@ -121,6 +122,7 @@ export const createBandage = async (data: {
     base64_slim?: string;
     split_type: boolean;
     colorable: boolean;
+    dark_preview: boolean
 }): Promise<AxiosResponse> => {
     return await doRequest({
         url: `/workshop`,

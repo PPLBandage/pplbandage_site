@@ -115,7 +115,7 @@ const QueuedSkinImage = ({ data, back }: { data: Bandage; back?: boolean }) => {
         const hash = sha256(data.base64);
         let base64 = await idbGet(
             'skins',
-            `v3-skin-${back ?? false}:${hash}:${data.dark_preview}`
+            `v3-skin-${back ?? false}-${data.dark_preview}:${hash}`
         );
 
         if (!base64) {
@@ -142,7 +142,7 @@ const QueuedSkinImage = ({ data, back }: { data: Bandage; back?: boolean }) => {
 
             void idbSet(
                 'skins',
-                `v3-skin-${back ?? false}:${hash}:${data.dark_preview}`,
+                `v3-skin-${back ?? false}-${data.dark_preview}:${hash}`,
                 base64
             );
         }

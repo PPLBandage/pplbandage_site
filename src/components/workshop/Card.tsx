@@ -140,7 +140,11 @@ const QueuedSkinImage = ({ data, back }: { data: Bandage; back?: boolean }) => {
                 return;
             }
 
-            void idbSet('skins', `v3-skin-${back ?? false}:${hash}`, base64);
+            void idbSet(
+                'skins',
+                `v3-skin-${back ?? false}:${hash}:${data.dark_preview}`,
+                base64
+            );
         }
 
         if (imageRef.current) {
